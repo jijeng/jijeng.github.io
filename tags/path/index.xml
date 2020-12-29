@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>path on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/path/</link>
+    <description>Recent content in path on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 28 Feb 2019 13:45:33 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/path/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Python 中Path相关的处理</title>
+      <link>http://jijeng.github.io/post/python_path/</link>
+      <pubDate>Thu, 28 Feb 2019 13:45:33 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/python_path/</guid>
+      <description>&lt;p&gt;python中处理路径问题，详解 os包下的path 模块。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

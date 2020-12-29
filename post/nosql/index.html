@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Nosql-mongodb 和redis 简介 - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="MongoDB和Redis都是NoSQL数据库，采用结构型数据存储，而MySQL、oracle等则属于传统的关系型数据库。注意NoSQL不是没有SQL，而是Not only SQL。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/nosql/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Nosql-mongodb 和redis 简介" />
+<meta property="og:description" content="MongoDB和Redis都是NoSQL数据库，采用结构型数据存储，而MySQL、oracle等则属于传统的关系型数据库。注意NoSQL不是没有SQL，而是Not only SQL。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/nosql/" />
+<meta property="article:published_time" content="2020-03-20T15:40:43+08:00" />
+<meta property="article:modified_time" content="2020-03-20T15:40:43+08:00" />
+<meta itemprop="name" content="Nosql-mongodb 和redis 简介">
+<meta itemprop="description" content="MongoDB和Redis都是NoSQL数据库，采用结构型数据存储，而MySQL、oracle等则属于传统的关系型数据库。注意NoSQL不是没有SQL，而是Not only SQL。">
+<meta itemprop="datePublished" content="2020-03-20T15:40:43+08:00" />
+<meta itemprop="dateModified" content="2020-03-20T15:40:43+08:00" />
+<meta itemprop="wordCount" content="3431">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Nosql-mongodb 和redis 简介"/>
+<meta name="twitter:description" content="MongoDB和Redis都是NoSQL数据库，采用结构型数据存储，而MySQL、oracle等则属于传统的关系型数据库。注意NoSQL不是没有SQL，而是Not only SQL。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Nosql-mongodb 和redis 简介</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-03-20 </span>
+        
+          <span class="more-meta"> 约 3431 字 </span>
+          <span class="more-meta"> 预计阅读 7 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#概念">概念</a></li>
+        <li><a href="#mongodb">MongoDB</a>
+          <ul>
+            <li><a href="#普通查询">普通查询</a></li>
+            <li><a href="#聚合查询">聚合查询</a></li>
+          </ul>
+        </li>
+        <li><a href="#redis">Redis</a></li>
+        <li><a href="#mysql数据查询常用的命令">MYSQL数据查询常用的命令</a></li>
+        <li><a href="#待整理">待整理</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>MongoDB和Redis都是NoSQL数据库，采用结构型数据存储，而MySQL、oracle等则属于传统的关系型数据库。注意NoSQL不是没有SQL，而是Not only SQL。</p>
+<h2 id="概念">概念</h2>
+<ol>
+<li>NoSQL数据库与关系型数据库的优缺点</li>
+</ol>
+<p>关系型数据库</p>
+<p>优点：以完善的关系代数理论为基础,有严格的标准,支持事务ACID四性,借助索引机制可以实现高效的查询。</p>
+<p>缺点：可扩展性差，无法较好地支持海量数据存储，数据模型过于死板，事务机制影响了系统的整体性能，全文搜索功能较弱。</p>
+<p>NoSQL数据库</p>
+<p>优点：数据之间无关系，易扩展。有非常高的读写性能，支持大量数据，性能高。有灵活的数据模型，无须事先为要存储的数据建立字段，随时可以存储自定义的数据格式。</p>
+<p>缺点：复杂查询性能不高,一般都不能实现事务的强一致性。</p>
+<ol start="2">
+<li>redis与mongoDB的区别</li>
+</ol>
+<p>Redis 数据全部存在内存，定期写入磁盘，当内存不够时，可以选择指定的 LRU 算法删除数据。</p>
+<p>MongoDB 数据会优先存于内存，当内存不够时，只将热点数据放入内存，其他数据存在磁盘。</p>
+<p>需要注意的是Redis 和mongoDB特别消耗内存，一般不建议将它们和别的服务部署在同一台服务器上。</p>
+<p>Redis 支持的数据结构丰富，包括hash、set、list等。</p>
+<p>MongoDB 数据结构比较单一，但是支持丰富的数据表达，索引，最类似关系型数据库，支持的查询语言非常丰富。</p>
+<p>当物理内存够用的时候，性能，redis&gt;mongodb&gt;mysql</p>
+<p>数据量，mysql&gt;mongodb&gt;redis</p>
+<p>scp -r <a href="mailto:webdemo@192.168.1.34">webdemo@192.168.1.34</a>:/mnt3/jeng/sofa_img ./</p>
+<p>关系型数据库遵循ACID规则</p>
+<p>事务在英文中是transaction，和现实世界中的交易很类似，它有如下四个特性：</p>
+<p>1、A (Atomicity) 原子性
+2、C (Consistency) 一致性
+3、I (Isolation) 独立性
+4、D (Durability) 持久性</p>
+<p>为什么需要NoSQL？</p>
+<p>今天我们可以通过第三方平台（如：Google,Facebook等）可以很容易的访问和抓取数据。用户的个人信息，社交网络，地理位置，用户生成的数据和用户操作日志已经成倍的增加。我们如果要对这些用户数据进行挖掘，那SQL数据库已经不适合这些应用了, NoSQL 数据库的发展却能很好的处理这些大的数据。</p>
+<p>MongoDB是一个高性能，开源，无模式的文档型数据库，是当前NoSql数据库中比较热门的一种。NoSql，全称是 Not Only Sql,指的是非关系型的数据库。</p>
+<p>它的特点是高性能、易部署、易使用，存储数据非常方便。主要功能特性有：</p>
+<ul>
+<li>MongoDB是一个独立的服务器；</li>
+<li>它是基于文档的，而不是基于表格的；</li>
+<li>它是非结构化的；</li>
+<li>它具有强大的主流开发语言支持，如C#、C++、Java、PHP、Perl、Python、Ruby。</li>
+<li>可扩展性</li>
+<li>使用高效的二进制数据存储，包括大型对象（如视频等）。</li>
+<li>支持完全索引，包含内部对象。</li>
+<li>面向集合存储，易存储对象类型的数据。</li>
+</ul>
+<p>MongoDB 是由C++语言编写的，是一个基于分布式文件存储的开源数据库系统。在高负载的情况下，添加更多的节点，可以保证服务器性能。MongoDB 将数据存储为一个文档，数据结构由键值(key=&gt;value)对组成。MongoDB 文档类似于 JSON 对象。字段值可以包含其他文档，数组及文档数组。</p>
+<p>NoSQL，指的是非关系型的数据库。NoSQL有时也称作Not Only SQL的缩写，是对不同于传统的关系型数据库的数据库管理系统的统称。</p>
+<p>NoSQL用于超大规模数据的存储。（例如谷歌或Facebook每天为他们的用户收集万亿比特的数据）。这些类型的数据存储不需要固定的模式，无需多余操作就可以横向扩展。</p>
+<p>现在已经有很多公司使用了 NoSQL：
+Google
+Facebook
+Mozilla
+Adobe
+Foursquare</p>
+<p>相对于传统的关系型数据库，优缺点表现如下。</p>
+<p>优点：</p>
+<ul>
+<li>面向文档存储(类JSON数据模式简单而强大)</li>
+<li>动态查询</li>
+<li>快速,就地更新</li>
+<li>高效存储二进制大对象 (比如照片和视频)</li>
+</ul>
+<p>缺点:</p>
+<ul>
+<li>不支持事务（进行开发时需要注意，哪些功能需要使用数据库提供的事务支持）</li>
+<li>MongoDB占用空间过大 （不过这个确定对于目前快速下跌的硬盘价格来说，也不算什么缺点了）</li>
+</ul>
+<p>MongoDB 是一个基于分布式文件存储的数据库。由 C++ 语言编写。旨在为 WEB 应用提供可扩展的高性能数据存储解决方案。</p>
+<p>MongoDB 是一个基于分布式文件存储的数据库。由 C++ 语言编写。旨在为 WEB 应用提供可扩展的高性能数据存储解决方案。</p>
+<p>Mongo查询可以分为2种：</p>
+<ul>
+<li>普通查询，类似于Sql中的 select where</li>
+<li>聚合查询，类似于Sql中的 group by</li>
+</ul>
+<h2 id="mongodb">MongoDB</h2>
+<h3 id="普通查询">普通查询</h3>
+<ol>
+<li>查询所有的结果</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">// Requires official MongoShell 3.6+
+use InteriorDesign;
+db.getCollection(&#34;Multi_Quality_all&#34;).find({});
+
+</code></pre></td></tr></table>
+</div>
+</div><p>对应的sql 语句</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">select * from Multi_Quality_all
+</code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>条件查询</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">// Requires official MongoShell 3.6+
+use InteriorDesign;
+db.getCollection(&#34;Multi_Quality_all&#34;).find(
+    { 
+        &#34;quality&#34; : &#34;Good&#34;
+    }
+);
+</code></pre></td></tr></table>
+</div>
+</div><p>返回在 <code>InteriorDesign</code> 数据库 <code>Multi_Quality_all</code> 中，满足 字段 <code>quality</code> 是Good 的条件查询。</p>
+<p>更多的例子</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="n">db</span><span class="p">.</span><span class="n">getCollection</span><span class="p">(</span><span class="s2">&#34;Product&#34;</span><span class="p">).</span><span class="n">find</span><span class="p">(</span><span class="err">{</span><span class="s2">&#34;vendor&#34;</span><span class="p">:</span> <span class="s2">&#34;kazigoods&#34;</span><span class="err">}</span><span class="p">).</span><span class="k">limit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>AND 条件查询</p>
+<p>实现类似 SQL 语句中 AND 的操作。 在mongodb 是在find 函数中指定多个字段，满足所需要的条件。（表示并集关系）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="o">//</span> <span class="n">Requires</span> <span class="n">official</span> <span class="n">MongoShell</span> <span class="mi">3</span><span class="p">.</span><span class="mi">6</span><span class="o">+</span>
+<span class="n">use</span> <span class="n">InteriorDesign</span><span class="p">;</span>
+<span class="n">db</span><span class="p">.</span><span class="n">getCollection</span><span class="p">(</span><span class="s2">&#34;Multi_Quality_all&#34;</span><span class="p">).</span><span class="n">find</span><span class="p">(</span>
+    <span class="err">{</span> 
+        <span class="s2">&#34;quality&#34;</span> <span class="p">:</span> <span class="s2">&#34;Good&#34;</span><span class="p">,</span> 
+        <span class="s2">&#34;source&#34;</span> <span class="p">:</span> <span class="s2">&#34;Room_Type&#34;</span>
+    <span class="err">}</span>
+<span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>OR 条件查询</p>
+<p>（从代码量上看，相比于SQL，mongodb实现 OR 查询操作是比较多的。 注意如果使用关键字，那么是需要加上 <code>{}</code> 进行嵌套处理的）。 mongodb中先将逻辑运算符写到前面，然后是不同的子条件。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">// Requires official MongoShell 3.6+
+use InteriorDesign;
+db.getCollection(&#34;Multi_Quality_all&#34;).find(
+    { 
+        &#34;$or&#34; : [
+            {
+                &#34;process_count&#34; : {
+                    &#34;$lt&#34; : 1.0
+                }
+            }, 
+            {
+                &#34;source&#34; : &#34;Room_Type&#34;
+            }
+        ]
+    }
+);
+</code></pre></td></tr></table>
+</div>
+</div><p>对应的sql 语句</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">select * from Multi_Quality_all where process_count &lt;1 or source =&#34;Room_Type&#34;
+</code></pre></td></tr></table>
+</div>
+</div><p>上面的查询都是返回全部字段，当然也是可以返回部分字段的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">// Requires official MongoShell 3.6+
+use InteriorDesign;
+db.getCollection(&#34;Multi_Quality_all&#34;).find(
+    { 
+        &#34;$or&#34; : [
+            {
+                &#34;process_count&#34; : {
+                    &#34;$lt&#34; : 1.0
+                }
+            }, 
+            {
+                &#34;source&#34; : &#34;Room_Type&#34;
+            }
+        ]
+    }, 
+    { 
+        &#34;_id&#34; : 1.0, 
+        &#34;path&#34; : 1.0, 
+        &#34;quality&#34; : 1.0, 
+        &#34;source&#34; : 1.0
+    }
+);
+
+</code></pre></td></tr></table>
+</div>
+</div><p>基本的语法形式</p>
+<p>显示字段时候 设置为1， 不显示字段的时候设置为0.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">db.getCollection(&#34;Multi_Quality_all&#34;).find(
+{},
+{user_id :1, _id : 0}
+)
+</code></pre></td></tr></table>
+</div>
+</div><p>条件查询不等于</p>
+<p>设置字段 status 不为 &lsquo;A&rsquo;； 同理大于号， <code>$gt</code>, 小于号， <code>$lte</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">db.getCollection(&#34;Multi_Quality_all&#34;).find(
+{ status : {$ne : &#34;A&#34;}}
+)
+</code></pre></td></tr></table>
+</div>
+</div><p>条件模糊查询</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">db.getCollection(&#34;Multi_Quality_all&#34;).find(
+{ user_id : /bc/ }
+)
+</code></pre></td></tr></table>
+</div>
+</div><p>或者写成</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">db.getCollection(&#34;Multi_Quality_all&#34;).find(
+{user_id : { $regex : /bc/}}
+)
+</code></pre></td></tr></table>
+</div>
+</div><p>类别条件查询 like</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">select * from Multi_Quality_all 
+where user_id like &#34;%bc%&#34;
+</code></pre></td></tr></table>
+</div>
+</div><p>（有点类似正则表达式？）</p>
+<p>再来一个例子</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">db.getCollection(&#34;Multi_Quality_all&#34;).find( { user_id: /^bc/ } )
+# 对应的sql 语句
+SELECT *
+FROM people
+WHERE user_id like &#34;bc%&#34;
+</code></pre></td></tr></table>
+</div>
+</div><p>排序</p>
+<p>注意在设置 sort() 属性时候，选定的字段需要设置为1， 全部都是面向文档（json的格式）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">// Requires official MongoShell 3.6+
+use InteriorDesign;
+db.getCollection(&#34;Multi_Quality_all&#34;).find(
+    { 
+        &#34;$or&#34; : [
+            {
+                &#34;process_count&#34; : {
+                    &#34;$lt&#34; : 1.0
+                }
+            }, 
+            {
+                &#34;source&#34; : &#34;Room_Type&#34;
+            }
+        ]
+    }, 
+    { 
+        &#34;_id&#34; : 1.0, 
+        &#34;path&#34; : 1.0, 
+        &#34;quality&#34; : 1.0, 
+        &#34;source&#34; : 1.0
+    }
+).sort(
+    { 
+        &#34;_id&#34; : 1.0
+    }
+);
+
+</code></pre></td></tr></table>
+</div>
+</div><p>统计数量</p>
+<p>在代码中还是可以使用的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">db.getCollection(&#34;Multi_Quality_all&#34;).find().count() 
+</code></pre></td></tr></table>
+</div>
+</div><p>条件统计</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">db.getCollection(&#34;Multi_Quality_all&#34;).find(
+{age : {$gt : 30}}
+).count()
+
+# 或者使用
+
+db.getCollection(&#34;Multi_Quality_all&#34;).count(
+{age : {$ gt : 30}}
+)
+</code></pre></td></tr></table>
+</div>
+</div><p>去掉重复的数据 distinct</p>
+<p>按照某个字段 <code>_id</code> 进行去重</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">db.getCollection(&#34;Multi_Quality_all&#34;).distinct(&#34;_id&#34;)
+</code></pre></td></tr></table>
+</div>
+</div><p>限制数量</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">db.getCollection(&#34;Multi_Quality_all&#34;).find().limit(1)
+或者 
+db.getCollection(&#34;Multi_Quality_all&#34;).findOne() # 查询一条数据
+db.getCollection(&#34;Multi_Quality_all&#34;).find().skip(2) # 指定从第2 条开始查询 
+db.getCollection(&#34;Multi_Quality_all&#34;).find().count() #  查看数量
+</code></pre></td></tr></table>
+</div>
+</div><p>mongodb 中find() 的各种查询</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="err">$</span><span class="n">lt</span><span class="p">,</span> <span class="err">$</span><span class="n">lte</span><span class="p">,</span> <span class="err">$</span><span class="n">gt</span><span class="p">,</span> <span class="err">$</span><span class="n">gte</span><span class="p">,</span> <span class="err">$</span><span class="n">ne</span>  <span class="err">条件句</span> <span class="o">#</span> <span class="err">分别对应的是</span> <span class="o">&lt;</span><span class="p">,</span> <span class="o">&lt;=</span><span class="p">,</span> <span class="o">&gt;</span><span class="p">,</span> <span class="o">&gt;=</span><span class="p">,</span> <span class="o">!=</span>
+<span class="err">$</span><span class="k">in</span><span class="p">,</span> <span class="err">$</span><span class="k">all</span><span class="p">,</span> <span class="err">$</span><span class="n">nin</span> <span class="o">#</span> <span class="err">后面跟的是数组</span>
+<span class="err">$</span><span class="k">in</span> <span class="o">#</span><span class="err">表示满足这个数组之内的值之一都能查到</span>
+<span class="err">$</span><span class="n">nin</span> <span class="o">#</span> <span class="err">不在这个数组之内的值都能查到</span>
+<span class="err">$</span><span class="k">all</span> <span class="o">#</span> <span class="err">表示满足数组内的所有值</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>对于正则表达式的支持</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="n">db</span><span class="p">.</span><span class="n">getCollection</span><span class="p">(</span><span class="s2">&#34;Product&#34;</span><span class="p">).</span><span class="n">find</span><span class="p">(</span><span class="err">{</span><span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;/^hello/&#34;</span><span class="err">}</span><span class="p">)</span>  <span class="o">#</span> <span class="err">查询一</span><span class="n">hello</span> <span class="err">开头的数据</span>
+<span class="n">db</span><span class="p">.</span><span class="n">getCollection</span><span class="p">(</span><span class="s2">&#34;Product&#34;</span><span class="p">).</span><span class="n">find</span><span class="p">(</span><span class="err">{</span><span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;/hello/&#34;</span><span class="err">}</span><span class="p">)</span>  <span class="o">#</span> <span class="err">查询包含</span> <span class="n">hello</span> <span class="err">的数据</span>
+<span class="n">db</span><span class="p">.</span><span class="n">getCollection</span><span class="p">(</span><span class="s2">&#34;Product&#34;</span><span class="p">).</span><span class="n">find</span><span class="p">(</span><span class="err">{</span><span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;/^hello/i&#34;</span><span class="err">}</span><span class="p">)</span>  <span class="o">#</span> <span class="err">查询一</span><span class="n">hello</span> <span class="err">开头的数据，不区分大小写</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>排序</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">db.getCollection(&#34;Product&#34;).find().sort({&#34;price&#34;: 1}).limit(10) #按照 price增序排序
+</code></pre></td></tr></table>
+</div>
+</div><p>尝试过的命令</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="o">//</span> <span class="err">显示所有的</span><span class="n">db</span>
+<span class="o">//</span><span class="k">show</span> <span class="n">dbs</span><span class="p">;</span>
+<span class="o">//</span> <span class="err">使用</span> <span class="n">Scrape</span> <span class="err">数据库</span>
+<span class="n">use</span> <span class="n">Scrape</span><span class="p">;</span>
+<span class="o">//</span> <span class="err">显示所有的</span><span class="n">collection</span> <span class="err">表格</span>
+<span class="o">//</span><span class="k">show</span> <span class="n">collections</span><span class="p">;</span>
+<span class="o">//</span><span class="err">对一个表格进行查询</span>
+<span class="o">//</span><span class="n">db</span><span class="p">.</span><span class="n">getCollection</span><span class="p">(</span><span class="s2">&#34;Product&#34;</span><span class="p">).</span><span class="n">find</span><span class="p">().</span><span class="k">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> 
+
+<span class="o">//</span><span class="n">db</span><span class="p">.</span><span class="n">getCollection</span><span class="p">(</span><span class="s2">&#34;Product&#34;</span><span class="p">).</span><span class="n">find</span><span class="p">(</span><span class="err">{</span><span class="s2">&#34;vendor&#34;</span><span class="p">:</span> <span class="s2">&#34;kazigoods&#34;</span><span class="p">,</span> <span class="s2">&#34;url&#34;</span><span class="p">:</span><span class="s2">&#34;https://kazigoods.com/collections/all/products/large-arctic-blue-tumaini-bowl-sss19&#34;</span><span class="err">}</span><span class="p">).</span><span class="k">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="o">//</span><span class="n">db</span><span class="p">.</span><span class="n">getCollection</span><span class="p">(</span><span class="s2">&#34;Sku&#34;</span><span class="p">).</span><span class="n">find</span><span class="p">().</span><span class="k">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="o">//</span><span class="n">db</span><span class="p">.</span><span class="n">getCollection</span><span class="p">(</span><span class="s2">&#34;Sku&#34;</span><span class="p">).</span><span class="n">find</span><span class="p">(</span><span class="err">{</span><span class="s2">&#34;price&#34;</span><span class="p">:</span> <span class="err">{$</span><span class="n">gt</span><span class="p">:</span> <span class="mi">13800</span><span class="err">}}</span><span class="p">).</span><span class="k">limit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="o">//</span><span class="n">db</span><span class="p">.</span><span class="n">getCollection</span><span class="p">(</span><span class="s2">&#34;Sku&#34;</span><span class="p">).</span><span class="n">find</span><span class="p">(</span><span class="err">{</span><span class="s2">&#34;price&#34;</span><span class="p">:</span> <span class="err">{$</span><span class="n">gt</span><span class="p">:</span> <span class="mi">13800</span><span class="p">,</span> <span class="err">$</span><span class="n">lt</span><span class="p">:</span> <span class="mi">30000</span><span class="err">}}</span><span class="p">).</span><span class="k">limit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="o">//</span><span class="n">db</span><span class="p">.</span><span class="n">getCollection</span><span class="p">(</span><span class="s2">&#34;Sku&#34;</span><span class="p">).</span><span class="n">find</span><span class="p">(</span><span class="err">{</span><span class="s2">&#34;price&#34;</span> <span class="p">:</span> <span class="err">{$</span><span class="n">nin</span> <span class="p">:[</span><span class="mi">20000</span><span class="p">,</span> <span class="mi">18800</span><span class="p">]</span><span class="err">}}</span><span class="p">).</span><span class="k">limit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="o">//</span><span class="n">db</span><span class="p">.</span><span class="n">getCollection</span><span class="p">(</span><span class="s2">&#34;Sku&#34;</span><span class="p">).</span><span class="n">find</span><span class="p">(</span><span class="err">{</span><span class="s2">&#34;Price&#34;</span> <span class="p">:</span> <span class="err">{$</span><span class="k">in</span> <span class="p">:[</span><span class="mi">20000</span><span class="p">,</span> <span class="mi">18800</span><span class="p">]</span><span class="err">}}</span><span class="p">).</span><span class="k">limit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>  <span class="o">//</span> <span class="err">这个查询比较费劲，因为</span> <span class="n">in的条件比较难找</span>
+<span class="o">//</span><span class="n">db</span><span class="p">.</span><span class="n">getCollection</span><span class="p">(</span><span class="s2">&#34;Sku&#34;</span><span class="p">).</span><span class="n">find</span><span class="p">(</span><span class="err">{}</span><span class="p">)</span>
+<span class="n">db</span><span class="p">.</span><span class="n">getCollection</span><span class="p">(</span><span class="s2">&#34;Sku&#34;</span><span class="p">).</span><span class="n">find</span><span class="p">(</span><span class="err">{</span><span class="s2">&#34;sku&#34;</span> <span class="p">:</span> <span class="s2">&#34;/^FB/&#34;</span><span class="err">}</span> <span class="p">).</span><span class="k">limit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">//</span> <span class="err">连接国外的</span> <span class="n">mongodb</span><span class="err">，一旦进行某种运算，那么是相当耗时的</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>参考的链接：</p>
+<p><a href="https://lskreno.vip/2019/09/15/MongoDB%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E7%AC%94%E8%AE%B0/">MongoDB常用命令笔记</a></p>
+<h3 id="聚合查询">聚合查询</h3>
+<p>普通查询使用 <code>find</code>函数即可，但是聚合查询使用另外一个函数<code>aggregate</code>。两者的区别在于是否使用聚合函数。</p>
+<p>这个是直接使用 pandas 进行数据分析，不使用 类似 sql语句了。</p>
+<p><a href="https://www.jianshu.com/p/dbf965f8d314">MongoDB查询总结</a></p>
+<p><a href="https://www.runoob.com/mongodb/mongodb-query.html">MongoDB 查询文档</a>
+<a href="https://www.runoob.com/mongodb/mongodb-tutorial.html">MongoDB 教程</a></p>
+<h2 id="redis">Redis</h2>
+<p>应用场景</p>
+<ol>
+<li>缓存</li>
+</ol>
+<p>当某些系统接口比较慢的时候，我们可以把一些数据放在 Redis 中缓存起来，下次取数据就可以不进行耗时的操作，直接从缓存中取数据，这个是提升性能的方式之一。</p>
+<h2 id="mysql数据查询常用的命令">MYSQL数据查询常用的命令</h2>
+<p>mysql -&gt;库 -&gt; 表 -&gt; 数据</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">#use flair;
+#SELECT * from t_flair_address LIMIT 5;
+#SHOW TABLES;
+#DESC t_flair_file;
+#show COLUMNS form  t_flair_case;
+
+#use Image;
+#show TABLEs;
+#DESC ImageColor3;
+
+#SELECT * form ImageColor3 where img_id
+
+USE Image2;
+#SELECT * from ImageColor limit 5;
+#SELECT * FROM ImageInfo limit 5;
+#SELECT * from ImageInfo2 limit 5;
+#SELECT * from VectorLabels LIMIT 5;
+# 下划线_ 只能匹配单个字符而不是多个字符，不要过度使用通配符
+# select * from ImageColor where img_color1 like &#39;%Grey%&#39; limit 5;
+# select * from ImageColor where img_color1 =&#39;Red&#39; limit 5;
+# select img_id FROM Image_Color WHERE img_id is not null limit 5;
+#SELECT * from ImageColor where img_color1 =&#39;Red&#39; and  img_color2 =&#39;Pink&#39; 
+#SELECT * from ImageColor where img_color1 =&#39;Red&#39; or  img_color2 =&#39;Pink&#39; limit 5;
+select * from ImageColor where img_color1 in (&#39;Red&#39;, &#39;Pink&#39;, &#39;Black&#39;) and  img_color3=&#39;Brown&#39; limit 5;
+
+</code></pre></td></tr></table>
+</div>
+</div><p>MYSQL中的关键字是limit， sql server的关键字是top。limit 更加类似一种分页功能，</p>
+<h2 id="待整理">待整理</h2>
+<p>google 搜索 &ldquo;robo 3t mongodb 查询命令教程&rdquo;， 分别学习一下 <code>python mongodb相关的查询命令</code>  和 <code>robo 3t mongodb的查询命令</code>。</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-03-20
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/vim_tutorial/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Vim Tutorial</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/pseudo_label/">
+            <span class="next-text nav-default">伪标签（Pseudo-Label）：一种简单有效的半监督学习方式</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

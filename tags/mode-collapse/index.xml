@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>mode collapse on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/mode-collapse/</link>
+    <description>Recent content in mode collapse on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 18 Apr 2019 15:10:07 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/mode-collapse/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mode Collapse in GANs</title>
+      <link>http://jijeng.github.io/post/mode_collapse_gan/</link>
+      <pubDate>Thu, 18 Apr 2019 15:10:07 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/mode_collapse_gan/</guid>
+      <description>&lt;p&gt;Mode collapse, a failure case for GANs where the generator generate a limited diversity of samples, regardless of the input.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

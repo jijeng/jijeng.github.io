@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>reading on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/categories/reading/</link>
+    <description>Recent content in reading on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 08 Jul 2020 15:38:57 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/categories/reading/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>文学类小说读书笔记(1)</title>
+      <link>http://jijeng.github.io/post/reading_notes_1/</link>
+      <pubDate>Wed, 08 Jul 2020 15:38:57 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/reading_notes_1/</guid>
+      <description>&lt;p&gt;文学类小说读书笔记。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Python Functional Programming - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="介绍函数式编程、闭包、装饰器和单例模式。（Python版本）
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/python_functional_programming/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Python Functional Programming" />
+<meta property="og:description" content="介绍函数式编程、闭包、装饰器和单例模式。（Python版本）" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/python_functional_programming/" />
+<meta property="article:published_time" content="2019-12-01T13:48:03+08:00" />
+<meta property="article:modified_time" content="2019-12-01T13:48:03+08:00" />
+<meta itemprop="name" content="Python Functional Programming">
+<meta itemprop="description" content="介绍函数式编程、闭包、装饰器和单例模式。（Python版本）">
+<meta itemprop="datePublished" content="2019-12-01T13:48:03+08:00" />
+<meta itemprop="dateModified" content="2019-12-01T13:48:03+08:00" />
+<meta itemprop="wordCount" content="3222">
+
+
+
+<meta itemprop="keywords" content="decorator,python,functional programming," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Python Functional Programming"/>
+<meta name="twitter:description" content="介绍函数式编程、闭包、装饰器和单例模式。（Python版本）"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Python Functional Programming</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-12-01 </span>
+        
+          <span class="more-meta"> 约 3222 字 </span>
+          <span class="more-meta"> 预计阅读 7 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>介绍函数式编程、闭包、装饰器和单例模式。（Python版本）</p>
+<p>在计算机的层次上，CPU执行的是加减乘除的指令代码，以及各种条件判断和跳转指令，所以，汇编语言是最贴近计算机的语言。而计算则指数学意义上的计算，越是抽象的计算，离计算机硬件越远。对应到编程语言，就是越低级的语言，越贴近计算机，抽象程度低，执行效率高，比如C语言；越高级的语言，越贴近计算，抽象程度高，执行效率低，比如Lisp语言。</p>
+<p>在面向过程编程中，我们见到过函数(function)；在面向对象编程中，我们见过对象(object)。函数和对象的根本目的是以某种逻辑方式组织代码，并提高代码的可重复使用性(reusability)。函数式编程也是一种编程范式，其中闭包(closure)是函数式编程的重要的语法结构。闭包是一种组织代码的结构，它提高了代码的可重复使用性，可以简单地把闭包理解成轻量级的接口封装。</p>
+<p>（1）闭包</p>
+<p>要形成闭包，首先得有一个嵌套的函数，即函数中定义了另一个函数，闭包则是一个集合，它包括了外部函数的局部变量，这些局部变量在外部函数返回后也继续存在，并能被内部函数引用。按变量的作用域进行分类，Python 中的变量可分为「全局变量」、「局部变量」以及「自由变量」。一般而言，Python 中使用变量前不需要声明变量，但假定在函数体中赋值的变量为局部变量，除非显式使用 global 将在函数中赋值的变量声明为全局变量！而自由变量则是存在于嵌套函数中的一个概念：定义在其他函数内部的函数被称之为嵌套函数 nested function ，嵌套函数可以访问封闭范围内（外部函数）的变量。嵌套函数不可以在函数外直接访问。</p>
+<p>闭包的最大特点是可以将父函数的变量与内部函数绑定，并返回绑定变量后的函数（也即闭包），此时即便生成闭包的环境（父函数）已经释放，闭包仍然存在，这个过程很像类（父函数）生成实例（闭包），不同的是父函数只在调用时执行，执行完毕后其环境就会释放，而类则在文件执行时创建，一般程序执行完毕后作用域才释放，因此对一些需要重用的功能且不足以定义为类的行为，使用闭包会比使用类占用更少的资源，且更轻巧灵活。闭包在爬虫以及web应用中都有很广泛的应用，并且闭包也是装饰器的基础。</p>
+<p>但是需要注意的是：闭包只能访问，无法修改外部函数的局部变量。比如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">line_conf</span><span class="p">():</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="mi">15</span>
+    <span class="k">def</span> <span class="nf">line</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">-</span><span class="n">b</span>
+    <span class="k">return</span> <span class="n">line</span>       <span class="c1"># return a function object</span>
+<span class="n">my_line</span> <span class="o">=</span> <span class="n">line_conf</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">my_line</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在 Python 中，非本地变量默认仅可读取，在修改时必须显式指出其为非本地变量～自由变量 nonlocal，全局变量 global。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">something</span> <span class="o">=</span><span class="mi">0</span> <span class="c1"># 这个是函数外部的变量</span>
+<span class="k">def</span> <span class="nf">get_avg</span><span class="p">():</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># 将外部临时变量由 list 改为一个 整型数值</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>   <span class="c1"># 同时新增一个变量，记录个数</span>
+    <span class="k">def</span> <span class="nf">inner_count_avg</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>  <span class="c1"># 内部函数，用于计算平均值</span>
+        <span class="n">nonlocal</span> <span class="n">count</span><span class="p">,</span> <span class="n">scores</span> <span class="c1"># 这个表示想要修改子函数外面的变量</span>
+        <span class="n">scores</span> <span class="o">+=</span> <span class="n">val</span>  <span class="c1"># 使用外部函数的临时变量</span>
+        <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">scores</span> <span class="o">/</span> <span class="n">count</span>  <span class="c1"># 返回计算出的平均值</span>
+    <span class="k">return</span> <span class="n">inner_count_avg</span>  <span class="c1"># 外部函数返回内部函数引用</span>
+<span class="n">avg</span> <span class="o">=</span> <span class="n">get_avg</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">avg</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>  <span class="c1"># 报错</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（2）函数式编程</p>
+<p>函数式编程的特点：</p>
+<ul>
+<li>函数式编程无副作用。所谓”副作用”（side effect），指的是函数内部与外部互动（最典型的情况，就是修改全局变量的值），产生运算以外的其他结果。函数式编程强调没有”副作用”，意味着函数要保持独立，所有功能就是返回一个新的值，没有其他行为，尤其是不得修改外部变量的值。</li>
+<li>引用透明（Referential transparency），指的是函数的运行不依赖于外部变量或”状态”，只依赖于输入的参数，任何时候只要参数相同，引用函数所得到的返回值总是相同的。有了前面的第三点和第四点，这点是很显然的。其他类型的语言，函数的返回值往往与系统状态有关，不同的状态之下，返回值是不一样的。这就叫”引用不透明”，很不利于观察和理解程序的行为。</li>
+</ul>
+<p>非函数式的例子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">int</span> <span class="n">cnt</span><span class="p">;</span>
+<span class="kt">void</span> <span class="nf">increment</span><span class="p">(){</span>
+    <span class="n">cnt</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>函数式的例子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">int</span> <span class="nf">increment</span><span class="p">(</span><span class="kt">int</span> <span class="n">cnt</span><span class="p">){</span>
+    <span class="k">return</span> <span class="n">cnt</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>函数式编程的技术：</p>
+<ul>
+<li>map &amp; reduce ：这个技术不用多说了，函数式编程最常见的技术就是对一个集合做Map和Reduce操作，重点在于描述问题。</li>
+<li>pipeline：这个技术的意思是，把函数实例成一个一个的action，然后，把一组action放到一个数组或是列表中，然后把数据传给这个action list，数据就像一个pipeline一样顺序地被各个函数所操作，最终得到我们想要的结果。</li>
+</ul>
+<p>把函数当成变量来用，关注于描述问题而不是怎么实现，这样可以让代码更易读。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">name_len</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="p">[</span><span class="s2">&#34;hao&#34;</span><span class="p">,</span> <span class="s2">&#34;chen&#34;</span><span class="p">,</span> <span class="s2">&#34;coolshell&#34;</span><span class="p">])</span>
+<span class="k">print</span> <span class="n">name_len</span>
+<span class="c1"># 输出 [3, 4, 9]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Python对函数式编程提供部分支持。由于Python允许使用变量，因此，Python不是纯函数式编程语言。尽管 Python 算不上是一门纯函数式编程语言，但它本身提供了很多函数式编程的特性，像 map、reduce、filter、sorted 这些函数都支持函数作为参数，lambda 函数就可以应用在函数式编程中。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">list1</span> <span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span><span class="p">]</span>
+<span class="n">list1</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">list1</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>当使用传统的方式书写的时候，就不够pythonic</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">my_add</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">-</span><span class="n">n</span>
+<span class="n">add_3</span> <span class="o">=</span><span class="n">my_add</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># add_3 是一种 lambda 函数</span>
+<span class="k">print</span><span class="p">(</span><span class="n">add_3</span><span class="p">)</span> <span class="c1"># 定义的时候把 n初始化为了3</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&#34;*****&#34;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">add_3</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span> <span class="c1"># 4对应着x 输出是1，</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（当处理简单逻辑时候，可以使用lambda 函数，当处理复杂逻辑时候，不建议使用）</p>
+<p>（3）Decorator装饰器</p>
+<p>python 中函数的”人设“, function 也是一种对象，内部函数可以访问外部的 function的变量，但是权限是”只读“。一个函数可以输入一个函数也可以返回一个函数。装饰器使得代码可以复用。调用的时候，先调用装饰器，然后调用函数，执行的时候，先执行内层函数，最后是装饰器，类似递归的过程，深度优先，最后返回的是一个函数。总的来说，Decorator在你希望在不修改函数本身代码的前提下扩展函数的功能时非常有用。</p>
+<p>例子说明。下面代码和上面是相同的功能，p_decorate 就像是 function get_text() 的一个外套， 其作为一种输入到 p_decorate() 中。装饰器首先执行的是装饰器部分，本函数作为一个变量使用，最后返回的是结果。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">p_decorate</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+   <span class="k">def</span> <span class="nf">func_wrapper</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+       <span class="k">return</span> <span class="s2">&#34;&lt;p&gt;{0}&lt;/p&gt;&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+   <span class="k">return</span> <span class="n">func_wrapper</span>
+
+<span class="nd">@p_decorate</span>
+<span class="k">def</span> <span class="nf">get_text</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+   <span class="k">return</span> <span class="s2">&#34;lorem ipsum, {0} dolor sit amet&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="p">(</span><span class="n">get_text</span><span class="p">(</span><span class="s2">&#34;John&#34;</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>输出结果：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">lorem</span> <span class="n">ipsum</span><span class="p">,</span> <span class="n">John</span> <span class="n">dolor</span> <span class="n">sit</span> <span class="n">amet</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在给个例子，理解调用过程。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">hello_decorator</span><span class="p">(</span><span class="n">original_fn</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">decorator_fn</span><span class="p">():</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Hello from new&#34;</span><span class="p">)</span>
+        <span class="n">original_fn</span><span class="p">()</span>   <span class="c1"># original function must be invoked</span>
+    <span class="k">return</span> <span class="n">decorator_fn</span>
+
+<span class="nd">@hello_decorator</span>
+<span class="k">def</span> <span class="nf">hello</span><span class="p">():</span>
+   <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Hello from original&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>输出结果：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">Hello</span> <span class="kn">from</span> <span class="nn">new</span>
+<span class="n">Hello</span> <span class="kn">from</span> <span class="nn">original</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>另外，一个函数是可以添加多个 修饰器的，并且修饰器的顺序也是有关系的。一个函数还可以同时定义多个装饰器，比如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="nd">@a</span>
+<span class="nd">@b</span>
+<span class="nd">@c</span>
+<span class="k">def</span> <span class="nf">f</span> <span class="p">():</span>
+    <span class="k">pass</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>它的执行顺序是从里到外，最先调用最里层的装饰器，最后调用最外层的装饰器，它等效于</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">f</span> <span class="o">=</span> <span class="n">a</span><span class="p">(</span><span class="n">b</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">f</span><span class="p">)))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>执行顺序是先执行里面的，但是里面的func 作为一种输入到下一个函数中，所以最后先执行的还是“外面”函数。类似不断的递归进去的感觉。</p>
+<p>感觉装饰器很难的原因在于没有理清它的逻辑关系，本质上装饰器也是函数，但它是对核心程序的闭包封装，在原有的基础上增加更多的功能。细细回顾几遍上面的例子能够加深对装饰器的理解。</p>
+<p>（4）使用修饰器实现单例模式</p>
+<p>设计模式分成单例模式和多例模式，对于单例模式对于一个类只能实现一个实例；多例模式可以实现多个实例。单例是一种设计模式，应用该模式的类只会生成一个实例。这种方式是可以代替全局变量的。比如一些配置、日志等只需要初始化一次的文件，就可以使用这种方式。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># 函数修饰器实现单例</span>
+<span class="k">def</span> <span class="nf">singleton</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+    <span class="n">_instance</span> <span class="o">=</span><span class="p">{}</span>
+    <span class="k">def</span> <span class="nf">inner</span><span class="p">():</span>
+        <span class="k">if</span> <span class="bp">cls</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_instance</span><span class="p">:</span>
+            <span class="n">_instance</span><span class="p">[</span><span class="bp">cls</span><span class="p">]</span> <span class="o">=</span><span class="bp">cls</span>
+        <span class="k">return</span> <span class="n">_instance</span><span class="p">[</span><span class="bp">cls</span><span class="p">]</span>
+    <span class="c1"># 函数调用</span>
+    <span class="k">return</span> <span class="n">inner</span>
+
+<span class="nd">@singleton</span>
+<span class="k">class</span> <span class="nc">Cls</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+<span class="n">cls1</span> <span class="o">=</span><span class="n">Cls</span><span class="p">()</span>
+<span class="n">cls2</span> <span class="o">=</span><span class="n">Cls</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">cls1</span><span class="p">)</span> <span class="o">==</span><span class="nb">id</span><span class="p">(</span><span class="n">cls2</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>常见的自带的修饰器。</p>
+<p><a href="https://www.ziiai.com/blog/770">Python中 的 @classmethod 和 @staticmethod</a></p>
+<p>在对象的实例方法中，self 参数是类实例对象本身，我们可以用它来对实例数据进行一些操作。@classmethod 方法也有一个强制性的第一个参数，它表示的是未实例化的类本身，而非类的实例。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Student</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name_str</span><span class="p">):</span>
+        <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">name_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">))</span>
+        <span class="n">student</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">student</span>
+<span class="n">scott</span> <span class="o">=</span> <span class="n">Student</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s1">&#39;Scott Robinson&#39;</span><span class="p">)</span>  
+</code></pre></td></tr></table>
+</div>
+</div><p>@staticmethod 装饰器</p>
+<p>@staticmethod 装饰类似于@classmethod ，它能够从一个非实例类对象被调用，但是没有传递 cls 参数。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Student</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">is_full_name</span><span class="p">(</span><span class="n">name_str</span><span class="p">):</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="n">name_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span>
+<span class="n">Student</span><span class="o">.</span><span class="n">is_full_name</span><span class="p">(</span><span class="s1">&#39;Scott Robinson&#39;</span><span class="p">)</span>   <span class="c1"># True  </span>
+<span class="n">Student</span><span class="o">.</span><span class="n">is_full_name</span><span class="p">(</span><span class="s1">&#39;Scott&#39;</span><span class="p">)</span>            <span class="c1"># False  </span>
+</code></pre></td></tr></table>
+</div>
+</div><p>由于没有 self 传递任何对象，这意味着此装饰器方法无法访问任何实例数据，并且也无法在实例化对象上调用此方法。这些类型的方法通常不是为了创建/实例化对象，它们是为了处理一些与类本身有关的逻辑。</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-12-01
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/decorator/">decorator</a>
+          <a href="/tags/python/">python</a>
+          <a href="/tags/functional-programming/">functional programming</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/graph_algorithm/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Graph Algorithm</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/text_similarity/">
+            <span class="next-text nav-default">文本相似度比较基本知识(1)</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

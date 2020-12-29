@@ -1,0 +1,848 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/</link>
+    <description>Recent content in Tags on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 29 Nov 2020 10:22:37 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>hook</title>
+      <link>http://jijeng.github.io/tags/hook/</link>
+      <pubDate>Sun, 29 Nov 2020 10:22:37 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/hook/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pytorch</title>
+      <link>http://jijeng.github.io/tags/pytorch/</link>
+      <pubDate>Sun, 29 Nov 2020 10:22:37 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/pytorch/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>image classification</title>
+      <link>http://jijeng.github.io/tags/image-classification/</link>
+      <pubDate>Thu, 29 Oct 2020 09:54:55 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/image-classification/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>leetcode weekly contest</title>
+      <link>http://jijeng.github.io/tags/leetcode-weekly-contest/</link>
+      <pubDate>Fri, 28 Aug 2020 10:27:51 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/leetcode-weekly-contest/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>hash</title>
+      <link>http://jijeng.github.io/tags/hash/</link>
+      <pubDate>Thu, 30 Jul 2020 14:03:22 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/hash/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>image similariy</title>
+      <link>http://jijeng.github.io/tags/image-similariy/</link>
+      <pubDate>Thu, 30 Jul 2020 14:03:22 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/image-similariy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>similarity metrics</title>
+      <link>http://jijeng.github.io/tags/similarity-metrics/</link>
+      <pubDate>Tue, 28 Jul 2020 16:47:27 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/similarity-metrics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pandas</title>
+      <link>http://jijeng.github.io/tags/pandas/</link>
+      <pubDate>Tue, 28 Jul 2020 10:13:57 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/pandas/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>dropout</title>
+      <link>http://jijeng.github.io/tags/dropout/</link>
+      <pubDate>Sat, 11 Jul 2020 15:55:36 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/dropout/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>normalization</title>
+      <link>http://jijeng.github.io/tags/normalization/</link>
+      <pubDate>Sat, 11 Jul 2020 15:55:36 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/normalization/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>overfit</title>
+      <link>http://jijeng.github.io/tags/overfit/</link>
+      <pubDate>Sat, 11 Jul 2020 15:55:36 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/overfit/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>elastice search</title>
+      <link>http://jijeng.github.io/tags/elastice-search/</link>
+      <pubDate>Tue, 07 Jul 2020 13:24:51 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/elastice-search/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>elastic search</title>
+      <link>http://jijeng.github.io/tags/elastic-search/</link>
+      <pubDate>Mon, 29 Jun 2020 11:22:11 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/elastic-search/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>regular expression</title>
+      <link>http://jijeng.github.io/tags/regular-expression/</link>
+      <pubDate>Sun, 28 Jun 2020 16:13:50 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/regular-expression/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>jupyter Notebook</title>
+      <link>http://jijeng.github.io/tags/jupyter-notebook/</link>
+      <pubDate>Thu, 28 May 2020 14:40:46 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/jupyter-notebook/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>optical flow</title>
+      <link>http://jijeng.github.io/tags/optical-flow/</link>
+      <pubDate>Sun, 24 May 2020 15:52:42 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/optical-flow/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>json</title>
+      <link>http://jijeng.github.io/tags/json/</link>
+      <pubDate>Sun, 24 May 2020 11:38:31 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/json/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>python</title>
+      <link>http://jijeng.github.io/tags/python/</link>
+      <pubDate>Sun, 24 May 2020 11:38:31 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>macos</title>
+      <link>http://jijeng.github.io/tags/macos/</link>
+      <pubDate>Fri, 15 May 2020 10:12:03 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/macos/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>cluster</title>
+      <link>http://jijeng.github.io/tags/cluster/</link>
+      <pubDate>Sat, 18 Apr 2020 10:34:04 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/cluster/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>聚类</title>
+      <link>http://jijeng.github.io/tags/%E8%81%9A%E7%B1%BB/</link>
+      <pubDate>Sat, 18 Apr 2020 10:34:04 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/%E8%81%9A%E7%B1%BB/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>cnn</title>
+      <link>http://jijeng.github.io/tags/cnn/</link>
+      <pubDate>Tue, 07 Apr 2020 10:41:47 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/cnn/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gpu</title>
+      <link>http://jijeng.github.io/tags/gpu/</link>
+      <pubDate>Mon, 30 Mar 2020 13:56:42 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/gpu/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>blending</title>
+      <link>http://jijeng.github.io/tags/blending/</link>
+      <pubDate>Fri, 27 Mar 2020 15:50:50 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/blending/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vim</title>
+      <link>http://jijeng.github.io/tags/vim/</link>
+      <pubDate>Fri, 20 Mar 2020 16:57:43 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/vim/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>union find</title>
+      <link>http://jijeng.github.io/tags/union-find/</link>
+      <pubDate>Sat, 22 Feb 2020 16:54:49 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/union-find/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>shell</title>
+      <link>http://jijeng.github.io/tags/shell/</link>
+      <pubDate>Tue, 18 Feb 2020 16:43:01 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/shell/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>monitor</title>
+      <link>http://jijeng.github.io/tags/monitor/</link>
+      <pubDate>Tue, 18 Feb 2020 14:46:35 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/monitor/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>image interpolation</title>
+      <link>http://jijeng.github.io/tags/image-interpolation/</link>
+      <pubDate>Tue, 18 Feb 2020 14:29:39 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/image-interpolation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pix2pix</title>
+      <link>http://jijeng.github.io/tags/pix2pix/</link>
+      <pubDate>Tue, 28 Jan 2020 15:57:28 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/pix2pix/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>generator</title>
+      <link>http://jijeng.github.io/tags/generator/</link>
+      <pubDate>Tue, 28 Jan 2020 14:35:28 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/generator/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gan</title>
+      <link>http://jijeng.github.io/tags/gan/</link>
+      <pubDate>Sat, 11 Jan 2020 15:58:59 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/gan/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>progan</title>
+      <link>http://jijeng.github.io/tags/progan/</link>
+      <pubDate>Sat, 11 Jan 2020 15:58:59 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/progan/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>stylegan</title>
+      <link>http://jijeng.github.io/tags/stylegan/</link>
+      <pubDate>Sat, 11 Jan 2020 15:58:59 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/stylegan/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>git</title>
+      <link>http://jijeng.github.io/tags/git/</link>
+      <pubDate>Sat, 11 Jan 2020 13:53:30 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/git/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>nginx</title>
+      <link>http://jijeng.github.io/tags/nginx/</link>
+      <pubDate>Tue, 07 Jan 2020 15:32:29 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/nginx/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>c&#43;&#43;</title>
+      <link>http://jijeng.github.io/tags/c&#43;&#43;/</link>
+      <pubDate>Wed, 01 Jan 2020 15:08:10 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/c&#43;&#43;/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ner</title>
+      <link>http://jijeng.github.io/tags/ner/</link>
+      <pubDate>Sat, 21 Dec 2019 15:25:13 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/ner/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>decorator</title>
+      <link>http://jijeng.github.io/tags/decorator/</link>
+      <pubDate>Sun, 01 Dec 2019 13:48:03 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/decorator/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>functional programming</title>
+      <link>http://jijeng.github.io/tags/functional-programming/</link>
+      <pubDate>Sun, 01 Dec 2019 13:48:03 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/functional-programming/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>simhash</title>
+      <link>http://jijeng.github.io/tags/simhash/</link>
+      <pubDate>Thu, 28 Nov 2019 17:11:14 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/simhash/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>lstm</title>
+      <link>http://jijeng.github.io/tags/lstm/</link>
+      <pubDate>Thu, 28 Nov 2019 15:05:54 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/lstm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rnn</title>
+      <link>http://jijeng.github.io/tags/rnn/</link>
+      <pubDate>Thu, 28 Nov 2019 15:05:54 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/rnn/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>activation function</title>
+      <link>http://jijeng.github.io/tags/activation-function/</link>
+      <pubDate>Thu, 28 Nov 2019 14:58:04 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/activation-function/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>loss function</title>
+      <link>http://jijeng.github.io/tags/loss-function/</link>
+      <pubDate>Thu, 28 Nov 2019 14:58:04 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/loss-function/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>decision tree</title>
+      <link>http://jijeng.github.io/tags/decision-tree/</link>
+      <pubDate>Sat, 23 Nov 2019 12:56:44 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/decision-tree/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>optimizer</title>
+      <link>http://jijeng.github.io/tags/optimizer/</link>
+      <pubDate>Sun, 17 Nov 2019 15:53:57 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/optimizer/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>cross entropy</title>
+      <link>http://jijeng.github.io/tags/cross-entropy/</link>
+      <pubDate>Sun, 17 Nov 2019 13:29:14 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/cross-entropy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kl divergence</title>
+      <link>http://jijeng.github.io/tags/kl-divergence/</link>
+      <pubDate>Sun, 17 Nov 2019 13:29:14 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/kl-divergence/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>logistic</title>
+      <link>http://jijeng.github.io/tags/logistic/</link>
+      <pubDate>Tue, 22 Oct 2019 14:56:13 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/logistic/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>svm</title>
+      <link>http://jijeng.github.io/tags/svm/</link>
+      <pubDate>Tue, 22 Oct 2019 14:56:13 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/svm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>word2vec</title>
+      <link>http://jijeng.github.io/tags/word2vec/</link>
+      <pubDate>Sat, 28 Sep 2019 17:04:42 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/word2vec/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>hmm</title>
+      <link>http://jijeng.github.io/tags/hmm/</link>
+      <pubDate>Fri, 06 Sep 2019 14:00:01 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/hmm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker</title>
+      <link>http://jijeng.github.io/tags/docker/</link>
+      <pubDate>Wed, 04 Sep 2019 13:09:19 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>dfs</title>
+      <link>http://jijeng.github.io/tags/dfs/</link>
+      <pubDate>Thu, 29 Aug 2019 16:15:58 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/dfs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>算法</title>
+      <link>http://jijeng.github.io/tags/%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Thu, 29 Aug 2019 16:15:58 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/%E7%AE%97%E6%B3%95/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>lightgbm</title>
+      <link>http://jijeng.github.io/tags/lightgbm/</link>
+      <pubDate>Sun, 28 Jul 2019 14:42:57 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/lightgbm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>xgboost</title>
+      <link>http://jijeng.github.io/tags/xgboost/</link>
+      <pubDate>Sun, 28 Jul 2019 14:42:57 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/xgboost/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>naive bayes</title>
+      <link>http://jijeng.github.io/tags/naive-bayes/</link>
+      <pubDate>Mon, 22 Jul 2019 21:23:04 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/naive-bayes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gbdt</title>
+      <link>http://jijeng.github.io/tags/gbdt/</link>
+      <pubDate>Fri, 12 Jul 2019 13:51:52 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/gbdt/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>text summarization</title>
+      <link>http://jijeng.github.io/tags/text-summarization/</link>
+      <pubDate>Sun, 30 Jun 2019 16:53:00 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/text-summarization/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>machine translation</title>
+      <link>http://jijeng.github.io/tags/machine-translation/</link>
+      <pubDate>Sat, 29 Jun 2019 15:34:19 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/machine-translation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>resnet</title>
+      <link>http://jijeng.github.io/tags/resnet/</link>
+      <pubDate>Fri, 21 Jun 2019 16:39:06 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/resnet/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>bert</title>
+      <link>http://jijeng.github.io/tags/bert/</link>
+      <pubDate>Sun, 16 Jun 2019 09:05:04 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/bert/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>lr</title>
+      <link>http://jijeng.github.io/tags/lr/</link>
+      <pubDate>Sun, 09 Jun 2019 14:59:59 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/lr/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sentence embedding</title>
+      <link>http://jijeng.github.io/tags/sentence-embedding/</link>
+      <pubDate>Sat, 01 Jun 2019 15:35:46 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/sentence-embedding/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>word embedding</title>
+      <link>http://jijeng.github.io/tags/word-embedding/</link>
+      <pubDate>Wed, 22 May 2019 10:31:51 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/word-embedding/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mode collapse</title>
+      <link>http://jijeng.github.io/tags/mode-collapse/</link>
+      <pubDate>Thu, 18 Apr 2019 15:10:07 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/mode-collapse/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>hadoop</title>
+      <link>http://jijeng.github.io/tags/hadoop/</link>
+      <pubDate>Mon, 15 Apr 2019 13:58:29 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/hadoop/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>spark</title>
+      <link>http://jijeng.github.io/tags/spark/</link>
+      <pubDate>Mon, 15 Apr 2019 13:58:29 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/spark/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>inverted index</title>
+      <link>http://jijeng.github.io/tags/inverted-index/</link>
+      <pubDate>Tue, 09 Apr 2019 14:34:11 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/inverted-index/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>data structure</title>
+      <link>http://jijeng.github.io/tags/data-structure/</link>
+      <pubDate>Fri, 05 Apr 2019 11:04:54 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/data-structure/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>siamese network</title>
+      <link>http://jijeng.github.io/tags/siamese-network/</link>
+      <pubDate>Tue, 26 Mar 2019 16:45:06 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/siamese-network/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>linear algebra</title>
+      <link>http://jijeng.github.io/tags/linear-algebra/</link>
+      <pubDate>Mon, 25 Mar 2019 14:44:42 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/linear-algebra/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>faiss</title>
+      <link>http://jijeng.github.io/tags/faiss/</link>
+      <pubDate>Mon, 25 Mar 2019 13:33:53 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/faiss/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>fasttext</title>
+      <link>http://jijeng.github.io/tags/fasttext/</link>
+      <pubDate>Mon, 25 Mar 2019 13:33:53 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/fasttext/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>k-means</title>
+      <link>http://jijeng.github.io/tags/k-means/</link>
+      <pubDate>Mon, 25 Mar 2019 13:33:53 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/k-means/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>knn</title>
+      <link>http://jijeng.github.io/tags/knn/</link>
+      <pubDate>Mon, 25 Mar 2019 13:33:53 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/knn/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>data preprocessing</title>
+      <link>http://jijeng.github.io/tags/data-preprocessing/</link>
+      <pubDate>Mon, 25 Mar 2019 11:26:59 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/data-preprocessing/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>path</title>
+      <link>http://jijeng.github.io/tags/path/</link>
+      <pubDate>Thu, 28 Feb 2019 13:45:33 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/path/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>github</title>
+      <link>http://jijeng.github.io/tags/github/</link>
+      <pubDate>Mon, 18 Feb 2019 10:06:48 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/github/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>linux</title>
+      <link>http://jijeng.github.io/tags/linux/</link>
+      <pubDate>Mon, 18 Feb 2019 10:06:48 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>cross validation</title>
+      <link>http://jijeng.github.io/tags/cross-validation/</link>
+      <pubDate>Fri, 18 Jan 2019 15:19:05 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/cross-validation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kfold</title>
+      <link>http://jijeng.github.io/tags/kfold/</link>
+      <pubDate>Fri, 18 Jan 2019 15:19:05 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/kfold/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>l1</title>
+      <link>http://jijeng.github.io/tags/l1/</link>
+      <pubDate>Sat, 21 Jul 2018 13:22:06 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/l1/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>l2</title>
+      <link>http://jijeng.github.io/tags/l2/</link>
+      <pubDate>Sat, 21 Jul 2018 13:22:06 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/l2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pca</title>
+      <link>http://jijeng.github.io/tags/pca/</link>
+      <pubDate>Fri, 29 Jun 2018 13:06:49 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/pca/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>svd</title>
+      <link>http://jijeng.github.io/tags/svd/</link>
+      <pubDate>Fri, 29 Jun 2018 13:06:49 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/svd/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>t-sne</title>
+      <link>http://jijeng.github.io/tags/t-sne/</link>
+      <pubDate>Fri, 29 Jun 2018 13:06:49 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/t-sne/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>precision &amp; recall</title>
+      <link>http://jijeng.github.io/tags/precision-recall/</link>
+      <pubDate>Wed, 13 Jun 2018 13:31:09 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/precision-recall/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>roc</title>
+      <link>http://jijeng.github.io/tags/roc/</link>
+      <pubDate>Wed, 13 Jun 2018 13:31:09 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/roc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ensemble</title>
+      <link>http://jijeng.github.io/tags/ensemble/</link>
+      <pubDate>Mon, 05 Feb 2018 21:27:04 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/ensemble/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>binary search</title>
+      <link>http://jijeng.github.io/tags/binary-search/</link>
+      <pubDate>Tue, 23 Jan 2018 16:13:21 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/binary-search/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

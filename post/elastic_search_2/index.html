@@ -1,0 +1,1945 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Elasticsearch 的使用优化 - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="介绍和使用nginx 的记录
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/elastic_search_2/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Elasticsearch 的使用优化" />
+<meta property="og:description" content="介绍和使用nginx 的记录" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/elastic_search_2/" />
+<meta property="article:published_time" content="2020-01-07T13:23:26+08:00" />
+<meta property="article:modified_time" content="2020-01-07T13:23:26+08:00" />
+<meta itemprop="name" content="Elasticsearch 的使用优化">
+<meta itemprop="description" content="介绍和使用nginx 的记录">
+<meta itemprop="datePublished" content="2020-01-07T13:23:26+08:00" />
+<meta itemprop="dateModified" content="2020-01-07T13:23:26+08:00" />
+<meta itemprop="wordCount" content="12885">
+
+
+
+<meta itemprop="keywords" content="elastic search," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Elasticsearch 的使用优化"/>
+<meta name="twitter:description" content="介绍和使用nginx 的记录"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Elasticsearch 的使用优化</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-01-07 </span>
+        
+          <span class="more-meta"> 约 12885 字 </span>
+          <span class="more-meta"> 预计阅读 26 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#查询建议">查询建议</a>
+          <ul>
+            <li><a href="#edge-ngram-tokenizer">Edge NGram Tokenizer</a></li>
+            <li><a href="#suggester-介绍">Suggester 介绍</a></li>
+          </ul>
+        </li>
+        <li><a href="#资料整理">资料整理</a></li>
+        <li><a href="#分页功能">分页功能</a></li>
+        <li><a href="#autocomplete">autocomplete</a></li>
+        <li><a href="#新的资料">新的资料</a></li>
+        <li><a href="#新调研结果"> 新调研结果</a>
+          <ul>
+            <li><a href="#building-a-search-engine-using-elasticsearchhttpsgithubcomdineshsonachalambuilding-a-search-engine-using-elasticsearch-项目分析"><a href="https://github.com/dineshsonachalam/Building-a-search-engine-using-Elasticsearch">Building-a-search-engine-using-Elasticsearch</a> 项目分析</a></li>
+            <li><a href="#uwsgi-nginx-flask-dockerhttpsgithubcomtiangolouwsgi-nginx-flask-docker"><a href="https://github.com/tiangolo/uwsgi-nginx-flask-docker">uwsgi-nginx-flask-docker</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#es中的-aggregations">ES中的 aggregations</a></li>
+        <li><a href="#新的调研">新的调研</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>介绍和使用nginx 的记录</p>
+<h2 id="查询建议">查询建议</h2>
+<blockquote>
+<p>It is also known as Search as you type or Type Ahead Search. It helps in navigating or guiding a user by prompting them with likely completions and alternatives to the text as they are typing it. It reduces the amount of character a user needs to type before executing any search actions, thereby enhancing the search experience of users.</p>
+</blockquote>
+<p>查询建议是为了给用户提供良好的使用体验。主要包括拼写检查， 自动补全。</p>
+<ul>
+<li>读时分词： 用户查询的时候， ES 会对用户输入的关键词进行分词，分词的结果存在于内存中，当查询结束后，分词结果也消失。</li>
+<li>写时分词： 发生在文档写入时， ES 会对文档进行分词，将解决存入倒排索引，这部分最终以文件的形式存储在磁盘上。</li>
+</ul>
+<p>ES 中处理分词部分叫做分词器，Analyzer。ES 自带了许多默认的分词器，比如 standard，keyword，whitespace。读和写时候都要指定使用的分词器。</p>
+<p>analysis 包括 analyzer，tokenizer 和filter 等不同的组件。</p>
+<h3 id="edge-ngram-tokenizer">Edge NGram Tokenizer</h3>
+<blockquote>
+<p>The edge_ngram tokenizer first breaks text down into words whenever it encounters one of a list of specified characters, then it emits N-grams of each word where the start of the N-gram is anchored to the beginning of the word. Edge N-Grams are useful for search-as-you-type queries.</p>
+</blockquote>
+<p>和 Completion Suggester 的区别</p>
+<blockquote>
+<p>When you need search-as-you-type for text which has a widely known order, such as movie or song titles, the completion suggester is a much more efficient choice than edge N-grams. Edge N-grams have the advantage when trying to autocomplete words that can appear in any order.
+如果数据有特定的order，那么使用 completion suggester；否则可以考虑使用 Edge NGram Tokenizer。就家具搜索而言，更加适合使用 Edge NGram Tokenizer。
+（这点不是很理解）</p>
+</blockquote>
+<blockquote>
+<p>Usually we recommend using the same analyzer at index time and at search time. In the case of the edge_ngram tokenizer, the advice is different. It only makes sense to use the edge_ngram tokenizer at index time, to ensure that partial words are available for matching in the index. At search time, just search for the terms the user has typed in, for instance: Quick Fo.
+简单说 edge_ngram 使用在index time</p>
+</blockquote>
+<h3 id="suggester-介绍">Suggester 介绍</h3>
+<p>下面的分类至少是没有错的，分成term suggester  phrase suggester 和 completion suggester</p>
+<ol>
+<li>term suggester</li>
+</ol>
+<img src="https://ftp.bmp.ovh/imgs/2020/07/107660515cafc127.png" width ="80%" height ="60%">
+<ol start="2">
+<li>
+<p>phrase suggester</p>
+</li>
+<li>
+<p>Completion Suggester</p>
+</li>
+</ol>
+<img src="https://ftp.bmp.ovh/imgs/2020/07/cdfaf962a3cdc512.png" height="60%" width="80%">
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.2/search-suggesters-completion.html#indexing">Completion Suggester</a></p>
+<blockquote>
+<p>The completion suggester provides auto-complete/search-as-you-type functionality. This is a navigational feature to guide users to relevant results as they are typing, improving search precision. It is not meant for spell correction or did-you-mean functionality like the term or phrase suggesters.
+Completion Suggester 提供了 auto-complete 和 search as you type 功能。当用户输入的时候，提供一个相关的结果，有利于提高 search 的准确性。这个功能不是 spell correction 或者 did you mean （是由 term suggester 和 phrase suggester 实现）</p>
+</blockquote>
+<blockquote>
+<p>Ideally, auto-complete functionality should be as fast as a user types to provide instant feedback relevant to what a user has already typed in. Hence, completion suggester is optimized for speed. The suggester uses data structures that enable fast lookups, but are costly to build and are stored in-memory.
+（理解事物是从定义开始， auto complete 是在用户输入的时候提供及时的反馈，返回相应的内容；相当消耗内存）</p>
+</blockquote>
+<p>这个里面是可以设置权重的，然后根据权重返回结果。</p>
+<p><a href="http://www.dczou.com/viemall/732.html">Elasticsearch 入门教程 – completion suggest实现搜索提示</a></p>
+<blockquote>
+<p>虽然是 14年的博客，但是写的不错。</p>
+</blockquote>
+<blockquote>
+<p>completion，es实现的时候，是非常高性能的，会构建不是倒排索引，也不是正拍索引，就是纯的用于进行前缀搜索的一种特殊的数据结构，而且会全部放在内存中，所以auto completion进行的前缀搜索提示，性能是非常高的</p>
+</blockquote>
+<p><a href="https://qbox.io/blog/multi-field-partial-word-autocomplete-in-elasticsearch-using-ngrams?utm_source=qbox.io&amp;utm_medium=article&amp;utm_campaign=multi-field-partial-word-autocomplete-in-elasticsearch-using-ngrams">Multi-field Partial Word Autocomplete in Elasticsearch Using nGrams</a></p>
+<blockquote>
+<p>There are at least two broad types of autocomplete, what I will call Search Suggest, and Result Suggest. Search Suggest returns suggestions for search phrases, usually based on previously logged searches, ranked by popularity or some other metric. This is what Google does, and it is what you will see on many large e-commerce sites. This approach requires logging users' searches and ranking them so that the autocomplete suggestions evolve over time. There really isn&rsquo;t a good way to implement this sort of feature without logging searches, which is why DuckDuckGo doesn&rsquo;t have autocomplete. It also suffers from a chicken-and-egg problem in that it will not work well to begin with unless you have a good set of seed data.
+The second type of autocomplete is Result Suggest. In this case the suggestions are actual results rather than search phrase suggestions. An example of this is the Elasticsearch documentation guide. This style of autocomplete works well with a reasonably small data set, and it has the advantage of not requiring a large set of previously logged searches in order to be useful. In this post I&rsquo;m going to describe a method of implementing Result Suggest using Elasticsearch.
+从大的角度看有两种 autocomplete，一种是基于用户log 的方式，search suggest，另一种是 result suggest，其中后者是比较简单的。搜索不仅仅是单纯的检索，而是带有用户log的检索，这个和推荐还是有点重合，但需要有用户的log，才能做到 search suggest。 而我们当前的阶段更像是一种</p>
+</blockquote>
+<p>result suggest 应该是下面这种：</p>
+<p><img src = 'https://ftp.bmp.ovh/imgs/2020/07/62d80766ca54d2e7.gif' /></p>
+<p>需要的几点注意事项</p>
+<ul>
+<li>Single field</li>
+<li>Duplicate data</li>
+<li>Prefix query only</li>
+<li>No filtering, or advanced queries</li>
+</ul>
+<p>建立 word autocompete 一般需要满足的要求</p>
+<ul>
+<li>Partial word matching （es 中的autocompletion 是前缀匹配）</li>
+<li>Multiple search fields （es 中的search filed 是单个的 ）</li>
+<li>filtered search （一般来说可能需要去重策略）</li>
+</ul>
+<blockquote>
+<p>There are edgeNGram versions of both, which only generate tokens that start at the beginning of words (&ldquo;front&rdquo;) or end at the end of words (&ldquo;back&rdquo;).
+edgeNGram的定义</p>
+</blockquote>
+<p><a href="https://qbox.io/blog/quick-and-dirty-autocomplete-with-elasticsearch-completion-suggest?utm_source=qbox.io&amp;utm_medium=article&amp;utm_campaign=multi-field-partial-word-autocomplete-in-elasticsearch-using-ngrams">Quick and Dirty Autocomplete with Elasticsearch Completion Suggest</a></p>
+<blockquote>
+<p>We realize, of course, that you might have a concern with this approach—such as data duplication. Remember, this is a quick and dirty method for implementing autocomplete.  这个的缺点是 data duplication。</p>
+</blockquote>
+<p>设置 completion 的时候重点需要在mapping 中设置一个type 为 completion 的东西。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">        &#34;keyword_suggestion&#34;: {
+          &#34;type&#34;: &#34;completion&#34;,
+          &#34;analyzer&#34;: &#34;hanLp-index&#34;,
+          &#34;search_analyzer&#34;: &#34;simple&#34;,
+          &#34;preserve_separators&#34;: true,
+          &#34;preserve_position_increments&#34;: true,
+          &#34;max_input_length&#34;: 50
+        }
+</code></pre></td></tr></table>
+</div>
+</div><p>从数据的添加，completion 的设置 到 post 检索都有完整的代码</p>
+<p><a href="https://elasticsearch.cn/question/1869">ES 搜索建议 Suggester 的问题</a></p>
+<blockquote>
+<p>在建议词字段，建议词索引时使用 HanLP 分析器，搜索时使用 Simple 分析器。
+就是对于中文搜索而言，是可以参考这种建议的</p>
+</blockquote>
+<blockquote>
+<p>Completion Suggester，它主要针对的应用场景就是&quot;Auto Completion&quot;。 此场景下用户每输入一个字符的时候，就需要即时发送一次查询请求到后端查找匹配项，在用户输入速度较高的情况下对后端响应速度要求比较苛刻。索引并非通过倒排来完成，而是将analyze过的数据编码成FST和索引一起存放。对于一个open状态的索引，FST会被ES整个装载到内存里的，进行前缀查找速度极快。但是FST只能用于前缀查找，这也是Completion Suggester的局限所在</p>
+</blockquote>
+<p>面向中文的，暂时不考虑。</p>
+<p><a href="https://juejin.im/post/5e76c2486fb9a07c9c6a7a0e">Elasticsearch系列&mdash;前缀搜索和模糊搜索</a></p>
+<p>很优秀的博客，不仅有讲解还有code。</p>
+<ol>
+<li>前缀搜索语法</li>
+</ol>
+<blockquote>
+<p>我们常见的可能有前缀搜需求的有邮编、产品序列号、快递单号、证件号的搜索，这些值的内容本身包含一定的逻辑分类含义
+所以这种情况下是优先使用前缀搜索语法</p>
+</blockquote>
+<ol start="2">
+<li>通配符和正则搜索</li>
+</ol>
+<blockquote>
+<p>通配符搜索和正则表达式搜索跟前缀搜索类型，只是功能更丰富一些。</p>
+</blockquote>
+<ol start="3">
+<li>即时搜索</li>
+</ol>
+<img src="https://i.loli.net/2020/07/05/HvTAgREdBnilkaP.png" height ="80%" width="60%">
+<ol start="4">
+<li>ngram</li>
+</ol>
+<p>ngrams其实就是拆分关键词的一个滑动窗口，窗口的长度可以设置，我们拿&quot;Elastic&quot;举例，7种长度下的ngram：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">长度1：[E,l,a,s,t,i,c]
+长度2：[El,la,as,st,ti,ic]
+长度3：[Ela,las,ast,sti,tic]
+长度4：[Elas,last,asti,stic]
+长度5：[Elast,lasti,astic]
+长度6：[Elasti,lastic]
+长度7：[Elastic]
+</code></pre></td></tr></table>
+</div>
+</div><p>还有一种特殊的edge ngram，拆词时它只留下首字母开头的词，如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">长度1：E
+长度2：El
+长度3：Ela
+长度4：Elas
+长度5：Elast
+长度6：Elasti
+长度7：Elastic
+</code></pre></td></tr></table>
+</div>
+</div><ol start="5">
+<li>搜索提示</li>
+</ol>
+<blockquote>
+<p>执行搜索时，Elasticsearch从图的开始处顺着匹配路径一个字符一个字符地进行匹配，一旦它处于用户输入的末尾，Elasticsearch就会查找所有可能结束的当前路径，然后生成一个建议列表，并且把这个建议列表缓存在内存中。</p>
+</blockquote>
+<p>性能方面completion suggest比任何一种基于词的查询都要快很多。</p>
+<p>模糊搜索</p>
+<p>fuzzy搜索可以针对输入拼写错误的单词，有一定的纠错功能，示例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">GET /music/children/_search
+{
+  &#34;query&#34;: {
+    &#34;fuzzy&#34;: {
+      &#34;name&#34;: {
+        &#34;value&#34;: &#34;teath&#34;,
+        &#34;fuzziness&#34;: 2
+      }
+    }
+  }
+}
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://learnku.com/articles/37210">笔记二十八：自动补全与机遇上下文的提示</a></p>
+<blockquote>
+<p>给出了两种自动补全的方式，有相关的code，是可以参考一下的</p>
+</blockquote>
+<ol>
+<li>使用 Completion Suggester 一些步骤</li>
+</ol>
+<ul>
+<li>定义 Mapping，使用 “completion” type</li>
+<li>索引数据</li>
+<li>运行 “suggest” 查询，得到搜索建议</li>
+</ul>
+<ol start="2">
+<li>Context Suggester</li>
+</ol>
+<p>Completion Suggester 的扩展
+可以在搜索中加入耕读偶读上下文信息，例如，输入 “star”
+咖啡相关：starbucks
+电影相关：star wars</p>
+<ol start="3">
+<li>需要考虑的事项</li>
+</ol>
+<ul>
+<li>精准度
+Completion &gt; Phrase &gt; Term</li>
+<li>召回率
+Term &gt; Phrase &gt; Completion</li>
+<li>性能
+Completion &gt; Phrase &gt; Term</li>
+</ul>
+<p><a href="https://zq99299.github.io/note-book/elasticsearch-senior/es-high/76-completion-suggest.html#%E4%BB%80%E4%B9%88%E6%98%AF-completion-suggest-%EF%BC%9F">基于 completion suggest 实现搜索提示</a></p>
+<p>使用一小段code 来讲解了一个知识点</p>
+<blockquote>
+<p>一种用于前缀搜索的特殊数据结构，不是我们之前利用的倒排索引，会全部放在内存中，所以 auto completion 进行的前缀搜索提示，性能是非常高的</p>
+</blockquote>
+<p><a href="https://blog.csdn.net/opera95/article/details/78614807">ElasticSearch搜索提示（Suggester）</a></p>
+<blockquote>
+<p>感觉讲解的一般。</p>
+</blockquote>
+<p>ES Suggesters基本的运作原理是将输入的文本分解为token，然后在索引的字典里查找相似的term并返回。 根据使用场景的不同，Elasticsearch里设计了4种类别的Suggester，分别是:</p>
+<ul>
+<li>Term Suggester</li>
+<li>Phrase Suggester</li>
+<li>Completion Suggester</li>
+<li>Context Suggester</li>
+</ul>
+<ol>
+<li>Term Suggester</li>
+</ol>
+<p>两个term的相似性是如何判断的？ ES使用了一种叫做Levenstein edit distance的算法，其核心思想就是一个词改动多少个字符就可以和另外一个词一致。 Term suggester还有其他很多可选参数来控制这个相似性的模糊程度，这里就不一一赘述了。Term suggester正如其名，只基于analyze过的单个term去提供建议，并不会考虑多个term之间的关系。</p>
+<ol start="2">
+<li>Phrase suggester</li>
+</ol>
+<p>Phrase suggester在Term suggester的基础上，会考量多个term之间的关系，比如是否同时出现在索引的原文里，相邻程度，以及词频等等</p>
+<p><a href="https://segmentfault.com/a/1190000020272549">ElasticSearch搜索建议与上下文提示</a></p>
+<blockquote>
+<p>博客从上面四个方面都给出了一个小的例子，属于很好的博客。</p>
+</blockquote>
+<ul>
+<li>Term Suggester</li>
+<li>Phrase Suggester</li>
+<li>Complete Suggester</li>
+<li>Context Suggester</li>
+</ul>
+<p><a href="https://blog.mimacom.com/autocomplete-elasticsearch-part1/"></a></p>
+<h2 id="资料整理">资料整理</h2>
+<p><a href="https://www.shuzhiduo.com/A/A7zg8gjPJ4/">Elasticsearch Suggester 学习</a></p>
+<p>Suggesters基本的运作原理是将输入的文本分解为token，然后在索引的字典里查找相似的term并返回。 根据使用场景的不同，Elasticsearch里设计了4种类别的Suggester，分别是:</p>
+<ul>
+<li>Term Suggester</li>
+<li>Phrase Suggester</li>
+<li>Completion Suggester</li>
+<li>Context Suggester</li>
+</ul>
+<ol>
+<li>Term Suggester</li>
+</ol>
+<p>（这个是有code，如果需要可以学习一下）</p>
+<blockquote>
+<p>有人可能会问，两个term的相似性是如何判断的？ ES使用了一种叫做Levenstein edit distance的算法，其核心思想就是一个词改动多少个字符就可以和另外一个词一致。 Term suggester还有其他很多可选参数来控制这个相似性的模糊程度，这里就不一一赘述了。</p>
+</blockquote>
+<p>Term suggester正如其名，只基于analyze过的单个term去提供建议，并不会考虑多个term之间的关系。API直接给出和用户输入文本相似的内容？ 答案是有，这就要求助Phrase Suggester了</p>
+<ol start="2">
+<li>Phrase Suggester</li>
+</ol>
+<p>Phrase suggester在Term suggester的基础上，会考量多个term之间的关系，比如是否同时出现在索引的原文里，相邻程度，以及词频等等。</p>
+<h2 id="分页功能">分页功能</h2>
+<p><a href="https://www.cnblogs.com/xing901022/p/5284902.html">Elasticsearch——分页查询From&amp;Size VS scroll</a></p>
+<ol>
+<li>from-size&quot;浅&quot;分页</li>
+</ol>
+<p>&ldquo;浅&quot;分页的概念是小博主自己定义的，可以理解为简单意义上的分页。它的原理很简单，就是查询前20条数据，然后截断前10条，只返回10-20的数据。这样其实白白浪费了前10条的查询。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">{
+    &#34;from&#34; : 0, &#34;size&#34; : 10,
+    &#34;query&#34; : {
+        &#34;term&#34; : { &#34;user&#34; : &#34;kimchy&#34; }
+    }
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>其中，from定义了目标数据的偏移值，size定义当前返回的事件数目。
+默认from为0，size为10，即所有的查询默认仅仅返回前10条数据。</p>
+<p>from/size的鸡肋在于深度分页的时候，from+size值不能大于index.max_result_window参数（默认10000），否则会直接返回错误。</p>
+<p>如果搜索size大于10000，需要设置index.max_result_window参数 ，默认为1000</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">PUT _settings
+{
+    &#34;index&#34;: {
+        &#34;max_result_window&#34;: &#34;10000000&#34;
+    }
+}   
+</code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>scroll“深”分页</li>
+</ol>
+<p>相对于from和size的分页来说，使用scroll可以模拟一个传统数据的游标，记录当前读取的文档信息位置。这个分页的用法，不是为了实时查询数据，而是为了一次性查询大量的数据（甚至是全部的数据）。</p>
+<p><a href="https://blog.csdn.net/fanrenxiang/article/details/86504304">Elastic Search之分页展示</a></p>
+<p>es提供了三种api方式进行分页:</p>
+<ul>
+<li>from size</li>
+<li>scroll</li>
+<li>search_after</li>
+</ul>
+<ol>
+<li>from size</li>
+</ol>
+<p>from/size的鸡肋在于深度分页的时候，from+size值不能大于index.max_result_window参数（默认10000），否则会直接返回错误。</p>
+<p>在数据分片存储的情况下，页数越深，处理的文档就越多，占用的堆内存也就越大，耗时越长，效率越低，因此es有max_result_window参数来限制深度分析。</p>
+<ol start="2">
+<li>scroll</li>
+</ol>
+<blockquote>
+<p>scroll由于数据不是实时性的，所以不能用来做实时搜索，同时官方也建议尽量不要使用复杂的sort条件，使用_doc最高效。 不是实时搜索，可以大量返回数据。</p>
+</blockquote>
+<ol start="3">
+<li>search_after</li>
+</ol>
+<p>由于scroll不适用于实时搜索，因此可以用search_after来替代。search_after上一页的最后一条数据来获取下一页的，所以只能进行&quot;下一页&quot;翻页，而不能上一页，也不能进行自由翻页，且为了定位上一页的最后一条数据，需要保证每个文档值的唯一，比如文档的&rdquo;_id&quot;字段，search_after可以做实时搜索。</p>
+<blockquote>
+<p>问题在于不能自动实现 向上翻页</p>
+</blockquote>
+<p><a href="https://www.jianshu.com/p/171dcd33ab02">elasticsearch 分页查询实现方案</a></p>
+<ol>
+<li>from+size 实现分页</li>
+</ol>
+<p>示例：有三个节点node1、node2、node3，每个节点上有2个shard分片</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">1.client发送分页查询请求到node1（coordinating node）上，node1建立一个大小为from+size的优先级队列来存放查询结果；
+2.node1将请求广播到涉及到的shards上；
+3.每个shards在内部执行查询，把from+size条记录存到内部的优先级队列（top N表）中；
+4.每个shards把缓存的from+size条记录返回给node1；
+5.node1获取到各个shards数据后，进行合并并排序，选择前面的 from + size 条数据存到优先级队列，以便 fetch 阶段使用。
+</code></pre></td></tr></table>
+</div>
+</div><p>内部执行原理：
+示例：有三个节点node1、node2、node3，每个节点上有2个shard分片</p>
+<table>
+<thead>
+<tr>
+<th>node1</th>
+<th style="text-align:center">node2</th>
+<th style="text-align:right">node3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>shard1</td>
+<td style="text-align:center">shard3</td>
+<td style="text-align:right">shard5</td>
+</tr>
+<tr>
+<td>shard2</td>
+<td style="text-align:center">shard4</td>
+<td style="text-align:right">shard6</td>
+</tr>
+</tbody>
+</table>
+<p>from+size在深度分页时，会带来严重的性能问题：
+CPU、内存、IO、网络带宽
+数据量越大，越往后翻页，性能越低</p>
+<ol start="2">
+<li>scroll</li>
+</ol>
+<p>可以把 scroll 理解为关系型数据库里的 cursor，因此，scroll 并不适合用来做实时搜索，而更适用于后台批处理任务，比如群发。可以把 scroll 分为初始化和遍历两步.</p>
+<p>可以把 scroll 分为初始化和遍历两步，
+初始化时将所有符合搜索条件的搜索结果缓存起来，可以想象成快照，
+遍历时，从这个快照里取数据，也就是说，在初始化后对索引插入、删除、更新数据都不会影响遍历结果。</p>
+<ul>
+<li>初始化：</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">POST http://192.168.18.230:9200/bill/bill/_search?scroll=3m
+{
+    &#34;query&#34;: { &#34;match_all&#34;: {}},
+    &#34;size&#34;: 10 
+}
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>遍历：</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">POST http://192.168.18.230:9200/_search?scroll=3m
+{
+  &#34;scroll_id&#34;: &#34;DnF1ZXJ5VGhlbkZldGNoBQAAAAAAAHRCFi1BLWIzSHdhUkl1cC1rcjBueVhJZUEAAAAAAAB0QRYtQS1iM0h3YVJJdXAta3IwbnlYSWVBAAAAAAAAdEQWLUEtYjNId2FSSXVwLWtyMG55WEllQQAAAAAAAHRDFi1BLWIzSHdhUkl1cC1rcjBueVhJZUEAAAAAAAB0RRYtQS1iM0h3YVJJdXAta3IwbnlYSWVB&#34;
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>（这个教程讲解是比较详细的, step by step）</p>
+<ol start="3">
+<li>search after</li>
+</ol>
+<p>Scroll 被推荐用于深度查询，但是contexts的代价是昂贵的，不推荐用于实时用户请求，而更适用于后台批处理任务，比如群发。</p>
+<p>search_after 提供了一个实时的光标来避免深度分页的问题，其思想是使用前一页的结果来帮助检索下一页。</p>
+<p>search_after 需要使用一个唯一值的字段作为排序字段，否则不能使用search_after方法; 推荐使用_uid 作为唯一值的排序字段.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">GET twitter/tweet/_search
+{
+    &#34;size&#34;: 10,
+    &#34;query&#34;: { &#34;match_all&#34;: {}},
+    &#34;sort&#34;: [
+        {&#34;date&#34;: &#34;asc&#34;},
+        {&#34;_uid&#34;: &#34;desc&#34;}
+    ]
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>}
+每一条返回记录中会有一组 sort values ，查询下一页时，在search_after参数中指定上一页返回的 sort values</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">GET twitter/tweet/_search
+{
+    &#34;size&#34;: 10,
+    &#34;query&#34;: { &#34;match_all&#34;: {}},
+    &#34;search_after&#34;: [1463538857, &#34;tweet#654323&#34;],
+    &#34;sort&#34;: [
+        {&#34;date&#34;: &#34;asc&#34;},
+        {&#34;_uid&#34;: &#34;desc&#34;}
+    ]
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>注意：search_after不能自由跳到一个随机页面，只能按照 sort values 跳转到下一页</p>
+<ol start="4">
+<li>总结</li>
+</ol>
+<ul>
+<li>深度分页不管是关系型数据库还是Elasticsearch还是其他搜索引擎，都会带来巨大性能开销，特别是在分布式情况下。</li>
+<li>有些问题可以考业务解决而不是靠技术解决，比如很多业务都对页码有限制，google 搜索，往后翻到一定页码就不行了。</li>
+<li>scroll 并不适合用来做实时搜索，而更适用于后台批处理任务，比如群发。</li>
+<li>search_after不能自由跳到一个随机页面，只能按照 sort values 跳转到下一页。</li>
+</ul>
+<p><a href="https://cloud.tencent.com/developer/article/1122833">https://cloud.tencent.com/developer/article/1122833</a></p>
+<p>深度的分页数据应该怎么办？ es里面提供了两种方式来读取深度分页的数据：</p>
+<ul>
+<li>离线的读取深度分页数据的Scroll方法</li>
+<li>能够用于实时和高并发场景的searchAfter方法（5.x之后）</li>
+</ul>
+<p>它的缺点就是维护一个search context需要占用很多资源，而且在快照建立之后数据变化如删除和更新操作是不能被感知到的，所以不能够用于实时和高并发的场景。searchAfter的方式通过维护一个实时游标来避免scroll的缺点，它可以用于实时请求和高并发场景。</p>
+<p>它的缺点是不能够随机跳转分页，只能是一页一页的向后翻，并且需要至少指定一个唯一不重复字段来排序。</p>
+<p>此外还有一个与scorll的不同之处是searchAfter的读取数据的顺序会受索引的更新和删除影响而scroll不会，因为scroll读取的是不可变的快照。</p>
+<p>我们先查询一页数据：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">GET twitter/_search
+{
+    &#34;size&#34;: 10,
+    &#34;query&#34;: {
+        &#34;match&#34; : {
+            &#34;title&#34; : &#34;elasticsearch&#34;
+        }
+    },
+    &#34;sort&#34;: [
+        {&#34;date&#34;: &#34;asc&#34;},
+        {&#34;_id&#34;: &#34;desc&#34;}
+    ]
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>注意，上面用了两个字段来排序，第一个是业务字段可能不唯一，但是第二个id字段一定唯一不重复的。只有这样才能确保searchAfter的翻页顺序读取。</p>
+<p>另外searchAfter的from字段一定要设置成0，不然会有问题。</p>
+<p>第一个请求发出之后，我们需要获取第一个请求里面最后一条的数据的date和id，然后把这个信息传送到下一个批次，依次类推直到把所有的数据处理完。</p>
+<p>如下第二个请求的查询体：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">GET twitter/_search
+{
+    &#34;size&#34;: 10,
+    &#34;query&#34;: {
+        &#34;match&#34; : {
+            &#34;title&#34; : &#34;elasticsearch&#34;
+        }
+    },
+    &#34;search_after&#34;: [1463538857, &#34;654323&#34;],
+    &#34;sort&#34;: [
+        {&#34;date&#34;: &#34;asc&#34;},
+        {&#34;_id&#34;: &#34;desc&#34;}
+    ]
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>所以，现在的基本思路是使用 elasticsearch 中的 searchAfter 进行深度分页功能</p>
+<p><a href="http://arganzheng.life/deep-pagination-in-elasticsearch.html">ElasticSearch如何支持深度分页</a></p>
+<p>分布式环境下的分页</p>
+<ol>
+<li>
+<p>服务端缓存——Scan and scroll API</p>
+</li>
+<li>
+<p>Search After</p>
+</li>
+</ol>
+<p>假设请求第一页的请求如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">GET twitter/tweet/_search
+<span class="o">{</span>
+    <span class="s2">&#34;size&#34;</span>: 10,
+    <span class="s2">&#34;query&#34;</span>: <span class="o">{</span>
+        <span class="s2">&#34;match&#34;</span> : <span class="o">{</span>
+            <span class="s2">&#34;title&#34;</span> : <span class="s2">&#34;elasticsearch&#34;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>,
+    <span class="s2">&#34;sort&#34;</span>: <span class="o">[</span>
+        <span class="o">{</span><span class="s2">&#34;date&#34;</span>: <span class="s2">&#34;asc&#34;</span><span class="o">}</span>,
+        <span class="o">{</span><span class="s2">&#34;_id&#34;</span>: <span class="s2">&#34;desc&#34;</span><span class="o">}</span>
+    <span class="o">]</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>注意，这里为了避免sort字段相同值的导致排序不确定，这里增加了 _id 字段。
+返回的结果会包含每个文档的sort字段的sort value。这个就是上面所说的 “live cursor”。</p>
+<p>使用最后一个文档的sort value作为search after请求值，我们就可以这样子请求下一页结果了：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">GET twitter/tweet/_search
+{
+    &#34;size&#34;: 10,
+    &#34;query&#34;: {
+        &#34;match&#34; : {
+            &#34;title&#34; : &#34;elasticsearch&#34;
+        }
+    },
+    &#34;search_after&#34;: [1463538857, &#34;654323&#34;],
+    &#34;sort&#34;: [
+        {&#34;date&#34;: &#34;asc&#34;},
+        {&#34;_id&#34;: &#34;desc&#34;}
+    ]
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>注意到from变成了search_after了。现在是通过search_after来确定分页的开始位置。</p>
+<p>search_after使用方式上跟scroll很像，但是相对于scroll它是无状态的(stateless)，没有search context开销；而且它是每次请求都实时计算的，所以也没有一致性问题（相反，有索引变化的话，每次排序顺序会变化呢）。但是比起from+size方式，还是有同样的问题没法解决：就是只能顺序的翻页，不能随意跳页。</p>
+<p>这个排序分页方案其实在app分页中大量使用。</p>
+<blockquote>
+<p>由于app端的分页比较特殊，比如后台数据会近实时的发生变化，所以采用常规的分页算法 [(totalRecord + pageSize - 1) / pageSize] 是会有问题的。如果仍采用这种算法，当上推刷新时，就有可能加载到上一页已经看过的数据，比如用户当前正在看第2页的历史数据，如果此时后台数据源新增了一条数据，那么当用户继续上推操作查看第3页的历史数据时，就会把第2页的最后一条数据获取，并且会把该条数据作为第3页的第一条数据进行展示，这样是有问题的。所以在数据表设计时，需要在表中增加一个自增的orderId字段参与分页，然后分页时，需要将第一页的最后一条数据的orderId回传到后台，后台拿着这个orderId进行条件判断查询并且集合上面的分页算法就可以避免上面的问题（在新闻类的app中，经常使用createdTime作为orderId）。另一方便，app的滑动翻页其实就是顺序翻页，所以特别适合这种分页方式。</p>
+</blockquote>
+<p>这一部分其实没有很懂</p>
+<ol start="3">
+<li>终极解决方案?</li>
+</ol>
+<p>这篇文章: Efficiently Handling Deep Pagination In A Distributed Search Engine 介绍了一种方式，可以以牺牲一定的分页准确性来大幅度的提高分页性能，有点意思。 这里简单介绍</p>
+<p>思路非常简单，效果非常明显，有机会的话可以试试。不过前提是底层存储引擎支持指定返回排序数据的大小。Solr是支持的（shards.rows）这篇文章也是基于Solr实现的，但是ES目前并不支持。</p>
+<blockquote>
+<p>highlight高亮搜索
+高亮搜索从功能的角度来说就比较蛋疼，比较鸡肋，可有可无的功能</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">GET /_search
+{
+    &#34;query&#34; : {
+        &#34;match&#34;: { &#34;content&#34;: &#34;kimchy&#34; }
+    },
+    &#34;highlight&#34; : {
+        &#34;fields&#34; : {
+            &#34;content&#34; : {}
+        }
+    }
+}
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="autocomplete">autocomplete</h2>
+<ol>
+<li>下面是一套的教程</li>
+</ol>
+<p><a href="https://blog.mimacom.com/autocomplete-elasticsearch-part1/">Autocomplete with Elasticsearch - Part 1: Prefix Queries</a></p>
+<p>比较基础的 autocompletion</p>
+<p><a href="https://blog.mimacom.com/autocomplete-elasticsearch-part2/">Autocomplete with Elasticsearch - Part 2: Index-Time Search-as-You-Type</a></p>
+<p>Edge NGram Tokenizer</p>
+<blockquote>
+<p>That&rsquo;s why Elasticsearch refers to it as Index-Time Search-as-You-Type method. 是在index time 时候进行的预处理，感觉更像是 term 级别的。</p>
+</blockquote>
+<p><a href="https://blog.mimacom.com/autocomplete-elasticsearch-part3/">Autocomplete with Elasticsearch - Part 3: Completion Suggester</a></p>
+<blockquote>
+<p>这个应该是工业界使用的方式，深入试试，理解操作，感觉是没有什么问题的。</p>
+</blockquote>
+<p><a href="https://blog.mimacom.com/autocomplete-elasticsearch-part4/">Autocompletion for Public Transportation</a></p>
+<p>这个是一个project，看看理解一下就行</p>
+<ol start="2">
+<li><a href="https://gist.github.com/justinvw/5025854">es_simple_autocomplete_example_config</a></li>
+</ol>
+<blockquote>
+<p>基于 n-gram 实现的 autocomplete。这个是code example ，可以好好学习一下，简单的demo （可以尝试）</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># Make sure everything is indexed
+curl -X POST &#34;http://localhost:9200/autocomplete_test/_refresh&#34;
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://medium.com/@taranjeet/elasticsearch-using-completion-suggester-to-build-autocomplete-e9c120cf6d87">Elasticsearch: Using Completion Suggester to build AutoComplete</a></p>
+<blockquote>
+<p>这个是教程方面，没用</p>
+</blockquote>
+<p><a href="https://github.com/dineshsonachalam/Building-a-search-engine-using-Elasticsearch/blob/master/routes/search.py">Building-a-search-engine-using-Elasticsearch</a></p>
+<blockquote>
+<p>这个是建立后端服务器的过程，非常好的参考方案，里面实现了响应 index.html 和 autocomplete 的响应。非常好的资料</p>
+</blockquote>
+<p><a href="https://github.com/dineshsonachalam/Building-a-search-engine-using-Elasticsearch/blob/master/routes/search.py">Building-a-search-engine-using-Elasticsearch</a></p>
+<blockquote>
+<p>这个是建立后端服务器的过程，非常好的参考方案，里面实现了响应 index.html 和 autocomplete 的响应。</p>
+</blockquote>
+<p>对应服务器上的项目： es_search_engine/</p>
+<p><a href="https://medium.com/@mourjo_sen/a-detailed-comparison-between-autocompletion-strategies-in-elasticsearch-66cb9e9c62c4">A detailed comparison between autocompletion strategies in ElasticSearch</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">Approach #1: Prefix Query + Aggregations
+Approach #2: NGram Analyzer + Aggregations
+Approach #3: Completion Suggester
+Approach #4: Separate Index
+</code></pre></td></tr></table>
+</div>
+</div><p>文章总结了四种方式</p>
+<p><a href="https://qbox.io/blog/enriching-your-elasticsearch-autocomplete-with-context-suggesters">Enriching your Elasticsearch Autocomplete with Context Suggesters</a></p>
+<blockquote>
+<p>The major limitation of the basic completion suggester is that it looks for all documents in the index. However, you often want to serve suggestions based on some categories or criteria. For example, you may want to suggest film titles filtered by directors or you want to boost films titles based on their genre.
+这个说明了为什么使用 context suggester 而不是 basic suggester</p>
+</blockquote>
+<blockquote>
+<p>The major limitation of the basic completion suggester is that it looks for all documents in the index. However, you often want to serve suggestions based on some categories or criteria. For example, you may want to suggest film titles filtered by directors or you want to boost films titles based on their genre.
+这个例子确实是没有弄很懂</p>
+</blockquote>
+<blockquote>
+<p>能够run 起来，是非常不错的教程</p>
+</blockquote>
+<p>这个文章的本意是不错的，给定了 context，然后去限定 suggester 的范围。（感觉有点不适用于我们的范围，但是是很好的例子，因为能够run 起来的项目不多了）</p>
+<p>从文章的流程角度说，先是发送一个 suggest 的search 请求；如果行的话，那么再发送一个 真正的 search 请求。</p>
+<h2 id="新的资料">新的资料</h2>
+<p><a href="https://www.jianshu.com/p/7f41c6725706">ElasticSearch7.7 suggesters 教程（最新，详解）</a></p>
+<p>在 suggester 中可以设置 <code>skip_duplicates =True</code> 这样就过滤掉了重复的建议</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">POST news/_doc/7
+{
+  &#34;title&#34;: &#34;鄱阳湖&#34;,
+  &#34;body&#34;: &#34;我家在鄱阳湖&#34;
+}
+
+POST news/_search
+{
+  &#34;suggest&#34;: {
+    &#34;YOUR_SUGGESTION_1&#34;: {
+      &#34;text&#34;: &#34;鄱阳&#34;,
+      &#34;completion&#34;: {
+        &#34;field&#34;: &#34;title.kw&#34;
+      }
+    },
+    &#34;YOUR_SUGGESTION_2&#34;: {
+      &#34;text&#34;: &#34;鄱阳&#34;,
+      &#34;completion&#34;: {
+        &#34;field&#34;: &#34;title.kw&#34;,
+        &#34;skip_duplicates&#34;: true
+      }
+    }
+  }
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>当设置为真时，这个选项会降低搜索速度，因为需要访问更多的建议才能找到顶部N</p>
+</blockquote>
+<p>模糊搜索(Fuzzy queries)</p>
+<blockquote>
+<p>完成建议器也支持模糊查询，这意味着你可以在你的搜索中有一个错误，但仍然可以得到结果</p>
+</blockquote>
+<p>例如下面的两种方式</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">POST news/_search
+{
+  &#34;suggest&#34;: {
+    &#34;YOUR_SUGGESTION&#34;: {
+      &#34;text&#34;: &#34;鄱a&#34;,
+      &#34;completion&#34;: {
+        &#34;field&#34;: &#34;title.kw&#34;,
+        &#34;fuzzy&#34;: {
+          &#34;fuzziness&#34;: 1
+        }
+      }
+    }
+  }
+}
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">POST news/_search
+{
+  &#34;suggest&#34;: {
+    &#34;YOUR_SUGGESTION&#34;: {
+      &#34;text&#34;: &#34;1鄱1&#34;,
+      &#34;completion&#34;: {
+        &#34;field&#34;: &#34;title.kw&#34;,
+        &#34;skip_duplicates&#34;: true,
+        &#34;fuzzy&#34;: {
+          &#34;prefix_length&#34;: 0,
+          &#34;fuzziness&#34;: 2
+        }
+      }
+    }
+  }
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>也是支持正则匹配 （这部分不是需要的，可以不增加相应的功能）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">POST news/_search
+{
+  &#34;suggest&#34;: {
+    &#34;YOUR_SUGGESTION&#34;: {
+      &#34;regex&#34;: &#34;[p|w]y&#34;,
+      &#34;completion&#34;: {
+        &#34;field&#34;: &#34;title.py&#34;
+      }
+    }
+  }
+}
+
+
+POST news/_search
+{
+  &#34;suggest&#34;: {
+    &#34;YOUR_SUGGESTION&#34;: {
+      &#34;regex&#34;: &#34;[p|w]&#34;,
+      &#34;completion&#34;: {
+        &#34;field&#34;: &#34;title.py&#34;
+      }
+    }
+  }
+}
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://github.com/xr2117/ElasticSearch7">ElasticSerach 7 教程</a></p>
+<p>这个是针对 ES7 极好的翻译教程，可以认真学习一下。对于理解原理概念是非常有帮助的，需</p>
+<p>我知道使用什么方式了， 使用关键词（标签和抽取的关键词 作为 suggest 的field，然后全文检索的时候，使用 真正的 全文text）</p>
+<p>分布式方面的东西：</p>
+<p><a href="https://juejin.im/post/5ce140b06fb9a07f0870667d">手把手带你体验ElasticSearch，了解当下最火的分布式搜索引擎。</a></p>
+<p><a href="https://www.cnblogs.com/wangzhuxing/p/9574630.html#_label3">Elasticsearch Suggester API(自动补全）</a></p>
+<h2 id="新调研结果"> 新调研结果</h2>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-pinned-query.html">Pinned Query x-pack</a></p>
+<p>是7.8 版本的新功能，不是免费版。</p>
+<img src="https://d1mphrcpqqemw.cloudfront.net/posts/88/1590722542260.jpg">
+<p><img src="https://d8pqv65crvo6f.cloudfront.net/style/Excellent/coastal/0066-3630affb4dcd9c26e4ea72b3684caf0c.jpg" ></p>
+<h3 id="building-a-search-engine-using-elasticsearchhttpsgithubcomdineshsonachalambuilding-a-search-engine-using-elasticsearch-项目分析"><a href="https://github.com/dineshsonachalam/Building-a-search-engine-using-Elasticsearch">Building-a-search-engine-using-Elasticsearch</a> 项目分析</h3>
+<p>好好分析一下这个项目</p>
+<p>（第一层目录已经完成了）</p>
+<ol>
+<li><a href="https://github.com/dineshsonachalam/Building-a-search-engine-using-Elasticsearch/blob/master/scraper.py">scraper.py</a></li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python">            <span class="n">post_url</span> <span class="o">=</span> <span class="s2">&#34;http://localhost:9200/hacker/tutorials&#34;</span>
+            <span class="n">post_autocomplete_url</span> <span class="o">=</span><span class="s2">&#34;http://localhost:9200/autocomplete/titles&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>总结：</p>
+<ul>
+<li>分成两个数据库（一个用于检索，一个用于autocomplete）</li>
+<li>写个脚本自动可以数据库的 （发送request）</li>
+</ul>
+<ol start="2">
+<li><a href="https://github.com/dineshsonachalam/Building-a-search-engine-using-Elasticsearch/blob/master/create_new_index.py">create_new_index.py </a></li>
+</ol>
+<p>这个是create new index 的python 文件，内容比较简单。</p>
+<ol start="3">
+<li><a href="https://github.com/dineshsonachalam/Building-a-search-engine-using-Elasticsearch/blob/master/app.py">app.py</a></li>
+</ol>
+<p>修改代码后需要手动启动服务器，如果设置 debug=True 表示开启debug 模式，那么可以自动加载。</p>
+<p>如果想要外网访问：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">app.run(host=&#39;0.0.0.0&#39;, port=80)
+</code></pre></td></tr></table>
+</div>
+</div><p>（如果是阿里云，那么注意设置安全组）</p>
+<p>默认是 <code>127.0.0.1</code> 着这样的话只能是在本机进行访问。</p>
+<p>（第二层目录）</p>
+<p><a href="https://github.com/dineshsonachalam/Building-a-search-engine-using-Elasticsearch/blob/master/routes/search.py">routes search.py</a></p>
+<ol>
+<li>关于blueprint 的学习</li>
+</ol>
+<p>blueprint最主要的是解决路由的问题 (<a href="https://juejin.im/post/5b193b205188257d831e33b0">flask学习笔记之blueprint</a>)， 以下的一个demo。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># 1. 创建 blueprint</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Blueprint</span>
+ 
+<span class="n">admin_bp</span> <span class="o">=</span> <span class="n">Blueprint</span><span class="p">(</span><span class="s1">&#39;admin&#39;</span><span class="p">,</span> <span class="vm">__name__</span><span class="p">)</span>
+ 
+<span class="nd">@admin_bp.route</span><span class="p">(</span><span class="s1">&#39;/index&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s1">&#39;&lt;h1&gt;Hello, this is admin blueprint&lt;/h1&gt;&#39;</span>
+
+<span class="c1"># 2. 注册blueprint</span>
+
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span>
+<span class="kn">from</span> <span class="nn">admin.admin_module</span> <span class="kn">import</span> <span class="n">admin_bp</span>
+ 
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">register_blueprint</span><span class="p">(</span><span class="n">admin_bp</span><span class="p">,</span> <span class="n">url_prefix</span><span class="o">=</span><span class="s1">&#39;/admin&#39;</span><span class="p">)</span>
+ 
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># 3. 之后就可以访问  http://localhost:5000/admin/index </span>
+</code></pre></td></tr></table>
+</div>
+</div><p>所谓的路由 就是一个个访问的路径。</p>
+<p>如果没有使用 blueprint，那么一般是这样进行访问</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">from flask import Flask
+
+app = Flask(__name__)
+
+@app.route(&#39;/&#39;)
+def hello_world():
+    return &#39;Hello World!&#39;
+
+if __name__ == &#39;__main__&#39;:
+    app.run()
+</code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>Flask 中的模板 render_template</li>
+</ol>
+<img src="https://i.loli.net/2020/07/28/pLGPjFXHMx2JuqR.png" height="80%" width="80%">
+如果是非常简单的 html 函数，可以简单一写。 但如果是很复杂html，那么就无法使用这样的方式。
+<p>所以引入了 <code>render_temple</code> 模板进行处理。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">flask</span> <span class="nn">importrender_template</span>
+<span class="kn">from</span> <span class="nn">app</span> <span class="nn">importapp</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+<span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/index&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;nickname&#39;</span><span class="p">:</span> <span class="s1">&#39;Miguel&#39;</span><span class="p">}</span> <span class="c1"># fake user</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s2">&#34;index.html&#34;</span><span class="p">,</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Home&#39;</span><span class="p">,</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">user</span><span class="p">)</span>     <span class="c1">#这里模块里的第一个user指的是html里面的变量user，而第二个user指的是函数index里面的变量user</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>render_template的功能是对先引入index.html，同时根据后面传入的参数，对html进行修改渲染。Flask 为你配置 Jinja2 模板引擎。使用 render_template() 方法可以渲染模板，只需提供模板名称和需要作为参数传递给模板的变量就可简单执行。</p>
+<p>其实不推荐使用 Flask 模板，更加推荐的是前后端分离。尽量不要使用 <code>render_template</code> 这种模式。</p>
+<p>最简单的demo</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+   <span class="k">return</span> <span class="s1">&#39;&lt;html&gt;&lt;body&gt;&lt;h1&gt;&#39;</span><span class="n">Hello</span> <span class="n">World</span><span class="s1">&#39;&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&#39;</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+   <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>search 中的字段直接设置多个字段，这样文字就不用整合到一起了？ （设置多个fields）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python">            <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&#34;query&#34;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&#34;query_string&#34;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&#34;analyze_wildcard&#34;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                        <span class="s2">&#34;query&#34;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">search_term</span><span class="p">),</span>
+                        <span class="s2">&#34;fields&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;topic&#34;</span><span class="p">,</span> <span class="s2">&#34;title&#34;</span><span class="p">,</span> <span class="s2">&#34;url&#34;</span><span class="p">,</span> <span class="s2">&#34;labels&#34;</span><span class="p">]</span>
+                    <span class="p">}</span>
+                <span class="p">},</span>
+                <span class="s2">&#34;size&#34;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+                <span class="s2">&#34;sort&#34;</span><span class="p">:</span> <span class="p">[</span>
+
+                <span class="p">]</span>
+            <span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>从这里发现的 autocomplete 和search是两个不同的数据库。（这样便于好更新，不同的log）</p>
+<p>问题：当输入的时候自动返回了一些信息，发送了 request 去请求 autocomplete吗？</p>
+<blockquote>
+<p>这个是去问前端的交互就ok了。</p>
+</blockquote>
+<h3 id="uwsgi-nginx-flask-dockerhttpsgithubcomtiangolouwsgi-nginx-flask-docker"><a href="https://github.com/tiangolo/uwsgi-nginx-flask-docker">uwsgi-nginx-flask-docker</a></h3>
+<blockquote>
+<p>这个项目包含的内容是贼全，如果全部都能看完，那么python 就很厉害了</p>
+</blockquote>
+<ol>
+<li>选择框架的问题</li>
+</ol>
+<blockquote>
+<p>If you are starting a new project, you might benefit from a newer and faster framework based on ASGI instead of WSGI (Flask and Django are WSGI-based).
+You could use an ASGI framework like:
+FastAPI (which is based on Starlette) with this Docker image: <a href="https://github.com/tiangolo/uvicorn-gunicorn-fastapi-docker">tiangolo/uvicorn-gunicorn-fastapi</a>.
+如果是刚开始一个新的项目建议使用基于 ASCI 的框架（自动支持异步）</p>
+</blockquote>
+<p>可以考虑这个框架 <a href="https://github.com/tiangolo/fastapi">fastapi</a></p>
+<blockquote>
+<p>About FastAPI framework, high performance, easy to learn, fast to code, ready for production</p>
+</blockquote>
+<h2 id="es中的-aggregations">ES中的 aggregations</h2>
+<p>实战中使用的query 命令</p>
+<p>以下命令是得到某个类别中所有的子类</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">{</span>
+    <span class="s2">&#34;size&#34;</span>: 0,
+    <span class="s2">&#34;aggs&#34;</span>:<span class="o">{</span>
+        <span class="s2">&#34;flight_dest&#34;</span>:<span class="o">{</span>
+            <span class="s2">&#34;terms&#34;</span>:<span class="o">{</span>
+                <span class="s2">&#34;field&#34;</span>:<span class="s2">&#34;room_type&#34;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>以下命令是使用多字段进行匹配，但是我绝得应该在bool 中 <code>room_type</code> 字段使用 must 去match，在其他的使用 should 去match，这样能保证出来的结果一定是特定的room type。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">{</span>
+    <span class="s2">&#34;query&#34;</span>:<span class="o">{</span>
+        <span class="s2">&#34;bool&#34;</span>:<span class="o">{</span>
+            <span class="s2">&#34;should&#34;</span>:<span class="o">[</span>
+                <span class="o">{</span>
+                    <span class="s2">&#34;match&#34;</span>:<span class="o">{</span>
+                        <span class="s2">&#34;room_type&#34;</span>:<span class="s2">&#34;dining_room&#34;</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>,
+                <span class="o">{</span>
+                    <span class="s2">&#34;match&#34;</span>:<span class="o">{</span>
+                        <span class="s2">&#34;search_field&#34;</span>:red
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">]</span>
+        <span class="o">}</span>
+    <span class="o">}</span>,
+    <span class="s2">&#34;sort&#34;</span>:<span class="o">[</span>
+        <span class="o">{</span>
+            <span class="s2">&#34;_score&#34;</span>:<span class="s2">&#34;desc&#34;</span>
+        <span class="o">}</span>,
+        <span class="o">{</span>
+            <span class="s2">&#34;_id&#34;</span>:<span class="s2">&#34;desc&#34;</span>
+        <span class="o">}</span>
+    <span class="o">]</span>,
+    <span class="s2">&#34;size&#34;</span>:1000,
+    <span class="s2">&#34;_source&#34;</span>:<span class="o">[</span>
+        <span class="s2">&#34;img_url&#34;</span>,
+        <span class="s2">&#34;img_id&#34;</span>,
+        <span class="s2">&#34;search_field&#34;</span>,
+        <span class="s2">&#34;quality&#34;</span>,
+        <span class="s2">&#34;room_type&#34;</span>,
+        <span class="s2">&#34;style&#34;</span>,
+        <span class="s2">&#34;key_feature&#34;</span>,
+        <span class="s2">&#34;material&#34;</span>
+    <span class="o">]</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>我觉得使用以下的写法会效果更好。 将用户显性点击的room type 作为must，然后关键词匹配的结果作为 should 之类的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">GET bookdb_index/book/_search
+<span class="o">{</span>
+  <span class="s2">&#34;query&#34;</span>: <span class="o">{</span>
+    <span class="s2">&#34;bool&#34;</span>: <span class="o">{</span>
+      <span class="s2">&#34;must&#34;</span>: <span class="o">[</span>
+        <span class="o">{</span>
+          <span class="s2">&#34;bool&#34;</span>: <span class="o">{</span>
+            <span class="s2">&#34;should&#34;</span>: <span class="o">[</span>
+              <span class="o">{</span><span class="s2">&#34;match&#34;</span>: <span class="o">{</span><span class="s2">&#34;title&#34;</span>: <span class="s2">&#34;Elasticsearch&#34;</span><span class="o">}}</span>,
+              <span class="o">{</span><span class="s2">&#34;match&#34;</span>: <span class="o">{</span><span class="s2">&#34;title&#34;</span>: <span class="s2">&#34;Solr&#34;</span><span class="o">}}</span>
+            <span class="o">]</span>
+          <span class="o">}</span>
+        <span class="o">}</span>,
+        <span class="o">{</span>
+          <span class="s2">&#34;match&#34;</span>: <span class="o">{</span><span class="s2">&#34;authors&#34;</span>: <span class="s2">&#34;clinton gormely&#34;</span><span class="o">}</span>
+        <span class="o">}</span>
+      <span class="o">]</span>,
+      <span class="s2">&#34;must_not&#34;</span>: <span class="o">[</span>
+        <span class="o">{</span>
+          <span class="s2">&#34;match&#34;</span>: <span class="o">{</span><span class="s2">&#34;authors&#34;</span>: <span class="s2">&#34;radu gheorge&#34;</span><span class="o">}</span>
+        <span class="o">}</span>
+      <span class="o">]</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>关于bool查询中的should， 有两种情况：</p>
+<ul>
+<li>当should的同级存在must的时候，should中的条件可以满足也可以不满足，满足的越多得分越高</li>
+<li>当没有must的时候，默认should中的条件至少要满足一个</li>
+</ul>
+<p>基于7.2 版本</p>
+<ol>
+<li>overview</li>
+</ol>
+<p>使用Elasticsearch的过程中，除了全文检索，或多或少会做统计操作，而做统计操作势必会使用Elasticsearch聚合操作。</p>
+<p>搜索引擎的搜索部分侧重于过滤和搜索，而聚合侧重于数据统计和分析。</p>
+<p>ES中的聚合被分为两大类：Metric度量和bucket桶, metric很像SQL中的avg、max、min等方法，而bucket就有点类似group by了。</p>
+<p><a href="https://www.javazhiyin.com/28085.html">干货 | 通透理解Elasticsearch聚合</a></p>
+<blockquote>
+<p>这个里面有code，可以按照code 去一步步理解这个过程。</p>
+</blockquote>
+<ol start="2">
+<li>实际场景</li>
+</ol>
+<p>基于某特定分类的聚合统计结果。
+<img src="https://i.loli.net/2020/08/05/UxOitJFKZwLSbCl.png" height="40%" width="40%"></p>
+<p>基于月份的聚合统计结果。</p>
+<img src="https://i.loli.net/2020/08/05/mHdUbsk8nqa13BI.png" height ="60%" width ="60%">
+<ol start="3">
+<li>分类</li>
+</ol>
+<p>Metric聚合</p>
+<p>基于一组文档进行聚合。所有的文档在一个检索集合里，文档被分成逻辑的分组。类比Mysql中的： MIN(), MAX(), STDDEV(), SUM() 操作。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"> 1        单值Metric
+ 2                |
+ 3               v
+ 4SELECT AVG(price) FROM products
+ 5
+ 6
+ 7         多值Metric
+ 8          |          |
+ 9          v          v
+10SELECT MIN(price), MAX(price) FROM products
+11Metric聚合的DSL类比实现：
+12{
+13    &#34;aggs&#34;:{
+14        &#34;avg_price&#34;:{
+15            &#34;avg&#34;:{
+16                &#34;field&#34;:&#34;price&#34;
+17            }
+18        }
+19    }
+20}
+</code></pre></td></tr></table>
+</div>
+</div><p>Metric聚合操作对比:</p>
+<img src="https://ftp.bmp.ovh/imgs/2020/08/10be92a597a91ca1.png" width="80%" height="80%">
+<p>其中，Top hits子聚合用于返回分组中Top X匹配结果集，且支持通过source过滤选定字段值。</p>
+<p>Bucketing聚合</p>
+<p>基于检索构成了逻辑文档组，满足特定规则的文档放置到一个桶里，每一个桶关联一个key。类比Mysql中的group by操作，Mysql使用举例：</p>
+<p>（这种其实就是我想要的，组合查询，满足多个条件的查询）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">1           基于size 分桶 ...、
+2SELECT size COUNT(*) FROM products GROUP BY size 
+3
+4+----------------------+
+5| size     |  COUNT(*) |
+6+----------------------+ 
+7| S        |   123     | &lt;--- set of rows with size = S
+8| M        |   456     |
+9| ...      |  ...      |
+</code></pre></td></tr></table>
+</div>
+</div><p>相应使用DSL 类比实现</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"> 1{
+ 2  &#34;query&#34;: {
+ 3    &#34;match&#34;: {
+ 4      &#34;title&#34;: &#34;Beach&#34;
+ 5    }
+ 6  },
+ 7  &#34;aggs&#34;: {
+ 8    &#34;by_size&#34;: {
+ 9      &#34;terms&#34;: {
+10        &#34;field&#34;: &#34;size&#34;
+11      }
+12    },
+13    &#34;by_material&#34;: {
+14      &#34;terms&#34;: {
+15        &#34;field&#34;: &#34;material&#34;
+16      }
+17    }
+18  }
+19}
+</code></pre></td></tr></table>
+</div>
+</div><img src="https://ftp.bmp.ovh/imgs/2020/08/9cf015553cf52452.png" height="60%" width="60%">
+<p>（注意可以多了解一下 terms 这种aggregation）</p>
+<p>Pipeline聚合</p>
+<p>对聚合的结果而不是原始数据集进行操作。 想象一下，你有一个日间交易的网上商店，想要了解所有产品的按照库存日期分组的平均价格。</p>
+<p>在SQL中你可以写：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT in_stock_since, AVG(price) FROM products GROUP BY in_stock_since。
+</code></pre></td></tr></table>
+</div>
+</div><p>aggs 语法格式</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">&#34;aggs”: {
+    “name_of_aggregation”: {
+      “type_of_aggregation”: {
+        “field”: “document_field_name”
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>下面是比较好的总结。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">aggs—This keyword shows that you are using an aggregation.
+
+name_of_aggregation—This is the name of aggregation which the user defines.
+
+type_of_aggregation—This is the type of aggregation being used.
+
+field—This is the field keyword.
+
+document_field_name—This is the column name of the document being targeted.
+</code></pre></td></tr></table>
+</div>
+</div><p>terms聚合，是按照某个字段中的值来分类。但是terms聚合有以下的问题：</p>
+<blockquote>
+<p>我们想要获取name字段中出现频率最高的前5个。此时，客户端向ES发送聚合请求，主节点接收到请求后，会向每个独立的分片发送该请求。分片独立的计算自己分片上的前5个name，然后返回。当所有的分片结果都返回后，在主节点进行结果的合并，再求出频率最高的前5个，返回给客户端。这样就会造成一定的误差，比如最后返回的前5个中，有一个叫A的，有50个文档；B有49。 但是由于每个分片独立的保存信息，信息的分布也是不确定的。 有可能第一个分片中B的信息有2个，但是没有排到前5，所以没有在最后合并的结果中出现。 这就导致B的总数少计算了2，本来可能排到第一位，却排到了A的后面。</p>
+</blockquote>
+<p>使用以下的方式改善上面的问题</p>
+<p>为了改善上面的问题，就可以使用size和shard_size参数。</p>
+<ul>
+<li>size参数规定了最后返回的term个数(默认是10个)</li>
+<li>shard_size参数规定了每个分片上返回的个数</li>
+<li>如果shard_size小于size，那么分片也会按照size指定的个数计算</li>
+</ul>
+<p>通过这两个参数，如果我们想要返回前5个，size=5;shard_size可以设置大于5，这样每个分片返回的词条信息就会增多，相应的误差几率也会减小。
+（当每个分片返回的数量相对多一点的时候，最后得到的信息更好）</p>
+<h2 id="新的调研">新的调研</h2>
+<p>ES主要的应用场景，一个是作为应用的前端检索缓存，提高海量数据的检索效率和做一些聚合检索，先从ES检索，然后再从后端存储检索。第二个是日志和监控，以ES为中心，Elastic公司发展起一个生态圈，之前叫ELK，也就是Elasticsearch、Logstash和Kibana，后来加入Beats，名字改成了Elastic Stack。以Kibana为入口，发展到上层的各种分析和可视化应用，包括热门的机器学习。</p>
+<p>先理解ES的一些基本概念，可以和关系数据库做一个类比：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">index：类似关系数据库的表，但是index不需要预先定义schema。
+document：类似关系数据库的记录，json格式。
+mapping：也就是类似关系数据的schema了，可以显式定义，也可以添加document时ES自动识别创建。可以指定mapping为严格模式，这样添加数据库就必须严格符合mapping中定义的字段。
+type：从7.0开始删除了，其实就是mapping的名字，一个index下只有一个type，有点鸡肋。虽然删除了，但是其实内部默认还是有一个type，名字固定是_doc。
+index template：创建index时自动对index做一些设置，例如index的主分片个数，复制分片个数，mapping字段的类型等等。
+ilm：也就是index lifecycle management，可以对数据分为Hot，Warm，Cold，Delete四个阶段，可以相应的定义不同的策略。
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-01-07
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/elastic-search/">elastic search</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/nginx/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">nginx 学习记录</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/gnn/">
+            <span class="next-text nav-default">Gnn</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

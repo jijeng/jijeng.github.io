@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>xgboost on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/xgboost/</link>
+    <description>Recent content in xgboost on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 28 Jul 2019 14:42:57 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/xgboost/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Lightgbm &amp; Xgboost</title>
+      <link>http://jijeng.github.io/post/lightgbm_xgboost/</link>
+      <pubDate>Sun, 28 Jul 2019 14:42:57 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/lightgbm_xgboost/</guid>
+      <description>&lt;p&gt;先主要介绍树的基本知识，然后介绍LightGBM和XGBoost及其调参.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

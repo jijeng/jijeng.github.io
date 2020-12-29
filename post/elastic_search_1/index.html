@@ -1,0 +1,1906 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Elastic Search 学习笔记(一) - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="介绍使用 elastic search
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/elastic_search_1/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Elastic Search 学习笔记(一)" />
+<meta property="og:description" content="介绍使用 elastic search" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/elastic_search_1/" />
+<meta property="article:published_time" content="2020-06-29T11:22:11+08:00" />
+<meta property="article:modified_time" content="2020-06-29T11:22:11+08:00" />
+<meta itemprop="name" content="Elastic Search 学习笔记(一)">
+<meta itemprop="description" content="介绍使用 elastic search">
+<meta itemprop="datePublished" content="2020-06-29T11:22:11+08:00" />
+<meta itemprop="dateModified" content="2020-06-29T11:22:11+08:00" />
+<meta itemprop="wordCount" content="9102">
+
+
+
+<meta itemprop="keywords" content="elastic search," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Elastic Search 学习笔记(一)"/>
+<meta name="twitter:description" content="介绍使用 elastic search"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Elastic Search 学习笔记(一)</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-06-29 </span>
+        
+          <span class="more-meta"> 约 9102 字 </span>
+          <span class="more-meta"> 预计阅读 19 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#定义和特点">定义和特点</a>
+          <ul>
+            <li><a href="#概念和原理">概念和原理</a></li>
+            <li><a href="#elastic-search-特点">elastic search 特点</a></li>
+            <li><a href="#elasticsearch-的不足">elasticsearch 的不足</a></li>
+          </ul>
+        </li>
+        <li><a href="#学习笔记">学习笔记</a></li>
+      </ul>
+    </li>
+    <li><a href="#升序排序">升序排序</a></li>
+    <li><a href="#搜索条件放在结构体中">搜索条件放在结构体中</a></li>
+    <li><a href="#先升序-然后再降序">先升序 然后再降序</a></li>
+    <li><a href="#match_all-查询所有">match_all 查询所有</a></li>
+    <li><a href="#_source-返回部分字段">_source 返回部分字段</a></li>
+    <li><a href="#match-匹配非字符串那么就是精确查询">match 匹配非字符串，那么就是精确查询。</a></li>
+    <li><a href="#字符串的全文检索-只要包含这个信息的">字符串的全文检索 （只要包含这个信息的）</a></li>
+    <li><a href="#倒排索引">倒排索引</a></li>
+    <li><a href="#其中有-_score-关键字表示匹配的程度按照_score-进行">其中有 _score 关键字，表示匹配的程度，按照_score 进行</a></li>
+    <li><a href="#对于-query-进行分词匹配">对于 query 进行分词匹配</a></li>
+    <li><a href="#match_phase-短词分词不进行分词当做完整的短语">match_phase 短词分词（不进行分词，当做完整的短语）</a></li>
+    <li><a href="#多字段匹配多个字段只要有一个能匹配上-query-就行-对query-进行分词的">多字段匹配，多个字段只要有一个能匹配上 query 就行， 对query 进行分词的</a></li>
+    <li><a href="#bool-查询复合查询">bool 查询（复合查询）</a></li>
+    <li><a href="#三个关键字-must-must_not-should-可选的满足了-_score-会更高结果比较排前">三个关键字 must， must_not, should 可选的；满足了 _score 会更高，结果比较排前</a></li>
+    <li><a href="#must-should-can-contribute-to-how-documents-are-scored">must, should can contribute to how documents are scored.</a></li>
+    <li><a href="#must_not-is-treated-as-a-filter-but-does-not-contribute-to-how-documents-are-scored">must_not is treated as a filter, but does not contribute to how documents are scored</a></li>
+    <li><a href="#term">term</a></li>
+    <li><a href="#使用条件-avoid-using-the-term-query-for-text-fields-to-search-text-field-values-use-the-match-query-instead">使用条件, avoid using the term query for text fields. To search text field values, use the match query instead.</a></li>
+    <li><a href="#当检索非字符串-使用term-关键词-当检索字符串时候使用-match-关键字">当检索非字符串 使用term 关键词； 当检索字符串时候，使用 match 关键字</a></li>
+    <li><a href="#当-es-在存储-text-字段的时候-存在-analysis-分词的问题那么这个时候使用-term-进行-exact-match-那么就是非常困难的">当 ES 在存储 text 字段的时候， 存在 analysis 分词的问题，那么这个时候使用 term 进行 exact match 那么就是非常困难的。</a></li>
+    <li><a href="#keyword-和-match_phrase-的区别-前者是-特别exact后者是整体包含就ok">keyword 和 match_phrase 的区别： 前者是 特别exact，后者是整体包含就ok</a></li>
+    <li><a href="#基于上一步进行聚合">基于上一步进行聚合</a></li>
+    <li><a href="#这个是在上一步的基础上进行聚合">这个是在上一步的基础上进行聚合</a></li>
+    <li><a href="#这样就得到了字典映射类型">这样就得到了字典映射类型</a></li>
+    <li><a href="#添加一个新的字段映射">添加一个新的字段映射</a></li>
+    <li><a href="#修改一个新的字段映射-这样是不成立">修改一个新的字段映射 （这样是不成立）</a></li>
+    <li><a href="#更新index-的操作先创建出-新的-正确的映射然后使用如下的方式进行数据迁移">更新index 的操作：先创建出 新的 正确的映射，然后使用如下的方式进行数据迁移</a></li>
+    <li><a href="#总结-不用type如果需要新的字段映射那么首先先创建新的正确映射然后再进行数据迁移">总结， 不用type，如果需要新的字段映射，那么首先先创建新的正确映射，然后再进行数据迁移</a></li>
+    <li><a href="#全文检索-elastic-search-分词">全文检索 elastic search 分词</a></li>
+    <li><a href="#标准的分词--es-都是针对英文的分词如果是中文-那么需要找到对应的-ik-分词器">标准的分词,  ES 都是针对英文的分词，如果是中文 （那么需要找到对应的 ik 分词器）</a></li>
+    <li><a href="#自定义扩展词库">自定义扩展词库</a></li>
+    <li><a href="#把自定义的词库放到-nginx-服务器上然后访问服务器就可以下载到本地这样是可以随时更新词库的">把自定义的词库放到 nginx 服务器上，然后访问服务器就可以下载到本地，这样是可以随时更新词库的</a></li>
+    <li><a href="#在docker-中使用nginx">在docker 中使用nginx</a></li>
+    <li><a href="#这个是端口映射外部的80-端口映射到nginx-的80-端口">这个是端口映射，外部的80 端口映射到nginx 的80 端口</a></li>
+    <li><a href="#这个是重启命令">这个是重启命令</a></li>
+    <li><a href="#这个命令是-restart-kibana720--和--elasticsearch720">这个命令是 restart kibana:7.2.0  和  elasticsearch:7.2.0</a></li>
+    <li><a href="#然后-restart-之前的镜像">然后 restart 之前的镜像</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>介绍使用 elastic search</p>
+<h2 id="定义和特点">定义和特点</h2>
+<p>现代应用中全文本检索是高请求负载的应用。搜索功能也是比较困难完成的功能（许多大众网站都有subpar功能，但不是返回很慢就是返回结果不准确），大部分原因是因为底层数据库：许多标准关系型数据库只能提供基本字符串匹配功能，而对CONTAINS或者LIKE SQL查询只能提供有限支持。</p>
+<p>一个为全文本检索优化的数据库，这也是本文采用Elasticsearch的原因。Elasticsearch是一个用Java开发的，开源的内存数据库，最开始是包含在Apache Lucene库中。</p>
+<h3 id="概念和原理">概念和原理</h3>
+<p><a href="https://juejin.im/post/5d351143f265da1bd04f1e19#heading-12">全文搜索引擎Elasticsearch，这篇文章给讲透了！</a></p>
+<blockquote>
+<p>主要是上述博客的学习笔记</p>
+</blockquote>
+<ol>
+<li>数据</li>
+</ol>
+<p>数据分为结构化数据和非结构化数据。结构化数据主要通过关系数据库存储管理，所以通过关系数据库进行检索。非结构化数据不定长，无固定的格式。一般有两种方式进行检索： 顺序扫描法和全文检索。</p>
+<p>全文检索是通过从非结构化数据中提取出结构信息然后再进行搜索，这种结构化信息称之为索引。工作量在于前期索引的创建，后期的搜索是快速高效的。</p>
+<ol start="2">
+<li>
+<p>倒排索引：我们通过分词器将每个文档的内容域拆分成单独的词（我们称它为词条或 Term），创建一个包含所有不重复词条的排序列表，然后列出每个词条出现在哪个文档。</p>
+</li>
+<li>
+<p>其中还需要有几个核心的术语需要理解：</p>
+</li>
+</ol>
+<ul>
+<li>词条(Term)：索引里面最小的存储和查询单元，对于英文来说是一个单词，对于中文来说一般指分词后的一个词</li>
+<li>词典(Term Dictionary)：或字典，是词条Term的集合。搜索引擎的通常索引单位是单词，单词词典是由文档集合中出现过的所有单词构成的字符串集合，单词词典内每条索引项记载单词本身的一些信息以及指向“倒排列表”的指针。</li>
+<li>倒排表(Post list)：一个文档通常由多个词组成，倒排表记录的是某个词在哪些文档里出现过以及出现的位置。</li>
+<li>倒排文件(Inverted File)：所有单词的倒排列表往往顺序地存储在磁盘的某个文件里，这个文件被称之为倒排文件，倒排文件是存储倒排索引的物理文件。</li>
+</ul>
+<ol start="4">
+<li>
+<p>集群（Cluster），分片（Shards）和副本（Replicas） 等方面的内容 可以等到真正上线之后再去考虑，先考虑其他功能方面的东西</p>
+</li>
+<li>
+<p>映射（Mapping）</p>
+</li>
+</ol>
+<p>映射是用于定义ES 对索引中字段的存储类型，分词方式和是否存储等信息，就像数据库中的 schema，描述了文档可能具有的字段或属性，每个字段的数据类型。ES 对于字段类型可以不指定然后动态对字段类型猜测，称为动态映射（dynamic mapping）。传统数据库管理中，创建索引时候定义字段类型的映射称为静态映射或者显性映射（Explicit mapping）。当然 ES 也是支持使用静态映射的.</p>
+<p>主要介绍两种数据类型: text 和keyword</p>
+<p>text 用于索引全文值的字段，例如电子邮件正文或产品说明。这些字段是被分词的，它们通过分词器传递 ，以在被索引之前将字符串转换为单个术语的列表。</p>
+<p>keyword 用于索引结构化内容的字段，例如电子邮件地址，主机名，状态代码，邮政编码或标签。</p>
+<ol start="6">
+<li>版本问题</li>
+</ol>
+<blockquote>
+<p>在决定使用 Elasticsearch 的时候首先要考虑的是版本问题，Elasticsearch （排除 0.x 和 1.x）目前有如下常用的稳定的主版本：2.x，5.x，6.x，7.x（current）。你可能会发现没有 3.x 和 4.x，ES 从 2.4.6 直接跳到了 5.0.0。其实是为了ELK（ElasticSearch, logstash, kibana）技术栈的版本统一，免的给用户带来混乱。在 Elasticsearch 是 2.x （2.x 的最后一版 2.4.6 的发布时间是 July 25, 2017） 的情况下，kibana 已经是 4.x（Kibana 4.6.5 的发布时间是 July 25, 2017），那么在 kibana 的下一主版本肯定是 5.x 了，所以 Elasticsearch 直接将自己的主版本发布为 5.0.0 了。统一之后，我们选版本就不会犹豫困惑了，我们选定 elasticsearch 的版本后再选择相同版本的 kibana 就行了，不用担忧版本不兼容的问题。</p>
+</blockquote>
+<ol start="7">
+<li>检查集群状态</li>
+</ol>
+<p>在 kibana 中使用以下命令</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">GET _cluster/health
+</code></pre></td></tr></table>
+</div>
+</div><p>集群状态通过 绿，黄，红 来标识</p>
+<ul>
+<li>绿色：集群健康完好，一切功能齐全正常，所有分片和副本都可以正常工作。</li>
+<li>黄色：预警状态，所有主分片功能正常，但至少有一个副本是不能正常工作的。此时集群是可以正常工作的，但是高可用性在某种程度上会受影响。</li>
+<li>红色：集群不可正常使用。某个或某些分片及其副本异常不可用，这时集群的查询操作还能执行，但是返回的结果会不准确。对于分配到这个分片的写入请求将会报错，最终会导致数据的丢失。</li>
+</ul>
+<p>8.机制原理</p>
+<p>写索引这部分暂时没有看 （这部分很重要）</p>
+<p>存储原理</p>
+<blockquote>
+<p>索引文档以段的形式存储在磁盘上，何为段？索引文件被拆分为多个子文件，则每个子文件叫作段， 每一个段本身都是一个倒排索引，并且段具有不变性，一旦索引的数据被写入硬盘，就不可再修改。在底层采用了分段的存储模式，使它在读写时几乎完全避免了锁的出现，大大提升了读写性能。
+段被写入到磁盘后会生成一个提交点，提交点是一个用来记录所有提交后段信息的文件。一个段一旦拥有了提交点，就说明这个段只有读的权限，失去了写的权限。相反，当段在内存中时，就只有写的权限，而不具备读数据的权限，意味着不能被检索。</p>
+</blockquote>
+<p>索引文件分段存储并且不可修改，那么新增、更新和删除如何处理呢？</p>
+<ul>
+<li>新增，新增很好处理，由于数据是新的，所以只需要对当前文档新增一个段就可以了。</li>
+<li>删除，由于不可修改，所以对于删除操作，不会把文档从旧的段中移除而是通过新增一个.del文件，文件中会列出这些被删除文档的段信息。这个被标记删除的文档仍然可以被查询匹配到， 但它会在最终结果被返回前从结果集中移除。</li>
+<li>更新，不能修改旧的段来进行反映文档的更新，其实更新相当于是删除和新增这两个动作组成。会将旧的文档在.del文件中标记删除，然后文档的新版本被索引到一个新的段中。可能两个版本的文档都会被一个查询匹配到，但被删除的那个旧版本文档在结果集返回前就会被移除。</li>
+</ul>
+<p>延迟写策略</p>
+<p>为了提升写的性能，ES并没有每新增一条数据就增加一个段到磁盘上，而是采用延迟写的策略。
+每当有新增的数据时，就将其先写入到内存中，在内存和磁盘之间是文件系统缓存，当达到默认的时间（1秒钟）或者内存的数据达到一定量时，会触发一次刷新（Refresh），将内存中的数据生成到一个新的段上并缓存到文件缓存系统 上，稍后再被刷新到磁盘中并生成提交点。</p>
+<blockquote>
+<p>当post 数据的时候，可以手动触发 refresh，这样相当于将内存中的数据存放到了磁盘中</p>
+</blockquote>
+<p>在 Elasticsearch 中，写入和打开一个新段的轻量的过程叫做 refresh （即内存刷新到文件缓存系统）。 默认情况下每个分片会每秒自动刷新一次。这就是为什么我们说 Elasticsearch 是近实时搜索，因为文档的变化并不是立即对搜索可见，但会在一秒之内变为可见。我们也可以手动触发 refresh，<code>POST /_refresh</code> 刷新所有索引，<code>POST /nba/_refresh</code> 刷新指定的索引。</p>
+<p>段合并</p>
+<p>Elasticsearch通过在后台定期进行段合并来解决这个问题。小的段被合并到大的段，然后这些大的段再被合并到更大的段。段合并的时候会将那些旧的已删除文档从文件系统中清除。被删除的文档不会被拷贝到新的大段中。合并的过程中不会中断索引和搜索。</p>
+<h3 id="elastic-search-特点">elastic search 特点</h3>
+<p>分布式文件存储， 实时分析；实现搜索引擎的功能。</p>
+<p>elastic search 中的名词 和 mysql 中的关系</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">索引 - &gt; 数据库
+
+类型 -&gt; 数据表
+
+文档 -&gt; 一条条数据
+
+elasticSearch 概念-倒排索引
+</code></pre></td></tr></table>
+</div>
+</div><p>inverted index (倒排索引)</p>
+<p>“索引” 是数据库中的一种数据结构，它能够以超快的速度进行数据查询和检索操作。数据库通过存储与表中行相关联的字段来生成索引。在一种可搜索的数据结构（一般是 B 树）中排序索引，在优化过的查询中，数据库能够达到接近线性的时间（比如，“使用 ID=5 查找行”）。</p>
+<h3 id="elasticsearch-的不足">elasticsearch 的不足</h3>
+<ol>
+<li>资源消耗</li>
+</ol>
+<p>Elasticsearch是计算资源消耗的应用。官方建议至少运行在64G以上内存的设备上，不建议少于8GB内存。Elasticsearch是一个内存数据库，因此查询速度会很快，但是也会消耗大量内存。生产中，强烈推荐运行Elasticsearch集群提供高可用性、自动分片和数据冗余功能。</p>
+<p>（服务器机器上的内存： 125G）</p>
+<ol start="2">
+<li>数据库之间的同步</li>
+</ol>
+<p>对许多应用，将数据存放在Elasticsearch中并不是理想的选择。</p>
+<h2 id="学习笔记">学习笔记</h2>
+<ol>
+<li>安装docker</li>
+</ol>
+<p>单节点模式discovery.type=single-node</p>
+<p>跨域配置，这样外部请求才能服务ES</p>
+<p>在elasticsearch.yml中添加：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">http.cors.enabled: true
+http.cors.allow-origin: “*”
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>9200端口：ES节点和外部通讯使用</li>
+<li>9300端口：ES集群内，节点之间通讯使用</li>
+</ul>
+<p>1.1 安装docker-compose</p>
+<p>（这个在这个步骤是可选的，因为没有涉及到许多镜像文件）</p>
+<blockquote>
+<p>docker-compose是编排容器的。例如，你有一个php镜像，一个mysql镜像，一个nginx镜像。如果没有docker-compose，那么每次启动的时候，你需要敲各个容器的启动参数，环境变量，容器命名，指定不同容器的链接参数等等一系列的操作，相当繁琐。而用了docker-composer之后，你就可以把这些命令一次性写在docker-composer.yml文件中，以后每次启动这一整个环境（含3个容器）的时候，你只要敲一个docker-composer up命令就ok了。</p>
+</blockquote>
+<ol start="2">
+<li>docker 安装 elastic search</li>
+</ol>
+<p>2.1 docker 安装 ElasticSearch-head，这个是安装 es 的管理工具</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">Docker安装ElasticSearch-head
+安装：docker pull mobz/elasticsearch-head:5
+启动：docker run -d -p 9100:9100 docker.io/mobz/elasticsearch-head:5
+</code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>
+<p>管理数据</p>
+</li>
+<li>
+<p>分词检索（对应文章 和 image id）</p>
+</li>
+<li>
+<p>http 传递到前端展示</p>
+</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">
+# 查看结点信息
+curl localhost:9200/_cat/nodes
+
+curl localhost:9200/_cat/health
+curl http://192.168.1.34:9200/_cat/health
+</code></pre></td></tr></table>
+</div>
+</div><ol>
+<li>_cat</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">GET /_cat/nodes ; 查看所有节点
+GET /_cat/health ; 查看es 健康状况
+GET /_cat/master ; 查案主节点
+GET /_cat/indices; 查看所有的索引 -&gt; show datasets (数据库操作) ; 查看数据库信息
+</code></pre></td></tr></table>
+</div>
+</div><p>从docker hub 中检索 image 并且安装</p>
+<ol start="2">
+<li>索引一个文件（保存一个数据）</li>
+</ol>
+<p>（索引 对应 mysql数据库； 类型对应的mysql 的表）
+保存一个数据，保存哪个索引的哪个类型下，指定用哪个唯一的标识</p>
+<p>PUT 用来保存请求，需要给 body 信息（必须指定id）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">put localhost:9200/customer/external/1
+
+post 用来保存请求（新增保存二合一）
+</code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>查询文档</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">get localhost:
+
+curl  localhost:9200/img_text/column3/_search
+</code></pre></td></tr></table>
+</div>
+</div><p>docker 安装</p>
+<p>elastic search（mysql）
+kibana 可视化检索数据</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">docker images # 下载的镜像
+docker ps # 正在运行的镜像
+
+# 这个命令好好理解，经常是使用的
+9300 是在分布下的结点通信使用； 9200 是http 请求。
+docer run --name elasticsearch -p 9200:9200 -p 9300:9300 \ 
+-e &#34;discovery.type=single-node&#34; \ 
+-e ES_JAVA_OPTS=&#34;&#34; 内存方面方面 \ 上线之后 32G 左右
+-v /mydata/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml \
+-v /mydata/elasticsearch/data:/usr/share/elasticsearch/data \
+-v /mydata/elasticsearch/plugins:/usr/share/elasticsearch/plugins \ # 挂载操作
+-d elasticsearch:7.4.2
+
+</code></pre></td></tr></table>
+</div>
+</div><p>其中的 <code>-d</code> 是后台运行，deployment 的意思； <code>-e</code> 是设置环境变量的意思； <code>-p</code> 是把容器的 9100 端口暴露出来，方便 nginx 转发</p>
+<p>kibana</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 通过访问 5601 的端口，然后 kibana 转到了 elastic search中的 9200
+docker run -name kibana -e ELASTICSEARCH_HOSTS=http://192.168.56.10:9200 -p 5601:5601 -d kibana:7.4.2
+</code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>索引一个文档（保存）</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">put customer/external/1;  在 customer 索引下的 external 类型中保存 1号数据为
+
+put customer/external/1
+{
+&#34;name&#34;: &#34;John Doe&#34;
+
+put 和post 都是可以的。
+
+post 新增和修改。新增：不带 id，带id 但是之前没有数据；修改：带id，并且有数据。
+
+put 可以新增可以修改。put 必须指定id；由于 put 需要指定 id，我们一般都用来做修改操作，不指定id 会报错。
+}
+</code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>查询文档</li>
+</ol>
+<p>GET customer/external/1</p>
+<p>要求只能是一个在修改。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 乐观锁，并发控制
+&#34;_seq_no&#34;: 1,
+&#34;_primary_term&#34; :1,
+</code></pre></td></tr></table>
+</div>
+</div><ol start="4">
+<li>更新文档</li>
+</ol>
+<p>下面的方式 也是可以增加属性。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">post customr/external/1/_update
+{
+# 如果是_update ，那么一定需要带上 doc
+# 会对比原来的数据， 版本号.. 都是不会变
+&#34;doc&#34;:{
+&#34;name&#34;:&#34;john Doew&#34;
+}
+}
+
+# 或者 
+post customer/external/1
+{
+#不会对比原来数据，直接更新数据
+&#34;name&#34;: &#34;John Doe2&#34;
+}
+# 或者
+# 不会对比原来数据，直接更新数据
+PUT customer/external/1
+
+</code></pre></td></tr></table>
+</div>
+</div><ol start="5">
+<li>删除文档和索引</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">DELETE customer
+</code></pre></td></tr></table>
+</div>
+</div><ol start="6">
+<li>bulk 批量api</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">POST customer/external/_bulk
+
+{&#34;index&#34;: {&#34;_id&#34; :&#34;1&#34;}}
+{&#34;name&#34;: &#34;John Doe&#34;}
+{&#34;index&#34;: {&#34;_id&#34; :&#34;1&#34;}}
+{&#34;name&#34;: &#34;john&#34;}
+</code></pre></td></tr></table>
+</div>
+</div><p>在 kibana 中的dev tool 来发送测试请求。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">POST /customer/external/_bulk
+{&#34;index&#34;: {&#34;_Id&#34;: &#34;1&#34;}}
+{&#34;name&#34;: &#34;John Doe&#34;}
+
+&#34;create&#34;  # 创建
+&#34;delete&#34; # 删除操作
+&#34;index&#34; # 保存操作
+&#34;update&#34; # 更新操作
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">POST /_bulk # 批量执行
+</code></pre></td></tr></table>
+</div>
+</div><p>四、</p>
+<p>可以设置自动启动的</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo docker update id(or name) --restart =always
+
+
+
+
+ES 中检索的两种方式
+
+
+
+1. 搜索条件放在 url 中
+
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="升序排序">升序排序</h1>
+<p>GET bank/_search?q=*&amp;sort=account_number:asc</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">2. query DSL (复杂 query)
+
+
+https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html
+
+elastic search 作为检索功能的讲解
+
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="搜索条件放在结构体中">搜索条件放在结构体中</h1>
+<h1 id="先升序-然后再降序">先升序 然后再降序</h1>
+<h1 id="match_all-查询所有">match_all 查询所有</h1>
+<h1 id="_source-返回部分字段">_source 返回部分字段</h1>
+<p>GET bank/_search
+{
+&ldquo;query&rdquo;: {&ldquo;match_all&rdquo; : {}},
+&ldquo;sort&rdquo; : [ {&ldquo;account_number&rdquo; : &ldquo;asc&rdquo;}, {&ldquo;balance&rdquo;: &ldquo;desc&rdquo;}]
+&ldquo;from&rdquo;: 10,
+&ldquo;_source&rdquo;: [&ldquo;balance&rdquo;, &ldquo;firstname&rdquo;]
+}</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">match 匹配
+
+
+
+
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="match-匹配非字符串那么就是精确查询">match 匹配非字符串，那么就是精确查询。</h1>
+<p>GET bank/_search
+{
+&ldquo;query&rdquo; :{
+&ldquo;match&rdquo; :{&ldquo;balance&rdquo; : 20}
+}
+}</p>
+<h1 id="字符串的全文检索-只要包含这个信息的">字符串的全文检索 （只要包含这个信息的）</h1>
+<h1 id="倒排索引">倒排索引</h1>
+<h1 id="其中有-_score-关键字表示匹配的程度按照_score-进行">其中有 _score 关键字，表示匹配的程度，按照_score 进行</h1>
+<h1 id="对于-query-进行分词匹配">对于 query 进行分词匹配</h1>
+<p>GET bank/_search
+{
+&ldquo;query&rdquo; :{
+&ldquo;match&rdquo; :{&ldquo;address&rdquo; : &ldquo;Kings&rdquo;}
+}
+}</p>
+<h1 id="match_phase-短词分词不进行分词当做完整的短语">match_phase 短词分词（不进行分词，当做完整的短语）</h1>
+<p>GET /bank/_search
+{
+&ldquo;query&rdquo;: {
+&ldquo;match_phrase&rdquo; :
+{
+&ldquo;address&rdquo;: &ldquo;mill land&rdquo;
+}
+}
+}</p>
+<h1 id="多字段匹配多个字段只要有一个能匹配上-query-就行-对query-进行分词的">多字段匹配，多个字段只要有一个能匹配上 query 就行， 对query 进行分词的</h1>
+<p>GET bank/_search{
+&ldquo;query&rdquo;: {
+&ldquo;multi_mach&rdquo; :{
+&ldquo;query&rdquo;: &ldquo;mill&rdquo;,
+&ldquo;fields&rdquo;: [&ldquo;address&rdquo;, &ldquo;name&rdquo;]
+}</p>
+<p>}
+}</p>
+<h1 id="bool-查询复合查询">bool 查询（复合查询）</h1>
+<h1 id="三个关键字-must-must_not-should-可选的满足了-_score-会更高结果比较排前">三个关键字 must， must_not, should 可选的；满足了 _score 会更高，结果比较排前</h1>
+<h1 id="must-should-can-contribute-to-how-documents-are-scored">must, should can contribute to how documents are scored.</h1>
+<h1 id="must_not-is-treated-as-a-filter-but-does-not-contribute-to-how-documents-are-scored">must_not is treated as a filter, but does not contribute to how documents are scored</h1>
+<p>GET bank/_search
+{
+&ldquo;query&rdquo; : {
+&ldquo;bool&rdquo;:{
+&ldquo;must&rdquo;: [{
+}]
+&ldquo;must_not&rdquo; :[{}]
+&ldquo;should&rdquo; :[{}]
+}
+}
+}</p>
+<h1 id="term">term</h1>
+<h1 id="使用条件-avoid-using-the-term-query-for-text-fields-to-search-text-field-values-use-the-match-query-instead">使用条件, avoid using the term query for text fields. To search text field values, use the match query instead.</h1>
+<h1 id="当检索非字符串-使用term-关键词-当检索字符串时候使用-match-关键字">当检索非字符串 使用term 关键词； 当检索字符串时候，使用 match 关键字</h1>
+<h1 id="当-es-在存储-text-字段的时候-存在-analysis-分词的问题那么这个时候使用-term-进行-exact-match-那么就是非常困难的">当 ES 在存储 text 字段的时候， 存在 analysis 分词的问题，那么这个时候使用 term 进行 exact match 那么就是非常困难的。</h1>
+<p>GET  bank/_search
+{
+&ldquo;query&rdquo; : {
+&ldquo;term&rdquo; : {&ldquo;age&rdquo; : &ldquo;28&rdquo;}
+}
+}</p>
+<h1 id="keyword-和-match_phrase-的区别-前者是-特别exact后者是整体包含就ok">keyword 和 match_phrase 的区别： 前者是 特别exact，后者是整体包含就ok</h1>
+<p>GET bank/_search
+{
+&ldquo;query&rdquo; : {
+&ldquo;match&rdquo; :{
+&ldquo;address.keyworrd&rdquo; :&ldquo;789 MAdison&rdquo;
+}
+}
+}</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">
+9. aggregation （执行聚合）
+
+
+聚合提供了从数据中分组和提取数据的能力。大致等原因 SQL GROUP BY 和 SQL 聚合函数。
+
+
+
+聚合是可以嵌套的。
+
+
+
+搜索address 中
+
+
+</code></pre></td></tr></table>
+</div>
+</div><p>GET bank/_search
+{
+&ldquo;query&rdquo; :{
+&ldquo;match&rdquo;: {
+&ldquo;address&rdquo;: &ldquo;mill&rdquo;
+}
+}</p>
+<h1 id="基于上一步进行聚合">基于上一步进行聚合</h1>
+<p>&ldquo;aggs&rdquo;: {
+&ldquo;ageAvg&rdquo; :{
+&ldquo;avg&rdquo; : {
+&ldquo;field&rdquo; : &ldquo;age&rdquo;
+}
+}</p>
+<p>&ldquo;balanceAvg&rdquo;: {</p>
+<p>}
+}
+size =0 # 不看查询结构，只是查看 agg 的结果
+}</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">
+这里是嵌套的聚合操作
+
+</code></pre></td></tr></table>
+</div>
+</div><p>GET bank/_search
+{
+&ldquo;query&rdquo; :{
+&ldquo;match_all&rdquo; : {}
+},
+&ldquo;aggs&rdquo; : {
+&ldquo;aggAgg&rdquo; : {
+&ldquo;terms&rdquo; : {
+&ldquo;field&rdquo; : &ldquo;age&rdquo;,
+&ldquo;size&rdquo; : 100
+},</p>
+<h1 id="这个是在上一步的基础上进行聚合">这个是在上一步的基础上进行聚合</h1>
+<p>&ldquo;aggs&rdquo;: {
+&ldquo;ageAvg&rdquo;: {
+&ldquo;avg&rdquo; : {&ldquo;field&rdquo; : &ldquo;balance&rdquo;}
+}
+}
+}
+}
+}</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">3. mapping
+
+
+ES 7 去掉了 type 就是为了提高 ES 处理数据的效率。 ES 是基于 Lucene 开发的搜索引擎，在ES 中不同type 下名称相同的filed 最终在 Lucene 中处理方式是一样的。 所以直接去掉了中间的概念 type。ES 8 就没有type 字段了。第一次导入数据，我们不用刻意指定 type，因为 ES 已经帮我们猜测得到了 type。
+</code></pre></td></tr></table>
+</div>
+</div><p>GET /bank/_mapping</p>
+<h1 id="这样就得到了字典映射类型">这样就得到了字典映射类型</h1>
+<p>数字是long 类型；文本是 text 类型，默认有 keyword 属性。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="添加一个新的字段映射">添加一个新的字段映射</h1>
+<p>PUT /my_index/_mapping
+{
+&ldquo;properties&rdquo; :{
+&ldquo;employee-id&rdquo; : {
+&ldquo;type&rdquo; :&ldquo;keyword&rdquo;,
+&ldquo;index&rdquo; : false # 这个参数很重要，表明是否可以被检索到，如果是false，那么就不参与检索
+}
+}
+}</p>
+<h1 id="修改一个新的字段映射-这样是不成立">修改一个新的字段映射 （这样是不成立）</h1>
+<h1 id="更新index-的操作先创建出-新的-正确的映射然后使用如下的方式进行数据迁移">更新index 的操作：先创建出 新的 正确的映射，然后使用如下的方式进行数据迁移</h1>
+<p>POST _reindex
+{
+&ldquo;source&rdquo; : {&ldquo;index&rdquo; : &ldquo;twitter&rdquo;}
+} ,
+&ldquo;dest&rdquo; : {&ldquo;index&rdquo; : &ldquo;new_twitter&rdquo;}</p>
+<h1 id="总结-不用type如果需要新的字段映射那么首先先创建新的正确映射然后再进行数据迁移">总结， 不用type，如果需要新的字段映射，那么首先先创建新的正确映射，然后再进行数据迁移</h1>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="全文检索-elastic-search-分词">全文检索 elastic search 分词</h1>
+<h1 id="标准的分词--es-都是针对英文的分词如果是中文-那么需要找到对应的-ik-分词器">标准的分词,  ES 都是针对英文的分词，如果是中文 （那么需要找到对应的 ik 分词器）</h1>
+<p>POST _analyze
+{
+&ldquo;analyzer&rdquo; : &ldquo;standard&rdquo;,
+&ldquo;text&rdquo; : &ldquo;The 2 Quick Brown-foxes jumped over the lazy dog&rsquo;s hone.&rdquo;
+}</p>
+<p>POST _analyze
+{
+&ldquo;analyzer&rdquo; : &ldquo;ik_max_word&rdquo;,
+&ldquo;text&rdquo; :&ldquo;我是中国人&rdquo;
+}</p>
+<h1 id="自定义扩展词库">自定义扩展词库</h1>
+<h1 id="把自定义的词库放到-nginx-服务器上然后访问服务器就可以下载到本地这样是可以随时更新词库的">把自定义的词库放到 nginx 服务器上，然后访问服务器就可以下载到本地，这样是可以随时更新词库的</h1>
+<h1 id="在docker-中使用nginx">在docker 中使用nginx</h1>
+<p>docker run -p 80:80 -name nginx -d nginx:1.10</p>
+<p>先使用 docker image 查看本地下载的镜像，然后 docker 可以run，如果第一次 run，那么是会先下载然后再run</p>
+<p>docker container cp nginx:/etc/nginx .
+docker stop nginx
+docker rm nginx
+mv nginx conf
+mkdir nginx
+mv conf nginx</p>
+<h1 id="这个是端口映射外部的80-端口映射到nginx-的80-端口">这个是端口映射，外部的80 端口映射到nginx 的80 端口</h1>
+<p>docker run -p 80:80 &ndash;name nginx<br>
+-v /mydata/nginx/html:/usr/share/nginx/html<br>
+-v /mydata/nginx/logs:/var/log/nginx<br>
+-v /mydata/nginx/conf:/etc/nginx<br>
+-d nginx:1.10</p>
+<p>写一个 html 也是非常的简单，只要放到index 文件夹中 就ok index.html
+nginx 是默认加载 html 中的资源
+mkdir es
+vi fenci.txt</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">
+</code></pre></td></tr></table>
+</div>
+</div><p>docker ps # 表示正在运行的镜像
+docker ps -a # 所有的镜像（包括没有运行的）</p>
+<p>docker # 可以重新挂载到不同的目录中，然后走到对应的目录中</p>
+<p>docker exec -it 84ca /bin/bash # 使用交互的方式 进入到了docker 84ca的镜像中 ，然后pwd 看看这里的目录
+使用 exit 退出容器中</p>
+<p>docker 的安装，都做好外部的挂载就 ok，这个步骤很重要，本地保存的观念。挂载到本地的好处，就是即使 docker down掉了，但是本地的数据和 plugin 还是可以保存下来，这样的话可以重新启动一下。</p>
+<h1 id="这个是重启命令">这个是重启命令</h1>
+<p>docker restart elasticsearch</p>
+<p>docker update elasticsearch &ndash;restart=always</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">### ES 中index 的理解
+
+
+[ElasticsearchTutorial.com](http://www.elasticsearchtutorial.com/basic-elasticsearch-concepts.html)
+
+
+&gt; Elasticsearch is able to achieve fast search responses because, instead of searching the text directly, it searches an index instead. This is like retrieving pages in a book related to a keyword by scanning the index at the back of a book, as opposed to searching every word of every page of the book. This type of index is called an inverted index, because it inverts a page-centric data structure (page-&gt;words) to a keyword-centric data structure (word-&gt;pages).
+
+
+
+
+
+[What happens when a document is indexed in Elasticsearch?](https://medium.com/elasticsearch/what-happens-when-a-document-is-indexed-in-elasticsearch-16b7ae3415bc)
+
+&gt; 要有意识说将数据locate 到某个固定的地方，数据是很重要的.
+
+在这里设置
+</code></pre></td></tr></table>
+</div>
+</div><p>/etc/elasticsearch/elasticsearch.yml</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">或者使用 `path.data` 进行传参。
+
+
+
+[10 Elasticsearch Concepts You Need to Learn](https://logz.io/blog/10-elasticsearch-concepts/)
+
+
+
+1. Fields
+
+
+&gt; Each field has a defined datatype and contains a single piece of data. Those datatypes include the core datatypes (strings, numbers, dates, booleans), complex datatypes (object and nested), geo datatypes (get_point and geo_shape), and specialized datatypes (token count, join, rank feature, dense vector, flattened, etc.)
+es 中的field 类似数据库中的数据类型
+
+2. Multi-fields
+
+&gt; These fields can (and should) be indexed in more than one way to produce more search results. This option is available easily through the “multi-fields” option, which as you might have guessed allow for fields to be indexed in multiple ways. For example, something might be indexed either as free text or a specific keyword.
+说实话，没有很明白 multi-fields 是怎么回事？ 如何使用起来的
+
+3. Documents
+
+Documents also contain reserved fields that constitute the document metadata such as:
+</code></pre></td></tr></table>
+</div>
+</div><p>_index – the index where the document resides
+_type – the type that the document represents
+_id – the unique identifier for the document</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">
+[What happens when a document is indexed in Elasticsearch?](https://medium.com/elasticsearch/what-happens-when-a-document-is-indexed-in-elasticsearch-16b7ae3415bc)
+
+
+
+
+
+
+&lt;img src = &#39;https://ftp.bmp.ovh/imgs/2020/07/f97f33d823247eb2.png&#39;  height=&#34;80%&#34; width=&#34;60%&#34;/&gt;
+
+从上图可以知道在index 过程中使用了 analyzer 对数据进行了预处理。
+
+
+
+[What is an Elasticsearch Index?](https://www.elastic.co/cn/blog/what-is-an-elasticsearch-index)
+
+
+
+The easiest and most familiar layout clones what you would expect from a relational database. You can (very roughly) think of an index like a database.
+
+</code></pre></td></tr></table>
+</div>
+</div><p>MySQL =&gt; Databases =&gt; Tables =&gt; Columns/Rows
+Elasticsearch =&gt; Indices =&gt; Types =&gt; Documents with Properties</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">[Index some documents](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-index.html#getting-started-index)
+
+&gt; index 的操作，是可以 bulk 操作，这样可以节省时间。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+**Index索引的命令行操作**
+
+index 相当于数据库的表，是 es 数据管理的顶层单位。这里主要是从命令行的角度去分析
+
+（这个实际上是可以通过查看api 获得的，在 guide 文件中）
+
+1. 创建索引
+
+创建索引 article
+
+</code></pre></td></tr></table>
+</div>
+</div><p>curl -X PUT &lsquo;http://localhost:9200/article&rsquo;</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">2. 删除索引
+
+</code></pre></td></tr></table>
+</div>
+</div><p>curl -X DELETE &lsquo;localhost:9200/article&rsquo;</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">3. 查看所有索引
+
+</code></pre></td></tr></table>
+</div>
+</div><p>curl -X GET &ldquo;localhost:9200/_cat/indices?v&rdquo;</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">
+**Document文档**
+
+
+Index 里面单条的记录称为 Document（文档）。许多条 Document 构成了一个 Index。
+
+
+**Query DSL**
+
+</code></pre></td></tr></table>
+</div>
+</div><p>term 精确词查询
+match 匹配查询
+multi_match 多条件查询</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span><span class="lnt">90
+</span><span class="lnt">91
+</span><span class="lnt">92
+</span><span class="lnt">93
+</span><span class="lnt">94
+</span><span class="lnt">95
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">query 需要计算相关性, filter 不需要计算相关性，且 es 会缓存频繁查询的 filter 结果，所以 filter 会更快。
+
+
+
+## 参考文献
+
+
+
+### 教程方面
+
+优秀的资料
+
+
+1. [全文检索 ElasticSearch 简介](https://www.youtube.com/watch?v=q_DUpJQjEoQ)
+
+&gt; 很好的视频教程，特点是很全面的讲解了 elastic search和 kibana 的使用
+
+
+2. [Elasticsearch]([Elasticsearch](http://masikkk.com/article/Elasticsearch/#))
+
+&gt; 很好的中文博客文档，其中介绍 elastic search 从部署到使用，不仅给出了命令，并且很多情况下都给出了相应的解释。有时间的情况下，建议都过一下。
+
+
+3. [全文搜索引擎Elasticsearch，这篇文章给讲透了！](https://juejin.im/post/5d351143f265da1bd04f1e19)
+
+&gt; 很好的博客文档，介绍了 elastic search中的一些概念，有时间建议都过一下。
+
+4. [Docker 三剑客之 Docker Compose](https://zhuanlan.zhihu.com/p/34935579)
+
+&gt; 关于 docker compose 中文教程，重点看
+
+5. [Custom Analyzer](https://www.elastic.co/guide/en/elasticsearch/reference/7.2/analysis-custom-analyzer.html)
+
+官方的文档： [Install Elasticsearch with Docker](https://www.elastic.co/guide/en/elasticsearch/reference/7.2/docker.html#docker)
+
+&gt; 这个在之后是必然要做的， 个性化字典； 并且这个官方的文档是一定要多翻阅
+
+5.1 [The Elasticsearch English Analyzer: Diving Deep and Customizing](https://qbox.io/blog/elasticsearch-english-analyzer-customize)
+
+&gt; 可以作为 个性化词典的补充内容参考
+
+
+
+6. [Docker下安装ElasticSearch和Kibana](https://segmentfault.com/a/1190000020140461)
+
+&gt; 是按照这个教程搭建的本机的一个 elastic search 和kibana
+
+
+https://medium.com/faun/building-a-real-time-elastic-search-engine-using-python-32e05bcb9140
+
+
+
+
+
+一般资料
+
+1. [基于ElasticSearch的全文搜索](https://chenshinan.github.io/2019/07/07/%E5%9F%BA%E4%BA%8EElasticSearch%E7%9A%84%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/)
+
+&gt; 博客学习资料，主要是介绍了  elastic search的一些概念，没有代码
+
+2. [Docker 简单部署 ElasticSearch](https://www.cnblogs.com/jianxuanbing/p/9410800.html)
+
+&gt; 入门级别的安装部署教程，无代码
+
+
+3. [阮一峰, 全文搜索引擎 Elasticsearch 入门教程 ](http://www.ruanyifeng.com/blog/2017/08/elasticsearch.html?20180719152505#comment-last)
+
+&gt; 质量是有保证的，是一些入门几倍的教程。
+
+
+
+
+其他
+
+1. [docker-compose up解决错误ERROR](https://www.awaimai.com/2587.html)
+&gt; 罗列了很多 docker-compose error的原因
+
+
+
+### code方面
+
+
+1. [docker-flask-elasticsearch-example](https://github.com/zouzias/docker-flask-elasticsearch-example)
+
+[已经下载] 这个run 不起来，是写的版本有问题
+
+
+2. [A Serving Flask on Docker](https://github.com/ashokc/Serving-Flask-on-Docker)
+
+对应的教程：[A Serving Flask on Docker](http://xplordat.com/2020/03/03/a-serving-flask-on-docker/)
+
+&gt;  这个看起来是比较好的项目，可以尝试一下，并且是比较promising 的项目
+
+按照教程已经全部走完，但就是最后一部走不通
+
+</code></pre></td></tr></table>
+</div>
+</div><p>curl http://localhost:8080/quotes/byId?id=86789</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">2.1 [A-Flask-full-of-WSGI](https://github.com/ashokc/A-Flask-full-of-WSGI)
+
+对应的教程: [A Flask Full of Whiskey (WSGI)](http://xplordat.com/2020/02/16/a-flask-full-of-whiskey-wsgi/)
+
+&gt; 这个是上述作者之前的项目
+
+
+这个先不进行尝试，因为不是docker镜像，需要修改的是系统的 nginx，总体比较麻烦一些。
+
+
+
+
+3. [Building-a-search-engine-using-Elasticsearch](https://github.com/dineshsonachalam/Building-a-search-engine-using-Elasticsearch)
+
+
+已经 在env_guest 中run 起来了
+
+&gt; 这个已经run 起来了，好好看看代码，学习以下；改造成想要的样子
+
+对应的教程：
+[Building a real-time elastic search engine using Python](https://medium.com/faun/building-a-real-time-elastic-search-engine-using-python-32e05bcb9140)
+
+
+
+”对应的教程“的学习笔记
+
+&gt; We will store the indexed data in the Elasticsearch container to ES_DATA folder in our project folder. The basic syntax for mounting volumes is /host/path:/container/path
+其中的 ES_DATA 和indexed data，这个仍然是对不上号的。现在不知道之前的 elastic search 的data 保存在哪个目录下，貌似自己没有挂载到本地的目录
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 数据整合
+
+
+Elasticsearch 的导入和导出工具
+
+
+
+1. 官方有自带的导入导出工具
+
+
+2. 第三方插件
+
+- [es2csv](https://pypi.org/project/es2csv/)
+
+简介：用Python编写的命令行实用程序，用于以Lucene查询语法或查询DSL语法查询Elasticsearch，并将结果作为文档导出到CSV文件中。
+es2csv 可以查询多个索引中的批量文档，并且只获取选定的字段，这可以缩短查询执行时间。
+
+</code></pre></td></tr></table>
+</div>
+</div><p>1es2csv -u 192.168.1.1:9200 -q &lsquo;{&quot;_source&quot;:{&ldquo;excludes&rdquo;:[&quot;*gxn&quot;,,&quot;*kex&quot;,&ldquo;vperxs&rdquo;,&ldquo;lpix&rdquo;]},&ldquo;query&rdquo;:{&ldquo;term&rdquo;:{&ldquo;this_topic&rdquo;:{&ldquo;value&rdquo;:41}}}}&rsquo; -r -i sogou_topic -o ~/export.csv</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">Elasticsearch导出CSV首选方案。
+
+- [elasticsearch-dump](https://github.com/taskrabbit/elasticsearch-dump)
+
+
+Elasticsearch导出json首选方案。
+
+
+先使用一个可视化界面导入数据吧
+
+http://192.168.1.34:5601/app/ml#/filedatavisualizer?_g=()
+
+
+
+
+
+pin_text
+
+id:
+ObjectId(&#34;5ef0e5f77de7450ba43f5017&#34;)
+original_pics:
+https://i.pinimg.com/originals/cf/3f/26/cf3f268fc488f2a9798c0a8d03370a94.jpg
+url:
+&#34;https://www.pinterest.com/pin/795518721656674891/&#34;
+title:
+&#34;41 American Home Decor To Update Your Room&#34;
+description:
+
+&#34;Dizzy American Home Decor from 41 of the Brilliant American Home Decor collection is the most trending home decor this winter. This Brilliant American Home Decor look was carefully discovered by our home decoration and interior designers and defined as most wanted and expected this time of the year. This Cool American Home Decor will ... Read more 41 American Home Decor To Update Your Room&#34;
+
+Name:
+&#34;Big Interior Design Blog&#34;
+fans_num:
+9093
+comments:
+
+
+
+multi_quality_all
+
+_id:
+ObjectId(&#34;5eafcdc4e1e9b6982ce7109c&#34;)
+
+uuid:
+&#34;fdce657d-26bc-44dc-b553-38708df8886a&#34;
+
+path:
+&#34;/data/filerun/data/PhotoBank/V2/Pinterest phase 2/Interior Design/Filtered_Unfiltered/Unfiltered Folder/Characteristic/Interior_design_Barn/299207968995030130.jpg&#34;
+
+&#34;/data/filerun/data/PhotoBank/V2/Pinterest phase 2/Interior Design/Filtered_Unfiltered/Unfiltered Folder/Style/Interior_design_Zen/0804-1773d8d10b62d3e1166f5a78a3688221.jpg&#34;
+&#34;/data/filerun/data/PhotoBank/V2/Pinterest phase 2/Interior Design/Filtered_Unfiltered/Unfiltered Folder/Style/Interior_design_Zen/0751-fd47df6c54b69c79f52c32b779380761.jpg&#34;
+
+
+关于数据：
+
+1. multi-quality 中 _id 和 uuid 是什么意思？ 对应网页中的什么部分，代码是如何写的
+（个人感觉 id 和_id 是对应到一块的）
+
+
+12w 中有重复的图片吧（比如说 cf3f268fc488f2a9798c0a8d03370a94.jpg 这个图片在数据库中出现了两次？）
+
+2. 新版的code 是如何对应的（看代码）
+
+
+属于匹配进度：
+
+先使用 path 的后缀名和原来的图片名称进行匹配，目前使用的是 multi_quality_all数据集中的 path 和 pin_text 中的 original_pics 进行匹配。前者需要提取 basename （有的filename 需要去掉前缀），后者需要提取basename
+
+
+
+
+
+## 可运行的方案
+
+
+
+1. 简单方案 
+
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="这个命令是-restart-kibana720--和--elasticsearch720">这个命令是 restart kibana:7.2.0  和  elasticsearch:7.2.0</h1>
+<p>docker restart a8d835f1916e 2c67e9a24aac</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">然后在 
+
+</code></pre></td></tr></table>
+</div>
+</div><p>http://192.168.1.34:5601/app/kibana#/dev_tools/console?_g=()</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">使用 Get 查询
+</code></pre></td></tr></table>
+</div>
+</div><p>GET /img_text/_search
+{
+&ldquo;query&rdquo;: {
+&ldquo;match&rdquo;: {&ldquo;column3&rdquo;: &ldquo;interior modern style&rdquo;}
+},
+&ldquo;_source&rdquo;: [&ldquo;column1&rdquo;,&ldquo;column3&rdquo;]
+}</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">返回的是图片list 
+
+
+
+2. 进阶版本
+
+</code></pre></td></tr></table>
+</div>
+</div><p>cd  /home/jeng/Projects/es_search_engine</p>
+<h1 id="然后-restart-之前的镜像">然后 restart 之前的镜像</h1>
+<p>docker-compose restart</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">访问： http://192.168.1.34:8005 就有效果了
+
+</code></pre></td></tr></table>
+</div>
+</div><p>curl -X GET http://127.0.0.1:8005/ -d query=&ldquo;python&rdquo;</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-06-29
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/elastic-search/">elastic search</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/leetcode_weekly_contest_1/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Leetcode Weekly Contest(1)</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/regular_expression/">
+            <span class="next-text nav-default">Regular Expression</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,1859 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Binary-Search - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="介绍二分查找中的三个模板，以 LeetCode 中的习题为例。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/binary_search/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Binary-Search" />
+<meta property="og:description" content="介绍二分查找中的三个模板，以 LeetCode 中的习题为例。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/binary_search/" />
+<meta property="article:published_time" content="2018-01-23T16:13:21+08:00" />
+<meta property="article:modified_time" content="2018-01-23T16:13:21+08:00" />
+<meta itemprop="name" content="Binary-Search">
+<meta itemprop="description" content="介绍二分查找中的三个模板，以 LeetCode 中的习题为例。">
+<meta itemprop="datePublished" content="2018-01-23T16:13:21+08:00" />
+<meta itemprop="dateModified" content="2018-01-23T16:13:21+08:00" />
+<meta itemprop="wordCount" content="6081">
+
+
+
+<meta itemprop="keywords" content="binary search," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Binary-Search"/>
+<meta name="twitter:description" content="介绍二分查找中的三个模板，以 LeetCode 中的习题为例。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Binary-Search</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-01-23 </span>
+        
+          <span class="more-meta"> 约 6081 字 </span>
+          <span class="more-meta"> 预计阅读 13 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#模板1">模板1</a></li>
+            <li><a href="#模板2">模板2</a></li>
+            <li><a href="#模板3">模板3</a></li>
+            <li><a href="#python-对于-binary-search-的支持">python 对于 binary search 的支持</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>介绍二分查找中的三个模板，以 LeetCode 中的习题为例。</p>
+<p>首先介绍一下二分查找中使用的术语：</p>
+<p>目标 Target —— 你要查找的值
+索引 Index —— 你要查找的当前位置
+左、右指示符 Left，Right —— 我们用来维持查找空间的指标
+中间指示符 Mid —— 我们用来应用条件来确定我们应该向左查找还是向右查找的索引</p>
+<p>二分的思想：
+每次把区间缩小一半，在缩小的过程中一定要保证，答案是在区间里面的，最后答案的区间长度为1的时候，就得到了目标区间。70%的题目都具有某种单调性。（具有单调性，那么是可以使用二分解决；但是使用二分的题目不一定都具有单调性）95% 的题目是存在二段性。</p>
+<h3 id="模板1">模板1</h3>
+<p>模板 1 是二分查找的最基础和最基本的形式。这是一个标准的二分查找模板，是非常基础简单的二分查找。模板 1 用于查找可以通过访问数组中的单个索引来确定的元素或条件。模版 1 不需要后处理，因为每一步中，你都在检查是否找到了元素。如果到达末尾，则知道未找到该元素。</p>
+<p>语法关键：</p>
+<p>初始条件：left = 0, right = length-1
+终止：left &gt; right
+向左查找：right = mid-1
+向右查找：left = mid+1</p>
+<p>模版#1 对应的例题为：
+LeetCode69 x 的平方根
+LeetCode374 猜数字大小
+LeetCode33 搜索旋转排序数组</p>
+<p><a href="https://leetcode.com/problems/sqrtx/">69. Sqrt(x)</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="c1"># 二分做法， log n 的时间复杂度</span>
+    <span class="k">def</span> <span class="nf">mySqrt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="o">==</span><span class="mi">1</span><span class="p">:</span> <span class="k">return</span> <span class="n">x</span>
+        <span class="n">l</span> <span class="o">=</span><span class="mi">0</span>
+        <span class="n">r</span>  <span class="o">=</span> <span class="n">x</span><span class="o">-</span><span class="mi">1</span>
+        <span class="k">while</span> <span class="n">l</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">:</span>
+            <span class="n">mid</span> <span class="o">=</span> <span class="n">l</span>  <span class="o">+</span> <span class="n">r</span> <span class="o">+</span><span class="mi">1</span> <span class="o">&gt;&gt;</span><span class="mi">1</span> <span class="c1"># 这个是处理溢出问题</span>
+            <span class="k">if</span> <span class="n">mid</span> <span class="o">*</span> <span class="n">mid</span> <span class="o">&lt;=</span> <span class="n">x</span><span class="p">:</span> <span class="n">l</span> <span class="o">=</span><span class="n">mid</span>
+            <span class="k">else</span><span class="p">:</span> <span class="n">r</span>  <span class="o">=</span><span class="n">mid</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">return</span> <span class="n">l</span> 
+</code></pre></td></tr></table>
+</div>
+</div><p>c++ 实现</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">mySqrt</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">x</span> <span class="o">==</span><span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="n">x</span><span class="p">;</span>
+        <span class="kt">long</span> <span class="kt">long</span> <span class="n">l</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span><span class="n">x</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="c1">// 可以进一步缩小 r 的范围  r = x/2 +1
+</span><span class="c1"></span>        <span class="k">while</span><span class="p">(</span> <span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">long</span> <span class="kt">long</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span><span class="n">r</span> <span class="o">+</span><span class="mi">1ll</span> <span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span> <span class="n">mid</span> <span class="o">*</span> <span class="n">mid</span> <span class="o">&lt;=</span> <span class="n">x</span><span class="p">)</span> <span class="n">l</span> <span class="o">=</span><span class="n">mid</span><span class="p">;</span>
+            <span class="k">else</span> <span class="n">r</span> <span class="o">=</span><span class="n">mid</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">l</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="模板2">模板2</h3>
+<p>模板 2 是二分查找的高级模板。它用于查找需要访问数组中当前索引及其直接右邻居索引的元素或条件。
+查找条件需要访问元素的直接右邻居。
+使用元素的右邻居来确定是否满足条件，并决定是向左还是向右。
+保证查找空间在每一步中至少有 2 个元素。
+需要进行后处理。 当你剩下 1 个元素时，循环 / 递归结束。 需要评估剩余元素是否符合条件。</p>
+<p>语法关键：</p>
+<p>初始条件：left = 0, right = length
+终止：left == right
+向左查找：right = mid
+向右查找：left = mid+1</p>
+<p>模版#2 对应的例题为：
+LeetCode278 第一个错误的版本
+LeetCode75 寻找峰值
+LeetCode159 寻找旋转排序数组中的最小值</p>
+<p>LeetCode69 x 的平方根</p>
+<ol>
+<li><a href="https://leetcode.com/problems/sqrtx/submissions/">LeetCode69 x 的平方根</a></li>
+</ol>
+<blockquote>
+<p>实现 int sqrt(int x) 函数。</p>
+</blockquote>
+<p>需要处理一下 int 类型数字越界的问题</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="k">typedef</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">ll</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="nf">mySqrt</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">ll</span> <span class="n">l</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span><span class="n">x</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">ll</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span><span class="mi">1ll</span><span class="o">+</span><span class="n">r</span> <span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+            
+            <span class="k">if</span><span class="p">(</span><span class="n">mid</span> <span class="o">*</span><span class="n">mid</span> <span class="o">&lt;=</span> <span class="n">x</span><span class="p">)</span> <span class="n">l</span> <span class="o">=</span><span class="n">mid</span><span class="p">;</span>
+            <span class="k">else</span> <span class="n">r</span> <span class="o">=</span><span class="n">mid</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">l</span><span class="p">;</span>   
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="c1">// 使用二分进行求解, 时间复杂度是logn
+</span><span class="c1"></span>    <span class="c1">// 二分有两种更新方式， 一种是 l =mid, r =mid -1; 一种是 l =mid +1, r =mid 这个记住也是不难的，r 只能是mid 或者是 mid -1； l 只能是mid 或者是mid +1
+</span><span class="c1"></span>    <span class="c1">// 并且这种mid +-1 操作只能出现一次。当出现mid -1 那么就需要设置一下 mid = (l +r +1ll )/2 ，防止陷入死循环。通过观察可以知道，都是需要出席 +1 这种操作
+</span><span class="c1"></span>    <span class="kt">int</span> <span class="n">mySqrt</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">l</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span><span class="n">x</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span><span class="p">(</span><span class="n">l</span> <span class="o">+</span><span class="n">r</span> <span class="o">+</span><span class="mi">1ll</span><span class="p">)</span> <span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">mid</span> <span class="o">&lt;=</span> <span class="n">x</span><span class="o">/</span><span class="n">mid</span><span class="p">)</span> <span class="n">l</span> <span class="o">=</span><span class="n">mid</span><span class="p">;</span>
+            <span class="k">else</span> <span class="n">r</span> <span class="o">=</span><span class="n">mid</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">l</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>python解法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">mySqrt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        :type x: int
+</span><span class="s2">        :rtype: int
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="n">l</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span>
+        <span class="k">while</span> <span class="n">l</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">:</span>
+            <span class="n">mid</span> <span class="o">=</span> <span class="n">l</span><span class="o">+</span><span class="n">r</span> <span class="o">+</span><span class="mi">1</span> <span class="o">&gt;&gt;</span><span class="mi">1</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">mid</span> <span class="o">*</span><span class="n">mid</span> <span class="o">&lt;=</span> <span class="n">x</span><span class="p">):</span>
+                <span class="n">l</span> <span class="o">=</span><span class="n">mid</span>
+            <span class="k">else</span><span class="p">:</span> <span class="n">r</span> <span class="o">=</span><span class="n">mid</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">return</span> <span class="n">l</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li><a href="https://leetcode.com/problems/guess-number-higher-or-lower/">374. Guess Number Higher or Lower</a></li>
+</ol>
+<p>这个题目 有bug 吧，说反了。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// Forward declaration of guess API.
+</span><span class="c1">// @param num, your guess
+</span><span class="c1">// @return -1 if my number is lower, 1 if my number is higher, otherwise return 0
+</span><span class="c1"></span><span class="kt">int</span> <span class="nf">guess</span><span class="p">(</span><span class="kt">int</span> <span class="n">num</span><span class="p">);</span>
+<span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">guessNumber</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">l</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span><span class="n">n</span><span class="p">;</span>
+        
+        <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">l</span><span class="o">+</span><span class="n">r</span><span class="p">)</span> <span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">guess</span><span class="p">(</span><span class="n">mid</span><span class="p">)</span> <span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">mid</span><span class="p">;</span>
+            <span class="k">else</span> <span class="nf">if</span><span class="p">(</span><span class="n">guess</span><span class="p">(</span><span class="n">mid</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="n">l</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+            <span class="k">else</span> <span class="n">r</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">l</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>c++ 中使用 二分解法，很容易出现int 溢出的这种现象。所以注意一下使用long long进行解决</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// Forward declaration of guess API.
+</span><span class="c1">// @param num, your guess
+</span><span class="c1">// @return -1 if my number is lower, 1 if my number is higher, otherwise return 0
+</span><span class="c1"></span><span class="kt">int</span> <span class="nf">guess</span><span class="p">(</span><span class="kt">int</span> <span class="n">num</span><span class="p">);</span>
+<span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="c1">// 凡是能够分块处理的，那么都是可以使用二分的进行处理的
+</span><span class="c1"></span>    <span class="c1">// 一部分满足某种条件，一部分满足另一种条件
+</span><span class="c1"></span>    <span class="k">typedef</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">ll</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="nf">guessNumber</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">ll</span> <span class="n">l</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span><span class="n">n</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">ll</span> <span class="n">mid</span> <span class="o">=</span><span class="n">l</span> <span class="o">+</span><span class="n">r</span> <span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">guess</span><span class="p">(</span><span class="n">mid</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">mid</span><span class="p">;</span>
+            <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">guess</span><span class="p">(</span><span class="n">mid</span><span class="p">)</span> <span class="o">==-</span><span class="mi">1</span><span class="p">)</span> <span class="n">r</span> <span class="o">=</span><span class="n">mid</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+            <span class="k">else</span> <span class="n">l</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+            <span class="c1">//cout &lt;&lt; l &lt;&lt;&#34; &#34;&lt;&lt; r&lt;&lt; endl;
+</span><span class="c1"></span>        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">l</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>python 解法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># The guess API is already defined for you.</span>
+<span class="c1"># @param num, your guess</span>
+<span class="c1"># @return -1 if my number is lower, 1 if my number is higher, otherwise return 0</span>
+<span class="c1"># def guess(num):</span>
+
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">guessNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        :type n: int
+</span><span class="s2">        :rtype: int
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="n">l</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+        <span class="k">while</span> <span class="n">l</span><span class="o">&lt;</span><span class="n">r</span><span class="p">:</span>
+            <span class="n">mid</span> <span class="o">=</span> <span class="n">l</span><span class="o">+</span><span class="n">r</span> <span class="o">&gt;&gt;</span><span class="mi">1</span>
+            <span class="k">if</span><span class="p">(</span> <span class="n">guess</span><span class="p">(</span><span class="n">mid</span><span class="p">)</span> <span class="o">==</span><span class="mi">0</span><span class="p">):</span> <span class="k">return</span> <span class="n">mid</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="n">guess</span><span class="p">(</span><span class="n">mid</span><span class="p">)</span> <span class="o">==</span><span class="mi">1</span><span class="p">):</span> 
+                <span class="n">l</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span> 
+                <span class="n">r</span> <span class="o">=</span><span class="n">mid</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">return</span> <span class="n">l</span>
+            
+ 
+</code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li><a href="https://leetcode.com/problems/search-in-rotated-sorted-array/submissions/">Search in Rotated Sorted Array</a></li>
+</ol>
+<p>这个题目非常的经典的，使用了一个二分，时间复杂度是 $logn$，  解释可以参考<a href="https://www.acwing.com/solution/LeetCode/content/104/">这里</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="c1">//数据特点， 分成了左右两个递增序列， nums[0] &gt; 后面的递增序列的
+</span><span class="c1"></span>    <span class="kt">int</span> <span class="n">search</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">l</span><span class="o">+</span><span class="n">r</span><span class="p">)</span> <span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+            
+            <span class="k">if</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="p">{</span>
+                <span class="k">if</span><span class="p">(</span> <span class="n">target</span> <span class="o">&gt;=</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">target</span> <span class="o">&lt;=</span> <span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">])</span>
+                    <span class="n">r</span> <span class="o">=</span><span class="n">mid</span> <span class="p">;</span>
+                <span class="k">else</span>
+                    <span class="n">l</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>   
+            <span class="p">}</span>
+            <span class="k">else</span>
+            <span class="p">{</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">target</span> <span class="o">&lt;</span><span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">target</span> <span class="o">&gt;</span><span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">])</span>
+                    <span class="n">l</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+                <span class="k">else</span>
+                    <span class="n">r</span> <span class="o">=</span><span class="n">mid</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">target</span> <span class="o">==</span> <span class="n">nums</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">?</span> <span class="nl">l</span> <span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这个是属于 python实现</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        :type nums: List[int]
+</span><span class="s2">        :type target: int
+</span><span class="s2">        :rtype: int
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">nums</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">l</span><span class="p">,</span><span class="n">r</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">while</span> <span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">:</span>
+            <span class="n">mid</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span><span class="n">r</span> <span class="o">&gt;&gt;</span><span class="mi">1</span>
+            <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                
+                <span class="k">if</span> <span class="n">target</span> <span class="o">&gt;=</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">target</span> <span class="o">&lt;=</span> <span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">]:</span>
+                    <span class="n">r</span> <span class="o">=</span><span class="n">mid</span> 
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">l</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">target</span> <span class="o">&gt;</span> <span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="ow">and</span> <span class="n">target</span> <span class="o">&lt;=</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                    <span class="n">l</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">r</span> <span class="o">=</span><span class="n">mid</span>
+        <span class="k">if</span> <span class="n">l</span><span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nums</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">l</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>so easy</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">search</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="p">;</span>
+        <span class="kt">int</span> <span class="n">l</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span><span class="n">n</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span><span class="n">r</span> <span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+            
+            <span class="k">if</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="p">{</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">target</span> <span class="o">&gt;=</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">target</span> <span class="o">&lt;=</span> <span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">])</span>
+                    <span class="n">r</span> <span class="o">=</span><span class="n">mid</span><span class="p">;</span>
+                <span class="k">else</span>
+                    <span class="n">l</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">else</span>
+            <span class="p">{</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">target</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">target</span> <span class="o">&gt;</span> <span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">])</span>
+                    <span class="n">l</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+                <span class="k">else</span>
+                    <span class="n">r</span> <span class="o">=</span><span class="n">mid</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">n</span> <span class="o">&amp;&amp;</span> <span class="n">nums</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">==</span><span class="n">target</span><span class="p">)</span> <span class="k">return</span> <span class="n">l</span><span class="p">;</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>   
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="4">
+<li><a href="https://leetcode.com/problems/search-in-rotated-sorted-array-ii/submissions/">Search in Rotated Sorted Array II</a></li>
+</ol>
+<p>这种做法是比较好的， LeetCode平台上 两个 90%，可以近似的看成 $logn$</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="c1">// 这个是33 有点类似，只是多了可能存在重复的数字，所以要保证二分的条件，保证的是严格的单调性
+</span><span class="c1"></span>    <span class="kt">bool</span> <span class="n">search</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
+        
+        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">n</span> <span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">target</span> <span class="o">==</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span><span class="n">n</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">k</span> <span class="o">&gt;=</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">==</span><span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="n">k</span> <span class="o">--</span><span class="p">;</span>
+        <span class="n">n</span> <span class="o">=</span><span class="n">k</span><span class="p">;</span>
+        <span class="c1">// 然后现在就是不
+</span><span class="c1"></span>        <span class="kt">int</span> <span class="n">l</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span><span class="n">n</span><span class="p">;</span>
+        
+        <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">l</span><span class="o">+</span><span class="n">r</span><span class="p">)</span> <span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+            
+            <span class="k">if</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="p">{</span>
+                <span class="k">if</span><span class="p">(</span> <span class="n">target</span> <span class="o">&gt;=</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">target</span> <span class="o">&lt;=</span> <span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">])</span>
+                    <span class="n">r</span> <span class="o">=</span><span class="n">mid</span> <span class="p">;</span>
+                <span class="k">else</span>
+                    <span class="n">l</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>   
+            <span class="p">}</span>
+            <span class="k">else</span>
+            <span class="p">{</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">target</span> <span class="o">&lt;</span><span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">target</span> <span class="o">&gt;</span><span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">])</span>
+                    <span class="n">l</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+                <span class="k">else</span>
+                    <span class="n">r</span> <span class="o">=</span><span class="n">mid</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">nums</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">==</span><span class="n">target</span><span class="o">?</span> <span class="nb">true</span><span class="o">:</span><span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这个和上一道题目是类似的。 在进行 &ndash; 操作的时候，一定要判断一下是否能够&ndash;， 比如代码中的 i&gt;=0 然后才能进行 &ndash;； 如果 i&lt;n ，那么才能进行 ++操作</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="c1">// 这个和上面的题目的区别，可能有重复的元素， 所以需要先处理一下。保证前一部分的元素是绝对大于后面的元素的
+</span><span class="c1"></span>    <span class="kt">bool</span> <span class="n">search</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="kt">int</span> <span class="n">l</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span><span class="n">n</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">r</span> <span class="o">&gt;=</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span><span class="n">nums</span><span class="p">[</span><span class="n">r</span><span class="p">])</span> <span class="n">r</span> <span class="o">--</span><span class="p">;</span> 
+        <span class="c1">// 那么现在之前的方式就可以使用了
+</span><span class="c1"></span>        <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span><span class="n">r</span> <span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+
+            <span class="k">if</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="p">{</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">target</span> <span class="o">&gt;=</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">target</span> <span class="o">&lt;=</span> <span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">])</span>
+                    <span class="n">r</span> <span class="o">=</span><span class="n">mid</span><span class="p">;</span>
+                <span class="k">else</span>
+                    <span class="n">l</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">else</span>
+            <span class="p">{</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">target</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">target</span> <span class="o">&gt;</span> <span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">])</span>
+                    <span class="n">l</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+                <span class="k">else</span>
+                    <span class="n">r</span> <span class="o">=</span><span class="n">mid</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">n</span> <span class="o">&amp;&amp;</span> <span class="n">nums</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">==</span><span class="n">target</span><span class="p">)</span> <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>   
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="5">
+<li><a href="https://leetcode.com/problems/find-peak-element/">Find Peak Element</a></li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="c1">// 这个关键是要 会使用二分进行求解
+</span><span class="c1"></span>    <span class="kt">int</span> <span class="n">findPeakElement</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">n</span> <span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">l</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span><span class="n">n</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span><span class="n">r</span><span class="o">+</span><span class="mi">1</span> <span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">nums</span><span class="p">[</span><span class="n">mid</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="n">l</span> <span class="o">=</span><span class="n">mid</span><span class="p">;</span>
+            <span class="k">else</span> <span class="n">r</span> <span class="o">=</span><span class="n">mid</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> 
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">l</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果说知道这个考点是 二分，那么还是很简单的，在判断条件时候，需要注意下.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">class Solution {
+public:
+    int findPeakElement(vector&lt;int&gt;&amp; nums) {
+        int n =nums.size();
+        int l  =0, r =n-1;
+        while(l &lt;r)
+        {
+            int mid =l +r &gt;&gt;1;
+            
+            if(mid +1 &lt;n &amp;&amp; nums[mid] &lt;= nums[mid +1]) l =mid +1;
+            else r  =mid;
+        }
+        return l;
+    }
+};
+
+</code></pre></td></tr></table>
+</div>
+</div><ol start="6">
+<li><a href="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/"> Find First and Last Position of Element in Sorted Array</a></li>
+</ol>
+<p>划分结点的选择，一定是假定mid 就是那个能够划分成两个部分的结点。好好理解一下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">class Solution {
+public:
+    // 自己写这种函数的的时候，一定要以 mid 作为分裂点看
+    vector&lt;int&gt; searchRange(vector&lt;int&gt;&amp; nums, int target) {
+        
+        int n =nums.size();
+        if (n ==0) return vector&lt;int&gt;{-1, -1};
+        
+        int l =0, r =n-1;
+        while(l &lt;r)
+        {
+            int mid = l +r &gt;&gt;1;
+            
+            if(nums[mid] &lt; target) l =mid+1 ;
+            else r =mid ;
+        }
+        //cout &lt;&lt; l &lt;&lt; endl;
+        if(nums[l] != target) return vector&lt;int&gt;{-1, -1};
+        
+        int left =l;
+        l =0, r =n-1;
+        while(l &lt;r)
+        {
+            int mid =l +r +1&gt;&gt;1;
+            if(nums[mid]&gt; target ) r =mid -1;
+            else l =mid ;
+        }
+        int right =l;
+        
+        if(left&gt;=0 &amp;&amp; l&lt; n) return vector&lt;int&gt;{left, right};
+        return vector&lt;int&gt;{-1, -1};
+        
+    }
+};
+</code></pre></td></tr></table>
+</div>
+</div><p>需要注意一些细节，其他的都还好.注意可以直接使用 vector<int> res{-1,-1} 这样的形式进行初始化</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="c1">// 有重复的元素，找到重复元素的首尾，使用两次 二分
+</span><span class="c1"></span>    <span class="c1">// 起点的左边是严格小于 element, 右边是大于等于;
+</span><span class="c1"></span>    <span class="c1">// 终点的右边是严格大于 element，左边是小于等于
+</span><span class="c1"></span>    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">searchRange</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">res</span><span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">};</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="kt">int</span> <span class="n">l</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span><span class="n">n</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">l</span><span class="o">+</span><span class="n">r</span> <span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">target</span><span class="p">)</span> <span class="n">l</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+            <span class="k">else</span> <span class="n">r</span> <span class="o">=</span><span class="n">mid</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">l</span> <span class="o">&gt;=</span> <span class="n">n</span> <span class="o">||</span> <span class="n">nums</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">!=</span> <span class="n">target</span><span class="p">)</span> <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="n">l</span><span class="p">;</span>
+        
+        <span class="n">l</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span><span class="n">n</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">l</span><span class="o">+</span><span class="n">r</span><span class="o">+</span><span class="mi">1</span> <span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">target</span><span class="p">)</span> <span class="n">r</span> <span class="o">=</span><span class="n">mid</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+            <span class="k">else</span> <span class="n">l</span> <span class="o">=</span><span class="n">mid</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">l</span> <span class="o">&gt;=</span><span class="n">n</span><span class="p">)</span> <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">{</span><span class="n">left</span><span class="p">,</span> <span class="n">l</span><span class="p">};</span>
+
+        
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="7">
+<li><a href="https://leetcode.com/problems/first-bad-version/">LeetCode278 第一个错误的版本</a></li>
+</ol>
+<blockquote>
+<p>由于每个版本都是基于之前的版本开发的，所以错误的版本之后的所有版本都是错的。你可以通过调用 bool isBadVersion(version) 接口来判断版本号 version 是否在单元测试中出错。实现一个函数来查找第一个错误的版本。你应该尽量减少对调用 API 的次数。</p>
+</blockquote>
+<p>题目非常简单，直接套用模板#2即可。此题与模板#1的最大区别就在于，right不能修改为mid-1，而必须修改为mid。因为当如果mid是错误产品，无法判断第一个错误版本在mid之前，还是就是当前mid。这是模板#2与模板#1的最大不同。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">firstBadVersion</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">long</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="kt">long</span> <span class="n">right</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">left</span><span class="o">&lt;</span><span class="n">right</span><span class="p">){</span>
+            <span class="kt">long</span> <span class="n">mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">left</span><span class="o">+</span><span class="n">right</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span> <span class="c1">//计算中点
+</span><span class="c1"></span>            <span class="k">if</span><span class="p">(</span><span class="n">isBadVersion</span><span class="p">(</span><span class="n">mid</span><span class="p">)</span><span class="o">==</span><span class="nb">false</span><span class="p">)</span> <span class="n">left</span> <span class="o">=</span> <span class="n">mid</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span> <span class="c1">//如果mid是正常产品，证明第一个错误产品在右侧
+</span><span class="c1"></span>            <span class="k">if</span><span class="p">(</span><span class="n">isBadVersion</span><span class="p">(</span><span class="n">mid</span><span class="p">)</span><span class="o">==</span><span class="nb">true</span><span class="p">)</span> <span class="n">right</span> <span class="o">=</span> <span class="n">mid</span><span class="p">;</span> <span class="c1">//如果mid是错误产品，证明第一个错误产品在是自己或者在左侧
+</span><span class="c1"></span>        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">left</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/">153. Find Minimum in Rotated Sorted Array</a></p>
+<p>使用二分的思想，关键找到分割点。关键是思路：发现最小元素前面的元素都是大于等于 arr[0]，最小元素后面的元素都是小于 arr[0]，所以这个就是分割点。该题目假设一定存在最小值，并且数字之间是没有重复元素的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">findMin</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="p">)</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">nums</span><span class="p">.</span><span class="n">back</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="k">return</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+        <span class="kt">int</span> <span class="n">l</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">){</span>
+            
+            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span><span class="n">r</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">;</span>
+            
+            <span class="k">if</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="n">l</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+            <span class="k">else</span> <span class="n">r</span> <span class="o">=</span><span class="n">mid</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">nums</span><span class="p">[</span><span class="n">l</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>python 实现。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">findMin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">nums</span><span class="p">:</span> <span class="k">return</span> <span class="n">nums</span><span class="p">;</span>
+        <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="k">return</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">l</span> <span class="o">=</span><span class="mi">0</span>
+        <span class="n">r</span> <span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">while</span> <span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">:</span>
+            <span class="n">mid</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span><span class="n">r</span> <span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+            <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="n">l</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">r</span> <span class="o">=</span><span class="n">mid</span>
+        <span class="k">return</span> <span class="n">nums</span><span class="p">[</span><span class="n">l</span><span class="p">]</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><ol start="7">
+<li><a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array-ii/">Find Minimum in Rotated Sorted Array II</a></li>
+</ol>
+<p>如果有重复的元素，那么是从右边开始进行比较。好好考虑这种合理性。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="c1">// 对于这种 duplicates 是很容出来的
+</span><span class="c1"></span>    <span class="kt">int</span> <span class="n">findMin</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">arr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span><span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">n</span> <span class="o">==</span><span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">.</span><span class="n">back</span><span class="p">())</span> <span class="k">return</span> <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+        <span class="kt">int</span> <span class="n">l</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span><span class="n">n</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span><span class="n">r</span> <span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">])</span> <span class="n">l</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+            <span class="k">else</span> <span class="nf">if</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">])</span> <span class="n">r</span> <span class="o">=</span><span class="n">mid</span><span class="p">;</span>
+            <span class="k">else</span> <span class="n">r</span> <span class="o">--</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>解题的思路，先是处理主题的内容，使用二分的做法，然后处理一个case 的东西，比如 重复的元素或者是正序的情况。注意 r &gt;0 而不是 r&gt;=0</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="c1">// 在旋转数组中寻找最小的值
+</span><span class="c1"></span>    <span class="kt">int</span> <span class="n">findMin</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">n</span> <span class="o">==</span><span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+        <span class="kt">int</span> <span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span><span class="n">n</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="c1">// 处理重复的, r &gt; 0 这个很重要呀，不是 &gt;=0
+</span><span class="c1"></span>        <span class="k">while</span><span class="p">(</span><span class="n">r</span> <span class="o">&gt;</span><span class="mi">0</span> <span class="o">&amp;&amp;</span><span class="n">nums</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">==</span><span class="n">nums</span><span class="p">[</span><span class="n">l</span><span class="p">])</span> <span class="n">r</span> <span class="o">--</span><span class="p">;</span>
+        <span class="c1">// 处理正序的情况
+</span><span class="c1"></span>        <span class="k">if</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">[</span><span class="n">r</span><span class="p">])</span> <span class="k">return</span> <span class="n">nums</span><span class="p">[</span><span class="n">l</span><span class="p">];</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span><span class="n">l</span> <span class="o">+</span><span class="n">r</span> <span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+            
+            <span class="k">if</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="n">l</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+            <span class="k">else</span> <span class="n">r</span> <span class="o">=</span><span class="n">mid</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">nums</span><span class="p">[</span><span class="n">l</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>对于二分的解法，时间复杂度是 $O(logn)$， 因为每次都是可以去掉一部分数字。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// Forward declaration of isBadVersion API.
+</span><span class="c1"></span><span class="kt">bool</span> <span class="nf">isBadVersion</span><span class="p">(</span><span class="kt">int</span> <span class="n">version</span><span class="p">);</span>
+
+<span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="c1">// 如果第 i 个版本是错误的，那么 i+1 也一定是错误的，所以 i 构成了二分的条件
+</span><span class="c1"></span>    <span class="kt">int</span> <span class="n">firstBadVersion</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">l</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span><span class="n">n</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span><span class="mi">0ll</span> <span class="o">+</span><span class="n">r</span> <span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+            
+            <span class="k">if</span><span class="p">(</span><span class="n">isBadVersion</span><span class="p">(</span><span class="n">mid</span><span class="p">))</span> <span class="n">r</span> <span class="o">=</span><span class="n">mid</span> <span class="p">;</span>
+            <span class="k">else</span> <span class="n">l</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">l</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="8">
+<li><a href="">isBadVersion</a></li>
+</ol>
+<p>时间复杂度是$O(logn)$</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// Forward declaration of isBadVersion API.
+</span><span class="c1"></span><span class="kt">bool</span> <span class="nf">isBadVersion</span><span class="p">(</span><span class="kt">int</span> <span class="n">version</span><span class="p">);</span>
+<span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="c1">// 二分的本质是可以分块查找，找到一个分界点，左边是一种情况，右边是另一种情况。
+</span><span class="c1"></span>    <span class="c1">//mid 是坏的版本，r =mid， 如果mid 是好的版本， l =mid +1 （这种加一 or 之间等于是根据实际问题作出的选择）
+</span><span class="c1"></span>    <span class="c1">// 然后根据这种情况，去选择第一个或者是第二个版本的模板
+</span><span class="c1"></span>    <span class="kt">int</span> <span class="n">firstBadVersion</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">l</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span><span class="n">n</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0ll</span><span class="o">+</span><span class="n">l</span> <span class="o">+</span><span class="n">r</span> <span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span> <span class="c1">// 这个可能产生溢出的问题， 注意细节，如果 0ll 放到了最后，那么同样是会溢出，因为三个数相加本质上是两个数先相加然后加上第三个数
+</span><span class="c1"></span>            <span class="k">if</span><span class="p">(</span><span class="n">isBadVersion</span><span class="p">(</span><span class="n">mid</span><span class="p">))</span>  <span class="n">r</span> <span class="o">=</span><span class="n">mid</span><span class="p">;</span>
+            <span class="k">else</span> <span class="n">l</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">l</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="9">
+<li><a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/"> Find Minimum in Rotated Sorted Array</a></li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="c1">// 最小值前面的数字都满足 nums[i] &gt;= nums[0]， 最小值后面的数字都不满足
+</span><span class="c1"></span>    <span class="c1">// 这个就形成了分块（可以使用二分）
+</span><span class="c1"></span>    <span class="c1">// 如果 nums[mid] &gt;= nums[0] , l =mid +1,  r =mid
+</span><span class="c1"></span>    <span class="kt">int</span> <span class="n">findMin</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">)</span> <span class="p">{</span>
+        
+        <span class="c1">// 注意这个是严格的大于号，因为没有重复元素，所以可以这么操作
+</span><span class="c1"></span>        <span class="k">if</span><span class="p">(</span><span class="n">nums</span><span class="p">.</span><span class="n">back</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">return</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+        
+        <span class="c1">// 这个是边界问题的一种处理方法， 这个是一种方式（关键是不影响时间复杂度的，常数级别的）
+</span><span class="c1"></span>        <span class="cm">/*
+</span><span class="cm">        if(nums.size() &lt;=5)
+</span><span class="cm">        {
+</span><span class="cm">            int min_v =INT_MAX;
+</span><span class="cm">            for(auto u : nums)
+</span><span class="cm">                min_v =min(min_v, u);
+</span><span class="cm">            return min_v;
+</span><span class="cm">        }
+</span><span class="cm">        */</span>
+        <span class="kt">int</span> <span class="n">l</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span><span class="p">(</span><span class="n">l</span> <span class="o">+</span><span class="n">r</span> <span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span> <span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&gt;=</span><span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="n">l</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+            <span class="k">else</span> <span class="n">r</span> <span class="o">=</span><span class="n">mid</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">nums</span><span class="p">[</span><span class="n">l</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>题目非常简单，直接套用模板#2即可。此题与模板#1的最大区别就在于，right不能修改为mid-1，而必须修改为mid。因为当如果mid是错误产品，无法判断第一个错误版本在mid之前，还是就是当前mid。这是模板#2与模板#1的最大不同。</p>
+<h3 id="模板3">模板3</h3>
+<p>模板 3 是二分查找的另一种独特形式。它用于搜索需要访问当前索引及其在数组中的直接左右邻居索引的元素或条件。
+搜索条件需要访问元素的直接左右邻居。
+使用元素的邻居来确定它是向右还是向左。
+保证查找空间在每个步骤中至少有 3 个元素。
+需要进行后处理。 当剩下 2 个元素时，循环 / 递归结束。 需要评估其余元素是否符合条件。</p>
+<p>对应的leetcode 例题
+LeetCode34 在排序数组中查找元素的第一个和最后一个位置
+LeetCode658 找到 K 个最接近的元素</p>
+<p>语法关键：</p>
+<p>初始条件：left = 0, right = length-1
+终止：left + 1 == right
+向左查找：right = mid
+向右查找：left = mid</p>
+<ol start="10">
+<li><a href="">binarySearch 模板题</a></li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">int</span> <span class="nf">binarySearch</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">target</span><span class="p">){</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+
+    <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">left</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">right</span><span class="p">){</span>
+        <span class="c1">// Prevent (left + right) overflow
+</span><span class="c1"></span>        <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">left</span> <span class="o">+</span> <span class="p">(</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">mid</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">left</span> <span class="o">=</span> <span class="n">mid</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="n">right</span> <span class="o">=</span> <span class="n">mid</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">// Post-processing:
+</span><span class="c1"></span>    <span class="c1">// End Condition: left + 1 == right
+</span><span class="c1"></span>    <span class="k">if</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">)</span> <span class="k">return</span> <span class="n">left</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">right</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">)</span> <span class="k">return</span> <span class="n">right</span><span class="p">;</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>来个模板, 所谓的访问文件保留几个元素，就是包括与否mid 的意思。如果 left 和 right 都可以为 mid，那么就是三个访问空间；
+如果只有 left or right 可以= mid，那么就是两个访问空间；如果 left =mid -1 且 right =mid +1 那么只有一个访问空间。同样三个条件依次为 left &lt;= right, left &lt; right 和 left +1 &lt; right 保证访问空间是可以 access 的。</p>
+<p>总结如下：</p>
+<p><img src="https://upload.cc/i1/2019/07/23/hWl7A6.png" alt=""></p>
+<ol start="10">
+<li><a href="https://leetcode.com/problems/find-k-closest-elements/">Find K Closest Elements</a></li>
+</ol>
+<p>这个算法太精妙了，真的是难以理解了。总的时间复杂度 $O(log(n -k) +k)$</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="c1">//时间复杂度 O(log (n-k) +k)
+</span><span class="c1"></span>    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">findClosestElements</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">arr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">k</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="kt">int</span> <span class="n">l</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span><span class="n">n</span> <span class="o">-</span><span class="n">k</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span> <span class="n">l</span><span class="o">&lt;</span> <span class="n">r</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span><span class="n">r</span> <span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span><span class="n">arr</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span>  <span class="o">&gt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">mid</span><span class="o">+</span><span class="n">k</span><span class="p">]</span>  <span class="o">-</span><span class="n">x</span><span class="p">)</span> <span class="n">l</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+            <span class="k">else</span> <span class="n">r</span> <span class="o">=</span><span class="n">mid</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">arr</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span> <span class="o">+</span><span class="n">l</span><span class="p">,</span> <span class="n">arr</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span> <span class="o">+</span><span class="n">l</span><span class="o">+</span><span class="n">k</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>关键是是二分的条件比较难想，可以使用极端的思路， 如果 <code>x - arr[mid]</code>  之间的距离是大于 <code>arr[mid+k] -x</code> 那么这个是需要调整 <code>l</code> <code>的距离，然后靠近 </code>mid` ;反之，也是成立的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="c1">// 使用二分的思想， 时间复杂度是logn 的
+</span><span class="c1"></span>    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">findClosestElements</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">arr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">k</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span><span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="p">;</span>
+        <span class="kt">int</span> <span class="n">l</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span><span class="n">k</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span><span class="n">l</span> <span class="o">+</span><span class="n">r</span> <span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">arr</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">mid</span><span class="o">+</span><span class="n">k</span><span class="p">]</span> <span class="o">-</span><span class="n">x</span><span class="p">)</span> <span class="n">l</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+            <span class="k">else</span> <span class="n">r</span> <span class="o">=</span><span class="n">mid</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="c1">// 这种写法也是需要多加学习的
+</span><span class="c1"></span>        <span class="k">return</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">{</span><span class="n">arr</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span> <span class="o">+</span><span class="n">l</span><span class="p">,</span> <span class="n">arr</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span> <span class="o">+</span><span class="n">l</span> <span class="o">+</span><span class="n">k</span><span class="p">};</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>浮点数二分算法</strong></p>
+<p>浮点二分不存在 +1 还是 -1 的操作，需要注意的是精度问题。</p>
+<p><a href="https://www.acwing.com/problem/content/792/">数的三次方根</a></p>
+<p>double 和 float 的区别：
+float ：单精度浮点数在机内占4个字节，用32位二进制描述。
+double：双精度浮点数在机内占8个字节，用64位二进制描述。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">#include&lt;iostream&gt;
+using namespace std;
+double x;
+int main()
+{
+    cin &gt;&gt;x;
+    double l = -10000, r = 100000;
+    // 如果是保留6 位消失，那么使用 1e-8，如果是2位，那么是 1e-4
+    while(r -l &gt; 1e-8)
+    {
+        double mid = (l+r) /2;
+        if(mid *mid *mid &gt;x) r =mid;
+        else l =mid;
+    }
+    printf(&#34;%.6f&#34;, l);// 输出的格式 %.6f 表示double 类型
+    return 0;
+}
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">double</span> <span class="n">n</span><span class="p">;</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span><span class="n">n</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">l</span> <span class="o">=-</span><span class="mi">10000</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">r</span> <span class="o">-</span><span class="n">l</span> <span class="o">&gt;</span> <span class="mf">1e-8</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">double</span> <span class="n">mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">l</span><span class="o">+</span><span class="n">r</span><span class="p">)</span> <span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+        
+        <span class="k">if</span><span class="p">(</span><span class="n">mid</span> <span class="o">*</span><span class="n">mid</span> <span class="o">*</span><span class="n">mid</span> <span class="o">&gt;</span> <span class="n">n</span><span class="p">)</span> <span class="n">r</span> <span class="o">=</span><span class="n">mid</span><span class="p">;</span>
+        <span class="k">else</span> <span class="n">l</span> <span class="o">=</span><span class="n">mid</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%.6f</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">l</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>参考文献：</p>
+<p><a href="https://www.jianshu.com/p/b72c80fdb240">数据结构也不难：二分查找模版与例题</a></p>
+<h3 id="python-对于-binary-search-的支持">python 对于 binary search 的支持</h3>
+<p>包函数 bisect</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">bisect</span>
+ 
+<span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">15</span><span class="p">]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="mi">3</span>
+ 
+<span class="n">x_insert_point</span> <span class="o">=</span> <span class="n">bisect</span><span class="o">.</span><span class="n">bisect_left</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>　　<span class="c1">#在L中查找x，x存在时返回x左侧的位置，x不存在返回应该插入的位置..这是3存在于列表中，返回左侧位置１</span>
+<span class="k">print</span> <span class="n">x_insert_point</span>
+ 
+<span class="n">x_insert_point</span> <span class="o">=</span> <span class="n">bisect</span><span class="o">.</span><span class="n">bisect_right</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>  <span class="c1">#在L中查找x，x存在时返回x右侧的位置，x不存在返回应该插入的位置..这是3存在于列表中，返回右侧位置３</span>
+ 
+<span class="k">print</span> <span class="n">x_insert_point</span>
+ 
+<span class="n">x_insort_left</span> <span class="o">=</span> <span class="n">bisect</span><span class="o">.</span><span class="n">insort_left</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>  <span class="c1">#将x插入到列表L中，x存在时插入在左侧</span>
+<span class="k">print</span> <span class="n">L</span>
+ 
+<span class="n">x_insort_rigth</span> <span class="o">=</span> <span class="n">bisect</span><span class="o">.</span><span class="n">insort_right</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">x</span><span class="p">)</span> <span class="c1">#将x插入到列表L中，x存在时插入在右侧　　　　</span>
+ 
+</code></pre></td></tr></table>
+</div>
+</div><p>防止越界的tips：
+change &ldquo;mid = (low + high) / 2 &quot; -&gt; &ldquo;mid = low + (high - low) / 2 &ldquo;或者使用 ”mid = (low + high) &raquo; 1“，</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2018-01-23
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/binary-search/">binary search</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/ensemble/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Ensemble</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

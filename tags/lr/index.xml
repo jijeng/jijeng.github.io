@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>lr on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/lr/</link>
+    <description>Recent content in lr on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 09 Jun 2019 14:59:59 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/lr/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Logistic Regression 概念</title>
+      <link>http://jijeng.github.io/post/logistic_regression/</link>
+      <pubDate>Sun, 09 Jun 2019 14:59:59 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/logistic_regression/</guid>
+      <description>&lt;p&gt;本文主要介绍逻辑回归（logistics regression）和决策树（Decision Tree）。逻辑回归从线性回归出发到逻辑回归，然后手推公式和相关的一些特点；介绍一下决策树的特点。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

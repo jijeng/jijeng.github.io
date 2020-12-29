@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Machine_translation - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="介绍机器翻译的五个发展阶段，然后是关于机器翻译的论文阅读笔记（持续更新）
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/machine_translation/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Machine_translation" />
+<meta property="og:description" content="介绍机器翻译的五个发展阶段，然后是关于机器翻译的论文阅读笔记（持续更新）" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/machine_translation/" />
+<meta property="article:published_time" content="2019-06-29T15:34:19+08:00" />
+<meta property="article:modified_time" content="2019-06-29T15:34:19+08:00" />
+<meta itemprop="name" content="Machine_translation">
+<meta itemprop="description" content="介绍机器翻译的五个发展阶段，然后是关于机器翻译的论文阅读笔记（持续更新）">
+<meta itemprop="datePublished" content="2019-06-29T15:34:19+08:00" />
+<meta itemprop="dateModified" content="2019-06-29T15:34:19+08:00" />
+<meta itemprop="wordCount" content="3968">
+
+
+
+<meta itemprop="keywords" content="machine translation," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Machine_translation"/>
+<meta name="twitter:description" content="介绍机器翻译的五个发展阶段，然后是关于机器翻译的论文阅读笔记（持续更新）"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Machine_translation</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-06-29 </span>
+        <div class="post-category">
+            <a href="/categories/nlp/"> nlp </a>
+            </div>
+          <span class="more-meta"> 约 3968 字 </span>
+          <span class="more-meta"> 预计阅读 8 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#机器翻译的发展过程">机器翻译的发展过程</a></li>
+        <li><a href="#sequence-to-sequence-learning-with-neural-network论文阅读">Sequence to Sequence Learning with Neural Network论文阅读</a></li>
+        <li><a href="#effective-approaches-to-attention-based-neural-machine-translation论文阅读">Effective Approaches to Attention-based Neural Machine Translation论文阅读</a></li>
+        <li><a href="#bleu论文阅读">BLEU论文阅读</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>介绍机器翻译的五个发展阶段，然后是关于机器翻译的论文阅读笔记（持续更新）</p>
+<h2 id="机器翻译的发展过程">机器翻译的发展过程</h2>
+<p>why difficult?</p>
+<ul>
+<li>Machine translation is challenging given the inherent ambiguity and flexibility of human language.</li>
+<li>Statistical machine translation replaces classical rule-based systems with models that learn to translate from examples.</li>
+<li>Neural machine translation models fit a single model rather than a pipeline of fine-tuned models and currently achieve state-of-the-art results.</li>
+</ul>
+<p>（1）Rule-based Machine Translation</p>
+<p>Classical machine translation methods often involve rules for converting text in the source language to the target language. The rules are often developed by linguists and may operate at the lexical, syntactic, or semantic level. This focus on rules gives the name to this area of study: Rule-based Machine Translation, or RBMT.</p>
+<p>The key limitations of the classical machine translation approaches are both the *** expertise*** required to develop the rules, and the vast number of rules and exceptions required.</p>
+<p>（2）Statistical Machine Translation</p>
+<p>Statistical machine translation, or SMT for short, is the use of statistical models that learn to translate text from a source language to a target language given a large corpus of examples.</p>
+<p>Given a sentence T in the target language, we seek the sentence S from which the translator produced T. We know that our chance of error is minimized by choosing that sentence S that is most probable given T. Thus, we wish to choose S so as to maximize $P_r(S|T)$.</p>
+<p>The approach is data-driven, requiring only a corpus of examples with both source and target language text. This means linguists are not longer required to specify the rules of translation. Although effective, statistical machine translation methods suffered from a ***narrow focus on the phrases being translated ***, losing the broader nature of the target text. The hard focus on data-driven approaches also meant that methods may have ***ignored important syntax distinctions *** known by linguists. Finally, the statistical approaches required careful tuning of each module in the translation pipeline.</p>
+<p>（3）Neural Machine Translation</p>
+<p>The key benefit to the approach is that a single system can be trained directly on source and target text, no longer requiring the pipeline of specialized systems used in statistical machine learning.</p>
+<p>As such, neural machine translation systems are said to be*** end-to-end systems*** as only one model is required for the translation.</p>
+<p>（4）Encoder-Decoder Model</p>
+<p>Multilayer Perceptron neural network models can be used for machine translation, although the models are limited by a ***fixed-length input sequence ***where the output must be the <em><strong>same length.</strong></em></p>
+<p>These early models have been greatly improved upon recently through the use of recurrent neural networks organized into an encoder-decoder architecture that allow for variable length input and output sequences.</p>
+<p>The key to the encoder-decoder architecture is the ability of the model to encode the source text into an internal fixed-length representation called the context vector. Interestingly, once encoded, different decoding systems could be used, in principle, to translate the context into different languages.</p>
+<p>The power of this model lies in the fact that it can map sequences of different lengths to each other.</p>
+<p>（5）Encoder-Decoders with Attention</p>
+<p>Although effective, the Encoder-Decoder architecture has problems with long sequences of text to be translated. The problem stems from the fixed-length internal representation that must be used to decode each word in the output sequence. The solution is the use of an attention mechanism that allows the model to learn where to place attention on the input sequence as each word of the output sequence is decoded.</p>
+<p>The encoder-decoder recurrent neural network architecture with attention is currently the state-of-the-art on some benchmark problems for machine translation. And this architecture is used in the heart of the Google Neural Machine Translation system, or GNMT, used in their <a href="https://translate.google.com">Google Translate service</a>.</p>
+<p>Although effective, the neural machine translation systems still suffer some issues, such as <em><strong>scaling to larger vocabularies of words and the slow speed of training the models.</strong></em> There are the current areas of focus for large production neural translation systems, such as the Google system.</p>
+<p>（6）Attention VS  LSTM</p>
+<p>A limitation of the LSTM architecture is that it encodes the input sequence to a fixed length internal representation. This imposes limits on the length of input sequences that can be reasonably learned and results in worse performance for <em><strong>very long input sequences.</strong></em></p>
+<p>After reading this, you will know:</p>
+<p>This (LSTM) is believed to limit the performance of these networks, especially when considering long input sequences, such as very long sentences in text translation problems. Put another way, each item in the output sequence is conditional on selective items in the input sequence.</p>
+<p>而对于 Attention 而言:</p>
+<blockquote>
+<p>Each time the proposed model generates a word in a translation, it (soft-) searches for a set of positions in a source sentence where the most relevant information is concentrated. The model then predicts a target word based on the context vectors associated with these source positions and all the previous generated target words.… it encodes the input sentence into a sequence of vectors and chooses a subset of these vectors adaptively while decoding the translation. This frees a neural translation model from having to squash all the information of a source sentence, regardless of its length, into a fixed-length vector.</p>
+</blockquote>
+<p>And, This (Attention) increases the computational burden of the model, but results in a more targeted and better-performing model.</p>
+<p>同样，除了在 machine translation 中有应用， 在其他领域如image description, CNN 中同样有借鉴的意义。Convolutional neural networks applied to computer vision problems also suffer from similar limitations, where it can be difficult to learn models on very large images.</p>
+<p>参考文献</p>
+<p><a href="https://machinelearningmastery.com/introduction-neural-machine-translation/">introduction-neural-machine-translation</a>
+<a href="https://machinelearningmastery.com/attention-long-short-term-memory-recurrent-neural-networks/">attention-long-short-term-memory-recurrent-neural-networks</a></p>
+<h2 id="sequence-to-sequence-learning-with-neural-network论文阅读">Sequence to Sequence Learning with Neural Network论文阅读</h2>
+<p>研究目的：CNNs需要输入、输出维度是已知和固定的。而语音识别、机器翻译、问答系统等序列到序列问题的序列长度是未知的。CNN有一个明显的缺陷：CNN只能处理输入、输出向量维度是定长的情形。对于输入、输出可变长的情况，使用RNN-Recurrent Neural Network更易求解。</p>
+<p>论文贡献之一在于网络结构上：通过学习编码一个可变长度的序列成一个固定长度的向量表示，解码一个给定的固定长度的向量成一个可变长度的序列。实现的时候首先将source sequence通过一个encode LSTM map成一个vector，然后再通过另一个decoder LSTM进行翻译得出output，这也恰恰是image caption里的思想呀（通过CNN将输入图像conv成一个vector或者feature map，然后再输入LSTM），原来大体是这样，接着看。</p>
+<p>另外还有一个小的策略：LSTM在长句翻译中的表现也不俗。这归功于对源序列中词序的逆转。虽然LSTM能够基于长期的相关性处理问题，但我们发现在把原句序列逆转的情况下LSMT能学习得更加出色。逆转之后，LSTM测试的复杂度从5.8降至4.7，并且在BLEU上的得分从25.9提升至30.6。</p>
+<p>不足之处：其他方面都比较普通，或者说很多论文中都有提到过，比如LSTM可以解决vanishing的问题但没法解决gradient exploding的问题，因此採取gradient crop。模型採用了SGD without momentum。实用的LSTM结构式Grave的《Generating sequence from RNN》中的LSTM结构，等等。</p>
+<p>总结：总体来说，这个模型还是採取了贪婪的算法，换句话说，后面的预测对前面的状态有极强的依赖，一旦前面的预测出现问题，后面的预测就不可靠了，这也是一个值得思考和改进的地方。</p>
+<h2 id="effective-approaches-to-attention-based-neural-machine-translation论文阅读">Effective Approaches to Attention-based Neural Machine Translation论文阅读</h2>
+<p>这篇文章的核心在于 attention。</p>
+<p>Attention 的作用可以看作是一个对齐模型，传统 SMT 我们用 EM 算法来求解对齐，这里做一个隐式的对齐，将 alignment model 用一个 feedforward neural network 参数化，和其他部分一起训练，神经网络会同时来学习 翻译模型(translation) 和 对齐模型(alignment)。
+<img src="https://i.bmp.ovh/imgs/2019/06/2cf84d89fe5fc1a4.png" alt=""></p>
+<p>Attention 可以分成 hard and soft两种模型，简单理解 hard attention 就是从 source sentence 中找到一个能产生单词 $t^{th}$ 对齐的特定单词，把 $s_{t,i}$ 设为1，其他所有单词硬性的认为其概率为0; soft attention 对于source sentence中每个单词都给出一个对齐概率，得到一个概率分布，context vector 就是这些概率分布的一个加权和，整个模型是平滑的且处处可分。</p>
+<p>而在该篇论文中提出了一个新的 attention 机制 local attention，在得到 context vector 时，我们不想看所有的 source hidden state，而是每次只看一个 hidden state 的子集(subset)，这样的 attention 其实更集中，也会有更好的结果。Global attention 其实就是 soft attention， local model 实际相当于 hard 和 soft attention 的一个混合或者说折中，主要是用来降低 attention 的花费，简单来说就是每次计算先用预测函数得到 source 相关信息的窗口。</p>
+<p>soft or hard attention 还是 global or local attention是从不同的角度进行分类的，前者是在概率分布上，后者是在 context上。</p>
+<p>这个是global attention：
+<img src="https://i.bmp.ovh/imgs/2019/06/82e16ed9bc913351.png" alt=""></p>
+<p>这个是 local attention
+<img src="https://i.bmp.ovh/imgs/2019/06/9e79af473abb92ec.png" alt=""></p>
+<p>总结：三种不同的attention 种类</p>
+<p>attention 分成 hard 和soft 两种模式，简单理解 hard attention 就是从source sentence中国找到一个能够产生 $t^{th}$ 的特定单词，把这个单词设置成1，其他单词设置成0；而soft attention （global attention）是把source sentence中每个单词都给出一个对齐的概率模型，得到一个分布，然后整个模型是处处可分的。而前者不是处处可分的。local attention是相对于 global attention而言的，不是得到一个全局的attention，而是全局的子集，这样可以降低计算attention 的花费，得到一个相关信息的窗口。</p>
+<h2 id="bleu论文阅读">BLEU论文阅读</h2>
+<p>作者提出了BLEU（Bilingual Evaluation Understudy，中文读作波勒）指标用于评价句子翻译的效果。其基本假设是</p>
+<blockquote>
+<p>The closer a machine translation is to a professional human translation, the better it is.
+翻译句子和专业人员的翻译越近，那么效果越好。</p>
+</blockquote>
+<p>那么该BLEU 的计算需要由两部分组成：</p>
+<blockquote>
+<ol>
+<li>a numerical “translation closeness” metric</li>
+</ol>
+</blockquote>
+<ol start="2">
+<li>a corpus of good quality human referrence translations</li>
+</ol>
+<p>一个相似度计算的指标和高质量的 referrence 语料库。</p>
+<p>BLEU 的计算分为三个步骤：</p>
+<p>为了方便说明，沿用了论文中记号：Candidate 表示待评测的句子；Reference 是专业人员翻译的句子。</p>
+<p>（1）n-gram</p>
+<blockquote>
+<p>These matches are position-independent. The more the matches, the better the candidate translation is.</p>
+</blockquote>
+<p>可以发现n-gram 是统计模型，该维度主要统计句子中词的共现。该维度是准确率（precision），要求Candidate 中词语是在Reference 句子中出现的。</p>
+<p>缺点：较少地涉及语序，虽然语序也很重要。给出的解释是</p>
+<blockquote>
+<p>The cat is on the mat.
+There is a cat on the mat.</p>
+</blockquote>
+<p>上面两个句子是同一个意思，但是语序不一样。并且n-gram 是包含了部分语序，当 $n=2$或者 $n =3$ 的时候。</p>
+<p>（2）惩罚模型（Modified n-gram）</p>
+<p>模型有时候会生成如下的base case：</p>
+<blockquote>
+<p>Candidate: the the the the the the the.
+Reference 1: The cat is on the mat.
+Reference 2: There is a cat on the mat.</p>
+</blockquote>
+<p>翻译的结果具有 high precision，但是明显是不好的结果。作者提出的解决方案：</p>
+<blockquote>
+<p>To compute this, one first counts the maximum number of times a word occurs in any single reference translation. Next, one clips the to- tal count of each candidate word by its maximum reference count, adds these clipped counts up, and divides by the total (unclipped) number of candidate words.
+BLEU修正了这个算法，提出取机器翻译译文N-gram的出现次数和参考译文中N-gram最大出现次数中的最小值的算法，具体如下：</p>
+</blockquote>
+<p>$$
+Count_{clip} = \min(Count, \text{Max_Ref_Count})
+$$</p>
+<p>所以该步骤precision score, $p_n$可以表达为：</p>
+<p>$$P_n =\frac{ \sum_{C \in {Candidates} } \sum_{n-gram \in C} Count_{clip}(n-gram)}{\sum_{C \in {Candidates} } \sum_{n-gram \in C^{‘}} Count_{clip}(n-gram^{‘})} $$</p>
+<p>（3）Sentence brevity penalty</p>
+<blockquote>
+<p>N -gram precision penalizes spurious words in the candidate that do not appear in any of the reference translations.  Additionally, modified precision is penalized if a word occurs more frequently in a candidate translation than its maximum reference count.
+N-gram precision策略惩戒冗余长句子；但是对于短句子却没有处理，如下的bad case</p>
+</blockquote>
+<blockquote>
+<p>Candidate: of the
+Reference 1: It is a guide to action that ensures that the military will forever heed Party commands.
+Reference 2: It is the guiding principle which guarantees the military forces always being under the command of the Party.
+Reference 3: It is the practical guide for the army always to heed the directions of the party.</p>
+</blockquote>
+<blockquote>
+<p>Candidate translations longer than their references are already penalized by the modified n-gram precision measure: there is no need to penalize them again.  They consider the range of reference translation lengths in the target language.
+长句子已经使用 n-gram 策略处理了，所以这部分策略主要处理具有高precision但效果不好的短句子。</p>
+</blockquote>
+<p>$$ BP = \begin{cases}
+1 &amp; c &gt;r \\<br>
+e ^ { ( 1 - r / c ) } &amp; c &lt;= r
+\end{cases}$$</p>
+<p>这里的 $c$是机器译文的词数，$r$是参考译文的词数</p>
+<p>所以总的 BLEU 可以表示为以下的形式：</p>
+<p>$$
+\mathrm { B } \mathrm { LEU } = \mathrm { BP } \cdot \exp \left( \sum _ { n = 1 } ^ { N } w _ { n } \log p _ { n } \right)
+$$</p>
+<p>或者写成 log 的形式：</p>
+<p>$$
+\log BLEU = \min (1- \frac{r}{c}, 0) + \sum _{n=1} ^{N} w_n \log p_n
+$$</p>
+<p>当 $N =4$的时候， $w_n = \frac{1}{N}$。</p>
+<p>（4）结论</p>
+<p>优点：计算速度快；容易理解；已经被广泛使用。
+缺点：短译句的测评精度有时会较高；它没有考虑句子意义
+summary：BLEU本身就不追求百分之百的准确性，也不可能做到百分之百，它的目标只是给出一个快且不差的自动评估解决方案。该指标虽然是针对机器翻译提出，但是同样适用于其他的NLP 的模型。</p>
+<p>参考文献</p>
+<p>1). <a href="https://arxiv.org/abs/1409.3215">Sequence to Sequence Learning with Neural Network</a>
+2). <a href="https://arxiv.org/abs/1508.04025">Effective Approaches to Attention-based Neural Machine Translation</a>
+3). <a href="https://www.aclweb.org/anthology/P02-1040.pdf">BLEU: a Method for Automatic Evaluation of Machine Translation</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-06-29
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/machine-translation/">machine translation</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/text_summary/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Text Summary</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/resnet_understanding/">
+            <span class="next-text nav-default">ResNet and Inception V3 Understanding</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

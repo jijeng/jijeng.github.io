@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>svm on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/svm/</link>
+    <description>Recent content in svm on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 22 Oct 2019 14:56:13 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/svm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Logistic &amp; Softmax</title>
+      <link>http://jijeng.github.io/post/logistic_softmax/</link>
+      <pubDate>Tue, 22 Oct 2019 14:56:13 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/logistic_softmax/</guid>
+      <description>title: logistics 和softmax 的公式推导 date: 2019-07-05 20:37:41 categories: 机器学习 Logistics 和 softmax 的公式推导。总结常在面试过程中用到的公式推导。 Logistics公式推导 Logistics Regression 是线性分类器</description>
+    </item>
+    
+    <item>
+      <title>SVM All You Need to Know</title>
+      <link>http://jijeng.github.io/post/svm/</link>
+      <pubDate>Sat, 08 Jun 2019 16:51:21 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/svm/</guid>
+      <description>&lt;p&gt;本文主要介绍SVM 相关内容，包括理论原理、在线性可分条件下的公式推导和 SVM的应用特点。最后综合 LR 和 Decision Tree的&lt;a href=&#34;https://jijeng.github.io/2019/06/09/lr/&#34;&gt;这篇博客&lt;/a&gt;，给出了一些小的建议。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

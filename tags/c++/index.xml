@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>c&#43;&#43; on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/c&#43;&#43;/</link>
+    <description>Recent content in c&#43;&#43; on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 01 Jan 2020 15:08:10 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/c++/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Python 和C&#43;&#43; 中的内存管理</title>
+      <link>http://jijeng.github.io/post/memory_configuration/</link>
+      <pubDate>Wed, 01 Jan 2020 15:08:10 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/memory_configuration/</guid>
+      <description>&lt;p&gt;介绍Python 和C++ 中的内存管理。Python中的内存管理分为内存分配、引入计数和垃圾回收。C++ 中的内存管理主要介绍五个不同的分区和new delete malloc free等四个关键字。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43; 编程语言（二）</title>
+      <link>http://jijeng.github.io/post/cpp_tutorial_2/</link>
+      <pubDate>Mon, 06 May 2019 10:46:45 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/cpp_tutorial_2/</guid>
+      <description>&lt;p&gt;C++ 语言学习笔记2&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43; 编程语言（一）</title>
+      <link>http://jijeng.github.io/post/cpp_tutorial_1/</link>
+      <pubDate>Sat, 05 Jan 2019 19:44:13 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/cpp_tutorial_1/</guid>
+      <description>主要介绍C++ 编程语言，面向对象中的封装、继承和多态； STL(Standard Template Library 标准模板库, string, list, map) 等函数；内存管理；指针。（持续更新中&amp;hellip;） 多态（一</description>
+    </item>
+    
+  </channel>
+</rss>

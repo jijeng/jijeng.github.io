@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Regular Expression - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="介绍正则表达式
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/regular_expression/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Regular Expression" />
+<meta property="og:description" content="介绍正则表达式" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/regular_expression/" />
+<meta property="article:published_time" content="2020-06-28T16:13:50+08:00" />
+<meta property="article:modified_time" content="2020-06-28T16:13:50+08:00" />
+<meta itemprop="name" content="Regular Expression">
+<meta itemprop="description" content="介绍正则表达式">
+<meta itemprop="datePublished" content="2020-06-28T16:13:50+08:00" />
+<meta itemprop="dateModified" content="2020-06-28T16:13:50+08:00" />
+<meta itemprop="wordCount" content="7183">
+
+
+
+<meta itemprop="keywords" content="regular expression," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Regular Expression"/>
+<meta name="twitter:description" content="介绍正则表达式"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Regular Expression</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-06-28 </span>
+        
+          <span class="more-meta"> 约 7183 字 </span>
+          <span class="more-meta"> 预计阅读 15 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#linux-中常见的正则匹配实例">linux 中常见的正则匹配实例</a></li>
+        <li><a href="#python中的正则表达">python中的正则表达</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>介绍正则表达式</p>
+<p>正则表达式使用单个字符串来描述、匹配一系列匹配某个句法规则的字符串。换句话说，正则表达式就是记录文本规则的代码。正则表达式(Regular Expression)是一种文本模式，包括普通字符（例如，a 到 z 之间的字母）和特殊字符（称为&quot;元字符&quot;）。</p>
+<p>正则表达式的工作机制</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">    +--------+
+    |  编译  |
+    +--------+
+         |
+         ↓
++----------------+
+|  设置开始位置    |←---------+
++----------------+          ↑
+         |                  |
+         ↓               其 |
++----------------+       他 |
+|  匹配 &amp; 回溯    |       路 |
++----------------+       径 |
+         |                  |
+         ↓                  |
++----------------+          |
+|  成功 or 失败   |---------→+
++----------------+
+</code></pre></td></tr></table>
+</div>
+</div><p>常用的元字符</p>
+<table>
+<thead>
+<tr>
+<th>代码</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.</td>
+<td style="text-align:center">匹配除换行符以外的任意字符</td>
+</tr>
+<tr>
+<td>\w</td>
+<td style="text-align:center">匹配字母或数字或下划线或汉字</td>
+</tr>
+<tr>
+<td>\s</td>
+<td style="text-align:center">匹配任意的空白符</td>
+</tr>
+<tr>
+<td>\d</td>
+<td style="text-align:center">匹配数字</td>
+</tr>
+<tr>
+<td>\b</td>
+<td style="text-align:center">匹配单词的开始或结束</td>
+</tr>
+<tr>
+<td>^</td>
+<td style="text-align:center">匹配字符串的开始</td>
+</tr>
+<tr>
+<td>$</td>
+<td style="text-align:center">匹配字符串的结束</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">元字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">.</td>
+<td>句号匹配任意单个字符除了换行符.</td>
+</tr>
+<tr>
+<td style="text-align:center">[ ]</td>
+<td>字符种类. 匹配方括号内的任意字符.</td>
+</tr>
+<tr>
+<td style="text-align:center">[^ ]</td>
+<td>否定的字符种类. 匹配除了方括号里的任意字符</td>
+</tr>
+<tr>
+<td style="text-align:center">*</td>
+<td>匹配&gt;=0个重复的在*号之前的字符.</td>
+</tr>
+</tbody>
+</table>
+<p>|+|匹配&gt;=1个重复的+号前的字符.
+|?|标记?之前的字符为可选.|
+|{n,m}|匹配num个中括号之前的字符 (n &lt;= num &lt;= m).|
+|(xyz)|字符集, 匹配与 xyz 完全相等的字符串.|
+|||或运算符,匹配符号前或后的字符.|
+|\|转义字符,用于匹配一些保留的字符 <code>[ ] ( ) { } . * + ? ^ $ \ |</code>|
+|^|从开始行开始匹配.|
+|$|从末端开始匹配.|</p>
+<p>锚点</p>
+<p>在正则表达式中, 想要匹配指定开头或结尾的字符串就要使用到锚点. <code>^</code> 指定开头, <code>$</code> 指定结尾.</p>
+<p><code>^</code> 用来检查匹配的字符串是否在所匹配字符串的开头. 例如, 在 <code>abc</code> 中使用表达式 <code>^a</code> 会得到结果 <code>a</code>. 但如果使用 <code>^b</code> 将匹配不到任何结果. 因为在字符串 <code>abc</code> 中并不是以 <code>b</code> 开头. 例如, <code>^(T|t)he</code> 匹配以 <code>The</code> 或 <code>the</code> 开头的字符串. 同理于 <code>^</code> 号, <code>$</code> 号用来匹配字符是否是最后一个. 例如, <code>(at\.)$</code> 匹配以 <code>at.</code> 结尾的字符串.</p>
+<p>重复</p>
+<table>
+<thead>
+<tr>
+<th>代码</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>*</td>
+<td style="text-align:center">重复零次或更多次</td>
+</tr>
+<tr>
+<td>+</td>
+<td style="text-align:center">重复一次或更多次</td>
+</tr>
+<tr>
+<td>?</td>
+<td style="text-align:center">重复零次或一次</td>
+</tr>
+<tr>
+<td>{n}</td>
+<td style="text-align:center">重复n次</td>
+</tr>
+<tr>
+<td>{n,}</td>
+<td style="text-align:center">重复n次或更多次</td>
+</tr>
+<tr>
+<td>{n,m}</td>
+<td style="text-align:center">重复n到m次</td>
+</tr>
+</tbody>
+</table>
+<p>反义
+有时需要查找不属于某个能简单定义的字符类的字符。比如想查找除了数字以外，其它任意字符都行的情况，这时需要用到反义：</p>
+<table>
+<thead>
+<tr>
+<th>代码</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\W</td>
+<td style="text-align:center">匹配任意不是字母，数字，下划线，汉字的字符</td>
+</tr>
+<tr>
+<td>\S</td>
+<td style="text-align:center">匹配任意不是空白符的字符</td>
+</tr>
+<tr>
+<td>\D</td>
+<td style="text-align:center">匹配任意非数字的字符</td>
+</tr>
+<tr>
+<td>\B</td>
+<td style="text-align:center">匹配不是单词开头或结束的位置</td>
+</tr>
+<tr>
+<td>[^x]</td>
+<td style="text-align:center">匹配除了x以外的任意字符</td>
+</tr>
+<tr>
+<td>[^aeiou]</td>
+<td style="text-align:center">匹配除了aeiou这几个字母以外的任意字符</td>
+</tr>
+</tbody>
+</table>
+<p>简写字符集</p>
+<p>正则表达式提供一些常用的字符集简写. 如下:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">简写</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">.</td>
+<td>除换行符外的所有字符</td>
+</tr>
+<tr>
+<td style="text-align:center">\w</td>
+<td>匹配所有字母数字, 等同于 <code>[a-zA-Z0-9_]</code></td>
+</tr>
+<tr>
+<td style="text-align:center">\W</td>
+<td>匹配所有非字母数字, 即符号, 等同于: <code>[^\w]</code></td>
+</tr>
+<tr>
+<td style="text-align:center">\d</td>
+<td>匹配数字: <code>[0-9]</code></td>
+</tr>
+<tr>
+<td style="text-align:center">\D</td>
+<td>匹配非数字: <code>[^\d]</code></td>
+</tr>
+<tr>
+<td style="text-align:center">\s</td>
+<td>匹配所有空格字符, 等同于: <code>[\t\n\f\r\p{Z}]</code></td>
+</tr>
+<tr>
+<td style="text-align:center">\S</td>
+<td>匹配所有非空格字符: <code>[^\s]</code></td>
+</tr>
+<tr>
+<td style="text-align:center">\f</td>
+<td>匹配一个换页符</td>
+</tr>
+<tr>
+<td style="text-align:center">\n</td>
+<td>匹配一个换行符</td>
+</tr>
+<tr>
+<td style="text-align:center">\r</td>
+<td>匹配一个回车符</td>
+</tr>
+<tr>
+<td style="text-align:center">\t</td>
+<td>匹配一个制表符</td>
+</tr>
+<tr>
+<td style="text-align:center">\v</td>
+<td>匹配一个垂直制表符</td>
+</tr>
+<tr>
+<td style="text-align:center">\p</td>
+<td>匹配 CR/LF (等同于 <code>\r\n</code>)，用来匹配 DOS 行终止符</td>
+</tr>
+</tbody>
+</table>
+<p><strong>回车&quot;（carriage return）和&quot;换行&quot;（line feed） 的区别</strong></p>
+<p>回车每行后面加两个表示结束的字符。一个叫做&quot;回车&quot;，告诉打字机把打印头定位在左边界；另一个叫做&quot;换行&quot;，告诉打字机把纸向下移一行。从英文单词上也是能get 到意思的。</p>
+<p>&lsquo;\n&rsquo; 10 换行（newline）
+&lsquo;\r&rsquo; 13 回车（return）</p>
+<p>回车 \r 本义是光标重新回到本行开头，r的英文return，控制字符可以写成CR，即Carriage Return
+换行 \n 本义是光标往下一行（不一定到下一行行首），n的英文newline，控制字符可以写成LF，即Line Feed</p>
+<p>不同操作系统下的含义：</p>
+<p>\n:  UNIX 系统行末结束符
+\r\n: window 系统行末结束符
+\r:  MAC OS 系统行末结束符</p>
+<p>软回车和硬回车</p>
+<p>硬回车就是普通我们按回车产生的，它在换行的同时也起着段落分隔的作用。 软回车是用 Shift + Enter 产生的，它换行，但是并不换段，即前后两段文字在 Word 中属于同一“段”。在应用格式时你会体会到这一点。软回车能使前后两行的行间距大幅度缩小，因为它不是段落标记，要和法定的段落标记——硬回车区别出来。硬回车的html代码是 <code>&lt;p&gt;..&lt;/p&gt;</code>，段落的内容就夹在里面，而软回车的代码很精悍 <code>&lt;br&gt;</code>。网页的文字如果复制到word中，则硬回车变为弯曲的箭头，软回车变为向下的箭头。</p>
+<p>标志</p>
+<p>标志也叫修饰语, 因为它可以用来修改表达式的搜索结果. 这些标志可以任意的组合使用, 它也是整个正则表达式的一部分.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">标志</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">i</td>
+<td>忽略大小写.</td>
+</tr>
+<tr>
+<td style="text-align:center">g</td>
+<td>全局搜索.</td>
+</tr>
+<tr>
+<td style="text-align:center">m</td>
+<td>多行的: 锚点元字符 <code>^</code> <code>$</code> 工作范围在每行的起始.</td>
+</tr>
+</tbody>
+</table>
+<p>修饰语 <code>i</code> 用于忽略大小写。例如, 表达式 <code>/The/gi</code> 表示在全局搜索 <code>The</code>, 在后面的 <code>i</code> 将其条件修改为忽略大小写, 则变成搜索 <code>the</code> 和 <code>The</code>, <code>g</code> 表示全局搜索.</p>
+<p>修饰符 <code>g</code> 常用语执行一个全局搜索匹配, 即(不仅仅返回第一个匹配的, 而是返回全部). 例如, 表达式 <code>/.(at)/g</code> 表示搜索 任意字符(除了换行) + <code>at</code>, 并返回全部结果.</p>
+<p>多行修饰符 <code>m</code> 常用语执行一个多行匹配. 像之前介绍的 <code>(^,$)</code> 用于检查格式是否是在待检测字符串的开头或结尾. 但我们如果想要它在每行的开头和结尾生效, 我们需要用到多行修饰符 <code>m</code>. 例如, 表达式 <code>/at(.)?$/gm</code> 表示在待检测字符串每行的末尾搜索 <code>at</code>后跟一个或多个 <code>.</code> 的字符串, 并返回全部结果.</p>
+<p><strong>分枝条件</strong> （定义了几种不同的匹配规则）
+不幸的是，刚才那个表达式也能匹配(010)12345678或(022-87654321这样的“不正确”的格式。要解决这个问题，我们需要用到分枝条件。正则表达式里的分枝条件指的是有几种规则，如果满足其中任意一种规则都应该当成匹配，具体方法是用|把不同的规则分隔开。听不明白？没关系，看例子：</p>
+<p>0\d{2}-\d{8}|0\d{3}-\d{7}这个表达式能匹配两种以连字号分隔的电话号码：一种是三位区号，8位本地号(如010-12345678)，一种是4位区号，7位本地号(0376-2233445)。</p>
+<p>(?0\d{2})?[- ]?\d{8}|0\d{2}[- ]?\d{8}这个表达式匹配3位区号的电话号码，其中区号可以用小括号括起来，也可以不用，区号与本地号间可以用连字号或空格间隔，也可以没有间隔。你可以试试用分枝条件把这个表达式扩展成也支持4位区号的。</p>
+<p>\d{5}-\d{4}|\d{5}这个表达式用于匹配美国的邮政编码。美国邮编的规则是5位数字，或者用连字号间隔的9位数字。之所以要给出这个例子是因为它能说明一个问题：使用分枝条件时，要注意各个条件的顺序。如果你把它改成\d{5}|\d{5}-\d{4}的话，那么就只会匹配5位的邮编(以及9位邮编的前5位)。原因是匹配分枝条件时，将会从左到右地测试每个条件，如果满足了某个分枝的话，就不会去再管其它的条件了。</p>
+<p>分组（使用index 访问使用很广泛）</p>
+<p>我们已经提到了怎么重复单个字符（直接在字符后面加上限定符就行了）；但如果想要重复多个字符又该怎么办？你可以用小括号来指定子表达式(也叫做分组)，然后你就可以指定这个子表达式的重复次数了，你也可以对子表达式进行其它一些操作(后面会有介绍)。</p>
+<p>(\d{1,3}.){3}\d{1,3}是一个简单的IP地址匹配表达式。要理解这个表达式，请按下列顺序分析它：\d{1,3}匹配1到3位的数字，(\d{1,3}.){3}匹配三位数字加上一个英文句号(这个整体也就是这个分组)重复3次，最后再加上一个一到三位的数字(\d{1,3})。</p>
+<p>不幸的是，它也将匹配256.300.888.999这种不可能存在的IP地址。如果能使用算术比较的话，或许能简单地解决这个问题，但是正则表达式中并不提供关于数学的任何功能，所以只能使用冗长的分组，选择，字符类来描述一个正确的IP地址：((2[0-4]\d|25[0-5]|[01]?\d\d?).){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)。</p>
+<p>常见的例子</p>
+<p>除了使用[]表示或逻辑,()也是可以的。用法是(a|b)表示a或者b</p>
+<ul>
+<li>匹配邮箱</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">gaoyaqi411@126.com  
+dyumc@google.net 
+sam@sjtu.edu
+</code></pre></td></tr></table>
+</div>
+</div><p>步骤</p>
+<ol>
+<li>任何一个以words开头的，一个或更多 \w+</li>
+<li>紧接着是一个@符号 \w+@</li>
+<li>接着有一个或者更多的words \w+@\w+</li>
+<li>接着一个.标点 \w+@\w+.</li>
+<li>接着一个com net 或 edu \w+@\w+.(com|net|edu)</li>
+</ol>
+<p>手机号正则</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">/^1[34578][0-9]{9}$/
+</code></pre></td></tr></table>
+</div>
+</div><p>单词边界</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">/\bis\b/
+</code></pre></td></tr></table>
+</div>
+</div><p>URL分组替换</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">/http:(\/\/.+\.jpg)/
+</code></pre></td></tr></table>
+</div>
+</div><p>正则表达式使用小括号用来分组，这个时候我们可以通过用 <code>$1</code>来获取 <code>group#1</code>的内容。 获取内容是为了 replace</p>
+<p>正则表达式由两种基本字符组成：</p>
+<ul>
+<li>原义字符</li>
+<li>非打印字符</li>
+<li>元字符 (* + ? $ ^ . | ( ) { } <input disabled="" type="checkbox"> )</li>
+</ul>
+<p>非打印字符包括换行符、回车符号， 分页符等等</p>
+<p><img src="https://ftp.bmp.ovh/imgs/2019/10/1c544f2edc971d5f.png" alt=""></p>
+<p>字符类取反<code> [^]</code>
+范围类 <code>[-]</code>
+预定义类 （这个是为了方便使用，在上面也被称为 简写类）</p>
+<p>边界类</p>
+<p><code>^</code> 表示开头， <code>$</code> 表示结尾， <code>\b</code> 表示单词边界, <code>\B</code> 表示非单词边界</p>
+<p>量词</p>
+<p><img src="https://ftp.bmp.ovh/imgs/2019/10/466753a604846e9f.png" alt=""></p>
+<p>正则表达式默认会匹配贪婪模式，什么是贪婪模式呢？如其名尽可能多的匹配。我们看个例子
+与贪婪对应就是懒惰模式，懒惰对应的就是匹配的尽可能少的情况。如何开启懒惰模式？ 在量词后面加?。继续上面的例子</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">/\d{3,6}?/
+</code></pre></td></tr></table>
+</div>
+</div><p>邮箱正则表达式实例</p>
+<p>分析邮件名称部分：</p>
+<p>26个大小写英文字母表示为a-zA-Z</p>
+<ul>
+<li>数字表示为0-9</li>
+<li>下划线表示为_</li>
+<li>中划线表示为-</li>
+<li>由于名称是由若干个字母、数字、下划线和中划线组成，所以需要用到+表示多次出现</li>
+</ul>
+<p>根据以上条件得出邮件名称表达式：<code>[a-zA-Z0-9_-]+</code></p>
+<p>分析域名部分：</p>
+<p><a href="https://blog.csdn.net/make164492212/article/details/51656638">常用正则表达式—邮箱（Email）</a></p>
+<p>分析邮件名称部分：</p>
+<p>汉字在正则表示为 <code>[\u4e00-\u9fa5]</code>
+字母和数字表示为 <code>A-Za-z0-9</code>
+ 通过分析得出邮件名称部分表达式为 <code>[A-Za-z0-9\u4e00-\u9fa5]+</code></p>
+<p>C++ regex函数有3个：regex_match、 regex_search 、regex_replace</p>
+<p>match是全文匹配，即要求整个字符串符合匹配规则。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">regex_match</span><span class="p">(</span><span class="s">&#34;123&#34;</span><span class="p">,</span> <span class="n">regex</span><span class="p">(</span><span class="s">&#34;</span><span class="se">\\</span><span class="s">d&#34;</span><span class="p">))</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>		<span class="c1">//结果为0
+</span><span class="c1"></span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">regex_match</span><span class="p">(</span><span class="s">&#34;123&#34;</span><span class="p">,</span> <span class="n">regex</span><span class="p">(</span><span class="s">&#34;</span><span class="se">\\</span><span class="s">d+&#34;</span><span class="p">))</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>		<span class="c1">//结果为1
+</span></code></pre></td></tr></table>
+</div>
+</div><p>search是搜索匹配，即搜索字符串中存在符合规则的子字符串。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">cout &lt;&lt; regex_match(&#34;123&#34;, regex(&#34;\\d&#34;)) &lt;&lt; endl;		//结果为0
+cout &lt;&lt; regex_search(&#34;123&#34;, regex(&#34;\\d&#34;)) &lt;&lt; endl;		//结果为1
+</code></pre></td></tr></table>
+</div>
+</div><p>regex_search和regex_match的主要区别是：regex_match是全词匹配，而regex_search是搜索其中匹配的字符串</p>
+<p>regex_replace是替换正则表达式匹配内容的函数
+replace是替换匹配，即可以将符合匹配规则的子字符串替换为其他字符串。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">string str = &#34;Hello_2018!&#34;;
+regex pattern(&#34;Hello&#34;);	
+cout &lt;&lt; regex_replace(str, pattern, &#34;&#34;) &lt;&lt; endl;	//输出：_2018，将Hello替换为&#34;&#34;
+cout &lt;&lt; regex_replace(str, pattern, &#34;Hi&#34;) &lt;&lt; endl;	//输出：Hi_2018，将Hello替换为Hi
+</code></pre></td></tr></table>
+</div>
+</div><p>有时我们希望能够匹配的时候忽略大小写，这时候就要用到Regex的语法选项了。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">regex_match</span><span class="p">(</span><span class="s">&#34;aaaAAA&#34;</span><span class="p">,</span> <span class="n">regex</span><span class="p">(</span><span class="s">&#34;a*&#34;</span><span class="p">,</span> <span class="n">regex</span><span class="o">::</span><span class="n">icase</span><span class="p">))</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>	<span class="c1">//结果为1
+</span><span class="c1"></span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">regex_match</span><span class="p">(</span><span class="s">&#34;aaaAAA&#34;</span><span class="p">,</span> <span class="n">regex</span><span class="p">(</span><span class="s">&#34;a*&#34;</span><span class="p">))</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>		
+</code></pre></td></tr></table>
+</div>
+</div><p>针对python 的正则表达式的练习题</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="mi">1</span><span class="err">、</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>      <span class="err">在一个字符串中查找匹配</span>
+
+<span class="mi">2</span><span class="err">、</span><span class="n">findall</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">string</span> <span class="p">,</span><span class="n">flags</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>     <span class="err">找到匹配，返回所有匹配部分的列表</span>
+
+<span class="mi">3</span><span class="err">、</span><span class="n">sub</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">repl</span><span class="p">,</span> <span class="n">string</span> <span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>    <span class="err">将字符串中匹配正则表达式的部分替换为其他值</span>
+
+<span class="mi">4</span><span class="err">、</span><span class="n">split</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">string</span> <span class="p">,</span><span class="n">maxsplit</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="err">根据匹配分割字符串，返回分隔符串组成的列表</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>开始总结 python 版本的正则表达式</p>
+<p>正则表达式 (Regular Expression) 又称 RegEx, 是用来匹配字符的一种工具. 在一大串字符中寻找你需要的内容. 它常被用在很多方面, 比如网页爬虫, 文稿整理, 数据筛选等等. 现在都是比较广泛学习，需要知道这里面都是有什么，等到用的时候，再好好琢磨，因为内容还是很多的呀。</p>
+<p>要注意的是，正则表达式并不是一个程序，而是用于处理字符串的一种模式，如果你想用它来处理字符串，就必须使用支持正则表达式的工具，比如 Linux 中的 awk, sed, grep，或者编程语言 Perl, Python, Java 等等。</p>
+<p>这个是一个引子, 关键字 <code>in</code> 表示字符串的匹配关系</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># matching string</span>
+<span class="n">pattern1</span> <span class="o">=</span> <span class="s2">&#34;cat&#34;</span>
+<span class="n">pattern2</span> <span class="o">=</span> <span class="s2">&#34;bird&#34;</span>
+<span class="n">string</span> <span class="o">=</span> <span class="s2">&#34;dog runs to cat&#34;</span>
+<span class="k">print</span><span class="p">(</span><span class="n">pattern1</span> <span class="ow">in</span> <span class="n">string</span><span class="p">)</span>    <span class="c1"># True</span>
+<span class="k">print</span><span class="p">(</span><span class="n">pattern2</span> <span class="ow">in</span> <span class="n">string</span><span class="p">)</span>    <span class="c1"># False</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果想要使用更加强大的功能，那么使用 <code>re</code> 模块， 于是就是我们今天的主角- 正则匹配。 <code>re</code> 模块中提供了不少有用的函数， 比如</p>
+<ul>
+<li>compile 函数</li>
+<li>match 函数</li>
+<li>search 函数</li>
+<li>findall 函数</li>
+<li>finditer 函数</li>
+<li>split 函数</li>
+<li>sub 函数</li>
+<li>subn 函数</li>
+</ul>
+<p>re 模块的一般使用的步骤</p>
+<ul>
+<li>使用 compile 函数将正则表达式的字符串形式编译为一个 Pattern 对象</li>
+<li>通过 Pattern 对象提供的一系列方法对文本进行匹配查找，获得匹配结果（一个 Match 对象）</li>
+<li>最后使用 Match 对象提供的属性和方法获得信息，根据需要进行其他的操作</li>
+</ul>
+<p>compile 函数
+compile 函数用于编译正则表达式，生成一个 Pattern 对象，它的一般使用形式如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">re.compile(pattern[, flag])
+</code></pre></td></tr></table>
+</div>
+</div><p>其中，pattern 是一个字符串形式的正则表达式，flag 是一个可选参数，表示匹配模式，比如忽略大小写，多行模式等。</p>
+<p>match 方法</p>
+<p>match 方法用于查找字符串的头部（也可以指定起始位置），它是一次匹配，只要找到了一个匹配的结果就返回，而不是查找所有匹配的结果。</p>
+<p>search 方法
+search 方法用于查找字符串的任何位置，它也是一次匹配，只要找到了一个匹配的结果就返回，而不是查找所有匹配的结果</p>
+<p>findall 方法
+上面的 match 和 search 方法都是一次匹配，只要找到了一个匹配的结果就返回。然而，在大多数时候，我们需要搜索整个字符串，获得所有匹配的结果。</p>
+<p>finditer 方法
+finditer 方法的行为跟 findall 的行为类似，也是搜索整个字符串，获得所有匹配的结果。但它返回一个顺序访问每一个匹配结果（Match 对象）的迭代器。</p>
+<p>split 方法
+split 方法按照能够匹配的子串将字符串分割后返回列表</p>
+<p>sub 方法
+sub 方法用于替换。</p>
+<p><strong>匹配中文</strong></p>
+<p>在某些情况下，我们想匹配文本中的汉字，有一点需要注意的是，中文的 unicode 编码范围 主要在 <code>[\u4e00-\u9fa5]</code>，这里说主要是因为这个范围并不完整，比如没有包括全角（中文）标点，不过，在大部分情况下，应该是够用的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># -*- coding: utf-8 -*-
+import re
+title = u&#39;你好，hello，世界&#39;
+pattern = re.compile(ur&#39;[\u4e00-\u9fa5]+&#39;)
+result = pattern.findall(title)
+print result
+</code></pre></td></tr></table>
+</div>
+</div><p>注意到，我们在正则表达式前面加上了两个前缀 <code>ur</code>，其中 <code>r </code>表示使用原始字符串，<code>u</code> 表示是 unicode 字符串。</p>
+<p>执行结果:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">[u&#39;\u4f60\u597d&#39;, u&#39;\u4e16\u754c&#39;]
+</code></pre></td></tr></table>
+</div>
+</div><p>总结</p>
+<p>re 模块的一般使用步骤如下：</p>
+<ul>
+<li>使用 compile 函数将正则表达式的字符串形式编译为一个 Pattern 对象；</li>
+<li>通过 Pattern 对象提供的一系列方法对文本进行匹配查找，获得匹配结果（一个 Match 对象）；</li>
+<li>最后使用 Match 对象提供的属性和方法获得信息，根据需要进行其他的操作；</li>
+</ul>
+<p>Python 的正则匹配默认是贪婪匹配。</p>
+<p>总结的小抄，<a href="https://www.cnblogs.com/huxi/archive/2010/07/04/1771073.html">出处</a></p>
+<p><img src="https://ftp.bmp.ovh/imgs/2019/10/f6caab4ab0ac9fe6.png" alt=""></p>
+<p>在爬虫中的实践</p>
+<p>使用requests 得到内容之后，然后使用 re 进行解析。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="n">import</span> <span class="n">requests</span>
+<span class="n">import</span> <span class="n">re</span>
+<span class="n">content</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="err">&#39;</span><span class="nl">https</span><span class="p">:</span><span class="c1">//movie.douban.com/chart&#39;).text
+</span><span class="c1"></span><span class="cp"># 豆瓣电影排行榜
+</span><span class="cp"></span><span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="err">&#39;</span><span class="k">class</span><span class="err">=&#34;</span><span class="nc">pl2</span><span class="s">&#34;.*?&lt;.*?=&#34;</span><span class="p">(.</span><span class="o">*?</span><span class="p">)</span><span class="s">&#34;.*?&gt;(.*?)&lt;span.*?&gt;(.*?)&lt;/span&gt;.*?&#34;</span><span class="n">rating_nums</span><span class="s">&#34;&gt;(.*?)&lt;/span&gt;.*?&#34;</span><span class="n">pl</span><span class="s">&#34;&gt;(.*?)&lt;/span&gt;&#39;, re.S)</span>
+<span class="cp"># compile可以在多次使用中提高效率，这里影响不大
+</span><span class="cp"></span><span class="n">results</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="n">findall</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">result</span> <span class="n">in</span> <span class="nl">results</span><span class="p">:</span>
+    <span class="n">url</span><span class="p">,</span> <span class="n">name1</span><span class="p">,</span> <span class="n">name2</span><span class="p">,</span> <span class="n">nums</span><span class="p">,</span> <span class="n">pl</span> <span class="o">=</span> <span class="n">result</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">name1</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#34;/&#34;</span><span class="p">,</span><span class="s">&#34;&#34;</span><span class="p">).</span><span class="n">strip</span><span class="p">(),</span> <span class="n">name2</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#34;/&#34;</span><span class="p">,</span><span class="s">&#34;&#34;</span><span class="p">).</span><span class="n">strip</span><span class="p">(),</span> <span class="n">nums</span><span class="p">,</span> <span class="n">pl</span><span class="p">)</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="linux-中常见的正则匹配实例">linux 中常见的正则匹配实例</h2>
+<p>（1）How to find files recursively by file type and copy them to a directory while in ssh?
+在一个文件中迭代查找所有某类的文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">find . -name <span class="s2">&#34;*.pdf&#34;</span> -type f -exec cp <span class="o">{}</span> ./pdfsfolder <span class="se">\;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>正则匹配帮助文档</p>
+<p><a href="http://tool.oschina.net/regex/">在线正则表达式测试</a></p>
+<p><a href="https://regex101.com/r/dmRygT/1">在线正则测试</a></p>
+<p><a href="https://www.jianshu.com/p/147fab022566">细说python正则表达式</a> ，写的非常全
+<a href="http://funhacks.net/2016/12/27/regular_expression/">Python 正则表达式 re 模块</a> 也是比较好的博客</p>
+<p>这个是实战，写的很容易理解 <a href="https://segmentfault.com/a/1190000013075245">https://segmentfault.com/a/1190000013075245</a>
+<a href="https://blog.csdn.net/make164492212/article/details/51656638">https://blog.csdn.net/make164492212/article/details/51656638</a></p>
+<h2 id="python中的正则表达">python中的正则表达</h2>
+<p>字符串是编程中涉及最多的一种数据结构。正则表达式是一种从来匹配字符串的强有力的武器，它的设计思想是用一种描述性的语言来给字符串顶一个规则，凡是符合规则的字符串，就认为其匹配了，否则字符串不合法。</p>
+<p>正则匹配 的准备知识</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">\d 表示1个数字
+\w 表示1个字母或数字
+. 表示任意1个字符
+* 表示任意个字符（包括0个）
++ 表示至少1个字符
+? 表示0个或1个字符
+{n} 表示n 个字符
+{n,m} 表示 n-m 个字符
+
+# 给出一些例子
+\d{3} 表示3个数字
+\s  表示1个空格（也包括Tab空白符）
+\d{3,8} 表示3-8个数字
+如果要匹配特殊字符 `-`，需要使用转移字符 `\`
+
+[0-9a-zA-Z\-] 表示一个数字、字母或者下划线
+[0-9a-zA-Z\-]+ 表示至少由一个数字、字母和下划线组成的字符串
+[a-zA-Z\_][0-9a-zA-Z\_]{0,19} 匹配有字母或者下划线开头，后接一个由数字、字母或者下划线组成的字符串，是python中合法的变量。
+
+A|B 可以匹配A或B， 所以 (p|P)ython 可以匹配&#39;python&#39;或者 &#39;Python&#39;
+^ 表示行的开头，^\d 表示必须以数字开头
+$ 表示行的结束，\d$ 表示必须以数字结束
+
+</code></pre></td></tr></table>
+</div>
+</div><p>在python 中建议使用 <code>r</code>前缀，这样就不用考虑转义问题。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># 可以写成这样</span>
+<span class="n">s</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;ABC\-001&#39;</span>
+<span class="c1"># 而不用写成这样</span>
+<span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;ABC</span><span class="se">\\</span><span class="s1">-001&#39;</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol>
+<li>判断是否匹配</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">import re
+
+test =&#34;&#34;
+if re.match(r&#39;&#39;, test):
+    print(&#34;ok&#34;)
+else:
+    print(&#34;failed&#34;)
+</code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>切分字符串</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 普通的split无法识别连续的空格
+&#39;a b   c&#39;.split(&#39; &#39;)
+# 正则表达式的 split() 可以划分连续的空格
+re.split(r&#39;\s+&#39;, &#39;a b    c&#39;)
+[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]
+# 更加复杂的切分方式
+re.split(r&#39;[\s\,\;]+&#39;, &#39;a,b;;c   d&#39;)
+[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;]
+</code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>分组</li>
+</ol>
+<p>正则表达式有提取子串的功能。用 <code>()</code> 表示提取的分组（group）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">m = re.match(r&#39;^(\d{3})-(\d{3,8})$&#39;, &#39;010-12345&#39;)
+m.group(0) # 原字符串
+m.group(1) 
+m.group(2)
+</code></pre></td></tr></table>
+</div>
+</div><p>group extraction</p>
+<blockquote>
+<p>The &ldquo;group&rdquo; feature of a regular expression allows you to pick out parts of the matching text.
+主要用于提取想要的子串</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;purple alice-b@google.com monkey dishwasher&#39;</span>
+<span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;([\w.-]+)@([\w.-]+)&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">())</span> <span class="c1"># the whole match</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># alice-b, (the username, group 1)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="c1"># google.com (the host, group 2)</span>
+ 
+</code></pre></td></tr></table>
+</div>
+</div><ol start="4">
+<li>贪婪匹配</li>
+</ol>
+<p>正则表达式默认是贪婪匹配（尽可能多的匹配字符串）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">re.match(r&#39;^(\d+)(0*)$&#39;, &#39;102300&#39;).groups()
+# (&#39;1023&#39;, &#39;00&#39;)
+</code></pre></td></tr></table>
+</div>
+</div><p>由于<code>\d+</code> 默认采用的是贪婪匹配，直接把后面的0给全部匹配了，所以 <code>0*</code> 只能匹配空字符串。必须让 <code>+d+</code> 次用非贪婪匹配（尽可能少的匹配） 才能把后面的 0匹配出来。只需要加上一个<code>?</code> 就可以</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">re.match(r&#39;^(\d+?)(0*)$&#39;, &#39;102300&#39;).groups()
+</code></pre></td></tr></table>
+</div>
+</div><p>对于贪婪模式产生的解释：因为有 + 和* 的出现</p>
+<blockquote>
+<p>First the search finds the leftmost match for the pattern, and second it tries to use up as much of the string as possible &ndash; i.e. + and * go as far as possible (the + and * are said to be &ldquo;greedy&rdquo;).</p>
+</blockquote>
+<ol start="5">
+<li>re.findall()</li>
+</ol>
+<blockquote>
+<p>If you want to find all the substrings in a string, We can just use the findall method of the re module (No need to loop)
+findall returns all non-overlapping matches of pattern in string, as a list of strings. The string is scanned left-to-right, and matches are returned in the order in which they are found.</p>
+</blockquote>
+<blockquote>
+<p>If one or more groups are present in the pattern, findall returns a list of groups.
+如果有多个pattern，那么返回的 returns a list of groups</p>
+</blockquote>
+<p>使用 <code>|</code> 表示 alternations，比如以下的例子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">re</span>
+<span class="nb">str</span> <span class="o">=</span><span class="s2">&#34;Course location is London or Paris!&#34;</span>
+<span class="n">mo</span> <span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&#34;location.*(London|Paris|Beijing)&#34;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">mo</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="n">mo</span><span class="o">.</span><span class="n">group</span><span class="p">())</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>大小写问题</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">re</span>
+<span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>使用参数，忽略大小写</p>
+<blockquote>
+<p>findall() is probably the single most powerful function in the re module
+<code>re.search()</code> 和 <code>re.findall()</code> 区别：前者只是找到 first match for a pattern， findall 是找到了全部的match，returns them as a list of strings</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;purple alice@google.com, blah monkey bob@abc.com blah dishwasher&#39;</span>
+
+<span class="n">emails</span> <span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[\w\.-]+@[\w\.-]+&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">email</span> <span class="ow">in</span> <span class="n">emails</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">email</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>findall with files （这个功能是比较实用的）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">f</span> <span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;test.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">strings</span> <span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;some pattern&#39;</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>findall and groups
+（使用的是上面涉及到的 <code>()</code> 的用法）给个的简单的例子</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python">  <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;purple alice@google.com, blah monkey bob@abc.com blah dishwasher&#39;</span>
+  <span class="n">tuples</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;([\w\.-]+)@([\w\.-]+)&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+  <span class="k">print</span> <span class="n">tuples</span>  <span class="c1">## [(&#39;alice&#39;, &#39;google.com&#39;), (&#39;bob&#39;, &#39;abc.com&#39;)]</span>
+  <span class="k">for</span> <span class="nb">tuple</span> <span class="ow">in</span> <span class="n">tuples</span><span class="p">:</span>
+    <span class="k">print</span> <span class="nb">tuple</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1">## username</span>
+    <span class="k">print</span> <span class="nb">tuple</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1">## host</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><ol start="6">
+<li>compile mode</li>
+</ol>
+<p>python 中使用正则表达式的时候，re模块内部会做两件事情：（1）编译正则表达式 （2）用编译之后的表达式去匹配字符串</p>
+<p>If you want to use the same regexp more than once in a script, it might be a good idea to use a regular expression object.</p>
+<blockquote>
+<p>如果是多次使用，从效率的角度考虑，应该使用 compile mode</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">re</span>
+<span class="n">regex</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&#34;[A-z]{1,2}[0-9R][0-9A-Z]? [0-9][ABD-HJLNP-UW-Z]{2}&#34;</span>
+<span class="n">address</span> <span class="o">=</span> <span class="s2">&#34;BBC News Centre, London, W12 7RJ&#34;</span>
+<span class="n">compiled_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">regex</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">compiled_re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="7">
+<li>re.search</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># ^, matches the start of string</span>
+<span class="n">match</span> <span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">rearch</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^b\w+&#39;</span><span class="p">,</span> <span class="s1">&#39;foobar&#39;</span><span class="p">)</span>
+<span class="c1"># this failed</span>
+<span class="n">match</span> <span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;b\w+&#39;</span><span class="p">,</span> <span class="s1">&#39;foobar&#39;</span><span class="p">)</span> 
+</code></pre></td></tr></table>
+</div>
+</div><ol start="8">
+<li>square brackets</li>
+</ol>
+<blockquote>
+<p>Square brackets can be used to indicate a set of chars, so [abc] matches &lsquo;a&rsquo; or &lsquo;b&rsquo; or &lsquo;c&rsquo;.
+这个是用来配置可选项的。</p>
+</blockquote>
+<p>比如用以下的pattern 用来match 邮箱地址</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">match  =re.search(r&#39;[\w.-]+@[\w.-]+&#39;, str)
+if match:
+    print(match.group()) ## 
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-06-28
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/regular-expression/">regular expression</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/elastic_search_1/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Elastic Search 学习笔记(一)</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/jupyter_notebook_tutorial/">
+            <span class="next-text nav-default">Jupyter Notebook Tutorial</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Optimizer - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="深度学习中优化器 （optimizer）讲解。根据学习率的情况分成三个阶段，基础版本Gradient Descent，然后是人工设置学习率阶段和自适应学习率阶段。最后对应pytorch，说明常用的几种学习率优化策略。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/optimizer/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Optimizer" />
+<meta property="og:description" content="深度学习中优化器 （optimizer）讲解。根据学习率的情况分成三个阶段，基础版本Gradient Descent，然后是人工设置学习率阶段和自适应学习率阶段。最后对应pytorch，说明常用的几种学习率优化策略。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/optimizer/" />
+<meta property="article:published_time" content="2019-11-17T15:53:57+08:00" />
+<meta property="article:modified_time" content="2019-11-17T15:53:57+08:00" />
+<meta itemprop="name" content="Optimizer">
+<meta itemprop="description" content="深度学习中优化器 （optimizer）讲解。根据学习率的情况分成三个阶段，基础版本Gradient Descent，然后是人工设置学习率阶段和自适应学习率阶段。最后对应pytorch，说明常用的几种学习率优化策略。">
+<meta itemprop="datePublished" content="2019-11-17T15:53:57+08:00" />
+<meta itemprop="dateModified" content="2019-11-17T15:53:57+08:00" />
+<meta itemprop="wordCount" content="4432">
+
+
+
+<meta itemprop="keywords" content="optimizer," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Optimizer"/>
+<meta name="twitter:description" content="深度学习中优化器 （optimizer）讲解。根据学习率的情况分成三个阶段，基础版本Gradient Descent，然后是人工设置学习率阶段和自适应学习率阶段。最后对应pytorch，说明常用的几种学习率优化策略。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Optimizer</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-11-17 </span>
+        <div class="post-category">
+            <a href="/categories/deep-learning/"> deep learning </a>
+            <a href="/categories/machine-learning/"> machine learning </a>
+            </div>
+          <span class="more-meta"> 约 4432 字 </span>
+          <span class="more-meta"> 预计阅读 9 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#vanilla">vanilla</a></li>
+            <li><a href="#人工设置学习率">人工设置学习率</a></li>
+            <li><a href="#自适应学习率方法">自适应学习率方法</a></li>
+            <li><a href="#图例">图例</a></li>
+            <li><a href="#pytorch中的-optim-包">pytorch中的 optim 包</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>深度学习中优化器 （optimizer）讲解。根据学习率的情况分成三个阶段，基础版本Gradient Descent，然后是人工设置学习率阶段和自适应学习率阶段。最后对应pytorch，说明常用的几种学习率优化策略。</p>
+<h3 id="vanilla">vanilla</h3>
+<p>(1 ) Gradient Descent</p>
+<p>针对整个数据集</p>
+<p>$$
+\theta = \theta - \eta \cdot \nabla _ { \theta } J ( \theta )
+$$
+特点：</p>
+<ul>
+<li>使用整个数据集计算梯度，计算起来非常慢</li>
+<li>能够找到全局最优点</li>
+</ul>
+<p>(2 ) Stochastic Gradient Descent (SGD)</p>
+<p>SGD 又走入了另外一个极端，SGD 拿到一个数据之后，马上计算梯度，然后对参数进行更新.</p>
+<p>$$
+\theta = \theta - \eta \cdot J \left( \theta ; x ^ { ( i ) } , y ^ { ( i ) } \right)
+$$</p>
+<p>特点：</p>
+<ul>
+<li>无法使用矩阵加速运算</li>
+<li>收敛速度快</li>
+</ul>
+<p>(3) Mini-Batch Gradient Descent （MBGD）</p>
+<p>Mini-batch 的方法是在上述两个方法中取了个折衷，每次从全部的熟练数据中取一个 mini-batch 的数据计算。</p>
+<p>$$
+\theta = \theta - \eta \cdot J \left( \theta ; x ^ { ( i : i + n ) } , y ^ { ( i : i + n ) } \right)
+$$</p>
+<p>batch size 的选择 n： 一般取值在 50～256</p>
+<p>目前，mini-batch 的方法是深度学习中主流方法，各种深度学习工具默认也是这种方法。也可以把上述两种方法看成是 mini-batch 的特例，Batch 的方法，就是 mini-batch size 是整个数据集，SGD 方法就是 min-batch=1 的情况.</p>
+<p>目前遇到的问题</p>
+<ul>
+<li>learning rate 如何进行自动调整</li>
+<li>如何跳出马鞍点</li>
+</ul>
+<p>在pytorch中的实现：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">lr</span><span class="o">=&lt;</span><span class="n">required</span> <span class="n">parameter</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dampening</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">nesterov</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>功能： pytorch中实现的是带有动量优化的SGD，其中常见的参数：</p>
+<ul>
+<li>params (iterable) 待优化的参数或者定义了参数组的dict</li>
+<li>lr (float) 学习率</li>
+<li>momentum (float 可选) -动量因子，默认是0</li>
+<li>weight_decay (float, 可选) -权重衰减（L2 惩罚），默认是0</li>
+</ul>
+<p>注意：pytorch中的使用SGD 和其他的框架不同，pytorch 中是这样的：</p>
+<p>$$
+\begin{split}
+v &amp;= \rho * v+g \\<br>
+p &amp;= p- lr * v \\<br>
+&amp; = p- lr * \rho * v- lr * g
+\end{split}
+$$
+而其他的框架是</p>
+<p>$$
+\begin{split}
+v &amp;=\rho * v+ lr * g \\<br>
+p &amp;=p- v=p- \rho * v- lr * g
+\end{split}
+$$</p>
+<p>其中 $\rho$ 是动量， $v$ 是速度， $g$ 是梯度， pytorch中将 $ \rho * v $这一项也是乘以了一个学习率。</p>
+<h3 id="人工设置学习率">人工设置学习率</h3>
+<ol start="4">
+<li><strong>Momentum (heavy-ball method)</strong></li>
+</ol>
+<p>$$
+x_{t+1}=x_{t}-\alpha \nabla f\left(x_{t}\right)+\mu\left(x_{t}-x_{t-1}\right), \quad \mu \in[0,1], \alpha&gt;0
+$$</p>
+<p>其中 $\mu$ 是动量因子，取值 0.9 左右。</p>
+<p>优点：</p>
+<ul>
+<li>可以加速 SGD， 并且抑制震荡</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li><a href="https://arxiv.org/abs/1408.3595">Lessard et al.</a> 发现对于简单的凸函数 $f(x)$ ，momentum 不能收敛，<a href="http://mitliagkas.github.io/ift6085/ift-6085-lecture-6-notes.pdf">课件里</a>给出了一个bad case</li>
+</ul>
+<ol start="5">
+<li><strong>Nesterov Accelerated Gradient</strong></li>
+</ol>
+<p>对于上面 momentum出现的bad case， Nesterov 来背锅。</p>
+<p>$$
+x_{t+1}=x_{t}+\mu\left(x_{t}-x_{t-1}\right)-\gamma \nabla f\left(x_{t}+\mu\left(x_{t}-x_{t-1}\right)\right)
+$$
+其中学习率$\gamma$, momentum系数$\mu$ 和参数的初始化$x_0$（公式中没有显示出来）</p>
+<p>两者的区别，一切尽在图中。（相同的颜色表示相同含义）</p>
+<p><img src="https://upload.cc/i1/2019/11/17/Q68dAs.png" alt="img">
+Nesterov Accelerated Gradient的关键在于计算梯度之前加上了之前积累的梯度。Notice how the gradient step with Polyak’s momentum is always perpendicular to the level set. taken from <a href="http://mitliagkas.github.io/ift6085/ift-6085-lecture-6-notes.pdf">here</a></p>
+<p>两种的相同点：都是基于momentum的 optim，都是针对凸优化函数；不同点：momentum 对于简单强凸优化函数，比如导数是二次方的函数，可能出现bad case；相对于而言，Nesterov Accelerated Gradient在凸优化函数中适用性更广。</p>
+<h3 id="自适应学习率方法">自适应学习率方法</h3>
+<ol start="6">
+<li><strong>Adagrad （Adaptive gradient algorithm）</strong></li>
+</ol>
+<p>intuition：自动调节学习率。</p>
+<p>$$
+\begin{split}
+n_{t} &amp;=n_{t-1}+g_{t}^{2} \\<br>
+\Delta \theta_{t} &amp;=-\frac{\eta}{\sqrt{n_{t}+\epsilon}} * g_{t}
+\end{split}
+$$</p>
+<p>其中 $n_t$表示从1到$t$ 形成的一个递推项，作为一个约束项， $\epsilon$ 用来保证分母非0，一般取 $1e-8$.实验表明，如果没有进行平方根操作，那么效果很差。</p>
+<p>特点：</p>
+<ul>
+<li>不用人工去tune 学习率，但是仍然需要在开始时候，给定一个学习率（依赖全局初始化学习率）</li>
+<li>每次增加的嗾使一个正数（平方和），所以训练的中后期，学习率有可能变得非常小（缺点）</li>
+</ul>
+<p>实际的使用效果：这个学习率的变化会受到梯度的大小和迭代次数的影响。梯度越大，学习率越小；梯度越小，学习率越大。对于稀疏数据集，效果很好。比如说在RNN 中训练词向量的过程，经常使用到。</p>
+<ol start="7">
+<li><strong>Adadelta</strong></li>
+</ol>
+<p>intuition：</p>
+<ul>
+<li>解决使用Adagrad训练中后期，梯度可能为0 的问题</li>
+<li>不依赖于初始化的learning rate</li>
+</ul>
+<p>首先处理第一个问题：梯度为0. 不使用之前全部的梯度平方和，使用部分。这个时候一种是暴力的滑动窗口的相反，但是作者使用另一种方法： decaying。
+$$
+E[g ^2] _t=\gamma E[ g ^2] _{t-1}+(1-\gamma) g _t ^2
+$$
+其中 $\gamma$ 是类似momentum中的超参数，大概在 0.9左右。</p>
+<p>第二个问题是初始化学习率问题。定义了另一个decay 系数，只不过这个是应用在参数 $\theta$ 上的，而不是上面的 $g_t$上。</p>
+<p>$$
+E[\Delta \theta ^2] _t=\gamma E[\Delta \theta ^2 ] _{t-1}+(1-\gamma) \Delta \theta _t ^2
+$$</p>
+<p>然后是常用的平方根操作：
+$$
+R M S[\Delta \theta] _t=\sqrt{E [\Delta \theta ^2 ] _t+\epsilon}
+$$</p>
+<p>所以将上述两个方面的更新整合起来：
+$$
+\begin{split}
+\Delta \theta _t &amp;=-\frac{R M S[\Delta \theta] _{t-1}}{R M S[g] _{t}} g _t \\<br>
+\theta _{t+1} &amp;=\theta _{t}+\Delta \theta _t
+\end{split}
+$$</p>
+<p>特点：不用设置全局的学习率，学习率是随着迭代次数变化的</p>
+<ol start="8">
+<li><strong>RMSprop</strong></li>
+</ol>
+<p>RMSprop是 Geoff Hinton 在其课程中讲到的一种方法。intuition 也是为了解决 Adagrad 中的出现的梯度为0. 实际上 RMSprop 就是 Adadelta 中的第一个方面的公式。</p>
+<p>$$
+\begin{split}
+E[g ^2] _t &amp;=\gamma E[ g ^2] _{t-1}+(1-\gamma) g _t ^2 \\<br>
+\theta _{t+1} &amp;= \theta _t-\frac{\eta}{\sqrt{E\left[g^{2}\right] _{t}+\epsilon}} g _{t}
+\end{split}
+$$
+其中 Hinton推荐超参数 $\gamma =0.9$， $\epsilon =0.001$。（ps RMSprop 和 Adadelta解决的方案叫做： exponentially decaying average of past squared gradients）</p>
+<p>特点：解决了 Adagrad 中出现的梯度为0的情况</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">RMSprop</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.99</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-08</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">centered</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>参数：</p>
+<ul>
+<li>params (iterable) 待优化参数的iterable 或者是低你够了参数组的dict</li>
+<li>lr (float, 可选) 学习率 (默认是 1e-2)</li>
+<li>momentum （float, 可选）动量因子（默认是 0）</li>
+<li>alpha (float, 可选) 平滑因子（默认是 0.99）</li>
+<li>eps (float，可选) 分母中的数值，可以增加数值的稳定性（默认是 1e-8）</li>
+<li>weight_decay (float, 可选) 权重衰减(L2 惩罚) （默认是 0）</li>
+</ul>
+<p>alpha：同样也称为学习率或步长因子，它控制了权重的更新比率（如0.001）.较大的值（如0.3）在学习率更新前会更快的初始学习，而较小的值（如1E-5）会令训练收敛到更好的性能</p>
+<p>beta1：一阶矩估计的指数衰减率（如0.9）</p>
+<p>beta2：二阶矩估计的指数衰减率（如0.99）.该超参数在系数梯度（如在NLP或计算机视觉任务中）中应该设置接近1的数</p>
+<p>epsilon：该参数是非常小的数，其为了防止在实现中除以零（如1E-8）</p>
+<ol start="9">
+<li><strong>Adam：Adaptive Moment Estimation</strong></li>
+</ol>
+<p>intuition：如果是momentum机制类似一个 ball running down a slope, 那么 Adam behaves a heavy ball with friction。 这种性质是有利于处理非凸优化问题，可能中间出现了一些平滑的局部最优解。如同Adadelta 和 RMSprop，使用了梯度的二阶导数，如同momentum，使用了梯度的一阶导数，把这两者信息结合起来，就是momentum。</p>
+<blockquote>
+<p>In addition to storing an exponentially decaying average of past squared gradients $v_t$, like Adadelta and RMSprop, Adam also keeps an exponentially decaying average of past gradients $m_t$, similar to momentum.</p>
+</blockquote>
+<p>$$
+\begin{split}
+m _{t} &amp;=\beta  _{1} m _{t-1}+(1-\beta _{1}) g _{t}  \\<br>
+v _{t} &amp;=\beta _{2} v _{t-1}+(1-\beta _{2}) g _{t} ^{2}
+\end{split}
+$$</p>
+<p>其中 $m_t$和 $v_t$ 分别是对梯度的一阶矩估计 （first moment ，the mean） 和二阶矩估计（the second moment ，the uncentered variance），这个是 Adam名字的由来。实验中发现上述公式在初始化阶段，$m_t$ 和$v_t$都是趋向于0，尤其是当 $\beta_1$ 和$\beta_2$ 解决1的时候。</p>
+<p>于是进行了 <code>bias-corrected</code>
+$$
+\begin{split}
+\hat{m} _{t} &amp;=\frac{m _{t}}{1-\beta _{1} ^{t}} \\<br>
+\hat{v} _{t} &amp;=\frac{v _{t}}{1-\beta _{2} ^{t}}
+\end{split}
+$$
+最后进行了梯度的更新：
+$$
+\theta _{t+1}=\theta _{t}-\frac{\eta}{\sqrt{\hat{v} _{t}}+\epsilon} \hat{m} _{t}
+$$
+作者推荐的超参数 $\beta_1 =0.9$， $\beta_2 =0.999$, $\epsilon =10 ^{-8}$</p>
+<p>特点：从实践的角度，Adam是优于上述几种的。所以就不用选择了。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">betas</span><span class="o">=</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.999</span><span class="p">),</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-08</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">amsgrad</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>参数</p>
+<ul>
+<li>params (iterable) 待优化参数的iterable 或者是定义了参数组的dict</li>
+<li>lr (float, 可选) 学习率（默认是 13-3）</li>
+<li>betas （Tuple [float, float], 可选） 用于计算梯度以及梯度平方的运行平均值的系数</li>
+<li>eps (float, 可选) 增加数值稳定性而加到分母中的项</li>
+<li>weight_decay （float， 可选） 权重衰减（L2 惩罚） 默认是 0</li>
+</ul>
+<p>Adam 的缺陷：</p>
+<p>虽然Adam算法目前成为主流的优化算法，不过在很多领域里（如计算机视觉的对象识别、NLP中的机器翻译）的最佳成果仍然是使用带动量（Momentum）的SGD来获取到的。</p>
+<p>修正指数移动均值：最近的几篇论文显示较低的$β_2$（如0.99或0.9）能够获得比默认值0.999更佳的结果，暗示出指数移动均值本身可能也包含了缺陷。</p>
+<p>虽然Adam算法在实践中要比RMSProp更加优秀，但同时我们也可以尝试SGD+Nesterov动量作为Adam的替代。即我们通常推荐在深度学习模型中使用Adam算法或SGD+Nesterov动量法。</p>
+<h3 id="图例">图例</h3>
+<p>如果空间中存在鞍点：
+<img src="https://upload.cc/i1/2019/11/17/yMBCHf.gif" alt=""></p>
+<p>如果空间中存在若干和局部最优点：
+<img src="https://i.loli.net/2019/11/17/p5GwnSiMdCeYFjW.gif" alt=""></p>
+<p>如果&hellip;
+<img src="https://s2.ax1x.com/2019/11/17/Mr9qmj.gif" alt="Mr9qmj.gif"></p>
+<h3 id="pytorch中的-optim-包">pytorch中的 optim 包</h3>
+<p>（1）pytorch 中optim 优化器</p>
+<p>参数组（param groups）</p>
+<p>optimizer 是通过 <code>param_group</code> 来管理参数组， <code>param_group</code>  中保存了参数组和相应的学习率，动量等。可以针对不同的参数设置不同的学习率。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># 有两个`param_group`即,len(optim.param_groups)==2</span>
+<span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">([</span>
+                <span class="p">{</span><span class="s1">&#39;params&#39;</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">parameters</span><span class="p">()},</span>
+                <span class="p">{</span><span class="s1">&#39;params&#39;</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">classifier</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="s1">&#39;lr&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">}</span>
+            <span class="p">],</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+
+<span class="c1">#一个参数组</span>
+<span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=.</span><span class="mi">9</span><span class="p">)</span>
+<span class="c1"># 获得学习率</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;learning rate: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">optimizer</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;lr&#39;</span><span class="p">]))</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;weight decay: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">optimizer</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;weight_decay&#39;</span><span class="p">]))</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>（2） pytorch中学习率调整策略</p>
+<p>PyTorch提供的学习率调整策略分为三大类，分别是</p>
+<ul>
+<li>有序调整：等间隔调整(Step)，按需调整学习率(MultiStep)，指数衰减调整(Exponential)和 余弦退火CosineAnnealing。</li>
+<li>自适应调整：自适应调整学习率 ReduceLROnPlateau。</li>
+<li>自定义调整：自定义调整学习率 LambdaLR。</li>
+</ul>
+<p>有序调整</p>
+<p>1). 等间隔调整学习率 StepLR</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">StepLR</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">step_size</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">last_epoch</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>参数</p>
+<ul>
+<li>step_size(int) - 学习率下降间隔数，若为 30，则会在 30、 60、 90…个 step 时，将学习率调整为 lr*gamma。</li>
+<li>gamma(float)- 学习率调整倍数，默认为 0.1 倍，即下降 10 倍。</li>
+<li>last_epoch(int)- 上一个 epoch 数，这个变量用来指示学习率是否需要调整。当last_epoch 符合设定的间隔时，就会对学习率进行调整。当为-1 时，学习率设置为初始值。</li>
+</ul>
+<ol start="2">
+<li>指数衰减调整学习率</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">ExponentialLR</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">last_epoch</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>参数</p>
+<ul>
+<li>gamma- 学习率调整倍数的底，指数为 epoch，即 gamma**epoch</li>
+<li>ast_epoch(int)- 上一个 epoch 数，这个变量用来指示学习率是否需要调整。当
+last_epoch 符合设定的间隔时，就会对学习率进行调整。当为-1 时，学习率设置为初始
+值</li>
+</ul>
+<p>自适应调整</p>
+<p>1). 按照指标调整学习率（ ReduceLROnPlateau）</p>
+<p>当某指标不再变化（下降或升高），调整学习率，这是非常实用的学习率调整策略。 例如，当验证集的 loss 不再下降时，进行学习率调整；或者监测验证集的 accuracy，当accuracy 不再上升时，则调整学习率。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode=&#39;min&#39;, factor=0.1, patience=10, verbose=False, threshold=0.0001, threshold_mode=&#39;rel&#39;, cooldown=0, min_lr=0, eps=1e-08)
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>mode(str)- 模式选择，有 min 和 max 两种模式， min 表示当指标不再降低(如监测loss)， max 表示当指标不再升高(如监测 accuracy)。</li>
+<li>factor(float)- 学习率调整倍数(等同于其它方法的 gamma)，即学习率更新为 lr = lr * factor</li>
+<li>patience(int)- 忍受该指标多少个 step 不变化，当忍无可忍时，调整学习率。</li>
+<li>threshold_mode(str)- 选择判断指标是否达最优的模式，有两种模式， rel 和 abs。当 threshold_mode == rel，并且 mode == max 时， dynamic_threshold = best * ( 1 +threshold )；当 threshold_mode == rel，并且 mode == min 时， dynamic_threshold = best * ( 1 -threshold )；当 threshold_mode == abs，并且 mode== max 时， dynamic_threshold = best + threshold ；当 threshold_mode == rel，并且 mode == max 时， dynamic_threshold = best - threshold；</li>
+<li>eps(float)- 学习率衰减的最小值，当学习率变化小于 eps 时，则不调整学习率。</li>
+</ul>
+<p>自定义调整</p>
+<p>自定义调整学习率 LambdaLR</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">LambdaLR</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">lr_lambda</span><span class="p">,</span> <span class="n">last_epoch</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>lr_lambda(function or list)- 一个计算学习率调整倍数的函数，输入通常为 step，当有多个参数组时，设为 list.</li>
+<li>last_epoch (int) – 上一个 epoch 数，这个变量用来指示学习率是否需要调整。当
+last_epoch 符合设定的间隔时，就会对学习率进行调整。当为-1 时，学习率设置为初始
+值。</li>
+</ul>
+<p><strong>参考文献</strong></p>
+<p><a href="https://zhuanlan.zhihu.com/p/22252270">深度学习最全优化方法总结比较（SGD，Adagrad，Adadelta，Adam，Adamax，Nadam）</a>
+<a href="https://ruder.io/optimizing-gradient-descent/">An overview of gradient descent optimization algorithms</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-11-17
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/optimizer/">optimizer</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/decision_tree/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Decision Tree</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/entropy/">
+            <span class="next-text nav-default">Entropy</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

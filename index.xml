@@ -1,0 +1,1019 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/</link>
+    <description>Recent content on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 29 Nov 2020 10:22:37 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hook in pytorch</title>
+      <link>http://jijeng.github.io/post/hook_in_pytorch/</link>
+      <pubDate>Sun, 29 Nov 2020 10:22:37 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/hook_in_pytorch/</guid>
+      <description>&lt;p&gt;hook 的引入&lt;/p&gt;
+&lt;p&gt;在pytorch中的自动求梯度机制(Autograd mechanics)中，如果将tensor的requires_grad设为True, 那么涉及到它的一系列运算将在反向传播中自动求梯度。但是自动求导的机制有个我们需要注意的地方：&lt;strong&gt;在自动求导机制中只保存叶子节点，也就是中间变量在计算完成梯度后会自动释放以节省空间.&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Image classification</title>
+      <link>http://jijeng.github.io/post/image_classification/</link>
+      <pubDate>Thu, 29 Oct 2020 09:54:55 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/image_classification/</guid>
+      <description>&lt;p&gt;记录图像分类过程中常见的优化点（code）。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Leetcode weekly contest(2)</title>
+      <link>http://jijeng.github.io/post/leetcode_weekly_contest_2/</link>
+      <pubDate>Fri, 28 Aug 2020 10:27:51 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/leetcode_weekly_contest_2/</guid>
+      <description>&lt;p&gt;LeetCode周赛题，日常刷题笔记。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>基于hash 的图像相似度的计算</title>
+      <link>http://jijeng.github.io/post/image_simialrity_hash/</link>
+      <pubDate>Thu, 30 Jul 2020 14:03:22 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/image_simialrity_hash/</guid>
+      <description>&lt;p&gt;使用hash 计算图像的相似度，是在图像预处理中去除重复的图像。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Similarity Metrics</title>
+      <link>http://jijeng.github.io/post/similarity_metrics/</link>
+      <pubDate>Tue, 28 Jul 2020 16:47:27 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/similarity_metrics/</guid>
+      <description>&lt;p&gt;The similarity measure is the measure of how much alike two data objects are. Similarity measure in a data mining context is a distance with dimensions representing features of the objects. If this distance is small, it will be the high degree of similarity where large distance will be the low degree of similarity.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Pandas Tutorial</title>
+      <link>http://jijeng.github.io/post/pandas_tutorial/</link>
+      <pubDate>Tue, 28 Jul 2020 10:13:57 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/pandas_tutorial/</guid>
+      <description>&lt;p&gt;pandas 学习笔记&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Overfit</title>
+      <link>http://jijeng.github.io/post/overfit/</link>
+      <pubDate>Sat, 11 Jul 2020 15:55:36 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/overfit/</guid>
+      <description>&lt;p&gt;分析机器学习 和深度学习中出现的过拟合现象，从不同的角度简述常用的处理手段。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Image Caption</title>
+      <link>http://jijeng.github.io/post/image_caption/</link>
+      <pubDate>Thu, 09 Jul 2020 14:01:48 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/image_caption/</guid>
+      <description>&lt;p&gt;看图说话（Image Caption）任务是结合CV和NLP两个领域的一种比较综合的任务，Image Caption模型的输入是一幅图像，输出是对该幅图像进行描述的一段文字。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>文学类小说读书笔记(1)</title>
+      <link>http://jijeng.github.io/post/reading_notes_1/</link>
+      <pubDate>Wed, 08 Jul 2020 15:38:57 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/reading_notes_1/</guid>
+      <description>&lt;p&gt;文学类小说读书笔记。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Linux tutorial(2)</title>
+      <link>http://jijeng.github.io/post/linux_tutorial_2/</link>
+      <pubDate>Wed, 08 Jul 2020 11:09:45 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/linux_tutorial_2/</guid>
+      <description>&lt;p&gt;之前的linux 学习笔记内容比较，然后新开了一篇。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Elastic Search (3)</title>
+      <link>http://jijeng.github.io/post/elastic_search_3/</link>
+      <pubDate>Tue, 07 Jul 2020 13:24:51 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/elastic_search_3/</guid>
+      <description>&lt;p&gt;elastic search的使用优化&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Leetcode Weekly Contest(1)</title>
+      <link>http://jijeng.github.io/post/leetcode_weekly_contest_1/</link>
+      <pubDate>Tue, 07 Jul 2020 11:22:17 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/leetcode_weekly_contest_1/</guid>
+      <description>&lt;p&gt;leetcode weekly contest 记录&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Elastic Search 学习笔记(一)</title>
+      <link>http://jijeng.github.io/post/elastic_search_1/</link>
+      <pubDate>Mon, 29 Jun 2020 11:22:11 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/elastic_search_1/</guid>
+      <description>&lt;p&gt;介绍使用 elastic search&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Regular Expression</title>
+      <link>http://jijeng.github.io/post/regular_expression/</link>
+      <pubDate>Sun, 28 Jun 2020 16:13:50 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/regular_expression/</guid>
+      <description>&lt;p&gt;介绍正则表达式&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Jupyter Notebook Tutorial</title>
+      <link>http://jijeng.github.io/post/jupyter_notebook_tutorial/</link>
+      <pubDate>Thu, 28 May 2020 14:40:46 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/jupyter_notebook_tutorial/</guid>
+      <description>title: Jupyter notebook 教程（高级） date: 2020-03-05 11:22:17 总结在 Jupyter notebook 使用中涉及到的比较有意思的特性（advanced tutorial，不涉及安装软件）。 Shell Commands 1 2 ! echo Hello world! pip freeze |</description>
+    </item>
+    
+    <item>
+      <title>Optical Flow</title>
+      <link>http://jijeng.github.io/post/optical_flow/</link>
+      <pubDate>Sun, 24 May 2020 15:52:42 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/optical_flow/</guid>
+      <description>&lt;p&gt;Optical Flow 的简单介绍。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>基于python 的JSON数据的处理</title>
+      <link>http://jijeng.github.io/post/python_json/</link>
+      <pubDate>Sun, 24 May 2020 11:38:31 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/python_json/</guid>
+      <description>&lt;p&gt;JSON格式在python 中的使用。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title> Mac OS 使用tutorial</title>
+      <link>http://jijeng.github.io/post/macos_tutorial/</link>
+      <pubDate>Fri, 15 May 2020 10:12:03 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/macos_tutorial/</guid>
+      <description>&lt;p&gt;Mac OS 使用tutorial&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Cluster algorithm</title>
+      <link>http://jijeng.github.io/post/cluster_algorithm/</link>
+      <pubDate>Sat, 18 Apr 2020 10:34:04 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/cluster_algorithm/</guid>
+      <description>&lt;p&gt;主要介绍K-means，EM算法和KNN 算法。&lt;/p&gt;
+&lt;img src=&#34;https://ftp.bmp.ovh/imgs/2020/04/c91ebad0e6203aa5.png&#34; width=&#34;60%&#34; height=&#34;60%&#34;&gt;</description>
+    </item>
+    
+    <item>
+      <title>CNN Understanding</title>
+      <link>http://jijeng.github.io/post/cnn_understanding/</link>
+      <pubDate>Tue, 07 Apr 2020 10:41:47 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/cnn_understanding/</guid>
+      <description>&lt;p&gt;CNN 算法学习。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>深度学习中的 GPU</title>
+      <link>http://jijeng.github.io/post/gpu/</link>
+      <pubDate>Mon, 30 Mar 2020 13:56:42 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/gpu/</guid>
+      <description>&lt;p&gt;如题所示，介绍深度学习中的gpu 的使用。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>OpenCV Blending 技术</title>
+      <link>http://jijeng.github.io/post/blending_cv2/</link>
+      <pubDate>Fri, 27 Mar 2020 15:50:50 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/blending_cv2/</guid>
+      <description>&lt;p&gt;OpenCV Blending 技术 的介绍说明。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Vim Tutorial</title>
+      <link>http://jijeng.github.io/post/vim_tutorial/</link>
+      <pubDate>Fri, 20 Mar 2020 16:57:43 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/vim_tutorial/</guid>
+      <description>&lt;p&gt;VIM（VI）常用的命令整理。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Nosql-mongodb 和redis 简介</title>
+      <link>http://jijeng.github.io/post/nosql/</link>
+      <pubDate>Fri, 20 Mar 2020 15:40:43 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/nosql/</guid>
+      <description>&lt;p&gt;MongoDB和Redis都是NoSQL数据库，采用结构型数据存储，而MySQL、oracle等则属于传统的关系型数据库。注意NoSQL不是没有SQL，而是Not only SQL。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>伪标签（Pseudo-Label）：一种简单有效的半监督学习方式</title>
+      <link>http://jijeng.github.io/post/pseudo_label/</link>
+      <pubDate>Wed, 26 Feb 2020 16:01:25 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/pseudo_label/</guid>
+      <description>&lt;p&gt;对于伪标签（Pseudo-Label）的学习整理。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Union find</title>
+      <link>http://jijeng.github.io/post/union_find/</link>
+      <pubDate>Sat, 22 Feb 2020 16:54:49 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/union_find/</guid>
+      <description>title: Union-Find (并查集算法) date: 2019-08-05 22:13:40 tags: union-find categories: 算法 并查集是一种树型数据结构，用于处理不相交 (Disjoint Sets) 的合并及查询问题。 定义 并查集，在一些有N个元素的集合应用问题中</description>
+    </item>
+    
+    <item>
+      <title>Shell Tutorial</title>
+      <link>http://jijeng.github.io/post/shell_tutorial/</link>
+      <pubDate>Tue, 18 Feb 2020 16:43:01 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/shell_tutorial/</guid>
+      <description>&lt;p&gt;本文是介绍shell 语言的学习笔记。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>linux service monitors</title>
+      <link>http://jijeng.github.io/post/linux_service/</link>
+      <pubDate>Tue, 18 Feb 2020 14:46:35 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/linux_service/</guid>
+      <description>&lt;p&gt;linux环境下，对进程自动监控的实现方案。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Image Interpolation</title>
+      <link>http://jijeng.github.io/post/image_interpolation/</link>
+      <pubDate>Tue, 18 Feb 2020 14:29:39 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/image_interpolation/</guid>
+      <description>&lt;p&gt;对于图像（image interpolation） 和图像resize 相关知识的整理学习。&lt;/p&gt;
+&lt;img src=&#34;https://s1.ax1x.com/2020/05/22/YOpwd0.png&#34; width=&#34;80%&#34; height=&#34;80%&#34;&gt;</description>
+    </item>
+    
+    <item>
+      <title>Pix2pixhd</title>
+      <link>http://jijeng.github.io/post/pix2pixhd/</link>
+      <pubDate>Tue, 28 Jan 2020 15:57:28 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/pix2pixhd/</guid>
+      <description>&lt;p&gt;介绍 pix2pixHD 论文，AED20K 数据集和CoCosNet 数据集。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Python Iterable</title>
+      <link>http://jijeng.github.io/post/python_iterable/</link>
+      <pubDate>Tue, 28 Jan 2020 14:35:28 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/python_iterable/</guid>
+      <description>&lt;p&gt;在python 中经常遇到以下的概念：容器（container）、可迭代（iterable）、迭代器（iterator）和生成器（generator）。上述概念经常混淆，整理一下，总结为图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2019/12/01/MAXQtk9CcGDEUmR.png&#34; alt=&#34;1.png&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Pygen</title>
+      <link>http://jijeng.github.io/post/pygen/</link>
+      <pubDate>Tue, 21 Jan 2020 16:05:04 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/pygen/</guid>
+      <description>&lt;p&gt;**pygen功能：**有关联的随机生成人名，邮箱，ID Card (ssn)，电话，地址等信息，并且可以选择保存为 pandas dataframe格式, 数据库&amp;quot;.db&amp;quot; 文件, Excel 文件和csv 文件格式，用于机器学习训练。&lt;a href=&#34;https://github.com/jijeng/pygen&#34;&gt;项目地址github&lt;/a&gt;。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>ProGAN &amp; StyleGAN &amp; StyleGAN2</title>
+      <link>http://jijeng.github.io/post/progan_stylegan/</link>
+      <pubDate>Sat, 11 Jan 2020 15:58:59 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/progan_stylegan/</guid>
+      <description>&lt;p&gt;阅读论文&amp;ndash; 关于GAN 的一篇综述；介绍对比 ProGAN &amp;amp; StyleGAN &amp;amp; StyleGAN2。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2020/02/21/qQNFgKlwHEJ4Gc1.png&#34; alt=&#34;Screen Shot 2020-02-21 at 5.32.45 PM.png&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Git tutorial</title>
+      <link>http://jijeng.github.io/post/git/</link>
+      <pubDate>Sat, 11 Jan 2020 13:53:30 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/git/</guid>
+      <description>&lt;p&gt;学习笔记- Git 相关的命令。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>nginx 学习记录</title>
+      <link>http://jijeng.github.io/post/nginx/</link>
+      <pubDate>Tue, 07 Jan 2020 15:32:29 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/nginx/</guid>
+      <description>&lt;p&gt;介绍和使用nginx 的记录&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Elasticsearch 的使用优化</title>
+      <link>http://jijeng.github.io/post/elastic_search_2/</link>
+      <pubDate>Tue, 07 Jan 2020 13:23:26 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/elastic_search_2/</guid>
+      <description>&lt;p&gt;介绍和使用nginx 的记录&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Gnn</title>
+      <link>http://jijeng.github.io/post/gnn/</link>
+      <pubDate>Thu, 02 Jan 2020 13:55:20 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/gnn/</guid>
+      <description>&lt;p&gt;Graph neural networks (GNN), deep learning architectures for graph-structured data.（待补充代码实践）&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Python 和C&#43;&#43; 中的内存管理</title>
+      <link>http://jijeng.github.io/post/memory_configuration/</link>
+      <pubDate>Wed, 01 Jan 2020 15:08:10 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/memory_configuration/</guid>
+      <description>&lt;p&gt;介绍Python 和C++ 中的内存管理。Python中的内存管理分为内存分配、引入计数和垃圾回收。C++ 中的内存管理主要介绍五个不同的分区和new delete malloc free等四个关键字。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Leetcode Array(2)</title>
+      <link>http://jijeng.github.io/post/leetcode_array_2/</link>
+      <pubDate>Wed, 01 Jan 2020 12:28:17 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/leetcode_array_2/</guid>
+      <description>&lt;p&gt;LeetCode 刷题记录，以 array专题开刷。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Leetcode-mysql</title>
+      <link>http://jijeng.github.io/post/leetcode_mysql/</link>
+      <pubDate>Fri, 27 Dec 2019 19:30:44 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/leetcode_mysql/</guid>
+      <description>&lt;p&gt;LeetCode 刷题笔记，数据库专题，使用mysql 实现。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Algorithm Interview(1)</title>
+      <link>http://jijeng.github.io/post/algorithm_interview_1/</link>
+      <pubDate>Fri, 27 Dec 2019 17:23:49 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/algorithm_interview_1/</guid>
+      <description>&lt;p&gt;面试过程中的算法题目总结。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>基于中文简历的命名实体识别</title>
+      <link>http://jijeng.github.io/post/name_entiry_recognition/</link>
+      <pubDate>Sat, 21 Dec 2019 15:25:13 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/name_entiry_recognition/</guid>
+      <description>&lt;p&gt;基于中文简历的命名实体识别项目（持续更新中）&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Graph Algorithm</title>
+      <link>http://jijeng.github.io/post/graph_algorithm/</link>
+      <pubDate>Tue, 17 Dec 2019 16:20:37 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/graph_algorithm/</guid>
+      <description>&lt;p&gt;之前在介绍宽度优先遍历、深度优先遍历、拓扑排序、最小生成树、并查集的时候零零散散介绍过图，这篇以图为中心，介绍相关的算法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Python Functional Programming</title>
+      <link>http://jijeng.github.io/post/python_functional_programming/</link>
+      <pubDate>Sun, 01 Dec 2019 13:48:03 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/python_functional_programming/</guid>
+      <description>&lt;p&gt;介绍函数式编程、闭包、装饰器和单例模式。（Python版本）&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>文本相似度比较基本知识(1)</title>
+      <link>http://jijeng.github.io/post/text_similarity/</link>
+      <pubDate>Thu, 28 Nov 2019 17:11:14 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/text_similarity/</guid>
+      <description>&lt;p&gt;互联网网页存在大量的重复内容网页，无论对于搜索引擎的网页去重和过滤、新闻小说等内容网站的内容反盗版和追踪，还是社交媒体等文本去重和聚类，都需要对网页或者文本进行去重和过滤。本文介绍的  Locality Sensitive Hashing 是常见的一类hash 函数用于去重。 SimHash是一种局部敏感hash，它也是Google公司进行海量网页去重使用的主要算法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Lstm</title>
+      <link>http://jijeng.github.io/post/lstm/</link>
+      <pubDate>Thu, 28 Nov 2019 15:05:54 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/lstm/</guid>
+      <description>&lt;p&gt;从 RNN到LSTM，重点介绍LSTM 的网络结构和LSTM是如何缓解RNN 中出现的梯度消失。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Loss Function</title>
+      <link>http://jijeng.github.io/post/loss_function/</link>
+      <pubDate>Thu, 28 Nov 2019 14:58:04 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/loss_function/</guid>
+      <description>&lt;p&gt;介绍激活函数（activation function）、损失函数（loss function）和在pytorch框架下的使用。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Greedy Algorithm</title>
+      <link>http://jijeng.github.io/post/greedy_algorithm/</link>
+      <pubDate>Wed, 27 Nov 2019 18:22:16 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/greedy_algorithm/</guid>
+      <description>&lt;p&gt;贪心算法，分为定义，使用条件，不足之处和常见例题（代码）等部分。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>BFS</title>
+      <link>http://jijeng.github.io/post/bfs/</link>
+      <pubDate>Sun, 24 Nov 2019 16:11:40 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/bfs/</guid>
+      <description>&lt;p&gt;宽度优先遍历（Breadth First Search，BFS）概念和实践介绍。概念部分包括定义，使用的场景和时空复杂度；实践就是代码部分，包括树的深度优先遍历、无向图的深度优先遍历（迪杰斯特拉算法，Dijkstra&amp;rsquo;s algorithm）和有向图的深度优先遍历（拓扑排序）。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Decision Tree</title>
+      <link>http://jijeng.github.io/post/decision_tree/</link>
+      <pubDate>Sat, 23 Nov 2019 12:56:44 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/decision_tree/</guid>
+      <description>&lt;p&gt;介绍决策树的定义、分类，重点介绍决策树中特征选择的三种算法和决策树的优劣。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Optimizer</title>
+      <link>http://jijeng.github.io/post/optimizer/</link>
+      <pubDate>Sun, 17 Nov 2019 15:53:57 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/optimizer/</guid>
+      <description>&lt;p&gt;深度学习中优化器 （optimizer）讲解。根据学习率的情况分成三个阶段，基础版本Gradient Descent，然后是人工设置学习率阶段和自适应学习率阶段。最后对应pytorch，说明常用的几种学习率优化策略。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Entropy</title>
+      <link>http://jijeng.github.io/post/entropy/</link>
+      <pubDate>Sun, 17 Nov 2019 13:29:14 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/entropy/</guid>
+      <description>&lt;p&gt;介绍熵相关的概念：包括信息熵、相对熵、交叉熵、KL 散度和互信息。并且基于python 实现上述的算法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Python 学习笔记（三）</title>
+      <link>http://jijeng.github.io/post/python_tutorial_3/</link>
+      <pubDate>Mon, 04 Nov 2019 16:08:25 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/python_tutorial_3/</guid>
+      <description>&lt;p&gt;python 学习笔记，之前有两篇笔记，因为太多了，所以新开一篇。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Knapsack</title>
+      <link>http://jijeng.github.io/post/knapsack/</link>
+      <pubDate>Sun, 27 Oct 2019 20:23:56 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/knapsack/</guid>
+      <description>&lt;p&gt;背包问题&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Logistic &amp; Softmax</title>
+      <link>http://jijeng.github.io/post/logistic_softmax/</link>
+      <pubDate>Tue, 22 Oct 2019 14:56:13 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/logistic_softmax/</guid>
+      <description>title: logistics 和softmax 的公式推导 date: 2019-07-05 20:37:41 categories: 机器学习 Logistics 和 softmax 的公式推导。总结常在面试过程中用到的公式推导。 Logistics公式推导 Logistics Regression 是线性分类器</description>
+    </item>
+    
+    <item>
+      <title>Word2vec</title>
+      <link>http://jijeng.github.io/post/word2vec/</link>
+      <pubDate>Sat, 28 Sep 2019 17:04:42 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/word2vec/</guid>
+      <description>&lt;p&gt;介绍Word2vec 的两种训练模式（DBOW和Skip-gram）和两种优化策略（Hierarchical Softmax 和Negative Sampling）。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>基于隐马尔科夫的命名实体识别</title>
+      <link>http://jijeng.github.io/post/hmm/</link>
+      <pubDate>Fri, 06 Sep 2019 14:00:01 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/hmm/</guid>
+      <description>&lt;p&gt;介绍自然语言处理中的命名实体识别（Named Entity Recognition，NER ）相关概念，主要介绍基于HMM 的NER，包括HMM中的两大假设，三大参数和Viterbi 算法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Docker</title>
+      <link>http://jijeng.github.io/post/docker/</link>
+      <pubDate>Wed, 04 Sep 2019 13:09:19 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/docker/</guid>
+      <description>&lt;p&gt;介绍容器（Docker）的原理和常见的命令。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Dynamic Programming</title>
+      <link>http://jijeng.github.io/post/dynamic_programming/</link>
+      <pubDate>Thu, 29 Aug 2019 16:18:47 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/dynamic_programming/</guid>
+      <description>&lt;p&gt;先介绍了动态规划的概念，使用的必要条件，和其他类似算法的区别和联系。然后是实战，coding部分。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>DFS</title>
+      <link>http://jijeng.github.io/post/dfs/</link>
+      <pubDate>Thu, 29 Aug 2019 16:15:58 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/dfs/</guid>
+      <description>&lt;p&gt;深度优先搜索学习笔记。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Algorithm Practice(2)</title>
+      <link>http://jijeng.github.io/post/algorithm_practice_2/</link>
+      <pubDate>Tue, 30 Jul 2019 16:08:31 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/algorithm_practice_2/</guid>
+      <description>&lt;p&gt;刷题整理笔记。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Lightgbm &amp; Xgboost</title>
+      <link>http://jijeng.github.io/post/lightgbm_xgboost/</link>
+      <pubDate>Sun, 28 Jul 2019 14:42:57 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/lightgbm_xgboost/</guid>
+      <description>&lt;p&gt;先主要介绍树的基本知识，然后介绍LightGBM和XGBoost及其调参.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Python Advanced Skills</title>
+      <link>http://jijeng.github.io/post/python_tutorial_2/</link>
+      <pubDate>Sat, 27 Jul 2019 16:07:02 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/python_tutorial_2/</guid>
+      <description>&lt;p&gt;介绍 python advanced skill。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Naive Bayes</title>
+      <link>http://jijeng.github.io/post/naive_bayes/</link>
+      <pubDate>Mon, 22 Jul 2019 21:23:04 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/naive_bayes/</guid>
+      <description>&lt;p&gt;从贝叶斯定理到 naive bayes 分类器，最后说明一下其应用和优缺点。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Leetcode-others</title>
+      <link>http://jijeng.github.io/post/leetcode_others/</link>
+      <pubDate>Tue, 16 Jul 2019 23:17:44 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/leetcode_others/</guid>
+      <description>&lt;p&gt;LeetCode 刷题总结（四），使用Python 实现。该篇题目类型主要包含无法归类到上述三篇的题目。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>A Gentle Introduction of GBDT</title>
+      <link>http://jijeng.github.io/post/gbdt/</link>
+      <pubDate>Fri, 12 Jul 2019 13:51:52 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/gbdt/</guid>
+      <description>&lt;p&gt;介绍GBDT 的定义、训练过程、优缺点和常见的问题。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Text Summary</title>
+      <link>http://jijeng.github.io/post/text_summary/</link>
+      <pubDate>Sun, 30 Jun 2019 16:53:00 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/text_summary/</guid>
+      <description>&lt;p&gt;Text Summarization&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Text summarization is the process of distilling the most important information from a source (or sources) to produce an abridged version for a particular user (or users) and task (or tasks).&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Machine_translation</title>
+      <link>http://jijeng.github.io/post/machine_translation/</link>
+      <pubDate>Sat, 29 Jun 2019 15:34:19 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/machine_translation/</guid>
+      <description>&lt;p&gt;介绍机器翻译的五个发展阶段，然后是关于机器翻译的论文阅读笔记（持续更新）&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>ResNet and Inception V3 Understanding</title>
+      <link>http://jijeng.github.io/post/resnet_understanding/</link>
+      <pubDate>Fri, 21 Jun 2019 16:39:06 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/resnet_understanding/</guid>
+      <description>&lt;p&gt;本文介绍 ResNet的背景，想要解决的问题，基本思路和框架 和对于其的一种解读方式。另外，和 Resnet 思路相反的是 Inception 系列。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>剑指Offer-栈、队列、链表和树</title>
+      <link>http://jijeng.github.io/post/offer_stack/</link>
+      <pubDate>Mon, 17 Jun 2019 17:35:13 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/offer_stack/</guid>
+      <description>&lt;p&gt;这是剑指offer 系列四部曲中的第二部：栈、队列、链表和树。第一部关于&lt;a href=&#34;https://jijeng.github.io/2019/05/17/%E5%89%91%E6%8C%87Offer-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%95%B0%E7%BB%84/&#34;&gt;字符串和数组&lt;/a&gt;，第三部是&lt;a href=&#34;https://jijeng.github.io/2019/05/17/%E5%89%91%E6%8C%87offer-%E9%80%92%E5%BD%92-%E5%9B%9E%E6%BA%AF%E5%92%8C%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/&#34;&gt;递归、回溯和动态规划&lt;/a&gt;， 最后一部分在&lt;a href=&#34;https://jijeng.github.io/2019/05/17/%E5%89%91%E6%8C%87offer-%E5%85%B6%E4%BB%96/&#34;&gt;这里&lt;/a&gt;。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>关于BERT改进的几篇论文</title>
+      <link>http://jijeng.github.io/post/bert/</link>
+      <pubDate>Sun, 16 Jun 2019 09:05:04 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/bert/</guid>
+      <description>&lt;p&gt;介绍基于BERT进行改进的模型：ALBERT、XLNet, DistilBERT （持续更新）&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Logistic Regression 概念</title>
+      <link>http://jijeng.github.io/post/logistic_regression/</link>
+      <pubDate>Sun, 09 Jun 2019 14:59:59 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/logistic_regression/</guid>
+      <description>&lt;p&gt;本文主要介绍逻辑回归（logistics regression）和决策树（Decision Tree）。逻辑回归从线性回归出发到逻辑回归，然后手推公式和相关的一些特点；介绍一下决策树的特点。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>SVM All You Need to Know</title>
+      <link>http://jijeng.github.io/post/svm/</link>
+      <pubDate>Sat, 08 Jun 2019 16:51:21 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/svm/</guid>
+      <description>&lt;p&gt;本文主要介绍SVM 相关内容，包括理论原理、在线性可分条件下的公式推导和 SVM的应用特点。最后综合 LR 和 Decision Tree的&lt;a href=&#34;https://jijeng.github.io/2019/06/09/lr/&#34;&gt;这篇博客&lt;/a&gt;，给出了一些小的建议。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Sentence Embedding</title>
+      <link>http://jijeng.github.io/post/sentence_embedding/</link>
+      <pubDate>Sat, 01 Jun 2019 15:35:46 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/sentence_embedding/</guid>
+      <description>&lt;p&gt;sentence embedding 学习笔记&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Leetcode-String</title>
+      <link>http://jijeng.github.io/post/leetcode_string/</link>
+      <pubDate>Fri, 24 May 2019 22:14:56 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/leetcode_string/</guid>
+      <description>&lt;p&gt;leetcode 刷题笔记- string.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Word_embedding_understanding</title>
+      <link>http://jijeng.github.io/post/word_embedding_understanding/</link>
+      <pubDate>Wed, 22 May 2019 10:31:51 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/word_embedding_understanding/</guid>
+      <description>&lt;p&gt;从one-hot 到 word2vec， 到elmo，简单介绍一下 NLP中词向量的过程。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Introduction to Natural Language Processing for Text</title>
+      <link>http://jijeng.github.io/post/introduction_to_nlp/</link>
+      <pubDate>Tue, 21 May 2019 14:32:17 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/introduction_to_nlp/</guid>
+      <description>&lt;p&gt;Natural Language Processing is used to apply machine learning algorithms to text and speech. For example, we can use it to create systems like speech recognition, document summarization, machine translation, spam detection, named entity recognition, question answering, autocomplete, predictive typing and so on.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Leetcode-Recursion</title>
+      <link>http://jijeng.github.io/post/leetcode_recursion/</link>
+      <pubDate>Thu, 16 May 2019 23:17:29 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/leetcode_recursion/</guid>
+      <description>&lt;p&gt;LeetCode 刷题总结（三）， 使用Python 实现。该篇题目类型主要包括：recursion, iteration 和dynamic programming。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Leetcode_stack</title>
+      <link>http://jijeng.github.io/post/leetcode_stack/</link>
+      <pubDate>Mon, 06 May 2019 20:40:17 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/leetcode_stack/</guid>
+      <description>&lt;p&gt;栈和队列数据结构的介绍，并以LeetCode习题为例刷题。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43; 编程语言（二）</title>
+      <link>http://jijeng.github.io/post/cpp_tutorial_2/</link>
+      <pubDate>Mon, 06 May 2019 10:46:45 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/cpp_tutorial_2/</guid>
+      <description>&lt;p&gt;C++ 语言学习笔记2&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Mode Collapse in GANs</title>
+      <link>http://jijeng.github.io/post/mode_collapse_gan/</link>
+      <pubDate>Thu, 18 Apr 2019 15:10:07 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/mode_collapse_gan/</guid>
+      <description>&lt;p&gt;Mode collapse, a failure case for GANs where the generator generate a limited diversity of samples, regardless of the input.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>A Not So Gentle Introduction to Hyperparameters Tuning</title>
+      <link>http://jijeng.github.io/post/a-not-so-gentle-introduction-to-hyperparameters-tuning/</link>
+      <pubDate>Wed, 17 Apr 2019 14:34:00 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/a-not-so-gentle-introduction-to-hyperparameters-tuning/</guid>
+      <description>&lt;p&gt;Setting the hyper-parameters seems like a black art that requires years of experience to acquire. Currently, there are no simple and easy ways to set hyper-parameters, especifically, batch size, learning rate, momentum, and weight decay. A grid search or random search maybe sounds like a good idea. In this blog, I&amp;rsquo;d like to share you my idea from reading papers and my projects.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hadoop &amp; Spark</title>
+      <link>http://jijeng.github.io/post/hadoop_spark/</link>
+      <pubDate>Mon, 15 Apr 2019 13:58:29 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/hadoop_spark/</guid>
+      <description>&lt;p&gt;主要介绍 Hadoop 和 Spark 的关系和联系。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Inverted Index</title>
+      <link>http://jijeng.github.io/post/inverted_index/</link>
+      <pubDate>Tue, 09 Apr 2019 14:34:11 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/inverted_index/</guid>
+      <description>&lt;p&gt;首先介绍了信息检索中两种匹配方式：精确匹配和最好匹配，然后介绍在实现过程中涉及到的boolean retrieval 和倒排索引，实现了基于set 的搜索引擎和boolean retrieval的算法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Generative Adversarial Network</title>
+      <link>http://jijeng.github.io/post/generative_adversarial_network/</link>
+      <pubDate>Tue, 09 Apr 2019 13:50:20 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/generative_adversarial_network/</guid>
+      <description>从损失函数角度分析GAN和WGAN等经典的网络模型；分析GAN评价的两个指标Inception Score 和Frechet Inception Distance（FID）</description>
+    </item>
+    
+    <item>
+      <title>Data Structure</title>
+      <link>http://jijeng.github.io/post/data_structure/</link>
+      <pubDate>Fri, 05 Apr 2019 11:04:54 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/data_structure/</guid>
+      <description>&lt;p&gt;介绍面试过程中的数据结构，树、Hash表和图。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Siamese Network</title>
+      <link>http://jijeng.github.io/post/siamese_network/</link>
+      <pubDate>Tue, 26 Mar 2019 16:45:06 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/siamese_network/</guid>
+      <description>&lt;p&gt;主要是介绍自己论文中的网络结构：siamese network。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Linear Algebra</title>
+      <link>http://jijeng.github.io/post/linear_algebra/</link>
+      <pubDate>Mon, 25 Mar 2019 14:44:42 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/linear_algebra/</guid>
+      <description>&lt;p&gt;线性代数、统计学中有很多概念作为机器学习中的基础，比如说矩阵运算、相关系数等。ML 中的一个难点就是由原来概率中的线性变换直接过渡到了矩阵和网络，这其中的过程却没有人铺垫。于是，本文持续更新和 ML 相关的线性代数、统计学知识和相关的实现。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>fastText &amp; faiss</title>
+      <link>http://jijeng.github.io/post/fasttext_faiss/</link>
+      <pubDate>Mon, 25 Mar 2019 13:33:53 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/fasttext_faiss/</guid>
+      <description>&lt;p&gt;主要介绍 fastText、faiss 两个常用的工具，然后顺带介绍一下容易混淆的概念 k-means 和knn。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Data_preprocessing</title>
+      <link>http://jijeng.github.io/post/data_preprocessing/</link>
+      <pubDate>Mon, 25 Mar 2019 11:26:59 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/data_preprocessing/</guid>
+      <description>&lt;p&gt;主要介绍机器学习中的数据预处理（这里主要讲的是数值型数据的预处理，而非中文数据预处理），包括 data cleaning、data integration、 data transformation、data reduction、data imbalanced 和一些概念。 data normalization 是经常用到的。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>剑指Offer-字符串和数组</title>
+      <link>http://jijeng.github.io/post/offer_stringandmatrix/</link>
+      <pubDate>Sun, 17 Mar 2019 20:11:00 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/offer_stringandmatrix/</guid>
+      <description>&lt;p&gt;题目都是来自牛客网在线刷题中的剑指offer。刷题记录，顺便从考察知识点的角度分类整理。主要分成以下四大类：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;字符串、数组&lt;/li&gt;
+&lt;li&gt;链表、树&lt;/li&gt;
+&lt;li&gt;递归、回溯、动态规划&lt;/li&gt;
+&lt;li&gt;其他, 比如位运算、正则匹配等&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>Python 中Path相关的处理</title>
+      <link>http://jijeng.github.io/post/python_path/</link>
+      <pubDate>Thu, 28 Feb 2019 13:45:33 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/python_path/</guid>
+      <description>&lt;p&gt;python中处理路径问题，详解 os包下的path 模块。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Leetcode-Tree</title>
+      <link>http://jijeng.github.io/post/leetcode_tree/</link>
+      <pubDate>Wed, 20 Feb 2019 17:57:54 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/leetcode_tree/</guid>
+      <description>&lt;p&gt;刷题笔记，主题是树，以LeetCode上的题目为例。树相关的题目大多使用到递归的思想， 尤其是在深度优先遍历中；还有一类遍历方式：宽度优先遍历，使用队列来实现。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Linux Tutorial (1)</title>
+      <link>http://jijeng.github.io/post/linux_tutorial_1/</link>
+      <pubDate>Mon, 18 Feb 2019 10:06:48 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/linux_tutorial_1/</guid>
+      <description>&lt;p&gt;介绍linux 中常见的命令 和github 中常用的命令&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Leetcode Array(1)</title>
+      <link>http://jijeng.github.io/post/leetcode_array_1/</link>
+      <pubDate>Sat, 16 Feb 2019 16:26:58 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/leetcode_array_1/</guid>
+      <description>&lt;p&gt;LeetCode 刷题总结（一）， 使用Python 实现。该篇题目类型主要是： array 和string 的相关处理。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Algorithm Practice (1)</title>
+      <link>http://jijeng.github.io/post/algorithm_practice_1/</link>
+      <pubDate>Wed, 06 Feb 2019 14:49:01 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/algorithm_practice_1/</guid>
+      <description>&lt;p&gt;介绍基础性算法&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Pytorch Tutorial</title>
+      <link>http://jijeng.github.io/post/pytorch_tutorial/</link>
+      <pubDate>Fri, 01 Feb 2019 16:11:50 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/pytorch_tutorial/</guid>
+      <description>&lt;p&gt;pytorch 学习笔记&lt;/p&gt;
+&lt;p&gt;不理解的地方，一个是关于 nn包搭建网络的部分。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Model Training</title>
+      <link>http://jijeng.github.io/post/model_training/</link>
+      <pubDate>Fri, 18 Jan 2019 15:19:05 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/model_training/</guid>
+      <description>&lt;p&gt;介绍模型选择的两种方法：交叉检验和正则化。使用交叉检验（K-fold cross validation）进行选择模型并不难理解，但正则化和模型选择的关系，一开始还不是很理解，所以通过整理，希望能带来一些启发。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>剑指offer-其他(1)</title>
+      <link>http://jijeng.github.io/post/offer_other_1/</link>
+      <pubDate>Thu, 17 Jan 2019 17:20:21 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/offer_other_1/</guid>
+      <description>&lt;p&gt;这是剑指offer 系列四部曲中的最后一部，因为有些算法题目类别数量太少就汇总到了”其他“, 比如位运算、正则匹配等。第一部关于&lt;a href=&#34;https://jijeng.github.io/2019/05/17/%E5%89%91%E6%8C%87Offer-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%95%B0%E7%BB%84/&#34;&gt;字符串和数组&lt;/a&gt;，第二部是&lt;a href=&#34;https://jijeng.github.io/2019/05/17/%E5%89%91%E6%8C%87Offer-%E6%A0%88-%E9%98%9F%E5%88%97-%E9%93%BE%E8%A1%A8%E5%92%8C%E6%A0%91/&#34;&gt;栈、队列、链表和树&lt;/a&gt;， 第三部&lt;a href=&#34;https://jijeng.github.io/2019/05/17/%E5%89%91%E6%8C%87offer-%E9%80%92%E5%BD%92-%E5%9B%9E%E6%BA%AF%E5%92%8C%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/&#34;&gt;递归、回溯和动态规划&lt;/a&gt;。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Python Tutorial</title>
+      <link>http://jijeng.github.io/post/python_tutorial/</link>
+      <pubDate>Wed, 09 Jan 2019 10:15:33 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/python_tutorial/</guid>
+      <description>&lt;p&gt;python 学习笔记&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43; 编程语言（一）</title>
+      <link>http://jijeng.github.io/post/cpp_tutorial_1/</link>
+      <pubDate>Sat, 05 Jan 2019 19:44:13 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/cpp_tutorial_1/</guid>
+      <description>主要介绍C++ 编程语言，面向对象中的封装、继承和多态； STL(Standard Template Library 标准模板库, string, list, map) 等函数；内存管理；指针。（持续更新中&amp;hellip;） 多态（一</description>
+    </item>
+    
+    <item>
+      <title>Leetcode Data Structure</title>
+      <link>http://jijeng.github.io/post/leetcode_data-structure/</link>
+      <pubDate>Thu, 04 Oct 2018 16:25:31 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/leetcode_data-structure/</guid>
+      <description>&lt;p&gt;正式进入代码模板2-数据结构专题。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Differences Between L1 and L2</title>
+      <link>http://jijeng.github.io/post/differences_between_l1_and_l2/</link>
+      <pubDate>Sat, 21 Jul 2018 13:22:06 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/differences_between_l1_and_l2/</guid>
+      <description>L1 和L2 既可以作为 loss function 也可以作为 reguarization，分别介绍了一下两者，最后介绍 overfitting 的概念。 As loss function loss function or error function 是用来衡量真实$y$ 和生成</description>
+    </item>
+    
+    <item>
+      <title>常见的排序算法总结</title>
+      <link>http://jijeng.github.io/post/sort_algorithm/</link>
+      <pubDate>Fri, 29 Jun 2018 22:16:18 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/sort_algorithm/</guid>
+      <description>&lt;p&gt;常见的排序算法总结&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>降维（Dimensionality Reduction）</title>
+      <link>http://jijeng.github.io/post/dimensionality_reduction/</link>
+      <pubDate>Fri, 29 Jun 2018 13:06:49 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/dimensionality_reduction/</guid>
+      <description>&lt;p&gt;降维分为以PCA为代表的线性降维和T-SNE为代表非线性降维。本文主要介绍这两种降维方式和代码实现，当然也会提及其他的降维算法比如LDA。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Evaluation Metrics</title>
+      <link>http://jijeng.github.io/post/evaluation_metrics/</link>
+      <pubDate>Wed, 13 Jun 2018 13:31:09 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/evaluation_metrics/</guid>
+      <description>&lt;p&gt;介绍机器学习中分类模型常用的评价指标：AUC、Precision-Recall, ACC和KS值。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Leetcode Random</title>
+      <link>http://jijeng.github.io/post/leetcode_random/</link>
+      <pubDate>Mon, 28 May 2018 22:40:48 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/leetcode_random/</guid>
+      <description>&lt;p&gt;Leetcode刷题笔记- random.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Algorithm Practice (4)</title>
+      <link>http://jijeng.github.io/post/algorithm_practice_4/</link>
+      <pubDate>Tue, 27 Feb 2018 17:22:11 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/algorithm_practice_4/</guid>
+      <description>日常刷题笔记。 最长公共子串 给定两个字符串A和B，长度分别为m和n，要求找出它们最长的公共子串，并返回其长度。例如： 1 2 A = &amp;#34;HelloWorld&amp;#34; B = &amp;#34;loop&amp;#34; 第一种做法</description>
+    </item>
+    
+    <item>
+      <title>Ensemble</title>
+      <link>http://jijeng.github.io/post/ensemble/</link>
+      <pubDate>Mon, 05 Feb 2018 21:27:04 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/ensemble/</guid>
+      <description>&lt;p&gt;将集成学习分为基本集成学习方法、高级集成学习方法和基于集成学习的算法。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Ensemble models in machine learning operate on a similar idea. They combine the decisions from multiple models to improve the overall performance. This can be achieved in various ways, which you will discover in this article.&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Binary-Search</title>
+      <link>http://jijeng.github.io/post/binary_search/</link>
+      <pubDate>Tue, 23 Jan 2018 16:13:21 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/binary_search/</guid>
+      <description>&lt;p&gt;介绍二分查找中的三个模板，以 LeetCode 中的习题为例。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

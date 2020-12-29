@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>binary search on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/binary-search/</link>
+    <description>Recent content in binary search on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 23 Jan 2018 16:13:21 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/binary-search/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Binary-Search</title>
+      <link>http://jijeng.github.io/post/binary_search/</link>
+      <pubDate>Tue, 23 Jan 2018 16:13:21 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/binary_search/</guid>
+      <description>&lt;p&gt;介绍二分查找中的三个模板，以 LeetCode 中的习题为例。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>tutorial on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/categories/tutorial/</link>
+    <description>Recent content in tutorial on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 28 Jul 2020 10:13:57 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/categories/tutorial/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Pandas Tutorial</title>
+      <link>http://jijeng.github.io/post/pandas_tutorial/</link>
+      <pubDate>Tue, 28 Jul 2020 10:13:57 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/pandas_tutorial/</guid>
+      <description>&lt;p&gt;pandas 学习笔记&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Linux tutorial(2)</title>
+      <link>http://jijeng.github.io/post/linux_tutorial_2/</link>
+      <pubDate>Wed, 08 Jul 2020 11:09:45 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/linux_tutorial_2/</guid>
+      <description>&lt;p&gt;之前的linux 学习笔记内容比较，然后新开了一篇。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Jupyter Notebook Tutorial</title>
+      <link>http://jijeng.github.io/post/jupyter_notebook_tutorial/</link>
+      <pubDate>Thu, 28 May 2020 14:40:46 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/jupyter_notebook_tutorial/</guid>
+      <description>title: Jupyter notebook 教程（高级） date: 2020-03-05 11:22:17 总结在 Jupyter notebook 使用中涉及到的比较有意思的特性（advanced tutorial，不涉及安装软件）。 Shell Commands 1 2 ! echo Hello world! pip freeze |</description>
+    </item>
+    
+    <item>
+      <title> Mac OS 使用tutorial</title>
+      <link>http://jijeng.github.io/post/macos_tutorial/</link>
+      <pubDate>Fri, 15 May 2020 10:12:03 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/macos_tutorial/</guid>
+      <description>&lt;p&gt;Mac OS 使用tutorial&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Vim Tutorial</title>
+      <link>http://jijeng.github.io/post/vim_tutorial/</link>
+      <pubDate>Fri, 20 Mar 2020 16:57:43 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/vim_tutorial/</guid>
+      <description>&lt;p&gt;VIM（VI）常用的命令整理。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Git tutorial</title>
+      <link>http://jijeng.github.io/post/git/</link>
+      <pubDate>Sat, 11 Jan 2020 13:53:30 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/git/</guid>
+      <description>&lt;p&gt;学习笔记- Git 相关的命令。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Linux Tutorial (1)</title>
+      <link>http://jijeng.github.io/post/linux_tutorial_1/</link>
+      <pubDate>Mon, 18 Feb 2019 10:06:48 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/linux_tutorial_1/</guid>
+      <description>&lt;p&gt;介绍linux 中常见的命令 和github 中常用的命令&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Pytorch Tutorial</title>
+      <link>http://jijeng.github.io/post/pytorch_tutorial/</link>
+      <pubDate>Fri, 01 Feb 2019 16:11:50 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/pytorch_tutorial/</guid>
+      <description>&lt;p&gt;pytorch 学习笔记&lt;/p&gt;
+&lt;p&gt;不理解的地方，一个是关于 nn包搭建网络的部分。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Python Tutorial</title>
+      <link>http://jijeng.github.io/post/python_tutorial/</link>
+      <pubDate>Wed, 09 Jan 2019 10:15:33 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/python_tutorial/</guid>
+      <description>&lt;p&gt;python 学习笔记&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

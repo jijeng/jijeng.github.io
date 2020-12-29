@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>关于BERT改进的几篇论文 - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="介绍基于BERT进行改进的模型：ALBERT、XLNet, DistilBERT （持续更新）
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/bert/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="关于BERT改进的几篇论文" />
+<meta property="og:description" content="介绍基于BERT进行改进的模型：ALBERT、XLNet, DistilBERT （持续更新）" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/bert/" />
+<meta property="article:published_time" content="2019-06-16T09:05:04+08:00" />
+<meta property="article:modified_time" content="2019-06-16T09:05:04+08:00" />
+<meta itemprop="name" content="关于BERT改进的几篇论文">
+<meta itemprop="description" content="介绍基于BERT进行改进的模型：ALBERT、XLNet, DistilBERT （持续更新）">
+<meta itemprop="datePublished" content="2019-06-16T09:05:04+08:00" />
+<meta itemprop="dateModified" content="2019-06-16T09:05:04+08:00" />
+<meta itemprop="wordCount" content="5547">
+
+
+
+<meta itemprop="keywords" content="bert," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="关于BERT改进的几篇论文"/>
+<meta name="twitter:description" content="介绍基于BERT进行改进的模型：ALBERT、XLNet, DistilBERT （持续更新）"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">关于BERT改进的几篇论文</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-06-16 </span>
+        <div class="post-category">
+            <a href="/categories/nlp/"> nlp </a>
+            </div>
+          <span class="more-meta"> 约 5547 字 </span>
+          <span class="more-meta"> 预计阅读 12 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#albert">ALBERT</a>
+          <ul>
+            <li><a href="#对embedding因式分解factorized-embedding-parameterization">对Embedding因式分解（Factorized embedding parameterization）</a></li>
+            <li><a href="#跨层的参数共享cross-layer-parameter-sharing">跨层的参数共享（Cross-layer parameter sharing）</a></li>
+            <li><a href="#句间连贯sentence-order-prediction">句间连贯（sentence-order prediction）</a></li>
+            <li><a href="#移除dropout">移除dropout</a></li>
+            <li><a href="#总结">总结</a></li>
+          </ul>
+        </li>
+        <li><a href="#xlnet-讲解">XLNet 讲解</a></li>
+        <li><a href="#unilm">UNILM</a></li>
+        <li><a href="#distilbert-讲解">DistilBERT 讲解</a></li>
+        <li><a href="#roberta">RoBERTa</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>介绍基于BERT进行改进的模型：ALBERT、XLNet, DistilBERT （持续更新）</p>
+<h2 id="albert">ALBERT</h2>
+<p>在同等网络规模（隐藏层）下，BERT 拥有 12.7 亿个参数，ALBERT 仅拥有 5900 万个参数……缩小约 21.5 倍。</p>
+<p>模型训练存在一个饱和点，一旦训练复杂性越过该饱和点，那么任何额外网络元素的加入都只会拉低增益。</p>
+<h3 id="对embedding因式分解factorized-embedding-parameterization">对Embedding因式分解（Factorized embedding parameterization）</h3>
+<p>ALBERT 的作者们指出，WordPiece 嵌入学习到的实际是与上下文无关的表示形式。而隐藏层嵌入则用于学习与上下文相关的表示形式。这两者是需要没有直接的关系，如果把这两个要素分开，可能更加合理。</p>
+<p>投射至一个较小的低维矩阵 E 中，而后再将 E 投射至 H 隐藏空间中。</p>
+<p>这一步操作其实就是没啥特别好说的，无外乎就是觉得词嵌入时的向量维度应该小一点，然后通过个网络扩充一下提升维度，这样一通操作就可以把参数量从$O(V×H)) $降到了$O(V×E+E×H)$</p>
+<h3 id="跨层的参数共享cross-layer-parameter-sharing">跨层的参数共享（Cross-layer parameter sharing）</h3>
+<p>全连接层与attention层都进行参数共享，也就是说共享encoder内的所有参数</p>
+<p>参数量减少了很多，训练速度也提升了很多</p>
+<h3 id="句间连贯sentence-order-prediction">句间连贯（sentence-order prediction）</h3>
+<p>在ALBERT中，为了只保留一致性任务去除主题识别的影响，提出了一个新的任务 sentence-order prediction（SOP），SOP的正样本和NSP的获取方式是一样的，负样本把正样本的顺序反转即可。</p>
+<p>SOP因为实在同一个文档中选的，其只关注句子的顺序并没有主题方面的影响。并且SOP能解决NSP的任务，但是NSP并不能解决SOP的任务，该任务的添加给最终的结果提升了一个点。</p>
+<p>增强了模型的学习能力。</p>
+<h3 id="移除dropout">移除dropout</h3>
+<p>除了上面提到的三个主要优化点，ALBERT的作者还发现一个很有意思的点，ALBERT在训练了100w步之后，模型依旧没有过拟合，于是乎作者果断移除了dropout，没想到对下游任务的效果竟然有一定的提升。这也是业界第一次发现dropout对大规模的预训练模型会造成负面影响。</p>
+<h3 id="总结">总结</h3>
+<p>但实际上是通过参数共享的方式降低了内存，预测阶段还是需要和BERT一样的时间。</p>
+<p><a href="https://github.com/brightmart/albert_zh">albert_zh</a></p>
+<h2 id="xlnet-讲解">XLNet 讲解</h2>
+<p><img src="https://s2.ax1x.com/2020/03/08/3xWJSA.png" alt=""></p>
+<p>（1）摘要（Abstract）</p>
+<blockquote>
+<p>However, relying on corrupt- ing the input with masks, BERT neglects dependency between the masked positions and suffers from a pretrain-finetune discrepancy
+针对BERT <code> pretrain-finetune discrepancy</code> 的问题，主要做了以下三点工作：</p>
+</blockquote>
+<ul>
+<li>enables learning bidirectional contexts by maximizing the expected likelihood over all permutations of the factorization order</li>
+<li>overcomes the limitations of BERT thanks to its autoregressive formulation</li>
+<li>XLNet integrates ideas from Transformer-XL into pretraining.
+其中前两点是比较重要，最后一点是在长句子数据集上预训练的改进。</li>
+</ul>
+<p>（2）Introduction</p>
+<p>自回归语言模型（Autoregressive Language Modeling, AR）和自编码语言模型（Autoencoding LM, AE）是两大成功的语言模型。自回归语言模型有个缺点，要么从左到右，要么从右到左，尽管可以类似ELMO两个都做，然后再拼接的方式。但是跟Bert比，效果明显不足够好（这里面有RNN弱于Transformer的因素，也有双向语言模型怎么做的因素）。
+\begin{equation}
+\begin{array}{l}{p(x)=\prod_{T}^{T} p\left(x_{t} | x_{&lt;t}\right)} \\ {p(x)=\prod^{T} p\left(x_{t} | x_{&gt;t}\right)}\end{array}
+\end{equation}
+1). 典型技术：GPT, ELMO（本质上是两方向的自回归简单拼接结合）。
+2). 优点：和下游NLP任务有关，比如生成类NLP任务，文本摘要，机器翻译等，在实际生成内容的时候，都是从左向右，自回归语言模型天然匹配这个过程。而自编码语言模型和这个过程不匹配。
+3). 缺点：只能利用上文或者下文的信息，或者像ELMO简单两方向结合。</p>
+<p>同样，自编码语言模型定义：自编码语言模型是通过在输入X中随机Mask掉一部分单词，然后在预训练过程中根据上下文单词来预测这些被Mask掉的单词。该做法类似Denoising Autoencoder(DAE)的思路。那些被Mask掉的单词即为在输入侧加入的噪音。
+1). 典型技术：BERT。
+2). 优点：同时利用上下文信息，双向语言模型。
+3).缺点：</p>
+<ul>
+<li>输入侧引入[Mask]标记，导致预训练阶段和Fine-tuning阶段不一致，因为Fine-tuning阶段看不到[Mask]标记。</li>
+<li>独立假设问题：举个例子：比如”New York is a city”，假设我们Mask住”New”和”York”两个词，那么给定”is a city”的条件下”New”和”York”并不独立，因为”New York”是一个实体，看到”New”则后面出现”York”的概率要比看到”Old”后面出现”York”概率要大得多。所以同时Mask 15% 的词不是好的做法。</li>
+</ul>
+<p>于是作者的想法是结合 AR 模型的优点（同下游任务一致）和AE的优点（利用上下文信息），提出了XLNet ：基于AR模型使用 <code>all possible permutations of the factorization order</code> 来学习上下文信息。并且结合了当下AR 模型中很多训练技巧，<code>reparameterize the Transformer(-XL) network</code>。</p>
+<p>一句话概括：XLNet 使用语言模型，但是为了解决双向上下文的问题，提出了排列语言模型。排列语言模型在预测的时候需要target 的位置信息，因此引入了 Two-Stream，Content 流编码到当前时刻的所有内容，而Query 流只是保留了位置信息。最后为了解决计算量过大的问题，对于一个句子，只是预测后面的 $\frac{1}{K}$的词语。</p>
+<p>（2）排列语言模型（Permutation Language Model）</p>
+<p>排列（乱序）语言模型跟语言模型一样，都是做条件概率分解，但排列语言模型的分解顺序是随机的：</p>
+<p>\begin{equation}
+\begin{aligned} p\left(x_{1}, x_{2}, x_{3}, \ldots, x_{n}\right) &amp;=p\left(x_{1}\right) p\left(x_{2} | x_{1}\right) p\left(x_{3} | x_{1}, x_{2}\right) \ldots p\left(x_{n} | x_{1}, \ldots, x_{n}\right) \\<br>
+&amp;=p\left(x_{3}\right) p\left(x_{1} | x_{3}\right) p\left(x_{2} | x_{1}, x_{3}\right) \ldots p\left(x_{n} | x_{1}, \ldots, x_{n}\right) \\ &amp;=\ldots \\ &amp;=p\left(x_{n-1}\right) p\left(x_{1} | x_{n-1}\right) p\left(x_{n} | x_{n-1}, x_{1}\right) \ldots p\left(x_{2} | x_{n-1}, x_{1}, \ldots, x_{3}\right) \end{aligned}
+\end{equation}</p>
+<p>关于如何使用 attention机制实现 masked（当预测$t$时刻的词，无法看到下一个时刻的词）效果，可以看<a href="https://spaces.ac.cn/archives/6933">这里</a>中<code>乱序语言模型</code>的解释。</p>
+<p>XLNet仍然遵循两阶段的过程，第一个阶段是语言模型预训练阶段；第二阶段是任务数据Fine-tuning阶段。这个可以理解为在自回归LM模式下，采取什么样的具体手段，融入双向语言模型。</p>
+<p>\begin{equation}
+\max <em>{\theta} E <em>{z \sim Z_T} = \sum</em>{t=1} ^{T} \log p</em>{\theta} (x_{z_t}  | x_{z \le t})
+\label{eq-1}
+\end{equation}
+\begin{equation}
+\max _{\theta} E _{z \sim Z_T} = \sum_{t=1} ^{T} \log p_{\theta} (x_{z_t}  | x_{z \le t})
+\tag{1.1}
+\end{equation}</p>
+<p>从所有的排列中采样一种，然后根据这个排列来分解联合概率成条件概率的乘积，然后加起来。为了实现排列语言模型，论文采用了双流自注意力机制（Two-Stream Self-Attention）和Attention Mask。比如 $p(x_1| x_3)p(x_2|x_1 x_3)p(vx_3)$，我们可以在用Transformer编码 $x_1 $时候让它可以Attend to $x_3$，而把 $x_2$Mask掉 (意思就是算Attention score的时候只算 $x_3$对 $x_1$的影响，而 $x_2$的attention score为0)；编码 $x_3$的时候把 $x_1$, $x_2$都Mask掉。</p>
+<blockquote>
+<p>Intuitively, if model parameters are shared across all factorization orders, in expectation, the model will learn to gather information from all positions on both sides.
+这个有没有类似权值共享的观点，然后权值共享能够基本表示所有的可能性。</p>
+</blockquote>
+<p>当时上述公式$(1.1)$有个问题：没有显性表示出$t$到底是什么。所以表示成以下的公式：</p>
+<p>p_{\theta}\left(X_{z_{t}}=x | \mathbf{x}_{z_{&lt;t}}\right)=\frac{\exp \left(e(x) ^{\top} g_{\theta}\left(\mathbf{x}_{\mathbf{z}&lt;t}, z_{t}\right)\right)}{\sum_{x^{\prime}} \exp \left(e\left(x^{\prime}\right)^{\top} g_{\theta}\left(\mathbf{x}_{\mathbf{z}_{&lt;t}}, z_{t}\right)\right)}</p>
+<p>在公式中显示表示出了 $z_t$。但是传统的transformer 第 $t$时候embedding 是既包含内容信息也包含位置信息的。所以作者提出了双流注意力机制。</p>
+<p>（3）双流注意力机制</p>
+<p>问题：当不同的排列组合如 $z_1 =[1, 3, 4, 2]$ 和$z_2 =[1, 3, 4, 5]$出现，$t =3$，则已知前三个状态，预测第四个状态，由于这两种排列当 $t \le 3$ 都是相同的，而 $t =4$的时候，信息是被 masked的，所以无法区别这两种信息。</p>
+<p>为了解决上述问题，论文中引入了两个 Stream，也就是两个隐状态：</p>
+<ul>
+<li>内容隐状态 $h_ \theta (X_{ z &lt; t})$，简写为 $h_{z_t}$，既可编码上下文位置也可以编码内容；</li>
+<li>查询隐状态 $g_{\theta}\left(x_{z_{&lt;t}}, z_{t}\right)$， 简写为$g_{z_t}$，只是编码位置信息。</li>
+</ul>
+<p><img src="https://upload.cc/i1/2019/12/14/qIHEid.png" width="90%" height="90%">`</p>
+<p>所以在预测当前 $t$位置词语时候，$g_{\theta}\left(\mathbf{x}_{z_{&lt;t}}, z_{t}\right)$只能使用位置信息$z_t$而不能使用 $x_{z_t}$；为了预测$z_t$之后的词语，$g_{\theta}\left(\mathbf{x}_{z_{&lt;t}}, z_{t}\right)$ 必须编码了$x_{z_t}$ 的信息（语义）。</p>
+<blockquote>
+<p>so during finetuning, we can simply drop the query stream and use the content stream as a normal Transformer(-XL).
+在predict的过程中，使用 <code>content stream</code>就可以。</p>
+</blockquote>
+<p>（3）部分预测</p>
+<p>排列语言模型排列很多，所以它的计算量很大，很难优化。因此我们只预测一个句子后面的一些词，为什么不预测前面的词呢？因为前面的词的上下文比较少，上下文信息相对较少。比如句子”I like New York”。预测I的时候没有任何上下文，因此可能的选择很多。而到最后一个词York的时候，如果New已经知道了，那么York的概率就非常大了。</p>
+<p>只是对句子后面的token进行预测，节省计算时间。
+\begin{equation}
+\frac{|z|-c}{|z|}=\frac{1}{K}
+\end{equation}</p>
+<p>可以得出 $K \approx \frac{|z|-c}{|z|}$ ,所以前 $c$个不用预测的token。从下图中也是可以发现：一个句子后面的词语相对于前面的词语在训练的时候可以得到更多的信息。</p>
+<p><img src="https://ftp.bmp.ovh/imgs/2019/12/7bdfdac297efc4f6.png" alt=""></p>
+<p>（4）融入Transformer-XL的思想</p>
+<p>引入了Transformer-XL的主要思路：相对位置编码以及分段RNN机制。transformer要求输入是定长的词序列，太长的需要截断，不足的需要padding。这样的操作存在以下问题：</p>
+<ul>
+<li>由于定长的要求，我们不可能让输入太长。因此虽然Self-Attention机制虽然不太受长度的约束，但是Transformer的语言模型实际能够考虑的上下文就是输入的长度。</li>
+<li>因为语言模型是自回归的，一步错步步错。这就是所谓的context fragmentation的问题。</li>
+</ul>
+<p>1). 建模多个segment</p>
+<p>我们会把之前一个固定长度的词序列每一层的输出都放到一个cache里，比如把𝑥1,…,𝑥4的计算结果都存起来，那么在训练第二个Segment[𝑥5,…,𝑥8]的时候就可以让Self-Attention机制参考[𝑥1,…,𝑥4]的信息了。当然在反向计算梯度的时候，cache里的内容是不会参与梯度的计算的。</p>
+<p>2). 相对Segment编码</p>
+<p>BERT使用的是绝对的Segment编码，也就是第一个句子对于的Segment id是0，而第二个句子是1。Transformer-XL使用到了上一个 segment的信息，如果使用绝对编码，那么无法通过向量判断它是来自当前segment 中第$i$位置还是前一个segment 中第$i$位置。所以Transformer-XL 使用的是相对位置编码。</p>
+<p>XLNet 效果好的原因：</p>
+<ul>
+<li>与Bert采取De-noising Autoencoder方式不同的新的预训练目标：Permutation Language Model(简称PLM)；这个可以理解为在自回归LM模式下，如何采取具体手段，来融入双向语言模型。这个是XLNet在模型角度比较大的贡献，确实也打开了NLP中两阶段模式潮流的一个新思路。</li>
+<li>引入了Transformer-XL的主要思路：相对位置编码以及分段RNN机制。实践已经证明这两点对于长文档任务是很有帮助的。</li>
+<li>加大增加了预训练阶段使用的数据规模；Bert使用的预训练数据是BooksCorpus和英文Wiki数据，大小13G。XLNet除了使用这些数据外，另外引入了Giga5，ClueWeb以及Common Crawl数据，并排掉了其中的一些低质量数据，大小分别是16G,19G和78G。可以看出，在预训练阶段极大扩充了数据规模，并对质量进行了筛选过滤。这个明显走的是GPT2.0的路线。</li>
+</ul>
+<p>但是和BERT不同，我们并没有增加一个预测下一个句子的Task，原因是通过实验分析这个Task加进去后并不是总有帮助。【注：其实很多做法都是某些作者的经验，后面很多作者一看某个模型好，那么所有的Follow，其实也不见得就一定好。有的时候可能只是对某个数据集有效果，或者效果好是其它因素带来的，一篇文章修改了5个因素，其实可能只是某一两个因素是真正带来提高的地方，其它3个因素可能并不有用甚至还是有少量副作用。】</p>
+<h2 id="unilm">UNILM</h2>
+<p>参考文献</p>
+<p>1). <a href="https://arxiv.org/pdf/1906.08237.pdf">XLNet: Generalized Autoregressive Pretraining for Language Understanding</a>
+2). <a href="http://fancyerii.github.io/2019/06/30/xlnet-theory/">XLNet原理</a>
+3). <a href="https://spaces.ac.cn/archives/6933">从语言模型到Seq2Seq：Transformer如戏，全靠Mask</a></p>
+<h2 id="distilbert-讲解">DistilBERT 讲解</h2>
+<p>和ALBERT、TINYBERT一样，DistilBERT也是一种小型化的bert。DistillBert是在bert的基础上用知识蒸馏技术训练出来的小型化bert。</p>
+<p>（1）主要的改进点</p>
+<p>（2）算法步骤</p>
+<p>（3）效果</p>
+<p>模型大小减少了40%（66M），推理速度提升了60%，但性能只降低了约3%。</p>
+<img src="https://upload.cc/i1/2020/01/07/DsvaOT.png" width="80%" height="80%">
+<h2 id="roberta">RoBERTa</h2>
+<p>RoBERTa: A Robustly Optimized BERT Pretraining Approach</p>
+<p>强力优化的BERT 方法</p>
+<p>本篇论文主要是在bert的基础上做精细化调参，可以看作是终极调参，最后性能不仅全面碾压bert，且在大部分任务上超越了XL-Net。</p>
+<p>总结下，主要有以下六处改变的地方：　
+　
+1）Adam算法中的参数调整，$\epsilon$由 $1e-6$ 改成 $1e-8$，$\beta_2$由0.999改成0.98。　　
+2）使用了更多的数据，从16GB增加到160GB。　　
+3）动态mask取代静态mask。　　
+4）去除NSP任务，并采用full-length 序列。　　
+5）更大的batch size，更多的训练步数。　　
+6）用byte-level BPE取代character-level BPE。</p>
+<p>因为作者认为原始的BERT 是训练不足（undertrained），所以这篇论文主要是采用各种不同的优化方法来增进BERT 的效能。</p>
+<p>3）动态mask取代静态mask</p>
+<blockquote>
+<p>原版bert的预训练只会在训练开始随机选择15%的词进行遮掩，但是一经选定，就会固定下来，不论训练多少个epoch。而动态遮词，则是会将数据进行副本备份，然后不同的副本随机遮词。</p>
+</blockquote>
+<p>相当于增加了数据集（文中并没有明确指出动态mask 的优势，但事实就一般而言，多次训练也相当于对同一数据集进行了多次的训练）</p>
+<p>对于Bert 的输入，作者给出的结论，尽可能选择大且多源的数据，尽可能大的batch size（配合着使用稍大的学习率）。</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-06-16
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/bert/">bert</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/offer_stack/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">剑指Offer-栈、队列、链表和树</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/logistic_regression/">
+            <span class="next-text nav-default">Logistic Regression 概念</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

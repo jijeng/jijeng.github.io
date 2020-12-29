@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Introduction to Natural Language Processing for Text - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="Natural Language Processing is used to apply machine learning algorithms to text and speech. For example, we can use it to create systems like speech recognition, document summarization, machine translation, spam detection, named entity recognition, question answering, autocomplete, predictive typing and so on.
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/introduction_to_nlp/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Introduction to Natural Language Processing for Text" />
+<meta property="og:description" content="Natural Language Processing is used to apply machine learning algorithms to text and speech. For example, we can use it to create systems like speech recognition, document summarization, machine translation, spam detection, named entity recognition, question answering, autocomplete, predictive typing and so on." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/introduction_to_nlp/" />
+<meta property="article:published_time" content="2019-05-21T14:32:17+08:00" />
+<meta property="article:modified_time" content="2019-05-21T14:32:17+08:00" />
+<meta itemprop="name" content="Introduction to Natural Language Processing for Text">
+<meta itemprop="description" content="Natural Language Processing is used to apply machine learning algorithms to text and speech. For example, we can use it to create systems like speech recognition, document summarization, machine translation, spam detection, named entity recognition, question answering, autocomplete, predictive typing and so on.">
+<meta itemprop="datePublished" content="2019-05-21T14:32:17+08:00" />
+<meta itemprop="dateModified" content="2019-05-21T14:32:17+08:00" />
+<meta itemprop="wordCount" content="1968">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Introduction to Natural Language Processing for Text"/>
+<meta name="twitter:description" content="Natural Language Processing is used to apply machine learning algorithms to text and speech. For example, we can use it to create systems like speech recognition, document summarization, machine translation, spam detection, named entity recognition, question answering, autocomplete, predictive typing and so on."/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Introduction to Natural Language Processing for Text</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-05-21 </span>
+        <div class="post-category">
+            <a href="/categories/nlp/"> nlp </a>
+            </div>
+          <span class="more-meta"> 约 1968 字 </span>
+          <span class="more-meta"> 预计阅读 4 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>Natural Language Processing is used to apply machine learning algorithms to text and speech. For example, we can use it to create systems like speech recognition, document summarization, machine translation, spam detection, named entity recognition, question answering, autocomplete, predictive typing and so on.</p>
+<p>NLTK (Natural Language Toolkit) is a leading platform for building Python programs to work with human language data. It provides easy-to-use interfaces to many corpora and lexical resources. Also, it contains a suite of text processing libraries for classification, tokenization, stemming, tagging, parsing, and semantic reasoning. Best of all, NLTK is a free, open source, community-driven project.</p>
+<p>In this article, we&rsquo;ll cover the following topics.
+这些功能都是可以使用nltk 进行实现的。
+<strong>text Lemmatization</strong> 比如，单词“cars”词形还原后的单词为“car”，单词“ate”词形还原后的单词为“eat”。</p>
+<p><strong>Sentence Tokenization</strong></p>
+<p>段落成句。
+Sentence tokenization (also called sentence segmentation) is the problem of dividing a string of written language into its component sentences. The idea here looks very simple. In English and some other languages, we can split apart the sentences whenever we see a punctuation mark.（标点符号）</p>
+<p><strong>Word Tokenization</strong></p>
+<p>句子成词，颗粒度变得更小。
+Word tokenization (also called word segmentation) is the problem of dividing a string of written language into its component words. In English and many other languages using some form of Latin alphabet, space is a good approximation of a word divider.</p>
+<p><strong>Text Lemmatization  词性还原 and Stemming 词干提取</strong></p>
+<p>这种操作如果被认为是一种 normalization，那么一个优点就是加快了运行的速度。从不同的形式到统一的形式，这可以认为减少了变量。感觉这个更加涉及语法，语法树之类的东西。
+For grammatical reasons, documents can contain different forms of a word such as drive, drives, driving. Also, sometimes we have related words with a similar meaning, such as nation, national, nationality.</p>
+<p>Stemming and lemmatization are special cases of normalization. However, they are different from each other.</p>
+<blockquote>
+<p>Stemming usually refers to a crude heuristic process that chops off the ends of words in the hope of achieving this goal correctly most of the time, and often includes the removal of derivational affixes.
+Lemmatization usually refers to doing things properly with the use of a vocabulary and morphological analysis of words, normally aiming to remove inflectional endings only and to return the base or dictionary form of a word, which is known as the lemma.</p>
+</blockquote>
+<p><strong>Stop Words</strong>
+因为 stop words往往是带了 noise rather than useful information，所以这个是要去掉的。
+Stop words are words which are filtered out before or after processing of text. When applying machine learning to text, these words can add a lot of noise. That’s why we want to remove these irrelevant words.</p>
+<p>stop words dictionary 可以理解成一种过滤词表，是可以根据应用的不同，然后 change的。
+Stop words usually refer to the most common words such as “and”, “the”, “a” in a language, but there is no single universal list of stopwords. The list of the stop words can change depending on your application.</p>
+<p>在存储 stopword 的时候使用 set rather than list 主要原因是  much faster than search operations in a set.
+You might wonder why we convert our list into a set. Set is an abstract data type that can store unique values, without any particular order. The search operation in a set is much faster than the search operation in a list. For a small number of words, there is no big difference, but if you have a large number of words it’s highly recommended to use the set type.</p>
+<p><strong>Regex</strong></p>
+<p>A kind of search pattern. A regular expression, regex, or regexp is a sequence of characters that define a search pattern. Let’s see some basics.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="o">.</span> <span class="o">-</span> <span class="n">match</span> <span class="nb">any</span> <span class="n">character</span> <span class="k">except</span> <span class="n">newline</span>
+\<span class="n">w</span> <span class="o">-</span> <span class="n">match</span> <span class="n">word</span>
+\<span class="n">d</span> <span class="o">-</span> <span class="n">match</span> <span class="n">digit</span>
+\<span class="n">s</span> <span class="o">-</span> <span class="n">match</span> <span class="n">whitespace</span>
+\<span class="n">W</span> <span class="o">-</span> <span class="n">match</span> <span class="ow">not</span> <span class="n">word</span>
+\<span class="n">D</span> <span class="o">-</span> <span class="n">match</span> <span class="ow">not</span> <span class="n">digit</span>
+\<span class="n">S</span> <span class="o">-</span> <span class="n">match</span> <span class="ow">not</span> <span class="n">whitespace</span>
+<span class="p">[</span><span class="n">abc</span><span class="p">]</span> <span class="o">-</span> <span class="n">match</span> <span class="nb">any</span> <span class="n">of</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="ow">or</span> <span class="n">c</span>
+<span class="p">[</span><span class="o">^</span><span class="n">abc</span><span class="p">]</span> <span class="o">-</span> <span class="ow">not</span> <span class="n">match</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="ow">or</span> <span class="n">c</span>
+<span class="p">[</span><span class="n">a</span><span class="o">-</span><span class="n">g</span><span class="p">]</span> <span class="o">-</span> <span class="n">match</span> <span class="n">a</span> <span class="n">character</span> <span class="n">between</span> <span class="n">a</span> <span class="o">&amp;</span> <span class="n">g</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这个解释说明了为什么在正则表达式 中使用 r&quot;&quot; 作为一种前缀。因为正则表达是中 ”\“ 的使用和 python 中的&quot;&quot; 使用有冲突。简而言之，如果加上了 r&quot;&quot; 那么这个就是一种完全的 正则表达式的语法了。</p>
+<blockquote>
+<p>Regular expressions use the backslash character ('') to indicate special forms or to allow special characters to be used without invoking their special meaning. This collides with Python’s usage of the same character for the same purpose in string literals; for example, to match a literal backslash, one might have to write &lsquo;\\&rsquo; as the pattern string, because the regular expression must be \, and each backslash must be expressed as \ inside a regular Python string literal.
+The solution is to use Python’s raw string notation for regular expression patterns; backslashes are not handled in any special way in a string literal prefixed with &lsquo;r&rsquo;. So r&quot;\n&quot; is a two-character string containing &lsquo;' and &lsquo;n&rsquo;, while &ldquo;\n&rdquo; is a one-character string containing a newline. Usually, patterns will be expressed in Python code using this raw string notation.</p>
+</blockquote>
+<p>An example,</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python">	<span class="kn">import</span> <span class="nn">re</span>
+	<span class="n">sentence</span> <span class="o">=</span> <span class="s2">&#34;The development of snowboarding was inspired by skateboarding, sledding, surfing and skiing.&#34;</span>
+	<span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&#34;[^\w]&#34;</span>
+	<span class="k">print</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="s2">&#34; &#34;</span><span class="p">,</span> <span class="n">sentence</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>Bag of words</strong></p>
+<p><img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g38517f1imj20du0e4aa4.jpg" alt="">
+Machine learning algorithms cannot work with raw text directly, we need to convert the text into vectors of numbers. This is called feature extraction.
+The bag-of-words model is a popular and simple feature extraction technique used when we work with text. It describes the occurrence of each word within a document.</p>
+<p>这个是 bag  of words的”特点“： order or structure of words 没有体现出来。
+Any information about the order or structure of words is discarded. That’s why it’s called a bag of words. This model is trying to understand whether a known word occurs in a document, but don’t know where is that word in the document.</p>
+<p><strong>The intuition is that similar documents have similar contents</strong>. Also, from a content, we can learn something about the meaning of the document.</p>
+<p>To use this model, we need to:</p>
+<ul>
+<li>Design a vocabulary of known words (also called tokens)</li>
+<li>Choose a measure of the presence of known words</li>
+</ul>
+<ol>
+<li>最简单的方式是 &ldquo;occurrence&rdquo; ，如果出现了 标为1 否则标为0；
+这种是最为简单的 bag of words 最的方式，这四个是一一对应的。注意体会。</li>
+</ol>
+<p><img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g38p4a4jq9j20va08it8z.jpg" alt="">
+<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g38p4hhhltj20o607uq3f.jpg" alt=""></p>
+<p>The complexity of the bag-of-words model comes in deciding how to design the vocabulary of known words (tokens) and how to score the presence of known words.</p>
+<p>bag of words 中使用 &ldquo;occurrence&rdquo; 的方式的缺点：稀疏矩阵（当dict 很大的时候，文章的 representation中有相当成分的0）。</p>
+<p>In some cases, we can have a huge amount of data and in this cases, the length of the vector that represents a document might be thousands or millions of elements. Furthermore, each document may contain only a few of the known words in the vocabulary.
+Therefore the vector representations will have a lot of zeros. These vectors which have a lot of zeros are called sparse vectors. They require more memory and computational resources.
+We can decrease the number of the known words when using a bag-of-words model to decrease the required memory and computational resources. We can use the text cleaning techniques we’ve already seen in this article before we create our bag-of-words model:</p>
+<p>减少 dictionary size 的方式。</p>
+<blockquote>
+<p>Ignoring punctuation
+Removing the stop words from our documents
+Reducing the words to their base form (Text Lemmatization and Stemming)
+Fixing misspelled words</p>
+</blockquote>
+<p>n-gram 的思想是很广泛：通过 sequence of words，这个是可以增加文本的表达力的。
+An n-gram is a sequence of a number of items (words, letter, numbers, digits, etc.). In the context of text corpora, n-grams typically refer to a sequence of words. A unigram is one word, a bigram is a sequence of two words, a trigram is a sequence of three words etc.</p>
+<p>关于如何去 score the presence  of word： 这里是有三种方式的。
+We saw one very simple approach - the binary approach (1 for presence, 0 for absence).
+Some additional scoring methods are:
+2) Counts. Count the number of times each word appears in a document.
+3) Frequencies. Calculate the frequency that each word appears in document out of all the words in the document.</p>
+<p>TF-IDF 这个语境 是相对于 frequency 而言的，关键词是不一定有 频率所决定，而一些 rarer or domain-specific words 可能是更加常见的。
+One problem with scoring word frequency is that the most frequent words in the document start to have the highest scores. These frequent words may not contain as much “informational gain” to the model compared with some rarer and domain-specific words. One approach to fix that problem is to penalize words that are frequent across all the documents. This approach is called TF-IDF.</p>
+<p>TF-IDF 的关键在于体现了“语料库”。
+TF-IDF, short for term frequency-inverse document frequency is a statistical measure used to evaluate the importance of a word to a document in a collection or corpus.</p>
+<p><strong>参考资料</strong>
+<a href="https://towardsdatascience.com/introduction-to-natural-language-processing-for-text-df845750fb63">https://towardsdatascience.com/introduction-to-natural-language-processing-for-text-df845750fb63</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-05-21
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/word_embedding_understanding/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Word_embedding_understanding</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/leetcode_recursion/">
+            <span class="next-text nav-default">Leetcode-Recursion</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

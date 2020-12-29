@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Leetcode-mysql - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="LeetCode 刷题笔记，数据库专题，使用mysql 实现。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/leetcode_mysql/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Leetcode-mysql" />
+<meta property="og:description" content="LeetCode 刷题笔记，数据库专题，使用mysql 实现。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/leetcode_mysql/" />
+<meta property="article:published_time" content="2019-12-27T19:30:44+08:00" />
+<meta property="article:modified_time" content="2019-12-27T19:30:44+08:00" />
+<meta itemprop="name" content="Leetcode-mysql">
+<meta itemprop="description" content="LeetCode 刷题笔记，数据库专题，使用mysql 实现。">
+<meta itemprop="datePublished" content="2019-12-27T19:30:44+08:00" />
+<meta itemprop="dateModified" content="2019-12-27T19:30:44+08:00" />
+<meta itemprop="wordCount" content="1355">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Leetcode-mysql"/>
+<meta name="twitter:description" content="LeetCode 刷题笔记，数据库专题，使用mysql 实现。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Leetcode-mysql</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-12-27 </span>
+        
+          <span class="more-meta"> 约 1355 字 </span>
+          <span class="more-meta"> 预计阅读 3 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#查询">查询</a></li>
+        <li><a href="#增加">增加</a></li>
+        <li><a href="#删除">删除</a></li>
+        <li><a href="#修改">修改</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>LeetCode 刷题笔记，数据库专题，使用mysql 实现。</p>
+<h2 id="查询">查询</h2>
+<p><a href="https://leetcode.com/problems/rising-temperature/">197. Rising Temperature</a></p>
+<p>主要使用了 <code>built-in</code> 的函数 <code>subdate</code>。DATE_SUB() 和 SUBDATE() 函数接受两个参数：</p>
+<ul>
+<li>date 是 DATE 或 DATETIME 的起始值。</li>
+<li>expr 是一个字符串，用于确定从起始日期减去的间隔值。type 是 expr 可解析的间隔单位，例如 DAY，HOUR 等</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="o">#</span> <span class="k">Write</span> <span class="n">your</span> <span class="n">MySQL</span> <span class="n">query</span> <span class="k">statement</span> <span class="n">below</span>
+<span class="o">#</span> <span class="err">一个表可以读两次</span>
+<span class="k">select</span> <span class="n">w1</span><span class="p">.</span><span class="n">Id</span> <span class="k">from</span> <span class="n">Weather</span> <span class="k">as</span> <span class="n">w1</span><span class="p">,</span> <span class="n">Weather</span> <span class="k">as</span> <span class="n">w2</span> <span class="k">where</span> <span class="n">w1</span><span class="p">.</span><span class="n">Temperature</span> <span class="o">&gt;</span> <span class="n">w2</span><span class="p">.</span><span class="n">Temperature</span> <span class="k">and</span> <span class="n">subdate</span><span class="p">(</span><span class="n">w1</span><span class="p">.</span><span class="n">RecordDate</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span><span class="n">w2</span><span class="p">.</span><span class="n">RecordDate</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://leetcode.com/problems/department-highest-salary/">184. Department Highest Salary</a></p>
+<p>数据库表的联结，首先查找每个部门的最高薪水（使用临时表的思想保存），然后使用和原来的表联结。该解法并没有使用到 <code>group by</code></p>
+<p>实现的时候， <code>select.. join where condition order by </code>： 首先是选择，然后是不同表之间的连接，最后是以某种顺序进行排列。 mysql 中默认是按照升序排列，所以 <code>select * from t1 order by col1 </code> 和 <code>select * from t1 order by col1 asc</code> 是等价的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="o">#</span> <span class="k">Write</span> <span class="n">your</span> <span class="n">MySQL</span> <span class="n">query</span> <span class="k">statement</span> <span class="n">below</span>
+<span class="k">select</span> <span class="n">d</span><span class="p">.</span><span class="n">Name</span> <span class="k">as</span> <span class="n">Department</span><span class="p">,</span> <span class="n">e</span><span class="p">.</span><span class="n">Name</span> <span class="k">as</span> <span class="n">Employee</span><span class="p">,</span> <span class="n">e</span><span class="p">.</span><span class="n">Salary</span> <span class="k">from</span> <span class="n">Employee</span> <span class="k">as</span> <span class="n">e</span> <span class="k">inner</span> <span class="k">join</span> <span class="n">Department</span> <span class="k">as</span> <span class="n">d</span> <span class="k">on</span> <span class="n">e</span><span class="p">.</span><span class="n">DepartmentId</span> <span class="o">=</span><span class="n">d</span><span class="p">.</span><span class="n">Id</span> <span class="k">where</span>
+<span class="p">(</span><span class="k">select</span> <span class="k">Max</span><span class="p">(</span><span class="n">Salary</span><span class="p">)</span> <span class="k">from</span> <span class="n">Employee</span> <span class="k">as</span> <span class="n">e1</span> <span class="k">where</span> <span class="n">e1</span><span class="p">.</span><span class="n">DepartmentId</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">DepartmentId</span><span class="p">)</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">Salary</span> <span class="k">order</span> <span class="k">by</span> <span class="n">d</span><span class="p">.</span><span class="n">Name</span> 
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://leetcode.com/problems/customers-who-never-order/">183. Customers Who Never Order</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="o">#</span> <span class="k">Write</span> <span class="n">your</span> <span class="n">MySQL</span> <span class="n">query</span> <span class="k">statement</span> <span class="n">below</span>
+<span class="o">#</span> <span class="err">这个涉及到的是减法操作</span>
+<span class="k">select</span> <span class="n">Name</span> <span class="k">as</span> <span class="n">Customers</span> <span class="k">from</span> <span class="n">Customers</span> <span class="k">where</span> <span class="n">Id</span> <span class="k">not</span> <span class="k">in</span> <span class="p">(</span><span class="k">select</span> <span class="n">CustomerId</span> <span class="k">from</span> <span class="n">Orders</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>on 和where 的区别？
+on 是先根据条件筛选，然后生成临时查询结果。where 是先连接生成临时查询结果，然后再筛选；
+on 是连接条件，代表两个表建立关系遵循的规则；where</p>
+<p><a href="https://leetcode.com/problems/department-top-three-salaries/">185. Department Top Three Salaries</a></p>
+<p>还是需要两个表格的连接，解这道题目的时候，可以使用这样的思路：如果一个组内的人的工资大于他的人的个数是小于3，那么这个人就是在最后的结果中。使用where 连接条件。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="k">select</span> D.Name as Department, E1.Name as Employee, E1.Salary as Salary
+from Employee as E1, Department as D
+where E1.DepartmentId <span class="o">=</span>D.Id and 
+<span class="o">(</span><span class="k">select</span> count<span class="o">(</span>distinct E2.Salary<span class="o">)</span> 
+from Employee E2 
+where E1.DepartmentId <span class="o">=</span> E2.DepartmentId and
+E2.Salary &gt; E1.Salary<span class="o">)</span> &lt;<span class="m">3</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://leetcode.com/problems/employees-earning-more-than-their-managers/">181. Employees Earning More Than Their Managers</a></p>
+<p>对于 SELF JOIN 这类题目，直接看成两个表是比较理想的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="o">#</span> <span class="k">Write</span> <span class="n">your</span> <span class="n">MySQL</span> <span class="n">query</span> <span class="k">statement</span> <span class="n">below</span>
+<span class="k">select</span> <span class="n">e1</span><span class="p">.</span><span class="n">Name</span> <span class="k">as</span> <span class="n">Employee</span> <span class="k">from</span> <span class="n">Employee</span> <span class="n">e1</span><span class="p">,</span> <span class="n">Employee</span> <span class="n">e2</span> <span class="k">where</span> <span class="n">e1</span><span class="p">.</span><span class="n">Salary</span> <span class="o">&gt;</span> <span class="n">e2</span><span class="p">.</span><span class="n">Salary</span> <span class="k">and</span> <span class="n">e1</span><span class="p">.</span><span class="n">ManagerId</span> <span class="o">=</span><span class="n">e2</span><span class="p">.</span><span class="n">Id</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="o">#</span> <span class="k">Write</span> <span class="n">your</span> <span class="n">MySQL</span> <span class="n">query</span> <span class="k">statement</span> <span class="n">below</span>
+<span class="o">#</span> <span class="err">这个涉及到的是减法操作</span>
+<span class="k">select</span> <span class="n">Name</span> <span class="k">as</span> <span class="n">Customers</span> <span class="k">from</span> <span class="n">Customers</span> <span class="k">where</span> <span class="n">Id</span> <span class="k">not</span> <span class="k">in</span> <span class="p">(</span><span class="k">select</span> <span class="n">CustomerId</span> <span class="k">from</span> <span class="n">Orders</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://leetcode.com/problems/duplicate-emails/">182. Duplicate Emails</a></p>
+<p>group by 搭配聚合函数使用，比如max min sum avg cout 五个函数；group by 还可以搭配 having 进行过滤。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="o">#</span> <span class="k">Write</span> <span class="n">your</span> <span class="n">MySQL</span> <span class="n">query</span> <span class="k">statement</span> <span class="n">below</span>
+<span class="k">select</span> <span class="n">Email</span> <span class="k">from</span> <span class="n">Person</span> <span class="k">group</span> <span class="k">by</span> <span class="n">Email</span> <span class="k">having</span> <span class="k">count</span><span class="p">(</span><span class="n">Email</span><span class="p">)</span> <span class="o">&gt;</span><span class="mi">1</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://leetcode.com/problems/consecutive-numbers/">180. Consecutive Numbers</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="o">#</span> <span class="k">Write</span> <span class="n">your</span> <span class="n">MySQL</span> <span class="n">query</span> <span class="k">statement</span> <span class="n">below</span>
+<span class="o">#</span> <span class="err">这个是连续的三个</span><span class="n">num</span><span class="err">，所以需要申请三个表；</span>
+<span class="k">select</span> <span class="k">distinct</span> <span class="n">l1</span><span class="p">.</span><span class="n">Num</span> <span class="k">as</span> <span class="n">ConsecutiveNums</span> <span class="k">from</span> <span class="n">Logs</span> <span class="k">as</span> <span class="n">l1</span><span class="p">,</span> <span class="n">Logs</span> <span class="k">as</span> <span class="n">l2</span><span class="p">,</span> <span class="n">Logs</span> <span class="k">as</span> <span class="n">l3</span> <span class="k">where</span> <span class="n">l1</span><span class="p">.</span><span class="n">Id</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">=</span><span class="n">l2</span><span class="p">.</span><span class="n">ID</span> <span class="k">and</span> <span class="n">l2</span><span class="p">.</span><span class="n">Id</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">=</span><span class="n">l3</span><span class="p">.</span><span class="n">Id</span> <span class="k">and</span> <span class="n">l1</span><span class="p">.</span><span class="n">Num</span> <span class="o">=</span><span class="n">l2</span><span class="p">.</span><span class="n">Num</span> <span class="k">and</span> <span class="n">l2</span><span class="p">.</span><span class="n">Num</span>  <span class="o">=</span><span class="n">l3</span><span class="p">.</span><span class="n">Num</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://leetcode.com/problems/rank-scores/">178. Rank Scores</a></p>
+<p>这个解题思路是非常棒的：通过查找比其大的个数，然后判断其排名，是一种非常nice 的选择。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">select</span> <span class="n">S1</span><span class="p">.</span><span class="n">Score</span><span class="p">,</span> <span class="p">(</span><span class="k">select</span> <span class="k">count</span><span class="p">(</span><span class="k">distinct</span> <span class="n">Score</span><span class="p">)</span> <span class="k">from</span> <span class="n">Scores</span> <span class="k">as</span> <span class="n">S2</span> <span class="k">where</span> <span class="n">S2</span><span class="p">.</span><span class="n">Score</span> <span class="o">&gt;=</span> <span class="n">S1</span><span class="p">.</span><span class="n">Score</span> <span class="p">)</span> <span class="k">as</span> <span class="n">Rank</span> <span class="k">from</span> <span class="n">Scores</span> <span class="k">as</span> <span class="n">S1</span> <span class="k">order</span> <span class="k">by</span> <span class="n">Score</span> <span class="k">DESC</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://leetcode.com/problems/nth-highest-salary/submissions/">177. Nth Highest Salary</a></p>
+<p>mysql 中 <code>limit</code> 和 <code>offset</code> 的用法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="err">语句</span><span class="mi">1</span><span class="err">：</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">student</span> <span class="k">limit</span> <span class="mi">9</span><span class="p">,</span><span class="mi">4</span>
+<span class="err">语句</span><span class="mi">2</span><span class="err">：</span><span class="n">slect</span> <span class="o">*</span> <span class="k">from</span> <span class="n">student</span> <span class="k">limit</span> <span class="mi">4</span> <span class="k">offset</span> <span class="mi">9</span>
+<span class="o">//</span> <span class="err">语句</span><span class="mi">1</span><span class="err">和</span><span class="mi">2</span><span class="err">均返回表</span><span class="n">student的第10</span><span class="err">、</span><span class="mi">11</span><span class="err">、</span><span class="mi">12</span><span class="err">、</span><span class="mi">13</span><span class="err">行</span>  
+<span class="o">//</span><span class="err">语句</span><span class="mi">2</span><span class="err">中的</span><span class="mi">4</span><span class="err">表示返回</span><span class="mi">4</span><span class="err">行，</span><span class="mi">9</span><span class="err">表示从表的第十行开始</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>写sql 语句都是作为 shell 语句的一部分。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">CREATE FUNCTION getNthHighestSalary<span class="o">(</span>N INT<span class="o">)</span> RETURNS INT
+BEGIN
+  SET <span class="nv">n</span> <span class="o">=</span>N -1<span class="p">;</span>
+  RETURN <span class="o">(</span>
+      <span class="c1"># Write your MySQL query statement below.</span>
+      <span class="k">select</span> distinct Salary from Employee order by Salary desc limit n, <span class="m">1</span>
+  <span class="o">)</span><span class="p">;</span>
+END
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://leetcode.com/problems/second-highest-salary/">176. Second Highest Salary</a></p>
+<p>所谓的第二大就是比 <code>max</code> 小的元素，这种思路是没有问题的</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># Write your MySQL query statement below
+select max(Salary) as SecondHighestSalary from Employee where Salary &lt; (select max(Salary) from Employee)
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://leetcode.com/problems/combine-two-tables/">175. Combine Two Tables</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="o">#</span> <span class="k">Write</span> <span class="n">your</span> <span class="n">MySQL</span> <span class="n">query</span> <span class="k">statement</span> <span class="n">below</span>
+<span class="k">select</span> <span class="n">p</span><span class="p">.</span><span class="n">FirstName</span><span class="p">,</span> <span class="n">p</span><span class="p">.</span><span class="n">LastName</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">City</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="k">State</span> <span class="k">from</span> <span class="n">Person</span> <span class="k">as</span> <span class="n">p</span> <span class="k">left</span> <span class="k">join</span> <span class="n">Address</span> <span class="k">as</span> <span class="n">a</span> <span class="k">on</span> <span class="n">p</span><span class="p">.</span><span class="n">PersonId</span> <span class="o">=</span> <span class="n">a</span><span class="p">.</span><span class="n">PersonId</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://leetcode.com/problems/human-traffic-of-stadium/">601. Human Traffic of Stadium</a></p>
+<p>使用where 条件限制。从这个角度出发是没有那么难的，只是条件多了一点。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># Write your MySQL query statement below
+SELECT DISTINCT s1.* FROM stadium s1, stadium s2, stadium s3
+WHERE s1.people &gt;= 100 AND s2.people &gt;= 100 AND s3.people &gt;= 100
+AND (
+    (s1.id+1=s2.id AND s1.id+2=s3.id AND s2.id+1=s3.id)   ## s1 s2 s3
+    OR (s2.id+1=s1.id AND s2.id+2=s3.id AND s1.id+1=s3.id)    ## s2 s1 s3
+    OR (s2.id+1=s3.id AND s2.id+2=s1.id AND s3.id+1=s1.id)    ## s2 s3 s1
+) 
+ORDER BY s1.id;  
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="增加">增加</h2>
+<h2 id="删除">删除</h2>
+<p><a href="https://leetcode.com/problems/delete-duplicate-emails/">196. Delete Duplicate Emails</a></p>
+<p>非常得直观，一个表可以重复读入两次。 一定要看成是两个表的操作。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="o">#</span> <span class="k">Write</span> <span class="n">your</span> <span class="n">MySQL</span> <span class="n">query</span> <span class="k">statement</span> <span class="n">below</span>
+<span class="k">delete</span> <span class="n">q</span> <span class="k">from</span> <span class="n">Person</span>  <span class="n">p</span><span class="p">,</span> <span class="n">Person</span>  <span class="n">q</span> <span class="k">where</span> <span class="n">p</span><span class="p">.</span><span class="n">Email</span> <span class="o">=</span><span class="n">q</span><span class="p">.</span><span class="n">Email</span> <span class="k">and</span> <span class="n">p</span><span class="p">.</span><span class="n">Id</span> <span class="o">&lt;</span> <span class="n">q</span><span class="p">.</span><span class="n">Id</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>下面使用 <code>select</code>语句的是不行的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="o">#</span> <span class="k">Write</span> <span class="n">your</span> <span class="n">MySQL</span> <span class="n">query</span> <span class="k">statement</span> <span class="n">below</span>
+<span class="k">select</span> <span class="k">min</span><span class="p">(</span><span class="n">Id</span><span class="p">)</span> <span class="p">,</span><span class="n">Email</span> <span class="k">from</span> <span class="n">Person</span> <span class="k">group</span> <span class="k">by</span> <span class="n">Email</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="修改">修改</h2>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-12-27
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/leetcode_array_2/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Leetcode Array(2)</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/algorithm_interview_1/">
+            <span class="next-text nav-default">Algorithm Interview(1)</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

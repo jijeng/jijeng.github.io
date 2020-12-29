@@ -1,0 +1,2034 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Leetcode-String - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="leetcode 刷题笔记- string.
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/leetcode_string/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Leetcode-String" />
+<meta property="og:description" content="leetcode 刷题笔记- string." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/leetcode_string/" />
+<meta property="article:published_time" content="2019-05-24T22:14:56+08:00" />
+<meta property="article:modified_time" content="2019-05-24T22:14:56+08:00" />
+<meta itemprop="name" content="Leetcode-String">
+<meta itemprop="description" content="leetcode 刷题笔记- string.">
+<meta itemprop="datePublished" content="2019-05-24T22:14:56+08:00" />
+<meta itemprop="dateModified" content="2019-05-24T22:14:56+08:00" />
+<meta itemprop="wordCount" content="5450">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Leetcode-String"/>
+<meta name="twitter:description" content="leetcode 刷题笔记- string."/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Leetcode-String</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-05-24 </span>
+        <div class="post-category">
+            <a href="/categories/leetcode/"> leetcode </a>
+            </div>
+          <span class="more-meta"> 约 5450 字 </span>
+          <span class="more-meta"> 预计阅读 11 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#kmp-专题">KMP 专题</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>leetcode 刷题笔记- string.</p>
+<ol>
+<li><a href="https://leetcode.com/problems/count-and-say/submissions/">cout and say</a></li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span>  <span class="n">std</span><span class="p">;</span>
+<span class="n">string</span> <span class="nf">cout_and_say</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">string</span> <span class="n">res</span> <span class="o">=</span><span class="s">&#34;1&#34;</span><span class="p">;</span> <span class="c1">// 这个初始化意味着需要少循环一次，
+</span><span class="c1"></span>    <span class="k">while</span> <span class="p">(</span> <span class="o">--</span><span class="n">n</span> <span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">string</span> <span class="n">tmp</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">res</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span><span class="n">i</span><span class="p">;</span> <span class="c1">// 常用的一种遍历手段
+</span><span class="c1"></span>            <span class="k">while</span><span class="p">(</span><span class="n">j</span> <span class="o">&lt;</span> <span class="n">res</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">res</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span><span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="n">j</span> <span class="o">+=</span><span class="mi">1</span><span class="p">;</span>
+            <span class="n">tmp</span> <span class="o">=</span><span class="n">to_string</span><span class="p">(</span><span class="n">j</span> <span class="o">-</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span><span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="n">i</span> <span class="o">=</span><span class="n">j</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">res</span> <span class="o">=</span><span class="n">tmp</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">n</span> <span class="p">;</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span><span class="n">n</span><span class="p">;</span>
+    <span class="n">string</span> <span class="n">res</span> <span class="o">=</span><span class="n">cout_and_say</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="k">auto</span>  <span class="nl">u</span><span class="p">:</span> <span class="n">res</span><span class="p">)</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">u</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li><a href="https://leetcode.com/problems/group-anagrams/submissions/"> group anagrams</a></li>
+</ol>
+<p>sort 函数是 in-place() 的操作。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="c1">// 思路很简单， 先是放到一个 hash，然后再遍历一遍dictionary
+</span><span class="c1"></span>    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;&gt;</span> <span class="n">groupAnagrams</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;&amp;</span> <span class="n">strs</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;&gt;</span> <span class="n">hash</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">str</span> <span class="p">:</span> <span class="n">strs</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">string</span> <span class="n">key</span> <span class="o">=</span><span class="n">str</span><span class="p">;</span><span class="c1">// sort 函数是 in-place() 的操作
+</span><span class="c1"></span>            <span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">key</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+            <span class="n">hash</span><span class="p">[</span><span class="n">key</span><span class="p">].</span><span class="n">push_back</span><span class="p">(</span><span class="n">str</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;&gt;</span> <span class="n">res</span> <span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">item</span> <span class="p">:</span> <span class="n">hash</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">res</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">item</span><span class="p">.</span><span class="n">second</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>reverse words in a sting</li>
+</ol>
+<p><a href="https://leetcode.com/problems/reverse-words-in-a-string/submissions/">LeetCode题目链接</a></p>
+<p>c++ 中绝大部分都是左闭右开， 比如说reverse() .</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="n">string</span> <span class="nf">reverse_string</span><span class="p">(</span><span class="n">string</span> <span class="n">str</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">string</span> <span class="n">res</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span><span class="n">str</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="p">;</span>
+    <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">&amp;&amp;</span> <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span><span class="sc">&#39; &#39;</span><span class="p">)</span> <span class="n">i</span> <span class="o">++</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="n">n</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span><span class="n">i</span> <span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">&amp;&amp;</span> <span class="n">str</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="sc">&#39; &#39;</span><span class="p">)</span> <span class="n">j</span> <span class="o">++</span><span class="p">;</span>
+        <span class="n">reverse</span><span class="p">(</span><span class="n">str</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span> <span class="o">+</span><span class="n">i</span><span class="p">,</span> <span class="n">str</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span> <span class="o">+</span><span class="n">j</span><span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">k</span> <span class="p">)</span> <span class="n">str</span><span class="p">[</span><span class="n">k</span> <span class="o">++</span><span class="p">]</span> <span class="o">=</span><span class="sc">&#39; &#39;</span><span class="p">;</span>
+        <span class="c1">// 赋值回来, 这个语句是非常秒的, 把 i 的index 补充了回来
+</span><span class="c1"></span>        <span class="k">while</span><span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">j</span><span class="p">)</span> <span class="n">str</span><span class="p">[</span><span class="n">k</span> <span class="o">++</span><span class="p">]</span> <span class="o">=</span><span class="n">str</span><span class="p">[</span><span class="n">i</span> <span class="o">++</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="n">str</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">str</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span> <span class="o">+</span><span class="n">k</span> <span class="p">,</span> <span class="n">str</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+    <span class="n">reverse</span><span class="p">(</span><span class="n">str</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">str</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+    <span class="k">return</span> <span class="n">str</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">string</span> <span class="n">input</span> <span class="o">=</span><span class="s">&#34; the sky is blue&#34;</span><span class="p">;</span>
+    <span class="n">string</span> <span class="n">res</span> <span class="o">=</span><span class="n">reverse_string</span><span class="p">(</span><span class="n">input</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">u</span> <span class="p">:</span> <span class="n">res</span><span class="p">)</span>
+        <span class="n">cout</span><span class="o">&lt;&lt;</span> <span class="n">u</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="4">
+<li><a href="https://leetcode.com/problems/compare-version-numbers/">compare-version-numbers</a></li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">cmpVersion</span><span class="p">(</span><span class="n">string</span> <span class="n">str1</span><span class="p">,</span> <span class="n">string</span> <span class="n">str2</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span><span class="n">str1</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">str2</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">||</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span><span class="n">j</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span> <span class="n">x</span><span class="o">&lt;</span> <span class="n">n</span> <span class="o">&amp;&amp;</span> <span class="n">str1</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">!=</span> <span class="sc">&#39;.&#39;</span><span class="p">)</span>  <span class="n">x</span> <span class="o">++</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span> <span class="n">y</span><span class="o">&lt;</span> <span class="n">m</span> <span class="o">&amp;&amp;</span> <span class="n">str2</span><span class="p">[</span><span class="n">y</span> <span class="p">]</span> <span class="o">!=</span> <span class="sc">&#39;.&#39;</span><span class="p">)</span> <span class="n">y</span> <span class="o">++</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">sum1</span> <span class="o">=</span> <span class="n">x</span> <span class="o">==</span><span class="n">i</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="n">atoi</span><span class="p">(</span><span class="n">str1</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="o">-</span><span class="n">i</span><span class="p">).</span><span class="n">c_str</span><span class="p">());</span>
+        <span class="kt">int</span> <span class="n">sum2</span> <span class="o">=</span> <span class="n">x</span> <span class="o">==</span><span class="n">j</span> <span class="o">?</span> <span class="mi">0</span><span class="o">:</span> <span class="n">atoi</span><span class="p">(</span><span class="n">str2</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">y</span> <span class="o">-</span><span class="n">j</span><span class="p">).</span><span class="n">c_str</span><span class="p">());</span>
+        <span class="n">i</span> <span class="o">=</span><span class="n">x</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">sum1</span><span class="o">&lt;</span> <span class="n">sum2</span><span class="p">)</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">sum1</span> <span class="o">&gt;</span> <span class="n">sum2</span><span class="p">)</span> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">string</span> <span class="n">str1</span><span class="p">;</span> <span class="c1">// 0.1
+</span><span class="c1"></span>    <span class="n">string</span> <span class="n">str2</span><span class="p">;</span> <span class="c1">//1.1
+</span><span class="c1"></span>    <span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span> <span class="n">str1</span><span class="p">);</span>
+    <span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span> <span class="n">str2</span><span class="p">);</span>
+    <span class="n">cout</span><span class="o">&lt;&lt;</span> <span class="n">cmpVersion</span><span class="p">(</span><span class="n">str1</span><span class="p">,</span> <span class="n">str2</span><span class="p">)</span><span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><ol start="5">
+<li><a href="https://leetcode.com/problems/unique-email-addresses/">Unique Email Addresses</a></li>
+</ol>
+<p>这里给出了一种如何去读入 vector<string>，最简单的方法就是多定义一个循环，这样的话就可以完整的读入所有的string，可能再最后的结果中有 +1 或者 -1 的操作。最后看效果，稍微猜测推一下。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;unordered_set&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="c1">// 比较简单 ，分成 name 和 domain 两个方面进行处理
+</span><span class="c1"></span><span class="kt">int</span> <span class="nf">numUniqueEmails</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">emails</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">unordered_set</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">hash</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">email</span><span class="p">:</span> <span class="n">emails</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">at</span> <span class="o">=</span><span class="n">email</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#34;@&#34;</span><span class="p">);</span>
+        <span class="n">string</span> <span class="n">name</span> <span class="o">=</span><span class="n">email</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">at</span><span class="p">);</span> <span class="c1">// 写成 email.begin() 吧
+</span><span class="c1"></span>        <span class="n">string</span> <span class="n">domain</span> <span class="o">=</span><span class="n">email</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">at</span> <span class="o">+</span><span class="mi">1</span><span class="p">);</span><span class="c1">// 默认是到最后的，如果只是有一个参数的话
+</span><span class="c1"></span>        <span class="n">string</span> <span class="n">tmp</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">ch</span> <span class="p">:</span> <span class="n">name</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">ch</span> <span class="o">==</span><span class="sc">&#39;+&#39;</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">ch</span> <span class="o">!=</span> <span class="sc">&#39;.&#39;</span><span class="p">)</span> <span class="n">tmp</span> <span class="o">+=</span> <span class="n">ch</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">string</span> <span class="n">res</span> <span class="o">=</span><span class="n">tmp</span><span class="o">+</span><span class="sc">&#39;@&#39;</span><span class="o">+</span> <span class="n">domain</span><span class="p">;</span>
+        <span class="n">hash</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">res</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">hash</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">//vector&lt;string&gt; emails={&#34;a@a.com&#34;, &#34;b@b.com&#34;};
+</span><span class="c1"></span>    <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">emails</span><span class="p">;</span>
+    <span class="c1">// 对于字符串 数组的输入是不不会的
+</span><span class="c1"></span>    <span class="kt">int</span> <span class="n">n</span> <span class="p">;</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">;</span>
+    <span class="n">n</span> <span class="o">++</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">n</span> <span class="o">--</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">string</span> <span class="n">tmp</span><span class="p">;</span>
+        <span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span> <span class="n">tmp</span><span class="p">);</span>
+        <span class="n">emails</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">tmp</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">numUniqueEmails</span><span class="p">(</span><span class="n">emails</span><span class="p">)</span><span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><ol start="6">
+<li><a href="https://leetcode.com/problems/longest-palindromic-substring/">longest palindromic substring</a></li>
+</ol>
+<p>返回结果是子串的问题，一般使用双指针（可以处理连续的问题）。针对本题，先是枚举中心点，然后向着左右两边扩展，算法时间复杂度是$O(n^2)$。使用马拉车算法可以在$O(n)$的时间复杂度内解决，但是只能处理回文串问题，比较局限，不像kmp 算法。</p>
+<p>在实现的时候，尽量使用  <code>i+1</code> 而不要使用  <code>i-1</code>，因为对于两个数字的相邻关系，使用 <code>i-1</code> , <code>i</code> 和 <code>i</code> ， <code>i+1</code> 都是可以表示的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">string</span> <span class="n">longestPalindrome</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">//时间复杂度是 On^2()， 先枚举中心点，然后向着左右两边进行扩展，最优的解法是 马拉车，但是太局限了，所以没有学习
+</span><span class="c1"></span>        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="n">string</span> <span class="n">res</span> <span class="p">;</span>      
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span><span class="n">i</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">n</span><span class="o">&amp;&amp;</span> <span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span><span class="n">s</span><span class="p">[</span><span class="n">k</span><span class="p">];</span> <span class="n">j</span> <span class="o">--</span><span class="p">,</span> <span class="n">k</span> <span class="o">++</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">k</span> <span class="o">-</span><span class="n">j</span> <span class="o">+</span><span class="mi">1</span> <span class="o">&gt;</span> <span class="n">res</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+                    <span class="n">res</span> <span class="o">=</span><span class="n">s</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="o">-</span><span class="n">j</span> <span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span><span class="n">i</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&gt;=</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">&amp;&amp;</span> <span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span><span class="n">s</span><span class="p">[</span><span class="n">k</span><span class="p">];</span> <span class="n">j</span> <span class="o">--</span><span class="p">,</span> <span class="n">k</span> <span class="o">++</span><span class="p">)</span>
+                <span class="k">if</span><span class="p">(</span> <span class="n">k</span> <span class="o">-</span><span class="n">j</span> <span class="o">+</span><span class="mi">1</span> <span class="o">&gt;</span> <span class="n">res</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+                    <span class="n">res</span> <span class="o">=</span><span class="n">s</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="o">-</span><span class="n">j</span> <span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="7">
+<li>zigzag conversion</li>
+</ol>
+<p>好好理解一下，当for 循环的时候， 第三个参数就是等差数列中公差。for 循环是可以模拟 等差数列和等比数列的，初始化，判别条件和步伐是能够和公差公比相对应的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="c1">// 找规律的题目
+</span><span class="c1"></span>    <span class="c1">// 如果是首行和尾行，公差是 2(n -1)，
+</span><span class="c1"></span>    <span class="c1">// 如果是中间行, 那么是两个交错的等差数列
+</span><span class="c1"></span>    <span class="n">string</span> <span class="n">convert</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span><span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="n">s</span><span class="p">;</span>
+        <span class="n">string</span> <span class="n">res</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="o">!</span> <span class="n">i</span> <span class="o">||</span>  <span class="n">i</span> <span class="o">==</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span> <span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span><span class="n">i</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">j</span> <span class="o">+=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+                    <span class="n">res</span> <span class="o">+=</span> <span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+            <span class="p">}</span>
+            <span class="k">else</span>
+            <span class="p">{</span>
+                <span class="c1">// 两个交叉的数列, 只是初始化的值需要注意一下
+</span><span class="c1"></span>                <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span><span class="n">i</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">||</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="p">;</span> <span class="n">j</span> <span class="o">+=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span> <span class="n">k</span> <span class="o">+=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="k">if</span><span class="p">(</span><span class="n">j</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="n">res</span> <span class="o">+=</span> <span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+                    <span class="k">if</span><span class="p">(</span><span class="n">k</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="p">)</span> <span class="n">res</span> <span class="o">+=</span> <span class="n">s</span><span class="p">[</span><span class="n">k</span><span class="p">];</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="8">
+<li>longest substring without repeating characters</li>
+</ol>
+<p>~~一开始还以为使用dp，但是使用双指针+ dictionary 就可以解决。~~求解的是子串（不是子序列），所以一定是一个连续的区间 [i, j]，有点贪心的思想，通用的“滑动窗口 + 哈希表” 的做法。由于 $i$, $j$ 最多增加 $n$ 次，且hash 表的插入和更新时间复杂度是$O(1)$， 所以总的时间复杂度是$O(n)$。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">lengthOfLongestSubstring</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        :type s: str
+</span><span class="s2">        :rtype: int
+</span><span class="s2">        &#34;&#34;&#34;</span>    
+        <span class="n">i</span><span class="p">,</span> <span class="n">res</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">dic</span> <span class="o">=</span><span class="p">{}</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">ch</span> <span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">dic</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">dic</span><span class="p">[</span><span class="n">ch</span><span class="p">]:</span>
+                <span class="n">i</span> <span class="o">=</span><span class="n">dic</span><span class="p">[</span><span class="n">ch</span><span class="p">]</span> <span class="o">+</span><span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">res</span> <span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">dic</span><span class="p">[</span><span class="n">ch</span><span class="p">]</span> <span class="o">=</span><span class="n">j</span>  <span class="c1"># dic 是一个记录 char 到index 的映射关系的dictionary</span>
+        <span class="k">return</span> <span class="n">res</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="9">
+<li>implement Trie(Predix Tree)</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Trie</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="c1">// 使用一个结构体存储一个结点
+</span><span class="c1"></span>    <span class="k">struct</span> <span class="nc">Node</span><span class="p">{</span>
+        <span class="kt">bool</span> <span class="n">is_end</span><span class="p">;</span>
+        <span class="n">Node</span> <span class="o">*</span> <span class="n">son</span><span class="p">[</span><span class="mi">26</span><span class="p">];</span>
+        <span class="c1">// 这个类似构造函数，是对结构体进行初始化
+</span><span class="c1"></span>        <span class="n">Node</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="n">is_end</span> <span class="o">=</span><span class="nb">false</span><span class="p">;</span>
+            <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="mi">26</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+                <span class="n">son</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span><span class="nb">NULL</span><span class="p">;</span>
+        <span class="p">}</span>
+        
+    <span class="p">}</span><span class="o">*</span><span class="n">root</span><span class="p">;</span>
+    <span class="c1">// 这个是结构体变量
+</span><span class="c1"></span>    
+    <span class="cm">/** Initialize your data structure here. */</span>
+    <span class="n">Trie</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">root</span> <span class="o">=</span><span class="k">new</span> <span class="n">Node</span><span class="p">();</span>
+        
+    <span class="p">}</span>
+    
+    <span class="cm">/** Inserts a word into the trie. */</span>
+    <span class="kt">void</span> <span class="nf">insert</span><span class="p">(</span><span class="n">string</span> <span class="n">word</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">auto</span> <span class="n">p</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">c</span><span class="p">:</span> <span class="n">word</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">auto</span> <span class="n">u</span> <span class="o">=</span><span class="n">c</span> <span class="o">-</span><span class="sc">&#39;a&#39;</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">son</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">==</span><span class="nb">NULL</span><span class="p">)</span> <span class="n">p</span> <span class="o">-&gt;</span><span class="n">son</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span><span class="k">new</span> <span class="n">Node</span><span class="p">();</span>
+            <span class="n">p</span> <span class="o">=</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">son</span><span class="p">[</span><span class="n">u</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="n">p</span><span class="o">-&gt;</span><span class="n">is_end</span> <span class="o">=</span><span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/** Returns if the word is in the trie. */</span>
+    <span class="kt">bool</span> <span class="nf">search</span><span class="p">(</span><span class="n">string</span> <span class="n">word</span><span class="p">)</span> <span class="p">{</span>        
+        <span class="k">auto</span> <span class="n">p</span> <span class="o">=</span><span class="n">root</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">c</span> <span class="p">:</span> <span class="n">word</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">auto</span> <span class="n">u</span> <span class="o">=</span><span class="n">c</span> <span class="o">-</span><span class="sc">&#39;a&#39;</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">p</span> <span class="o">-&gt;</span><span class="n">son</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">==</span><span class="nb">NULL</span><span class="p">)</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+            <span class="n">p</span> <span class="o">=</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">son</span><span class="p">[</span><span class="n">u</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">is_end</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/** Returns if there is any word in the trie that starts with the given prefix. */</span>
+    <span class="kt">bool</span> <span class="nf">startsWith</span><span class="p">(</span><span class="n">string</span> <span class="n">prefix</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">auto</span> <span class="n">p</span> <span class="o">=</span><span class="n">root</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">c</span> <span class="p">:</span><span class="n">prefix</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">auto</span> <span class="n">u</span> <span class="o">=</span><span class="n">c</span> <span class="o">-</span><span class="sc">&#39;a&#39;</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">p</span> <span class="o">-&gt;</span><span class="n">son</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">==</span><span class="nb">NULL</span><span class="p">)</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+            <span class="n">p</span> <span class="o">=</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">son</span><span class="p">[</span><span class="n">u</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="cm">/**
+</span><span class="cm"> * Your Trie object will be instantiated and called as such:
+</span><span class="cm"> * Trie* obj = new Trie();
+</span><span class="cm"> * obj-&gt;insert(word);
+</span><span class="cm"> * bool param_2 = obj-&gt;search(word);
+</span><span class="cm"> * bool param_3 = obj-&gt;startsWith(prefix);
+</span><span class="cm"> */</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>关于trie 的理论讲解可以参考<a href="https://jijeng.github.io/2019/08/05/data_structure/">这篇博客</a>, 这里主要讲解实现。</p>
+<ol start="10">
+<li>integer to English Words</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    
+    <span class="n">string</span> <span class="n">small</span><span class="p">[</span><span class="mi">20</span><span class="p">]</span> <span class="o">=</span><span class="p">{</span><span class="s">&#34;Zero&#34;</span><span class="p">,</span> <span class="s">&#34;One&#34;</span><span class="p">,</span> <span class="s">&#34;Two&#34;</span><span class="p">,</span> <span class="s">&#34;Three&#34;</span><span class="p">,</span> <span class="s">&#34;Four&#34;</span><span class="p">,</span> <span class="s">&#34;Five&#34;</span><span class="p">,</span> <span class="s">&#34;Six&#34;</span><span class="p">,</span> <span class="s">&#34;Seven&#34;</span><span class="p">,</span> <span class="s">&#34;Eight&#34;</span><span class="p">,</span> <span class="s">&#34;Nine&#34;</span><span class="p">,</span> <span class="s">&#34;Ten&#34;</span><span class="p">,</span>
+                      <span class="s">&#34;Eleven&#34;</span><span class="p">,</span> <span class="s">&#34;Twelve&#34;</span><span class="p">,</span> <span class="s">&#34;Thirteen&#34;</span><span class="p">,</span> <span class="s">&#34;Fourteen&#34;</span><span class="p">,</span> <span class="s">&#34;Fifteen&#34;</span><span class="p">,</span> <span class="s">&#34;Sixteen&#34;</span><span class="p">,</span> <span class="s">&#34;Seventeen&#34;</span><span class="p">,</span> <span class="s">&#34;Eighteen&#34;</span><span class="p">,</span> <span class="s">&#34;Nineteen&#34;</span><span class="p">};</span>
+    
+    <span class="n">string</span> <span class="n">mid</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span><span class="p">{</span><span class="s">&#34;&#34;</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="s">&#34;Twenty&#34;</span><span class="p">,</span> <span class="s">&#34;Thirty&#34;</span><span class="p">,</span> <span class="s">&#34;Forty&#34;</span><span class="p">,</span> <span class="s">&#34;Fifty&#34;</span><span class="p">,</span> <span class="s">&#34;Sixty&#34;</span><span class="p">,</span> <span class="s">&#34;Seventy&#34;</span><span class="p">,</span> <span class="s">&#34;Eighty&#34;</span><span class="p">,</span> <span class="s">&#34;Ninety&#34;</span><span class="p">};</span>
+    <span class="n">string</span> <span class="n">big</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span><span class="p">{</span><span class="s">&#34;Billion&#34;</span><span class="p">,</span> <span class="s">&#34;Million&#34;</span><span class="p">,</span> <span class="s">&#34;Thousand&#34;</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">};</span>
+    <span class="n">string</span> <span class="nf">numberToWords</span><span class="p">(</span><span class="kt">int</span> <span class="n">num</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span> <span class="n">num</span><span class="p">)</span> <span class="k">return</span> <span class="n">small</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+        <span class="n">string</span> <span class="n">res</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">1000000000</span><span class="p">,</span><span class="n">j</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">/=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">num</span> <span class="o">&gt;=</span><span class="n">i</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">res</span> <span class="o">+=</span> <span class="n">get_part</span><span class="p">(</span><span class="n">num</span> <span class="o">/</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span><span class="n">big</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span><span class="s">&#34; &#34;</span><span class="p">;</span>
+                <span class="n">num</span> <span class="o">%=</span> <span class="n">i</span><span class="p">;</span>
+            <span class="p">}</span>    
+        <span class="p">}</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">back</span><span class="p">()</span> <span class="o">==</span><span class="sc">&#39; &#39;</span><span class="p">)</span> <span class="n">res</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
+        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="n">string</span> <span class="nf">get_part</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">string</span> <span class="n">res</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">n</span> <span class="o">&gt;=</span><span class="mi">100</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">res</span> <span class="o">+=</span> <span class="n">small</span><span class="p">[</span><span class="n">n</span> <span class="o">/</span><span class="mi">100</span><span class="p">]</span> <span class="o">+</span><span class="s">&#34; Hundred &#34;</span><span class="p">;</span>
+            <span class="n">n</span> <span class="o">%=</span> <span class="mi">100</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">n</span><span class="p">)</span> <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">n</span> <span class="o">&gt;=</span><span class="mi">20</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">res</span> <span class="o">+=</span> <span class="n">mid</span><span class="p">[</span><span class="n">n</span><span class="o">/</span><span class="mi">10</span><span class="p">]</span> <span class="o">+</span><span class="sc">&#39; &#39;</span><span class="p">;</span>
+            <span class="n">n</span> <span class="o">%=</span><span class="mi">10</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">n</span><span class="p">)</span> <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+        <span class="n">res</span> <span class="o">+=</span> <span class="n">small</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">+</span><span class="sc">&#39; &#39;</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="kmp-专题">KMP 专题</h3>
+<p>首先最简单的是字符串的匹配问题， 如果暴力枚举，那么时间复杂度是 $O(mn) $，其中 $m$ 和$n$ 分别表示两个字符串的长度。如果使用kmp 算法，那么时间复杂度是 $O(m +n)$</p>
+<p>这个是模板：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="err">求</span><span class="n">Next数组</span><span class="err">：</span>
+<span class="c1">// s[]是模式串，p[]是模板串, n是s的长度，m是p的长度
+</span><span class="c1"></span><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">;</span> <span class="n">i</span> <span class="o">++</span> <span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">j</span> <span class="o">&amp;&amp;</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">p</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="n">j</span> <span class="o">=</span> <span class="n">ne</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">p</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="n">j</span> <span class="o">++</span> <span class="p">;</span>
+    <span class="n">ne</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 匹配
+</span><span class="c1"></span><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span> <span class="o">++</span> <span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">j</span> <span class="o">&amp;&amp;</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">p</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="n">j</span> <span class="o">=</span> <span class="n">ne</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">p</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="n">j</span> <span class="o">++</span> <span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">==</span> <span class="n">m</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="n">ne</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+        <span class="c1">// 匹配成功后的逻辑
+</span><span class="c1"></span>    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这个是投机取巧的方式， 但是可以掌握关于 string:: npos 这种判断条件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">;</span>
+    <span class="n">string</span> <span class="n">p</span><span class="p">,</span> <span class="n">s</span><span class="p">;</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="o">&gt;&gt;</span> <span class="n">p</span><span class="o">&gt;&gt;</span> <span class="n">m</span><span class="o">&gt;&gt;</span> <span class="n">s</span><span class="p">;</span>
+    <span class="k">auto</span> <span class="n">found</span> <span class="o">=</span><span class="n">s</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">found</span> <span class="o">!=</span> <span class="n">string</span><span class="o">::</span><span class="n">npos</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">found</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; &#34;</span><span class="p">;</span>
+        <span class="n">found</span> <span class="o">=</span><span class="n">s</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">found</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+</code></pre></td></tr></table>
+</div>
+</div><p>使用 kmp 算法的正解。(KMP字符串)(<a href="https://www.acwing.com/problem/content/description/833/">https://www.acwing.com/problem/content/description/833/</a>)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">const</span> <span class="kt">int</span> <span class="n">N</span> <span class="o">=</span><span class="mf">1e4</span><span class="o">+</span><span class="mi">11</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">N1</span> <span class="o">=</span><span class="mf">1e5</span><span class="o">+</span><span class="mi">11</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">nex</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">char</span> <span class="n">p</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">char</span> <span class="n">s</span><span class="p">[</span><span class="n">N1</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">get_next</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">j</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">j</span> <span class="o">&amp;&amp;</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">p</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="n">j</span> <span class="o">=</span><span class="n">nex</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">i</span> <span class="p">]</span> <span class="o">==</span><span class="n">p</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="n">j</span> <span class="o">++</span><span class="p">;</span>
+        <span class="n">nex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span><span class="n">j</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">// 这种写法对于一次性的读入，还是非常有效率的，学习
+</span><span class="c1"></span>    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span> <span class="o">&gt;&gt;</span> <span class="n">p</span><span class="o">+</span><span class="mi">1</span><span class="o">&gt;&gt;</span> <span class="n">m</span> <span class="o">&gt;&gt;</span> <span class="n">s</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+    <span class="n">get_next</span><span class="p">();</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">j</span> <span class="o">&amp;&amp;</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">p</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="n">j</span> <span class="o">=</span><span class="n">nex</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span><span class="n">p</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="n">j</span> <span class="o">+=</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">j</span> <span class="o">==</span><span class="n">n</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%d &#34;</span><span class="p">,</span> <span class="n">i</span><span class="o">-</span><span class="n">n</span><span class="p">);</span>
+            <span class="n">j</span> <span class="o">=</span><span class="n">nex</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://www.acwing.com/problem/content/description/143/">周期</a></p>
+<p>next[n] 的含义： 表示以 n 为结尾的后缀和以 1位起点的前缀，相同的string ， 最大长度。 n-next[n] 表示最小的循环节，那么 n/(n -next[n]) 就是最多的个数。</p>
+<p>以i 为结点的最大的后缀和前缀相等，这个后缀的长度就是next[i]</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">N</span> <span class="o">=</span><span class="mf">1e6</span><span class="o">+</span><span class="mi">11</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">nex</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+
+<span class="c1">//在所有的前缀中 最小循环节的最大重复个数
+</span><span class="c1">// 考察 n-next[n] 是表示最小的循环节
+</span><span class="c1"></span><span class="kt">void</span> <span class="nf">get_next</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// while 和 nex[i] 是容易出粗
+</span><span class="c1"></span>        <span class="k">while</span><span class="p">(</span><span class="n">j</span> <span class="o">&amp;&amp;</span> <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">str</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="n">j</span> <span class="o">=</span><span class="n">nex</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span><span class="n">str</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="n">j</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">nex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span><span class="n">j</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">T</span> <span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+    <span class="c1">// 如果n ==0，那么就跳出了
+</span><span class="c1"></span>    <span class="k">while</span><span class="p">(</span><span class="n">scanf</span><span class="p">(</span><span class="s">&#34;%d&#34;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">),</span> <span class="n">n</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">scanf</span><span class="p">(</span><span class="s">&#34;%s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">str</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span> <span class="c1">// 这种 \n 在读入字符串中还是非常有用，对于cin 函数，你就知道多有用了
+</span><span class="c1"></span>        <span class="n">get_next</span><span class="p">();</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Test case #%d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">T</span><span class="o">++</span><span class="p">);</span> 
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span><span class="n">i</span> <span class="o">-</span><span class="n">nex</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">t</span> <span class="o">!=</span> <span class="n">i</span> <span class="o">&amp;&amp;</span> <span class="n">i</span><span class="o">%</span><span class="n">t</span> <span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%d %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">/</span><span class="n">t</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="n">puts</span><span class="p">(</span><span class="s">&#34;&#34;</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>对于string 的题目，一般可以hash 或者 kmp 算法求解。</p>
+<p><a href="https://www.acwing.com/problem/content/162/">160. 匹配统计</a></p>
+<p><a href="https://www.acwing.com/problem/content/video/162/">视频讲解</a></p>
+<p>我觉得可以理解的地方是，kmp 算法求解next 数组，kmp 算法进行字符串匹配，n-next[n] 表示最大的循环节的个数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// f[i] 表示匹配长度至少是 i的情况下， 这样的后缀有多少个
+</span><span class="c1">// 最少是 x -最少是x+1 的，那么得到的就是 x
+</span><span class="c1"></span><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">N</span> <span class="o">=</span><span class="mf">2e5</span><span class="o">+</span><span class="mi">11</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">q</span><span class="p">;</span>
+<span class="kt">char</span> <span class="n">a</span><span class="p">[</span><span class="n">N</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">ne</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">f</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="c1">// next 数组本质上就是前缀和后缀的匹配的最大长度
+</span><span class="c1">// next 数组不止可以操作同一个string，还是可以操作另外的数组
+</span><span class="c1"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span><span class="n">n</span> <span class="o">&gt;&gt;</span><span class="n">m</span><span class="o">&gt;&gt;</span> <span class="n">q</span><span class="p">;</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">&#34;%s%s&#34;</span><span class="p">,</span> <span class="n">a</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span> <span class="c1">// 读入了两个字符串数组
+</span><span class="c1"></span>    <span class="c1">//对于 b 求解kmp 数组
+</span><span class="c1"></span>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span> <span class="o">&lt;=</span><span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">j</span> <span class="o">&amp;&amp;</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">b</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="n">j</span> <span class="o">=</span><span class="n">ne</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span><span class="n">b</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="n">j</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">ne</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span><span class="n">j</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="c1">// 求解a 的后缀和b 的前缀的匹配, 
+</span><span class="c1"></span>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">j</span> <span class="o">&amp;&amp;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">b</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="n">j</span> <span class="o">=</span><span class="n">ne</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span><span class="n">b</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="n">j</span> <span class="o">++</span><span class="p">;</span>
+        <span class="c1">// 这里是不理解的
+</span><span class="c1"></span>        <span class="n">f</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="c1">// 这里也是不懂的
+</span><span class="c1"></span>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span>  <span class="n">i</span><span class="o">=</span><span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span> <span class="n">f</span><span class="p">[</span><span class="n">ne</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">+=</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="k">while</span><span class="p">(</span> <span class="n">q</span><span class="o">--</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">x</span> <span class="p">;</span>
+        <span class="n">cin</span> <span class="o">&gt;&gt;</span><span class="n">x</span><span class="p">;</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">f</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">-</span> <span class="n">f</span><span class="p">[</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://www.acwing.com/problem/content/description/161/"><strong>奶牛矩阵</strong></a></p>
+<p><a href="https://www.acwing.com/video/100/">视频讲解</a></p>
+<p>太难了</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">const</span> <span class="kt">int</span> <span class="n">N</span> <span class="o">=</span><span class="mi">10010</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span><span class="mi">80</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">;</span>
+<span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="n">N</span><span class="p">][</span><span class="n">M</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">ne</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">bool</span> <span class="n">st</span><span class="p">[</span><span class="n">M</span><span class="p">];</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span><span class="n">n</span><span class="o">&gt;&gt;</span><span class="n">m</span><span class="p">;</span>
+    
+    <span class="n">memset</span><span class="p">(</span><span class="n">st</span><span class="p">,</span> <span class="nb">true</span><span class="p">,</span> <span class="k">sizeof</span> <span class="n">st</span><span class="p">);</span>
+    
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">1</span> <span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">scanf</span><span class="p">(</span><span class="s">&#34;%s&#34;</span><span class="p">,</span> <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+        
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;=</span><span class="n">m</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">st</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+            <span class="p">{</span>
+                <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span><span class="n">j</span><span class="p">;</span> <span class="n">k</span><span class="o">&lt;</span><span class="n">m</span><span class="p">;</span> <span class="n">k</span><span class="o">+=</span><span class="n">j</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">u</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">u</span><span class="o">&lt;</span><span class="n">j</span> <span class="o">&amp;&amp;</span> <span class="n">k</span><span class="o">+</span> <span class="n">u</span><span class="o">&lt;</span> <span class="n">m</span><span class="p">;</span> <span class="n">u</span><span class="o">++</span><span class="p">)</span>
+                    <span class="p">{</span>
+                        <span class="k">if</span><span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">u</span><span class="p">]</span> <span class="o">!=</span> <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">k</span><span class="o">+</span><span class="n">u</span><span class="p">])</span>
+                        <span class="p">{</span>
+                            <span class="n">st</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span><span class="nb">false</span><span class="p">;</span>
+                            <span class="k">break</span><span class="p">;</span>
+                        <span class="p">}</span>
+                    <span class="p">}</span>
+                    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">st</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="k">break</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    
+    <span class="kt">int</span> <span class="n">width</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> 
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="p">{</span>
+            <span class="n">width</span> <span class="o">=</span><span class="n">i</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>  <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">width</span><span class="p">]</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+    
+    <span class="c1">// strcmp(str1, str2) 如果相等返回 0， 如果str1&lt; str2 返回-1， 如果大于 返回+1
+</span><span class="c1"></span>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">j</span> <span class="o">&amp;&amp;</span> <span class="n">strcmp</span><span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">str</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]))</span> <span class="n">j</span> <span class="o">=</span><span class="n">ne</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">strcmp</span><span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">str</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]))</span> <span class="n">j</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">ne</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span><span class="n">j</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kt">int</span> <span class="n">height</span> <span class="o">=</span><span class="n">n</span> <span class="o">-</span><span class="n">ne</span><span class="p">[</span><span class="n">n</span><span class="p">];</span>
+    <span class="c1">//cout &lt;&lt; width &lt;&lt;&#34; &#34;&lt;&lt; height&lt;&lt; endl;
+</span><span class="c1"></span>    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">width</span> <span class="o">*</span><span class="n">height</span> <span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+    
+    
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://www.acwing.com/problem/content/147/"> 超市</a></p>
+<p>主要是练习 小根堆和pair 的组合使用。是一个贪心算法，很经典的、时间复杂度是 $nlogn$</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;queue&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">PAIR</span><span class="p">;</span>
+<span class="c1">// 使用pair 这种结构是可以按照第一关键字先排序，然后按照第二关键字排序
+</span><span class="c1">// 按照过期时间排序，维护一个小根堆，每次把利润小的给 pop出去
+</span><span class="c1"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">cin</span> <span class="o">&gt;&gt;</span><span class="n">n</span><span class="p">)</span>
+    <span class="p">{</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">PAIR</span><span class="o">&gt;</span> <span class="n">products</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+    <span class="c1">// 这种写法，真是非常的简洁，使用vector&lt;pair&lt;int, int&gt;&gt; 的格式，list 中嵌套了 pair
+</span><span class="c1"></span>    <span class="c1">// 先是按照过期时间进行排序，如果相同，那么按照金额进行排序,都是从小到大进行排序，因为sort() 默认的按照增序进行排序的
+</span><span class="c1"></span>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">products</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">second</span> <span class="o">&gt;&gt;</span> <span class="n">products</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">first</span><span class="p">;</span>
+    <span class="n">sort</span><span class="p">(</span><span class="n">products</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">products</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+    <span class="c1">// 定义小根堆
+</span><span class="c1"></span>    <span class="c1">// 使用greater&lt;int&gt; ,less&lt;int&gt; ，头文件不写也行的
+</span><span class="c1"></span>    <span class="n">priority_queue</span><span class="o">&lt;</span><span class="kt">int</span> <span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="p">,</span> <span class="n">greater</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">heap</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">p</span><span class="p">:</span> <span class="n">products</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">heap</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">second</span><span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">heap</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">first</span><span class="p">)</span> <span class="n">heap</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">heap</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="p">)</span> <span class="n">res</span> <span class="o">+=</span> <span class="n">heap</span><span class="p">.</span><span class="n">top</span><span class="p">(),</span> <span class="n">heap</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">res</span><span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>第二次写。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;queue&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">PAIR</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">n</span> <span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">cin</span> <span class="o">&gt;&gt;</span><span class="n">n</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="n">PAIR</span><span class="o">&gt;</span> <span class="n">products</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+        <span class="c1">// 下面是index 访问，那么就需要初始化，否则是段错误；或者使用 push_back() 进行访问
+</span><span class="c1"></span>        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">products</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">second</span> <span class="o">&gt;&gt;</span> <span class="n">products</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">first</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">sort</span><span class="p">(</span><span class="n">products</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">products</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+        <span class="n">priority_queue</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">greater</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">heap</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">product</span><span class="p">:</span> <span class="n">products</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="c1">// 先是无脑放，如果发现不满足条件，那么弹出
+</span><span class="c1"></span>            <span class="n">heap</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">product</span><span class="p">.</span><span class="n">second</span><span class="p">);</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">heap</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">product</span><span class="p">.</span><span class="n">first</span><span class="p">)</span> <span class="n">heap</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">heap</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+        <span class="p">{</span>
+            <span class="n">res</span> <span class="o">+=</span><span class="n">heap</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+            <span class="n">heap</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">res</span><span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://leetcode.com/problems/implement-strstr/">Implement strStr()</a></p>
+<p>注意这个不是从 1 开始计数的，这个使用边界条件是需要记录一下的。kmp 算法的应用，如果暴力求解，那么算法复杂度是 $O(mn)$，但使用KMP 算法，时间复杂度是$O(m +n)$，其中$m$, $n$ 分别是两个字符串的长度。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">strStr</span><span class="p">(</span><span class="n">string</span> <span class="n">haystack</span><span class="p">,</span> <span class="n">string</span> <span class="n">needle</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span><span class="n">haystack</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="p">,</span> <span class="n">m</span> <span class="o">=</span><span class="n">needle</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">m</span> <span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">nex</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
+        
+        <span class="n">nex</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=-</span><span class="mi">1</span><span class="p">;</span>
+        
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">=-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">while</span><span class="p">(</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">needle</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">needle</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="p">)</span> <span class="n">j</span> <span class="o">=</span><span class="n">nex</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">needle</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span><span class="n">needle</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="n">j</span> <span class="o">++</span><span class="p">;</span>
+            <span class="n">nex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span><span class="n">j</span><span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">j</span> <span class="o">=-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">while</span><span class="p">(</span> <span class="n">j</span><span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">haystack</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">needle</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="p">)</span> <span class="n">j</span> <span class="o">=</span><span class="n">nex</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">haystack</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span><span class="n">needle</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="n">j</span> <span class="o">++</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span> <span class="n">j</span> <span class="o">==</span><span class="n">m</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">i</span> <span class="o">-</span><span class="n">m</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://leetcode.com/problems/repeated-substring-pattern/">459. Repeated Substring Pattern</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="c1">// 考察kmp 中 i -nex[i] 是循环节的长度。更加具体的是 在这个题目中 n -nex[n] 是最小循环节的长度，
+</span><span class="c1"></span>    <span class="c1">// 这个是可以用来判断是否完美切分
+</span><span class="c1"></span>    <span class="kt">bool</span> <span class="n">repeatedSubstringPattern</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">nex</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+        <span class="n">nex</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="o">=-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">=-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">while</span><span class="p">(</span><span class="n">j</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="n">j</span> <span class="o">=</span><span class="n">nex</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span><span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="n">j</span> <span class="o">++</span><span class="p">;</span>
+            <span class="n">nex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span><span class="n">j</span><span class="p">;</span>
+            
+        <span class="p">}</span>
+        <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span> <span class="o">-</span><span class="n">nex</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+        <span class="k">return</span> <span class="n">t</span> <span class="o">!=</span><span class="n">n</span><span class="o">&amp;&amp;</span> <span class="n">n</span><span class="o">%</span><span class="n">t</span> <span class="o">==</span><span class="mi">0</span><span class="p">;</span> <span class="c1">// 字符串本身不能作为一个循环节
+</span><span class="c1"></span>        
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://leetcode.com/problems/shortest-palindrome/">214. Shortest Palindrome</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="c1">// 考察kmp 的前后缀的理解
+</span><span class="c1"></span>    <span class="n">string</span> <span class="n">shortestPalindrome</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span><span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="c1">// 这种情况专门就是指的是 s ==&#34;&#34; 没有其他的情况了
+</span><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">s</span><span class="p">;</span>
+        <span class="n">string</span> <span class="nf">t</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">rbegin</span><span class="p">(),</span> <span class="n">s</span><span class="p">.</span><span class="n">rend</span><span class="p">());</span>        
+        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">nex</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+        <span class="n">nex</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">=-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">while</span><span class="p">(</span><span class="n">j</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="n">j</span> <span class="o">=</span><span class="n">nex</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span><span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="n">j</span> <span class="o">++</span><span class="p">;</span>
+            <span class="n">nex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span><span class="n">j</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="c1">// 做的kmp 的匹配
+</span><span class="c1"></span>        <span class="kt">int</span> <span class="n">j</span> <span class="o">=-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="c1">// 比较的是 t 的前缀和 s 的后缀的相同的最大的长度
+</span><span class="c1"></span>        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">while</span><span class="p">(</span><span class="n">j</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="n">j</span> <span class="o">=</span><span class="n">nex</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span><span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="n">j</span> <span class="o">++</span><span class="p">;</span>   
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">t</span> <span class="o">+</span><span class="n">s</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">j</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span><span class="n">j</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://leetcode.com/problems/largest-number/">LeetCode 179. Largest Number </a></p>
+<p>这个主要是考虑到排序算法。如果字符串表示的比较大， 那么最后是数字表示也是比较大。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="k">static</span> <span class="kt">bool</span> <span class="nf">cmp</span><span class="p">(</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span> <span class="o">&gt;</span> <span class="n">b</span><span class="o">+</span><span class="n">a</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">string</span> <span class="nf">largestNumber</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">nums</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">string</span> <span class="n">res</span><span class="o">=</span><span class="s">&#34;&#34;</span><span class="p">;</span>
+    <span class="n">sort</span><span class="p">(</span><span class="n">nums</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">nums</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">cmp</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">string</span> <span class="nl">t</span><span class="p">:</span> <span class="n">nums</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">+=</span> <span class="n">t</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">n</span> <span class="p">;</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span><span class="n">n</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">nums</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">string</span> <span class="n">tmp</span><span class="p">;</span>
+        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">tmp</span><span class="p">;</span>
+        <span class="n">nums</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">tmp</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">string</span> <span class="n">res</span> <span class="o">=</span><span class="n">largestNumber</span><span class="p">(</span><span class="n">nums</span><span class="p">);</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">res</span><span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://leetcode.com/problems/valid-anagram/">LeetCode 242. Valid Anagram </a></p>
+<p>这个时间复杂度是$O(n)$，空间复杂度是$O(1)$。空间的优化是有技巧的，因为这里只有26个字母，所以空间大小是固定的，比较nice的东西。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="c1">// 这种应该是最少的时间复杂度了
+</span><span class="c1"></span>    <span class="kt">bool</span> <span class="n">isAnagram</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">,</span> <span class="n">string</span> <span class="n">t</span><span class="p">)</span> <span class="p">{</span>
+        
+        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">hash</span><span class="p">(</span><span class="mi">26</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">char</span> <span class="nl">ch</span><span class="p">:</span> <span class="n">s</span><span class="p">)</span>
+            <span class="n">hash</span><span class="p">[</span><span class="n">c</span><span class="o">-</span> <span class="sc">&#39;a&#39;</span><span class="p">]</span> <span class="o">++</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">char</span> <span class="nl">ch</span><span class="p">:</span> <span class="n">t</span><span class="p">)</span>
+            <span class="n">hash</span><span class="p">[</span><span class="n">c</span> <span class="o">-</span><span class="sc">&#39;a&#39;</span><span class="p">]</span> <span class="o">--</span><span class="p">;</span>
+        
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="mi">26</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">hash</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+        
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+        
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://leetcode.com/problems/add-strings/">415. Add Strings</a></p>
+<p>c++ 中注意不同数据类型，int 和int 之间使用 += , string 和string 之间使用 += 才有意义。</p>
+<p>···c++
+class Solution {
+public:
+string addStrings(string num1, string num2) {
+string res;
+int carry =0;
+int m =num1.size() -1, n =num2.size() -1;
+while ( m &gt;=0 &amp;&amp; n &gt;= 0)
+{
+carry = (num1[m&ndash;] -&lsquo;0&rsquo; ) + (num2[n &ndash;] -&lsquo;0&rsquo;) + carry;
+res += (carry %10 +&lsquo;0&rsquo;);
+carry =carry/ 10;<br>
+}
+while (m &gt;=0)
+{
+carry = (num1[m&ndash;] - &lsquo;0&rsquo;) + carry;
+res += (carry %10 +&lsquo;0&rsquo;);
+carry /= 10;
+}
+while( n &gt;=0)
+{
+carry = (num2[n &ndash;] -&lsquo;0&rsquo;) + carry;
+res += ( carry %10 + &lsquo;0&rsquo;);
+carry /= 10;
+}
+if( carry)
+res += (carry %10 +&lsquo;0&rsquo;);
+reverse(res.begin(), res.end());
+return res;
+}
+};
+···</p>
+<p>python 中 <code>ord</code> 和 <code>chr</code> 函数
+chr()函数用整数作参数，返回一个对应的字符</p>
+<p>ord()函数是chr()函数的配对函数，它以一个字符（长度为1的字符串）作为参数，返回对应的ASCII数值，或者Unicode数值</p>
+<p>python 实现</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">addStrings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">num2</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">num1</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">num2</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">ans</span> <span class="o">=</span><span class="s2">&#34;&#34;</span>
+        <span class="n">carry</span> <span class="o">=</span><span class="mi">0</span>
+        
+        <span class="k">while</span> <span class="n">i</span> <span class="o">&gt;=</span><span class="mi">0</span> <span class="ow">or</span> <span class="n">j</span> <span class="o">&gt;=</span><span class="mi">0</span> <span class="ow">or</span> <span class="n">carry</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">num1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">-</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">num2</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">-</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+            <span class="n">n</span> <span class="o">=</span><span class="n">a</span>  <span class="o">+</span><span class="n">b</span> <span class="o">+</span> <span class="n">carry</span>
+            <span class="n">ans</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span> <span class="n">n</span><span class="o">%</span><span class="mi">10</span> <span class="o">+</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">))</span> <span class="o">+</span> <span class="n">ans</span> <span class="c1">#  注意顺序,  + ord(&#39;0&#39;) 处理bad case： 都为0</span>
+            <span class="n">carry</span> <span class="o">=</span> <span class="n">carry</span> <span class="o">//</span><span class="mi">10</span>
+            <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">return</span> <span class="n">ans</span>
+            
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-05-24
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/sentence_embedding/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Sentence Embedding</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/word_embedding_understanding/">
+            <span class="next-text nav-default">Word_embedding_understanding</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Logistic Regression 概念 - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="本文主要介绍逻辑回归（logistics regression）和决策树（Decision Tree）。逻辑回归从线性回归出发到逻辑回归，然后手推公式和相关的一些特点；介绍一下决策树的特点。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/logistic_regression/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Logistic Regression 概念" />
+<meta property="og:description" content="本文主要介绍逻辑回归（logistics regression）和决策树（Decision Tree）。逻辑回归从线性回归出发到逻辑回归，然后手推公式和相关的一些特点；介绍一下决策树的特点。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/logistic_regression/" />
+<meta property="article:published_time" content="2019-06-09T14:59:59+08:00" />
+<meta property="article:modified_time" content="2019-06-09T14:59:59+08:00" />
+<meta itemprop="name" content="Logistic Regression 概念">
+<meta itemprop="description" content="本文主要介绍逻辑回归（logistics regression）和决策树（Decision Tree）。逻辑回归从线性回归出发到逻辑回归，然后手推公式和相关的一些特点；介绍一下决策树的特点。">
+<meta itemprop="datePublished" content="2019-06-09T14:59:59+08:00" />
+<meta itemprop="dateModified" content="2019-06-09T14:59:59+08:00" />
+<meta itemprop="wordCount" content="4287">
+
+
+
+<meta itemprop="keywords" content="lr," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Logistic Regression 概念"/>
+<meta name="twitter:description" content="本文主要介绍逻辑回归（logistics regression）和决策树（Decision Tree）。逻辑回归从线性回归出发到逻辑回归，然后手推公式和相关的一些特点；介绍一下决策树的特点。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Logistic Regression 概念</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-06-09 </span>
+        <div class="post-category">
+            <a href="/categories/machine-learning/"> machine learning </a>
+            </div>
+          <span class="more-meta"> 约 4287 字 </span>
+          <span class="more-meta"> 预计阅读 9 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#逻辑回归">逻辑回归</a>
+          <ul>
+            <li><a href="#公式推导">公式推导</a></li>
+            <li><a href="#为什么使用-logistics-function">为什么使用 logistics function</a></li>
+            <li><a href="#逻辑回归的特点">逻辑回归的特点</a></li>
+          </ul>
+        </li>
+        <li><a href="#decision-tree">Decision tree</a></li>
+        <li><a href="#lr-vs-svm">LR vs. SVM</a></li>
+        <li><a href="#总结分类模型区别">总结分类模型区别</a></li>
+        <li><a href="#lr-和朴素贝叶斯的区别">LR 和朴素贝叶斯的区别</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>本文主要介绍逻辑回归（logistics regression）和决策树（Decision Tree）。逻辑回归从线性回归出发到逻辑回归，然后手推公式和相关的一些特点；介绍一下决策树的特点。</p>
+<h2 id="逻辑回归">逻辑回归</h2>
+<p>逻辑回归是线性模型，虽然叫做”回归“，究其原因 逻辑回归从线性回归引申而来，对回归的结果进行 logistic 函数运算，将范围限制在[0,1]区间，并更改损失函数为二值交叉熵损失，使其可用于2分类问题(通过得到的概率值与阈值比较进行分类)。
+逻辑回归是广义上的线性模型，然后最后的sigmoid 加入了非线性。是处理线性问题的。</p>
+<h3 id="公式推导">公式推导</h3>
+<p>从线性回归问题到逻辑回归过程的推导。</p>
+<p><strong>线性二分模型：</strong></p>
+<p>$$
+f ( x ) = \theta ^ { T } x
+$$</p>
+<p>逻辑回归决策函数是将此线性二分类嵌套一个sigmoid函数：</p>
+<p>$$
+f ( x ) = \frac { 1 } { 1 + e ^ { - \theta ^ { T } x } }
+$$</p>
+<p>** 损失函数：**
+如果用平方误差（MSE）作为逻辑回归的损失函数,那么函数曲线将是跳跃式的,非凸的(non-convex),原因是logistic函数将数据范围限制在[0,1]区间,而真实标签值非0即1.最小化 MSE 损失容易陷入局部极小点.逻辑回归损失是如下的分情况的凸函数(单个x与y的损失)。</p>
+<p>$$
+P ( y = 1 | x ; \theta ) = h _ { \theta } ( x )
+$$</p>
+<p>$$
+P ( y = 0 | x ; \theta ) = 1 - h _ { \theta } ( x )
+$$</p>
+<p>最初是上述的分段函数，合并成下面的函数，方便计算。
+$$
+p ( y | x ; \theta ) = \left( h _ { \theta } ( x ) \right) ^ { y } \left( 1 - h _ { \theta } ( x ) \right) ^ { 1 - y }
+$$
+使用最大似然的思想求解。假设我们有n个独立的训练样本{(x1, y1) ,(x2, y2),…, (xn, yn)}，y={0, 1}。那每一个观察到的样本(xi, yi)出现的概率是：
+<img src="http://ws1.sinaimg.cn/large/e9a223b5ly1g449t85fofj20rs075a9y.jpg" alt=""></p>
+<p>上述似然函数乘法太难算了，然后使用log 将其改为加法，变成了对数似然函数。
+$$
+J( \theta ) = \log ( L ( \theta ) ) = \sum _ { i = 1 } ^ { m } y ^ { ( i ) } \log \left( h \left( x ^ { ( i ) } \right) \right) + \left( 1 - y ^ { ( i ) } \right) \log \left( 1 - h \left( x ^ { ( i ) } \right) \right)
+$$</p>
+<p><strong>求导优化问题</strong>
+sigmoid 函数的特殊性质：
+$$
+\sigma ^ { \prime } ( x ) = \sigma ( x ) ( 1 - \sigma ( x ) )
+$$</p>
+<p>分成三部分求导：
+<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g468268n4gj20jm04k0sn.jpg" alt=""></p>
+<p>用L(θ)对θ求导，得到：
+$$
+\begin{split}
+\frac { d } { d \theta _ { i } } \operatorname { loss } ( \theta ) &amp;= \left( y \frac { 1 } { \sigma \left( \theta ^ { T } x \right) } - ( 1 - y ) \frac { 1 } { 1 - \sigma \left( \theta ^ { T } x \right) } \right) \frac { d } { d \theta _ { i } } \sigma \left( \theta ^ { T } x \right) \\<br>
+&amp;= \left( y \frac { 1 } { \sigma \left( \theta ^ { T } x \right) } - ( 1 - y ) \frac { 1 } { 1 - \sigma \left( \theta ^ { T } x \right) } \right) \sigma \left( \theta ^ { T } x \right) \left( 1 - \sigma \left( \theta ^ { T } x \right) \right) \frac { d } { d \theta _ { i } } \theta ^ { T } x \\<br>
+&amp;= \left( y \left( 1 - \sigma \left( \theta ^ { T } x \right) \right) - ( 1 - y ) \sigma \left( \theta ^ { T } x \right) \right) x _ { i } \\<br>
+&amp;= \left( y - h _ { \theta } ( x ) \right) x _ { i }
+\end{split}
+$$</p>
+<p>注意一会儿有 $\sum$ 一会儿没有的，其实我们更倾向于不用，采用矩阵相乘的方式更加简洁。只是在表达似然函数，使用$ \sum$更加直观
+$$
+\theta _ { i } : = \theta _ { j } + \alpha \left( y ^ { ( i ) } - h _ { \theta } \left( x ^ { ( i ) } \right) \right) x _ { j } ^ { ( i ) }
+$$</p>
+<h3 id="为什么使用-logistics-function">为什么使用 logistics function</h3>
+<p>一种解释是可以。</p>
+<ul>
+<li>sigmoid 函数连续，单调递增</li>
+<li>对 sigmoid 函数求导非常的方便</li>
+<li>可以将负无穷到正无穷的数值映射到 [0, 1] 这样的区间</li>
+</ul>
+<p>另外一种维度是从伯努利分布的角度去解释。</p>
+<p>$$
+f(x ; p)=p^{x}(1-p)^{1-x} \quad x=0,1
+$$
+其中 $p$ 是成功的概率。如果进行一次投掷，那么均值是 $p$ 方差是 $p (1-p)$。 然后再看二分类任务，样本的标签$y$ 服从二项分布。</p>
+<p>$$
+p ( y | x ; \theta ) = \left( h _ { \theta } ( x ) \right) ^ { y } \left( 1 - h _ { \theta } ( x ) \right) ^ { 1 - y }
+$$
+详细的推导可以看这里：</p>
+<p>[img]https://ftp.bmp.ovh/imgs/2019/09/39e481f9fd958d4b.png[/img]</p>
+<h3 id="逻辑回归的特点">逻辑回归的特点</h3>
+<p>** 优点：**
+LR 能以概率的形式输出结果,而非只是 0,1 判定， 可以做 ranking model；
+LR 的可解释性强,可控度高；
+训练快</p>
+<p>** 缺点：**
+容易欠拟合，一般准确度不太高
+只能处理两分类问题. (可以应用多个逻辑回归实现多分类,类似SVM的方式; 另外对于父子类别同时分类的情况,使用逻辑回归要比Softmax等方式效果好)</p>
+<p>“海量离散特征+简单模型” 同“少量连续特征+复杂模型”的权衡。既可以离散化用线性模型，也可以用连续特征加深度学习</p>
+<p>** 为什么对特征进行离散化**</p>
+<p>特征从连续变量状态到离散化的初衷在于我们认为不同的区间对于最后的结果的重要性是不同的。同样在工业界，很少直接将连续值作为逻辑回归模型的特征输入，而是将连续特征离散化为一系列0、1特征(one-hot编码)交给逻辑回归模型，这样做的优势有以下几点</p>
+<ul>
+<li>离散特征的增加和减少都很容易，易于模型的快速迭代；</li>
+<li>稀疏向量内积乘法运算速度快，计算结果方便存储，容易扩展；</li>
+<li>离散化后的特征对异常数据有很强的鲁棒性：比如一个特征是年龄&gt;30是1，否则0。如果特征没有离散化，一个异常数据“年龄300岁”会给模型造成很大的干扰；</li>
+<li>单变量离散化为N个后，每个变量有单独的权重，相当于为模型引入了非线性，能够提升模型表达能力，加大拟合</li>
+<li>离散化后可以进行特征交叉</li>
+</ul>
+<p>究其原因，使用 LR+离散模型在于可控可解释。而GBDT 直接使用连续的变量，一方面的原因在于如果特征过多，那么GBDT 是跑不动的。</p>
+<p>** 为什么LR模型的损失函数是交叉熵,而线性回归模型的损失函数却是最小二乘呢？能否随意确定一个损失函数作为目标呢？**</p>
+<p>模型的损失函数由各自的响应变量y的概率分布决定，对于线性回归模型，其输出是连续值，所以我们对于该问题假设y服从正态分布；相对的，LR模型一般用来解决二分类问题，所以其输出是0/1，故而我们假设其输出服从伯努利分布；而进一步地，两者的损失函数都是通过极大似然估计推导的来的，所以模型的损失函数并非随意确定。
+分类模型与回归模型之间有种种联系,比如 SVM 模型可以看作逻辑回归加L2正则项, 并使用了不同的损失函数.</p>
+<p>为什么不使用回归模型来做分类?
+这是一种不好的做法, 因为阈值不好确定, 随着数据集的变动, 阈值也需要有较大变化.</p>
+<p><strong>正则项</strong></p>
+<ul>
+<li>L2 解决过拟合</li>
+<li>L1 解决数据稀疏性</li>
+</ul>
+<p>** L1和L2正则先验分别服从什么分布**
+从信息论的角度看，向系统加入了正确先验这个信息，肯定会提高系统的性能。两者的差别感性的理解？L1是拉普拉斯分布，L2是高斯分布。
+拉普拉斯分布：
+$$
+f ( x | \mu , b ) = \frac { 1 } { 2 b } e ^ { - \frac { | x - \mu | } { b } }
+$$
+高斯分布：
+$$
+f \left( x | \mu , \sigma ^ { 2 } \right) = \frac { 1 } { \sqrt { 2 \pi \sigma ^ { 2 } } } e ^ { - \frac { ( x - \mu ) ^ { 2 } } { 2 \sigma ^ { 2 } } }
+$$</p>
+<h2 id="decision-tree">Decision tree</h2>
+<p>主要介绍一下 决策树的特点。</p>
+<p>从这次学习中明显的感受到这个 decision tree 是非常容易过拟合的。</p>
+<blockquote>
+<p>We can make our tree more complex by increasing its size , which will result in more and more partitions trying to emulate the circular boundary.</p>
+</blockquote>
+<p>优点在于：可以handle 非线性的变化。decision tree 给人的感觉就是线性或者离散的(category)的都是可以使用，因为decision tree 得到就是一个离散的结果，最大的缺点就是容易过拟合。</p>
+<blockquote>
+<p>This brings us to the biggest problem associated with Decision Trees, that is, they are highly biased class of models. You can make a decision tree model on your training set which might outperform all other algorithms but it’ll prove to be a poor predictor on your test set. You’ll have to rely heavily on pruning and cross validation to get a non-over-fitting model with Decision Trees.</p>
+</blockquote>
+<p>过拟合是可以通过剪枝或者 cross validation 进行缓解 overfit的效果的或者使用 random forest随机性进行”中和“。</p>
+<blockquote>
+<p>This problem of over-fitting is overcome to large extent by using Random Forests, which are nothing but a very clever extension of decision trees. But random forest take away easy to explain business rules because now you have thousands of such trees and their majority votes to make things complex. Also by decision trees have forced interactions between variables , which makes them rather inefficient if most of your variables have no or very weak interactions.</p>
+</blockquote>
+<h2 id="lr-vs-svm">LR vs. SVM</h2>
+<p>单独<a href="https://jijeng.github.io/2019/06/08/svm-all-you-need/">讲解SVM</a>。这里主要是比较两种的异同。</p>
+<p><strong>相同点</strong></p>
+<ol>
+<li>LR和SVM都是分类算法。（svm 可以作为回归模型）</li>
+<li>LR和SVM都是监督学习算法。监督是体现在有标签。</li>
+<li>两者都属于判别模型。（相对于bayes 模型）</li>
+</ol>
+<p>判别模型会生成一个表示$P(Y|X) $的判别函数（或预测模型），而生成模型先计算联合概率$P(Y,X) $然后通过贝叶斯公式转化为条件概率。常见的判别模型有：：KNN、SVM、LR。常见的生成模型有：朴素贝叶斯，隐马尔可夫模型。</p>
+<p><strong>不同点</strong></p>
+<p>从数据和模型的角度分析。</p>
+<ol>
+<li>数据</li>
+</ol>
+<p>SVM 中边界附近的点会起到决策的作用，在线上的点叫做支持向量。而LR 是全局信息，全部的数据集都会参与到决策， 如果数据是严重的 unbalanced, 那么需要是对数据进行 balance 操作，因为模型是依赖于数据概率分布。</p>
+<ol start="2">
+<li>loss function 的不同</li>
+</ol>
+<p>LR 的损失函数</p>
+<p>$$
+J( \theta ) = \log ( L ( \theta ) ) = \sum _ { i = 1 } ^ { m } y ^ { ( i ) } \log \left( h \left( x ^ { ( i ) } \right) \right) + \left( 1 - y ^ { ( i ) } \right) \log \left( 1 - h \left( x ^ { ( i ) } \right) \right)
+$$</p>
+<p>SVM的损失函数(在线性的可分的条件下)</p>
+<p>$$
+L ( w , b , \alpha ) = \frac { 1 } { 2 } | w | ^ { 2 } + \sum _ { i } \alpha _ { i } [ 1 - y _ { i } ( w ^ { T } x _ { i } + b ) ]
+$$
+(本质上使用拉格朗日进行最小化的求解)</p>
+<ol start="3">
+<li>数据预处理</li>
+</ol>
+<p>简单来说，​逻辑回归方法基于概率理论，一个样本通过sigmoid 函数进行概率表示，然后使用极大似然的方式估计出参数的值。支持向量是基于几何间隔最大化原理，存在几何间隔最大的超平面，基于几何距离的测量函数，一般需要对数据做normalization，而LR 则不受这个因素影响。</p>
+<ol start="4">
+<li>增量训练</li>
+</ol>
+<p>当训练好一个 SVM 和LR，然后来了一批新的数据，对于SVM 的决策平面变化比较小，而对于LR 就是要重新进行训练。</p>
+<ol start="5">
+<li>正则项</li>
+</ol>
+<p>SVM 的损失函数中自带正则 ($ \frac { 1 } { 2 } | w | ^ { 2 }$, 这就类似L2 正则项)，这就是为什么SVM是结构风险最小化算法的原因。（所谓结构风险最小化，意思就是在训练误差和模型复杂度之间寻求平衡，防止过拟合）。而LR 想要得到更好的泛化性能，需要手动加上正则项。</p>
+<p><strong>选择标准</strong>（吴恩达课程）</p>
+<p>n是数据中特征的数量 m是样本数</p>
+<p>1、如果n相对于m来说很大，则使用LR算法或者不带核函数的SVM（线性分类）
+n远大于m，n=10000，m=10-1000
+2、如果n很小，m的数量适中（n=1-1000，m=10-10000）
+使用带有核函数的SVM算法
+3、如果n很小，m很大（n=1-1000，m=50000+）
+增加更多的feature然后使用LR算法或者不带核函数的SVM
+LR和不带核函数的SVM比较类似。</p>
+<p>简单说，如果特征相对于数据量来说很大，那么使用 LR或者线性SVM 算法；如果相反，那么使用带有核函数的SVM。</p>
+<h2 id="总结分类模型区别">总结分类模型区别</h2>
+<p>LR  vs. SVM  vs. Bayes</p>
+<p><strong>数据</strong></p>
+<p>LR 数据处理是 balanced（依赖于概率分布）；SVM 一般是要normalization（空间距离函数）</p>
+<p><strong>loss function</strong></p>
+<p>LR 是log loss，使用最大似然估计求解 \theta ； SVM 是拉格朗日定量求解。</p>
+<p><strong>正则项</strong></p>
+<p>LR 需要手动加上；SVM自带，SVM是结构风险最小化算法的</p>
+<p><strong>增量学习</strong>
+LR 收到新来的数据的影响， SVM 不受（基本上只是依赖 支持向量 的点），bayes 支持增量学习。</p>
+<p><strong>实战</strong>
+LR 和不带核函数的SVM 比较类似。（基本上可以互用）</p>
+<p>m 是样本数（数据量），n 是特征数
+特征数n 远大于数据量 m，选择LR 模型 （n =1w，m&lt; 1000）
+特征n 小，m 适中 （n &lt; 1000, m ~1w）使用带有核函数的SVM 算法
+特征n 很小，m 很大 （m &gt; 5w） 增加特征</p>
+<h2 id="lr-和朴素贝叶斯的区别">LR 和朴素贝叶斯的区别</h2>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-06-09
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/lr/">lr</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/bert/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">关于BERT改进的几篇论文</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/svm/">
+            <span class="next-text nav-default">SVM All You Need to Know</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

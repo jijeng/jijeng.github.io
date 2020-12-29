@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>linear algebra on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/linear-algebra/</link>
+    <description>Recent content in linear algebra on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 25 Mar 2019 14:44:42 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/linear-algebra/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linear Algebra</title>
+      <link>http://jijeng.github.io/post/linear_algebra/</link>
+      <pubDate>Mon, 25 Mar 2019 14:44:42 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/linear_algebra/</guid>
+      <description>&lt;p&gt;线性代数、统计学中有很多概念作为机器学习中的基础，比如说矩阵运算、相关系数等。ML 中的一个难点就是由原来概率中的线性变换直接过渡到了矩阵和网络，这其中的过程却没有人铺垫。于是，本文持续更新和 ML 相关的线性代数、统计学知识和相关的实现。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

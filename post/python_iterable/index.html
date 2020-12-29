@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Python Iterable - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="在python 中经常遇到以下的概念：容器（container）、可迭代（iterable）、迭代器（iterator）和生成器（generator）。上述概念经常混淆，整理一下，总结为图：
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/python_iterable/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Python Iterable" />
+<meta property="og:description" content="在python 中经常遇到以下的概念：容器（container）、可迭代（iterable）、迭代器（iterator）和生成器（generator）。上述概念经常混淆，整理一下，总结为图：
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/python_iterable/" />
+<meta property="article:published_time" content="2020-01-28T14:35:28+08:00" />
+<meta property="article:modified_time" content="2020-01-28T14:35:28+08:00" />
+<meta itemprop="name" content="Python Iterable">
+<meta itemprop="description" content="在python 中经常遇到以下的概念：容器（container）、可迭代（iterable）、迭代器（iterator）和生成器（generator）。上述概念经常混淆，整理一下，总结为图：
+">
+<meta itemprop="datePublished" content="2020-01-28T14:35:28+08:00" />
+<meta itemprop="dateModified" content="2020-01-28T14:35:28+08:00" />
+<meta itemprop="wordCount" content="1945">
+
+
+
+<meta itemprop="keywords" content="generator,python," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Python Iterable"/>
+<meta name="twitter:description" content="在python 中经常遇到以下的概念：容器（container）、可迭代（iterable）、迭代器（iterator）和生成器（generator）。上述概念经常混淆，整理一下，总结为图：
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Python Iterable</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-01-28 </span>
+        
+          <span class="more-meta"> 约 1945 字 </span>
+          <span class="more-meta"> 预计阅读 4 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>在python 中经常遇到以下的概念：容器（container）、可迭代（iterable）、迭代器（iterator）和生成器（generator）。上述概念经常混淆，整理一下，总结为图：</p>
+<p><img src="https://i.loli.net/2019/12/01/MAXQtk9CcGDEUmR.png" alt="1.png"></p>
+<ol>
+<li>容器（container）</li>
+</ol>
+<p>容器（container）从字面的意思上很好理解，包含一定数量元素的物体。比如说 <code>list</code>, <code>set</code>, <code>tuple</code>, <code>dictioinary</code> , <code>string</code>等。容器的特点在于数量有限，大多数是可迭代，布隆过滤器（<a href="https://gg2.chn.moe/extdomains/en.wikipedia.org/wiki/Bloom_filter">Bloom filter</a>）一般是不可迭代的，因为太大了。</p>
+<ol start="2">
+<li>可迭代（iterable）</li>
+</ol>
+<p>容器大多数是可迭代，但是可迭代的不一定是容器，不一定是某个数据结构，比如按行读取文件，打开一个sockets等操作。容器数据量一般是有限的，但是sockets操作可能是无限的数据量。所以任何物体都有可能满足可迭代性质。</p>
+<p>在python 语言，可迭代类需要实现<code>___iter__()</code> 和 <code>__next__()</code> 两个方法。下面的例子使用 Fibonacci数建立一个迭代器。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">fib</span><span class="p">:</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">prev</span> <span class="o">=</span><span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">cur</span> <span class="o">=</span><span class="mi">1</span>
+	<span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span>
+	<span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">val</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cur</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">cur</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prev</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">prev</span> <span class="o">=</span><span class="n">val</span>
+		<span class="k">return</span> <span class="n">val</span>
+<span class="n">f</span> <span class="o">=</span><span class="n">fib</span><span class="p">()</span>
+<span class="nb">list</span><span class="p">(</span><span class="n">islice</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span> <span class="p">))</span> <span class="c1">#[1, 1, 2, 3, 5, 8, 13, 21, 34, 55]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>islice 是itertools中切片选择的函数，其中，iterable 是可迭代对象，start 是开始索引，stop 是结束索引，step 是步长，start 和 step 可选。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">islice(iterable, [start,] stop [, step])
+</code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>迭代器（iterators）</li>
+</ol>
+<p>任何具有<code>__next__()</code> 方法的物体都是迭代器，使用 <code>next()</code>方法或者 <code>for</code>循环可以获取下一个元素。python中的模块 <code>itertools</code> 可以用于构建高效的迭代器。迭代的特点是惰性求值（lazy evaluation），即只要当迭代到该值的时候，才会被计算，非常适合于大文件或者无限集合的遍历，不用一次性存储在内存中。该模块中的迭代器类型分为以下三种：</p>
+<ul>
+<li>无限迭代器</li>
+<li>有限迭代器</li>
+<li>组合迭代器</li>
+</ul>
+<p>(1) 无限迭代器</p>
+<ul>
+<li>count(firstval=0, step=1)
+创建一个从 firstval (默认值为 0) 开始，以 step (默认值为 1) 为步长的的无限整数迭代器</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">count</span>
+<span class="n">counter</span> <span class="o">=</span><span class="n">count</span><span class="p">(</span><span class="n">start</span> <span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="nb">next</span><span class="p">(</span><span class="n">counter</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>cycle(iterable)
+对 iterable 中的元素反复执行循环，返回迭代器</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">cycle</span>
+<span class="n">colors</span> <span class="o">=</span><span class="n">cycle</span><span class="p">([</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">])</span>
+<span class="nb">next</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span> <span class="c1"># red</span>
+<span class="nb">next</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+<span class="nb">next</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+<span class="nb">next</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span> <span class="c1"># red</span>
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>repeat(object [,times]
+反复生成 object，如果给定 times，则重复次数为 times，否则为无限</li>
+</ul>
+<p>(2) 有限迭代器</p>
+<ul>
+<li>chain()</li>
+<li>dropwhile()</li>
+<li>groupby()</li>
+</ul>
+<p>chain的使用 (字面意思，将两个相同或者不同的可迭代object 连接起来)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">from itertools import chain
+for item in chain([1, 2, 3], [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]):
+	print item
+</code></pre></td></tr></table>
+</div>
+</div><p>dropwhile的使用</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">dropwhile(predicate, iterable)
+</code></pre></td></tr></table>
+</div>
+</div><p>其中，predicate 是函数，iterable 是可迭代对象。对于 iterable 中的元素，如果 predicate(item) 为 true，则丢弃该元素，否则返回该项及所有后续项。（这种逻辑还是比较有意思的，只是进行一次的筛选）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">dropwhile</span>
+<span class="nb">list</span><span class="p">(</span><span class="n">dropwhile</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span> <span class="c1">#[6, 2, 1]</span>
+<span class="nb">list</span><span class="p">(</span><span class="n">dropwhile</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">]))</span> <span class="c1">#[2, 1, 6, 5, 4]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>(3) 组合生成器
+itertools 模块还提供了多个组合生成器函数，用于求序列的排列、组合等：</p>
+<ul>
+<li>product</li>
+<li>permutations</li>
+<li>combinations</li>
+<li>combinations_with_replacement</li>
+</ul>
+<p><code>product </code>用于求多个可迭代对象的笛卡尔积，和嵌套的for 循环是等价的</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">from itertools import product
+for item in product(&#39;ABCD&#39;, &#39;xy&#39;):
+	 print item
+</code></pre></td></tr></table>
+</div>
+</div><p>permutations用于生成一个排列</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">permutations(iterable[, r])
+</code></pre></td></tr></table>
+</div>
+</div><p>其中，r 指定生成排列的元素的长度，如果不指定，则默认为可迭代对象的元素长度。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">permutations</span>
+<span class="n">permutations</span><span class="p">(</span><span class="s1">&#39;ABC&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>combinations用于求序列的组合，它的使用形式如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
+<span class="nb">list</span><span class="p">(</span><span class="n">combinations</span><span class="p">(</span><span class="s1">&#39;ABC&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>迭代器函数的返回值是迭代器，而不是list。</p>
+<p>并且上述容器可以转换成迭代器。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">x</span> <span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">z</span> <span class="o">=</span><span class="nb">iter</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">next</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+<span class="nb">next</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="https://upload.cc/i1/2019/12/01/kC2Zc8.png" alt=""></p>
+<ol start="4">
+<li>生成器（generator）</li>
+</ol>
+<p>生成器必然是一种迭代器。写法更加简洁，不用实现<code>__iter__()</code> 和<code>__next__()</code> 方法，需要关键字 <code>yield</code>就ok。还是使用 Fibonacci数作为例子。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">fib</span><span class="p">():</span>
+	<span class="n">pre</span><span class="p">,</span> <span class="n">cur</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span>
+	<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+		<span class="k">yield</span> <span class="n">cur</span>
+		<span class="n">pre</span><span class="p">,</span> <span class="n">cur</span> <span class="o">=</span><span class="n">cur</span><span class="p">,</span>  <span class="n">pre</span><span class="o">+</span> <span class="n">cur</span>
+<span class="n">f</span> <span class="o">=</span><span class="n">fib</span><span class="p">()</span>
+<span class="nb">list</span><span class="p">(</span><span class="n">islice</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>有木有代码量骤减的感觉。</p>
+<p>在python 中有两种类型的生成器：生成器函数和生成器表达。包含关键字<code>yield</code> 就是生成器函数（如上例子），生成器表达更加简洁，相当于<code>list comprehension</code>。比如</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">numbers</span> <span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="c1"># list comprehension</span>
+<span class="p">[</span><span class="n">x</span><span class="o">*</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">]</span>
+<span class="c1"># set comprehension</span>
+<span class="p">{</span><span class="n">x</span><span class="o">*</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">}</span>
+<span class="c1"># or dict comprehension</span>
+<span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">*</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">}</span>
+<span class="c1"># not a tuple comprehension, 这个是一个 生成器表达</span>
+<span class="n">lazy</span><span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">)</span> <span class="c1"># a generator</span>
+<span class="nb">next</span><span class="p">(</span><span class="n">lazy</span><span class="p">)</span>
+<span class="n">lsit</span><span class="p">(</span><span class="n">lazy</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在处理训练数据集的时候，从</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">something</span><span class="p">():</span>
+	<span class="n">res</span> <span class="o">=</span><span class="p">[]</span>
+	<span class="k">for</span> <span class="o">...</span> <span class="ow">in</span> <span class="o">..</span><span class="p">:</span>
+		<span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">res</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>转换成</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">iter_something</span><span class="p">():</span>
+	<span class="k">for</span> <span class="o">...</span> <span class="ow">in</span> <span class="o">...</span><span class="p">:</span>
+		<span class="k">yield</span> <span class="n">x</span> <span class="c1"># yield 并没有结束，等待下一个 next() </span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">numbers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="c1"># range()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">numbers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+<span class="c1"># (2) Using a generator</span>
+<span class="k">def</span> <span class="nf">generate_numbers</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">num</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">num</span>
+        <span class="c1"># 这个yield 之后，函数并没有结束，不像 return 那种函数</span>
+        <span class="n">num</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">generate_numbers</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+<span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1000</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># generator 的第一种实现 ()</span>
+<span class="n">g</span> <span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
+
+<span class="c1"># 实现一个 image loader</span>
+<span class="c1"># generator的第二种实现 yield 关键字实现，</span>
+
+<span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="n">file1</span><span class="p">):</span>
+    <span class="n">f</span> <span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">file1</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span><span class="p">[]</span>
+    <span class="n">y</span> <span class="o">=</span><span class="p">[]</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">line</span> <span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="p">:</span> <span class="k">break</span>
+        <span class="n">line</span> <span class="o">=</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">x</span> <span class="o">=</span><span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span><span class="n">line</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span><span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span>
+
+<span class="k">def</span> <span class="nf">train_data</span><span class="p">(</span><span class="n">file1</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+    <span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span> <span class="o">=</span><span class="n">read_data</span><span class="p">(</span><span class="n">file1</span><span class="p">)</span>
+    <span class="n">num_batch</span> <span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">datas</span><span class="p">)</span> <span class="o">//</span><span class="n">batch_size</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_batch</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">train_x</span><span class="p">[</span><span class="n">batch_size</span><span class="o">*</span><span class="n">i</span><span class="p">:</span> <span class="n">batch_size</span><span class="o">*</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+        <span class="n">y</span> <span class="o">=</span><span class="n">train_y</span><span class="p">[</span><span class="n">batch_size</span><span class="o">*</span><span class="n">i</span><span class="p">:</span> <span class="n">batch_size</span><span class="o">*</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+        <span class="k">yield</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+<span class="nb">next</span><span class="p">(</span><span class="n">train_data</span><span class="p">(</span><span class="n">file1</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在 python 中判断一个 object 是否是 iterable</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># 比较正式的写法</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">):</span>
+
+<span class="c1"># 非正式的写法</span>
+
+<span class="k">try</span><span class="p">:</span> 
+    <span class="n">_</span> <span class="p">(</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">my_object</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">my_object</span><span class="p">,</span> <span class="s1">&#39;is not iterable&#39;</span><span class="p">)</span>
+
+
+
+</code></pre></td></tr></table>
+</div>
+</div><p>参考文献</p>
+<p><a href="https://nvie.com/posts/iterators-vs-generators/">Iterables vs. Iterators vs. Generators</a>
+<a href="">Bloom filter - Wikipedia</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-01-28
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/generator/">generator</a>
+          <a href="/tags/python/">python</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/pix2pixhd/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Pix2pixhd</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/pygen/">
+            <span class="next-text nav-default">Pygen</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

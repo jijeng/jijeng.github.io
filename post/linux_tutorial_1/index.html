@@ -1,0 +1,2973 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Linux Tutorial (1) - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="介绍linux 中常见的命令 和github 中常用的命令
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/linux_tutorial_1/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Linux Tutorial (1)" />
+<meta property="og:description" content="介绍linux 中常见的命令 和github 中常用的命令" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/linux_tutorial_1/" />
+<meta property="article:published_time" content="2019-02-18T10:06:48+08:00" />
+<meta property="article:modified_time" content="2019-02-18T10:06:48+08:00" />
+<meta itemprop="name" content="Linux Tutorial (1)">
+<meta itemprop="description" content="介绍linux 中常见的命令 和github 中常用的命令">
+<meta itemprop="datePublished" content="2019-02-18T10:06:48+08:00" />
+<meta itemprop="dateModified" content="2019-02-18T10:06:48+08:00" />
+<meta itemprop="wordCount" content="21404">
+
+
+
+<meta itemprop="keywords" content="linux,github," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Linux Tutorial (1)"/>
+<meta name="twitter:description" content="介绍linux 中常见的命令 和github 中常用的命令"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Linux Tutorial (1)</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-02-18 </span>
+        <div class="post-category">
+            <a href="/categories/tutorial/"> tutorial </a>
+            </div>
+          <span class="more-meta"> 约 21404 字 </span>
+          <span class="more-meta"> 预计阅读 43 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#linux-常见命令">Linux 常见命令</a>
+          <ul>
+            <li><a href="#awk-取列数据">awk 取列数据</a></li>
+            <li><a href="#grep-命令">grep 命令</a></li>
+            <li><a href="#sed-行编辑器">sed 行编辑器</a></li>
+            <li><a href="#关于上述三个命令的练习">关于上述三个命令的练习</a></li>
+            <li><a href="#管道">管道</a></li>
+            <li><a href="#其他小命令">其他小命令</a></li>
+            <li><a href="#查看端口">查看端口</a></li>
+            <li><a href="#进程相关">进程相关</a></li>
+            <li><a href="#xargs">xargs</a></li>
+            <li><a href="#linux-中脚本执行的四种方式">Linux 中脚本执行的四种方式</a></li>
+            <li><a href="#解压缩命令">解压缩命令</a></li>
+            <li><a href="#云端主机之间传输文件">云端主机之间传输文件</a></li>
+            <li><a href="#前台执行和后台执行命令">前台执行和后台执行命令</a></li>
+            <li><a href="#apt-和apt-get-的区别">apt 和apt-get 的区别</a></li>
+            <li><a href="#未归类">未归类</a></li>
+            <li><a href="#bash相关快捷键">bash相关快捷键</a></li>
+            <li><a href="#定位命令位置和相关信息的命令">定位命令位置和相关信息的命令</a></li>
+          </ul>
+        </li>
+        <li><a href="#linux磁盘和内存">linux磁盘和内存</a></li>
+        <li><a href="#linux中文件夹">linux中文件夹</a></li>
+        <li><a href="#linux-版本问题">linux 版本问题</a>
+          <ul>
+            <li><a href="#linux-日志">linux 日志</a></li>
+          </ul>
+        </li>
+        <li><a href="#其他">其他</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>介绍linux 中常见的命令 和github 中常用的命令</p>
+<h2 id="linux-常见命令">Linux 常见命令</h2>
+<p>awk、grep、sed是linux操作文本的三大利器，也是必须掌握的linux命令之一。三者的功能都是处理文本，但侧重点各不相同，其中属awk功能最强大，但也最复杂，awk更适合格式化文本，对文本进行较复杂格式处理。grep更适合单纯的查找或匹配文本，sed更适合编辑匹配到的文本。</p>
+<h3 id="awk-取列数据">awk 取列数据</h3>
+<p>之所以叫AWK是因为其取了三位创始人 Alfred Aho，Peter Weinberger, 和 Brian Kernighan 的Family Name的首字符。AWK是一种处理文本文件的语言，是一个强大的文本分析工具。特点是处理灵活，功能强大。可实现统计、制表以及其他功能。</p>
+<p>awk 基本语法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">awk &#39;BEGIN{} {command} END{}&#39; filename
+</code></pre></td></tr></table>
+</div>
+</div><p>awk 是逐行处理文本内容的；<code>BEGIN{}</code> 是初识化代码块，在处理文件第一行内容之前，定义一些变量；<code>{command}</code> 为一些命令，对文件内容的每一行进行相应地处理；<code> END{}</code> 为结束代码块，在 <code>{command} </code>运行结束后执行。</p>
+<p>格式</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">命令行格式
+awk [options] &#39;command&#39; file(s)
+脚本格式
+awk -f awk-script-file file(s)
+</code></pre></td></tr></table>
+</div>
+</div><p>常用内置参数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">$0，$1，$2... 表示整个当前行
+$1 每行第一个字段
+NF 字段数量变量
+NR 每行的记录号，多文件记录递增
+FILENAME 文件名
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>awk -F'\t' &lsquo;{print $1;}&rsquo; all-test.txt &gt; all_query.inc</p>
+</blockquote>
+<p>AWK是一种处理文本文件的语言，是一个强大的文本分析工具。之所以叫AWK是因为其取了三位创始人 Alfred Aho，Peter Weinberger, 和 Brian Kernighan 的 Family Name 的首字符。</p>
+<p>awk 非常擅长处理结构化数据和生成表单.和 sed 和 grep 很相似.由于 awk 具备各种及哦啊本语言的特点,所以可以把它看做是一种脚本语言.</p>
+<p>语法（有三种方式）</p>
+<p>第一种方式:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">awk [-F 分隔符] ‘commands’ input-file(s)
+</code></pre></td></tr></table>
+</div>
+</div><p>在 awk 中默认使用空格间隔； 如果文件中使用冒号作为分隔符，那么必须使用 -F 选项:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">awk -F : &#39;commands&#39; input-file
+</code></pre></td></tr></table>
+</div>
+</div><p>第二种方式</p>
+<p>将所有 awk 命令插入一个单独文件，然后调用</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">awk -f awk-script-file input-file
+</code></pre></td></tr></table>
+</div>
+</div><p>常见的案例学习</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">统计/etc/passwd:文件名，每行的行号，每行的列数，对应的完整行内容:
+
+awk -F &#39;:&#39; &#39;{print &#34;filename:&#34; FILENAME &#34;,linenumber:&#34; NR &#34;,columns:&#34; NF &#34;,linecontent:&#34;$0}&#39; /etc/passwd
+
+除了 awk 的内置变量,awk 还可以自定义变量.
+例如:统计/etc/passwd 的行数:
+
+awk &#39;{count++}END{print count}&#39; /etc/passwd
+
+count 是自定义变量,这里没有初始化 count,虽然默认是 0,但是妥当的做法还是初始化为 0.
+
+awk &#39;BEGIN{count=0}{count=count+1}END{print count}&#39; /etc/passwd
+
+例如:统计某个文件夹下的文件占用的字节数
+
+ls -l |awk &#39;BEGIN {size=0;} {size=size+$5;} END{print &#34;[end]size is &#34;, size}&#39;
+
+如果按照 M 为单位显示
+
+ls -l |awk &#39;BEGIN {size=0;} {size=size+$5;} END{print &#34;[end]size is &#34;, size/1024/1024,&#34;M&#34;}&#39;
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://wiki.jikexueyuan.com/project/shell-learning/awk-command.html">shell 学习十七天&mdash;awk 命令</a></p>
+<p>解释：打印包含 MA 的行中的第一个单词。(使用 echo 关键字可以模拟读入文件的操作)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">echo &#39;this is one world\nthat is another world&#39; | awk &#39;{print $1}&#39;
+</code></pre></td></tr></table>
+</div>
+</div><p>关于 -F 的使用 （设置分割符）默认使用空格分割；如果是passwd 文件，那么使用冒号作为分割符。其中的 <code>$1</code> 表示第一个字段， <code>$0</code> 表示所有的字段。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">awk -F : &#39;commands&#39; input_file
+</code></pre></td></tr></table>
+</div>
+</div><p>按照 [] 进行切分，然后打印第1，2，和3 个字段。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">awk -F &#39;[\[\]]&#39; &#39;{print $1, $2, $3}&#39; log.txt
+</code></pre></td></tr></table>
+</div>
+</div><p>在输出的时候，可以加上字符串和转义字符之类的， 注意加上的这些东西是使用双引号表示的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">awk &#39;{print $1 &#34;\t&#34; $2 &#34;\t&#34; $3}&#39; fruit.txt
+</code></pre></td></tr></table>
+</div>
+</div><p>同时处理多个文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">awk &#39;{print FILENAME &#34;\t&#34; $0}&#39; demo1.txt demo2.txt
+</code></pre></td></tr></table>
+</div>
+</div><p>在 awk 中使用变量</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">awk &#39;{msg=&#34;hello world&#34;; print msg &#34;\t&#34; $0}&#39; log.txt
+</code></pre></td></tr></table>
+</div>
+</div><p>如果要判断文件的第 3 列数据，也就是平均工资小于 5500 的公司，然后将其打印输出</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">awk &#39;$3 &lt; 5500 {print $0}&#39; company.txt
+</code></pre></td></tr></table>
+</div>
+</div><p>在 awk 中使用正则表达式</p>
+<p>使用正则表达式匹配字符串 “There” ，将包含这个字符串的行打印并输出</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">awk &#39;/There/{print $0}&#39; poetry.txt
+</code></pre></td></tr></table>
+</div>
+</div><p>使用正则表达式配一个包含字母 t 和字母 e ，并且 t 和 e 中间只能有任意单个字符的行</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">awk &#39;/t.e/{print $0}&#39; poetry.txt
+
+There is nothing either good or bad, but thinking makes it so
+There’s a special providence in the fall of a sparrow
+No matter how dark long, may eventually in the day arrival
+</code></pre></td></tr></table>
+</div>
+</div><p>这个cat 命令也是不太懂得</p>
+<blockquote>
+<p>cat base_meta | python segmentor.py ~/default_query/data &gt; base_meta.seg</p>
+</blockquote>
+<p>常见的变量</p>
+<p>变量NF表示当前行有多少个字段，因此$NF就代表最后一个字段。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">$ echo &#39;this is a test&#39; | awk &#39;{print $NF}&#39;
+test
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">$(NF-1)代表倒数第二个字段。
+</code></pre></td></tr></table>
+</div>
+</div><p>print命令里面，如果原样输出字符，要放在双引号里面。</p>
+<p>awk还提供了一些内置函数，方便对原始数据的处理。</p>
+<p>函数toupper()用于将字符转为大写。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">tolower()：字符转为小写。
+length()：返回字符串长度。
+substr()：返回子字符串。
+sin()：正弦。
+cos()：余弦。
+sqrt()：平方根。
+rand()：随机数。
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://www.gnu.org/software/gawk/manual/html_node/Built_002din.html#Built_002din">完整的built-in function 手册</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 输出奇数行
+$ awk -F &#39;:&#39; &#39;NR % 2 == 1 {print $1}&#39; demo.txt
+root
+bin
+sync
+
+# 输出第三行以后的行
+$ awk -F &#39;:&#39; &#39;NR &gt;3 {print $1}&#39; demo.txt
+sys
+sync
+</code></pre></td></tr></table>
+</div>
+</div><p>下面的例子输出第一个字段等于指定值的行。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">$ awk -F &#39;:&#39; &#39;$1 == &#34;root&#34; {print $1}&#39; demo.txt
+root
+$ awk -F &#39;:&#39; &#39;$1 == &#34;root&#34; || $1 == &#34;bin&#34; {print $1}&#39; demo.txt
+root
+bin
+</code></pre></td></tr></table>
+</div>
+</div><p>if else 语句</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">$ awk -F &#39;:&#39; &#39;{if ($1 &gt; &#34;m&#34;) print $1}&#39; demo.txt
+root
+sys
+sync
+</code></pre></td></tr></table>
+</div>
+</div><p>上面代码输出第一个字段的第一个字符大于m的行。</p>
+<p><a href="http://einverne.github.io/post/2018/01/awk.html">awk 处理文本</a></p>
+<p>awk、grep、sed是linux操作文本的三大利器，也是必须掌握的linux命令之一。三者的功能都是处理文本，但侧重点各不相同，其中属awk功能最强大，但也最复杂。grep更适合单纯的查找或匹配文本，sed更适合编辑匹配到的文本，awk更适合格式化文本，对文本进行较复杂格式处理。</p>
+<h3 id="grep-命令">grep 命令</h3>
+<p>grep（global search regular expression(RE) and print out the line，全面搜索正则表达式并把行打印出来）是一种强大的文本搜索工具，它能使用正则表达式搜索文本，并把匹配的行打印出来。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">-d&lt;进行动作&gt; 当指定要查找的是目录而非文件时，必须使用这项参数，否则grep命令将回报信息并停止动作。
+
+-h 当搜索多个文件时，不显示匹配文件名前缀
+
+-i 忽略字符大小写的差别。
+
+-l 列出文件内容符合指定的范本样式的文件名称。
+
+-n 列出所有的匹配的文本行，并显示行号
+
+-r  递归搜索，搜索当前目录和子目录,此参数的效果和指定“-d recurse”参数相同。
+
+-v 反转查找。只显示不匹配的文本行
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>history | grep &ldquo;ssh&rdquo; # 在返回的结果中使用 grep 进行查找</p>
+</blockquote>
+<h3 id="sed-行编辑器">sed 行编辑器</h3>
+<p>sed是一种流编辑器，它是文本处理中非常重要的工具，能够完美的配合正则表达式使用，功能不同凡响。处理时，把当前处理的行存储在临时缓冲区中，称为“模式空间”（pattern space），接着用sed命令处理缓冲区中的内容，处理完成后，把缓冲区的内容送往屏幕。接着处理下一行，这样不断重复，直到文件末尾。文件内容并没有 改变，除非你使用重定向存储输出。Sed主要用来自动编辑一个或多个文件；简化对文件的反复操作；编写转换程序等。</p>
+<p>常用的选项</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">-e&lt;script&gt;或--expression=&lt;script&gt;：以选项中的指定的script来处理输入的文本文件；
+-n或--quiet或——silent：仅显示script处理后的结果；
+</code></pre></td></tr></table>
+</div>
+</div><p>常用的命令</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">a\ 在当前行下面插入文本。
+i\ 在当前行上面插入文本。
+c\ 把选定的行改为新的文本。
+d 删除，删除选择的行。
+n 读取下一个输入行，用下一个命令处理新的行而不是用第一个命令。
+s 替换指定字符
+p 打印模板块的行。
+q 退出Sed。
+r file 从file中读行。
+w file 写并追加模板块到file末尾。  
+</code></pre></td></tr></table>
+</div>
+</div><p>更多<a href="https://segmentfault.com/a/1190000015885994">详细的例子</a> 最好是动手试一下</p>
+<p>sed 是以行为单位处理信息的，比如下面的命令可以输出第二行的信息：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ifconfig  enp9s0f1 | sed -n &#39;2p&#39;
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>inet 10.2.7.140  netmask 255.255.255.128  broadcast 10.2.7.255</p>
+</blockquote>
+<p>同样使用 awk 也可以达到同样的效果， 使用<code>NR</code> 关键词。所以awk 相比于sed 是更加强大处理工具。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ifconfig em1 | awk NR==2
+</code></pre></td></tr></table>
+</div>
+</div><p>Linux系统拥有一个类似的工具，也就是ifconfig(interfaces config)。通常需要以root身份登录或使用sudo以便在Linux机器上使用ifconfig工具。依赖于ifconfig命令中使用一些选项属性，ifconfig工具不仅可以被用来简单地获取网络接口配置信息，还可以修改这些配置。</p>
+<p>命令格式</p>
+<p>ifconfig [网络设备] [参数]</p>
+<p>命令参数</p>
+<p>up 启动指定的网络设备/ 网卡
+down 关闭指定的网络设备 / 网卡。该参数可以有效的阻止指定接口的IP 信息流，如果想要永久关闭一个接口，需要从路由器中将该接口的路由信息全部删除。</p>
+<p>常见的名称</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">eth0 表示第一块网卡， 其中 HWaddr 表示网卡的物理地址，可以看到目前这个网卡的物理地址(MAC地址）, inet addr 用来表示网卡的IP地址
+lo 是表示主机的回坏地址，这个一般是用来测试一个网络程序，但又不想让局域网或外网的用户能够查看，只能在此台主机上运行和查看所用的网络接口。
+
+
+#启动关闭指定网卡
+ifconfig eth0 up
+ifconfig eth0 down
+
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="关于上述三个命令的练习">关于上述三个命令的练习</h3>
+<p>awk 的练习题看上面的例子就行</p>
+<p><a href="https://www.centos.bz/2017/10/%E5%BC%BA%E5%A4%A7%E7%9A%84grep%EF%BC%8Csed%E5%92%8Cawk-%E7%94%A8%E6%A1%88%E4%BE%8B%E6%9D%A5%E8%AE%B2%E8%A7%A3/">强大的grep，sed和awk–用案例来讲解</a>
+更多<a href="https://segmentfault.com/a/1190000015885994">sed 详细的例子</a>
+<a href="https://hui-liu.github.io/blog/Linux%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E4%B8%89%E5%89%91%E5%AE%A2%E4%B9%8Bsed/">关于sed 的练习题</a></p>
+<p>软链接 硬链接 和cp</p>
+<p>ln -s 源文件 目标文件 做软链接</p>
+<p>软链接：通过软链接建立的链接文件与原文件是同一个文件，相当于windows中的快捷方式。硬链接：一个文件可以拥有两个文件名，硬链接和原有的文件名是平等的，由于这个原因，硬链接不能连接两个不同文件系统上的文件。相反，软连接可以跨文件系统。</p>
+<p>硬链接是以文件副本的形式存在，软连接可以用来解决空间不足的问题。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">ln -s ~/sag_common/production/search/nlp/query_quality/src/libglog.so.0 /usr/lib6 <span class="c1">#软连接</span>
+ln  ~/sag_common/production/search/nlp/query_quality/src/libglog.so.0 /usr/lib6 <span class="c1">#硬链接</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果一个文件 <code>aa.txt</code> 来自windows 系统，那么使用</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ln -s aa.txt /root/bb # 操作成功
+ln  aa.txt /root/bb # 操作失败
+</code></pre></td></tr></table>
+</div>
+</div><p>ssh 远程登录的命令</p>
+<blockquote>
+<p>ssh -i .ssh/qiso_id_rsa  <a href="mailto:qiso@10.39.22.30">qiso@10.39.22.30</a></p>
+<p>使用 exit 退出当前账户的ssh 登录</p>
+<p>ssh -i .ssh/qiso_id_rsa  <a href="mailto:zhlu@10.52.80.185">zhlu@10.52.80.185</a> # 这个是有gpu 的机器</p>
+<p>ssh  -i .ssh/qiso_id_rsa <a href="mailto:qiso@10.39.22.30">qiso@10.39.22.30</a> # 这个应该是hadoop 的机器</p>
+</blockquote>
+<p>所以现在一共有三个机器，一个是我账户下的机器，一个是 gpu机器，一个是qiso 的机器</p>
+<p>本机：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ssh_config是针对客户端的配置文件
+sshd_config是针对服务器的配置文件
+</code></pre></td></tr></table>
+</div>
+</div><p>设置过期时间</p>
+<p>方案一：在客户端设置 <code>/etc/ssh/ssh_config</code> 此后该系统里的用户连接SSH时，每60秒会发一个KeepAlive请求，避免被踢。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ServerAliveInterval 60 
+</code></pre></td></tr></table>
+</div>
+</div><p>方案二：在服务器端设置 <code>/etc/ssh/sshd_config</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ClientAliveInterval 60
+</code></pre></td></tr></table>
+</div>
+</div><p>配置服务器的ssh</p>
+<p>只允许指定用户进行登录（白名单）：在/etc/ssh/sshd_config配置文件中设置AllowUsers选项，（配置完成需要重启 SSHD 服务）格式如下：</p>
+<ul>
+<li>配置白名单</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">AllowUsers    aliyun test@192.168.1.1            
+# 允许 aliyun 和从 192.168.1.1 登录的 test 帐户通过 SSH 登录系统。
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>或者配置黑名单
+只拒绝指定用户进行登录（黑名单）：
+在/etc/ssh/sshd_config配置文件中设置DenyUsers选项，（配置完成需要重启SSHD服务）格式如下：</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">DenyUsers    zhangsan aliyun    #Linux系统账户        
+# 拒绝 zhangsan、aliyun 帐户通过 SSH 登录系统
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>重启ssh</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">service sshd restart
+</code></pre></td></tr></table>
+</div>
+</div><p>ssh设置权限，然后免密登录。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">chmod 700 .ssh
+chmod 600 authorized_keys
+
+rwx = 4 + 2 + 1 = 7
+rw = 4 + 2 = 6
+rx = 4 +1 = 5
+
+
+</code></pre></td></tr></table>
+</div>
+</div><p>tar 命令</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 压缩一个目录
+tar -cvf FileName.tar DirName
+
+# 解压
+tar -xvf FileName.tar       
+</code></pre></td></tr></table>
+</div>
+</div><p>执行shell 脚本</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">sh -x vulgar_query_preprocessor.sh
+scp -r -i ~/.ssh/qiso_id_rsa qiso@10.39.22.30:/home/qiso/data/production/search/nlp/query_quality/data/vulgar_query/model/ ./
+/home/qiso/data/production/search/nlp/query_quality/data/vulgar_query/embedding/query_ngram_represent
+</code></pre></td></tr></table>
+</div>
+</div><p>diff 命令</p>
+<p>理解diff 如何工作的，下面给出了一个非常易懂的例子</p>
+<p>{% fold 开/合 %}
+diff分析两个文件，并输出两个文件的不同的行。diff的输出结果表明需要对一个文件做怎样的操作之后才能与第二个文件相匹配。diff并不会改变文件的内容，但是diff可以输出一个ed脚本来应用这些改变。
+现在让我们来看一下diff是如何工作的，假设有两个文件：</p>
+<p>//file1.txt
+I need to buy apples.
+I need to run the laundry.
+I need to wash the dog.
+I need to get the car detailed.</p>
+<p>//file2.txt
+I need to buy apples.
+I need to do the laundry.
+I need to wash the car.
+I need to get the dog detailed.</p>
+<p>我们使用diff比较他们的不同：
+diff file1.txt file2.txt</p>
+<p>输出如下结果：
+2,4c2,4
+&lt; I need to run the laundry.
+&lt; I need to wash the dog.</p>
+<p>&lt; I need to get the car detailed.</p>
+<blockquote>
+<p>I need to do the laundry.
+I need to wash the car.
+I need to get the dog detailed.</p>
+</blockquote>
+<p>我们来说明一下该输出结果的含义，要明白diff比较结果的含义，我们必须牢记一点，diff描述两个文件不同的方式是告诉我们怎么样改变第一个文件之后与第二个文件匹配。我们看看上面的比较结果中的第一行 2,4c2,4 前面的数字2,4表示第一个文件中的行，中间有一个字母c表示需要在第一个文件上做的操作(a=add,c=change,d=delete)，后面的数字2,4表示第二个文件中的行。</p>
+<p>2,4c2,4 的含义是：第一个文件中的第[2,4]行(注意这是一个闭合区间，包括第2行和第4行)需要做出修改才能与第二个文件中的[2,4]行相匹配。
+接下来的内容则告诉我们需要修改的地方，前面带 &lt; 的部分表示左边文件的第[2,4]行的内容，而带&gt; 的部分表示右边文件的第[2,4]行的内容，中间的 &mdash; 则是两个文件内容的分隔符号。</p>
+<p>ss
+{% endfold %}</p>
+<p>比较两个目录的demo讲解</p>
+<p>{% fold 开/合 %}
+比较两个目录的时候无非是有的文件仅仅存在于某个目录中而在另一个目录中没有，如果存在同名的文件，则比较这两个文件的不同。diff比较目录的结果我们可以结合grep命令筛选出我们想要的输出，例如仅仅输出两个目录下不同的文件而忽略掉某一个目录独有另一个目录不存在的输出记录。</p>
+<p>另外比较目录的时候有两个参数很有用，-r 和 -q  ，前者表示递归比较目录中的子目录，后者表示仅仅列出两个目录中有哪些文件不同，而不去比较目录中各个文件的具体内容。特别是在作版本控制的时候，比较的两个目录如果文件很多，我们可能只需要知道两个目录有那些文件有差异就行了，而不需要diff列出具体的差异内容，因为文件很多，默认情况下diff会输出两个目录所有不同文件的内容差异，这会使得输出很多很杂乱，加上-q之后则只会输出不同的文件名。</p>
+<p>diff -r -q directory1 direcotory2
+{% endfold %}</p>
+<p><a href="https://www.cnblogs.com/wangqiguo/p/5793448.html">diff详解,读懂diff结果</a></p>
+<p><strong>alias</strong></p>
+<p>用来设置指令的别名</p>
+<p>在机器上使用vim 而不要使用 vi</p>
+<blockquote>
+<p>alias vi='/usr/bin/vim' # 设置 alias</p>
+<p>alias vi=&lsquo;vim&rsquo; # 设置指向</p>
+</blockquote>
+<p><strong>source, sh, bash, ./ 执行 shell 文件的区别</strong></p>
+<ol>
+<li>
+<p>source</p>
+<blockquote>
+<p>source a.sh # 在当前的shell 中读取，a.sh 不需要有执行权利</p>
+<p>. a.sh # 也可以写成这样，注意中间是有空格的</p>
+<p>#这个是在当前的 shell 中，逐行读入的脚本，然后创建的变量都保存在当前的shell 中</p>
+</blockquote>
+</li>
+<li>
+<p>sh/bash</p>
+<blockquote>
+<p>sh a.sh</p>
+<p>bash a.sh # 这两种方式都是打开一个 subshell 去执行， a.sh 不需要有执行权限</p>
+<p>sh -x a.sh # 这个是 boss 常用的执行方式</p>
+</blockquote>
+</li>
+<li>
+<p>./</p>
+<blockquote>
+<p>./a.sh #打开一个subshell 执行， a.sh 是需要有执行权限的，如果没有可以通过 chmod +x 进行添加</p>
+</blockquote>
+</li>
+</ol>
+<p>chmod 和chown 的区别</p>
+<p>chown用法：</p>
+<p>用来更改某个目录或文件的用户名和用户组。（改变所属）</p>
+<p>chown 用户名:组名 文件路径（可以是绝对路径也可以是相对路径）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">chown root:root /tmp/tmp1
+
+#就是把tmp下的tmp1的用户名和用户组改成root和root（只修改了tmp1的属组）。
+</code></pre></td></tr></table>
+</div>
+</div><p>chmod</p>
+<p>用来修改某个目录或文件的访问权限。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">chmod -R 777 /home/linux
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>环境变量 - set、env、export</strong></p>
+<p>set命令显示当前shell的变量，包括当前用户的变量;</p>
+<p>env命令显示当前用户的变量;</p>
+<p>export命令显示当前导出成用户变量的shell变量。</p>
+<p>**查看命令-more, less, cat **</p>
+<p><strong>cat</strong> 是一次性显示整个文件的内容，还可以将多个文件连接起来显示，它常与<strong>重定向符号配合使用</strong>，适用于文件内容少的情况；</p>
+<p><strong>more</strong>命令，功能类似 cat。more命令只能前向后读取文件，因此在启动时就加载整个文件。</p>
+<p><strong>less</strong>可以前后看，比more 功能更加强大。</p>
+<p><strong>linux 中 sort</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">sort file1.txt file2.txt  &gt; sorted.txt
+sort file1.txt file2.txt  -o sorted.txt <span class="c1">#上面两种手工写法都是一样的</span>
+
+cat sorted_file.txt <span class="p">|</span> uniq &gt; uniq_lines.txt <span class="c1"># 找出已排序文件中不重复的行：</span>
+sort -k <span class="m">2</span> data.txt <span class="c1"># k表示的列数  依据第二列进行排序</span>
+sort -nrk <span class="m">1</span> data.txt <span class="c1">#依据第一列进行逆序排序, -r 表示逆序</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">依据第二列进行排序
+</code></pre></td></tr></table>
+</div>
+</div><p>查看cpu信息的方法</p>
+<ol>
+<li>使用命令 <code>lscpu</code></li>
+<li>查看系统文件 <code>less /proc/cpuinfo</code></li>
+<li>使用三方的软件包</li>
+</ol>
+<p><strong>linux 中的脚本调试</strong></p>
+<p>常用是以下的三种方式。</p>
+<ol>
+<li>
+<p>echo 方式输出</p>
+<p>最简单的调试方法， 比如：</p>
+<blockquote>
+<p>echo $VAR</p>
+</blockquote>
+</li>
+<li>
+<p>命令选项 -n</p>
+<p>功能：读取shell脚本，但是不执行。 比如</p>
+<blockquote>
+<p>bash &ndash;n script.sh</p>
+</blockquote>
+</li>
+<li>
+<p>命令选项 -x</p>
+<p>功能： 提供跟踪执行信息,将执行脚本的过程中把实际执行的每个命令显示出来，行首显示+, +后面显示经过替换之后的命令行内容，有助于分析实际执行的是什么命令.</p>
+<p>其中&quot;+&quot; 表示执行的某个命令人，然后基于上一个&quot;+&quot; 使用&quot;++&quot; 表示更近一步的执行。很好理解的方式。</p>
+<p>特点： 是shell 首选的调试方式。比如：</p>
+<blockquote>
+<p>在命令行提供参数: sh -x script.sh</p>
+<p>在脚本开头提供参数: #!/bin/sh -x</p>
+</blockquote>
+</li>
+</ol>
+<blockquote>
+<p>在脚本中用 set 命令启用or 禁用参数： set -x 表示启用， set +x 表示禁用</p>
+</blockquote>
+<h3 id="管道">管道</h3>
+<p>linux 中有些命令是可以带参数，接受“标准输入”作为参数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">cat /etc/passwd | grep root
+</code></pre></td></tr></table>
+</div>
+</div><p>其中的 <code>|</code> 是管道命令。左侧的命令(<code>cat /etc/passwd</code>)的标准输出作为后面命令的输入。其中grep 是可以接受标准输入作为参数。上面的命令等同于</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">grep root /etc/passwd
+</code></pre></td></tr></table>
+</div>
+</div><p>但是大多数的命令是不接受标准输入作为参数，比如说 <code>echo</code></p>
+<p>这个使用后就出现了 <code>xargs</code> 命令, 该命令将标准输入转换成命令行参数。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">echo &#34;hello world&#34; | xargs echo
+# hello world 就是输出
+</code></pre></td></tr></table>
+</div>
+</div><p>该命令的格式如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">$ xargs [-options] [command]
+</code></pre></td></tr></table>
+</div>
+</div><p><code>xargs</code>的作用在于，大多数命令（比如<code>rm</code>、<code>mkdir</code>、<code>ls</code>）与管道一起使用时，都需要<code>xargs</code>将标准输入转为命令行参数。</p>
+<p>默认情况下， <code>xargs</code> 将换行符和空格作为分隔符，把标准输入分解成一个个命令行参数。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">echo &#34;one two three&#34; | xargs mkdir
+</code></pre></td></tr></table>
+</div>
+</div><p>使用 <code>-d</code> 可以更改分隔符</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">echo -e &#34;a\tb\tc&#34; | xargs -d &#34;\t&#34; echo
+</code></pre></td></tr></table>
+</div>
+</div><p>参数 <code>-p</code>，可以确认到底执行的是什么命令</p>
+<p><code>-p</code>参数打印出要执行的命令，询问用户是否要执行。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">$ echo &#39;one two three&#39; | xargs -p touch
+touch one two three ?...
+</code></pre></td></tr></table>
+</div>
+</div><p><code>-t</code>参数则是打印出最终要执行的命令，然后直接执行，不需要用户确认。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">$ echo &#39;one two three&#39; | xargs -t rm
+rm one two three
+</code></pre></td></tr></table>
+</div>
+</div><p>examples</p>
+<p><code>xargs</code> 和<code>cp</code> 命令结合使用过，返回前 5 个结果作为 cp 的输入。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ls | head -n 5| xargs -i cp {} /home/jijeng/projects/test/src
+
+# 回到上一个目录（最近的目录）
+cd -
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="其他小命令">其他小命令</h3>
+<h3 id="查看端口">查看端口</h3>
+<p>在mac 上使用 <code>lsof</code>: list open files</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">lsof -i # 查看某个端口是否被占用， i 表示ip tcp 表示tcp 协议
+lsof -i tcp:8888  
+</code></pre></td></tr></table>
+</div>
+</div><p>比如说查看服务器8000 端口(port )的占用情况</p>
+<p>linux 中可以使用 <code>lsof</code> 和<code>netstat</code> 两个命令</p>
+<p><code>netstat</code>用来查看系统当前系统网络状态信息，包括端口，连接情况等，常用方式如下：</p>
+<p><code>netstat -atunlp</code>,各参数含义如下:
+-t : 指明显示TCP端口
+-u : 指明显示UDP端口
+-l : 仅显示监听套接字(LISTEN状态的套接字)
+-p : 显示进程标识符和程序名称，每一个套接字/端口都属于一个程序
+-n : 不进行DNS解析
+-a 显示所有连接的端口</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">lsof -i:端口号
+netstat -nltp | grep 进程号
+
+netstat -tunlp | grep 22
+netstat -tunlp | grep  端口号
+
+ps -ef | grep 进程名
+
+</code></pre></td></tr></table>
+</div>
+</div><p>Mac OS/Linux命令查询网络端口占用情况</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">netstat -an | grep 3306
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">lsof -i:80
+</code></pre></td></tr></table>
+</div>
+</div><p>-i参数表示网络链接，:80指明端口号，该命令会同时列出PID，方便kill</p>
+<p>查看所有进程监听的端口</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo lsof -i -P | grep -i &#34;listen&#34;
+</code></pre></td></tr></table>
+</div>
+</div><p>两者的区别</p>
+<blockquote>
+<p>netstat无权限控制，lsof有权限控制，只能看到本用户
+losf能看到pid和用户，可以找到哪个进程占用了这个端口</p>
+</blockquote>
+<p>查看哪些端口被打开</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">netstat -anp
+</code></pre></td></tr></table>
+</div>
+</div><p>ubuntu 中打开某个端口或者关闭某个端口号</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">iptables -A OUTPUT -p tcp --dport 端口号-j DROP
+
+iptables -A OUTPUT -p tcp --dport 9200-j DROP
+
+
+iptables -A INPUT -ptcp --dport  9200-j ACCEPT
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="进程相关">进程相关</h3>
+<p>ps是显示瞬间进程的状态，并不动态连续；如果想对进程进行实时监控应该用top命令。</p>
+<p>基本参数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">-A ：所有的进程均显示出来，与 -e 具有同样的效用；
+-a ： 显示现行终端机下的所有进程，包括其他用户的进程；
+-u ：以用户为主的进程状态 ；
+x ：通常与 a 这个参数一起使用，可列出较完整信息。
+</code></pre></td></tr></table>
+</div>
+</div><p>输出格式规划：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">l ：较长、较详细的将该PID 的的信息列出；
+j ：工作的格式 (jobs format)
+-f ：做一个更为完整的输出。
+</code></pre></td></tr></table>
+</div>
+</div><p>ps 命令的输出说明</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">USER：该命令是由哪个用户产生的。
+PID：进程的ID号。
+%CPU：该进程占用CPU资源的百分比。
+%MEM：该进城占用物理内存的百分比。
+VSZ：该进程占用虚拟内存的大小，单位KB。
+RSS：该进程占用实际物理内存的大小，单位KB。
+TTY：该进程在哪个终端中运行。其中tty1-tty7代表本地控制台终端，tty1-tty6是本地字符界面终端，tty7是图形终端。pst/0-255代表虚拟终端。
+STAT：进程状态。常见的状态有：
+
+R：运行
+S：睡眠
+T：停止状态
+s：包含子进程
++：位于后台
+
+START：该进程的启动时间
+TIME：该进程占用CPU的运算时间，注意不是系统时间
+COMMAND：产生此进程的命令
+</code></pre></td></tr></table>
+</div>
+</div><ol>
+<li>不加参数执行ps命令</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">[vagrant/tmp] ]$ps
+  PID TTY          TIME CMD
+ 1558 pts/0    00:00:00 bash
+ 2990 pts/0    00:00:00 ps
+</code></pre></td></tr></table>
+</div>
+</div><p>结果默认会显示4列信息。</p>
+<ul>
+<li>PID: 运行着的命令(CMD)的进程编号</li>
+<li>TTY: 命令所运行的终端</li>
+<li>TIME: 运行着的该命令所占用的CPU处理时间</li>
+<li>CMD: 该进程所运行的命令</li>
+</ul>
+<ol start="2">
+<li>显示所有当前进程</li>
+</ol>
+<p>这个命令的结果或许会很长。为了便于查看，可以结合less命令和管道来使用。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ps -aux
+
+</code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>显示所有进程信息，连同命令行</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ps -ef 
+</code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>ps 与grep 组合使用，查找特定进程</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ps -ef|grep ssh
+</code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>通过pid来过滤进程</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ps -L 1213
+</code></pre></td></tr></table>
+</div>
+</div><p>如果想要看到更多的细节，那么可以格式化输出列表</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ps -f -C getty
+</code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>根据用户过滤进程</li>
+</ol>
+<p>查看用户&rsquo;jeng' 的进程</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ps -u jeng
+</code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>根据进程名和pid 进行过滤</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ps -C getty
+</code></pre></td></tr></table>
+</div>
+</div><ol start="4">
+<li>根据cpu 和内存使用来过滤进程</li>
+</ol>
+<p>默认的结果集是未排好序的。可以通过 &ndash;sort命令来排序。</p>
+<p>根据cpu使用来降序排序</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">ps -aux --sort -pcpu <span class="p">|</span> less
+ps -aux --sort -pcpu <span class="p">|</span> head -n <span class="m">10</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>根据 内存使用 来降序排序</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">ps -aux --sort -pmem <span class="p">|</span> less
+</code></pre></td></tr></table>
+</div>
+</div><p>也可以将上述两个命令和到一起，并使用通道显示前 10个结果</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"> ps -aux --sort -pcpu,+pmem | head -n 10
+</code></pre></td></tr></table>
+</div>
+</div><ol start="5">
+<li>pstree 命令（查看进程树）</li>
+</ol>
+<p>这个是非常直观的查看进程变化的命令</p>
+<p>Linux上进程有5种状态:</p>
+<ol>
+<li>运行(正在运行或在运行队列中等待)</li>
+<li>中断(休眠中, 受阻, 在等待某个条件的形成或接受到信号)</li>
+<li>不可中断(收到信号不唤醒和不可运行, 进程必须等待直到有中断发生)</li>
+<li>僵死(进程已终止, 但进程描述符存在, 直到父进程调用wait4()系统调用后释放)</li>
+<li>停止(进程收到SIGSTOP, SIGSTP, SIGTIN, SIGTOU信号后停止运行运行)</li>
+</ol>
+<p>ps工具标识进程的5种状态码:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">D 不可中断 uninterruptible sleep (usually IO) 
+R 运行 runnable (on run queue) 
+S 中断 sleeping 
+T 停止 traced or stopped 
+Z 僵死 a defunct (&#34;zombie&#34;) process 
+</code></pre></td></tr></table>
+</div>
+</div><p>显示的结果中pid 是进程，ppid 显示的是父进程。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ps -ef  
+
+ps -ax | grep vulgar_
+kill -9 pid 杀死进程
+
+#自定义ps 的输出形式（查看进程的pid、开始时间，持续时间和命令格式） 
+ps -eo pid,lstart,etime,cmd | grep &#39;bash run.sh&#39;
+ps -eo pid,lstart,etime,cmd | grep pid # 在grep 后面既可以使用pid数字 也可以使用cmd
+</code></pre></td></tr></table>
+</div>
+</div><ol start="6">
+<li>动态监测进程状态</li>
+</ol>
+<p>ps 命令是系统当前的静态结果，如果想要实时监控进程状态，那么可以考虑将ps 命令和 watch命令结合起来。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 结果是每秒刷新一次，注意这种书写的方式
+watch -n 1 ‘ps -aux --sort -pmem, -pcpu’
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="xargs">xargs</h3>
+<p>该命令和管道的命令是类似的，不同点在于， xargs 是把 <code>|</code> 左边的输出当做后面命令的一个参数来运行。而如果只是使用<code>|</code>， 是把其左边的输出当做右边命令的输入。xargs命令是给其他命令传递参数的一个过滤器，也是组合多个命令的一个工具。它擅长将标准输入数据转换成命令行参数，xargs能够处理管道或者stdin并将其转换成特定命令的命令参数。</p>
+<h3 id="linux-中脚本执行的四种方式">Linux 中脚本执行的四种方式</h3>
+<p>（1）切换到shell脚本所在的目录（此时，称为工作目录）执行shell脚本</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">./hello.sh
+</code></pre></td></tr></table>
+</div>
+</div><p>其中命令行中的<code>.</code>表示当前工作目录。不是什么执行之类的符号
+（2）使用绝对路径执行</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">/data/shell/hello.sh
+</code></pre></td></tr></table>
+</div>
+</div><p>上述两种方法实际上是一类，文件执行时候的bash 路径是文件第一行声明的bash路径；需要执行权限。
+（3）使用命令<code>bash</code>或者 <code>sh</code>执行脚本</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">bash hello.sh
+sh hello.sh
+</code></pre></td></tr></table>
+</div>
+</div><p>这种方式不需要设定执行权限；不需要执行bash路径，因为使用的是当前bash 的路径。</p>
+<p>上述三种（(1),(2), (3)）都是在父shell中开启了一个子shell，执行的脚本是在子shell 中执行，当执行完成之后，子shell就关闭，然后回到父shell 中。
+（4）使用<code>source</code>命令执行</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">source hello.sh
+</code></pre></td></tr></table>
+</div>
+</div><p><code>source</code>命令是作用于整个父进程，这个是和上述三者的最大区别。比如说，如果不想注销系统的，但是想让全局配置文件生效，那么就使用<code>source</code>命令。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">source /etc/profile
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="解压缩命令">解压缩命令</h3>
+<p><code>.tar</code>，<code>.gz</code> ，<code>.rar</code>和<code>.zip</code> 等扩展名的比较</p>
+<p><code>.zip</code> 和<code>.rar</code> 经常见于windows系统，不对文件名进行压缩，所以容易造成乱码； <code>.tar</code>和<code>.gz</code> 经常见于linux 系统，默认在linux 环境下无法使用 <code>.zip</code> 和<code>.rar</code> ，所以需要</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo apt-get install rar  
+</code></pre></td></tr></table>
+</div>
+</div><p>压缩文件夹和多个文件到一个名称下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">zip -r test.zip test_dir *txt *sh *py
+</code></pre></td></tr></table>
+</div>
+</div><p><code>.tar</code> 是归档或者说打包，将多个文件或者目录变成一个文件并不会使得总的体积减少，比如</p>
+<blockquote>
+<p>如果你 tar 100 个 50kb 的文件得到的 tar 归档文件大小应该为 5000kb 左右。
+使用 Tar 进行文件归档的唯一好处就是减少某种粒度磁盘空间的分配。(例如在簇大小为 4kb 的磁盘上 1 字节的文件也要占用 4kb 磁盘空间，若有 1000 个 1 字节的文件分散在此磁盘上的话，则会占用 4MB 大小，而使用 Tar 归档之后则只占用 1MB 左右大小。)</p>
+</blockquote>
+<p>所以更加常见的文件后缀是 <code>.tar.gz</code>。该种压缩方式其实上是2个过程。tar是打包工具，把很多文件打包成一个文件，gz是压缩格式。</p>
+<p>解压命令</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">tar -zxvf ×××.tar.gz
+</code></pre></td></tr></table>
+</div>
+</div><p>后面的-C是大写C，如果不指定解压位置需要去掉-C，系统会把压缩包中所有文件解压到当前工作文件夹</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">tar -zxf XXX.tar.gz -C 解压位置
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="云端主机之间传输文件">云端主机之间传输文件</h3>
+<p>（1） 使用scp 命令</p>
+<p>scp -i 表示使用秘钥 进行传输文件（不用输入密码）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">scp -r -i ~/.ssh/qiso_id_rsa qiso@10.39.22.30:/home/qiso/jarvis* ~/
+scp -r -i ~/.ssh/qiso_id_rsa qiso@10.39.22.30:/home/qiso/data/production//search/nlp/default_query/data/*traditi* /home/qiso/data/production/search/nlp/query_quality/data/
+scp -i  Selects the file from which the identity (private key) for public # 使用 private key 进行测试
+</code></pre></td></tr></table>
+</div>
+</div><p>设置特定端口（ssh 默认是 22 端口，scp 是基于ssh ，所以也是 22端口）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">scp -P 2222 root@www.xxorg.com:/root/test.tar.gz /home/test.tar.gz
+</code></pre></td></tr></table>
+</div>
+</div><p>传输文件夹</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">scp -r root@www.xxorg.com:/root/test_dir /home/jeng
+</code></pre></td></tr></table>
+</div>
+</div><p>scp传输速度较慢,但使用ssh通道保证了传输的安全性。提高scp 的速度：</p>
+<ul>
+<li>通常压缩会降低scp 速度，所以是很多文件夹，那么建议先压缩，然后再scp 传输</li>
+</ul>
+<p>（1）wget -c</p>
+<p>使用 wget 也是可以实现断点传输的</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">-c (continue )
+Continue getting a partially-downloaded file
+</code></pre></td></tr></table>
+</div>
+</div><p>（2）使用 rsync 命令</p>
+<p>rsync (remote sync)是Linux系统下的文件同步和数据传输工具，它采用“rsync”算法，可以将一个客户机和远程文件服务器之间的文件同步，也可以在本地系统中将数据从一个分区备份到另一个分区上。相比于 scp 传输文件， 可以增量同步文件，如果数据传输出现中断，恢复后可以从传输不一致的部分重新开始。可以使用rcp、ssh等方式来传输文件，当然也可以通过直接的socket连接。</p>
+<p>rsync默认使用ssh的22端口，那么如果我们的服务器为了安全已经修改成其他的端口，比如端口是1234那怎么办呢？可以加上 -e &lsquo;ssh -p 1234&rsquo;参数来指定端口号：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">rsync -P -e &#39;ssh -p 1234&#39; daweibro@linode-server:/home/daweibro/database-backup.sql /home/daweibro ./
+rsync -avL --progress -e &#34;ssh -i gitlab_filerun.pem&#34; -r up_test.gz root@39.98.115.246:/home/upload
+rsync -avL  -r up_test.gz root@39.98.115.246:/home/upload # 常用的几个命令和参数
+
+</code></pre></td></tr></table>
+</div>
+</div><p>rsync 适合大量小文件，压缩之后就不太好用了。</p>
+<p>（3）使用国外的vps</p>
+<p>方案一：vps+ php 端口</p>
+<p>搞个 VPS，先在 VPS wget 下来。然后 <code>php -S 0.0.0.0:4000</code>。下载 http://vpsip:4000/xxx.zip</p>
+<p>方案二：换 scp 的端口（使用webfs）</p>
+<p>scp 走的是 22 端口，严重受到监 kong。
+我都是安装一个 webfs，它是 mini-server，执行 webfsd -p 80 -F，这样就可以 80 端口下载了（可以用 wget 下载）。
+80 端口速度会比 22 速度快。下载完之后 Ctrl-C 关掉 webfsd 即可。</p>
+<p>原因：
+http 是80 端口（https 是443 端口），所以当使用http 协议传输的时候，更加快，以牺牲安全性？为代价</p>
+<p>scp 用于加密网管会话，该加密基于RSA，基于TCP 端口22.</p>
+<p>方案三：</p>
+<p>Download a large file from Google Drive. 使用 <a href="https://github.com/wkentaro/gdown"></a>，主要解决的问题 <code>security warning from Google Drive</code></p>
+<blockquote>
+<p>If you use curl/wget, it fails with a large file because of the security warning from Google Drive.</p>
+</blockquote>
+<p>关于 curl 命令</p>
+<p>在Linux中curl是一个利用URL规则在命令行下工作的文件传输工具，可以说是一款很强大的http命令行工具。它支持文件的上传和下载，是综合传输工具，但按传统，习惯称url为下载工具。
+curl 是常用的命令行工具，用来请求 Web 服务器。它的名字就是客户端（client）的 URL 工具的意思。</p>
+<p>（4）单个文件太大的问题</p>
+<p>第一种方式：大文件还是用 7z 分一下卷吧，一个文件 512M ，不管用啥方法下载，保险系数都大得多。将大文件分卷成中等或者小文件，是非常实用的技巧，可以缓解scp 数据传输中断的问题。</p>
+<p>第二种方式： 使用 SFTP，支持断点续传</p>
+<p>（5） ftp  和sftp</p>
+<p>文件传输协议（File Transfer Protocol，FTP）是用于在网络上进行文件传输的一套标准协议，工作在应用层，使用TCP 传输而不是UDP 传输，在客户和服务器端建立连接需要经过”三次握手“，保证连接的可靠性，为数据传输提供可靠保证。ftp默认的连接端口是 21， 传输端口是20.</p>
+<p>sftp（Secure File Transfer Protocol）协议是在ftp 的基础上对数据进行加密，使得传输的数据相对更安全。但是这种安全是以牺牲效率为代价的（需要实际验证一下这种效率下降的程度）。sftp默认的端口是 22.</p>
+<p>ftp 是基于ssh 等加密实现的传输通道，而ssl 是为http/ smtp 设计的加密算法。</p>
+<p><a href="https://www.jianshu.com/p/19319228ece0">基于python 实现的sftp 断点续传</a></p>
+<p>（6）基于 udp</p>
+<p>思路很简单，使用TCP进行传输控制、用UDP进行数据传输。<a href="https://github.com/cheetahmobile/tsunami-udp/wiki">tsunami-udp </a> 这样可以无状态的进行数据传输，然后中间加一些文件校验和重传机制，达到加速传输的目的。传统的tcp传统，基于长连接，很容易受网络波动的影响。特别是网络拥塞的情况下，只能通过多进程/线程来进行有序传输。</p>
+<p>这方面是一个很好的思路，但是没有找到相应比较好的开源工具。</p>
+<p>（7） 一些网盘服务</p>
+<p><a href="https://www.julydate.com/post/2661332705/">好用的大文件分享服务</a></p>
+<p>使用 kaggle 作为中介进行下载，<a href="https://www.v2ex.com/t/613439">教程</a>，不建议经常这么做。</p>
+<p>（8）安装 bbr 加速</p>
+<p>如果是从服务器上下载资源，那么在服务器上安装bbr；如果是从本地上传文件到服务器上，那么在本地安装bbr 的支持。这个逻辑需要搞清楚，发出流量的主机是需要安装bbr的。</p>
+<p>国内测速文件： <a href="http://bhs.proof.ovh.net/files/10Gb.dat">http://bhs.proof.ovh.net/files/10Gb.dat</a></p>
+<h3 id="前台执行和后台执行命令">前台执行和后台执行命令</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">&amp;
+nohup
+ctrl + z
+ctrl + c
+jobs
+bg
+fg
+</code></pre></td></tr></table>
+</div>
+</div><p>（1） 还未执行的命令</p>
+<ul>
+<li><code>&amp;</code></li>
+</ul>
+<p>当在前台运行某个作业时，终端被该作业占据；可以在命令后面加上&amp; 实现后台运行。例如：sh test.sh &amp; 适合在后台运行的命令有find、费时的排序及一些shell脚本。在后台运行作业时要当心：需要用户交互的命令不要放在后台执行，因为这样你的机器就会在那里傻等。</p>
+<p>但是该命令同样是将结果输出到屏幕上，干扰其他工作，所以最好使用功能下面的方法重定向到某个文件中</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">command &gt;&gt; out.file &amp;
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>nohup</code></li>
+</ul>
+<p>使用&amp;命令后，作业被提交到后台运行，当前控制台没有被占用，但是一但把当前控制台关掉(退出帐户时)，作业就会停止运行。nohup命令可以在你退出帐户之后继续运行相应的进程。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">nohup command &amp;
+</code></pre></td></tr></table>
+</div>
+</div><p>或者将命令输出重定向到结果文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">nohup command  &gt;&gt;  command.log
+</code></pre></td></tr></table>
+</div>
+</div><p>使用了nohup之后，很多人就这样不管了，其实这样有可能在当前账户非正常退出或者结束的时候，命令还是自己结束了。所以在使用nohup命令后台运行命令之后，<strong>需要使用exit正常退出当前账户</strong>，这样才能保证命令一直在后台运行</p>
+<p>（2）正在执行的命令</p>
+<ul>
+<li>
+<p>ctrl + z
+可以将一个正在前台执行的命令放到后台，并且处于暂停状态</p>
+</li>
+<li>
+<p>ctrl + c
+终止前台命令</p>
+</li>
+<li>
+<p>jobs
+查看当前有多少在后台运行的命令。 jobs -l选项可显示所有任务的PID，jobs的状态可以是running, stopped, Terminated。但是如果任务被终止了（kill），shell 从当前的shell环境已知的列表中删除任务的进程标识</p>
+</li>
+</ul>
+<p>jobs 列出后台已停止或正在运行的工作。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">-l：列出PID
+-r：仅列出正在后台运行的工作
+-s：仅列出正在后台当中暂停的工作
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>bg
+将一个在后台暂停的命令，变成继续执行 （在后台执行） 如果后台中有多个命令，可以用bg %jobnumber将选中的命令调出，%jobnumber是通过jobs命令查到的后台正在执行的命令的序号(不是pid) 将任务转移到后台运行： 先ctrl + z；再bg，这样进程就被移到后台运行，终端还能继续接受命令。</p>
+</li>
+<li>
+<p>fg
+将后台中的命令调至前台继续运行 如果后台中有多个命令，可以用 fg %jobnumber将选中的命令调出，%jobnumber是通过jobs命令查到的后台正在执行的命令的序号(不是pid)</p>
+</li>
+</ul>
+<h3 id="apt-和apt-get-的区别">apt 和apt-get 的区别</h3>
+<p>Ubuntu 16.04 发布时，一个引人注目的新特性便是 <code>apt</code> 命令的引入。随着 <code>apt install package</code> 命令的使用频率和普遍性逐步超过 <code>apt-get install package</code>，越来越多的其它 Linux 发行版也开始遵循 Ubuntu 的脚步，开始鼓励用户使用 <code>apt</code> 而不是 <code>apt-get</code>。</p>
+<p>（1） apt 和apt-get 之间的区别</p>
+<p>注意以下是latex 的格式，实际上这类应该使用 markdown 的语法。</p>
+<p>\begin{table}[]
+\begin{tabular}{lll}
+apt 命令           &amp; 取代的命令                &amp; 命令的功能           \\<br>
+apt install      &amp; apt-get install      &amp; 安装软件包           \\<br>
+apt remove       &amp; apt-get remove       &amp; 移除软件包           \\<br>
+apt purge        &amp; apt-get purge        &amp; 移除软件包及配置文件      \\<br>
+apt update       &amp; apt-get update       &amp; 刷新存储库索引         \\<br>
+apt upgrade      &amp; apt-get upgrade      &amp; 升级所有可升级的软件包     \\<br>
+apt autoremove   &amp; apt-get autoremove   &amp; 自动删除不需要的包       \\<br>
+apt full-upgrade &amp; apt-get dist-upgrade &amp; 在升级软件包时自动处理依赖关系 \\<br>
+apt search       &amp; apt-cache search     &amp; 搜索应用程序          \\<br>
+apt show         &amp; apt-cache show       &amp; 显示装细节       <br>
+\end{tabular}
+\end{table}</p>
+<p>当然 apt 也有自己的命令：</p>
+<p>\begin{table}[]
+\begin{tabular}{ll}
+新的apt命令          &amp; 命令的功能              \<br>
+apt list         &amp; 列出包含条件的包（已安装，可升级等） \<br>
+apt edit-sources &amp; 编辑源列表          <br>
+\end{tabular}
+\end{table}</p>
+<p>结论：</p>
+<p><code>apt-get</code> 虽然没被弃用，但作为普通用户，还是应该首先使用 <code>apt</code>。简单说，一个是分开写，一个使用<code>-</code> 连接到一块。</p>
+<p>Ubuntu 完全卸载某个软件，以 nginx 软件为例。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 删除nginx，–purge包括配置文件
+sudo apt-get --purge remove nginx
+ 
+# 自动移除全部不使用的软件包 （卸载软件及其依赖的安装包）
+sudo apt-get autoremove
+
+# 列出与nginx相关的软件 并删除显示的软件
+dpkg --get-selections|grep nginx
+
+sudo apt-get --purge remove nginx
+sudo apt-get --purge remove nginx-common
+sudo apt-get --purge remove nginx-core
+
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="未归类">未归类</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">last # 表示登录成功的user
+lastb  # 表示登录不成功user
+</code></pre></td></tr></table>
+</div>
+</div><p>find命令</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">find . -maxdepth <span class="m">3</span> -name datasetMaker
+
+find furniture_odd -name *jpg  -exec mv <span class="o">{}</span> tmp/ <span class="se">\;</span>
+find sourcePath/ -name <span class="s2">&#34;*.txt&#34;</span>  -exec mv <span class="o">{}</span> targetPath/  <span class="se">\;</span>
+<span class="c1">#or</span>
+find sourcePath/ -type f  -exec mv <span class="o">{}</span> targetPath/  <span class="se">\;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Whois，通常来说，就是一个用于查询域名是否已经被注册，以及注册域名的详细信息（如域名所有人、域名注册商、域名注册日期和过期日期等）的工具。当然，现在已经有各种网页版查看 whois 信息的工具，但是很多时候网页查询有附加条件，比如输入验证码或者不支持的后缀等，比较低效。因此我还是喜欢在命令行下使用 whois 命令来直接获得域名的 whois 信息。</p>
+<p>Ubuntu 16.04下安装VNC和Unity桌面系统；windows下通过VNC图形化访问Ubuntu桌面环境</p>
+<p>apt-get install -y &ndash;reinstall ubuntu-desktop&amp;&amp; apt-get -y install unity
+apt install -y xfce4 xfce4-goodies vnc4server
+vncserver</p>
+<p>mv 和rename 的区别？</p>
+<p>mv 适合对于一个文件的修改。 rename 是对多个文件进行重命名。（rename multiple files）</p>
+<p>方法1：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">find -nam e*log <span class="p">|</span> xargs -i <span class="o">{}</span> mv <span class="o">{}</span>.log xin_<span class="o">{}</span>.log <span class="c1"># 先find 然后 xargs 使用mv 进行单个mv</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>方法2：
+rename 命令</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">rename <span class="nb">test</span> xinyu*.log
+
+rename 原字符串 新字符串 文件名
+</code></pre></td></tr></table>
+</div>
+</div><p>例子</p>
+<p>将后缀名 jpg 改成png</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">rename <span class="s1">&#39;s/\.jpg$/\.png/&#39;</span> *.jpg
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="c1"># 查看某路径下的所有文件夹（不包括文件）</span>
+
+ls  dir <span class="p">|</span> grep ^d 
+</code></pre></td></tr></table>
+</div>
+</div><p>（1）NSLookup</p>
+<p>NSLookup (Name Server Look Up)  is a tool used to obtain domain names, IP addresses, and more. nslookup用于查询DNS的记录，查询域名解析是否正常，在网络故障时用来诊断网络问题</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># nslookup ［IP地址/域名］
+nslookup www.baidu.com # 使用默认的dns 解析
+nslookup www.baidu.com 8.8.8.8 # 使用 8.8.8.8 dns 解析
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="bash相关快捷键">bash相关快捷键</h3>
+<p>bash 指得是命令行。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ctrl键组合
+
+ctrl+a:光标移到行首。
+
+ctrl+c:杀死当前进程。
+
+ctrl+d:退出当前 Shell。
+
+ctrl+e:光标移到行尾。
+
+esc组合
+esc+d: 删除光标后的一个词
+esc+f: 往右跳一个词， 不能连续跳，需要按一下然后停一下。
+esc+b: 往左跳一个词
+esc+t: 交换光标位置前的两个单词。
+
+
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="定位命令位置和相关信息的命令">定位命令位置和相关信息的命令</h3>
+<p>（1）type 命令查询命令所在的目录</p>
+<p>Display information about command type. output a single word which is one fo &lsquo;alias&rsquo;, &lsquo;keyword&rsquo;, &lsquo;function&rsquo;, &lsquo;builtin&rsquo; , &lsquo;file&rsquo;</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">type ch
+</code></pre></td></tr></table>
+</div>
+</div><p>（2）which 命令查询命令</p>
+<p>which returns the pathnames of the files (or links) which would be executed in the current environment.</p>
+<p>(3) whereis</p>
+<p>locate the binary, source, and manual page files for a command</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">whereis -b whereis
+whereis -m whereis
+</code></pre></td></tr></table>
+</div>
+</div><p>which 和whereis 的区别：which 是find exeable version。 whereis 是find all location。所以which 更加常见，有用？</p>
+<p>linux 中进程和线程的关系</p>
+<p>几种进程间的通信方式</p>
+<ol>
+<li>管道（pipe）：管道是一种半双工的通信方式，数据只能单向流动，而且只能在具有血缘关系的进程间使用。进程的血缘关系通常指父子进程关系。</li>
+<li>有名管道（named pipe）：有名管道也是半双工的通信方式，但是它允许无亲缘关系进程间通信。</li>
+<li>信号量（semophore）：信号量是一个计数器，可以用来控制多个进程对共享资源的访问。它通常作为一种锁机制，防止某进程正在访问共享资源时，其他进程也访问该资源。因此，主要作为进程间以及同一进程内不同线程之间的同步手段。</li>
+<li>消息队列（message queue）：消息队列是由消息组成的链表，存放在内核中 并由消息队列标识符标识。消息队列克服了信号传递信息少，管道只能承载无格式字节流以及缓冲区大小受限等缺点。</li>
+<li>信号（signal）：信号是一种比较复杂的通信方式，用于通知接收进程某一事件已经发生。</li>
+<li>共享内存（shared memory）：共享内存就是映射一段能被其他进程所访问的内存，这段共享内存由一个进程创建，但多个进程都可以访问，共享内存是最快的IPC方式，它是针对其他进程间的通信方式运行效率低而专门设计的。它往往与其他通信机制，如信号量配合使用，来实现进程间的同步和通信。</li>
+<li>套接字（socket）：套接口也是一种进程间的通信机制，与其他通信机制不同的是它可以用于不同及其间的进程通信。</li>
+</ol>
+<p>几种线程间的通信机制</p>
+<ol>
+<li>锁机制</li>
+</ol>
+<ul>
+<li>互斥锁：提供了以排它方式阻止数据结构被并发修改的方法。</li>
+<li>读写锁：允许多个线程同时读共享数据，而对写操作互斥。</li>
+<li>条件变量：可以以原子的方式阻塞进程，直到某个特定条件为真为止。对条件测试是在互斥锁的保护下进行的。条件变量始终与互斥锁一起使用。</li>
+</ul>
+<ol start="2">
+<li>信号量机制：包括无名线程信号量与有名线程信号量</li>
+<li>信号机制：类似于进程间的信号处理。</li>
+</ol>
+<p>线程间通信的主要目的是用于线程同步，所以线程没有象进程通信中用于数据交换的通信机制。</p>
+<p>更多关于这方面的介绍可以参考<a href="https://blog.csdn.net/yang_teng_/article/details/53325280">这里</a></p>
+<p>（3）vim python缩进等一些配置</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">set filetype=python
+# au BufNewFile,BufRead *.py,*.pyw setf python
+autocmd FileType python set tabstop=4 | set expandtab | set autoindent  # 建议使用这个，设置只是针对 python文件生效，其他文件不变
+set helplang=cn &#34;中文帮助文档(前提是下了中文包)
+syntax enable
+syntax on &#34; 自动语法高亮
+set number&#34;显示行号
+colorscheme desert&#34; 设定配色方案
+set guifont=Consolas:h12:cANSI&#34;英文字体
+set guifontwide=SimSun-ExtB:h12:cGB2312
+set tabstop=4&#34;表示Tab代表4个空格的宽度
+set expandtab&#34;表示Tab自动转换成空格
+set autoindent&#34;表示换行后自动缩进
+set autoread &#34; 当文件在外部被修改时，自动重新读取
+set history=400&#34;vim记住的历史操作的数量，默认的是20
+set nocompatible&#34;使用vim自己的键盘模式,而不是兼容vi的模式
+set confirm&#34;处理未保存或者只读文件时,给出提示
+set smartindent&#34;智能对齐
+set shiftwidth=4
+</code></pre></td></tr></table>
+</div>
+</div><p>设置缩进和反缩进</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">:10,100&gt;
+第10行至第100行缩进
+:20,80&lt;
+第20行至第80行反缩进
+</code></pre></td></tr></table>
+</div>
+</div><p>跳转到指定的行</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">:n # 当 n=88 ，则跳转到 88 行
+</code></pre></td></tr></table>
+</div>
+</div><p>到达本文件的最开始和最后的位置</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">[[  # 表示最开始的位置
+]]  # 表示最后的位置
+</code></pre></td></tr></table>
+</div>
+</div><p>（1）代码补全</p>
+<p>代码自动补全，这个只限于本文中已经出现过的字符串可以自动补全。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">CTRL-N是向下查找以进行补全，在不同场合使用不同的快捷键可以加速补全的速度。
+CTRL-P一般的含义是向上，因此CTRL-P补全是向上查找以进行补全，
+</code></pre></td></tr></table>
+</div>
+</div><p>更加普世的代码补全</p>
+<p>常用的有三种方式进行代码补全</p>
+<ul>
+<li>python-mode：页面太丑</li>
+<li>YouCompleteMe：功能过于强大，支持多种编程语言，加载繁琐</li>
+<li>jedi-vim：对于python 的提醒足以</li>
+</ul>
+<p>环境是 Ubuntu</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo apt-get install vim-python-jedi
+vim-addons install python-jedi
+</code></pre></td></tr></table>
+</div>
+</div><p>有了自动补全之后，就是语法检测，一般选择 <code>w0rp/ale</code>，<a href="https://github.com/w0rp/ale">链接</a></p>
+<p>其实不用麻烦，直接使用该<a href="https://github.com/rapphil/vim-python-ide">博主</a>写好的脚本即可。</p>
+<p>\begin{table}[]
+\begin{tabular}{lll}
+Action          &amp; Mode          &amp; key binding  \\<br>
+Toogle Nerdtree &amp; Normal        &amp; crtl + n     \\<br>
+toogle Tagbar   &amp; Normal        &amp; f8           \\<br>
+Look for file   &amp; Normal        &amp; crtl + p     \\<br>
+Goto definition &amp; Normal        &amp; crtl + {]}   \\<br>
+Show docstring  &amp; Normal        &amp; K            \\<br>
+Extract method  &amp; Normal/Visual &amp; crlt + c r m \\<br>
+Auto complete   &amp; Insert        &amp; crtl + space \\<br>
+Expand snippet  &amp; Insert        &amp; tab      <br>
+\end{tabular}
+\end{table}</p>
+<p>使用vim-plug安装vim插件</p>
+<p>常用的命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">PlugInstall [name ...] [#threads]	安装插件
+PlugUpdate [name ...] [#threads]	安装或更新vim插件
+PlugClean[!]	卸装未使用的目录 (bang version will clean without prompt)
+PlugUpgrade	更新vim-plug自身
+PlugStatus	查看vim插件的状态
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://vimjc.com/vim-plug.html">https://vimjc.com/vim-plug.html</a></p>
+<p>linux 中连续使用两个命令</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="c1">#这种example ：</span>
+mkdir elasticsearch-docker <span class="o">&amp;&amp;</span> <span class="nb">cd</span> elasticsearch-docker
+
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="linux磁盘和内存">linux磁盘和内存</h2>
+<p>（1）linux 内存管理</p>
+<p>主要特点是，无论物理内存有多大，Linux 都将其充份利用，将一些程序调用过的硬盘数据读入内存，利用内存读写的高速特性来提高Linux系统的数据访问性能。而Windows是只在需要内存时，才为应用程序分配内存，并不能充分利用大容量的内存空间。简单来说，buff是即将要被写入磁盘的，而cache是被从磁盘中读出来的。所以，linux 中的内存分配机制是优先使用物理内存，所以再次打开会比较快。</p>
+<p>buffer：是为了减少短期内突发io 的影响，起到流量整形的作用。cache 是缓解cpu 和内存之间的速度差异。所以linux中的 cache 可以回收，但是不能全部回收。</p>
+<p>内存溢出 out of memory，是指程序在申请内存时，没有足够的内存空间供其使用，出现out of memory；比如申请了一个integer,但给它存了long才能存下的数，那就是内存溢出。
+内存泄露 memory leak，是指程序在申请内存后，无法释放已申请的内存空间，一次内存泄露危害可以忽略，但内存泄露堆积后果很严重，无论多少内存,迟早会被占光</p>
+<p>实际可用内存大小：Free（-/+ buffers/cache行）= Free(Mem)+buffers(Mem)+Cached(Mem);</p>
+<p>（1）Linux中buff-cache占用过高解决手段</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">sync
+<span class="nb">echo</span> <span class="m">1</span> &gt; /proc/sys/vm/drop_caches
+<span class="nb">echo</span> <span class="m">2</span> &gt; /proc/sys/vm/drop_caches
+<span class="nb">echo</span> <span class="m">3</span> &gt; /proc/sys/vm/drop_caches
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>sync：将所有未写的系统缓冲区写到磁盘中，包含已修改的i-node、已延迟的块I/O和读写映射文件</li>
+<li>echo 1 &gt; /proc/sys/vm/drop_caches：清除page cache</li>
+<li>echo 2 &gt; /proc/sys/vm/drop_caches：清除回收slab分配器中的对象（包括目录项缓存和inode缓存）。slab分配器是内核中管理内存的一种机制，其中很多缓存数据实现都是用的pagecache。</li>
+<li>echo 3 &gt; /proc/sys/vm/drop_caches：清除pagecache和slab分配器中的缓存对象。
+/proc/sys/vm/drop_caches的值,默认为0</li>
+</ul>
+<p>在 linux (Ubuntu) 中查看进程是否因为内存占据过大而被杀掉</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">egrep -i -r <span class="s1">&#39;killed process&#39;</span> /var/log
+
+grep <span class="s2">&#34;Out of memory&#34;</span> /var/log/messages
+</code></pre></td></tr></table>
+</div>
+</div><p>创建定时脚本解决</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="cp">#!/bin/bash#每两小时清除一次缓存
+</span><span class="cp"></span><span class="nb">echo</span> <span class="s2">&#34;开始清除缓存&#34;</span>
+sync<span class="p">;</span>sync<span class="p">;</span>sync <span class="c1">#写入硬盘，防止数据丢失</span>
+sleep 10#延迟10秒
+<span class="nb">echo</span> <span class="m">1</span> &gt; /proc/sys/vm/drop_caches
+<span class="nb">echo</span> <span class="m">2</span> &gt; /proc/sys/vm/drop_caches
+<span class="nb">echo</span> <span class="m">3</span> &gt; /proc/sys/vm/drop_caches
+</code></pre></td></tr></table>
+</div>
+</div><p>创建定时任务</p>
+<p>设置crond启动以及开机自启</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">crontab -e #弹出配置文件
+</code></pre></td></tr></table>
+</div>
+</div><p>设置crond启动以及开机自启</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">#分　 时　 日　 月　 周　 命令
+0 */2 * * * ./cleanCache.sh
+</code></pre></td></tr></table>
+</div>
+</div><p>设置crond启动以及开机自启</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">systemctl start crond.service
+systemctl <span class="nb">enable</span> crond.service
+</code></pre></td></tr></table>
+</div>
+</div><p>查看定时任务是否被执行</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">cat /var/log/cron | grep cleanCache
+</code></pre></td></tr></table>
+</div>
+</div><p>（2）linux 中磁盘管理</p>
+<p>Linux 查看磁盘空间可以使用 <code>df</code> 和 <code>du</code> 命令。</p>
+<p>df 以磁盘分区为单位查看文件系统，可以获取硬盘被占用了多少空间，目前还剩下多少空间等信息。</p>
+<p>我们使用<code>df -h</code>  或者 <code>df -hi</code>命令来查看磁盘信息， <code>-h</code> 选项为根据大小适当显示，以下是常见的参数。</p>
+<ul>
+<li>Filesystem：文件系统</li>
+<li>Size： 分区大小</li>
+<li>Used： 已使用容量</li>
+<li>Avail： 还可以使用的容量</li>
+<li>Use%： 已用百分比</li>
+<li>Mounted on： 挂载点　</li>
+</ul>
+<p>我们还可以使用参数 -i 来查看目前档案系统 inode 的使用情形。有的时候虽然档案系统还有空间，但若没有足够的 inode 来存放档案的信息，一样会不能增加新的档案。所以使用或者创建文件是需要满足能够创建文件和文件node 两方面要求。inode 的数量关系着系统中可以建立的档案和目录。</p>
+<p>du 的英文原义为 disk usage，含义为显示磁盘空间的使用情况，用于查看当前目录的总大小。</p>
+<p>du -sh</p>
+<p>方便阅读的格式显示test目录所占空间情况：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">du -h test
+du -h --max-depth=1 #  当前路径的第一层目录
+
+# 查看每个用户目录下硬盘使用情况
+cd /home
+du -h *
+</code></pre></td></tr></table>
+</div>
+</div><p>（3）linux运用软链接解决目录空间不足</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">cd /
+mv /usr /new
+mv /home /new
+ln -s /new/usr /usr
+ln -s /new/home /home
+这样，/usr和/home目录中的东东就都移到新硬盘中了。
+</code></pre></td></tr></table>
+</div>
+</div><p>（4）挂载和卸载磁盘</p>
+<p>如果目录的空间不足，可以使用软连接解决，但是如果整个磁盘（分区）</p>
+<ul>
+<li>磁盘（设备）在Linux中的表示：</li>
+</ul>
+<p>Linux所有设备都被抽象为一个文件，保存在/dev目录下
+磁盘设备一般的名称为hd[a-z]或sd[a-z]（[a-z]为分区号），如hda，sda，hdb，sdb
+IDE设备的名称为hd[a-z]，SATA、SCSI、SAS、USB等设备的名称为sd[a-z]</p>
+<ul>
+<li>分区管理</li>
+</ul>
+<p>将一个磁盘逻辑的分为几个区，每个区当做独立磁盘，以方便使用和管理
+不同分区的名称一般为：设备名称+分区号
+第一块硬盘的第一个分区叫sda1，第一块硬盘的第二个分区sda2
+第二块硬盘的第一个分区叫sdb1，第二块硬盘的第二个分区叫sdb2</p>
+<p>磁盘类型</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">fd：软驱
+hd：IDE 磁盘
+sd：SCSI 磁盘
+tty：terminals
+vd：virtio 磁盘
+</code></pre></td></tr></table>
+</div>
+</div><p>最多能划分多少个分区？</p>
+<blockquote>
+<p>由于磁盘分区表只能保留四条记录，所以一个磁盘的主分区+扩展分区最多只能有四个。</p>
+</blockquote>
+<p>如果在多用户中，不建议使用，因为你在扩容之前需要 <code>unmount</code> 相应的设备，在 <code>unmount</code> 过程中可能还需要 kill 相应的进程。这样的操作很危险，相应的代码和教程。<a href="https://github.com/tencentyun/tencentcloud-cbs-tools/tree/master/devresize">控制台扩容云硬盘代码</a> 和对应的教程<a href="https://cloud.tencent.com/document/product/362/2929">Linux系统云硬盘扩容后新分区指引</a></p>
+<p>（5） du df disk 三个命令的区别</p>
+<p>df 全称 disk filesystem，用于显示 Linux 系统磁盘利用率，通常也用来查看磁盘占用空间。</p>
+<p>df -T 显示磁盘使用情况以及每个块的文件系统类型（例如，xfs、ext2、ext3、btrfs 等）。</p>
+<p>常见的文件系统有 Windows 下的 FAT32，NTFS，Unix 系统下的 ext3， ext4，添加 -T 参数在输出结果中增加一列来表示当前分区的文件系统。</p>
+<p>用 inode 方式显示磁盘使用情况</p>
+<p>df -i</p>
+<p>inode (index node) 是一个在类 Unix 文件系统下用来描述文件系统对象（文件或者目录）的数据结构。每一个 indoe 保存对象数据的属性和磁盘块地址。文件类型对象属性包括 metadata（修改时间，访问属性等）和文件的所有者以及文件权限。</p>
+<p>du 的英文原义为 disk usage，含义为显示磁盘空间的使用情况，用于查看当前目录的总大小。</p>
+<p>例如查看当前目录的大小：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">du -sh
+</code></pre></td></tr></table>
+</div>
+</div><p>显示指定文件所占空间：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">du log.log
+</code></pre></td></tr></table>
+</div>
+</div><p>（3）fdisk 命令</p>
+<p>分区是将一个硬盘驱动器分成若干个逻辑驱动器，分区是把硬盘连续的区块当做一个独立的磁盘使用。分区表是一个硬盘分区的索引,分区的信息都会写进分区表。</p>
+<p>分区的优点：</p>
+<ul>
+<li>
+<p>优化I/O性能</p>
+</li>
+<li>
+<p>实现磁盘空间配额限制增加磁盘空间使用效率</p>
+</li>
+<li>
+<p>提高修复速度</p>
+</li>
+<li>
+<p>隔离系统和程序</p>
+</li>
+<li>
+<p>安装多个OS</p>
+</li>
+<li>
+<p>采用不同文件系统</p>
+</li>
+<li>
+<p>防止数据丢失</p>
+</li>
+</ul>
+<p>fdisk -l 显示磁盘大小以及磁盘分区信息。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">[root@localhost ~]# fdisk -l
+#查询本机可以识别的硬盘和分区
+Disk /dev/sda:32.2 GB, 32212254720 bytes
+#硬盘文件名和硬盘大小
+255 heads, 63 sectors/track, 3916 cylinders
+#共255个磁头、63个扇区和3916个柱面
+Units = cylinders of 16065 *512 = 8225280 bytes
+#每个柱面的大小
+Sector size (logical/physical): 512 bytes/512 bytes
+#每个扇区的大小
+I/O size (minimum/optimal): 512 bytes/512 bytes
+</code></pre></td></tr></table>
+</div>
+</div><p>要使用一块新的硬盘，我们必须将它格式化建立合适的文件系统（linux:ext2,ext3等，windows:ntsf,fat32）,并挂载到相应的目录下我们才可以使用。比如有一个新硬盘 /dev/sdb，这个硬盘用于存放mysql 数据库之类的</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">mkfs.ext3 /dev/vdb
+mkfs.ext3 /dev/vdb1  //注：将/dev/sdb1格式化为ext3类型
+mkdir /data1
+mount /dev/sdb1 /data1
+#df -h
+</code></pre></td></tr></table>
+</div>
+</div><p>挂载硬盘操作流程</p>
+<p>linux上的盘和window的有区别，磁盘空间必须挂载在目录上，要不然没用</p>
+<ol>
+<li>确定硬盘名</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">sudo fdisk -l
+</code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>建立分区</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo fdisk /dev/sda
+</code></pre></td></tr></table>
+</div>
+</div><p>如果是新硬盘，那么需要新建分区并格式化硬盘（如果硬盘已经有数据，那么请先备份，谨慎操作）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">n    新建分区
+p    创建逻辑分区
+1    创建一个分区
+w    保存
+</code></pre></td></tr></table>
+</div>
+</div><p>这个时候再使用命令查看设备信息</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo fdisk -l
+</code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>格式化分区</li>
+</ol>
+<p>加入分区格式不是 ext4，那么可先格式化成 ext4</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">sudo mkfs.ext4 /dev/sda1
+</code></pre></td></tr></table>
+</div>
+</div><ol start="4">
+<li>挂载到指定目录</li>
+</ol>
+<p>（先创建）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">mkdir ~/hdd
+</code></pre></td></tr></table>
+</div>
+</div><p>挂载</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">sudo mount /dev/sda1 ~/hdd
+</code></pre></td></tr></table>
+</div>
+</div><ol start="5">
+<li>设置开机自动挂载</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">sudo vim /etc/fstab
+<span class="c1"># 然后加上</span>
+/dev/sda1 /home/jeng/hdd ext4 defaults <span class="m">0</span> <span class="m">0</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（4）硬盘的管理</p>
+<p>多硬盘合并挂载 <code>mhddfs</code>， 当多个硬盘挂载在相应的文件夹下，那么形成了分散的目录，这样对于访问文件十分不利。所以可以使用 mhddfs 将多个硬盘挂载在一个路径下，也被称为linux 分区合并，即挂载点合并。</p>
+<p>（5）各种段错误</p>
+<p>在Linux下编译没有问题，运行时出现：段错误（有的系统提示：segmentation fault）</p>
+<p>常常使用以下的命令</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">ulimit</span> -s unlimited
+</code></pre></td></tr></table>
+</div>
+</div><p>查看本机的内存设置</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">ulimit</span> -a
+</code></pre></td></tr></table>
+</div>
+</div><p>注意到其中的stack size只有10240k byte，即系统的默认值。这样ifort编译的子程序只能开辟10兆的内存，超出这个数目，运行程序将报错“Segmentation fault”。</p>
+<p>解决的办法是提高堆栈大小，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">$ ulimit -s 200000
+
+</code></pre></td></tr></table>
+</div>
+</div><p>子程序就可以开辟约200M的内存。</p>
+<p>另外，主程序中开辟内存则不受这一限制，但是ifort编译的主程序在32位系统中最多不可以超过2G内存。</p>
+<p>另注：ulimit是bash的内部命令，一个终端只能运行一次，如果需要再改变堆栈大小，重新开一个终端</p>
+<h2 id="linux中文件夹">linux中文件夹</h2>
+<p>linux 中的“一切皆文件”</p>
+<ol>
+<li>bin</li>
+</ol>
+<p>binary（二进制）的缩写；存放一般的所需要的命令，比如说ls，cp，mkdir等，基础命令的可执行文件在这里存放。</p>
+<ol start="2">
+<li>sbin</li>
+</ol>
+<p>system binary是系统管理员专用的二进制代码存放目录。比如说引导系统的 init 程序，普通用户无权限执行该目录下的命令，在sbin 中包含都是具有 root权限才能执行的命令</p>
+<ol start="3">
+<li>boot</li>
+</ol>
+<p>&ldquo;引导&rdquo;， 存放Linux系统启动的文件，启动配置以及内核的镜像。系统启动阶段，引导程序</p>
+<ol start="4">
+<li>dev</li>
+</ol>
+<p>device（设备）的缩写，存放是系统下的所有设备文件。在linux 中设备都适合以文件的形式出现，这里的设备可以是硬盘，键盘，鼠标等终端。</p>
+<ol start="5">
+<li>etc</li>
+</ol>
+<p>具有 “and so on”等等的额意思，存放系统的各种配置文件。系统和程序一般可以通过修改配置文件，来进行配置。比如设置系统开机启动项，配置某个程序启动的风格？ 可以在/etc 下面寻找相应的文件进行修改。比如/etc/passwd（用户数据库），/etc/group, 存储的是各种组的信息，不是用户信息。/etc/shadow 将 /etc/passwd 文件中的几家米口令移动到/etc/shadow 中，后者对于 root 是可读的。</p>
+<p>5.1  /etc/group 的解析</p>
+<p>/etc/group 的内容包括用户组（Group）、用户组口令、GID及该用户组所包含的用户（User），每个用户组一条记录；格式如下：
+group_name:passwd:GID:user_list</p>
+<p>在/etc/group 中的每条记录分四个字段：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">第一字段：用户组名称；
+第二字段：用户组密码；
+第三字段：GID
+第四字段：用户列表，每个用户之间用,号分割；本字段可以为空；如果字段为空表示用户组为GID的用户名；
+</code></pre></td></tr></table>
+</div>
+</div><p>将一个用户添加到用户组中，千万不能直接用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">usermod -G groupA 
+</code></pre></td></tr></table>
+</div>
+</div><p>这样做会使你离开其他用户组，仅仅做为 这个用户组 groupA 的成员。
+应该用 加上 -a 选项：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">usermod -a -G groupA user
+</code></pre></td></tr></table>
+</div>
+</div><p>useradd 示例 – 增加一个新用户到附加用户组</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">useradd -G {group-name} username
+
+grep developers /etc/group
+# 为确保已经将该用户正确的添加到 developers 用户组中，可以查看该用户的属性，使用 id 命令：
+id cnzhx
+
+
+
+
+
+# grep developers /etc/group
+</code></pre></td></tr></table>
+</div>
+</div><ol start="6">
+<li>home</li>
+</ol>
+<p>普通用户的家目录</p>
+<ol start="6">
+<li>root</li>
+</ol>
+<p>系统管理员所在的“家”目录，只有root 用户可以对其进行操作。root 的主目录比较特殊，不存放在/home 下，而是直接在/root 下</p>
+<ol start="7">
+<li>lib</li>
+</ol>
+<p>libiary（图书馆），在计算机中翻译成“库” 更加合适。系统使用函数库的目录，如存放/bin 和 /sbin 目录下程序所需要的库文件</p>
+<ol start="8">
+<li>media</li>
+</ol>
+<p>media（媒体，介质）；软盘或者光盘等的挂载点。系统自动挂载会选择的地方。</p>
+<ol start="9">
+<li>mnt</li>
+</ol>
+<p>mount（嵌入，挂载点）系统可移动设备的挂载点。手动挂载选择的地方</p>
+<ol start="10">
+<li>opt</li>
+</ol>
+<p>optional， “可选择”的意思，作用是安装第三方软件的地方</p>
+<ol start="11">
+<li>proc</li>
+</ol>
+<p>process （进程），包含某些程序使用的系统信息</p>
+<ol start="12">
+<li>run</li>
+</ol>
+<p>运行，表示运行时的临时文件</p>
+<ol start="13">
+<li>src</li>
+</ol>
+<p>service（服务）， 服务启动后，所需要访问的数据目录</p>
+<ol start="14">
+<li>sys</li>
+</ol>
+<p>system，表示系统文件</p>
+<ol start="15">
+<li>tmp</li>
+</ol>
+<p>系统temporary（临时）目录。 该目录存放系统中的一些临时文件，当重启时候，文件被清空。</p>
+<ol start="16">
+<li>usr</li>
+</ol>
+<p>unix software resource， 操作系统软件资源。包含了命令的库文件和通常操作中不会被修改的文件。比如说/usr/lib, /usr/bin 等</p>
+<ol start="17">
+<li>var</li>
+</ol>
+<p>variable（可变的），此目录的大小可能发生变化，存储的是缓存文件，日志文件。</p>
+<ol start="18">
+<li>lost+found</li>
+</ol>
+<p>当系统崩溃的时候，在系统恢复的过程中需要恢复的文件，可能在这里找到（不是删除文件的回收站）</p>
+<p>完全重新安装软件, <a href="https://zgljl2012.com/ubuntu-18-04-wan-quan-zhong-zhuang-ssh-fu-wu/">Ubuntu 18.04 完全重装 SSH 服务</a></p>
+<h2 id="linux-版本问题">linux 版本问题</h2>
+<p>在命令行如何查询是哪个版本的linux 呢？</p>
+<p>uname命令虽不能查看当前系统名和版本，但可以显示系统核心信息，也可以使用cat /proc/version</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">uname -a
+
+cat /proc/version 
+
+</code></pre></td></tr></table>
+</div>
+</div><p>常见的版本有centos, redhat 和ubuntu。 当然 MacOS 也是根据linux 二次开发的，所以很多命令是通用的。</p>
+<ol>
+<li>权限差异</li>
+</ol>
+<p>centos/redhat上面：root权限最高，想干啥干啥，其次是普通用户，切换到哪去都可以，但是要增删查改，不行，除非在/etc/sudoers上面添加用户</p>
+<p>ubuntu上面：root权限最高，他是大哥，其次是普通用户，这个用户的个体数据存放在/home/User下面，个体用户对其所属的/home/User，下面有rw权限</p>
+<ol start="2">
+<li>安装包不同</li>
+</ol>
+<p>centos/redhat:rpm包，安装方式</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">yum  -y  install   XXXX
+</code></pre></td></tr></table>
+</div>
+</div><p>ubuntu：.deb包，安装方式</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">apt-get  install  XXXX
+</code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>界面差异</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">centos/redhat：比较死板，单一
+ubuntu：比较炫酷，很nice
+</code></pre></td></tr></table>
+</div>
+</div><p>这里说一句：服务器上安装系统：最好选择centos，比较稳定，我们一般登录服务器都是后台登录，没有会去界面登录，ubuntu上的界面看不到。redhat是开源的，用户少，维护起来有些困难，要翻墙查资料。ubuntu这个路径不能伸缩（对于用多了centos的我，好难受啊，强迫症强迫症。。。）</p>
+<p>红帽系比较稳定，Ubuntu更新较频繁。个人使用，推荐Ubuntu。</p>
+<p>linux的内核目前还在飞速的发展，现在常见的是2.X版本，X为奇数，为不稳定版，x为偶数为稳定版，比如rhel采用的2.4和目前最新的，很多个人桌面采用的2.6。不同的linux发行版本采用的内核不尽相同，比如fedora一般都是采用最新的内核。</p>
+<h3 id="linux-日志">linux 日志</h3>
+<p>查看linux 相关日志涉及到系统安全，是系统管理中非常重要的一部分。</p>
+<ol>
+<li>/var/log/auth.log</li>
+</ol>
+<p>记录了所有和用户认证相关的日志。无论通过ssh （秘钥） 还是sudo 登录都会在auth.log 中有记录。</p>
+<ol start="2">
+<li>可以记录所有的 <code>sudo</code> 命令的使用情况</li>
+</ol>
+<p><a href="https://blog.csdn.net/xyz846/article/details/26406955">sudo使用及日志添加</a></p>
+<ol start="3">
+<li>linux 的登录日志</li>
+</ol>
+<p>lastlog引用的是 <code>/var/log/lastlog</code>文件中的信息，包括login-name、port、last login time</p>
+<p>last  列出当前和曾经登入系统的用户信息</p>
+<p>lastb  列出失败尝试的登录信息</p>
+<p><code>/var/log/btmp</code></p>
+<p>这是一个二进制文件，所以不能直接通过文本编辑器查看其内容。这个文件记录的是所有失败的登录尝试，使用 last 命令及其 -f 选项可以查看这个文件的内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">last -f /var/log/btmp
+</code></pre></td></tr></table>
+</div>
+</div><p>who 命令</p>
+<p>who 命令通过查询 /var/run/utmp 文件来显式系统中当前登录的每个用户。默认的输出包括用户名、终端类型、登录日期及远程主机：</p>
+<p>w 命令</p>
+<p>如果能够查询到当前登录系统的用户都在干什么是不是一件令人很兴奋的事情呢！使用 w 命令就可以做到：</p>
+<p>查看重启情况</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">last reboot
+</code></pre></td></tr></table>
+</div>
+</div><p>查看 用户登录 情况</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">last | less 
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="其他">其他</h2>
+<ol>
+<li><a href="https://my.oschina.net/sukai/blog/654712">Linux 查看进程被杀死的详情</a></li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">dmesg <span class="p">|</span> egrep -i -B100 <span class="s1">&#39;killed process&#39;</span>
+
+或:
+egrep -i <span class="s1">&#39;killed process&#39;</span> /var/log/messages
+egrep -i -r <span class="s1">&#39;killed process&#39;</span> /var/log
+
+或:
+journalctl -xb <span class="p">|</span> egrep -i <span class="s1">&#39;killed process&#39;</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-02-18
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/linux/">linux</a>
+          <a href="/tags/github/">github</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/leetcode_tree/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Leetcode-Tree</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/leetcode_array_1/">
+            <span class="next-text nav-default">Leetcode Array(1)</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

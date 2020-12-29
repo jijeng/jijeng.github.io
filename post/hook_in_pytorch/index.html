@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Hook in pytorch - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="hook 的引入
+在pytorch中的自动求梯度机制(Autograd mechanics)中，如果将tensor的requires_grad设为True, 那么涉及到它的一系列运算将在反向传播中自动求梯度。但是自动求导的机制有个我们需要注意的地方：在自动求导机制中只保存叶子节点，也就是中间变量在计算完成梯度后会自动释放以节省空间.
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/hook_in_pytorch/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Hook in pytorch" />
+<meta property="og:description" content="hook 的引入
+在pytorch中的自动求梯度机制(Autograd mechanics)中，如果将tensor的requires_grad设为True, 那么涉及到它的一系列运算将在反向传播中自动求梯度。但是自动求导的机制有个我们需要注意的地方：在自动求导机制中只保存叶子节点，也就是中间变量在计算完成梯度后会自动释放以节省空间." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/hook_in_pytorch/" />
+<meta property="article:published_time" content="2020-11-29T10:22:37+08:00" />
+<meta property="article:modified_time" content="2020-11-29T10:22:37+08:00" />
+<meta itemprop="name" content="Hook in pytorch">
+<meta itemprop="description" content="hook 的引入
+在pytorch中的自动求梯度机制(Autograd mechanics)中，如果将tensor的requires_grad设为True, 那么涉及到它的一系列运算将在反向传播中自动求梯度。但是自动求导的机制有个我们需要注意的地方：在自动求导机制中只保存叶子节点，也就是中间变量在计算完成梯度后会自动释放以节省空间.">
+<meta itemprop="datePublished" content="2020-11-29T10:22:37+08:00" />
+<meta itemprop="dateModified" content="2020-11-29T10:22:37+08:00" />
+<meta itemprop="wordCount" content="967">
+
+
+
+<meta itemprop="keywords" content="hook,pytorch," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Hook in pytorch"/>
+<meta name="twitter:description" content="hook 的引入
+在pytorch中的自动求梯度机制(Autograd mechanics)中，如果将tensor的requires_grad设为True, 那么涉及到它的一系列运算将在反向传播中自动求梯度。但是自动求导的机制有个我们需要注意的地方：在自动求导机制中只保存叶子节点，也就是中间变量在计算完成梯度后会自动释放以节省空间."/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Hook in pytorch</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-11-29 </span>
+        
+          <span class="more-meta"> 约 967 字 </span>
+          <span class="more-meta"> 预计阅读 2 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>hook 的引入</p>
+<p>在pytorch中的自动求梯度机制(Autograd mechanics)中，如果将tensor的requires_grad设为True, 那么涉及到它的一系列运算将在反向传播中自动求梯度。但是自动求导的机制有个我们需要注意的地方：<strong>在自动求导机制中只保存叶子节点，也就是中间变量在计算完成梯度后会自动释放以节省空间.</strong></p>
+<blockquote>
+<p>We’ve inspected the weights and the gradients. But how about <strong>inspecting / modifying the output and grad_output of a layer</strong> ? We introduce hooks for this purpose.</p>
+</blockquote>
+<p>hook的引入是为了让我们可以检测或者修改一个layer的output或者grad_output.</p>
+<p>hook 的分类</p>
+<ul>
+<li>
+<p>TENSOR.register_hook(FUNCTION)</p>
+</li>
+<li>
+<p>MODULE.register_forward_hook(FUNCTION)</p>
+</li>
+<li>
+<p>MODULE.register_backward_hook(FUNCTION)</p>
+</li>
+</ul>
+<blockquote>
+<p>PyTorch hooks are registered for each <code>Tensor</code> or <code>nn.Module</code> object and are triggered by either the <em>forward</em> or <em>backward</em> pass of the object. They have the following function signatures:</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span><span class="p">,</span> <span class="n">Tensor</span>
+<span class="k">def</span> <span class="nf">module_hook</span><span class="p">(</span><span class="n">module</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">):</span>
+    <span class="c1"># For nn.Module objects only.</span>
+<span class="k">def</span> <span class="nf">tensor_hook</span><span class="p">(</span><span class="n">grad</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">):</span>
+    <span class="c1"># For Tensor objects only.</span>
+    <span class="c1"># Only executed during the *backward* pass!</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>hook 的使用场景</p>
+<ol>
+<li>debug</li>
+</ol>
+<blockquote>
+<p>Each hook can modify the input, output, or internal Module parameters. Most commonly, they are used for debugging purposes. But we will see that they have many other uses.</p>
+</blockquote>
+<ol start="2">
+<li>verbose model execution</li>
+</ol>
+<p>可以使用print，但是不够professional。</p>
+<blockquote>
+<p>Never again! Let’s use hooks instead to debug models without modifying their implementation in any way. For example, suppose you want to know the shape of each layer’s output. We can create a simple wrapper that prints the output shapes using hooks</p>
+</blockquote>
+<p>给出一个case：输出模型每一层的 output shape using hooks</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torchvision.models</span> <span class="kn">import</span> <span class="n">resnet50</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span><span class="p">,</span> <span class="n">Tensor</span>
+
+<span class="k">class</span> <span class="nc">VerboseExecution</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+
+        <span class="c1"># Register a hook for each layer</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">named_children</span><span class="p">():</span>
+            <span class="n">layer</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">name</span>
+            <span class="n">layer</span><span class="o">.</span><span class="n">register_forward_hook</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">layer</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&#34;{layer.__name__}: {output.shape}&#34;</span><span class="p">)</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">verbose_resnet</span> <span class="o">=</span> <span class="n">VerboseExecution</span><span class="p">(</span><span class="n">resnet50</span><span class="p">())</span>
+<span class="n">dummy_input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">verbose_resnet</span><span class="p">(</span><span class="n">dummy_input</span><span class="p">)</span>
+<span class="c1"># conv1: torch.Size([10, 64, 112, 112])</span>
+<span class="c1"># bn1: torch.Size([10, 64, 112, 112])</span>
+<span class="c1"># relu: torch.Size([10, 64, 112, 112])</span>
+<span class="c1"># maxpool: torch.Size([10, 64, 56, 56])</span>
+<span class="c1"># layer1: torch.Size([10, 256, 56, 56])</span>
+<span class="c1"># layer2: torch.Size([10, 512, 28, 28])</span>
+<span class="c1"># layer3: torch.Size([10, 1024, 14, 14])</span>
+<span class="c1"># layer4: torch.Size([10, 2048, 7, 7])</span>
+<span class="c1"># avgpool: torch.Size([10, 2048, 1, 1])</span>
+<span class="c1"># fc: torch.Size([10, 1000])</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>feature extraction</li>
+</ol>
+<blockquote>
+<p>Commonly, we want to generate features from a pre-trained network, and use them for another task (e.g. classification, similarity search, etc.). Using hooks, we can extract features without needing to re-create the existing model or modify it in any way.</p>
+<p>使用任意 pretrained model 去 extract feature embedding</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Callable</span>
+
+<span class="k">class</span> <span class="nc">FeatureExtractor</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">layers</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="n">layers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_features</span> <span class="o">=</span> <span class="p">{</span><span class="n">layer</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">layers</span><span class="p">}</span>
+
+        <span class="k">for</span> <span class="n">layer_id</span> <span class="ow">in</span> <span class="n">layers</span><span class="p">:</span>
+            <span class="n">layer</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">named_modules</span><span class="p">()])[</span><span class="n">layer_id</span><span class="p">]</span>
+            <span class="n">layer</span><span class="o">.</span><span class="n">register_forward_hook</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save_outputs_hook</span><span class="p">(</span><span class="n">layer_id</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">save_outputs_hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">fn</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">__</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_features</span><span class="p">[</span><span class="n">layer_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span>
+        <span class="k">return</span> <span class="n">fn</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_features</span>
+    
+<span class="n">resnet_features</span> <span class="o">=</span> <span class="n">FeatureExtractor</span><span class="p">(</span><span class="n">resnet50</span><span class="p">(),</span> <span class="n">layers</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;layer4&#34;</span><span class="p">,</span> <span class="s2">&#34;avgpool&#34;</span><span class="p">])</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">resnet_features</span><span class="p">(</span><span class="n">dummy_input</span><span class="p">)</span>
+<span class="k">print</span><span class="p">({</span><span class="n">name</span><span class="p">:</span> <span class="n">output</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">output</span> <span class="ow">in</span> <span class="n">features</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
+<span class="c1"># {&#39;layer4&#39;: torch.Size([10, 2048, 7, 7]), &#39;avgpool&#39;: torch.Size([10, 2048, 1, 1])}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>提取 <code>layer4</code> 和<code>avgpool</code> 的信息，后者的维度是 2048</p>
+<ol start="4">
+<li>gradient clipping</li>
+</ol>
+<blockquote>
+<p><a href="https://towardsdatascience.com/what-is-gradient-clipping-b8e815cdfb48">Gradient clipping</a> is a well-known method for dealing with exploding gradients. PyTorch already provides utility methods for performing gradient clipping, but we can also easily do it with hooks. Any other method for gradient clipping/normalization/modification can be done the same way.</p>
+<p>可以使用pytorch 自带的 method，也可以使用 hook实现 gradient clipping （用来处理梯度爆炸）</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">gradient_clipper</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
+        <span class="n">parameter</span><span class="o">.</span><span class="n">register_hook</span><span class="p">(</span><span class="k">lambda</span> <span class="n">grad</span><span class="p">:</span> <span class="n">grad</span><span class="o">.</span><span class="n">clamp_</span><span class="p">(</span><span class="o">-</span><span class="n">val</span><span class="p">,</span> <span class="n">val</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">model</span>
+
+<span class="n">clipped_resnet</span> <span class="o">=</span> <span class="n">gradient_clipper</span><span class="p">(</span><span class="n">resnet50</span><span class="p">(),</span> <span class="mf">0.01</span><span class="p">)</span>
+<span class="n">pred</span> <span class="o">=</span> <span class="n">clipped_resnet</span><span class="p">(</span><span class="n">dummy_input</span><span class="p">)</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">pred</span><span class="o">.</span><span class="n">log</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">clipped_resnet</span><span class="o">.</span><span class="n">fc</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">grad</span><span class="p">[:</span><span class="mi">25</span><span class="p">])</span>
+<span class="c1"># tensor([-0.0010, -0.0047, -0.0010, -0.0009, -0.0015,  0.0027,  0.0017, -0.0023,</span>
+<span class="c1">#          0.0051, -0.0007, -0.0057, -0.0010, -0.0039, -0.0100, -0.0018,  0.0062,</span>
+<span class="c1">#          0.0034, -0.0010,  0.0052,  0.0021,  0.0010,  0.0017, -0.0100,  0.0021,</span>
+<span class="c1">#          0.0020])</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>参考文献</p>
+<p><a href="https://medium.com/the-dl/how-to-use-pytorch-hooks-5041d777f904">How to Use PyTorch Hooks</a></p>
+<p><a href="https://www.cnblogs.com/shiyublog/p/11207582.html">PyTorch Hook</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-11-29
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/hook/">hook</a>
+          <a href="/tags/pytorch/">pytorch</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/image_classification/">
+            <span class="next-text nav-default">Image classification</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

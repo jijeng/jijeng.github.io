@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>elastic search on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/elastic-search/</link>
+    <description>Recent content in elastic search on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 29 Jun 2020 11:22:11 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/elastic-search/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Elastic Search 学习笔记(一)</title>
+      <link>http://jijeng.github.io/post/elastic_search_1/</link>
+      <pubDate>Mon, 29 Jun 2020 11:22:11 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/elastic_search_1/</guid>
+      <description>&lt;p&gt;介绍使用 elastic search&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Elasticsearch 的使用优化</title>
+      <link>http://jijeng.github.io/post/elastic_search_2/</link>
+      <pubDate>Tue, 07 Jan 2020 13:23:26 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/elastic_search_2/</guid>
+      <description>&lt;p&gt;介绍和使用nginx 的记录&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

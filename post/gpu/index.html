@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>深度学习中的 GPU - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="如题所示，介绍深度学习中的gpu 的使用。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/gpu/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="深度学习中的 GPU" />
+<meta property="og:description" content="如题所示，介绍深度学习中的gpu 的使用。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/gpu/" />
+<meta property="article:published_time" content="2020-03-30T13:56:42+08:00" />
+<meta property="article:modified_time" content="2020-03-30T13:56:42+08:00" />
+<meta itemprop="name" content="深度学习中的 GPU">
+<meta itemprop="description" content="如题所示，介绍深度学习中的gpu 的使用。">
+<meta itemprop="datePublished" content="2020-03-30T13:56:42+08:00" />
+<meta itemprop="dateModified" content="2020-03-30T13:56:42+08:00" />
+<meta itemprop="wordCount" content="1719">
+
+
+
+<meta itemprop="keywords" content="gpu," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="深度学习中的 GPU"/>
+<meta name="twitter:description" content="如题所示，介绍深度学习中的gpu 的使用。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">深度学习中的 GPU</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-03-30 </span>
+        <div class="post-category">
+            <a href="/categories/deep-learning/"> deep learning </a>
+            </div>
+          <span class="more-meta"> 约 1719 字 </span>
+          <span class="more-meta"> 预计阅读 4 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>如题所示，介绍深度学习中的gpu 的使用。</p>
+<ol>
+<li>nvidia-smi</li>
+</ol>
+<p>查看GPU 的信息： <code>nvidia-smi</code> 这个是查看NVIDIA 显卡的命令。今天详细解读一下 nvidia-smi 命令。</p>
+<img src="https://i.niupic.com/images/2020/04/01/7dDq.png" width="80%" height="80%">
+<p>上面的表格中的红框中的信息与下面的四个框的信息是一一对应的：</p>
+<p>GPU：GPU 编号；
+Name：GPU 型号；
+Persistence-M：持续模式的状态。持续模式虽然耗能大，但是在新的GPU应用启动时，花费的时间更少，这里显示的是off的状态；
+Fan：风扇转速，从0到100%之间变动；
+Temp：温度，单位是摄氏度；
+Perf：性能状态，从P0到P12，P0表示最大性能，P12表示状态最小性能（即 GPU 未工作时为P0，达到最大工作限度时为P12）。
+Pwr:Usage/Cap：能耗；
+Memory Usage：显存使用率；
+Bus-Id：涉及GPU总线的东西，domain🚌device.function；
+Disp.A：Display Active，表示GPU的显示是否初始化；
+Volatile GPU-Util：浮动的GPU利用率；
+Uncorr. ECC：Error Correcting Code，错误检查与纠正；
+Compute M：compute mode，计算模式。</p>
+<ol start="2">
+<li>设置定时任务</li>
+</ol>
+<p>crontab 默认是 nano 编辑器，不好用，将 crontab 改为 vim 编辑器</p>
+<p>直接定义变量指定 crontab 为 vim 编辑器</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">export EDITOR=&#34;/usr/bin/vim&#34; ; crontab -e
+</code></pre></td></tr></table>
+</div>
+</div><p>或使用更简单的方式，直接从重新指定 crontab 的默认编辑器，执行以下命令，选择对应编辑器的编号即可</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">select-editor
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">crontab -e # 编辑该用户下的所有任务
+crontab -l  # 表示列出所有的定时任务
+crontab -r  # 表示删除用户的定时任务，当执行此命令后，所有用户下面的定时任务会被删除，
+</code></pre></td></tr></table>
+</div>
+</div><p>注意在配置的时候，使用绝对路径。因为 crontab 默认没有环境变量，所以使用绝对路径执行命令</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">crontab文件中的行由6个字段组成，不同字段间用空格或者tab键分割。前5个字段指定命令要运行的时间
+分钟（0-59）
+小时（0-28）
+日期（1-31）
+月份（1-12）
+星期几（0-6，其中0代表星期日）
+第六个字段是一个要在适当时间执行的字符串
+</code></pre></td></tr></table>
+</div>
+</div><p>例子</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">#MIN HOUR DAY MONTH DAYOFWEEK COMMAND
+
+#每天早上6点10分
+10 6 * * * date
+
+#没两个小时
+0 */2 * * * date
+
+#晚上11点到早上8点之间每2个小时，早上8点
+0 23-7/2,8 * * * date
+
+#每个月的4号和每个礼拜的礼拜一到礼拜三的早上11点
+0 11 4 * mon-wed date
+
+#1月份一号早上4点
+0 4 1 jan * date
+</code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>监控GPU 的使用情况</li>
+</ol>
+<p>watch 命令：可以将命令的输出结果输出到标准输出设备，多用于周期性执行命令/定时执行命令
+命令的格式：watch[参数][命令]</p>
+<p>GPU利用率：显存占用和GPU利用率是两个不一样的东西，显卡是由GPU计算单元和显存等组成的，显存和GPU的关系有点类似于内存和CPU的关系。</p>
+<p>方法一：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">watch -n 10 nvidia-smi
+</code></pre></td></tr></table>
+</div>
+</div><p>常使用的参数为</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">memory.total
+memory.free
+memory.used
+
+index
+name 
+power.draw
+power.limit
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">nvidia-smi --query-gpu=gpu_name,gpu_bus_id,vbios_version --format=csv
+nvidia-smi --query-gpu=gpu_name,gpu_bus_id,vbios_version --format=csv
+</code></pre></td></tr></table>
+</div>
+</div><p>方法二：</p>
+<p>这里推荐一个好用的小工具：gpustat,直接pip install gpustat即可安装，gpustat基于nvidia-smi，可以提供更美观简洁的展示，结合watch命令，可以动态实时监控GPU的使用情况。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">watch --color -n1 gpustat -cpu 
+</code></pre></td></tr></table>
+</div>
+</div><p>显存可以看成是空间，类似于内存。显存用于存放模型，数据。显存越大，所能运行的网络也就越大。那么模型中哪里使用到显存呢？</p>
+<ul>
+<li>需要计算每一层的feature map的形状（多维数组的形状）</li>
+<li>需要保存输出对应的梯度用以反向传播（链式法则）</li>
+<li>显存占用与 batch size 成正比</li>
+<li>模型输出不需要存储相应的动量信息。
+深度学习中神经网络的显存占用，我们可以得到如下公式：</li>
+</ul>
+<p>显存占用 = 模型显存占用 + batch_size × 每个样本的显存占用</p>
+<p>可以看出显存不是和batch-size简单的成正比，尤其是模型自身比较复杂的情况下：比如全连接很大，Embedding层很大</p>
+<p>节省显存一般有如下方法：</p>
+<ul>
+<li>降低batch-size</li>
+<li>下采样(NCHW -&gt; (1/4)*NCHW)</li>
+<li>减少全连接层（一般只留最后一层分类用的全连接层）</li>
+</ul>
+<p><a href="https://zhuanlan.zhihu.com/p/28690706">【解决抢卡争端】为Tensorflow和PyTorch自动选择空闲GPU</a></p>
+<p>除了使用 <code>nvidia-smi</code> 命令查看 显存占用情况，想要得到更加详细的内容可以使用以下的命令。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ps -elf | grep python
+</code></pre></td></tr></table>
+</div>
+</div><p>然后结合 kill 命令处理</p>
+<p>一般来说，double  image resolution (2 *2)， 然后对于 gpu memory 是之前的四倍。</p>
+<p>获取 GPU 使用情况</p>
+<ol>
+<li><a href="https://github.com/rharish101/gpu-info">gpu-info</a></li>
+</ol>
+<blockquote>
+<p>Script to get GPU usage on multiple GPU servers
+This is used to monitor which users are using how much memory overall, per host, and per GPU, on multiple GPU servers.
+NOTE: This only works with servers using NVIDIA&rsquo;s GPUs.
+这个脚本实现的功能比较全，好好使用学习一下</p>
+</blockquote>
+<ol start="2">
+<li>gpustat</li>
+</ol>
+<p>这个命令是初级的，适合简单看一下使用情况</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">pip install gpustat
+
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-03-30
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/gpu/">gpu</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/cnn_understanding/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">CNN Understanding</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/blending_cv2/">
+            <span class="next-text nav-default">OpenCV Blending 技术</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

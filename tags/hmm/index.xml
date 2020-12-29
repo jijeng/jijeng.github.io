@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>hmm on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/hmm/</link>
+    <description>Recent content in hmm on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 06 Sep 2019 14:00:01 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/hmm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>基于隐马尔科夫的命名实体识别</title>
+      <link>http://jijeng.github.io/post/hmm/</link>
+      <pubDate>Fri, 06 Sep 2019 14:00:01 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/hmm/</guid>
+      <description>&lt;p&gt;介绍自然语言处理中的命名实体识别（Named Entity Recognition，NER ）相关概念，主要介绍基于HMM 的NER，包括HMM中的两大假设，三大参数和Viterbi 算法。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

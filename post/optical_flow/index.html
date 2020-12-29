@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Optical Flow - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="Optical Flow 的简单介绍。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/optical_flow/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Optical Flow" />
+<meta property="og:description" content="Optical Flow 的简单介绍。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/optical_flow/" />
+<meta property="article:published_time" content="2020-05-24T15:52:42+08:00" />
+<meta property="article:modified_time" content="2020-05-24T15:52:42+08:00" />
+<meta itemprop="name" content="Optical Flow">
+<meta itemprop="description" content="Optical Flow 的简单介绍。">
+<meta itemprop="datePublished" content="2020-05-24T15:52:42+08:00" />
+<meta itemprop="dateModified" content="2020-05-24T15:52:42+08:00" />
+<meta itemprop="wordCount" content="1419">
+
+
+
+<meta itemprop="keywords" content="optical flow," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Optical Flow"/>
+<meta name="twitter:description" content="Optical Flow 的简单介绍。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Optical Flow</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-05-24 </span>
+        
+          <span class="more-meta"> 约 1419 字 </span>
+          <span class="more-meta"> 预计阅读 3 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>Optical Flow 的简单介绍。</p>
+<p>光流法是利用图像序列中像素在时间域上的变化以及相邻帧之间的相关性来找到上一帧跟当前帧之间存在的对应关系，从而计算出相邻帧之间物体的运动信息的一种方法。</p>
+<p>一言以概之：所谓光流就是瞬时速率，在时间间隔很小（比如视频的连续前后两帧之间）时，也等同于目标点的位移</p>
+<p>Recovering motion</p>
+<p>• Feature-tracking
+– Extract visual features (corners, textured areas) and “track” them over
+multiple frames</p>
+<p>• Optical flow
+– Recover image motion at each pixel from spatio-temporal image
+brightness variations (optical flow)</p>
+<img url ="https://i.loli.net/2020/05/24/JdSOUIPC2xuiG1Q.png" height ="80%" width ="80%">
+<p>Estimating the motion of every pixel in a sequence of images is a problem with many applications in computer vision, such as image segmentation, object classification,visual odometry, and driver assistance.</p>
+<p>In general, optical flow describes a sparse or dense vector field, where a displacement vector is assigned to certain pixel position, that points to where that pixel can be found in another image. In the context of scene flow estimation, which is performed on images with additional depth values, every pixel is assigned a depth displacement as well.</p>
+<p>光流（optic flow）是什么呢？名字很专业，感觉很陌生，但本质上，我们是最熟悉不过的了。因为这种视觉现象我们每天都在经历。从本质上说，光流就是你在这个运动着的世界里感觉到的明显的视觉运动（呵呵，相对论，没有绝对的静止，也没有绝对的运动）。例如，当你坐在火车上，然后往窗外看。你可以看到树、地面、建筑等等，他们都在往后退。这个运动就是光流。而且，我们都会发现，他们的运动速度居然不一样？这就给我们提供了一个挺有意思的信息：通过不同目标的运动速度判断它们与我们的距离。一些比较远的目标，例如云、山，它们移动很慢，感觉就像静止一样。但一些离得比较近的物体，例如建筑和树，就比较快的往后退，然后离我们的距离越近，它们往后退的速度越快。一些非常近的物体，例如路面的标记啊，草地啊等等，快到好像在我们耳旁发出嗖嗖的声音。</p>
+<p>光流除了提供远近外，还可以提供角度信息。与咱们的眼睛正对着的方向成90度方向运动的物体速度要比其他角度的快，当小到0度的时候，也就是物体朝着我们的方向直接撞过来，我们就是感受不到它的运动（光流）了，看起来好像是静止的。当它离我们越近，就越来越大（当然了，我们平时看到感觉还是有速度的，因为物体较大，它的边缘还是和我们人眼具有大于0的角度的）。</p>
+<p>光流的计算较为耗时，以往我们能够实时应用的光流基本都是稀疏光流（如Lucas Kanade光流法，可用于物体跟踪等。其基本思想是提取一些好的特征点 GoodFeaturestoTrack，对这些特征点利用邻域光流一致性的假设进行计算）。而稠密光流（Dense flow）则只是一种理论上的东西。这样的尴尬局面被GPU完全打破了！</p>
+<p>使用范围</p>
+<p>Uses of motion</p>
+<p>• Improving video quality
+– Motion stabilization
+– Super resolution
+• Segmenting objects based on motion cues
+• Tracking objects
+• Recognizing events and activities</p>
+<p>Segmenting objects based on motion cues</p>
+<p>Background subtraction
+– A static camera is observing a scene
+– Goal: separate the static background from the moving foreground</p>
+<p>&lt;src=&ldquo;<a href="https://ftp.bmp.ovh/imgs/2020/05/3896b9b068c28ca4.png%22">https://ftp.bmp.ovh/imgs/2020/05/3896b9b068c28ca4.png&quot;</a> heigth=&ldquo;80%&rdquo; width =&ldquo;80%&quot;&gt;</p>
+<p>Tracking objects</p>
+<p>• Facing tracking on openCV</p>
+<p>&lt;src =&ldquo;<a href="https://ftp.bmp.ovh/imgs/2020/05/7476ec4549282426.png%22">https://ftp.bmp.ovh/imgs/2020/05/7476ec4549282426.png&quot;</a> height=&ldquo;80%&rdquo; width=&ldquo;80%&quot;&gt;</p>
+<p>displacement: 迁移，displacement vector</p>
+<p>Optical flow works on several assumptions:</p>
+<ol>
+<li>The pixel intensities of an object do not change between consecutive frames. （这种假设在&hellip; 中是不一定存在的）</li>
+<li>Neighbouring pixels have similar motion.</li>
+</ol>
+<p>Recent breakthroughs in computer vision research have allowed machines to perceive its surrounding world through techniques such as object detection for detecting instances of objects belonging to a certain class and semantic segmentation for pixel-wise classification.</p>
+<p>Let us begin with a high-level understanding of optical flow.</p>
+<p>Sparse optical flow gives the flow vectors of some &ldquo;interesting features&rdquo; (say few pixels depicting the edges or corners of an object) within the frame while Dense optical flow, which gives the flow vectors of the entire frame (all pixels) - up to one flow vector per pixel. As you would&rsquo;ve guessed, Dense optical flow has higher accuracy at the cost of being slow/computationally expensive.</p>
+<img url ="https://nanonets.com/blog/content/images/2019/04/sparse-vs-dense.gif" height="80%" width="80%">
+<p>Sparse optical flow selects a sparse feature set of pixels (e.g. interesting features such as edges and corners) to track its velocity vectors (motion). The extracted features are passed in the optical flow function from frame to frame to ensure that the same points are being tracked. There are various implementations of sparse optical flow, including the Lucas–Kanade method, the Horn–Schunck method, the Buxton–Buxton method, and more. We will be using the Lucas-Kanade method with OpenCV, an open source library of computer vision algorithms, for implementation.</p>
+<p>We’ve previously computed the optical flow for a sparse feature set of pixels. Dense optical flow attempts to compute the optical flow vector for every pixel of each frame. While such computation may be slower, it gives a more accurate result and a denser result suitable for applications such as learning structure from motion and video segmentation. There are various implementations of dense optical flow. We will be using the Farneback method, one of the most popular implementations, with using OpenCV, an open source library of computer vision algorithms, for implementation.</p>
+<p><a href="https://nanonets.com/blog/optical-flow/">Introduction to Motion Estimation with Optical Flow</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-05-24
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/optical-flow/">optical flow</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/jupyter_notebook_tutorial/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Jupyter Notebook Tutorial</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/python_json/">
+            <span class="next-text nav-default">基于python 的JSON数据的处理</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

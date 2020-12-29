@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ner on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/ner/</link>
+    <description>Recent content in ner on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 21 Dec 2019 15:25:13 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/ner/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>基于中文简历的命名实体识别</title>
+      <link>http://jijeng.github.io/post/name_entiry_recognition/</link>
+      <pubDate>Sat, 21 Dec 2019 15:25:13 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/name_entiry_recognition/</guid>
+      <description>&lt;p&gt;基于中文简历的命名实体识别项目（持续更新中）&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

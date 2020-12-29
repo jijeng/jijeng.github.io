@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>data structure on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/data-structure/</link>
+    <description>Recent content in data structure on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 05 Apr 2019 11:04:54 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/data-structure/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Data Structure</title>
+      <link>http://jijeng.github.io/post/data_structure/</link>
+      <pubDate>Fri, 05 Apr 2019 11:04:54 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/data_structure/</guid>
+      <description>&lt;p&gt;介绍面试过程中的数据结构，树、Hash表和图。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Leetcode Data Structure</title>
+      <link>http://jijeng.github.io/post/leetcode_data-structure/</link>
+      <pubDate>Thu, 04 Oct 2018 16:25:31 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/leetcode_data-structure/</guid>
+      <description>&lt;p&gt;正式进入代码模板2-数据结构专题。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

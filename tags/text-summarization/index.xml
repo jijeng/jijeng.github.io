@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>text summarization on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/text-summarization/</link>
+    <description>Recent content in text summarization on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 30 Jun 2019 16:53:00 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/text-summarization/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Text Summary</title>
+      <link>http://jijeng.github.io/post/text_summary/</link>
+      <pubDate>Sun, 30 Jun 2019 16:53:00 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/text_summary/</guid>
+      <description>&lt;p&gt;Text Summarization&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Text summarization is the process of distilling the most important information from a source (or sources) to produce an abridged version for a particular user (or users) and task (or tasks).&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

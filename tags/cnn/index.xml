@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>cnn on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/cnn/</link>
+    <description>Recent content in cnn on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 07 Apr 2020 10:41:47 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/cnn/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CNN Understanding</title>
+      <link>http://jijeng.github.io/post/cnn_understanding/</link>
+      <pubDate>Tue, 07 Apr 2020 10:41:47 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/cnn_understanding/</guid>
+      <description>&lt;p&gt;CNN 算法学习。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

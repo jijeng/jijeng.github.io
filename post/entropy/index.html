@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Entropy - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="介绍熵相关的概念：包括信息熵、相对熵、交叉熵、KL 散度和互信息。并且基于python 实现上述的算法。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/entropy/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Entropy" />
+<meta property="og:description" content="介绍熵相关的概念：包括信息熵、相对熵、交叉熵、KL 散度和互信息。并且基于python 实现上述的算法。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/entropy/" />
+<meta property="article:published_time" content="2019-11-17T13:29:14+08:00" />
+<meta property="article:modified_time" content="2019-11-17T13:29:14+08:00" />
+<meta itemprop="name" content="Entropy">
+<meta itemprop="description" content="介绍熵相关的概念：包括信息熵、相对熵、交叉熵、KL 散度和互信息。并且基于python 实现上述的算法。">
+<meta itemprop="datePublished" content="2019-11-17T13:29:14+08:00" />
+<meta itemprop="dateModified" content="2019-11-17T13:29:14+08:00" />
+<meta itemprop="wordCount" content="3458">
+
+
+
+<meta itemprop="keywords" content="kl divergence,cross entropy," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Entropy"/>
+<meta name="twitter:description" content="介绍熵相关的概念：包括信息熵、相对熵、交叉熵、KL 散度和互信息。并且基于python 实现上述的算法。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Entropy</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-11-17 </span>
+        <div class="post-category">
+            <a href="/categories/machine-learning/"> machine learning </a>
+            </div>
+          <span class="more-meta"> 约 3458 字 </span>
+          <span class="more-meta"> 预计阅读 7 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>介绍熵相关的概念：包括信息熵、相对熵、交叉熵、KL 散度和互信息。并且基于python 实现上述的算法。</p>
+<p>（1）香侬信息量</p>
+<p>计算机中，信息量用一个信息所需要的编码长度表示。信息量的长度和出现的概率呈负相关。一个词出现的频率越高，那么编码方式越短，同时表示的代价越高（使用该长度的01串表示之后，其他的信息不能使用该前缀的01串表示）。一个词出现的频率越高，信息量越大。</p>
+<p>\begin{equation}
+I=\log _{2}\left(\frac{1}{p(x)}\right)=-\log _{2}(p(x))
+\end{equation}</p>
+<p>（2）信息熵（Entropy）</p>
+<blockquote>
+<p>In information theory, we like to describe the “surprise” of an event. Low probability events are more surprising therefore have a larger amount of information. Whereas probability distributions where the events are equally likely are more surprising and have larger entropy.
+在信息论中，使用“surprise”来描述事件。低概率事件具有更高的信息，反之亦然。从而可以推出：</p>
+</blockquote>
+<ul>
+<li>均匀分布具有更高的信息熵</li>
+<li>正太分布具有较小的信息熵</li>
+</ul>
+<p>对于离散变量</p>
+<p>\begin{equation}
+H(X)=-\sum_{x \in X} p(x) \log p(x)
+\end{equation}</p>
+<p>对于连续变量</p>
+<p>\begin{equation}
+H(X)=-\int_{X} p(x) \log p(x) d x
+\end{equation}</p>
+<p>如果未加特殊说明，本文中一般认为 $p(x)$ 认为是真实分布， $q(x)$是用来生成分布，$q(x)$用来近似表示$p(x)$</p>
+<p>（3）交叉熵（Cross-Entropy）</p>
+<blockquote>
+<p>Cross-entropy is related to divergence measures that quantifies how much one distribution differs from another.
+交叉熵是衡量分布差异的指标。可以看出是用一个猜测的分布的编码方式$q(x)$去编码真实的分布 $p(x)$, 计算平均的编码长度（信息量）</p>
+</blockquote>
+<p>\begin{equation}
+H(p, q)=\sum_{X} p(x) \log _{2}\left(\frac{1}{q(x)}\right)
+\end{equation}</p>
+<p>其中  $p(x)$是真实的分布，$q(x)$ 是猜测的分布。</p>
+<p>1). 交叉熵作为损失函数</p>
+<p>在机器学习中，交叉熵是非常常见的一种损失函数。交叉熵可以用于学习“真实分布”和“预测分布”之间的不同，当交叉熵最低的时候，模型很好得学习到了训练数据集分布，，并不能保证很好的扩展性。<strong>训练分布并不是真实分布</strong>，所以在模型中需要加上一个正则项，提高模型的泛化性能。</p>
+<p>二分类交叉熵损失函数</p>
+<p>\begin{equation}
+L=-[y \cdot \log (p)+(1-y) \cdot \log (1-p)]
+\end{equation}</p>
+<p>其中 $y$表示真实样本 label（1为正类，0为负类）；$p$ 为预测为正的概率。</p>
+<p>多分类交叉熵损失函数</p>
+<p>\begin{equation}
+L=-\sum_{c=1}^{M} y_{c} \log \left(p_{c}\right)
+\end{equation}</p>
+<p>其中 $M$表示总的类别数量， $y_c$ 表示指示变量（1或者0， 1 表示预测类别和真实类别相同，否则为0），$p_c$表示预测类比属于 $c$的概率。</p>
+<p>2). 交叉熵损失函数相对于平方损失函数的优点</p>
+<p>交叉熵搭配 LR激活函数，得到的导数形式为：
+$$ \frac{\partial}{\partial \theta_{j}} \ell(\theta)= \left(y-h_{\theta}(x)\right) x_{j}$$</p>
+<p>其中$y$表示真实的标签， $h_{\theta}(x)$ 表示模型预测的结果。导数的形式可以说是相当的简单，所以在反向传播的时候计算量很小。上述公式推导过程可以看<a href="https://jijeng.github.io/2019/07/05/logistics2softmax/">这里</a>。而平方损失函数的导数形式为：
+$$
+\frac{\partial}{\partial \theta_{j}} \ell(\theta) = \left(y-h_{\theta}(x)\right) h^{\prime}_{\theta}(x_j)
+$$</p>
+<p>可以发现该导数形式需要求一阶导数。所以，交叉熵损失函数相对于平方损失函数是具有计算简单的优点。</p>
+<p>3). 代码实现部分</p>
+<p>交叉熵定义计算方法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># example of calculating cross entropy</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">log2</span>
+
+<span class="c1"># calculate cross entropy</span>
+<span class="k">def</span> <span class="nf">cross_entropy</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
+	<span class="k">return</span> <span class="o">-</span><span class="nb">sum</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">log2</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">))])</span>
+
+<span class="c1"># define data</span>
+<span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.40</span><span class="p">,</span> <span class="mf">0.50</span><span class="p">]</span>
+<span class="n">q</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.80</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">]</span>
+<span class="c1"># calculate cross entropy H(P, Q)</span>
+<span class="n">ce_pq</span> <span class="o">=</span> <span class="n">cross_entropy</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;H(P, Q): </span><span class="si">%.3f</span><span class="s1"> bits&#39;</span> <span class="o">%</span> <span class="n">ce_pq</span><span class="p">)</span>
+<span class="c1"># calculate cross entropy H(Q, P)</span>
+<span class="n">ce_qp</span> <span class="o">=</span> <span class="n">cross_entropy</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;H(Q, P): </span><span class="si">%.3f</span><span class="s1"> bits&#39;</span> <span class="o">%</span> <span class="n">ce_qp</span><span class="p">)</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>根据KL 散度计算交叉熵（具体推导关系在下面）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># example of calculating cross entropy with kl divergence</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">log2</span>
+<span class="c1"># calculate the kl divergence KL(P || Q)</span>
+<span class="k">def</span> <span class="nf">kl_divergence</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
+	<span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">log2</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)))</span>
+
+<span class="c1"># calculate entropy H(P)</span>
+<span class="k">def</span> <span class="nf">entropy</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+	<span class="k">return</span> <span class="o">-</span><span class="nb">sum</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">log2</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">))])</span>
+
+<span class="c1"># calculate cross entropy H(P, Q)</span>
+<span class="k">def</span> <span class="nf">cross_entropy</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
+	<span class="k">return</span> <span class="n">entropy</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">+</span> <span class="n">kl_divergence</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+
+<span class="c1"># define data</span>
+<span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.40</span><span class="p">,</span> <span class="mf">0.50</span><span class="p">]</span>
+<span class="n">q</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.80</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">]</span>
+<span class="c1"># calculate H(P)</span>
+<span class="n">en_p</span> <span class="o">=</span> <span class="n">entropy</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;H(P): </span><span class="si">%.3f</span><span class="s1"> bits&#39;</span> <span class="o">%</span> <span class="n">en_p</span><span class="p">)</span>
+<span class="c1"># calculate kl divergence KL(P || Q)</span>
+<span class="n">kl_pq</span> <span class="o">=</span> <span class="n">kl_divergence</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;KL(P || Q): </span><span class="si">%.3f</span><span class="s1"> bits&#39;</span> <span class="o">%</span> <span class="n">kl_pq</span><span class="p">)</span>
+<span class="c1"># calculate cross entropy H(P, Q)</span>
+<span class="n">ce_pq</span> <span class="o">=</span> <span class="n">cross_entropy</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;H(P, Q): </span><span class="si">%.3f</span><span class="s1"> bits&#39;</span> <span class="o">%</span> <span class="n">ce_pq</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>交叉熵作为损失函数计算。（注意如果是二分类需要构造两个分布（0， 1））</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># calculate cross entropy for classification problem</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">log</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">mean</span>
+
+<span class="c1"># calculate cross entropy</span>
+<span class="k">def</span> <span class="nf">cross_entropy</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
+	<span class="k">return</span> <span class="o">-</span><span class="nb">sum</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">log</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">))])</span>
+
+<span class="c1"># define classification data</span>
+<span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">q</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]</span>
+<span class="c1"># calculate cross entropy for each example</span>
+<span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)):</span>
+	<span class="c1"># create the distribution for each event {0, 1}</span>
+	<span class="n">expected</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+	<span class="n">predicted</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+	<span class="c1"># calculate cross entropy for the two events</span>
+	<span class="n">ce</span> <span class="o">=</span> <span class="n">cross_entropy</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">predicted</span><span class="p">)</span>
+	<span class="k">print</span><span class="p">(</span><span class="s1">&#39;&gt;[y=</span><span class="si">%.1f</span><span class="s1">, yhat=</span><span class="si">%.1f</span><span class="s1">] ce: </span><span class="si">%.3f</span><span class="s1"> nats&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ce</span><span class="p">))</span>
+	<span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ce</span><span class="p">)</span>
+
+<span class="c1"># calculate the average cross entropy</span>
+<span class="n">mean_ce</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Average Cross Entropy: </span><span class="si">%.3f</span><span class="s1"> nats&#39;</span> <span class="o">%</span> <span class="n">mean_ce</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>4). 交叉熵和log loss 的关系</p>
+<p>Log Loss 是LR 模型中的损失函数。在称述的过程中 交叉熵，log loss和 negative log-likehood 经常交替使用。其实还是有一点区别的。</p>
+<p>log loss 是LR 模型基于最大似然估计推导出来的，LR 模型是基于伯努利分布，具体的推导过程可以参考<a href="https://jijeng.github.io/2019/07/05/logistics2softmax/">这里</a>。</p>
+<blockquote>
+<p>We can see that the negative log-likelihood is the same calculation as is used for the cross-entropy for Bernoulli probability distribution functions (two events or classes). In fact, the negative log-likelihood for Multinoulli distributions (multi-class classification) also matches the calculation for cross-entropy.
+当交叉熵基于伯努利分布计算的时候，得到的结果和log loss 是一样的。但是两者不是一个东西，</p>
+</blockquote>
+<p>（4）KL 散度（相对熵，Relative Entropy）</p>
+<blockquote>
+<p>The Kullback-Leibler Divergence score, or KL divergence score, quantifies how much one probability distribution differs from another probability distribution.
+KL散度是一种分布距离函数（Statistical Distance），但是更加准确的理解是衡量分布相似度的计算函数，而不是距离计算函数，因为其并不满足严格意义上关于距离的定义。</p>
+</blockquote>
+<p>离散变量表示为：</p>
+<p>\begin{equation}
+D_{\mathrm{KL}}(p | q)=-\int_{X} p(x) \log \frac{q(x)}{p(x)} d x
+\end{equation}</p>
+<p>连续变量表示为：</p>
+<p>\begin{equation}
+D_{\mathrm{KL}}(p | q)=-\sum_{x \in X} p(x) \log \frac{q(x)}{p(x)}
+\end{equation}</p>
+<p>1). KL 散度的特点</p>
+<ul>
+<li>当 $p =q$ 的时候， KL 的值为0</li>
+<li>不具有对称，即 $D_{\mathrm{KL}}(p | q)  \ne D_{\mathrm{KL}}(q | p)$</li>
+</ul>
+<p>2). 交叉熵和 KL 散度的关系：交叉熵等于熵加上KL 散度之和。推导也很简单</p>
+<p>\begin{equation}
+\begin{aligned} H(p, q) &amp;=-\sum_{x} p(x) \log q(x) \\<br>
+&amp;=-\sum_{x} p(x) \log p(x)-\sum_{x} p(x) \log \frac{q(x)}{p(x)} \\<br>
+&amp;=H(p)+K L(p | q) \end{aligned}
+\end{equation}</p>
+<p>上述推导以于离散变量为例， 连续变量的推导类似，只是把求和符号$\sum$换成积分符号$\int$。</p>
+<p>3). 上代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># define distributions</span>
+<span class="n">events</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">]</span>
+<span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.40</span><span class="p">,</span> <span class="mf">0.50</span><span class="p">]</span>
+<span class="n">q</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.80</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">]</span>
+
+<span class="c1"># plot of distributions</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span>
+<span class="c1"># define distributions</span>
+<span class="n">events</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">]</span>
+<span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.40</span><span class="p">,</span> <span class="mf">0.50</span><span class="p">]</span>
+<span class="n">q</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.80</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;P=</span><span class="si">%.3f</span><span class="s1"> Q=</span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="nb">sum</span><span class="p">(</span><span class="n">q</span><span class="p">)))</span>
+<span class="c1"># plot first distribution</span>
+<span class="n">pyplot</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">pyplot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="c1"># plot second distribution</span>
+<span class="n">pyplot</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">pyplot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+<span class="c1"># show the plot</span>
+<span class="n">pyplot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">log2</span>
+<span class="c1"># calculate the kl divergence</span>
+<span class="k">def</span> <span class="nf">kl_divergence</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
+	<span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">log2</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)))</span>
+	
+<span class="c1"># calculate (P || Q)</span>
+<span class="n">kl_pq</span> <span class="o">=</span> <span class="n">kl_divergence</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;KL(P || Q): </span><span class="si">%.3f</span><span class="s1"> bits&#39;</span> <span class="o">%</span> <span class="n">kl_pq</span><span class="p">)</span>
+<span class="c1"># calculate (Q || P)</span>
+<span class="n">kl_qp</span> <span class="o">=</span> <span class="n">kl_divergence</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;KL(Q || P): </span><span class="si">%.3f</span><span class="s1"> bits&#39;</span> <span class="o">%</span> <span class="n">kl_qp</span><span class="p">)</span>
+
+<span class="c1">#KL(P || Q): 1.927 bits                                                                                                                                                                    </span>
+<span class="c1">#KL(Q || P): 2.022 bits  </span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（5）JS 散度</p>
+<blockquote>
+<p>It is more useful as a measure as it provides a smoothed and normalized version of KL divergence, with scores between 0 (identical) and 1 (maximally different), when using the base-2 logarithm.
+JS 也是一种分布距离函数（Statistical Distance）。JS 散度的存在主要是弥补KL 散度的非对称性。</p>
+</blockquote>
+<blockquote>
+<p>It uses the KL divergence to calculate a normalized score that is symmetrical. This means that the divergence of P from Q is the same as Q from P, or stated formally:</p>
+</blockquote>
+<p>$$JS(P || Q) == JS(Q || P) $$
+The JS divergence can be calculated as follows:
+$$
+JS(P || Q) = \frac{1}{2} \cdot KL(P || M) + \frac{1}{2} \cdot  KL(Q || M)
+$$
+Where M is calculated as:
+$$
+M = \frac{1}{2} \cdot (P + Q)
+$$</p>
+<p>数据和上面的一样，有了KL 散度的计算， JS也是比较简单的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># calculate the js divergence</span>
+<span class="k">def</span> <span class="nf">js_divergence</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
+	<span class="n">m</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="n">q</span><span class="p">)</span>
+	<span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">kl_divergence</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">kl_divergence</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+
+<span class="c1"># calculate JS(P || Q)</span>
+<span class="n">js_pq</span> <span class="o">=</span> <span class="n">js_divergence</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;JS(P || Q) divergence: </span><span class="si">%.3f</span><span class="s1"> bits&#39;</span> <span class="o">%</span> <span class="n">js_pq</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;JS(P || Q) distance: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">js_pq</span><span class="p">))</span>
+
+<span class="c1"># calculate JS(Q || P)</span>
+<span class="n">js_qp</span> <span class="o">=</span> <span class="n">js_divergence</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;JS(Q || P) divergence: </span><span class="si">%.3f</span><span class="s1"> bits&#39;</span> <span class="o">%</span> <span class="n">js_qp</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;JS(Q || P) distance: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">js_qp</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>同样sklearn 中有相应的实现</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># calculate the jensen-shannon distance metric</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">jensenshannon</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">asarray</span>
+<span class="c1"># define distributions</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">asarray</span><span class="p">([</span><span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.40</span><span class="p">,</span> <span class="mf">0.50</span><span class="p">])</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">asarray</span><span class="p">([</span><span class="mf">0.80</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">])</span>
+<span class="c1"># calculate JS(P || Q)</span>
+<span class="n">js_pq</span> <span class="o">=</span> <span class="n">jensenshannon</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;JS(P || Q) Distance: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">js_pq</span><span class="p">)</span>
+<span class="c1"># calculate JS(Q || P)</span>
+<span class="n">js_qp</span> <span class="o">=</span> <span class="n">jensenshannon</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;JS(Q || P) Distance: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">js_qp</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（6）联合熵，条件熵和互信息（信息增益）</p>
+<p>根据熵的定义，拓展到两个变量，就得到了联合熵。
+\begin{equation}
+H(X, Y)=-\sum_{x \in X} \sum_{y \in Y} p(x, y) \log p(x, y)
+\end{equation}</p>
+<p>其中 $X$, $Y$ 是两个离散变量，他们的联合分布是 $p(x, y)$。</p>
+<p>条件熵定义为</p>
+<p>\begin{equation}
+\begin{aligned}
+H(Y | X) &amp;=-\sum_{x \in X} p(x) H(y | X =x)\\<br>
+&amp;=- \sum_{x \in X} \sum{y \in Y}  p(x, y) \log p(y|x)\\<br>
+&amp;= E [- \log (y|x)]
+\end{aligned}
+\end{equation}</p>
+<blockquote>
+<p>The entropy is a sum of conditional entropies
+熵和条件熵的关系：</p>
+</blockquote>
+<p>\begin{equation}
+H\left(X_{1}, X_{2}, X_{3}\right)=H\left(X_{1}\right)+H\left(X_{2} | X_{1}\right)+H\left(X_{3} | X_{2}, X_{1}\right)
+\end{equation}</p>
+<p>如果说联合熵是并集，那么互信息是交集。
+\begin{equation}
+\begin{aligned} I(X ; Y) &amp;=H(X)-H(X | Y)=H(Y)-H(Y | X) \\ &amp;=H(X)+H(Y)-H(X, Y) \\ &amp;=H(X, Y)-H(X | Y)-H(Y | X) \end{aligned}
+\end{equation}
+互信息(Mutual Information) ：一个随机变量由于已知另一个随机变量而减少的不确定性。从上面公式也是可以知道，当增加变量之后，互信息只能是越变越小。</p>
+<p>互信息还可以使用 KL 散度进行定义：</p>
+<p>\begin{equation}
+\begin{aligned}
+I(X ; Y) &amp;= D_{KL} (p(X, Y) || p(X) p(Y)) \\<br>
+&amp;= - \sum_{x \in X} \sum_{y \in Y}  p(x, y) \log \frac{p(x, y)}{ p(x) p(y)}
+\end{aligned}
+\end{equation}</p>
+<p>所以当 $X$ 和 $Y$ 独立的时候，即 $p(x, y) =p(x)p(y)$, 即$I(X ;Y) =0$。（认为规定 $0 \log 0 =0$）</p>
+<p>不加证明，互信息是具有对称性和非负性。</p>
+<p>上述熵的关系可以使用一张图表示。
+<img src="https://ftp.bmp.ovh/imgs/2019/12/693ba9ac68eee0d0.png" width="80%" height="80%"></p>
+<p>（7）决策树ID3中的信息增益（互信息）</p>
+<blockquote>
+<p>Mutual information calculates the statistical dependence between two variables and is the name given to information gain when applied to variable selection.
+互信息计算的是两个变量统计上的依赖关系。</p>
+</blockquote>
+<blockquote>
+<p>It is commonly used in the construction of decision trees from a training dataset, by evaluating the information gain for each variable, and selecting the variable that maximizes the information gain, which in turn minimizes the entropy and best splits the dataset into groups for effective classification.
+信息增益是使得熵不断减少，最后的信息越来越确定。</p>
+</blockquote>
+<blockquote>
+<p>Information Gain, or IG for short, measures the reduction in entropy or surprise by splitting a dataset according to a given value of a random variable.</p>
+</blockquote>
+<p>$$
+IG(S, a) = H(S) – H(S | a)
+$$</p>
+<p>其中  $IG(S, a) $ 是数据集 $S$ 对于变量 $a$ 的信息增益， $H(S)$ 表示数据集整个熵， $H(S| a) $表示条件熵。</p>
+<p>上代码：</p>
+<p>问题是二分类，其中 $label =1$ 的样本有7个，$label =0$ 的样本有13个；其中有一个特征，该特征只有两个值 $s_1, s_2$，定义符号 $s_{i,j}$ 其中 $i$表示特征值， $j $表示label 值。所以 $s_{1, 0} =7$, $s_{1, 1} =1$, $s_{2, 0} =6$, $s_{2, 1} =6$。然后计算熵 和信息增益。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">log2</span>
+ 
+<span class="c1"># calculate the entropy for the split in the dataset</span>
+<span class="k">def</span> <span class="nf">entropy</span><span class="p">(</span><span class="n">class0</span><span class="p">,</span> <span class="n">class1</span><span class="p">):</span>
+	<span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">class0</span> <span class="o">*</span> <span class="n">log2</span><span class="p">(</span><span class="n">class0</span><span class="p">)</span> <span class="o">+</span> <span class="n">class1</span> <span class="o">*</span> <span class="n">log2</span><span class="p">(</span><span class="n">class1</span><span class="p">))</span>
+ 
+<span class="c1"># split of the main dataset</span>
+<span class="n">class0</span> <span class="o">=</span> <span class="mi">13</span> <span class="o">/</span> <span class="mi">20</span>
+<span class="n">class1</span> <span class="o">=</span> <span class="mi">7</span> <span class="o">/</span> <span class="mi">20</span>
+<span class="c1"># calculate entropy before the change</span>
+<span class="n">s_entropy</span> <span class="o">=</span> <span class="n">entropy</span><span class="p">(</span><span class="n">class0</span><span class="p">,</span> <span class="n">class1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Dataset Entropy: </span><span class="si">%.3f</span><span class="s1"> bits&#39;</span> <span class="o">%</span> <span class="n">s_entropy</span><span class="p">)</span>
+ 
+<span class="c1"># split 1 (split via value1)</span>
+<span class="n">s1_class0</span> <span class="o">=</span> <span class="mi">7</span> <span class="o">/</span> <span class="mi">8</span>
+<span class="n">s1_class1</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">8</span>
+<span class="c1"># calculate the entropy of the first group</span>
+<span class="n">s1_entropy</span> <span class="o">=</span> <span class="n">entropy</span><span class="p">(</span><span class="n">s1_class0</span><span class="p">,</span> <span class="n">s1_class1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Group1 Entropy: </span><span class="si">%.3f</span><span class="s1"> bits&#39;</span> <span class="o">%</span> <span class="n">s1_entropy</span><span class="p">)</span>
+ 
+<span class="c1"># split 2  (split via value2)</span>
+<span class="n">s2_class0</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">/</span> <span class="mi">12</span>
+<span class="n">s2_class1</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">/</span> <span class="mi">12</span>
+<span class="c1"># calculate the entropy of the second group</span>
+<span class="n">s2_entropy</span> <span class="o">=</span> <span class="n">entropy</span><span class="p">(</span><span class="n">s2_class0</span><span class="p">,</span> <span class="n">s2_class1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Group2 Entropy: </span><span class="si">%.3f</span><span class="s1"> bits&#39;</span> <span class="o">%</span> <span class="n">s2_entropy</span><span class="p">)</span>
+ 
+<span class="c1"># calculate the information gain</span>
+<span class="n">gain</span> <span class="o">=</span> <span class="n">s_entropy</span> <span class="o">-</span> <span class="p">(</span><span class="mi">8</span><span class="o">/</span><span class="mi">20</span> <span class="o">*</span> <span class="n">s1_entropy</span> <span class="o">+</span> <span class="mi">12</span><span class="o">/</span><span class="mi">20</span> <span class="o">*</span> <span class="n">s2_entropy</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Information Gain: </span><span class="si">%.3f</span><span class="s1"> bits&#39;</span> <span class="o">%</span> <span class="n">gain</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>使用sklearn 计算</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="n">model</span> <span class="o">=</span><span class="n">sklearn</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">criterion</span> <span class="o">=</span><span class="s1">&#39;entropy&#39;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>决策树 相关的还需要总结。
+包括 有收藏的连接 和本地的文件。</p>
+<p>（8）信息增益率</p>
+<p>信息增益率是决策树 C4.5 引入的划分特征准则，
+（9）基尼系数</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-11-17
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/kl-divergence/">kl divergence</a>
+          <a href="/tags/cross-entropy/">cross entropy</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/optimizer/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Optimizer</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/python_tutorial_3/">
+            <span class="next-text nav-default">Python 学习笔记（三）</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

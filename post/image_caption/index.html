@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Image Caption - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="看图说话（Image Caption）任务是结合CV和NLP两个领域的一种比较综合的任务，Image Caption模型的输入是一幅图像，输出是对该幅图像进行描述的一段文字。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/image_caption/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Image Caption" />
+<meta property="og:description" content="看图说话（Image Caption）任务是结合CV和NLP两个领域的一种比较综合的任务，Image Caption模型的输入是一幅图像，输出是对该幅图像进行描述的一段文字。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/image_caption/" />
+<meta property="article:published_time" content="2020-07-09T14:01:48+08:00" />
+<meta property="article:modified_time" content="2020-07-09T14:01:48+08:00" />
+<meta itemprop="name" content="Image Caption">
+<meta itemprop="description" content="看图说话（Image Caption）任务是结合CV和NLP两个领域的一种比较综合的任务，Image Caption模型的输入是一幅图像，输出是对该幅图像进行描述的一段文字。">
+<meta itemprop="datePublished" content="2020-07-09T14:01:48+08:00" />
+<meta itemprop="dateModified" content="2020-07-09T14:01:48+08:00" />
+<meta itemprop="wordCount" content="2990">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Image Caption"/>
+<meta name="twitter:description" content="看图说话（Image Caption）任务是结合CV和NLP两个领域的一种比较综合的任务，Image Caption模型的输入是一幅图像，输出是对该幅图像进行描述的一段文字。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Image Caption</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-07-09 </span>
+        
+          <span class="more-meta"> 约 2990 字 </span>
+          <span class="more-meta"> 预计阅读 6 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#常用的数据集">常用的数据集</a></li>
+        <li><a href="#比较经典的论文">比较经典的论文</a></li>
+        <li><a href="#主要的框架">主要的框架</a></li>
+        <li><a href="#比较新的几篇论文">比较新的几篇论文</a></li>
+        <li><a href="#评价标注">评价标注</a></li>
+        <li><a href="#实际应用">实际应用</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>看图说话（Image Caption）任务是结合CV和NLP两个领域的一种比较综合的任务，Image Caption模型的输入是一幅图像，输出是对该幅图像进行描述的一段文字。</p>
+<p>其实，图像描述（Image Caption）本质上是图像信息到文本信息的翻译，通俗来讲，就是“看图说话”。</p>
+<p>“看图说话”对人类而言很容易，但是对于机器却非常具有挑战性，它不仅需要利用模型去理解图片的内容并且还需要用自然语言去表达它们之间的关系。除此之外，模型还需要能够抓住图像的语义信息，并且生成人类可读的句子。</p>
+<p>此外，还存在一个困扰性难题，由于模型的结构过于简单，导致机器生成的句子风格往往过于单一。所以，本文将基于传统的Image Caption实现方式，介绍如何利用深度生成模型来生成多样化图片描述。</p>
+<h2 id="常用的数据集">常用的数据集</h2>
+<ol>
+<li>Microsoft COCO Caption数据集</li>
+</ol>
+<blockquote>
+<p>Common Objects in Context (COCO) literally implies that the images in the dataset are everyday objects captured from everyday scenes. This adds some “context” to the objects captured in the scenes.</p>
+</blockquote>
+<blockquote>
+<p>&ldquo;COCO is a large-scale object detection, segmentation, and captioning dataset. COCO has several features: Object segmentation, Recognition in context, Superpixel stuff segmentation, 330K images (&gt;200K labeled), 1.5 million object instances, 80 object categories, 91 stuff categories, 5 captions per image, 250,000 people with keypoints.&rdquo;
+原COCO数据集中约330,000张图像，人工地为每张图像都生成了至少5句标注，标注语句总共超过了约150万句</p>
+</blockquote>
+<p>（object category 和 stuff category 的区别？）</p>
+<p>关于 COCO 数据集更加详细的介绍</p>
+<p>{% fold 开/合 %}</p>
+<ol>
+<li>coco dataset 的数据格式</li>
+</ol>
+<p>INFO</p>
+<p>LICENSES</p>
+<p>（上述两个对深度学习的训练不是很重要，可以忽略）</p>
+<p>IMAGES</p>
+<blockquote>
+<p>Note that image ids need to be unique (among other images), but they do not necessarily need to match the file name (unless the deep learning code you are using makes an assumption that they’ll be the same… developers are lazy, it wouldn’t surprise me).
+注意 image 中的id 是唯一的，但是 file_name 和 id 不一定是一一对应的。</p>
+</blockquote>
+<ol start="2">
+<li>FIVE COCO ANNOTATION TYPES</li>
+</ol>
+<blockquote>
+<p>COCO has five annotation types: for object detection, keypoint detection, stuff segmentation, panoptic segmentation, and image captioning. The annotations are stored using JSON.
+五种不同的标注，那么就可以对应着五种不同的任务</p>
+</blockquote>
+<p><strong>OBJECT DETECTION (SEGMENTATION)</strong></p>
+<img src="https://s1.ax1x.com/2020/06/14/tzYph6.png" height ="50%" width="60%">
+<p>This is the most popular one; it draws shapes around objects in an image. It has a list of categories and annotations.</p>
+<p>CATEGORIES</p>
+<p>The “categories” object contains a list of categories (e.g. dog, boat) and each of those belongs to a supercategory (e.g. animal, vehicle). The original COCO dataset contains 90 categories.</p>
+<p>ANNOTATIONS</p>
+<p>The “annotations” section is the trickiest to understand. It contains a list of every individual object annotation from every image in the dataset. For example, if there are 64 bicycles spread out across 100 images, there will be 64 bicycle annotations (along with a ton of annotations for other object categories). Often there will be multiple instances of an object in an image. Usually this results in a new annotation item for each one.</p>
+<blockquote>
+<p>两种标注的区别
+I say “usually” because regions of interest indicated by these annotations are specified by “segmentations”, which are usually a list of polygon vertices around the object, but can also be a run-length-encoded (RLE) bit mask. Typically, RLE is used for groups of objects (like a large stack of books). I’ll explain how this works later in the article.</p>
+</blockquote>
+<blockquote>
+<p>bounding box 格式是一个非常小的细节
+The COCO bounding box format is [top left x position, top left y position, width, height].</p>
+</blockquote>
+<p>pycocotools 下有三个模块：coco ，cocoeval，mask 和_mask</p>
+<ol start="2">
+<li>segmentation的两种格式：RLE（run-length encoding）和polygon</li>
+</ol>
+<p>The first annotation:</p>
+<ul>
+<li>Has a segmentation list of vertices (x, y pixel positions)</li>
+<li>Has an area of 702 pixels (pretty small) and a bounding box of [473.07,395.93,38.65,28.67]</li>
+<li>Is not a crowd (meaning it’s a single object)</li>
+<li>Is category id of 18 (which is a dog)</li>
+</ul>
+<p>Corresponds with an image with id 289343 (which is a person on a strange bicycle and a tiny dog)</p>
+<p>The second annotation:</p>
+<ul>
+<li>Has a Run-Length-Encoding style segmentation</li>
+<li>Has an area of 220834 pixels (much larger) and a bounding box of [0,34,639,388]</li>
+<li>Is a crowd (meaning it’s a group of objects)</li>
+<li>Is a category id of 1 (which is a person)</li>
+</ul>
+<p>Corresponds with an image with id 250282 (which is a vintage class photo of about 50 school children)</p>
+<p>iscrowd=1时表示格式是RLE，iscrowd=0时表示格式是polygon：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">&#34;annotations&#34;: [
+    {
+        &#34;segmentation&#34;: [[510.66,423.01,511.72,420.03,...,510.45,423.01]],
+        &#34;area&#34;: 702.1057499999998,
+        &#34;iscrowd&#34;: 0,
+        &#34;image_id&#34;: 289343,
+        &#34;bbox&#34;: [473.07,395.93,38.65,28.67],
+        &#34;category_id&#34;: 18,
+        &#34;id&#34;: 1768
+    },
+    ...
+    {
+        &#34;segmentation&#34;: {
+            &#34;counts&#34;: [179,27,392,41,…,55,20],
+            &#34;size&#34;: [426,640]
+        },
+        &#34;area&#34;: 220834,
+        &#34;iscrowd&#34;: 1,
+        &#34;image_id&#34;: 250282,
+        &#34;bbox&#34;: [0,34,639,388],
+        &#34;category_id&#34;: 1,
+        &#34;id&#34;: 900100250282
+    }
+]
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>KEYPOINT DETECTION FORMAT</strong></p>
+<p>关于这个segmentation 可以不考虑，因为没有类似的任务。</p>
+<p><strong>PANOPTIC SEGMENTATION</strong></p>
+<p>其实我的任务需要使用到的就是这种类型的segmentation</p>
+<img src="https://s1.ax1x.com/2020/06/14/tzJBTI.png" height ="60%" width="50%">
+<p>（注意对比和上面做 object detection 任务所用到的图片是不一样的。）</p>
+<p>这部分是需要进一步调研的，重点在于如何使用代码实现相应的功能。</p>
+<p><strong>IMAGE CAPTIONING</strong></p>
+<blockquote>
+<p>Image caption annotations are pretty simple. There are no categories in this JSON file, just annotations with caption descriptions. Both of the pictures I checked actually had 4 separate captions for each image, presumably from different people.
+关键信息是每张配图有 5句描述性信息。（这种量级还是很好的）</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="s2">&#34;annotations&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&#34;image_id&#34;</span><span class="p">:</span> <span class="mi">289343</span><span class="p">,</span>
+        <span class="s2">&#34;id&#34;</span><span class="p">:</span> <span class="mi">433580</span><span class="p">,</span>
+        <span class="s2">&#34;caption&#34;</span><span class="p">:</span> <span class="s2">&#34;A person riding a very tall bike in the street.&#34;</span>
+    <span class="p">},</span>
+    <span class="o">...</span>
+    <span class="p">{</span>
+        <span class="s2">&#34;image_id&#34;</span><span class="p">:</span> <span class="mi">250282</span><span class="p">,</span>
+        <span class="s2">&#34;id&#34;</span><span class="p">:</span> <span class="mi">511309</span><span class="p">,</span>
+        <span class="s2">&#34;caption&#34;</span><span class="p">:</span> <span class="s2">&#34;A group of school children posing for a picture. &#34;</span>
+    <span class="p">},</span>
+<span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>对于coco data 的操作</li>
+</ol>
+<p>Class Filtering
+（不用像之前那样重新解析 json 脚本，可以直接使用调用 api 进行相应的实现）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Define the classes (out of the 81) which you want to see. Others will not be shown.</span>
+<span class="n">filterClasses</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;laptop&#39;</span><span class="p">,</span> <span class="s1">&#39;tv&#39;</span><span class="p">,</span> <span class="s1">&#39;cell phone&#39;</span><span class="p">]</span>
+
+<span class="c1"># Fetch class IDs only corresponding to the filterClasses</span>
+<span class="n">catIds</span> <span class="o">=</span> <span class="n">coco</span><span class="o">.</span><span class="n">getCatIds</span><span class="p">(</span><span class="n">catNms</span><span class="o">=</span><span class="n">filterClasses</span><span class="p">)</span> 
+<span class="c1"># Get all images containing the above Category IDs</span>
+<span class="n">imgIds</span> <span class="o">=</span> <span class="n">coco</span><span class="o">.</span><span class="n">getImgIds</span><span class="p">(</span><span class="n">catIds</span><span class="o">=</span><span class="n">catIds</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&#34;Number of images containing all the  classes:&#34;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">imgIds</span><span class="p">))</span>
+
+<span class="c1"># load and display a random image</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">coco</span><span class="o">.</span><span class="n">loadImgs</span><span class="p">(</span><span class="n">imgIds</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">imgIds</span><span class="p">))])[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;{}/images/{}/{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dataDir</span><span class="p">,</span><span class="n">dataType</span><span class="p">,</span><span class="n">img</span><span class="p">[</span><span class="s1">&#39;file_name&#39;</span><span class="p">]))</span><span class="o">/</span><span class="mf">255.0</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">I</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Now, the imgIDs variable contains all the images which contain all the filterClasses. The output of the print statement is:</p>
+<p>如果想要展示 annotation 标注信息，那么是可以使用以下的代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Load and display instance annotations</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">I</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">annIds</span> <span class="o">=</span> <span class="n">coco</span><span class="o">.</span><span class="n">getAnnIds</span><span class="p">(</span><span class="n">imgIds</span><span class="o">=</span><span class="n">img</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">catIds</span><span class="o">=</span><span class="n">catIds</span><span class="p">,</span> <span class="n">iscrowd</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<span class="n">anns</span> <span class="o">=</span> <span class="n">coco</span><span class="o">.</span><span class="n">loadAnns</span><span class="p">(</span><span class="n">annIds</span><span class="p">)</span>
+<span class="n">coco</span><span class="o">.</span><span class="n">showAnns</span><span class="p">(</span><span class="n">anns</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>并且是可以个性化组合的</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># 这里是有一个去重的 function</span>
+
+<span class="c1">########## ALl POSSIBLE COMBINATIONS ########</span>
+<span class="n">classes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;laptop&#39;</span><span class="p">,</span> <span class="s1">&#39;tv&#39;</span><span class="p">,</span> <span class="s1">&#39;cell phone&#39;</span><span class="p">]</span>
+
+<span class="n">images</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">if</span> <span class="n">classes</span><span class="o">!=</span><span class="bp">None</span><span class="p">:</span>
+    <span class="c1"># iterate for each individual class in the list</span>
+    <span class="k">for</span> <span class="n">className</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">:</span>
+        <span class="c1"># get all images containing given class</span>
+        <span class="n">catIds</span> <span class="o">=</span> <span class="n">coco</span><span class="o">.</span><span class="n">getCatIds</span><span class="p">(</span><span class="n">catNms</span><span class="o">=</span><span class="n">className</span><span class="p">)</span>
+        <span class="n">imgIds</span> <span class="o">=</span> <span class="n">coco</span><span class="o">.</span><span class="n">getImgIds</span><span class="p">(</span><span class="n">catIds</span><span class="o">=</span><span class="n">catIds</span><span class="p">)</span>
+        <span class="n">images</span> <span class="o">+=</span> <span class="n">coco</span><span class="o">.</span><span class="n">loadImgs</span><span class="p">(</span><span class="n">imgIds</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">imgIds</span> <span class="o">=</span> <span class="n">coco</span><span class="o">.</span><span class="n">getImgIds</span><span class="p">()</span>
+    <span class="n">images</span> <span class="o">=</span> <span class="n">coco</span><span class="o">.</span><span class="n">loadImgs</span><span class="p">(</span><span class="n">imgIds</span><span class="p">)</span>
+    
+<span class="c1"># Now, filter out the repeated images    </span>
+<span class="n">unique_images</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">images</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">images</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">unique_images</span><span class="p">:</span>
+        <span class="n">unique_images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">images</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+<span class="n">dataset_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique_images</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s2">&#34;Number of images containing the filter classes:&#34;</span><span class="p">,</span> <span class="n">dataset_size</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>上述信息的参考文献：</p>
+<ul>
+<li><a href="https://www.immersivelimit.com/tutorials/create-coco-annotations-from-scratch">Create COCO Annotations From Scratch</a></li>
+<li><a href="https://github.com/cocodataset/cocoapi/blob/master/PythonAPI/pycocoDemo.ipynb">pycocoDemo</a>
+给出了一些demo，如何调用api</li>
+<li><a href="https://towardsdatascience.com/master-the-coco-dataset-for-semantic-image-segmentation-part-1-of-2-732712631047">master-the-coco-dataset-for-semantic-image-segmentation-part-1-of-2</a></li>
+</ul>
+<p>{% endfold %}</p>
+<ol start="2">
+<li>Flickr8K和30K</li>
+</ol>
+<p>图像数据来源是雅虎的相册网站Flickr ：
+数据集中图像的数量分别是8,000张和30,000张</p>
+<p>数据集包含8,000张图像，每张图像都与五个不同的标题配对，这些标题提供了对图片中物体和事件的内容描述</p>
+<img src ="https://i.postimg.cc/gcQjsjbZ/q8saoyj98t.jpg" height ="50%" width ="50%">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">#0    A child in a pink dress is climbing up a set of stairs in an entry way .
+#1    A girl going into a wooden building .
+#2    A little girl climbing into a wooden playhouse .
+#3    A little girl climbing the stairs to her playhouse .
+#4    A little girl in a pink dress going into a wooden cabin .
+
+</code></pre></td></tr></table>
+</div>
+</div><p>关于数据详细的信息 <a href="https://zhuanlan.zhihu.com/p/22408033">图像标注</a></p>
+<h2 id="比较经典的论文">比较经典的论文</h2>
+<ol>
+<li>Show and Tell: A Neural Image Caption Generator</li>
+</ol>
+<p><a href="https://github.com/tensorflow/models/tree/master/research/im2txt">Show and Tell: A Neural Image Caption Generator</a></p>
+<p>2.Show, Attend and Tell: Neural Image Caption Generation with Visual Attention</p>
+<h2 id="主要的框架">主要的框架</h2>
+<p>特征提取模型是一种神经网络。给定一张图像，它可以提取出显著的特征，通常用固定长度的向量表示。提取出的特征是该图像的内部表征，不是人类可以直接理解的东西。</p>
+<p>语言模型：一般而言，当一个序列已经给出了一些词时，语言模型可以预测该序列的下一个词的概率。</p>
+<ol>
+<li>Show and Tell: A Neural Image Caption Generator</li>
+</ol>
+<p>编码器-解码器架构：RNN  需要保证输入和输出等长, 但是 encoder-decoder 可以不等长度.</p>
+<ol start="2">
+<li>Show, Attend and Tell: Neural Image Caption Generation with Visual Attention</li>
+</ol>
+<p>使用注意机制的描述模型：</p>
+<p>编码器-解码器的一个局限性是使用了单个固定长度的表征来保存提取出的特征。</p>
+<p>基于注意力机制的方法也已经被用于改进用于图像描述的编码器-解码器架构的表现水平——让解码器可以学习在生成描述中每个词时应该关注图像中的哪些部分。</p>
+<p>生成的 caption 中还要考虑目标之间的关系，可以直观的表示为：</p>
+<img src="https://ftp.bmp.ovh/imgs/2020/06/cb9e90f666fb7fe7.png" height ="80%" width ="80%">
+<p>从网络结构上：可以看出整体仍是 Encoder-Decoder 结构，Encoder 部分没有做改变，在 Decoder 中引入了 attention。
+<img src="https://ftp.bmp.ovh/imgs/2020/06/e0c84b3f162f7ec4.png" height ="80%" width ="80%"></p>
+<p>2015年2月，《 Show, Attend and Tell: Neural Image Caption Generation with Visual Attention》将人类视觉系统中的 attention 机制引入深度学习</p>
+<h2 id="比较新的几篇论文">比较新的几篇论文</h2>
+<ol>
+<li>Diverse and Accurate Image Description Using a Variational Auto-Encoder with an Additive Gaussian Encoding Space</li>
+</ol>
+<p><a href="https://papers.nips.cc/paper/7158-diverse-and-accurate-image-description-using-a-variational-auto-encoder-with-an-additive-gaussian-encoding-space.pdf">Diverse and Accurate Image Description Using a Variational Auto-Encoder with an Additive Gaussian Encoding Space</a></p>
+<p><a href="https://github.com/yiyang92/vae_captioning">github vae_captioning</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/59980663">样化Image Caption的尝试</a></p>
+<p>常规的做法</p>
+<p>pass： code 比较难跑起来</p>
+<ol start="2">
+<li>asg2cap (Say As You Wish: Fine-grained Control of Image Caption Generation with Abstract Scene Graph, CVPR 2020)</li>
+</ol>
+<p><a href="https://github.com/cshizhe/asg2cap">github</a></p>
+<p>Code accompanying the paper &ldquo;Say As You Wish: Fine-grained Control of Image Caption Generation with Abstract Scene Graphs&rdquo; (Chen et al., CVPR 2020, Oral).
+<a href="https://arxiv.org/abs/2003.00387">论文</a></p>
+<p><a href="https://www.leiphone.com/news/202003/wOksv18DsRE5a1hx.html">看图说话之随心所欲：细粒度可控的图像描述自动生成</a></p>
+<p>有点麻烦，但是是可行的。 重点看一下吧。</p>
+<ol start="3">
+<li><a href="https://github.com/LuoweiZhou/VLP">Vision-Language Pre-training for Image Captioning and Question Answering</a></li>
+</ol>
+<p>可以试试，看一下code，可以尝试的。</p>
+<ol start="4">
+<li><a href="https://github.com/clovaai/CutMix-PyTorch">CutMix</a></li>
+</ol>
+<p><a href="https://arxiv.org/abs/1905.04899">CutMix: Regularization Strategy to Train Strong Classifiers with Localizable Features</a></p>
+<p>和场景不太吻合</p>
+<p>vmess://ew0KICAidiI6ICIyIiwNCiAgInBzIjogIjIzM3YyLmNvbV8xOC4xNjMuOTEuMTEyIiwNCiAgImFkZCI6ICIxOC4xNjMuOTEuMTEyIiwNCiAgInBvcnQiOiAiODAiLA0KICAiaWQiOiAiZDQ0NDQ0NjktZmE3OC00ODAwLWExMTEtZDE5YjhlZGIwMTlhIiwNCiAgImFpZCI6ICIyMzMiLA0KICAibmV0IjogInRjcCIsDQogICJ0eXBlIjogImh0dHAiLA0KICAiaG9zdCI6ICJ3d3cuYmFpZHUuY29tIiwNCiAgInBhdGgiOiAiIiwNCiAgInRscyI6ICIiDQp9</p>
+<h2 id="评价标注">评价标注</h2>
+<p>Image Caption评价标准</p>
+<p>BLEU</p>
+<p>• 图像标注结果评价中使用最广泛，设计初衷并不是针对图像标注问题，而是针对机器翻译问题</p>
+<p>• 分析待评价的翻译语句和参考翻译语句之间n元组的相关性</p>
+<h2 id="实际应用">实际应用</h2>
+<p>图像标注问题如果能够得到很好的解决，那么价值是显而易见的</p>
+<p>辅助或者替代设计师进行图片描述的书写
+图像检索（更细粒度的搜索）</p>
+<p><strong>其他的材料</strong></p>
+<p><a href="https://zhuanlan.zhihu.com/p/27771046">Show and Tell——图像标注（Image Caption）任务技术综述</a></p>
+<p><a href="https://cloud.tencent.com/developer/article/1088965">图像描述生成Image Caption知识资料全集</a></p>
+<p><a href="https://www.floydhub.com/api/v1/resources/xdVEtkPLJjMAAyD66cxNjB/data/annotations/stuff_train2017.json?content=true&amp;rename=stuff_train2017json">https://www.floydhub.com/api/v1/resources/xdVEtkPLJjMAAyD66cxNjB/data/annotations/stuff_train2017.json?content=true&amp;rename=stuff_train2017json</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-07-09
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/overfit/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Overfit</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/reading_notes_1/">
+            <span class="next-text nav-default">文学类小说读书笔记(1)</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

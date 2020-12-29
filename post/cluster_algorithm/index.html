@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Cluster algorithm - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="主要介绍K-means，EM算法和KNN 算法。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/cluster_algorithm/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Cluster algorithm" />
+<meta property="og:description" content="主要介绍K-means，EM算法和KNN 算法。
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/cluster_algorithm/" />
+<meta property="article:published_time" content="2020-04-18T10:34:04+08:00" />
+<meta property="article:modified_time" content="2020-04-18T10:34:04+08:00" />
+<meta itemprop="name" content="Cluster algorithm">
+<meta itemprop="description" content="主要介绍K-means，EM算法和KNN 算法。
+">
+<meta itemprop="datePublished" content="2020-04-18T10:34:04+08:00" />
+<meta itemprop="dateModified" content="2020-04-18T10:34:04+08:00" />
+<meta itemprop="wordCount" content="4721">
+
+
+
+<meta itemprop="keywords" content="cluster,聚类," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Cluster algorithm"/>
+<meta name="twitter:description" content="主要介绍K-means，EM算法和KNN 算法。
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Cluster algorithm</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-04-18 </span>
+        <div class="post-category">
+            <a href="/categories/machine-learning/"> machine learning </a>
+            </div>
+          <span class="more-meta"> 约 4721 字 </span>
+          <span class="more-meta"> 预计阅读 10 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#k-means-算法">K-means 算法</a></li>
+        <li><a href="#em-算法">EM 算法</a></li>
+        <li><a href="#knn">KNN</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>主要介绍K-means，EM算法和KNN 算法。</p>
+<img src="https://ftp.bmp.ovh/imgs/2020/04/c91ebad0e6203aa5.png" width="60%" height="60%">
+<h2 id="k-means-算法">K-means 算法</h2>
+<p>K-means 是一种聚类算法，属于无监督学习算法，先说一下什么是聚类：聚类分析是在数据中发现数据对象之间的关系，将数据进行分组，组内的相似性越大，组间的差别越大，则聚类效果越好。</p>
+<p>K-Means算法思想：对给定的样本集，事先确定聚类簇数K （超参数），让簇内的样本尽可能紧密分布在一起，使簇间的距离尽可能大。该算法试图使集群数据分为n组独立数据样本，使n组集群间的方差相等，数学描述为最小化惯性或集群内的平方和。K-Means作为无监督的聚类算法，实现较简单，聚类效果好，因此被广泛使用。</p>
+<p><strong>算法步骤</strong></p>
+<ol>
+<li>创建k个点作为k个簇的起始质心（经常随机选择）。</li>
+<li>分别计算剩下的元素到k个簇中心的相异度（距离），将这些元素分别划归到相异度最低的簇。</li>
+<li>根据聚类结果，重新计算k个簇各自的中心，计算方法是取簇中所有元素各自维度的算术平均值。</li>
+<li>将D中全部元素按照新的中心重新聚类。</li>
+<li>重复第4步，直到聚类结果不再变化。</li>
+<li>最后，输出聚类结果。</li>
+</ol>
+<p><strong>K-Means算法优缺点</strong></p>
+<p>优点</p>
+<ol>
+<li>原理易懂、易于实现；</li>
+<li>当簇间的区别较明显时，聚类效果较好；</li>
+<li>Trains quickly</li>
+</ol>
+<p>缺点</p>
+<ol>
+<li>当样本集规模大时，收敛速度会变慢；</li>
+<li>对噪声或者离群点比较敏感</li>
+<li>k的取值十分关键，对不同数据集，k选择没有参考性，需要大量实验</li>
+<li>初始质心的选择，不同的质心选择可能得到完全不同的结果，因为k-means 可以保证的是局部最优解，而不是全局最优解。针对该缺陷，可以使用 kmeans++ 算法解决。k-means++ 算法选择seeds的基本思路是：初始化聚类中心之间的相互距离要尽可能的远。</li>
+</ol>
+<p><strong>时间复杂度</strong>
+$O(mnkt)$， 其中$t$ 为迭代刺手， $k$ 为簇的数目， $m$ 为数据量, $n$ 为数据的维度。对于大数据来说，$t$，$k$和$n$ 都是可以看做常数，那么时间复杂度近似就是 $O(n)$，所以该算法是相当高效的。</p>
+<p><strong>空间复杂度</strong>
+$O(m+k)n$ 其中 $k$ 为簇的数目， $m$为数据量， $n$ 为数据的维度。同理对于空间复杂度也可以这样分析。
+最后的结论可以简化为：时空复杂度是$O(n)$</p>
+<ul>
+<li>
+<p>Hard clustering: Even though some colors near the boundary are pretty similar, but they are grouped into different clusters. No red/green/blue can cross the line.</p>
+</li>
+<li>
+<p>Means/latent variables: the labels are added manually based on the means (the cross). K-means will end up with bunches of means and assignments, but how to interpret the means are up to people.</p>
+</li>
+</ul>
+<p>You may notice the issues that k-means have:</p>
+<ul>
+<li>Initialization matters: the same k may end up with different outcomes, because initialization matters. It’s also important to break the tie.</li>
+<li>Unstable under this uniform-ish circumstance. There is no clear structure to divide them into groups.</li>
+</ul>
+<p><strong>Choosing K</strong></p>
+<p>The algorithm explained above finds clusters for the number k that we chose. So, how do we decide on that number?</p>
+<p>尝试法： 计算每个点到最近的簇的距离的总和，如果增加 k 导致的总和下降不明显，那么就接近临界点了。</p>
+<p>To find the best k we need to measure the quality of the clusters. The most traditional and straightforward method is to start with a random k, create centroids, and run the algorithm as we explained above. A sum is given based on the distances between each point and its closest centroid. As an increase in clusters correlates with smaller groupings and distances, this sum will always decrease when k increases; as an extreme example, if we choose a k value that is equal to the number of data points that we have, the sum will be zero.</p>
+<p>The goal with this process is to find the point at which increasing k will cause a very small decrease in the error sum, while decreasing k will sharply increase the error sum. This sweet spot is called the “elbow point.”  In the image below, it is clear that the “elbow” point is at k-3.­</p>
+<p><img src="https://i.bmp.ovh/imgs/2019/07/8b4f6493ed14471b.png" alt=""></p>
+<p>使用场景：一般在数据分析的前期使用，选择适当的 $K$，分析不同聚类数据下的特点。</p>
+<p>k-means 是以欧式距离作为相似度测量，要求某一初始化聚类中心分类效果最好。算法采用误差平方和作为准侧函数，优化的是该函数。</p>
+<p>欧式距离和曼哈顿距离（L1距离）都可以表示最近邻居之间的距离，如何进行选择？前者适合在归一化无量纲的情况下进行使用，两者不具有相互替代性。</p>
+<p><strong>代码实现</strong></p>
+<p>自己实现了一个 k-means 计算过程；然后使用 sklearn 中实现好的框架。没有比这个写得更好的了。代码<a href="http://benalexkeen.com/k-means-clustering-in-python/">链接</a></p>
+<p>代码摘要</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1">## Initialisation</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">61</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">69</span><span class="p">,</span> <span class="mi">72</span><span class="p">],</span>
+    <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">39</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">24</span><span class="p">]</span>
+<span class="p">})</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="c1"># centroids[i] = [x, y]</span>
+<span class="c1"># 学习开源代码，在于向别人学习，看人家是如何写代码的，怎么写得简单高效，漂亮</span>
+<span class="n">centroids</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">80</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">80</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<span class="p">}</span>
+    
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">colmap</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="s1">&#39;b&#39;</span><span class="p">}</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">centroids</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="n">centroids</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colmap</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">assignment</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">centroids</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">centroids</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="c1"># sqrt((x1 - x2)^2 - (y1 - y2)^2)</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;distance_from_{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">centroids</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span>
+                <span class="o">+</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">centroids</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="n">centroid_distance_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;distance_from_{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">centroids</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;closest&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">centroid_distance_cols</span><span class="p">]</span><span class="o">.</span><span class="n">idxmin</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="c1">#得到的是id 标识</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;closest&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;closest&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;distance_from_&#39;</span><span class="p">)))</span> <span class="c1"># 这个转换成数字</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;closest&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">colmap</span><span class="p">[</span><span class="n">x</span><span class="p">])</span> <span class="c1"># 注意lambda 函数 x 是输入参数，: 之后是处理的函数</span>
+    <span class="k">return</span> <span class="n">df</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">assignment</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">centroids</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1">## Update Stage</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="n">old_centroids</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">centroids</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">centroids</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">centroids</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;closest&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">])</span>
+        <span class="n">centroids</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;closest&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">][</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">k</span>
+
+<span class="n">centroids</span> <span class="o">=</span> <span class="n">update</span><span class="p">(</span><span class="n">centroids</span><span class="p">)</span>
+
+<span class="c1"># 这个可视化的箭头也是做得相当的棒</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">centroids</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="n">centroids</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colmap</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">old_centroids</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">old_x</span> <span class="o">=</span> <span class="n">old_centroids</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">old_y</span> <span class="o">=</span> <span class="n">old_centroids</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="p">(</span><span class="n">centroids</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">old_centroids</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="mf">0.75</span>
+    <span class="n">dy</span> <span class="o">=</span> <span class="p">(</span><span class="n">centroids</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">old_centroids</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="mf">0.75</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="n">old_x</span><span class="p">,</span> <span class="n">old_y</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">head_width</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">head_length</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="n">colmap</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ec</span><span class="o">=</span><span class="n">colmap</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Continue until all assigned categories don&#39;t change any more</span>
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="n">closest_centroids</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;closest&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">centroids</span> <span class="o">=</span> <span class="n">update</span><span class="p">(</span><span class="n">centroids</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">assignment</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">centroids</span><span class="p">)</span>
+    <span class="c1"># 不同的语言之间是相同的，要么是值比较，那么是引用比较，显然这里是值比较</span>
+    <span class="k">if</span> <span class="n">closest_centroids</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;closest&#39;</span><span class="p">]):</span>
+        <span class="k">break</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">centroids</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="n">centroids</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colmap</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="c1"># 如意可以传入一个list，表示两个参数</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="em-算法">EM 算法</h2>
+<p><strong>先验概率和后验概率</strong></p>
+<p>事件发生前的预判概率。可以是基于历史数据的统计，可以由背景常识得出，也可以是人的主观观点给出。一般都是单独事件概率，如 $P(x) $, $P(y)$。事件发生后求的反向条件概率；或者说，基于先验概率求得的反向条件概率。条件概率：一个事件发生后另一个事件发生的概率。</p>
+<p>先验概率是指根据以往经验和分析得到的概率,它往往作为&quot;由因求果&quot;问题中的&quot;因&quot;出现，比如全概率公式。</p>
+<p>后验概率是指依据得到&quot;结果&quot;信息所计算出的最有可能是那种事件发生,如贝叶斯公式中的,是&quot;执果寻因&quot;问题中的&quot;因&quot;， 比如贝叶斯公式。</p>
+<p><strong>极大似然估计</strong></p>
+<p>极大似然估计是用来求解概率分布中参数值。为什么要求解参数值？因为大多数概率分布都是由关键的参数值， 得到分布就可以计算概率值，那么进行分类和回归就没有什么问题。常见的概率分布比如二项分布是由 $p $控制，正太分布是由 $\mu$  和$\sigma$控制。极大似然估计理论认为，概率越大，发生的可能性就越大。</p>
+<p>该算法背景：</p>
+<ol>
+<li>有一个独立同分布的样本集 D，且样本从数据分布 $p(x | \theta)$ 中抽取</li>
+<li>想要计算 $\theta$</li>
+</ol>
+<p>解决思路：</p>
+<ol>
+<li>假设 D 中所有的样本都是独立从 $ p(x | \theta)$ 中抽取，那么：</li>
+</ol>
+<p>$$
+P({X=x^{1}, X=x^{2}, \cdots, X=x^{n}})=\prod_{i=1}^{n} p(x^{i} | {\theta})
+$$</p>
+<p>记等号后面的式子为似然函数</p>
+<ol start="2">
+<li>因为乘积不方便处理，所以上面式子中左右两边求对数</li>
+</ol>
+<p>$$
+\ln l(\boldsymbol{\theta})=\ln \prod_{i=1}^{n} p\left(x^{i} | \boldsymbol{\theta}\right)=\sum_{i=1}^{n} \ln p\left(x^{i} | \boldsymbol{\theta}\right)
+$$</p>
+<p>根据算法的思想，我们的目标就是最大化 $L(\theta)$， 最大化的 $\theta$ 就是我们要求的。如何最大化 $L(\theta)$？一般来说，如果如果只有一个参数，比如二项分布，那么求导令导数为0 就可以求$\theta$。如果有多个参数，比如正太分布，那么就需要求解偏导， 令偏导数为0.</p>
+<p>极大似然估计的局限性</p>
+<ul>
+<li>需要事先假定数据分布</li>
+<li>假定的数据分布和真实的数据分布不一致的时候，容易出现较大的误差</li>
+</ul>
+<p>介绍完了最大似然估计，那么后面是真正 EM （Expectation Maximization Algorithm）算法。</p>
+<p>EM算法解决这个的思路是使用启发式的迭代方法，既然我们无法直接求出模型分布参数，那么我们可以先猜想隐含数据（EM算法的E步），接着基于观察数据和猜测的隐含数据一起来极大化对数似然，求解我们的模型参数（EM算法的M步)。由于我们之前的隐藏数据是猜测的，所以此时得到的模型参数一般还不是我们想要的结果。不过没关系，我们基于当前得到的模型参数，继续猜测隐含数据（EM算法的E步），然后继续极大化对数似然，求解我们的模型参数（EM算法的M步)。以此类推，不断的迭代下去，直到模型分布参数基本无变化，算法收敛，找到合适的模型参数。从上面的描述可以看出，EM算法是迭代求解最大值的算法，同时算法在每一次迭代时分为两步，E步和M步。一轮轮迭代更新隐含数据和模型分布参数，直到收敛，即得到我们需要的模型参数。一个最直观了解EM算法思路的是K-Means算法，见之前写的K-Means聚类算法原理。在K-Means聚类时，每个聚类簇的质心是隐含数据。我们会假设$𝐾$个初始化质心，即EM算法的E步；然后计算得到每个样本最近的质心，并把样本聚类到最近的这个质心，即EM算法的M步。重复这个E步和M步，直到质心不再变化为止，这样就完成了K-Means聚类。</p>
+<ol>
+<li>
+<p>EM算法能保证收敛吗？
+有充分的理论说明，这个是能够保证收敛的。</p>
+</li>
+<li>
+<p>EM算法如果收敛，那么能保证收敛到全局最大值吗？<br>
+不能保证，这个取决于初始化。初始值不同，那么最后的结果不同。所以这个是给定初始值，经过循环迭代，最终逼近真实值。</p>
+</li>
+</ol>
+<p>如果要讲解 EM 算法，可以认为 K-means 是其一个特例，那么进行理解。</p>
+<p>PROPERTIES</p>
+<ul>
+<li>Soft clustering: can cluster data with no clear group structure; easy to interpret responsibility as probability or componence percentage.</li>
+<li>Convergence: non-decreasing log likelihood indicates that with more iterations, EM is guaranteed to get a better result. I.e., it is guaranteed to converge to one of local optima.</li>
+<li>More computation &amp; risks:
+It requires moooore computation than k-means, moooore iterations to converge, but
+still possible to get stuck in local optima. When that happens, there is something you can do:</li>
+<li>Cry</li>
+<li>Random restart</li>
+</ul>
+<p>Relationship btwn k-means &amp; EM</p>
+<blockquote>
+<p>There is a close similarity between k-means algorithm and EM algorithm for GMM. The first way to understand is from the two-stage update process. Both of the algorithms share an expectation stage and a maximization stage.
+The second way is we can derive the k-means as a particular limit EM for GMM. The key is to make the soft assignment to be a hard one. We can simply use a \arg \max  to force the probabilities to be binary, or consider a GMM setting with covariance matrix to be $\epsilon$ I where $\lim\epsilon \rightarrow 0$.</p>
+</blockquote>
+<h2 id="knn">KNN</h2>
+<p>K最近邻(k-Nearest Neighbor，KNN) 是有监督分类学习，根据K 个最近邻的类别信息，通过投票的方式决定刚进来的数据点的类别。和KNN 容易相混淆的是K-means算法，具体可以参考上面的描述。KNN 中的K 表示K个最近邻是有投票权的，根据K 个最近邻的投票然后决定新加入的点类别信息。</p>
+<p>In short, the algorithms are trying to accomplish different goals. K-nearest neighbor is a subset of supervised learning classification (or regression) algorithms (it takes a bunch of labeled points and uses them to learn how to label other points). It is supervised because you are trying to classify a point based on the known classification of other points. In contrast, K-means is a subset of unsupervised learning clustering algorithms (it takes a bunch of unlabeled points and tries to group them into clusters). It is unsupervised because the points have no external classification.</p>
+<p>The $ k $ in each case mean different things. In K-NN, the $ k $ represents the number of neighbors who have a vote in determining a new player’s position. The $ k $ in K-means, determine the number of clusters we want to end up.</p>
+<p>In a K-NN algorithm, a test sample is given as the class of majority of its nearest neighbours. For example, if we have three classes and the goal is to find a class label for the unknown example $ x_j $ then, by using the Euclidean distance and a value of $ k=5 $ neighbors, the unknown sample is classified to the category of the most voted neighbors.</p>
+<blockquote>
+<p>How it works?
+Step 1: Determine the value for K
+Step 2: Calculate the distances between the new input (test data) and all the training data. The most commonly used metrics for calculating distance are Euclidean, Manhattan and Minkowski
+Step 3: Sort the distance and determine k nearest neighbors based on minimum distance values
+Step 4: Analyze the category of those neighbors and assign the category for the test data based on majority vote
+Step 5: Return the predicted class</p>
+</blockquote>
+<p><img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g44zy5fny9j209i08sdh1.jpg" alt=""></p>
+<p>The situation with K-means is that, given some data you will cluster them in k-groups or clusters. The initial step of the algorithm is to randomly spawn $ k $ centroids (centers). At every iteration the center of each cluster is moved slightly to minimize the objective function. The algorithm will terminate if the iterations are maximized or if the centroids stop to move.</p>
+<p>The objective function of K-means is $ J = \sum_{j=1}^{k}\sum_{i=1}^{n}\left |x_i^{j}-c_j  \right |^{2} $</p>
+<blockquote>
+<p>How it works?
+Step 1: Determine K value by Elbow method and specify the number of clusters K
+Step 2: Randomly assign each data point to a cluster
+Step 3: Determine the cluster centroid coordinates
+Step 4: Determine the distances of each data point to the centroids and re-assign each point to the closest cluster centroid based upon minimum distance
+Step 5: Calculate cluster centroids again
+Step 6: Repeat steps 4 and 5 until we reach global optima where no improvements are possible and no switching of data points from one cluster to other.</p>
+</blockquote>
+<p><img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g44zwyhj76j20fz0av3zf.jpg" alt=""></p>
+<p>　上图a表达了初始的数据集，假设k=2。在图b中，我们随机选择了两个k类所对应的类别质心，即图中的红色质心和蓝色质心，然后分别求样本中所有点到这两个质心的距离，并标记每个样本的类别为和该样本距离最小的质心的类别，如图c所示，经过计算样本和红色质心和蓝色质心的距离，我们得到了所有样本点的第一轮迭代后的类别。此时我们对我们当前标记为红色和蓝色的点分别求其新的质心，如图4所示，新的红色质心和蓝色质心的位置已经发生了变动。图e和图f重复了我们在图c和图d的过程，即将所有点的类别标记为距离最近的质心的类别并求新的质心。最终我们得到的两个类别如图f。</p>
+<p>聚类算法是最常见的无监督学习算法，而K-Means算法是最常见的聚类算法</p>
+<p>EM算法是一个迭代式的算法，分为两个步骤：E步和M步；EM算法也可以视为将目标函数作坐标上升的过程，每个步骤都是固定一个参数并估计另一个参数</p>
+<p>EM算法和K-Means算法的迭代过程比较类似，不同的是K-Means算法中每次对参数的更新是硬猜测，而EM中每次对参数的更新是软猜测；相同的是，两个算法都可能得到局部最优解，采用不同的初始参数迭代会有利于得到全局最优解</p>
+<p>[Clustering, K-Means, EM Tutorial ](</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-04-18
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/cluster/">cluster</a>
+          <a href="/tags/%E8%81%9A%E7%B1%BB/">聚类</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/macos_tutorial/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default"> Mac OS 使用tutorial</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/cnn_understanding/">
+            <span class="next-text nav-default">CNN Understanding</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

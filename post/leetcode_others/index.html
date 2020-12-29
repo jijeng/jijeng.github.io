@@ -1,0 +1,1884 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Leetcode-others - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="LeetCode 刷题总结（四），使用Python 实现。该篇题目类型主要包含无法归类到上述三篇的题目。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/leetcode_others/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Leetcode-others" />
+<meta property="og:description" content="LeetCode 刷题总结（四），使用Python 实现。该篇题目类型主要包含无法归类到上述三篇的题目。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/leetcode_others/" />
+<meta property="article:published_time" content="2019-07-16T23:17:44+08:00" />
+<meta property="article:modified_time" content="2019-07-16T23:17:44+08:00" />
+<meta itemprop="name" content="Leetcode-others">
+<meta itemprop="description" content="LeetCode 刷题总结（四），使用Python 实现。该篇题目类型主要包含无法归类到上述三篇的题目。">
+<meta itemprop="datePublished" content="2019-07-16T23:17:44+08:00" />
+<meta itemprop="dateModified" content="2019-07-16T23:17:44+08:00" />
+<meta itemprop="wordCount" content="5855">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Leetcode-others"/>
+<meta name="twitter:description" content="LeetCode 刷题总结（四），使用Python 实现。该篇题目类型主要包含无法归类到上述三篇的题目。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Leetcode-others</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-07-16 </span>
+        <div class="post-category">
+            <a href="/categories/others/"> others </a>
+            </div>
+          <span class="more-meta"> 约 5855 字 </span>
+          <span class="more-meta"> 预计阅读 12 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>LeetCode 刷题总结（四），使用Python 实现。该篇题目类型主要包含无法归类到上述三篇的题目。</p>
+<p><a href="https://leetcode.com/problems/reverse-integer/">7. Reverse Integer</a></p>
+<p>在c++ 中使用 <code>long long</code>来处理数字溢出的问题。对于case <code>-123</code> 和 <code>120</code> 下面的代码是能够处理的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">reverse</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">long</span> <span class="kt">long</span> <span class="n">res</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">res</span> <span class="o">*</span><span class="mi">10</span> <span class="o">+</span> <span class="n">x</span> <span class="o">%</span><span class="mi">10</span><span class="p">;</span>
+            <span class="n">x</span> <span class="o">/=</span> <span class="mi">10</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">res</span> <span class="o">&lt;</span> <span class="n">INT_MIN</span>  <span class="o">||</span> <span class="n">res</span> <span class="o">&gt;</span> <span class="n">INT_MAX</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>   
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在c++ 中使用 <code>-134 %10 =-4</code> 而在python 中使用 <code>-134 %10 =6</code>，所以两者的实现是不一样的。 所以在python 中进行整数除法运算的时候，需要转换成正数（记录flag），在整除的时候需要考虑 <code>整除</code>。</p>
+<p>需要注意的一点是，使用“数字相加”的概念 而不是字符串相加的概念去处理。如果是字符串的话，需要单独处理最后可能存在多个0的情况。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        :type x: int
+</span><span class="s2">        :rtype: int
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="c1"># python 中也是可以使用 整数的，不仅仅只是有list </span>
+        
+        <span class="n">flag</span> <span class="o">=</span><span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span><span class="mi">0</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">x</span> <span class="o">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span><span class="mi">0</span>
+        <span class="k">while</span> <span class="n">x</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">res</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="n">x</span><span class="o">%</span><span class="mi">10</span>
+            <span class="n">x</span> <span class="o">=</span><span class="n">x</span><span class="o">//</span><span class="mi">10</span>
+        <span class="k">if</span> <span class="n">res</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">31</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span><span class="mi">0</span>
+        <span class="k">return</span> <span class="n">flag</span> <span class="o">*</span> <span class="n">res</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://leetcode.com/problems/string-to-integer-atoi/">8. String to Integer (atoi)</a></p>
+<blockquote>
+<p>Implement atoi which converts a string to an integer.</p>
+</blockquote>
+<p>Tips: 涉及到bit 级别数字处理的一般都会用到  res =res <em>10 + something 这样的东西。对于能够表示的数字的判断  max(-pow(2, 31), min(res</em>sign, pow(2, 31) -1)) 这个还是挺经典的代码的。</p>
+<p>核心操作是 <code>while</code> 操作中对于字符串的解析，其他的边界条件是考虑周到与否。基本思路是写出一个版本，然后根据bad case 进行考虑。对于这种类型，可以想到的case： 正负号，int 类型的越界（c++ 中，python 中不存在这样的现象）</p>
+<p>ord() 函数就是用来返回单个字符的ascii值</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">myAtoi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        :type str: str
+</span><span class="s2">        :rtype: int
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="nb">str</span> <span class="o">=</span><span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">str</span> <span class="o">==</span><span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="n">res</span>  <span class="o">=</span><span class="mi">0</span>
+        <span class="n">flag</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">i</span> <span class="o">=</span><span class="mi">0</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span><span class="s1">&#39;-&#39;</span><span class="p">:</span>
+            <span class="n">flag</span> <span class="o">=-</span><span class="mi">1</span>
+            <span class="n">i</span> <span class="o">+=</span><span class="mi">1</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span><span class="s1">&#39;+&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">flag</span> <span class="o">==-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mi">0</span>
+            <span class="n">i</span> <span class="o">+=</span><span class="mi">1</span>
+        <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">res</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="nb">ord</span><span class="p">(</span><span class="nb">str</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">-</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">);</span>
+            <span class="n">i</span> <span class="o">+=</span><span class="mi">1</span>
+        <span class="k">return</span> <span class="n">res</span> <span class="o">*</span> <span class="n">flag</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>c++代码。在该版本的测试样例中，没有超过int 的范围。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">myAtoi</span><span class="p">(</span><span class="n">string</span> <span class="n">str</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">flag</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">str</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span><span class="sc">&#39; &#39;</span><span class="p">)</span>
+            <span class="n">i</span> <span class="o">++</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span><span class="sc">&#39;-&#39;</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">flag</span>  <span class="o">=-</span><span class="mi">1</span><span class="p">;</span>
+            <span class="n">i</span> <span class="o">++</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span><span class="sc">&#39;+&#39;</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">flag</span> <span class="o">==-</span><span class="mi">1</span><span class="p">)</span>
+                <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="n">i</span> <span class="o">++</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">str</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span><span class="sc">&#39;0&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="sc">&#39;9&#39;</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">res</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span><span class="sc">&#39;0&#39;</span><span class="p">;</span>
+            <span class="n">i</span> <span class="o">++</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">res</span> <span class="o">*</span><span class="n">flag</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（3）<a href="https://leetcode.com/problems/palindrome-number/">Palindrome Number</a></p>
+<blockquote>
+<p>Determine whether an integer is a palindrome. An integer is a palindrome when it reads the same backward as forward.</p>
+</blockquote>
+<p>Tips： 回文数。代码写的很巧妙，整体上说是通过 / 和 % 获得数字的头和尾，在实现的时候有若干细节。 这道题目是可以被当做是一个模拟题进行解答的。</p>
+<p>注意是先取尾，然后去头部。因为，如果反过来，那么ranger 就是不准的，所以一定要先使用了ranger 求解余数，然后再使用 去头的操作。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">isPalindrome</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        :type x: int
+</span><span class="s2">        :rtype: bool
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="c1"># 数字的取整和取余 计算</span>
+        <span class="n">ranger</span> <span class="o">=</span><span class="mi">1</span>
+        <span class="k">while</span> <span class="n">x</span> <span class="o">//</span><span class="n">ranger</span> <span class="o">&gt;</span><span class="mi">9</span><span class="p">:</span>
+            <span class="n">ranger</span> <span class="o">*=</span> <span class="mi">10</span>
+        <span class="k">while</span> <span class="n">x</span><span class="p">:</span>
+            <span class="n">left</span> <span class="o">=</span> <span class="n">x</span> <span class="o">//</span><span class="n">ranger</span>
+            <span class="n">right</span> <span class="o">=</span><span class="n">x</span> <span class="o">%</span> <span class="mi">10</span>
+            
+            <span class="k">if</span> <span class="n">left</span> <span class="o">!=</span> <span class="n">right</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">False</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">%</span> <span class="n">ranger</span><span class="p">)</span><span class="o">//</span><span class="mi">10</span>
+            <span class="n">ranger</span> <span class="o">=</span><span class="n">ranger</span> <span class="o">//</span><span class="mi">100</span>
+        <span class="k">return</span> <span class="bp">True</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>需要 $O(n)$ 的空间复杂度。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">isPalindrome</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        :type x: int
+</span><span class="s2">        :rtype: bool
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="c1"># 数字的取余 和取整数部分。 </span>
+        <span class="n">nums</span> <span class="o">=</span><span class="p">[]</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="bp">False</span>
+        
+        <span class="k">while</span> <span class="n">x</span><span class="p">:</span>
+            <span class="n">nums</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span> <span class="o">%</span><span class="mi">10</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span><span class="n">x</span> <span class="o">//</span><span class="mi">10</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">//</span><span class="mi">2</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">nums</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="bp">True</span>
+                
+</code></pre></td></tr></table>
+</div>
+</div><p>** Integer to Roman **</p>
+<blockquote>
+<p>Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.</p>
+</blockquote>
+<p>Tips： 基于roman 数字规则的转换。代码实现角度 tuple都是要好于 list （内存和速度方面都是），如果你想要存储的是静态的可以遍历的数据，不需要每次进行修改的话，why not</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">intToRoman</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">num</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&#34;&#34;</span>
+        <span class="n">digits</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&#34;I&#34;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&#34;V&#34;</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&#34;X&#34;</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&#34;L&#34;</span><span class="p">:</span><span class="mi">50</span><span class="p">,</span> <span class="s2">&#34;C&#34;</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span> <span class="s2">&#34;D&#34;</span><span class="p">:</span><span class="mi">500</span><span class="p">,</span> <span class="s2">&#34;M&#34;</span><span class="p">:</span><span class="mi">1000</span> <span class="p">}</span>
+        <span class="n">nums</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">900</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">chs</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&#34;M&#34;</span><span class="p">,</span> <span class="s2">&#34;CM&#34;</span><span class="p">,</span> <span class="s2">&#34;D&#34;</span><span class="p">,</span> <span class="s2">&#34;CD&#34;</span><span class="p">,</span> <span class="s2">&#34;C&#34;</span><span class="p">,</span> <span class="s2">&#34;XC&#34;</span><span class="p">,</span> <span class="s2">&#34;L&#34;</span><span class="p">,</span> <span class="s2">&#34;XL&#34;</span><span class="p">,</span> <span class="s2">&#34;X&#34;</span><span class="p">,</span> <span class="s2">&#34;IX&#34;</span><span class="p">,</span> <span class="s2">&#34;V&#34;</span><span class="p">,</span> <span class="s2">&#34;IV&#34;</span><span class="p">,</span> <span class="s2">&#34;I&#34;</span><span class="p">)</span>
+        <span class="nb">len</span> <span class="o">=</span> <span class="mi">13</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+        <span class="k">while</span> <span class="n">num</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">num</span> <span class="o">&gt;=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                    <span class="n">num</span> <span class="o">-=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="n">s</span> <span class="o">+=</span> <span class="n">chs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="k">break</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>** Roman to Integer**</p>
+<blockquote>
+<p>Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.</p>
+</blockquote>
+<p>Tips： 和上一道题目相似。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">romanToInt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        这个是输入时 string，所以是 index 遍历的在 dict 中进行访问，但是上一个题目是总的 number，是没有办法的
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="n">digits</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&#34;I&#34;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&#34;V&#34;</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&#34;X&#34;</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&#34;L&#34;</span><span class="p">:</span><span class="mi">50</span><span class="p">,</span> <span class="s2">&#34;C&#34;</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span> <span class="s2">&#34;D&#34;</span><span class="p">:</span><span class="mi">500</span><span class="p">,</span> <span class="s2">&#34;M&#34;</span><span class="p">:</span><span class="mi">1000</span> <span class="p">}</span>
+        <span class="n">len_s</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># 这个少遍历了一个 ，因为其中有 i+1 的存在</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">len_s</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">cur</span> <span class="o">=</span> <span class="n">digits</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+            <span class="n">next_s</span> <span class="o">=</span> <span class="n">digits</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span>
+            <span class="k">if</span> <span class="n">cur</span> <span class="o">&gt;=</span> <span class="n">next_s</span><span class="p">:</span>
+                <span class="n">num</span> <span class="o">+=</span> <span class="n">cur</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">num</span> <span class="o">-=</span> <span class="n">cur</span>
+        <span class="c1"># 处理的是最后一个</span>
+        <span class="n">num</span> <span class="o">+=</span> <span class="n">digits</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">len_s</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]]</span>
+        <span class="k">return</span> <span class="n">num</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>** Letter Combinations of a Phone Number**</p>
+<blockquote>
+<p>Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent.
+A mapping of digit to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.</p>
+</blockquote>
+<p><img src="http://ws1.sinaimg.cn/large/e9a223b5ly1g43e60dfadj205k04iq3c.jpg" alt=""></p>
+<pre><code>Input: &quot;23&quot;
+Output: [&quot;ad&quot;, &quot;ae&quot;, &quot;af&quot;, &quot;bd&quot;, &quot;be&quot;, &quot;bf&quot;, &quot;cd&quot;, &quot;ce&quot;, &quot;cf&quot;].
+</code></pre>
+<p>Tips：使用循环的方式表示层级的关系（使用二层循环，第一层表示外围a， 第二层表示 def 等）。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">letterCombinations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">digits</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        :type digits: str
+</span><span class="s2">        :rtype: List[str]
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">digits</span> <span class="ow">or</span> <span class="n">digits</span> <span class="o">==</span> <span class="s2">&#34;&#34;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+        <span class="c1"># 命名很到位</span>
+        <span class="n">maps</span> <span class="o">=</span><span class="p">{</span>
+            <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">(),</span>
+            <span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="p">(),</span>
+            <span class="s1">&#39;2&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;3&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;4&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;5&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;j&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;6&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;7&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;8&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="s1">&#39;u&#39;</span><span class="p">,</span> <span class="s1">&#39;v&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;9&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">)</span>
+
+        <span class="p">}</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;&#34;</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">digit</span> <span class="ow">in</span> <span class="n">digits</span><span class="p">:</span>
+            <span class="n">tuple1</span> <span class="o">=</span> <span class="n">maps</span><span class="p">[</span><span class="n">digit</span><span class="p">]</span>
+            <span class="n">tmp</span> <span class="o">=</span><span class="p">[]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tuple1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="c1"># 二重循环</span>
+            <span class="k">for</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="n">tuple1</span><span class="p">:</span>
+                    <span class="n">tmp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">suffix</span><span class="p">)</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="n">tmp</span>
+
+        <span class="k">return</span> <span class="n">results</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://leetcode.com/problems/divide-two-integers/">Divide Two Integers</a></p>
+<blockquote>
+<p>Given two integers dividend and divisor, divide two integers without using multiplication, division and mod operator.
+Return the quotient after dividing dividend by divisor.
+The integer division should truncate toward zero.</p>
+</blockquote>
+<p>Tips： 不让使用乘除和 mod 操作，只能使用位运算符了。在python 中0 == False 这个在逻辑判断中是等价的（1 ==True）。计算的时候使用 &laquo; （不断的*2）, ,maybe 是二分。 实际上位运算本质也是除法运算。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">divide</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">divident</span><span class="p">,</span> <span class="n">divisor</span><span class="p">):</span>
+
+        <span class="n">sign</span> <span class="o">=-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">divident</span><span class="o">*</span> <span class="n">divisor</span><span class="o">&lt;</span><span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span>
+
+        <span class="n">divident</span><span class="p">,</span> <span class="n">divisor</span> <span class="o">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">divident</span><span class="p">),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">divisor</span><span class="p">)</span>
+
+        <span class="n">ans</span> <span class="o">=</span><span class="mi">0</span>
+
+        <span class="k">while</span> <span class="n">divisor</span> <span class="o">&lt;=</span> <span class="n">divident</span><span class="p">:</span>
+            <span class="n">div</span> <span class="o">=</span><span class="n">divisor</span>
+
+            <span class="n">tmp</span> <span class="o">=</span><span class="mi">1</span>
+            <span class="k">while</span> <span class="p">(</span><span class="n">div</span> <span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">divident</span><span class="p">:</span>
+                <span class="n">div</span> <span class="o">&lt;&lt;=</span> <span class="mi">1</span>
+                <span class="n">tmp</span> <span class="o">&lt;&lt;=</span> <span class="mi">1</span>
+            <span class="n">divident</span> <span class="o">-=</span> <span class="n">div</span>
+
+            <span class="n">ans</span> <span class="o">+=</span> <span class="n">tmp</span>
+
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="o">-</span><span class="nb">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">31</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">ans</span><span class="o">*</span><span class="n">sign</span><span class="p">,</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>相比之下使用 减法代替除法就比较实在一些。如果使用普通的减法运算，那么是$O(x)$，所以可以<code>倍增作减法</code>, 最后的时间复杂度是 $(log x) ^ 2$。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">divide</span><span class="p">(</span><span class="kt">int</span> <span class="n">dividend</span><span class="p">,</span> <span class="kt">int</span> <span class="n">divisor</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">long</span> <span class="kt">long</span> <span class="n">x</span> <span class="o">=</span><span class="n">dividend</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">divisor</span><span class="p">;</span>
+        
+        <span class="kt">bool</span> <span class="n">flag</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">x</span> <span class="o">&gt;</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">y</span> <span class="o">&gt;</span><span class="mi">0</span> <span class="o">||</span> <span class="n">x</span><span class="o">&lt;</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">y</span> <span class="o">&lt;</span><span class="mi">0</span><span class="p">)</span> <span class="n">flag</span> <span class="o">=</span><span class="nb">true</span><span class="p">;</span>
+        <span class="k">else</span> <span class="n">flag</span> <span class="o">=</span><span class="nb">false</span><span class="p">;</span>
+        <span class="kt">long</span> <span class="kt">long</span>  <span class="n">ans</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+        <span class="n">x</span> <span class="o">=</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span> <span class="o">=</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span><span class="p">);</span>
+        <span class="k">while</span> <span class="p">(</span> <span class="n">x</span><span class="o">&gt;=</span> <span class="n">y</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">long</span> <span class="kt">long</span> <span class="n">t</span> <span class="o">=</span><span class="n">y</span> <span class="p">,</span> <span class="n">c</span> <span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+            
+            <span class="k">while</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="n">t</span> <span class="o">+</span><span class="n">t</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">t</span> <span class="o">+=</span> <span class="n">t</span><span class="p">;</span>
+                <span class="n">c</span> <span class="o">+=</span> <span class="n">c</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="n">x</span> <span class="o">-=</span> <span class="n">t</span><span class="p">;</span>
+            <span class="n">ans</span> <span class="o">+=</span> <span class="n">c</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">flag</span> <span class="o">==</span><span class="nb">false</span><span class="p">)</span>
+            <span class="n">ans</span> <span class="o">=</span> <span class="o">-</span><span class="n">ans</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">ans</span> <span class="o">&lt;</span> <span class="n">INT_MIN</span> <span class="o">||</span> <span class="n">ans</span> <span class="o">&gt;</span> <span class="n">INT_MAX</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">INT_MAX</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nf">int</span><span class="p">(</span><span class="n">ans</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>小的细节， 长整型中可以直接使用 abs(x)，不存在溢出报错。</p>
+<p><a href="https://leetcode.com/problems/powx-n/">Pow(x, n)</a></p>
+<blockquote>
+<p>Implement pow(x, n), which calculates x raised to the power n (xn)</p>
+</blockquote>
+<p>$O(n)$ 时间复杂度是不行的，最优的解法是 $log(n)$. 该题目返回的值，从实际问题意义上是 double 类型的。</p>
+<p>c++ 实现</p>
+<p>​</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">double</span> <span class="n">myPow</span><span class="p">(</span><span class="kt">double</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">double</span> <span class="n">res</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span><span class="n">x</span><span class="p">;</span>
+        <span class="kt">long</span> <span class="kt">long</span> <span class="n">t</span> <span class="o">=</span><span class="n">abs</span><span class="p">((</span><span class="kt">long</span> <span class="kt">long</span><span class="p">)</span><span class="n">n</span><span class="p">);</span> <span class="c1">// 当n为 INT_MIN 的时候，abs 会爆掉
+</span><span class="c1"></span>        <span class="k">for</span><span class="p">(;</span> <span class="n">t</span><span class="p">;</span> <span class="n">t</span> <span class="o">&gt;&gt;=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">t</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">// 如果是奇数的话，
+</span><span class="c1"></span>                <span class="n">res</span> <span class="o">=</span><span class="n">res</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">p</span> <span class="o">*</span> <span class="n">p</span><span class="p">;</span> <span class="c1">// 这里体现的是 logn 的算法
+</span><span class="c1"></span>        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">n</span> <span class="o">&gt;</span><span class="mi">0</span><span class="o">?</span> <span class="nl">res</span> <span class="p">:</span> <span class="mf">1.0</span><span class="o">/</span> <span class="n">res</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>python 实现</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">myPow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span><span class="mi">1</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="n">t</span> <span class="o">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">t</span> <span class="p">:</span>
+            <span class="k">if</span> <span class="n">t</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="n">res</span> <span class="o">*</span> <span class="n">p</span><span class="p">;</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">*</span> <span class="n">p</span>
+            <span class="n">t</span>  <span class="o">=</span><span class="n">t</span> <span class="o">&gt;&gt;</span><span class="mi">1</span>
+        <span class="k">return</span> <span class="n">res</span> <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">1.0</span><span class="o">/</span> <span class="n">res</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>** Add Binary **</p>
+<blockquote>
+<p>Given two binary strings, return their sum (also a binary string).
+The input strings are both non-empty and contains only characters 1 or 0.</p>
+</blockquote>
+<p>Tips：二级制相加，从后往前走，使用 carry 位置记录进位数。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">addBinary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        :type a: str
+</span><span class="s2">        :type b: str
+</span><span class="s2">        :rtype: str
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">carry</span><span class="p">,</span> <span class="n">res</span> <span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;&#39;</span>
+
+        <span class="k">while</span> <span class="n">i</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="ow">or</span> <span class="n">j</span> <span class="o">&gt;=</span><span class="mi">0</span> <span class="ow">or</span> <span class="n">carry</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">carry</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">i</span> <span class="o">-=</span><span class="mi">1</span>
+
+            <span class="k">if</span> <span class="n">j</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">carry</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+                <span class="n">j</span> <span class="o">-=</span><span class="mi">1</span>
+
+            <span class="n">res</span> <span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">carry</span><span class="o">%</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span><span class="n">res</span>
+            <span class="n">carry</span> <span class="o">//=</span><span class="mi">2</span>
+
+        <span class="k">return</span>  <span class="n">res</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>** Max Points on a Line**</p>
+<blockquote>
+<p>Given n points on a 2D plane, find the maximum number of points that lie on the same straight line.</p>
+</blockquote>
+<p>Tips：当使用除法的时候，因为精度问题造成的误差，所以这里使用最大的公约数进行化简。使用以下三种方式处理。</p>
+<ul>
+<li>Map from (a,b,c,d) representing y=(a/b)x+(c/d) to set of indices of points that are on that line.  a/b and c/d are reduced, i.e. a and b are divided by their GCD and so are c and d.</li>
+<li>Vertical lines are represented by a tuple with 1 element, the x-axis value</li>
+<li>Single points are represented by a 2-tuple (x, y).</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="k">def</span> <span class="nf">fraction</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="n">y</span>
+    <span class="n">gcd</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">//</span> <span class="n">gcd</span><span class="p">,</span> <span class="n">y</span> <span class="o">//</span> <span class="n">gcd</span>
+    
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">maxPoints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">points</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">1</span>
+
+        <span class="n">aligned_points</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
+        <span class="n">duplicates</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">points</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">start</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+
+                <span class="c1"># x 是否相同</span>
+                <span class="k">if</span> <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                        <span class="n">duplicates</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                        <span class="n">key</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">],)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">fraction</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># k斜率</span>
+                    <span class="n">c</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">fraction</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># b 位移</span>
+                    <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+                <span class="c1">#aligned_points[key] = aligned_points[key] or {i, j}  # 因为之前定义的是set</span>
+                <span class="n">aligned_points</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">|=</span> <span class="p">{</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">}</span>
+
+        <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">dups</span> <span class="ow">in</span> <span class="n">duplicates</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">aligned_points</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">aligned_points</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
+                    <span class="c1">#aligned_points[key] = aligned_points[key] or dups  # 这个or 不是选择的意思，是两者都要的意思</span>
+                    <span class="n">aligned_points</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">|=</span> <span class="n">dups</span>
+
+        <span class="n">max_points</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">aliged</span> <span class="ow">in</span> <span class="n">aligned_points</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">max_points</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_points</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">aliged</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">max_points</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>** Happy Number**</p>
+<blockquote>
+<p>Write an algorithm to determine if a number is &ldquo;happy&rdquo;.
+A happy number is a number defined by the following process: Starting with any positive integer, replace the number by the sum of the squares of its digits, and repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1. Those numbers for which this process ends in 1 are happy numbers.</p>
+</blockquote>
+<blockquote>
+<p>Input: 19
+Output: true
+Explanation:
+12 + 92 = 82
+82 + 22 = 68
+62 + 82 = 100
+12 + 02 + 02 = 1</p>
+</blockquote>
+<p>Tips: 使用set 的思路，没有重复之前就一直遍历；对于数字转成 string 逐个进行处理。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">isHappy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        :type n: int
+</span><span class="s2">        :rtype: bool
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="n">visited</span> <span class="o">=</span><span class="nb">set</span><span class="p">()</span> <span class="c1"># 这个set 每次add 都是add 到最前面一个，是规律吧 </span>
+
+        <span class="k">while</span> <span class="n">n</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+
+            <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">n</span> <span class="o">=</span><span class="nb">sum</span><span class="p">((</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span><span class="c1"># () 要比 [] 使用较少的内存</span>
+
+        <span class="k">return</span> <span class="n">n</span> <span class="o">==</span><span class="mi">1</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>**Sum of Two Integers **</p>
+<blockquote>
+<p>Calculate the sum of two integers a and b, but you are not allowed to use the operator + and -.</p>
+</blockquote>
+<blockquote>
+<p>Input: a = 1, b = 2
+Output: 3</p>
+</blockquote>
+<p>Tips: 下面的add()函数只是在以下场景中 work:  a*b&gt;=0 , or the negative number has a larger absolute value( a &lt; 0 and abs(a) &gt; b &gt; 0 , or   b &lt; 0 and abs(b) &gt; a &gt; 0)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">getSum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        :type a: int
+</span><span class="s2">        :type b: int
+</span><span class="s2">        :rtype: int
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span> 
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">a</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">b</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">a</span> <span class="ow">or</span> <span class="n">b</span>
+            <span class="c1"># # ^ get different bits and &amp; gets double 1s, &lt;&lt; moves carry ， 这个可能是加法吧，</span>
+            <span class="k">return</span> <span class="n">add</span><span class="p">(</span><span class="n">a</span><span class="o">^</span><span class="n">b</span><span class="p">,</span> <span class="p">(</span><span class="n">a</span><span class="o">&amp;</span><span class="n">b</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">a</span><span class="o">*</span><span class="n">b</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span> <span class="c1"># assume a &lt; 0, b &gt; 0</span>
+            <span class="k">if</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSum</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+            <span class="k">if</span> <span class="o">-</span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mi">0</span>
+            <span class="k">if</span> <span class="o">-</span><span class="n">a</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">:</span>
+                <span class="k">return</span> <span class="o">-</span><span class="n">add</span><span class="p">(</span><span class="o">-</span><span class="n">a</span><span class="p">,</span> <span class="o">-</span><span class="n">b</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>** Fizz Buzz ***</p>
+<blockquote>
+<p>Write a program that outputs the string representation of numbers from 1 to n.</p>
+</blockquote>
+<blockquote>
+<p>n = 15,
+Return:
+[
+&ldquo;1&rdquo;,
+&ldquo;2&rdquo;,
+&ldquo;Fizz&rdquo;,
+&ldquo;4&rdquo;,
+&ldquo;Buzz&rdquo;,
+&ldquo;Fizz&rdquo;,
+&ldquo;7&rdquo;,
+&ldquo;8&rdquo;,
+&ldquo;Fizz&rdquo;,
+&ldquo;Buzz&rdquo;,
+&ldquo;11&rdquo;,
+&ldquo;Fizz&rdquo;,
+&ldquo;13&rdquo;,
+&ldquo;14&rdquo;,
+&ldquo;FizzBuzz&rdquo;
+]</p>
+</blockquote>
+<p>Tips: 这是一个 for 循环就可以解决的问题</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">fizzBuzz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        :type n: int
+</span><span class="s2">        :rtype: List[str]
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        
+        <span class="c1"># 使用一个 result append一下</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&#34;Fizz&#34;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&#34;Buzz&#34;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&#34;FizzBuzz&#34;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>** Find Median from Data Stream**</p>
+<blockquote>
+<p>Median is the middle value in an ordered integer list. If the size of the list is even, there is no middle value. So the median is the mean of the two middle value.</p>
+</blockquote>
+<blockquote>
+<p>For example,
+[2,3,4], the median is 3
+[2,3], the median is (2 + 3) / 2 = 2.5</p>
+</blockquote>
+<p>Tips:  主要难点在于数据流，难在数据结构，使用最小根堆实现。这个是需要寻找 median （中位数），使用大小根堆，分别存储较小的一半 和 较大的一半。那么大根堆的堆顶就对应着较小一半的最大值，小根堆对应着较大部分的最小值。所以中位数就可以 快速的从两个堆顶元素中获得。</p>
+<p><a href="https://leetcode.com/problems/find-median-from-data-stream/">https://leetcode.com/problems/find-median-from-data-stream/</a></p>
+<p>简单说一下在python 中heapq -小根堆的实现。将数值转成负数，那么就可以使用小根堆来mimic 大根堆，因为堆顶是负数最小的。（对应正数最大的）</p>
+<pre><code>heap.heappush(heap, item), 把一个item 添加到heap中
+heap.heappushpop(heap, item), 先把item 放入到堆中，然后再pop() , 这样比 heappush() 然后再heappop() 快一些
+push item on the heap, then pop and return the smallest item from the heap. The combined action runs more efficiently than heappush
+followed by a separate call to heappop()
+
+Note that the heapq in python is a min heap, thus we need to invert the values in the smaller half to mimic a 'max heap'
+the add operation is O(nlogn), the find operation is O(1)
+</code></pre>
+<p>​</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">heapq</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="k">class</span> <span class="nc">MedianFinder</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">small</span> <span class="o">=</span><span class="p">[]</span> <span class="c1"># max heap (the smaller half of the list), 大根堆存放的是小值，然后根存放的就是最大值, 这个转成-num 当然就是 smaller part</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">large</span> <span class="o">=</span><span class="p">[]</span> <span class="c1"># min heap (the larger half of the list), 小根堆存放的是大值，然后根就是存放的最小值</span>
+
+    <span class="k">def</span> <span class="nf">addNum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">small</span><span class="p">)</span> <span class="o">==</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">large</span><span class="p">):</span>
+            <span class="n">heappush</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">large</span><span class="p">,</span> <span class="o">-</span><span class="n">heappushpop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">small</span><span class="p">,</span> <span class="o">-</span><span class="n">num</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">heappush</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">small</span><span class="p">,</span> <span class="o">-</span><span class="n">heappushpop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">large</span><span class="p">,</span> <span class="n">num</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">findMedian</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">small</span><span class="p">)</span> <span class="o">==</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">large</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">large</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">small</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="mf">2.0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">large</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>** Flatten Nested List Iterator **</p>
+<blockquote>
+<p>Given a nested list of integers, implement an iterator to flatten it.
+Each element is either an integer, or a list &ndash; whose elements may also be integers or other lists.</p>
+</blockquote>
+<p>Tips: 迭代器和 generator 感觉都是差不多的操作，产生一个数字。这个看懂 API 更重要。只要数字内容，不要嵌套的关系。yield 关键字，调用完之后，程序不结束。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># &#34;&#34;&#34;</span>
+<span class="c1"># This is the interface that allows for creating nested lists.</span>
+<span class="c1"># You should not implement it, or speculate about its implementation</span>
+<span class="c1"># &#34;&#34;&#34;</span>
+<span class="c1">#class NestedInteger(object):</span>
+<span class="c1">#    def isInteger(self):</span>
+<span class="c1">#        &#34;&#34;&#34;</span>
+<span class="c1">#        @return True if this NestedInteger holds a single integer, rather than a nested list.</span>
+<span class="c1">#        :rtype bool</span>
+<span class="c1">#        &#34;&#34;&#34;</span>
+<span class="c1">#</span>
+<span class="c1">#    def getInteger(self):</span>
+<span class="c1">#        &#34;&#34;&#34;</span>
+<span class="c1">#        @return the single integer that this NestedInteger holds, if it holds a single integer</span>
+<span class="c1">#        Return None if this NestedInteger holds a nested list</span>
+<span class="c1">#        :rtype int</span>
+<span class="c1">#        &#34;&#34;&#34;</span>
+<span class="c1">#</span>
+<span class="c1">#    def getList(self):</span>
+<span class="c1">#        &#34;&#34;&#34;</span>
+<span class="c1">#        @return the nested list that this NestedInteger holds, if it holds a nested list</span>
+<span class="c1">#        Return None if this NestedInteger holds a single integer</span>
+<span class="c1">#        :rtype List[NestedInteger]</span>
+<span class="c1">#        &#34;&#34;&#34;</span>
+
+<span class="k">class</span> <span class="nc">NestedIterator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nestedList</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">gen</span><span class="p">(</span><span class="n">nestedList</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nestedList</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">isInteger</span><span class="p">():</span>
+                    <span class="k">yield</span> <span class="n">x</span><span class="o">.</span><span class="n">getInteger</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">gen</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">getList</span><span class="p">()):</span>
+                        <span class="k">yield</span> <span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gen</span> <span class="o">=</span> <span class="n">gen</span><span class="p">(</span><span class="n">nestedList</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">next</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="k">def</span> <span class="nf">hasNext</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gen</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+<span class="c1"># Your NestedIterator object will be instantiated and called as such:</span>
+<span class="c1"># i, v = NestedIterator(nestedList), []</span>
+<span class="c1"># while i.hasNext(): v.append(i.next())</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>** Insert Delete GetRandom O(1) **</p>
+<blockquote>
+<p>Design a data structure that supports all following operations in average O(1) time.</p>
+</blockquote>
+<ul>
+<li>insert(val): Inserts an item val to the set if not already present.</li>
+<li>remove(val): Removes an item val from the set if present.</li>
+<li>getRandom: Returns a random element from current set of elements. Each element must have the same probability of being returned.</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">RandomizedSet</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="c1"># 就是一个维持list 的东西</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        Initialize your data structure here.
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">list</span> <span class="o">=</span><span class="p">[]</span>
+        
+    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        Inserts a value to the set. Returns true if the set did not already contain the specified element.
+</span><span class="s2">        :type val: int
+</span><span class="s2">        :rtype: bool
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="bp">False</span>
+        
+    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        Removes a value from the set. Returns true if the set contained the specified element.
+</span><span class="s2">        :type val: int
+</span><span class="s2">        :rtype: bool
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="bp">False</span>
+        
+    <span class="k">def</span> <span class="nf">getRandom</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        Get a random element from the set.
+</span><span class="s2">        :rtype: int
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="n">length</span> <span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="p">)</span>
+        <span class="kn">import</span> <span class="nn">random</span>
+        <span class="n">index</span> <span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">length</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        
+<span class="c1"># Your RandomizedSet object will be instantiated and called as such:</span>
+<span class="c1"># obj = RandomizedSet()</span>
+<span class="c1"># param_1 = obj.insert(val)</span>
+<span class="c1"># param_2 = obj.remove(val)</span>
+<span class="c1"># param_3 = obj.getRandom()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>** Perfect Squares**</p>
+<blockquote>
+<p>Given a positive integer n, find the least number of perfect square numbers (for example, 1, 4, 9, 16, &hellip;) which sum to n.</p>
+</blockquote>
+<p>Tips: 再次理解一下二重循环，如果第二层中的遍历次数和 第一层是有关系的，往往是 O(N*N/2) 的复杂度（这种记法是错误的），用于遍历前 i 个元素。</p>
+<p>···python
+class Solution(object):
+# dp[i] 的定义表示 i 这个数字最少使用的 squares 数量
+def numSquares(self, n):
+&quot;&quot;&quot;
+:type n: int
+:rtype: int
+&quot;&quot;&quot;
+dp = [float(&lsquo;inf&rsquo;)]*(n+1)
+dp[0]=0
+count = 2
+for i in range(1,n+1):</p>
+<pre><code>        if i&gt;=count*count:
+            count += 1
+        for j in range(1,count):
+            dp[i] = min(dp[i],dp[i-j*j]+1)
+    
+    return dp[n]
+
+    &quot;&quot;&quot;
+    # 这样做是不可行的，在于可能重复使用一个，如果没有最大的合适的话
+    square =[pow(num, 2) for num in range(1, int(math.sqrt(n) +1))]
+    square =square[::-1]
+    count =0
+    for sq in square:
+        if n-sq &gt;0:
+            n -= sq
+            count +=1
+    return count
+    &quot;&quot;&quot;
+</code></pre>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">** Factorial Trailing Zeroes**
+
+&gt; Given an integer n, return the number of trailing zeroes in n!.
+
+Tips: 数学问题
+
+···python
+class Solution(object):
+    # 这里的  += n/div 已经就表示了 5的个数， 这样是可以加快运算的
+    def trailingZeroes(self, n):
+        &#34;&#34;&#34;
+        :type n: int
+        :rtype: int
+        &#34;&#34;&#34;
+
+        div =5
+        res =0
+        
+        while div &lt;=n:
+            res += n/div
+            div =div *5
+        
+        return res
+</code></pre></td></tr></table>
+</div>
+</div><p>** Count Primes **</p>
+<blockquote>
+<p>Count the number of prime numbers less than a non-negative number, n.</p>
+</blockquote>
+<p>Tips: 主要是质数倍数的优化，否则是time out</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="c1"># prime 质数， 1 既不是质数也不是 合数</span>
+    <span class="c1"># 当前数为质数时，排除掉剩下的数中该数的整倍数。遍历过所有的数之后剩下的数全是质数。提升效率的方法是减少遍历的长度。</span>
+    <span class="c1"># 还有一个优化点，可以不必从2~m-1，只需遍历2 ~ √m.因为如果m能被2 ~ m-1之间任一整数整除，其二个因子必定有一个小于或等于√m，另一个大于或等于√m。例如16能被2,4,8整除</span>
+    <span class="c1"># 质数定义为在大于1的自然数中，除了1和它本身以外不再有其他因数。</span>
+    <span class="c1"># 最后 return 的是 counter，个数 而不是具体的数字</span>
+    <span class="k">def</span> <span class="nf">countPrimes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        :type n: int
+</span><span class="s2">        :rtype: int
+</span><span class="s2">        &#34;&#34;&#34;</span>
+
+        <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        
+        <span class="n">prime</span> <span class="o">=</span> <span class="p">[</span><span class="bp">True</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span>
+        <span class="n">prime</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">base</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">int</span><span class="p">((</span><span class="n">n</span> <span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span> <span class="c1"># 时间上是 [2, sqrt(m)] ，但是在python 中实现是这样的</span>
+            <span class="k">if</span> <span class="n">prime</span><span class="p">[</span><span class="n">base</span><span class="p">]:</span>
+                <span class="n">prime</span><span class="p">[</span><span class="n">base</span> <span class="o">**</span> <span class="mi">2</span><span class="p">::</span><span class="n">base</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">False</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">prime</span><span class="p">[</span><span class="n">base</span> <span class="o">**</span> <span class="mi">2</span><span class="p">::</span><span class="n">base</span><span class="p">])</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">prime</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>** Missing Number**</p>
+<blockquote>
+<p>Given an array containing n distinct numbers taken from 0, 1, 2, &hellip;, n, find the one that is missing from the array.</p>
+</blockquote>
+<p>Tips: 使用公式 index 和前 n数的问题。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="c1"># 如果没有限制内存，那么是可以使用dict，然后根据index 和value 进行判断的</span>
+    <span class="c1"># 凡是和对应的index 发生关系，那么这个就有优化的可能，就变得比较有意思</span>
+    <span class="k">def</span> <span class="nf">missingNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        :type nums: List[int]
+</span><span class="s2">        :rtype: int
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        
+        <span class="n">n</span> <span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span><span class="nb">sum</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>** Power of Three**</p>
+<blockquote>
+<p>Given an integer, write a function to determine if it is a power of three.</p>
+</blockquote>
+<p>Tips:  求余 and /= 相结合的常见手法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="c1"># 这个是在考察除法的运算过程</span>
+    <span class="k">def</span> <span class="nf">isPowerOfThree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        :type n: int
+</span><span class="s2">        :rtype: bool
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        
+        <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span><span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        
+        <span class="k">while</span> <span class="n">n</span> <span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="o">%</span><span class="mi">3</span> <span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">False</span>
+            <span class="n">n</span> <span class="o">/=</span> <span class="mi">3</span>
+        
+        <span class="k">return</span> <span class="bp">True</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>**Implement Trie (Prefix Tree) **</p>
+<blockquote>
+<p>Implement a trie with insert, search, and startsWith methods.</p>
+</blockquote>
+<p><img src="https://i.bmp.ovh/imgs/2019/07/3f31e2c4a52a5516.png" alt=""></p>
+<p>Tips:  这个数据结构很有用，字典树。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">TrieNode</span><span class="p">:</span>
+    <span class="c1"># Initialize your data structure here.</span>
+    <span class="c1"># https://www.cnblogs.com/beiyeqingteng/p/5625540.html，这里面有个图</span>
+    <span class="c1"># 还是挺形象的</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># 这个是什么数据结构呀</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="n">TrieNode</span><span class="p">)</span> <span class="c1"># 这种设置还是理解不够深刻</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_word</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="c1"># 考察的是字典树，这种数据结构</span>
+<span class="c1"># 保存字母的话，是 26叉树，保存数字的话10 叉树</span>
+<span class="k">class</span> <span class="nc">Trie</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span><span class="n">TrieNode</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">):</span>
+        <span class="n">current</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span>
+        <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="n">word</span><span class="p">:</span>
+            <span class="n">current</span> <span class="o">=</span><span class="n">current</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">letter</span><span class="p">]</span>
+        <span class="n">current</span><span class="o">.</span><span class="n">is_word</span> <span class="o">=</span><span class="bp">True</span>
+
+
+    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">):</span>
+        <span class="n">current</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span>
+        <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="n">word</span><span class="p">:</span>
+            <span class="n">current</span> <span class="o">=</span><span class="n">current</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">current</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="n">current</span><span class="o">.</span><span class="n">is_word</span>
+
+
+    <span class="k">def</span> <span class="nf">startsWith</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">):</span>
+        <span class="n">current</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span>
+        <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="n">prefix</span><span class="p">:</span>
+            <span class="n">current</span> <span class="o">=</span><span class="n">current</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span> <span class="c1"># dictionary 操作，得到的是值</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">current</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="bp">True</span>
+
+<span class="c1"># Your Trie object will be instantiated and called as such:</span>
+<span class="c1"># obj = Trie()</span>
+<span class="c1"># obj.insert(word)</span>
+<span class="c1"># param_2 = obj.search(word)</span>
+<span class="c1"># param_3 = obj.startsWith(prefix)</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-07-16
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/naive_bayes/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Naive Bayes</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/gbdt/">
+            <span class="next-text nav-default">A Gentle Introduction of GBDT</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

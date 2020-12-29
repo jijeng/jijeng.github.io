@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Decision Tree - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="介绍决策树的定义、分类，重点介绍决策树中特征选择的三种算法和决策树的优劣。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/decision_tree/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Decision Tree" />
+<meta property="og:description" content="介绍决策树的定义、分类，重点介绍决策树中特征选择的三种算法和决策树的优劣。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/decision_tree/" />
+<meta property="article:published_time" content="2019-11-23T12:56:44+08:00" />
+<meta property="article:modified_time" content="2019-11-23T12:56:44+08:00" />
+<meta itemprop="name" content="Decision Tree">
+<meta itemprop="description" content="介绍决策树的定义、分类，重点介绍决策树中特征选择的三种算法和决策树的优劣。">
+<meta itemprop="datePublished" content="2019-11-23T12:56:44+08:00" />
+<meta itemprop="dateModified" content="2019-11-23T12:56:44+08:00" />
+<meta itemprop="wordCount" content="2770">
+
+
+
+<meta itemprop="keywords" content="decision tree," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Decision Tree"/>
+<meta name="twitter:description" content="介绍决策树的定义、分类，重点介绍决策树中特征选择的三种算法和决策树的优劣。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Decision Tree</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-11-23 </span>
+        <div class="post-category">
+            <a href="/categories/machine-learning/"> machine learning </a>
+            </div>
+          <span class="more-meta"> 约 2770 字 </span>
+          <span class="more-meta"> 预计阅读 6 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#决策树分类">决策树分类</a></li>
+        <li><a href="#特征选择算法">特征选择算法</a>
+          <ul>
+            <li><a href="#id3-算法">ID3 算法</a></li>
+            <li><a href="#c45-算法">C4.5 算法</a></li>
+            <li><a href="#cart-算法">CART 算法</a></li>
+          </ul>
+        </li>
+        <li><a href="#剪枝">剪枝</a></li>
+        <li><a href="#优劣">优劣</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>介绍决策树的定义、分类，重点介绍决策树中特征选择的三种算法和决策树的优劣。</p>
+<blockquote>
+<p>Decision Trees (DTs) are a non-parametric supervised learning method used for classification and regression. The goal is to create a model that predicts the value of a target variable by learning simple decision rules inferred from the data features.
+决策树是有监督无参数的机器学习方法，可以用于分类和回归问题的求解。</p>
+</blockquote>
+<p>从数学上讲，决策树是一个分段函数。在机器学习中，是一种基本的分类和回归方法。决策树的学习通常包括三个步骤： 特征选择、决策树的生成和决策树的修建。主要有三种算法： ID3、C4.5生成算法和CART 算法。</p>
+<blockquote>
+<p>A learned binary tree is actually a partitioning of the input space. You can think of each input variable as a dimension on a p-dimensional space. The decision tree split this up into rectangles (when p=2 input variables) or some kind of hyper-rectangles with more inputs.</p>
+</blockquote>
+<p>当决策树训练完之后，就相当于把 $p$ 维空间分成了若干个子空间（数量是和叶子节点数量相同），然后predict 的过程就是把某个样本放到某个空间的过程。</p>
+<h2 id="决策树分类">决策树分类</h2>
+<p>分类树： 穷举每一个特征属性的每个阈值，然后按照 feature &lt; 阈值 和 feature &gt; 阈值选择熵和阈值。根据上述标准得到新的节点，用同样的方式继续分支直到将所有数据点都分入性别唯一的叶子节点，或达到了预设的终止条件，若最终叶子节点中的性别不唯一，那么以多数人的性别作为该叶子节点的性别。</p>
+<p>回归树： 在每个节点（不一定是叶子节点）都会得到一个预测值，以年龄为例，该预测值是这个节点所有人年龄的平均值。分支穷举每一个feature 的每个阈值找到最好的分割点，但是这个标准不是最大熵，而是最小化均方差。最终的结束条件是达到预设的终止条件或者每个叶子节点上人的年龄都一样（几乎不可能），如果不统一，则以该节点上所有人的平均年龄作为该叶子节点的预测年龄。</p>
+<h2 id="特征选择算法">特征选择算法</h2>
+<p>决策树的建立包含特征选择、决策树构建和剪枝三个过程。特征选择有很多算法，本文中介绍最常见的三种算法。</p>
+<ul>
+<li>Iterative Dichotimiser 3 (ID3)</li>
+<li>C4.5</li>
+<li>CART - independently invented around the same time as C4.5, also still very popular</li>
+</ul>
+<h3 id="id3-算法">ID3 算法</h3>
+<p>（1）算法流程</p>
+<p>计算数据集 $D$ 的熵 $H(D)$</p>
+<p>$$
+IG(S, a) = H(S) – H(S | a)
+$$
+其中  $IG(S, a) $ 是数据集 $S$ 对于变量 $a$ 的信息增益， $H(S)$ 表示数据集整个熵， $H(S| a) $表示条件熵。</p>
+<p>（2）特点</p>
+<ul>
+<li>该算法是基于贪心实现，每次选取特征都是当前的最优解，并一定是全局的最优解。</li>
+<li>每次迭代时候，依据特征属性划分，然后计算信息增益。如果特征的取值较多（类别多），那么最后的信息增益大，容易被当做分裂点。但是基于取值多少进行划分的特征选择并不能保证分类效果好。当前特征使用过之后，接下来的树的分裂不能再次使用该特征。</li>
+<li>不能处理缺省值。</li>
+</ul>
+<h3 id="c45-算法">C4.5 算法</h3>
+<p>基于 ID3进行改进，ID3 一般会优先选择属性值比较多的特征（信息增益反应的是给定一个条件之后不确定性减少的程度，必然分得越细的数据集确定性越高，也就是条件熵越小，信息增益越大）。为了避免这个问题， C4.5 算法使用信息比率作为特征选择的方式。除此之外，C4.5 还弥补了ID3 中不能处理特征连续值的问题。</p>
+<p>首先还是计算信息增益
+$$
+IG(D, A) = H(D) – H(D | A)
+$$
+然后计算信息增益率
+$$
+GainRation(D, A) = \frac{IG(D, A)}{ IV(A)}
+$$
+其中 $IV(A)$ 表示如下：
+$$
+IV (A) = - \sum_{v=1}^{V} \frac{ |D^v|}{ |D|} \log _2 \frac{ |D^v|}{ |D|}
+$$
+其中 $A $被称为分支标准的固有值，作为分支标准的属性可取值越多，那么 $IV$ 值越大。信息增益率对于特征取值比较少的属性有偏向，所以在 C4.5 决策树中先从候选划分属性中找出信息增益高于均值的，然后在从其中选择信息增益率最高的。</p>
+<p>（1）处理连续值特征</p>
+<p>C4.5 算法中处理连续值是先将连续属性离散化，然后再处理。对于 $N$个样本，有 $N-1$中离散化方法，这种计算量是非常大的。通过以下的方式可以减少计算量：可以先按照连续属性排序，只有在分类发生改变的地方才需要将其切开。</p>
+<p>（2）C4.5 的提升点</p>
+<blockquote>
+<ul>
+<li>Handling both continuous and discrete attributes - In order to handle continuous attributes, C4.5 creates a threshold and then splits the list into those whose attribute value is above the threshold and those that are less than or equal to it.</li>
+</ul>
+</blockquote>
+<ul>
+<li>Handling training data with missing attribute values - C4.5 allows attribute values to be marked as ? for missing. Missing attribute values are simply not used in gain and entropy calculations.</li>
+<li>Handling attributes with differing costs.</li>
+<li>Pruning trees after creation - C4.5 goes back through the tree once it&rsquo;s been created and attempts to remove branches that do not help by replacing them with leaf nodes.
+相对于ID3的提升点：</li>
+<li>能够处理连续变量和离散变量</li>
+<li>能够处理缺省值（处理方式比较粗暴，直接在熵的计算过程中忽略）</li>
+<li>树建立之后剪枝，如果分支没有对最后的结果提升，那么就剪枝</li>
+</ul>
+<h3 id="cart-算法">CART 算法</h3>
+<blockquote>
+<p>CART algorithm can be used for building both Classification and Regression Decision Trees. The impurity (or purity) measure used in building decision tree in CART is Gini Index. The decision tree built by CART algorithm is always a binary decision tree (each node will have only two child nodes).
+既可以使用在分类场景也可以使用在回归场景，基于二叉树构建。对于分类问题使用 Gini 系数作为损失函数；对于回归问题使用均方误差作为损失函数。</p>
+</blockquote>
+<p>（1）定义</p>
+<p>数据集合 𝐷 的纯度可用基尼指数来度量：
+$$
+Gini ( D ) = \sum _ { k = 1 } ^ { | \mathcal { Y } | } \sum _ { k ^ { \prime } \neq k } p _ { k } p _ { k ^ { \prime } } = 1 - \sum _ { k = 1 } ^ { \mathcal { V } } p _ { k } ^ { 2 }
+$$
+直观来看，$Gini(𝐷) $ 反映了从数据集 𝐷 中随机抽取两个样本，其类别标记不一致的概率。因此，$Gini(𝐷) $ 越小，则数据集 𝐷 的纯度越高。</p>
+<p>对特定属性 𝑎 的基尼指数定义如下：
+$$
+Gini  _{index}( D , a ) = \sum _ { v = 1 } ^ { V } \frac { | D _ { v } | } { | D | } \operatorname { Gini } ( D _ { v } )
+$$
+我们在候选属性集合 𝐴 中，选择那个使得划分后基尼指数最小的属性作为最优划分属性，即：</p>
+<p>$$
+a _ { * } = \arg \min _ { a \in A } Gini _{index } ( D , a )
+$$</p>
+<p>采用基尼指数作为划分属性的判据的决策树是一种 CART 决策树。</p>
+<p>（2）和C4.5 的比较</p>
+<blockquote>
+<p>Gini Index, unlike information gain, isn’t computationally intensive as it doesn’t involve the logarithm function used to calculate entropy in information gain, which is why Gini Index is preferred over Information gain.
+Gini index 的计算量相对于信息增益是要小，因为后者有log 运算。</p>
+</blockquote>
+<p>关于例子介绍更加详细的内容，参看<a href="https://www.geeksforgeeks.org/decision-tree-introduction-example/">Decision Tree Introduction with example</a></p>
+<h2 id="剪枝">剪枝</h2>
+<p>剪枝分为预剪枝和后剪枝。</p>
+<blockquote>
+<p>The most common stopping procedure is to use a minimum count on the number of training instances assigned to each leaf node. If the count is less than some minimum then the split is not accepted and the node is taken as a final leaf node.
+在决策树构造的过程中，许多分支反应的是训练数据集中的异常，预剪枝通过减去这样的分支，处理过分适应数据问题。常见的预剪枝策略如下：</p>
+</blockquote>
+<ul>
+<li>限制树的高度</li>
+<li>叶子节点中的最少样本数，如果叶子节点中包含适当大的样本数，那么可以防止过拟合</li>
+</ul>
+<blockquote>
+<p>The fastest and simplest pruning method is to work through each leaf node in the tree and evaluate the effect of removing it using a hold-out test set. Leaf nodes are removed only if it results in a drop in the overall cost function on the entire test set. You stop removing nodes when no further improvements can be made.
+后剪枝，当训练完成之后，自底向上对叶子节点进行检查，如果去掉不影响在 测试集上的loss，那么就去掉。方法也有很多，比如</p>
+</blockquote>
+<ul>
+<li>代价复杂剪枝</li>
+<li>最小误差剪枝</li>
+</ul>
+<h2 id="优劣">优劣</h2>
+<p>优点：</p>
+<ul>
+<li>决策树建立的决策规则很容易被理解，可以比较容易的转换成规则</li>
+<li>应用范围广，可以用于回归和分类问题</li>
+<li>不需要进行数据的预处理；可以处理数值类型和连续类型的特征；适用于较大的数据集，因为树的规模和数据的规模是独立的</li>
+</ul>
+<p>为什么不需要进行预处理？</p>
+<ul>
+<li>数值缩放不影响分裂点位置，对树模型的结构不造成影响。 按照特征值进行排序的，排序的顺序不变，那么所属的分支以及分裂点就不会有不同。</li>
+<li>树模型是不能进行梯度下降的，因为构建树模型（回归树）寻找最优点时是通过寻找最优分裂点完成的，因此树模型是阶跃的，阶跃点是不可导的，并且求导没意义，也就不需要归一化。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>很容易在训练过程中形成复杂的树结构，造成过拟合（overfitting）。通过剪枝是可以缓解过拟合的副作用</li>
+<li>处理缺省值比较困难（只是把缺省值ignore）</li>
+</ul>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-11-23
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/decision-tree/">decision tree</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/bfs/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">BFS</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/optimizer/">
+            <span class="next-text nav-default">Optimizer</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

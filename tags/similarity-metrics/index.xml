@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>similarity metrics on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/similarity-metrics/</link>
+    <description>Recent content in similarity metrics on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 28 Jul 2020 16:47:27 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/similarity-metrics/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Similarity Metrics</title>
+      <link>http://jijeng.github.io/post/similarity_metrics/</link>
+      <pubDate>Tue, 28 Jul 2020 16:47:27 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/similarity_metrics/</guid>
+      <description>&lt;p&gt;The similarity measure is the measure of how much alike two data objects are. Similarity measure in a data mining context is a distance with dimensions representing features of the objects. If this distance is small, it will be the high degree of similarity where large distance will be the low degree of similarity.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

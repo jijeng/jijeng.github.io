@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Pytorch Tutorial - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="pytorch 学习笔记
+不理解的地方，一个是关于 nn包搭建网络的部分。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/pytorch_tutorial/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Pytorch Tutorial" />
+<meta property="og:description" content="pytorch 学习笔记
+不理解的地方，一个是关于 nn包搭建网络的部分。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/pytorch_tutorial/" />
+<meta property="article:published_time" content="2019-02-01T16:11:50+08:00" />
+<meta property="article:modified_time" content="2019-02-01T16:11:50+08:00" />
+<meta itemprop="name" content="Pytorch Tutorial">
+<meta itemprop="description" content="pytorch 学习笔记
+不理解的地方，一个是关于 nn包搭建网络的部分。">
+<meta itemprop="datePublished" content="2019-02-01T16:11:50+08:00" />
+<meta itemprop="dateModified" content="2019-02-01T16:11:50+08:00" />
+<meta itemprop="wordCount" content="6427">
+
+
+
+<meta itemprop="keywords" content="pytorch," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Pytorch Tutorial"/>
+<meta name="twitter:description" content="pytorch 学习笔记
+不理解的地方，一个是关于 nn包搭建网络的部分。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Pytorch Tutorial</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-02-01 </span>
+        <div class="post-category">
+            <a href="/categories/tutorial/"> tutorial </a>
+            </div>
+          <span class="more-meta"> 约 6427 字 </span>
+          <span class="more-meta"> 预计阅读 13 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#可视化">可视化</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>pytorch 学习笔记</p>
+<p>不理解的地方，一个是关于 nn包搭建网络的部分。</p>
+<ol>
+<li>pytorch 和torch 比较</li>
+</ol>
+<p>编程语言：
+pytorch 采用python语言，实际上使用c语言和c++ 做接口
+torch 采用lua，使用c语言和lua 语言做接口
+（lua 语言相当于一个小型加强版的c语言，支持类和面向对象）
+依赖库：
+pytorch 和 torch 框架的区别和联系：
+pytorch 可调用python强大的第三方库，比如 opencv
+torch 可调用 lua 库函数，目前 lua库函数没有python多
+pytorch 依赖库多于 torch
+效率：
+python 的debug 功能比lua 强大，所以pytorch 效率高于torch
+模型和中间变量的关系：
+pytorch 中中间变量都存在计算图中，所以model 共享中间变量
+torch 的中间变量在每一个模块中，所以想要调用其他模块的参数就必须复制这个模块然后再调用</p>
+<p>总结
+pytorch可以说是torch 的python版本，并增加了很多新功能</p>
+<ol start="2">
+<li>常用的框架比较</li>
+</ol>
+<p>tensorflow 背后是google， mxnet 是Amazon，pytorch背后是Facebook
+每个框架都有各自的有点，比如tensorflow的工程能力很强，Theano特别适合科研等等
+keras是一个很高层的结构，它的后端支持theano和tensorflow，它本质上并不是一个框架，只是对框架的操作做了一个封装，你在写keras的时候其实是对其后端进行调用，相当于你还是在tensorflow或者theano上跑程序，只不过你把你的语言交给keras处理了一下变成tensorflow听得懂的语言，然后再交给tensorflow处理，这样的后果当然方便你构建网络，方便定义模型做训练，极快的构建你的想法，工程实现很强，但是这样也有一个后果，那就是细节你没有办法把控，训练过程高度封装，导致你没有办法知道里面的具体细节，以及每个参数的具体细节，使得调试和研究变得很困难。</p>
+<ol start="3">
+<li>pytorch的思想</li>
+</ol>
+<p>PyTorch 的构建者表明，PyTorch 的哲学是解决当务之急，也就是说即时构建和运行我们的计算图。这恰好适合 Python 的编程方法，因为我们不需等待整个代码都被写入才能知道是否起作用。我们很容易运行部分代码，并实时检查它。</p>
+<p>PyTorch 是一个基于 Python 的库，旨在为深度学习提供一个灵活的开发平台。PyTorch 的工作流程非常接近于 Python 的科学计算库 NumPy。那么为什么我们需要使用 PyTorch 构建深度学习模型？以下作者根据实际经验提供了三个理由：</p>
+<ul>
+<li>便于使用的 API：它的使用如同 Python 那样简单。</li>
+<li>支持 Python：正如上文所述，PyTorch 可以平滑地与 Python 数据科学栈相结合。它与 NumPy 一样简单，甚至我们都感觉不出它们的区别。</li>
+<li>动态计算图：PyTorch 不再采用特定的函数预定义计算图，而是提供构建动态计算图的框架，甚至我们可以在运行时修正它们。这种动态框架在我们不知道所构建的神经网络需要多少内存时非常有用。
+其它一些使用 PyTorch 的优点还有多 GPU 支持、自定义数据加载器和极简的预处理过程等。</li>
+</ul>
+<p>在讨论 PyTorch 的各个组件前，我们需要了解它的工作流。PyTorch 使用一种称之为 imperative / eager 的范式，即每一行代码都要求构建一个图以定义完整计算图的一个部分。即使完整的计算图还没有完成构建，我们也可以独立地执行这些作为组件的小计算图，这种动态计算图被称为**「define-by-run」**方法。</p>
+<p>PyTorch 提供了 CPU 张量和 GPU 张量，并且极大地加速了计算的速度。
+从张量的构建与运行就能体会到 PyTorch 相比 TensorFLow 需要声明张量、初始化张量要简洁地多。以下语句将随机初始化一个 5×3 的二维张量，因为 PyTorch 是一种动态图，所以它声明和真实赋值是同时进行的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">torch.Tensor(5, 3)
+</code></pre></td></tr></table>
+</div>
+</div><p>若我们希望随机初始化的张量服从某些分布，那么我们可以直接对张量对象使用一些方法。如下初始化的张量将服从均匀分布：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">torch.Tensor(5, 3).uniform_(-1, 1)
+</code></pre></td></tr></table>
+</div>
+</div><p>PyTorch 同样支持广播（Broadcasting）操作，一般它会隐式地把一个数组的异常维度调整到与另一个算子相匹配的维度以实现维度兼容。</p>
+<p>如下，我们定义了两个 GPU 张量，并对这两个张量执行矩阵乘法。当然，我们也可以如下所示将 CPU 张量转换为 GPU 张量。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># 以下转化CPU张量为GPU张量</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">FloatTensor</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">uniform_</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">cuda</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>AutoGrad 模块</code></p>
+<p>TensorFlow、Caffe 和 CNTK 等大多数框架都是使用的静态计算图，开发者必须建立或定义一个神经网络，并重复使用相同的结构来执行模型训练。改变网络的模式就意味着我们必须从头开始设计并定义相关的模块。</p>
+<p>PyTorch 使用的技术为自动微分（automatic differentiation），这个是用来自动求解微分的模块。在这种机制下，系统会有一个 Recorder 来记录我们执行的运算，然后再反向计算对应的梯度。这种技术在构建神经网络的过程中十分强大，因为我们可以通过计算前向传播过程中参数的微分来节省时间。</p>
+<p>从概念上讲, <code>Autograd</code> 对数据记录记录了一个有向无环图（DAG）， 叫做计算图，用来表示它的计算过程。沿着计算图应用链式求导法则就可以求出其梯度。<code>Autograd</code> 包中有两个核心包： <code>torch.Tensor</code> 和<code>torch.Function</code>， 默认某个 tensor的属性是 <code>.requires_grad</code> 为true，当计算完成的时候可以调用 <code>.backward()</code> 来自动计算所有的梯度，针对这个tensor 可以在 <code>.grad</code> 属性中去查看。</p>
+<p>设置一个张量不跟踪历史记录的方法：</p>
+<ol>
+<li>调用 <code>.detach()</code> 将其从计算历史中分离出来</li>
+<li>使用 <code>torch.no_grad()</code> 包裹代码块，那么在该代码块中的计算都不会计算梯度。使用的情况是， 在评估阶段（predict）阶段。</li>
+<li>设置某个tensor 的属性为 <code>Required_grad =False</code></li>
+</ol>
+<p><code>Function</code> 类，每一个tensor都有一个<code>.grad_fn</code> 属性指向一个 <code>Function</code>，表示如何得到了当期的tensor。如果是用户自己创建的张量tensor，那么 <code>grad_fn is None</code>。</p>
+<p><code>.requires_grad</code>具有传递性，比如说 $x_1, x_2, \dots, x_n$ 中某一个满足 <code>required_grad =True</code>，那么这个时候由这些tensor表示tensor 的属性都是<code>true</code>。</p>
+<p><strong>最优化模块</strong>
+torch.optim 是实现神经网络中多种优化算法的模块，它目前已经支持大多数一般的方法，所以我们不需要从头构建优化算法。以下展示了使用 Adam 优化器的基本代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+</code></pre></td></tr></table>
+</div>
+</div><p>我们一般可以使用 torch.nn 包构建神经网络，下面提供了一些 API 的表达及意义：</p>
+<ul>
+<li>线性层- nn.Linear、nn.Bilinear</li>
+<li>卷积层 - nn.Conv1d、nn.Conv2d、nn.Conv3d、nn.ConvTranspose2d</li>
+<li>非线性激活函数- nn.Sigmoid、nn.Tanh、nn.ReLU、nn.LeakyReLU</li>
+<li>池化层 - nn.MaxPool1d、nn.AveragePool2d</li>
+<li>循环网络 - nn.LSTM、nn.GRU</li>
+<li>归一化 - nn.BatchNorm2dDropout - nn.Dropout、nn.Dropout2d</li>
+<li>嵌入 - nn.Embedding</li>
+<li>损失函数 - nn.MSELoss、nn.CrossEntropyLoss、nn.NLLLoss</li>
+</ul>
+<p><strong>张量</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">import torch
+a = torch.FloatTensor(5, 7)
+</code></pre></td></tr></table>
+</div>
+</div><p>相同点 / 不同点
+第一个区别是，所有的操作在张量操作需要有_后缀。例如，add在此处无用，使用add_是可用的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">a</span><span class="o">.</span><span class="n">fill_</span><span class="p">(</span><span class="mf">3.5</span><span class="p">)</span>
+<span class="c1"># 将a填充值3.5。</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mf">4.0</span><span class="p">)</span>
+<span class="c1"># a 依然是填充3.5</span>
+<span class="c1"># 新张量b的返回值为3.5 + 4＝7.5。</span>
+<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>零索引</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">b = a[0, 3]  # 选择a中的1行4列
+b = a[:, 3:5]  # 从a中选择所以行的4到5列
+x.index_add_(1, torch.LongTensor([4, 0]), z)
+</code></pre></td></tr></table>
+</div>
+</div><p>下一个小的区别是所有的功能现在都不是驼峰命名了。例如indexAdd现在调用index_add_</p>
+<p>CUDA传感器在pytorch中很好并且很容易，并将CUDA张量从CPU转移到GPU将保留其基础类型。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># 查看电脑是否支持CUDA</span>
+<span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
+    <span class="c1"># 创建一个LongTensor并且把它全部转换为3</span>
+    <span class="c1"># to GPU as torch.cuda.LongTensor</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">fill_</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+    <span class="c1"># transfers it to CPU, back to</span>
+    <span class="c1"># being a torch.LongTensor</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>基本类型
+Tensor的基本数据类型有五种：</p>
+<ul>
+<li>32位浮点型：torch.FloatTensor。 (默认)</li>
+<li>64位整型：torch.LongTensor。</li>
+<li>32位整型：torch.IntTensor。</li>
+<li>16位整型：torch.ShortTensor。</li>
+<li>64位浮点型：torch.DoubleTensor。</li>
+</ul>
+<p>numpy 和 tensor 之间的相互转换</p>
+<p>使用numpy 方法将tensor 转换成 ndarray</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="c1"># tensor转化为numpy</span>
+<span class="n">numpy_a</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">numpy_a</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>numpy转化为Tensor</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">torch_a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">numpy_a</span><span class="p">)</span>
+<span class="n">torch_a</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>一般情况下可以使用.cuda方法将tensor移动到gpu，这步操作需要cuda设备支持</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">cpu_a=torch.rand(4, 3)
+cpu_a.type()
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">gpu_a=cpu_a.cuda()
+gpu_a.type()
+</code></pre></td></tr></table>
+</div>
+</div><p>使用.cpu 将tensor 转换成cpu</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">cpu_b=gpu_a.cpu()
+cpu_b.type()
+</code></pre></td></tr></table>
+</div>
+</div><p>如果我们有多GPU的情况，可以使用to方法来确定使用那个设备，这里只做个简单的实例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">#使用torch.cuda.is_available()来确定是否有cuda设备
+device = torch.device(&#34;cuda&#34; if torch.cuda.is_available() else &#34;cpu&#34;)
+print(device)
+#将tensor传送到设备
+gpu_b=cpu_b.to(device)
+gpu_b.type()
+</code></pre></td></tr></table>
+</div>
+</div><p>下一章介绍PyTorch的自动求导机制</p>
+<ul>
+<li>变量</li>
+<li>梯度</li>
+</ul>
+<p>从0.4起, Variable 正式合并入Tensor类, 通过Variable嵌套实现的自动微分功能已经整合进入了Tensor类中。虽然为了代码的兼容性还是可以使用Variable(tensor)这种方式进行嵌套, 但是这个操作其实什么都没做。所以，以后的代码建议直接使用Tensor类进行操作，因为官方文档中已经将Variable设置成过期模块。要想通过Tensor类本身就支持了使用autograd功能，只需要设置.requries_grad=True。 Variable类中的的grad和grad_fn属性已经整合进入了Tensor类中</p>
+<p>每个变量都有两个标志：<code>requires_grad</code>和<code>volatile</code>。它们都允许从梯度计算中精细地排除子图，并可以提高效率。</p>
+<p><code>requires_grad</code>
+如果有一个单一的输入操作需要梯度，它的输出也需要梯度。相反，只有所有输入都不需要梯度，输出才不需要。如果其中所有的变量都不需要梯度进行，后向计算不会在子图中执行。</p>
+<p>这个标志特别有用，当您想要冻结部分模型时，或者您事先知道不会使用某些参数的梯度。例如，如果要对预先训练的CNN进行优化，只要切换冻结模型中的requires_grad标志就足够了，直到计算到最后一层才会保存中间缓冲区，其中的仿射变换将使用需要梯度的权重并且网络的输出也将需要它们。</p>
+<p><code>volatile</code></p>
+<p>纯粹的inference模式下推荐使用volatile，当你确定你甚至不会调用.backward()时。它比任何其他自动求导的设置更有效——它将使用绝对最小的内存来评估模型。volatile也决定了require_grad is False。</p>
+<p>volatile不同于require_grad的传递。如果一个操作甚至只有有一个volatile的输入，它的输出也将是volatile。Volatility比“不需要梯度”更容易传递——只需要一个volatile的输入即可得到一个volatile的输出，相对的，需要所有的输入“不需要梯度”才能得到不需要梯度的输出。使用volatile标志，您不需要更改模型参数的任何设置来用于inference。创建一个volatile的输入就够了，这将保证不会保存中间状态。</p>
+<p>参考<a href="https://pytorch-cn.readthedocs.io/zh/latest/notes/autograd/">官方教程</a></p>
+<p>PyTorch 基础 : 神经网络包nn和优化器optm</p>
+<p><strong>pytorch 学习笔记</strong></p>
+<ol>
+<li>pytorch 的核心主要是提供了两个主要的功能：</li>
+</ol>
+<ul>
+<li>n维tensor，类似numpy，但可以运行在GPU 上
+Numpy是科学计算的通用框架;它对计算图形、深度学习或梯度一无所知。Tensor张量是pytorch 中最基本的概念。PyTorch张量可以利用GPU加速其数字计算。要在GPU上运行PyTorch Tensor，请在构造Tensor时使用<code>device</code>参数将Tensor放置在GPU上。</li>
+<li>自动微分，用于构建和训练神经网络
+使用自动微分来自动计算神经网络中的反向通过。</li>
+</ul>
+<ol start="2">
+<li>
+<p>在搭建网络的过程中，网络中的正向传播定义为一个 computational graph计算图： 图中的节点为张量，边为从输入张量产生输出张量的函数，然后通过改图进行反向传播，可以轻松计算梯度。默认张量中的参数 <code>require_grad=True</code>， 那么在反向传播的时候， <code>x.grad</code>将是另一个张量， 它保持了<code>x</code> 相对于某个标量值的梯度。如果在训练神经网络的时候，比如通常不想要更新步骤中向后传播（形成计算图），那么这个时候可以使用 <code>torch.no_grad()</code> 上下文管理器来防止构建计算图。</p>
+</li>
+<li>
+<p>pytorch 中的计算图很想 tensorflow 中的计算图，但是两者不同在于前者是动态图，后者是静态图。在tensorflow 中，如果定义了一个计算图，然后一遍遍计算相同的图，可能将不同的输入数据提供给图。在pytorch 中，每一个前向传播都定义了一个新的计算图。静态图的优势，可以预先优化图，比如说融合某些图的操作，分布式之类的。而动态图，入门比较简单，方便debug。</p>
+</li>
+<li>
+<p>pytorch中常见的包：</p>
+</li>
+</ol>
+<ul>
+<li>nn 定义了一组模块，包括神经网络层和有用的损失函数</li>
+<li>optim（优化器），优化算法的思想， 比如说 adagrad， rmsprop， adam</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 常见的操作
+调用模型前向传播 y_pred = model(x)
+调用损失函数 loss = loss_fn(y_pred, y)
+梯度归零 optimizer.zero_grad()
+后向传播 loss.backward()
+调用优化器更新参数 optimizer.step()
+</code></pre></td></tr></table>
+</div>
+</div><ol start="5">
+<li>
+<p>使用 custom nn module（这种是经常用到，搭建自己的nn 网络）
+通过子类nn.Module并定义一个<code>forwad</code>输入来定义自己的模块，该前向接收输入张量并使用其他模块或在张量上的其他自动转换操作产生输出张量。</p>
+</li>
+<li>
+<p>control flow and weight sharing
+这个权值共享在RNN 中使用比较多，但是不是很多呀，多看例子把~</p>
+</li>
+<li>
+<p>pytorch  中 <code>model.train()</code> 和 <code>model.eval()</code> 的区别</p>
+</li>
+</ol>
+<p>在图像中影响比较大。如果模型中出现了BatchNormalization 和Dropout，必须要区分训练和验证模式。两种模式在计算上是不同的。当 eval 的时候，模型会自动把 BN和DropOut固定住，使用已经训练好的值，否则容易出现异常的结果。</p>
+<ol start="8">
+<li>contiguous 关键词</li>
+</ol>
+<p>contiguous  使用空间换取时间，保证语义上相邻的元素在内存上也是连续的。这样访问的时候，可以减少cpu 对内存的请求的次数。</p>
+<h2 id="可视化">可视化</h2>
+<p> PyTorch是Torch框架的表亲，Torch是基于lua开发的，在Facebook公司里被广泛使用。然而，PyTorch的出现并不是为了支持流行语言而对Torch进行简单的包装，它被重写和定制出来是为了得到更快的速度和本地化。</p>
+<p>tensorboardx</p>
+<p>Visdom是Facebook在2017年发布的一款针对PyTorch的可视化工具</p>
+<p>方案： pytorch 使用替代品tensorbordx</p>
+<p>Pytorch框架也有自己的可视化软件&ndash;Visdom，但貌似不是很好用。所以是可以用tensorboardx 来进行运行的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">pip</span> <span class="n">install</span> <span class="n">tensorboardX</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">tensorboard</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">tensorflow</span>
+
+<span class="n">tensorboard</span> <span class="o">--</span><span class="n">logdir</span> <span class="n">runs</span>
+<span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">6006</span><span class="o">/</span>    <span class="c1">#在chrome浏览器中打开</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>注意numpy的版本要对应，否则会报错，如果不匹配，那就进行更新或者新建虚拟环境了！</p>
+<ol>
+<li>Loss可视化
+最常见的可视化就是loss曲线作图</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">tb_logger</span><span class="o">.</span><span class="n">add_scalar</span><span class="p">(</span><span class="s1">&#39;loss_train&#39;</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">curr_step</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>输入图片和标签的可视化</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">tb_logger.add_image(&#39;image&#39;, input[0], curr_step)
+</code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>单通道特征图的可视化</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">def make_grid(tensor, nrow=8, padding=2,
+              normalize=False, range=None, scale_each=False, pad_value=0):
+</code></pre></td></tr></table>
+</div>
+</div><p>pytorch最被人诟病的就是可视化问题和部署问题</p>
+<p><a href="https://shenxiaohai.me/2018/10/23/pytorch-tutorial-TensorBoard/">https://shenxiaohai.me/2018/10/23/pytorch-tutorial-TensorBoard/</a></p>
+<p><a href="https://www.jianshu.com/p/429eb27855a0">https://www.jianshu.com/p/429eb27855a0</a></p>
+<p>可视化工具 visdom</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">pip install visdom
+</code></pre></td></tr></table>
+</div>
+</div><p>使用 以下命令在本地启动服务器</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">python -m visdom.server 
+</code></pre></td></tr></table>
+</div>
+</div><p>然后输入 <code>http://localhost:8097</code></p>
+<p>‘model.eval()’ vs ‘with torch.no_grad()’</p>
+<blockquote>
+<p>These two have different goals:
+model.eval() will notify all your layers that you are in eval mode, that way, batchnorm or dropout layers will work in eval mode instead of training mode.
+torch.no_grad() impacts the autograd engine and deactivate it. It will reduce memory usage and speed up computations but you won’t be able to backprop (which you don’t want in an eval script).
+eval()和train 的不同在于 BN 和DropOut 机制的是否使用，前者是不使用，后者是使用。 no_grad() 是不进行反向传播，主要是用来减少内存和加快训练的。</p>
+</blockquote>
+<blockquote>
+<p>Dropout works as a regularization for preventing overfitting during training.
+It randomly zeros the elements of inputs in Dropout layer on forward call.
+It should be disabled during testing ( model.eval() ) since you may want to use full model (no element is masked)</p>
+</blockquote>
+<ol>
+<li>argparse模块中的action参数</li>
+</ol>
+<p>用argparse模块让python脚本接收参数时，对于True/False类型的参数，向add_argument方法中加入参数action=‘store_true’/‘store_false’。
+顾名思义，store_true就代表着一旦有这个参数，做出动作“将其值标为True”，也就是没有时，默认状态下其值为False。反之亦然，store_false也就是默认为True，一旦命令中有此参数，其值则变为False。</p>
+<p>pytorch 中指定gpuid的两种方式</p>
+<p>PyTorch 默认是使用从0 开始的GPU，如果 0正在使用，那么需要指定其他GPU。有三种方式进行指定：</p>
+<ol>
+<li>直接在终端设定</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nv">CUDA_VISIBLE_DEVICES</span> <span class="o">=</span><span class="m">1</span> python my_script.py
+</code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>在python 代码中指定</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&#34;CUDA_VISIBLE_DEVICES&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&#34;0,1&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>使用函数 set_device</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">torch</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">set_device</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>官方建议使用前两种方式，即设置 <code>CUDA_VISIBLE_DEVICES</code></p>
+<p>参考文献</p>
+<p><a href="https://www.jianshu.com/p/9779683ffa58">介绍PyTorch的简单示例</a>
+<a href="https://pytorch.org/tutorials/beginner/pytorch_with_examples.html#examples">LEARNING PYTORCH WITH EXAMPLES</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-02-01
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/pytorch/">pytorch</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/algorithm_practice_1/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Algorithm Practice (1)</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/model_training/">
+            <span class="next-text nav-default">Model Training</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

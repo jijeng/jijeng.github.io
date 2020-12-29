@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>pix2pix on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/pix2pix/</link>
+    <description>Recent content in pix2pix on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 28 Jan 2020 15:57:28 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/pix2pix/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Pix2pixhd</title>
+      <link>http://jijeng.github.io/post/pix2pixhd/</link>
+      <pubDate>Tue, 28 Jan 2020 15:57:28 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/pix2pixhd/</guid>
+      <description>&lt;p&gt;介绍 pix2pixHD 论文，AED20K 数据集和CoCosNet 数据集。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

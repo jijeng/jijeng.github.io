@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>CNN Understanding - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="CNN 算法学习。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/cnn_understanding/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="CNN Understanding" />
+<meta property="og:description" content="CNN 算法学习。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/cnn_understanding/" />
+<meta property="article:published_time" content="2020-04-07T10:41:47+08:00" />
+<meta property="article:modified_time" content="2020-04-07T10:41:47+08:00" />
+<meta itemprop="name" content="CNN Understanding">
+<meta itemprop="description" content="CNN 算法学习。">
+<meta itemprop="datePublished" content="2020-04-07T10:41:47+08:00" />
+<meta itemprop="dateModified" content="2020-04-07T10:41:47+08:00" />
+<meta itemprop="wordCount" content="2346">
+
+
+
+<meta itemprop="keywords" content="cnn," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="CNN Understanding"/>
+<meta name="twitter:description" content="CNN 算法学习。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">CNN Understanding</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-04-07 </span>
+        <div class="post-category">
+            <a href="/categories/deep-learning/"> deep learning </a>
+            </div>
+          <span class="more-meta"> 约 2346 字 </span>
+          <span class="more-meta"> 预计阅读 5 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>CNN 算法学习。</p>
+<p>一、边界检测（引子）</p>
+<img src="https://i.loli.net/2020/04/08/Ny7B2cJIHf8O6C5.png"  width="80%" height="80%">
+<p>通过设计某个滤波器（filter，也可以称为 kernel），去和图像做卷积操作，可以发现图像中的某些特征。CNN 就是通过一个个 filter， 不断提取特征，从局部的特征到整体的特征，从而完成了图像识别的功能。</p>
+<p>二、CNN 中的基本概念</p>
+<ol>
+<li>padding 填白</li>
+</ol>
+<p>从上面的引子中，我们可以知道，原图像在经过filter卷积之后，变小了，从(8,8)变成了(6,6)。假设我们再卷一次，那大小就变成了(4,4)了。这样有啥问题呢？ 主要有两个问题：</p>
+<ul>
+<li>每次卷积，图像都缩小，这样卷不了几次就没了；</li>
+<li>相比于图片中间的点，图片边缘的点在卷积中被计算的次数很少。这样的话，边缘的信息就易于丢失。</li>
+</ul>
+<p>为了解决这个问题，我们可以采用padding的方法。我们每次卷积前，先给图片周围都补一圈空白，让卷积之后图片跟原来一样大，同时，原来的边缘也被计算了更多次。</p>
+<p>我们把上面这种“让卷积之后的大小不变”的padding方式，称为 “Same”方式， 把不经过任何填白的，称为 “Valid”方式。这个是我们在使用一些框架的时候，需要设置的超参数。</p>
+<ol start="2">
+<li>stride 步长</li>
+</ol>
+<p>前面我们所介绍的卷积，都是默认步长是1，但实际上，我们可以设置步长为其他的值。</p>
+<p>3.pooling 池化</p>
+<p>这个pooling，是为了提取一定区域的主要特征，并减少参数数量，防止模型过拟合。 除了MaxPooling,还有AveragePooling，顾名思义就是取那个区域的平均值。</p>
+<p>4.对多通道（channels）图片的卷积</p>
+<p>如果输入图片是三维的呢（即增多了一个channels），比如是(8,8,3)，这个时候，我们的filter的维度就要变成(3,3,3)了，它的 最后一维要跟输入的channel维度一致。 这个时候的卷积，是三个channel的所有元素对应相乘后求和，也就是之前是9个乘积的和，现在是27个乘积的和。因此，输出的维度并不会变化。还是(6,6)。</p>
+<p>但是，一般情况下，我们会 使用多了filters同时卷积，比如，如果我们同时使用4个filter的话，那么 输出的维度则会变为(6,6,4)。</p>
+<p>三、CNN的结构组成</p>
+<ol>
+<li>
+<p>Convolutional layer（卷积层&ndash;CONV）</p>
+</li>
+<li>
+<p>Pooling layer （池化层&ndash;POOL）</p>
+</li>
+</ol>
+<blockquote>
+<p>Pooling layers are generally used to reduce the size of the inputs and hence speed up the computation.</p>
+</blockquote>
+<img src="https://files.catbox.moe/6ngw4u.png" width="80%" height="80%">
+<p>注意这里的 filter size 是2， 然后stride 是2.</p>
+<p>In summary, the hyperparameters for a pooling layer are:</p>
+<ul>
+<li>Filter size</li>
+<li>Stride</li>
+<li>Max or average pooling</li>
+</ul>
+<ol start="3">
+<li>Fully Connected layer（全连接层&ndash;FC）</li>
+</ol>
+<img src="https://s1.ax1x.com/2020/04/08/GRcq81.png" width="80%" height="80%">
+<p>这里需要说明的是，在经过数次卷积和池化之后，我们 最后会先将多维的数据进行“扁平化”，也就是把 (height,width,channel)的数据压缩成长度为 height × width × channel 的一维数组，然后再与 FC层连接，这之后就跟普通的神经网络无异了。</p>
+<ol start="4">
+<li>Batch normalization &amp; ReLU</li>
+</ol>
+<blockquote>
+<p>After applying filters on the input, we apply a batch normalization followed by a ReLU for non-linearity. The batch normalization renormalizes data to make learning faster with the Gradient descent.
+使用batch normalization是为了 learn faster（gradient descent）； 使用 relu 是为了增加非线性</p>
+</blockquote>
+<p>四、卷积网络 VS. 传统神经网络</p>
+<p>卷积网络相比于传统神经网络有两点好处：</p>
+<p>1.参数共享机制（parameters sharing）</p>
+<p>参数共享机制，让我们的网络的参数数量大大地减少。<a href="https://zhuanlan.zhihu.com/p/42559190">从此明白了卷积神经网络（CNN）</a></p>
+<ol start="2">
+<li>连接的稀疏性（sparsity of connections）</li>
+</ol>
+<p>由卷积的操作可知，输出图像中的任何一个单元，只跟输入图像的一部分有关系：</p>
+<p>Computer Vision 中常见的是以下三类问题：</p>
+<ul>
+<li>Image classification</li>
+<li>Object detection</li>
+<li>Neural style transfer</li>
+</ul>
+<p>1D convolution is covered here, because it’s usually under-explained, but it has noteworthy benefits.</p>
+<blockquote>
+<p>They are used to reduce the depth (number of channels). Width and height are unchanged in this case. If you want to reduce the horizontal dimensions, you would use pooling, increase the stride of the convolution, or don’t add paddings. The 1D convolutions computes a weighted sum of input channels or features, which allow selecting certain combinations of features that are useful downstream.
+可以降低 number of channels （depth），而不改变 width or height。如果想要改变该尺寸，那么使用 pooling 技术</p>
+</blockquote>
+<p>CNN 概念介绍</p>
+<p>alexnet</p>
+<p><img src="http://47.94.35.231:9998/blog_imgs/image-20201119163445214.png" alt="image-20201119163445214" style="zoom:50%;" /></p>
+<p>卷积简单说是相乘然后累加求和。</p>
+<p>卷积填充中的mode： valid，same，full。valid：不进行填充；same：是以卷积核的中心和图像array的左上角进行对齐；full：以卷积核的右下角和图像array的左上角对齐。</p>
+<p><img src="http://47.94.35.231:9998/blog_imgs/image-20201119163722313.png" alt="image-20201119163722313" style="zoom:50%;" /></p>
+<p><strong>卷积核</strong></p>
+<p>水平卷积核识别横线</p>
+<p>垂直卷积核识别竖线</p>
+<p>Scharr边界更加锐利</p>
+<p><img src="http://47.94.35.231:9998/blog_imgs/image-20201119171813112.png" alt="image-20201119171813112" style="zoom:50%;" /></p>
+<p>所以卷积核是否能够识别，归结为“物以类聚”。如果卷积核形状和图像的物体形状相似，那么是容易识别；如果相反，那么不容易识别。</p>
+<p>传统的CNN 结构</p>
+<p><img src="http://47.94.35.231:9998/blog_imgs/image-20201119173233995.png" alt="image-20201119173233995" style="zoom:50%;" /></p>
+<p>同一图像输入，用不同的卷积核得到的是不同的结果，但其中也有一些类似的地方。</p>
+<p>为什么深层次的网络识别效果好？</p>
+<ul>
+<li>深层次网络的 receptive （感受野）更大</li>
+<li>浅层次的特征可以汇聚成更复杂的特征</li>
+</ul>
+<p>pooling: 降采样的操作，提高效率（特征数量减少）；使得某些特征更健壮。</p>
+<p>dropout 中的 <code>keep_prob=1</code> 表示保留全部的数据； <code>keep_prob=0</code> 表示全部丢弃数据。注意其余的数据还需要进行<code>1/keep_prob</code> ，以保证和不变。</p>
+<p><img src="http://47.94.35.231:9998/blog_imgs/image-20201127164513099.png" alt="image-20201127164513099" style="zoom:70%;" /></p>
+<p>在卷积网络中一般倾向于使用多个小的卷积核而不是一个大的卷积核。原因：参数量 $7<em>7 &gt; 3</em>3*3$；多层卷积核可以引入非线性。</p>
+<p>adam 对于不同的参数使用不同的学习率；BGD 对于不同的参数使用相同的学习率。所以建议使用 adam 作为optim。</p>
+<p>图像识别的实质仍然是分类，进一步的工作就是目标检测。（如果图像分类做好了，那么是可以去做目标检测）。object detection的演变流程：</p>
+<ul>
+<li>R-CNN： region-CNN， 首先是对于图像处理得到若干CNN 能够直接处理的小图，然后每个图进行得到的embedding +svm 得到该小框物体的置信度，执行度最大的话就是最后的结果。</li>
+<li>Fast R-CNN：首先图像过一个CNN得到feature map，然后提取region 中相应的feature，feature +svm 得到置信度。这样共享了 feature map，大大提高了时间效率。（解决的是多次计算CNN 的效率问题）</li>
+<li>Faster R-CNN：首先图像过CNN得到feature map，然后通过<code>region proposel network</code> 从CNN 中得到框，然后通过一个 classifer得到置信度。（解决的是计算 region的效率问题）</li>
+</ul>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-04-07
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/cnn/">cnn</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/cluster_algorithm/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Cluster algorithm</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/gpu/">
+            <span class="next-text nav-default">深度学习中的 GPU</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

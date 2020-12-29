@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>A Not So Gentle Introduction to Hyperparameters Tuning - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="Setting the hyper-parameters seems like a black art that requires years of experience to acquire. Currently, there are no simple and easy ways to set hyper-parameters, especifically, batch size, learning rate, momentum, and weight decay. A grid search or random search maybe sounds like a good idea. In this blog, I&amp;rsquo;d like to share you my idea from reading papers and my projects.
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/a-not-so-gentle-introduction-to-hyperparameters-tuning/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="A Not So Gentle Introduction to Hyperparameters Tuning" />
+<meta property="og:description" content="Setting the hyper-parameters seems like a black art that requires years of experience to acquire. Currently, there are no simple and easy ways to set hyper-parameters, especifically, batch size, learning rate, momentum, and weight decay. A grid search or random search maybe sounds like a good idea. In this blog, I&rsquo;d like to share you my idea from reading papers and my projects." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/a-not-so-gentle-introduction-to-hyperparameters-tuning/" />
+<meta property="article:published_time" content="2019-04-17T14:34:00+08:00" />
+<meta property="article:modified_time" content="2019-04-17T14:34:00+08:00" />
+<meta itemprop="name" content="A Not So Gentle Introduction to Hyperparameters Tuning">
+<meta itemprop="description" content="Setting the hyper-parameters seems like a black art that requires years of experience to acquire. Currently, there are no simple and easy ways to set hyper-parameters, especifically, batch size, learning rate, momentum, and weight decay. A grid search or random search maybe sounds like a good idea. In this blog, I&rsquo;d like to share you my idea from reading papers and my projects.">
+<meta itemprop="datePublished" content="2019-04-17T14:34:00+08:00" />
+<meta itemprop="dateModified" content="2019-04-17T14:34:00+08:00" />
+<meta itemprop="wordCount" content="1538">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="A Not So Gentle Introduction to Hyperparameters Tuning"/>
+<meta name="twitter:description" content="Setting the hyper-parameters seems like a black art that requires years of experience to acquire. Currently, there are no simple and easy ways to set hyper-parameters, especifically, batch size, learning rate, momentum, and weight decay. A grid search or random search maybe sounds like a good idea. In this blog, I&rsquo;d like to share you my idea from reading papers and my projects."/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">A Not So Gentle Introduction to Hyperparameters Tuning</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-04-17 </span>
+        
+          <span class="more-meta"> 约 1538 字 </span>
+          <span class="more-meta"> 预计阅读 4 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#hyper-parameters">Hyper-parameters</a>
+          <ul>
+            <li><a href="#batch-size">Batch Size</a></li>
+            <li><a href="#learning-rate">Learning Rate</a></li>
+            <li><a href="#momentum">Momentum</a></li>
+            <li><a href="#weights-decay">Weights Decay</a></li>
+          </ul>
+        </li>
+        <li><a href="#takeoff">Takeoff</a></li>
+        <li><a href="#references">References</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>Setting the hyper-parameters seems like a black art that requires years of experience to acquire. Currently, there are no simple and easy ways to set hyper-parameters, especifically, batch size, learning rate, momentum, and weight decay. A grid search or random search maybe sounds like a good idea. In this blog, I&rsquo;d like to share you my idea from reading papers and my projects.</p>
+<h2 id="hyper-parameters">Hyper-parameters</h2>
+<h3 id="batch-size">Batch Size</h3>
+<p>Learning rate is maybe the most important hyper-parameters, but we choose batch size firstly because large batch size needs a large learning rate in most circumstances.</p>
+<p>** A general principle is: use as a large batch size as possible to fit your CPU memory or/both GPU memory.  **There are several reasons:</p>
+<ul>
+<li>larger batch sizes permit the use of larger learning rates</li>
+<li>A constant number of iterations favors larger batch sizes</li>
+</ul>
+<p>However, small batch sizes add regularization while large batch sizes add less. So utilize it while balancing the proper amount of regularization.</p>
+<h3 id="learning-rate">Learning Rate</h3>
+<p>梯度下降算法有两个重要的控制因子：一个是步长，由学习率控制；一个是方向，由梯度指定。因此，要想对梯度下降的 “快” 和 “准” 实现调控，就可以通过调整它的两个控制因子来实现</p>
+<p>学习率设置太小，需要花费过多的时间来收敛</p>
+<p>学习率设置较大，在最小值附近震荡却无法收敛到最小值</p>
+<p>过小的学习率会降低网络优化的速度，增加训练时间，过大的学习率可能导致网络参数在最终的极优值两侧来回摆动，导致网络不能收敛。实践中证明有效的方法是设置一个根据迭代次数衰减的学习率，可以兼顾训练效率和后期的稳定性。</p>
+<blockquote>
+<p>所以说如果最后的loss 比较抖动，那么可能是 learing rate 过大，然后出现的抖动现象。</p>
+</blockquote>
+<p>多项式衰减</p>
+<p>多项式衰减</p>
+<p>余弦衰减</p>
+<p>We will introduce the idea from [Cyclical Learning Rates for Training Neural Networks][1]: Cyclical Learning Rates.</p>
+<p>Instead of monotonically decreasing the learning rate, this method lets the learning rate cyclically vary between reasonable boundary values. <strong>The essence of this learning rate policy comes from the observation that increasing the learning rate might have a short term negative effect and yet achieve a longer term beneficial effect</strong>. This observation leads to the idea of letting the learning rate vary within a range of values rather than adopting a stepwise fixed or exponentially decreasing value. That is, one sets minimum and maximum boundaries and the learning rate cyclically varies between these bounds.
+<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g25wjj6cu9j20p80gcwh4.jpg" alt="">
+%<small>From Cyclical Learning Rates for Training Neural Networks </small></p>
+<p>An intuitive understanding of why CLR methods work comes from considering the loss function topology. Dauphin et al. argue that the difficulty in minimizing the loss arises from ** saddle points rather than poor local minima.** Saddle points have small gradients that slow the learning process. However, increasing the learning rate allows for more rapid traversal of saddle point plateaus.</p>
+<p>But the question is that how can we find the Minimum bound and Maximum bound. There is a simple way to estimate the reasonable minimum and maximum boundary values with one training run of the network for a few epochs. It is a “LR range test”; run your model for several epochs while letting the learning rate increase linearly between low and high LR values. For example, set both the step size and maxiter to the same number of iterations. In this case, the learning rate will increase linearly from the minimum value to the maximum value during this short run. Next, plot the accuracy versus learning rate. Note the learning rate value when the accuracy starts to increase and when the accuracy slows, becomes ragged, or starts to fall. These two learning rates are good choices for bounds; that is, set  $ lr_{base}$  to the first value and set  $ lr_{max} $  to the latter value.</p>
+<blockquote>
+<p>cycle 参数的初衷是为了防止网络后期 lr 十分小导致一直在某个局部最小值中振荡，突然调大 lr 可以跳出注定不会继续增长的区域探索其他区域。</p>
+</blockquote>
+<p><a href="https://lumingdong.cn/setting-strategy-of-gradient-descent-learning-rate.html">梯度下降学习率的设定策略</a></p>
+<h3 id="momentum">Momentum</h3>
+<p>Since learning rate is regarded as the most important hyper-parameter to tune then momentum is also important. Like learning rates, it is valuable to set momentum as large as possible without causing instabilities during training.</p>
+<p>The large learning rate can deal with local minimum but works fail when it comes to saddle point where momentum comes to rescue.</p>
+<p>The local minimum is like the following picture.
+<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g25x29cb1dj20y00iogs2.jpg" alt="">
+In mathematics, a saddle point or minimax point is a point on the surface of the graph of a function <strong>where the slopes (derivatives) in orthogonal directions are all zero</strong> (a critical point), but which is not a local extremum of the function.</p>
+<p>Your first step from the very top would likely take you down, but then you’d be on a flat rice terrace. The gradient would be zero, and you’d have nowhere to go. To remedy this, we employ momentum - the algorithm remembers its last step and adds some psroportion of it to the current step. This way, even if the algorithm is stuck in a flat region, or a small local minimum, it can get out and continue towards the true minimum.</p>
+<p>In summary: when performing gradient descent, learning rate measures how much the current situation affects the next step, while momentum measures how much past steps affect the next step.</p>
+<h3 id="weights-decay">Weights Decay</h3>
+<p>When training neural networks, it is common to use &ldquo;weight decay,&rdquo; where after each update, the weights are multiplied by a factor slightly less than 1. This prevents the weights from growing too large and can be seen as gradient descent on a quadratic regularization term.</p>
+<p>But why?</p>
+<p>Large weights might correlate with certain patterns in the input data (x), this means that the model almost hard codes certain values. This then makes our training data fit well but our test data fit less well.</p>
+<p>The idea of weight decay is simple: to prevent overfitting, every time we update a weight $w$ with the gradient $∇J$ in respect to $w$, we also subtract from it $λ∙w$. This gives the weights a tendency to decay towards zero, hence the name. L2 is a type of weights decay.
+$$
+J ( W ; X , y ) + \frac { 1 } { 2 } \lambda \cdot | W | ^ { 2 }
+$$</p>
+<p>But weights decay is not necessarily true for all gradient-base algorithms and was recently shown to not be the case for adaptive gradient algorithms, such as Adam.</p>
+<p>In addition, weight decay is not the only regularization technique. In the past few years, some other approaches have been introduced such as Dropout, Bagging, Early Stop, and Parameter Sharing which work very well in NNs.</p>
+<h2 id="takeoff">Takeoff</h2>
+<ol>
+<li>Batch Size</li>
+</ol>
+<p>Use as a large batch size as possible to fit your memory</p>
+<ol start="2">
+<li>Learning Rate</li>
+</ol>
+<p>Perform a learning rate range test to identify a “large” learning rate.</p>
+<ol start="3">
+<li>Momentum</li>
+</ol>
+<p>Test with short runs of momentum values 0.99, 0.97, 0.95, and 0.9 to get the best value for momentum.</p>
+<p>If using the 1-cycle learning rate schedule, it is better to use a cyclical momentum (CM) that starts at this maximum momentum value and decreases with increasing learning rate to a value of 0.8 or 0.85.</p>
+<ol start="4">
+<li>Weights Decay</li>
+</ol>
+<p>A grid search to determine the proper magnitude but usually does not require more than one significant figure accuracy.
+A more complex dataset requires less regularization so test smaller weight decay values, such as $10^{−4} $, $10^{−5} $, $10^{−6} $, 0.
+A shallow architecture requires more regularization so test larger weight decay values, such as $10^{−2} $, $10^{−3} $, $10^{−4} $.</p>
+<h2 id="references">References</h2>
+<p>[1]. <a href="https://arxiv.org/abs/1506.01186">Cyclical Learning Rates for Training Neural Networks</a>
+[2]. <a href="https://arxiv.org/abs/1803.09820">A disciplined approach to neural network hyper-parameters</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-04-17
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/mode_collapse_gan/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Mode Collapse in GANs</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/hadoop_spark/">
+            <span class="next-text nav-default">Hadoop &amp; Spark</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>leetcode on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/categories/leetcode/</link>
+    <description>Recent content in leetcode on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 28 Aug 2020 10:27:51 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/categories/leetcode/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Leetcode weekly contest(2)</title>
+      <link>http://jijeng.github.io/post/leetcode_weekly_contest_2/</link>
+      <pubDate>Fri, 28 Aug 2020 10:27:51 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/leetcode_weekly_contest_2/</guid>
+      <description>&lt;p&gt;LeetCode周赛题，日常刷题笔记。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Union find</title>
+      <link>http://jijeng.github.io/post/union_find/</link>
+      <pubDate>Sat, 22 Feb 2020 16:54:49 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/union_find/</guid>
+      <description>title: Union-Find (并查集算法) date: 2019-08-05 22:13:40 tags: union-find categories: 算法 并查集是一种树型数据结构，用于处理不相交 (Disjoint Sets) 的合并及查询问题。 定义 并查集，在一些有N个元素的集合应用问题中</description>
+    </item>
+    
+    <item>
+      <title>Leetcode-String</title>
+      <link>http://jijeng.github.io/post/leetcode_string/</link>
+      <pubDate>Fri, 24 May 2019 22:14:56 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/leetcode_string/</guid>
+      <description>&lt;p&gt;leetcode 刷题笔记- string.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Leetcode-Recursion</title>
+      <link>http://jijeng.github.io/post/leetcode_recursion/</link>
+      <pubDate>Thu, 16 May 2019 23:17:29 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/leetcode_recursion/</guid>
+      <description>&lt;p&gt;LeetCode 刷题总结（三）， 使用Python 实现。该篇题目类型主要包括：recursion, iteration 和dynamic programming。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Leetcode-Tree</title>
+      <link>http://jijeng.github.io/post/leetcode_tree/</link>
+      <pubDate>Wed, 20 Feb 2019 17:57:54 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/leetcode_tree/</guid>
+      <description>&lt;p&gt;刷题笔记，主题是树，以LeetCode上的题目为例。树相关的题目大多使用到递归的思想， 尤其是在深度优先遍历中；还有一类遍历方式：宽度优先遍历，使用队列来实现。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Leetcode Data Structure</title>
+      <link>http://jijeng.github.io/post/leetcode_data-structure/</link>
+      <pubDate>Thu, 04 Oct 2018 16:25:31 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/leetcode_data-structure/</guid>
+      <description>&lt;p&gt;正式进入代码模板2-数据结构专题。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

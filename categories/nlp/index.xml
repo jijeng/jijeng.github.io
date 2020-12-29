@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>nlp on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/categories/nlp/</link>
+    <description>Recent content in nlp on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 21 Dec 2019 15:25:13 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/categories/nlp/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>基于中文简历的命名实体识别</title>
+      <link>http://jijeng.github.io/post/name_entiry_recognition/</link>
+      <pubDate>Sat, 21 Dec 2019 15:25:13 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/name_entiry_recognition/</guid>
+      <description>&lt;p&gt;基于中文简历的命名实体识别项目（持续更新中）&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>文本相似度比较基本知识(1)</title>
+      <link>http://jijeng.github.io/post/text_similarity/</link>
+      <pubDate>Thu, 28 Nov 2019 17:11:14 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/text_similarity/</guid>
+      <description>&lt;p&gt;互联网网页存在大量的重复内容网页，无论对于搜索引擎的网页去重和过滤、新闻小说等内容网站的内容反盗版和追踪，还是社交媒体等文本去重和聚类，都需要对网页或者文本进行去重和过滤。本文介绍的  Locality Sensitive Hashing 是常见的一类hash 函数用于去重。 SimHash是一种局部敏感hash，它也是Google公司进行海量网页去重使用的主要算法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Lstm</title>
+      <link>http://jijeng.github.io/post/lstm/</link>
+      <pubDate>Thu, 28 Nov 2019 15:05:54 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/lstm/</guid>
+      <description>&lt;p&gt;从 RNN到LSTM，重点介绍LSTM 的网络结构和LSTM是如何缓解RNN 中出现的梯度消失。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Word2vec</title>
+      <link>http://jijeng.github.io/post/word2vec/</link>
+      <pubDate>Sat, 28 Sep 2019 17:04:42 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/word2vec/</guid>
+      <description>&lt;p&gt;介绍Word2vec 的两种训练模式（DBOW和Skip-gram）和两种优化策略（Hierarchical Softmax 和Negative Sampling）。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>基于隐马尔科夫的命名实体识别</title>
+      <link>http://jijeng.github.io/post/hmm/</link>
+      <pubDate>Fri, 06 Sep 2019 14:00:01 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/hmm/</guid>
+      <description>&lt;p&gt;介绍自然语言处理中的命名实体识别（Named Entity Recognition，NER ）相关概念，主要介绍基于HMM 的NER，包括HMM中的两大假设，三大参数和Viterbi 算法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Text Summary</title>
+      <link>http://jijeng.github.io/post/text_summary/</link>
+      <pubDate>Sun, 30 Jun 2019 16:53:00 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/text_summary/</guid>
+      <description>&lt;p&gt;Text Summarization&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Text summarization is the process of distilling the most important information from a source (or sources) to produce an abridged version for a particular user (or users) and task (or tasks).&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Machine_translation</title>
+      <link>http://jijeng.github.io/post/machine_translation/</link>
+      <pubDate>Sat, 29 Jun 2019 15:34:19 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/machine_translation/</guid>
+      <description>&lt;p&gt;介绍机器翻译的五个发展阶段，然后是关于机器翻译的论文阅读笔记（持续更新）&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>关于BERT改进的几篇论文</title>
+      <link>http://jijeng.github.io/post/bert/</link>
+      <pubDate>Sun, 16 Jun 2019 09:05:04 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/bert/</guid>
+      <description>&lt;p&gt;介绍基于BERT进行改进的模型：ALBERT、XLNet, DistilBERT （持续更新）&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Sentence Embedding</title>
+      <link>http://jijeng.github.io/post/sentence_embedding/</link>
+      <pubDate>Sat, 01 Jun 2019 15:35:46 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/sentence_embedding/</guid>
+      <description>&lt;p&gt;sentence embedding 学习笔记&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Word_embedding_understanding</title>
+      <link>http://jijeng.github.io/post/word_embedding_understanding/</link>
+      <pubDate>Wed, 22 May 2019 10:31:51 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/word_embedding_understanding/</guid>
+      <description>&lt;p&gt;从one-hot 到 word2vec， 到elmo，简单介绍一下 NLP中词向量的过程。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Introduction to Natural Language Processing for Text</title>
+      <link>http://jijeng.github.io/post/introduction_to_nlp/</link>
+      <pubDate>Tue, 21 May 2019 14:32:17 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/introduction_to_nlp/</guid>
+      <description>&lt;p&gt;Natural Language Processing is used to apply machine learning algorithms to text and speech. For example, we can use it to create systems like speech recognition, document summarization, machine translation, spam detection, named entity recognition, question answering, autocomplete, predictive typing and so on.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>fastText &amp; faiss</title>
+      <link>http://jijeng.github.io/post/fasttext_faiss/</link>
+      <pubDate>Mon, 25 Mar 2019 13:33:53 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/fasttext_faiss/</guid>
+      <description>&lt;p&gt;主要介绍 fastText、faiss 两个常用的工具，然后顺带介绍一下容易混淆的概念 k-means 和knn。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

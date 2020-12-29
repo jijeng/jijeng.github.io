@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Docker - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="介绍容器（Docker）的原理和常见的命令。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/docker/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Docker" />
+<meta property="og:description" content="介绍容器（Docker）的原理和常见的命令。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/docker/" />
+<meta property="article:published_time" content="2019-09-04T13:09:19+08:00" />
+<meta property="article:modified_time" content="2019-09-04T13:09:19+08:00" />
+<meta itemprop="name" content="Docker">
+<meta itemprop="description" content="介绍容器（Docker）的原理和常见的命令。">
+<meta itemprop="datePublished" content="2019-09-04T13:09:19+08:00" />
+<meta itemprop="dateModified" content="2019-09-04T13:09:19+08:00" />
+<meta itemprop="wordCount" content="2991">
+
+
+
+<meta itemprop="keywords" content="docker," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Docker"/>
+<meta name="twitter:description" content="介绍容器（Docker）的原理和常见的命令。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Docker</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-09-04 </span>
+        
+          <span class="more-meta"> 约 2991 字 </span>
+          <span class="more-meta"> 预计阅读 6 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#概念">概念</a></li>
+        <li><a href="#docker-常用命令">Docker 常用命令</a></li>
+        <li><a href="#docker-compose">docker-compose</a>
+          <ul>
+            <li><a href="#dockerfile-书写相关">Dockerfile 书写相关</a></li>
+            <li><a href="#dockerfile常见的一些写法">dockerfile常见的一些写法</a></li>
+            <li><a href="#部署">部署</a></li>
+          </ul>
+        </li>
+        <li><a href="#参考文献">参考文献</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>介绍容器（Docker）的原理和常见的命令。</p>
+<h2 id="概念">概念</h2>
+<p>Docker 是对于 Linux 容器的一种封装，提供了见到那的容器使用接口。Linux 容器是一种虚拟化技术，在正常的进程外面加上了一个保护层，实现了该进程与底层系统的隔离。Docker 是使用Go语言实现的。</p>
+<p>（1）虚拟机（virtual machine）和Docker 的联系和区别</p>
+<p>虚拟机是在一个系统中运行了另一个系统。比如在mac 电脑中装上了windows（stupid）；在windows 中装上了Ubuntu。</p>
+<p>相同点：软件开发中环境可能存在两种问题：”程序能在我的机器上跑“ （It worked on my machine）；程序中新老版本不兼容，如python2 和python3 中一些库函数。虚拟机和docker 都是为了解决软件开发中的环境配置问题。</p>
+<p>不同点：虚拟机是操作系统级别。虚拟机本身需要占用几百兆运行，并且启动慢。Docker 是对于进程的封装，不是模拟完整的操作系统。所以启动快，占用资源少。</p>
+<p>联系：Docker 相比于虚拟机有了更大程度的共享，更小级别的隔离。虚拟机虚拟出的是一套硬件，而Docker 虚拟出的是一个操作系统，不同容器之间是可以共享一个操作系统的。</p>
+<p>（2）Docker的核心概念</p>
+<p>1). 镜像（Image）： 是一个只读的模板，类似安装操作系统的iso 文件，通过镜像可以用来完成各种应用的部署
+2). 容器（Container）：镜像和容器的唯一区别是容器的最上一层是可读可写的。所以容器 =镜像+ 可读层。类似一个操作系统，可以create， start， run，stop，kill，pause和rm操作。
+3). 仓库：存放镜像的一个场合，仓库分为公开仓库和私有仓库</p>
+<p>如果说Docker 是面向对象的，那么容器与镜像的关系类似于面向对象编程中的对象与类。</p>
+<p>Docker 的优点</p>
+<p>Docker 是一个用于开发，交付和运行应用程序的开放平台。Docker 使您能够将应用程序与基础架构分开，从而可以快速交付软件。借助 Docker，您可以与管理应用程序相同的方式来管理基础架构。通过利用 Docker 的方法来快速交付，测试和部署代码，您可以大大减少编写代码和在生产环境中运行代码之间的延迟。</p>
+<p>快速，一致地交付您的应用程序
+响应式部署和扩展
+在同一硬件上运行更多工作负载</p>
+<p>Docker 的缺点：对于开发者是非常友好的，但是对于运维人员，想要在已经封装好的容器上做一些调整，是很难的。</p>
+<p>（3）在Ubuntu 18 上的安装和使用</p>
+<p>安装比较简单，这种安装的Docker不是最新版本，不过对于学习够用了，依次执行下面命令进行安装。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">sudo apt install docker.io
+sudo systemctl start docker
+
+sudo systemctl <span class="nb">enable</span> docker
+
+sudo service docker start <span class="c1">#启动守护进程</span>
+
+docker -v
+
+sudo service docker stop <span class="c1">#关闭守护进程</span>
+
+<span class="c1">#【查】查看本地已有的镜像 Docker images</span>
+docker images
+
+<span class="c1"># 增加</span>
+docker run docker_name
+</code></pre></td></tr></table>
+</div>
+</div><p>测试是否安装成功</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo docker run hello-world
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="docker-常用命令">Docker 常用命令</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">#启动docker
+sudo service docker start
+
+#停止docker
+sudo service docker stop
+
+#重启docker
+sudo service docker restart
+
+#列出Docker CLI命令
+docker
+docker container --help
+
+#显示Docker版本和信息
+docker --version
+docker version
+docker info
+
+Execute Docker image
+docker run hello-world
+
+#列出镜像列表
+docker image ls
+
+#列出docker容器 (running, all, all in quiet mode)
+docker container ls
+docker container ls --all
+docker container ls -aq
+
+
+#搜索：
+
+docker search ubuntu
+
+#下载镜像
+
+docker pull ubuntu
+
+#查看所有的镜像
+
+docker images
+
+#删除docker 包
+
+sudo rm -rf /var/lib/docker
+
+</code></pre></td></tr></table>
+</div>
+</div><p>我们需要确认容器有在运行，可以通过 docker ps 来查看</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">CONTAINER ID:容器ID
+NAMES:自动分配的容器名称
+
+</code></pre></td></tr></table>
+</div>
+</div><p>在容器内使用docker logs命令，查看容器内的标准输出</p>
+<p>可以使用 docker logs ID来查看log，也可以通过后面名称来查docker logs silly_poitras</p>
+<p>停止容器 docker stop id or   docker_name 这样的形式。</p>
+<h2 id="docker-compose">docker-compose</h2>
+<p>Docker-Compose 是 Docker 的一种编排服务，是一个用于在 Docker 上定义并运行复杂应用的工具，可以让用户在集群中部署分布式应用。</p>
+<p>通过 Docker-Compose 用户可以很容易地用一个配置文件定义一个多容器的应用，然后使用一条指令安装这个应用的所有依赖，完成构建。Docker-Compose 解决了容器与容器之间如何管理编排的问题。</p>
+<p>Docker Compose 工作原理图</p>
+<img src ="https://files.catbox.moe/hulyas.png" height ="60%" width="60%">
+<p>Compose 中有两个重要的概念</p>
+<ul>
+<li>服务 (service) ：一个应用的容器，实际上可以包括若干运行相同镜像的容器实例。</li>
+<li>项目 (project) ：由一组关联的应用容器组成的一个完整业务单元，在 docker-compose.yml 文件中定义。</li>
+</ul>
+<p>查看预装情况</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">docker -v
+docker-compose -v
+
+docker ps # 查看目前的容器名
+docker-compose ps #查看当前项目的容器状态
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://github.com/ashokc/Serving-Flask-on-Docker/blob/master/quoteserver/docker-compose.yml">https://github.com/ashokc/Serving-Flask-on-Docker/blob/master/quoteserver/docker-compose.yml</a></p>
+<p>从这里看，应该是定义了全局的docker 名称，包括 app_host 等一系列名称，可以在之后的debug 中看看，这些名称是否是全局可达的。</p>
+<p>使用docker 的时候默认是sudo 权限，为了避免麻烦，这个时候可以新建一个docker 用户组，将使用的用户加入到docker 用户组中.</p>
+<ul>
+<li>创建docker 用户组</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo groupadd docker
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>将某个用户加入到 docker 用户组</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo usermod -aG docker jeng
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>重启docker 服务</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo systemctl restart docker
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>重新登录该账户</li>
+</ul>
+<h3 id="dockerfile-书写相关">Dockerfile 书写相关</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">FROM nginx  # 这个是基础镜像，之后都是基于该镜像
+
+# 镜像的作者信息，包含所有者和联系人
+MAINTAINER
+
+# shell格式 （所以是可以根据本地的shell命令构建dockerfile）
+RUN &lt;命令行命令&gt;
+# &lt;命令行命令&gt; 等同于，在终端操作的 shell 命令。 
+
+# exec格式
+RUN [&#34;可执行文件&#34;, &#34;参数1&#34;, &#34;参数2&#34;]
+# 例如：
+# RUN [&#34;./test.php&#34;, &#34;dev&#34;, &#34;offline&#34;] 等价于 RUN ./test.php dev offline
+
+RUN &lt;command&gt; (shell模式)
+RUN [ &#34;executable&#34;, &#34;param1&#34;, &#34;param2&#34; ] (exec模式)
+
+
+# 多行执行run
+RUN yum install wget
+RUN wget -O redis.tar.gz &#34;http://download.redis.io/releases/redis-5.0.3.tar.gz&#34;
+RUN tar -xvf redis.tar.gz
+# 更加建议这种书写，只创建一层镜像
+
+RUN yum install wget \
+    &amp;&amp; wget -O redis.tar.gz &#34;http://download.redis.io/releases/redis-5.0.3.tar.gz&#34; \
+    &amp;&amp; tar -xvf redis.tar.gz
+
+# 是从上下文目录复制文件或者目录到指定路径
+COPY home* /mydir/
+
+ENV
+# 设置环境变量，在后序的指令中，可以使用这个变量
+
+VOLUME
+# 定义数据卷，用于挂载数据，避免因重启而丢失重要数据
+
+EXPOST &lt;PORT&gt;
+# 声明端口，告诉应用程序容器内的程序会使用的端口，在运行时使用 -p 参数映射
+# docker处于安全的目的，不会自动打开端口。
+
+
+USER 
+# 指定镜像使用什么用户去运行
+USER nginx
+
+WORKDIR &lt;dirpath&gt;
+# 在 Dockerfile 文件中，WORKDIR一般是绝对路径，也可是相对路径，不过，是相对于上一个WORKDIR的路径。 
+
+# docker 很多情况下是用来打包一个程序，如果docker 打包了这个python 程序(你可以把所有依赖工具打包进docker镜像， 然后用 ENTRYPOINT 指向python脚本本身，当然也可以使用 cmd 指向脚本。但是通常用 ENTRYPOINT 表明docker 镜像只是用来执行这个python 脚本的，不希望用于其他的操作)
+ENTRYPOINT 和CMD 的组合使用： ENTRYPOINT 指定默认的运行命令，CMD指定默认的运行参数。比如
+
+# 例子一
+FROM ubuntu:trusty
+ENTRYPOINT [&#34;/bin/ping&#34;,&#34;-c&#34;,&#34;3&#34;]
+CMD [&#34;localhost&#34;] 
+
+# 例子二
+
+ENTRYPOINT [ &#34;python&#34; ] # 这个是命令
+# Run app.py when the container launches
+CMD [ &#34;app.py&#34;,&#34;run&#34;,&#34;--host&#34;,&#34;0.0.0.0&#34;] # 这个是参数
+
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="dockerfile常见的一些写法">dockerfile常见的一些写法</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># install system dependencies
+RUN apt-get update \
+    &amp;&amp; apt-get -y install gcc make \
+    &amp;&amp; rm -rf /var/lib/apt/lists/*
+# 最后的rm 也是可以减少镜像的大小，是一种优化策略
+
+# install dependencies
+RUN pip install --no-cache-dir --upgrade pip
+
+RUN pip install --no-cache-dir -r requirements.txt
+# --no-cache-dir              Disable the cache.
+
+
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="部署">部署</h3>
+<p>cd  到某个路径中，该路径中有 dockerfile</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="c1"># build 的命令  -&gt; image 。最后的一个 . 表示上下文路径, 当执行 build 时候，会将该路径下的所有内容打包，所以一定要把没有必要的文件删掉</span>
+docker build .
+docker build --tag  image_name .
+<span class="c1"># run 的命令 -&gt; docker ps 中可查</span>
+docker run --name deployML -p localport:dockerport image_name
+<span class="c1"># 实现的是端口映射</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="参考文献">参考文献</h2>
+<p><a href="https://mp.weixin.qq.com/s/zkStRgGaNwUr86YmpVWInw">阿里云的docker 的使用</a></p>
+<p><a href="https://hijiangtao.github.io/2018/04/17/Docker-in-Action/">Docker 学习新手笔记：从入门到放弃</a></p>
+<p>制作 docker 的教程：</p>
+<p><a href="https://www.jianshu.com/p/26f15063de7d">迈出使用Docker的第一步，学习第一个Docker容器</a></p>
+<p>有背景图家具替换demo：http://47.92.49.9:9998/
+白背景家具替换demo：http://47.92.49.9:9999/</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-09-04
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/docker/">docker</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/hmm/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">基于隐马尔科夫的命名实体识别</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/dynamic_programming/">
+            <span class="next-text nav-default">Dynamic Programming</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

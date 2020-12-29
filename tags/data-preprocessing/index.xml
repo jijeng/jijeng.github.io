@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>data preprocessing on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/data-preprocessing/</link>
+    <description>Recent content in data preprocessing on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 25 Mar 2019 11:26:59 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/data-preprocessing/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Data_preprocessing</title>
+      <link>http://jijeng.github.io/post/data_preprocessing/</link>
+      <pubDate>Mon, 25 Mar 2019 11:26:59 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/data_preprocessing/</guid>
+      <description>&lt;p&gt;主要介绍机器学习中的数据预处理（这里主要讲的是数值型数据的预处理，而非中文数据预处理），包括 data cleaning、data integration、 data transformation、data reduction、data imbalanced 和一些概念。 data normalization 是经常用到的。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

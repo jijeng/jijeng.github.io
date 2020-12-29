@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>image interpolation on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/image-interpolation/</link>
+    <description>Recent content in image interpolation on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 18 Feb 2020 14:29:39 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/image-interpolation/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Image Interpolation</title>
+      <link>http://jijeng.github.io/post/image_interpolation/</link>
+      <pubDate>Tue, 18 Feb 2020 14:29:39 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/image_interpolation/</guid>
+      <description>&lt;p&gt;对于图像（image interpolation） 和图像resize 相关知识的整理学习。&lt;/p&gt;
+&lt;img src=&#34;https://s1.ax1x.com/2020/05/22/YOpwd0.png&#34; width=&#34;80%&#34; height=&#34;80%&#34;&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

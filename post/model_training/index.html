@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Model Training - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="介绍模型选择的两种方法：交叉检验和正则化。使用交叉检验（K-fold cross validation）进行选择模型并不难理解，但正则化和模型选择的关系，一开始还不是很理解，所以通过整理，希望能带来一些启发。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/model_training/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Model Training" />
+<meta property="og:description" content="介绍模型选择的两种方法：交叉检验和正则化。使用交叉检验（K-fold cross validation）进行选择模型并不难理解，但正则化和模型选择的关系，一开始还不是很理解，所以通过整理，希望能带来一些启发。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/model_training/" />
+<meta property="article:published_time" content="2019-01-18T15:19:05+08:00" />
+<meta property="article:modified_time" content="2019-01-18T15:19:05+08:00" />
+<meta itemprop="name" content="Model Training">
+<meta itemprop="description" content="介绍模型选择的两种方法：交叉检验和正则化。使用交叉检验（K-fold cross validation）进行选择模型并不难理解，但正则化和模型选择的关系，一开始还不是很理解，所以通过整理，希望能带来一些启发。">
+<meta itemprop="datePublished" content="2019-01-18T15:19:05+08:00" />
+<meta itemprop="dateModified" content="2019-01-18T15:19:05+08:00" />
+<meta itemprop="wordCount" content="3465">
+
+
+
+<meta itemprop="keywords" content="kfold,cross validation," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Model Training"/>
+<meta name="twitter:description" content="介绍模型选择的两种方法：交叉检验和正则化。使用交叉检验（K-fold cross validation）进行选择模型并不难理解，但正则化和模型选择的关系，一开始还不是很理解，所以通过整理，希望能带来一些启发。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Model Training</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-01-18 </span>
+        <div class="post-category">
+            <a href="/categories/machine-learning/"> machine learning </a>
+            <a href="/categories/deep-learning/"> deep learning </a>
+            </div>
+          <span class="more-meta"> 约 3465 字 </span>
+          <span class="more-meta"> 预计阅读 7 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#交叉检验">交叉检验</a></li>
+        <li><a href="#正则化角度">正则化角度</a></li>
+        <li><a href="#结构化风险">结构化风险</a></li>
+        <li><a href="#复习笔记">复习笔记</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>介绍模型选择的两种方法：交叉检验和正则化。使用交叉检验（K-fold cross validation）进行选择模型并不难理解，但正则化和模型选择的关系，一开始还不是很理解，所以通过整理，希望能带来一些启发。</p>
+<h2 id="交叉检验">交叉检验</h2>
+<p>常见的共有三种数据集的划分方式。</p>
+<p>（1）留出法（Holdout cross validation）：</p>
+<p>直接将原始的样本集合随机划分成训练集和测试集两部分。比方说，对于一个点击量预测模型，我们把样本按照70%~30%的比例分成两部分，70%的样本用于模型训练；30%的样本用于模型测试，包括绘制ROC曲线、计算精确率和召回率等指标来评估模型性能；
+该方法有两大缺点：</p>
+<ul>
+<li>最终模型和参数的选取依赖于你对于训练集和测试集的划分</li>
+<li>该方法只使用了部分数据进行模型的训练，对于训练集本身就比较小的情况，那么模型的效果会受影响</li>
+</ul>
+<p>（2）留一验证（LOOV， leave one out cross validation）</p>
+<p>每次留下一个样本作为验证集，其余所有样本作为测试集，那么产生了 $n$个模型。而测试误差的计算是将 $n$个模型取平均。
+\begin{equation}
+CV_{(n)}=\frac{1}{n} \sum_{i=1}^{n} MSE_{i}
+\end{equation}
+优点：
+1). 不受训练集和测试集划分影响，所有的数据都做过测试集。
+2). 每次训练激活使用到了所有的数据，保证了模型的偏差（bias）很小
+缺点： 计算量过于大，是holdout 方法的 $n-1$倍</p>
+<p>（3）K-fold交叉验证（cross validation）</p>
+<p>首先将全部样本划分成k个大小相等的样本子集；一次遍历这k个子集，每次把当前子集作为验证集，其余所有子集作为训练集，进行模型的训练和评估；最后把k次评估指标的平均值作为最终的评估指标。在实验中，k经常取10.
+比如说 $k =10$，那么就利用十折交叉验证的方法：</p>
+<ul>
+<li>不重复抽样将原始数据随机分为 k 份。 每一次挑选其中 1 份作为测试集，剩余 k-1 份作为训练集用于模型训练。</li>
+<li>重复第二步 k 次，这样每个子集都有一次机会作为测试集，其余机会作为训练集。</li>
+<li>在每个训练集上训练后得到一个模型，用这个模型在相应的测试集上测试，计算并保存模型的评估指标，</li>
+<li>计算 k 组测试结果的平均值作为模型精度的估计，并作为当前 k 折交叉验证下模型的性能指标。</li>
+</ul>
+<p>当 K =10 的时候 ，训练数据D被分为了10 份，每次取其中9份数据作为训练集，1份作为测试集，最终将循环后所有的评估结果取平均。
+<img src="http://tva1.sinaimg.cn/large/0060lm7Tly1g5x6vgi1poj30k009l76f.jpg" alt=""></p>
+<p>其中的 cross validation（交叉），即把一部分数据当做了训练数据集，一部分当做了测试数据集，体现了交叉的思想。</p>
+<p>（4）关于k 值的选择</p>
+<p>K越大，每次投入的训练集的数据越多，模型的Bias越小。但是K越大，又意味着每一次选取的训练集之前的相关性越大（考虑最极端的例子，当k=N，也就是在LOOCV（叫做留一法）里，每次都训练数据几乎是一样的）。而这种大相关性会导致最终的test error具有更大的Variance。 一般来说，根据经验我们一般选择k=5或10。当数据量比较大的时候，k值可以小点；当数据量比较小的时候，k值需要大点。</p>
+<p>（5）如何去理解交叉验证呢？</p>
+<p>简单的说是可以从方差和偏差的角度进行分析。当k =1，全部的数据被用于训练，容易出现过拟合，容易出现低偏差、高方差的；当k =n，也被称为留一法，偏差升高了而方差是减少了。所以说取值范围的变化可以看做是偏差和方差相互妥协的过程。</p>
+<h2 id="正则化角度">正则化角度</h2>
+<p>模型训练过程中很容易出现过拟合，根本原因是模型的复杂度远小于数据量，模型的复杂度和训练误差于测试误差的关系如下图所示。</p>
+<p><img src="http://tva1.sinaimg.cn/large/0060lm7Tly1g5x6vh0wx6j30fq0a0js8.jpg" alt=""></p>
+<p>从图中可以看到， 随着模型复杂度的提高，训练误差是不断下降的，但测试误差是先下降后上升的。模型选择 的经典方法是正则化。正则化的作用是选择经验风险于模型复杂度同时较小的模型。也可以说，在所有可以选择的模型中，能够很好的解释数据并且十分简单的才是好模型。</p>
+<p>学习方法的泛化能力是指由该方法学习到的模型对未知数据的预测能力，是学习方法本质上重要的性质。现实中采用最多的方法是通过测试误差来评价学习方法的泛化能力。</p>
+<h2 id="结构化风险">结构化风险</h2>
+<p>要区分这三个概念，首先要引入一个损失函数的概念。损失函数是期望风险、经验风险和结构风险的基础。</p>
+<p>损失函数是针对单个具体的样本而言的。表示的是模型预测的值与样本真实值之间的差距。比如对于某个样本$(x_i, y_i)$，其真实的值为Yi,而我们的模型选择决策函数为 $f $,那么通过模型预测的值为$ f(x_i)$;损失函数就是用来表示$y_i$与$ f(x_i)$之间的差距的，我们用函数 $L(f(x_),y_i) $来衡量。我们希望的是这个L函数最小化。理想的情况是我们的模型决策函数预测值$f（x_i）$刚好等于该样本的真值 $y_i$。常见的损失函数有： 平方损失函数、绝对值损失函数和对数损失函数。</p>
+<p>通过损失函数我们只能知道模型决策函数 $f(x) $对于单个样本点的预测能力（借用损失函数 $L(y ,f(x)) $，损失函数越小，说明模型对于该样本预测越准确。），那么如果想知道模型 $f(x) $对训练样本中所有的样本的预测能力应该怎么办呢？显然只需所有的样本点都求一次损失函数然后进行累加就好了。如下式</p>
+<p>$$ (R_{exp}(f)=\frac{1}{N} \sum_{i=1}^{N} L\left(y_{i}, f\left(x_{i}\right)\right))$$</p>
+<p>这就经验风险，所谓的经验风险最小化便是让这个式子最小化，注意这个式子中累加和的上标N表示的是训练样例集中样本的数目。 </p>
+<p>经验风险是对训练集中的所有样本点损失函数的平均最小化。经验风险越小说明模型f(X)对训练集的拟合程度越好，但是对于未知的样本效果怎么样呢？我们知道未知的样本数据$（x, y）$的数量是不容易确定的，所以就没有办法用所有样本损失函数的平均值的最小化这个方法，那么怎么来衡量这个模型对所有的样本（包含未知的样本和已知的训练样本）预测能力呢？熟悉概率论的很容易就想到了用期望。即假设 $x  $和 $y $服从联合分布 $P(x ,y) $.那么期望风险就可以表示为：</p>
+<p>$$
+R_{exp}(f)=E_{P}[L(Y, f(X))]=\int_{\mathrm{x \times y}} L(y, f(x)) P(x, y) d x d y
+$$</p>
+<p>这就是期望风险，期望风险表示的是全局的概念，表示的是决策函数对所有的样本 $x,y $预测能力的大小，而经验风险则是局部的概念，仅仅表示决策函数对训练数据集里样本的预测能力。理想的模型（决策）函数应该是让所有的样本的损失函数最小的（也即期望风险最小化），但是期望风险函数往往是不可得到的，即上式中， $x $与 $ y $的联合分布函数不容易得到。现在我们已经清楚了期望风险是全局的，理想情况下应该是让期望风险最小化，但是呢，期望风险函数又不是那么容易得到的。怎么办呢？那就用局部最优的代替全局最优这个思想吧。这就是经验风险最小化的理论基础。</p>
+<p>通过上面的分析可以知道，经验风险与期望风险之间的联系与区别。现在在总结一下：</p>
+<p>经验风险是局部的，基于训练集所有样本点损失函数最小化的。</p>
+<p>期望风险是全局的，是基于所有样本点的损失函数最小化的。</p>
+<p>经验风险函数是现实的，可求的；</p>
+<p>期望风险函数是理想化的，不可求的；</p>
+<p>只考虑经验风险的话，会出现过拟合的现象，过拟合的极端情况便是模型f(x)对训练集中所有的样本点都有最好的预测能力，但是对于非训练集中的样本数据，模型的预测能力非常不好。怎么办呢？这个时候就引出了结构风险。结构风险是对经验风险和期望风险的折中。在经验风险函数后面加一个正则化项（惩罚项）便是结构风险了。如下式：</p>
+<p>$$
+R_{\mathrm{em}}(f)=\frac{1}{N} \sum_{i=1}^{N} L\left(y_{i}, f\left(x_{i}\right)\right)+\lambda J(f)
+$$</p>
+<p>相比于经验风险，结构风险多了一个惩罚项，其中是一个 $\lambda $是一个大于0的系数。$J(f) $表示的是是模型f的复杂度。结构风险可以这么理解：</p>
+<p>经验风险越小，模型决策函数越复杂，其包含的参数越多，当经验风险函数小到一定程度就出现了过拟合现象。也可以理解为模型决策函数的复杂程度是过拟合的必要条件，那么我们要想防止过拟合现象的方式，就要破坏这个必要条件，即降低决策函数的复杂度。也即，让惩罚项 $J(f) $最小化，现在出现两个需要最小化的函数了。我们需要同时保证经验风险函数和模型决策函数的复杂度都达到最小化，一个简单的办法把两个式子融合成一个式子得到结构风险函数然后对这个结构风险函数进行最小化。</p>
+<p>常见的说法：</p>
+<p>极大似然估计是经验风险最小化的一个例子，当模型是条件概率分布，损失函数是对数损失函数时，经验风险最小化就等于极大似然估计。（但是，当样本量很小时，经验风险最小化学习的效果未必很好，会产生后面叙述的“过拟合”现象。）</p>
+<p>结构风险最小化是为了防止过拟合而提出来的 策略。结构风险最小化等价于正则项或罚项。</p>
+<p>贝叶斯估计中的最大后验概率估计（MAP,maximum posterior probability estimation）就是结构风险最小化的一个例子。当模型是条件概率分布、损失函数是对数损失函数、模型复杂度由模型的先验概率表示时，结构风险最小化就等价于最大后验概率估计。</p>
+<h2 id="复习笔记">复习笔记</h2>
+<ol>
+<li>经验风险和期望风险，前者是针对训练集，可以计算；后者是对于全部训练数据，不可计算。结构化风险是两者的折中，在经验风险后面加上一个正则项，对经验风险进行了惩戒。</li>
+</ol>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-01-18
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/kfold/">kfold</a>
+          <a href="/tags/cross-validation/">cross validation</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/pytorch_tutorial/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Pytorch Tutorial</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/offer_other_1/">
+            <span class="next-text nav-default">剑指offer-其他(1)</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

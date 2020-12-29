@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Lightgbm &amp; Xgboost - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="先主要介绍树的基本知识，然后介绍LightGBM和XGBoost及其调参.
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/lightgbm_xgboost/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Lightgbm &amp; Xgboost" />
+<meta property="og:description" content="先主要介绍树的基本知识，然后介绍LightGBM和XGBoost及其调参." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/lightgbm_xgboost/" />
+<meta property="article:published_time" content="2019-07-28T14:42:57+08:00" />
+<meta property="article:modified_time" content="2019-07-28T14:42:57+08:00" />
+<meta itemprop="name" content="Lightgbm &amp; Xgboost">
+<meta itemprop="description" content="先主要介绍树的基本知识，然后介绍LightGBM和XGBoost及其调参.">
+<meta itemprop="datePublished" content="2019-07-28T14:42:57+08:00" />
+<meta itemprop="dateModified" content="2019-07-28T14:42:57+08:00" />
+<meta itemprop="wordCount" content="5697">
+
+
+
+<meta itemprop="keywords" content="xgboost,lightgbm," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Lightgbm &amp; Xgboost"/>
+<meta name="twitter:description" content="先主要介绍树的基本知识，然后介绍LightGBM和XGBoost及其调参."/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Lightgbm &amp; Xgboost</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-07-28 </span>
+        <div class="post-category">
+            <a href="/categories/machine-learning/"> machine learning </a>
+            </div>
+          <span class="more-meta"> 约 5697 字 </span>
+          <span class="more-meta"> 预计阅读 12 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#lightgbm调参常用参数">lightGBM调参(常用参数)</a></li>
+            <li><a href="#advantages-of-lightgbm">Advantages of LightGBM</a></li>
+            <li><a href="#lightgbm调参常用参数-1">lightGBM调参(常用参数)</a></li>
+            <li><a href="#referrence">referrence</a></li>
+            <li><a href="#xgboost调参">XGBoost调参</a></li>
+            <li><a href="#advantage-of-xgboost">Advantage of XGBoost</a></li>
+            <li><a href="#xgboost-parameters">XGBoost Parameters</a></li>
+            <li><a href="#referrence-1">Referrence</a></li>
+            <li><a href="#lightgbm-和-xgboost-的一些区别">LightGBM 和 XGBoost 的一些区别</a></li>
+            <li><a href="#xgboost--lr">xgboost + lr</a></li>
+          </ul>
+        </li>
+        <li><a href="#复习笔记">复习笔记</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>先主要介绍树的基本知识，然后介绍LightGBM和XGBoost及其调参.</p>
+<p>进入正文之前简单的说一下决策树。一棵树很容易过拟合或者欠拟合（根据树的深度），然后需要使用多棵树进行组合预测，而GBDT是实现这个手段的方式之一。sklearn中也是实现了 GBDT 这种思想，但是比较难用，训练速度跟不上。但是 lightGBM 和XGBoost 实现的效果就比较好。</p>
+<h3 id="lightgbm调参常用参数">lightGBM调参(常用参数)</h3>
+<p>Since lightGBM is based on decision tree algorithms, it splits the tree with the best fit whereas boosting algorithms split the tree depth wise or level wise rather than leaf-wise. So when growing on the same leaf in Light GBM, the leaf-wise algorithm can reduce more loss than the level-wise algorithm and hence results in much better accuracy which can rarely be achieved by any of the existing boosting algorithms. Also, it is surprisingly very fast, hence the word ‘Light’.</p>
+<p>Leaf wise splits lead to increase in complexity and may lead to overfitting and it can be overcome by specifying another parameter max_depth parameter.</p>
+<h3 id="advantages-of-lightgbm">Advantages of LightGBM</h3>
+<ul>
+<li>faster training speed and higher efficiency
+Light GBM use histogram based algorithm i.e it buckets continuous feature values into discrete bins which fasten the training procedure.</li>
+<li>lower memory usage
+Replaces continuous values to discrete bins which result in lower memory usage.</li>
+<li>better accuracy than any other boosting algorithm
+It produces much more complex trees by following leaf wise split approach rather than a level-wise approach which is the main factor in achieving higher accuracy.</li>
+<li>compatibility with large datasets
+It is capable of performing equally good with large datasets with a significant reduction in training time as compared to XGBOOST.</li>
+<li>parallel learning supported</li>
+</ul>
+<h3 id="lightgbm调参常用参数-1">lightGBM调参(常用参数)</h3>
+<ul>
+<li><strong>task</strong>
+default= train, option: train, prediction</li>
+<li>application
+default= regression, option: regression, binary, multiclass, lambdarank(lambdarank application)</li>
+<li>data
+training data, 这个比较诡异，你需要创建一个lightGBM类型的data</li>
+<li>num_iterations
+default =100, 可以设置为的大一些，然后使用early_stopping进行调节。</li>
+<li>early_stopping_round
+default =0, will stop training if one metric of one validation data doesn&rsquo;t improve in last early_stopping_round rounds.</li>
+<li>num_leaves
+default =31, number of leaves in a tree</li>
+<li>device
+default =cpu, options: gpu, cpu, choose gpu for faster training.</li>
+<li>max_depth
+specify the max depth to which tree will grow, which is very important.</li>
+<li>feature_fraction
+default =1, specifies the fraction of features to be taken for each iteration.</li>
+<li>bagging_fraction
+default =1, spefifies the fraction of data to be used for each iteration and it generally used to speed up the training and avoid overfitting.</li>
+<li>max_bin
+max number of bins to bucket the feature values.因为模型是基于bin训练的，如果bin 数量越多，得到better accuracy,同时更加容易 overfitting.</li>
+<li>num_threads</li>
+<li>label
+specify the label columns.</li>
+<li>categorical_feature
+specify the categorical features</li>
+<li>num_class
+default =1, used only for multi-class classification</li>
+</ul>
+<h3 id="referrence">referrence</h3>
+<p><a href="https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/">which-algorithm-takes-the-crown-light-gbm-vs-xgboost</a>
+<a href="https://blog.csdn.net/aliceyangxi1987/article/details/80711014">LightGBM 如何调参</a>
+<a href="http://lightgbm.readthedocs.io/en/latest/Parameters-Tuning.html">官方文档param_tuning</a>
+<a href="http://lightgbm.readthedocs.io/en/latest/Parameters.html">官方文档parameter</a></p>
+<h3 id="xgboost调参">XGBoost调参</h3>
+<h3 id="advantage-of-xgboost">Advantage of XGBoost</h3>
+<ul>
+<li>regularization
+standard GBM implementation has no regularization, in fact, XGBoost is also known as &lsquo;regularized boosting&rsquo; technique.</li>
+<li>parallel processing
+we know that boosting is sequential process so how can it be parallelized? <a href="http://zhanpengfang.github.io/418home.html">this link</a> to explore further.</li>
+<li>high flexibility
+XGBoost allow users to define <strong>custom optimization objectives and evaluation criteria</strong></li>
+<li>handling missing values
+very useful property. XGBoost has an in-built routine to handle missing values. User is required to supply a different value than other observations and pass that as a parameter. XGBoost tries different things as it encounter a missing value on each node and learns which path to take for missing values in future.</li>
+<li>Tree pruning
+A GBM would stop splitting a node when it encounters a negative loss in the split. Thus it is more of a greedy algorithm. XGBoost on the other hand make splits upon the max_depth specified and then start pruning the tree backwards and remove splits beyond which there is no positive gain.</li>
+<li>built-in cross-validation
+This is unlike GBM where we have to run a grid-search and only a limited values can be tested.</li>
+<li>continue on existing model</li>
+</ul>
+<h3 id="xgboost-parameters">XGBoost Parameters</h3>
+<h4 id="general-parameters">general parameters</h4>
+<p>General Parameters: Guide the overall functioning</p>
+<ul>
+<li>booster:
+default =gbtree, can be gbtree, gblinear or dart. 一般使用gbtree.</li>
+<li>silent:
+default =0, silent mode is activated if set to 1(no running messages will be printed)</li>
+<li>nthread:
+default to maximum of threads.</li>
+</ul>
+<h4 id="booster-parameters">booster parameters</h4>
+<p>Booster Parameters: Guide the individual booster (tree/regression) at each step</p>
+<ul>
+<li>eta(learning rate):
+default=0.3, typical final values to be used: 0.01-0.2, using CV to tune</li>
+<li>min_child_weight:
+minimum sum of instance weight (hessian) needed in a child. If the tree partition step results in a leaf node with the sum of instance weight less than min_child_weight, then the building process will give up further partitioning. In linear regression mode, this simply corresponds to minimum number of instances needed to be in each node. The larger, the more conservative the algorithm will be.
+default =1,too high values can lead to under-fitting, it should be tuned using CV. 数值越小越容易过拟合，越大越容易 under-fitting.</li>
+<li>max_depth:
+default =6, typical values: 3-10, should be tuned using CV.</li>
+<li>gamma:
+default =0, Gamma specifies the minimum loss reduction required to make a split.如果在分裂过程中小于该值，那么就不会继续分裂。</li>
+<li>subsample:
+default =1, typical values: 0.5-1. Denotes the fraction of observations to be randomly samples for each tree.</li>
+<li>colsample_bytree:
+default =1, typical values: 0.5-1. colsample_bytree和subsample不同点：colsample_by是特征的随机fraction, subsample是rows的随机fraction。</li>
+<li>lambda:
+default =1, L2 regularization term on weights(analogous to Ridge regression). Though many data scientists don&rsquo;t use it often, it should be explored to reduce overfitting.</li>
+<li>alpha:
+default =0, L1 regularization term on weight (analogous to Lasso regression)</li>
+<li>scale_pos_weight:
+default =1,  a value greater than 0 should be used in case of high class imbalance as it helps in faster convergence.</li>
+</ul>
+<h4 id="learning-task-parameters">learning task parameters</h4>
+<p>Learning Task Parameters: Guide the optimization performed</p>
+<ul>
+<li><strong>objective</strong>
+binary: logistic- returns predicated probability(not class)
+multi: softmax- returns predicated class(not probabilities)
+multi: softprob- returns predicated probability of each data point belonging to each class.</li>
+<li>eval_metirc
+default according to objective(rmse for regression and error for classification), used for validation data.
+typical values: rmse(root mean square error), mse(mean absolute error), logloss(negative log-likelihood), error(binary classification error rate, 0.5 threshold), auc(area under the curve)</li>
+<li>seed
+default =0, used for reproducible results and also for <strong>parameter tuning</strong>.</li>
+</ul>
+<h4 id="control-overfitting">Control Overfitting</h4>
+<p>There are in general two ways that you can control overfitting in xgboost.</p>
+<ul>
+<li>The first way is to directly control model complexity.</li>
+<li>The second way is to add regularization parameters</li>
+</ul>
+<h3 id="referrence-1">Referrence</h3>
+<p><a href="https://www.analyticsvidhya.com/blog/2016/03/complete-guide-parameter-tuning-xgboost-with-codes-python/">complete guide parameter tuning xgboost with codes python</a>
+<a href="http://xgboost.readthedocs.io/en/latest/how_to/param_tuning.html">官方文档 param_tuning</a>
+<a href="http://xgboost.readthedocs.io/en/latest/parameter.html">官方文档 parameter</a></p>
+<p>补充一些理论知识</p>
+<h3 id="lightgbm-和-xgboost-的一些区别">LightGBM 和 XGBoost 的一些区别</h3>
+<ul>
+<li>树的增长方式</li>
+</ul>
+<p>这个原先是lightGBM所特有的，然后xgboost 在最新的版本上也实现该中方式，这估计就是开源，并不是一成不变的。
+两者都是基于叶子进行增长的，但是增长的方式是不同的。一种是 level-wise 一种是 leaf-wise
+both xgboost and lightGBM use the leaf-wise growth strategy when growing the decision tree.
+there are two strategies that can be employed: level-wise and leaf-wise. level-wise maintains a balanced tree（平衡树，左右子树的高度差不超过1）;但是 leaf-wise 这个就比较随意了。
+这个是这两者的区别：当叶子总数相同的时候，leaf-wise 这种生长方式得到的树的深度是大于 level-wise 的深度的。
+Compared to the case of level-wise growth, a tree grown with leaf-wise growth will be deeper when the number of leaves is the same.</p>
+<ul>
+<li>find the best split</li>
+</ul>
+<p>The key challenge in training a GBDT is the process of finding the best split for each leaf.  The computational complexity is thus $O \left( n _ { \text {data} } n _ { \text {features} } \right)$.
+这两者采用的方式都是：
+现阶段的中的的数据 数据量和特征量都是很大的，所以这种方式是不可取的。然后这两种方法都是采用了 Histogram-based methods，这样最后的时间复杂度降低到：
+reducing the computational complexity to $O \left( n _ { d a t a } n _ { b i n s } \right)$.</p>
+<p>这个复杂度是取决于number of bins。
+这个是引入了一个超参数，number of bins ，trade off between precision and time, 当更多的 bins 的时候，这个precision 会提高，但是 time 也会增大。</p>
+<ul>
+<li>Ignoring sparse inputs</li>
+</ul>
+<p>这个是处理缺省值（或者 0）的手段：
+两者在split 分裂点的时候，都是先不处理数值 0；然后找到分裂点之后，把0 放到哪边造成的loss 下降的比较大，然后就放到哪边。
+<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g455x2q9e6j20i80ei3zq.jpg" alt=""></p>
+<ul>
+<li>Subsampling the data: Gradient-based One-Side Sampling (lightGBM)
+biased sampling(抽样的基本原则是随机性，但是在抽样过程中由于一系列因素造成偏差抽样，造成样本是不符合真实样本的分布)
+这个就是缓解，也不是为了彻底让其均衡，lightgbm increases the weigths of the samples.
+This means that it is more efficient to concentrate on data points with larger gradients.
+In order to mitigate this problem, lightGBM also randomly samples from data with small gradients.
+lightGBM increases the weight of the samples with small gradients when computing their contribution to the change in loss (this is a form of importance sampling, a technique for efficient sampling from an arbitrary distribution).</li>
+</ul>
+<h3 id="xgboost--lr">xgboost + lr</h3>
+<p>如果清楚GBDT原理的话（机器学习-一文理解GBDT的原理-20171001），最后模型预测结果也是将叶子结点进行线性加总，权值就是训练得到的各叶子结点的权重。如果将GBDT得到的叶子节点特征喂入LR的话，其实相当于用逻辑回归对叶子结点的权重进行了重新训练计算，在这里GBDT只是将数据中的非线性关系进行了一层转换，从而可以利用lr进行线性组合。</p>
+<p>除了原理和实现方式之外，其实还有一些小的细节需要注意的，比如：</p>
+<p>1、进行LR训练时，原始特征是否要加进去；
+原始特征的加入在xgb欠拟合的时候起的作用更大，当xgb树的颗数上升到一定数量时，原始特征的加入没什么提升。
+2、gbdt训练的模型效果对最终LR的训练出来的模型有多大的影响；</p>
+<p>当xgb训练充分时，lr直接利用xgb叶子结点的编码特征在合适的惩罚系数下可以训练得到和xgb一样的甚至更好的效果（不显著）；</p>
+<p>3、树的棵数，叶子结点数，学习率，树的深度，采样会如何影响最终的模型效果等等；</p>
+<p>lr利用xgb叶子结点的编码特征进行训练，分别在不同的C下训练得到train和test的auc值</p>
+<p>简单地说，就是把gbdt的输出，作为logistic regression的输入，最后得到一个logistic regression模型。例如，gbdt里有3棵树T1,T2,T3，每棵树的叶节点个数为4，第i个树的第j个叶节点是Li,j。当gdbt训练完成之后，样本X1在第一棵树中被分到了第3个叶节点上，也就是L1,3，那么这个样本在T1上的向量表达为(0,0,1,0)。</p>
+<p>样本X1在T2被分到了L2,1，那么X1在T2上的向量表达为(1,0,0,0)
+样本X1在T3被分到了L3,4，那么X1在T3上的向量表达为(0,0,0,1)
+那么X1在整个gbdt上的向量表达为</p>
+<p>(0,0,1,0,1,0,0,0,0,0,0,1)
+所以每个样本都会被表示为一个长度为12的0-1向量，其中有3个数值是1。</p>
+<p>然后这类向量就是LR模型的输入数据。</p>
+<p>LR 和 XGOOST 是 CTR 中常用的两种模型，二者各有优缺点，在 facebook 中使用 XGBOOST（提取特征） + LR（预测） 的方式。GBDT 模型擅长处理连续特征值，而 LR 则擅长处理离散特征值。</p>
+<p>在工业界，很少直接将连续值作为特征喂给逻辑回归模型，而是将连续特征离散化为一系列0、1特征交给逻辑回归模型，这样做的优势有以下几点：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">1.稀疏向量内积乘法运算速度快，计算结果方便存储，容易scalable（扩展）。
+2.离散化后的特征对异常数据有很强的鲁棒性：比如一个特征是年龄&gt;30是1，否则0。如果特征没有离散化，一个异常数据“年龄300岁”会给模型造成很大的干扰。
+3.逻辑回归属于广义线性模型，表达能力受限；单变量离散化为N个后，每个变量有单独的权重，相当于为模型引入了非线性，能够提升模型表达能力，加大拟合。
+4.离散化后可以进行特征交叉，由M+N个变量变为M*N个变量，进一步引入非线性，提升表达能力。
+5.特征离散化后，模型会更稳定，比如如果对用户年龄离散化，20-30作为一个区间，不会因为一个用户年龄长了一岁就变成一个完全不同的人。当然处于区间相邻处的样本会刚好相反，所以怎么划分区间是门学问。
+</code></pre></td></tr></table>
+</div>
+</div><p>先用已有特征训练Xgboost模型，然后利用Xgboost模型学习到的树来构造新特征，最后把这些新特征加入原有特征一起训练模型。构造的新特征向量是取值0/1的，向量的每个元素对应于Xgboost模型中树的叶子结点。当一个样本点通过某棵树最终落在这棵树的一个叶子结点上，那么在新特征向量中这个叶子结点对应的元素值为1，而这棵树的其他叶子结点对应的元素值为0。新特征向量的长度等于XGBoost模型里所有树包含的叶子结点数之和。最后将新的特征扔到LR模型进行训练。</p>
+<p>xgboost+lr模型融合方法用于分类或者回归的思想最早由facebook在广告ctr预测中提出，其论文Practical Lessons from Predicting Clicks on Ads at Facebook有对其进行阐述。在这篇论文中他们提出了一种将xgboost作为feature transform的方法。大概的思想可以描述为如下：先用已有特征训练XGBoost模型，然后利用XGBoost模型学习到的树来构造新特征，最后把这些新特征加入原有特征一起训练模型。构造的新特征向量是取值0/1的，向量的每个元素对应于XGBoost模型中树的叶子结点。当一个样本点通过某棵树最终落在这棵树的一个叶子结点上，那么在新特征向量中这个叶子结点对应的元素值为1，而这棵树的其他叶子结点对应的元素值为0。新特征向量的长度等于XGBoost模型里所有树包含的叶子结点数之和。最后将新的特征扔到LR模型进行训练。实验结果表明xgboost+lr能取得比单独使用两个模型都好的效果。</p>
+<p><img src="https://s2.ax1x.com/2019/10/21/KQ7MEF.png" alt="KQ7MEF.png"></p>
+<p>实现角度</p>
+<p>在实践中的关键点是如何获得每个样本落在训练后的每棵树的哪个叶子结点上。</p>
+<p>A、对于Xgboost来说，因为其有sklearn接口和自带接口，因此有两种方法可以获得：</p>
+<p>①、sklearn接口。可以设置pre_leaf=True获得每个样本在每颗树上的leaf_Index。XGBoost官方文档</p>
+<p>②、自带接口。利用apply()方法可以获得leaf indices。SKlearn GBDT API</p>
+<p>！！！此过程需注意： 无论是设置pre_leaf=True还是利用apply()方法，获得的都是叶子节点的 index，也就是说落在了具体哪颗树的哪个叶子节点上，并非是0/1变量，因此需要自己动手去做 onehot 编码。onehot 可以在 sklearn 的预处理包中调用即可。</p>
+<p>onehot的知识点可以参看这篇博客。</p>
+<p>B、对于其它的树模型，如随机森林和GBDT，我们只能使用apply()方法获得leaf indices。</p>
+<p><a href="https://zhuanlan.zhihu.com/p/42123341">XGBoost+LR融合的原理和简单实现</a>
+<a href="http://rongzijing.win/index.php/archives/168/">xgboost和LR模型级联</a></p>
+<p>对于原始数据的编码方式</p>
+<ol>
+<li>连续特征离散化</li>
+<li>离散的特征one-hot 或者特征组合</li>
+<li>使用 boosting 方式将连续特征离散化（xgboost 特征提取）XGBoost + LR 是一种有效的特征工程手段</li>
+</ol>
+<p>利用 GBDT+LR 融合的方案有很多好处，利用 GDBT 主要是发掘有区分度的 特征和特征组合：</p>
+<ul>
+<li>LR 模型无法实现特征组合，但是模型中特征组合很关键，依靠人工经验非常耗时而且不一定能有好的效果。利用 GBDT 可以自动发现有效的特征、特征组合。GBDT 每次迭代都是在减少残差的梯度方向上面新建一棵决策树，GBDT 的每个叶子结点对应一个路径，也就是一种组合方式。</li>
+</ul>
+<p>为进一步理解GBDT-LR的运行过程，同时排查编程实现的错误。这里对整个过程中的数据形态变化进行检视。数据的处理流程为：</p>
+<p>原始特征数据 -&gt; 标签编码 -&gt; GBDT -&gt; 独热编码 -&gt; LR -&gt; 输出。</p>
+<p><a href="http://rongzijing.win/index.php/archives/168/">xgboost和LR模型级联</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">更新：：：经过实践检验后，我们发现xgb+lr相比xgb几乎没有提升。xgb不像DNN，其本身的特征交叉能力是有限的，用xgb作为lr的特征交叉部分是远远不够的，所以还是需要在LR这边做大量的人工特征交叉设计，我们当时并没有一个实践检验过很好的单LR模型，因为我们没有时间和人力做精细的人工特征交叉设计。
+
+其实当人工的特征设计足够优秀的时候，特征维度很丰满的单LR已经很强了，xgb那点叶子结点的影响力其实不大。一个好的单LR模型其实根本不太需要xgb这点交叉，一个单xgb模型本身也足够优秀，级联一个垃圾LR不如不级联。 Facebook在2014年的思路是没错的，xgb能够很好的处理连续性型特征，LR来补齐xgb对离散类特征信息的盲区。但是工程上如果想有提升，不可避免还是要做特征工程，要踩得坑太多而且收益甚微，有这个精力不如搞深度学习。
+
+想要有质变的话建议直接上深度学习，Wide&amp;Deep用Deep部分代替xgb，DNN的特征交叉能力和信息量要比xgb大得多。
+</code></pre></td></tr></table>
+</div>
+</div><p>xgboost 确实能够处理连续特征，但是在特征交叉方面，还是有不足的，所以要么是特征工程，增强对离散特征LR。要么是深度网络， DNN（或者transformer）的特征交叉能力和信息量要比xgb大得多。
+xgboost也就是做了特征筛选和特征交叉。人工特征工程做的够好，LR是可以俯瞰众生，但是考虑到花费的人力物力，还是选模型级联吧！特征工程慢慢做= =</p>
+<p>LR是广义线性模型，能够并行化处理大量亿万级特征的训练样本。LR模型是只使用离散型特征的，连续型特征不是不能用，而是用了以后效果不好，对模型有负影响。LR快速高效，完全可以处理高纬度稀疏的离散化特征。</p>
+<p><a href="http://tva1.sinaimg.cn/large/007X8olVly1g85nwj63oaj30pa0ny75e.jpg"></a></p>
+<h2 id="复习笔记">复习笔记</h2>
+<ol>
+<li>xgboost 的优势 (1) 能够 handle missing values  (2) 数的增长方式，一种是基于level 增长，一种是基于叶子节点增长（如果是相同的结点数量，那么基于叶子增长的方式是更加的深）</li>
+<li>调参是能够调整的参数（max_depth,  随机样本的比例，随机特征的比例），不是常见的参数（比如说 ntthread 线程数量， silent 与否）。</li>
+</ol>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-07-28
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/xgboost/">xgboost</a>
+          <a href="/tags/lightgbm/">lightgbm</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/algorithm_practice_2/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Algorithm Practice(2)</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/python_tutorial_2/">
+            <span class="next-text nav-default">Python Advanced Skills</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

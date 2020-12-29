@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>machine learning on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/categories/machine-learning/</link>
+    <description>Recent content in machine learning on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 28 Jul 2020 16:47:27 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/categories/machine-learning/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Similarity Metrics</title>
+      <link>http://jijeng.github.io/post/similarity_metrics/</link>
+      <pubDate>Tue, 28 Jul 2020 16:47:27 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/similarity_metrics/</guid>
+      <description>&lt;p&gt;The similarity measure is the measure of how much alike two data objects are. Similarity measure in a data mining context is a distance with dimensions representing features of the objects. If this distance is small, it will be the high degree of similarity where large distance will be the low degree of similarity.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Overfit</title>
+      <link>http://jijeng.github.io/post/overfit/</link>
+      <pubDate>Sat, 11 Jul 2020 15:55:36 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/overfit/</guid>
+      <description>&lt;p&gt;分析机器学习 和深度学习中出现的过拟合现象，从不同的角度简述常用的处理手段。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Cluster algorithm</title>
+      <link>http://jijeng.github.io/post/cluster_algorithm/</link>
+      <pubDate>Sat, 18 Apr 2020 10:34:04 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/cluster_algorithm/</guid>
+      <description>&lt;p&gt;主要介绍K-means，EM算法和KNN 算法。&lt;/p&gt;
+&lt;img src=&#34;https://ftp.bmp.ovh/imgs/2020/04/c91ebad0e6203aa5.png&#34; width=&#34;60%&#34; height=&#34;60%&#34;&gt;</description>
+    </item>
+    
+    <item>
+      <title>Pygen</title>
+      <link>http://jijeng.github.io/post/pygen/</link>
+      <pubDate>Tue, 21 Jan 2020 16:05:04 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/pygen/</guid>
+      <description>&lt;p&gt;**pygen功能：**有关联的随机生成人名，邮箱，ID Card (ssn)，电话，地址等信息，并且可以选择保存为 pandas dataframe格式, 数据库&amp;quot;.db&amp;quot; 文件, Excel 文件和csv 文件格式，用于机器学习训练。&lt;a href=&#34;https://github.com/jijeng/pygen&#34;&gt;项目地址github&lt;/a&gt;。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Loss Function</title>
+      <link>http://jijeng.github.io/post/loss_function/</link>
+      <pubDate>Thu, 28 Nov 2019 14:58:04 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/loss_function/</guid>
+      <description>&lt;p&gt;介绍激活函数（activation function）、损失函数（loss function）和在pytorch框架下的使用。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Decision Tree</title>
+      <link>http://jijeng.github.io/post/decision_tree/</link>
+      <pubDate>Sat, 23 Nov 2019 12:56:44 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/decision_tree/</guid>
+      <description>&lt;p&gt;介绍决策树的定义、分类，重点介绍决策树中特征选择的三种算法和决策树的优劣。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Optimizer</title>
+      <link>http://jijeng.github.io/post/optimizer/</link>
+      <pubDate>Sun, 17 Nov 2019 15:53:57 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/optimizer/</guid>
+      <description>&lt;p&gt;深度学习中优化器 （optimizer）讲解。根据学习率的情况分成三个阶段，基础版本Gradient Descent，然后是人工设置学习率阶段和自适应学习率阶段。最后对应pytorch，说明常用的几种学习率优化策略。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Entropy</title>
+      <link>http://jijeng.github.io/post/entropy/</link>
+      <pubDate>Sun, 17 Nov 2019 13:29:14 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/entropy/</guid>
+      <description>&lt;p&gt;介绍熵相关的概念：包括信息熵、相对熵、交叉熵、KL 散度和互信息。并且基于python 实现上述的算法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Logistic &amp; Softmax</title>
+      <link>http://jijeng.github.io/post/logistic_softmax/</link>
+      <pubDate>Tue, 22 Oct 2019 14:56:13 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/logistic_softmax/</guid>
+      <description>title: logistics 和softmax 的公式推导 date: 2019-07-05 20:37:41 categories: 机器学习 Logistics 和 softmax 的公式推导。总结常在面试过程中用到的公式推导。 Logistics公式推导 Logistics Regression 是线性分类器</description>
+    </item>
+    
+    <item>
+      <title>Lightgbm &amp; Xgboost</title>
+      <link>http://jijeng.github.io/post/lightgbm_xgboost/</link>
+      <pubDate>Sun, 28 Jul 2019 14:42:57 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/lightgbm_xgboost/</guid>
+      <description>&lt;p&gt;先主要介绍树的基本知识，然后介绍LightGBM和XGBoost及其调参.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Naive Bayes</title>
+      <link>http://jijeng.github.io/post/naive_bayes/</link>
+      <pubDate>Mon, 22 Jul 2019 21:23:04 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/naive_bayes/</guid>
+      <description>&lt;p&gt;从贝叶斯定理到 naive bayes 分类器，最后说明一下其应用和优缺点。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>A Gentle Introduction of GBDT</title>
+      <link>http://jijeng.github.io/post/gbdt/</link>
+      <pubDate>Fri, 12 Jul 2019 13:51:52 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/gbdt/</guid>
+      <description>&lt;p&gt;介绍GBDT 的定义、训练过程、优缺点和常见的问题。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Logistic Regression 概念</title>
+      <link>http://jijeng.github.io/post/logistic_regression/</link>
+      <pubDate>Sun, 09 Jun 2019 14:59:59 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/logistic_regression/</guid>
+      <description>&lt;p&gt;本文主要介绍逻辑回归（logistics regression）和决策树（Decision Tree）。逻辑回归从线性回归出发到逻辑回归，然后手推公式和相关的一些特点；介绍一下决策树的特点。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>SVM All You Need to Know</title>
+      <link>http://jijeng.github.io/post/svm/</link>
+      <pubDate>Sat, 08 Jun 2019 16:51:21 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/svm/</guid>
+      <description>&lt;p&gt;本文主要介绍SVM 相关内容，包括理论原理、在线性可分条件下的公式推导和 SVM的应用特点。最后综合 LR 和 Decision Tree的&lt;a href=&#34;https://jijeng.github.io/2019/06/09/lr/&#34;&gt;这篇博客&lt;/a&gt;，给出了一些小的建议。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Linear Algebra</title>
+      <link>http://jijeng.github.io/post/linear_algebra/</link>
+      <pubDate>Mon, 25 Mar 2019 14:44:42 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/linear_algebra/</guid>
+      <description>&lt;p&gt;线性代数、统计学中有很多概念作为机器学习中的基础，比如说矩阵运算、相关系数等。ML 中的一个难点就是由原来概率中的线性变换直接过渡到了矩阵和网络，这其中的过程却没有人铺垫。于是，本文持续更新和 ML 相关的线性代数、统计学知识和相关的实现。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Data_preprocessing</title>
+      <link>http://jijeng.github.io/post/data_preprocessing/</link>
+      <pubDate>Mon, 25 Mar 2019 11:26:59 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/data_preprocessing/</guid>
+      <description>&lt;p&gt;主要介绍机器学习中的数据预处理（这里主要讲的是数值型数据的预处理，而非中文数据预处理），包括 data cleaning、data integration、 data transformation、data reduction、data imbalanced 和一些概念。 data normalization 是经常用到的。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Model Training</title>
+      <link>http://jijeng.github.io/post/model_training/</link>
+      <pubDate>Fri, 18 Jan 2019 15:19:05 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/model_training/</guid>
+      <description>&lt;p&gt;介绍模型选择的两种方法：交叉检验和正则化。使用交叉检验（K-fold cross validation）进行选择模型并不难理解，但正则化和模型选择的关系，一开始还不是很理解，所以通过整理，希望能带来一些启发。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Differences Between L1 and L2</title>
+      <link>http://jijeng.github.io/post/differences_between_l1_and_l2/</link>
+      <pubDate>Sat, 21 Jul 2018 13:22:06 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/differences_between_l1_and_l2/</guid>
+      <description>L1 和L2 既可以作为 loss function 也可以作为 reguarization，分别介绍了一下两者，最后介绍 overfitting 的概念。 As loss function loss function or error function 是用来衡量真实$y$ 和生成</description>
+    </item>
+    
+    <item>
+      <title>降维（Dimensionality Reduction）</title>
+      <link>http://jijeng.github.io/post/dimensionality_reduction/</link>
+      <pubDate>Fri, 29 Jun 2018 13:06:49 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/dimensionality_reduction/</guid>
+      <description>&lt;p&gt;降维分为以PCA为代表的线性降维和T-SNE为代表非线性降维。本文主要介绍这两种降维方式和代码实现，当然也会提及其他的降维算法比如LDA。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Evaluation Metrics</title>
+      <link>http://jijeng.github.io/post/evaluation_metrics/</link>
+      <pubDate>Wed, 13 Jun 2018 13:31:09 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/evaluation_metrics/</guid>
+      <description>&lt;p&gt;介绍机器学习中分类模型常用的评价指标：AUC、Precision-Recall, ACC和KS值。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Ensemble</title>
+      <link>http://jijeng.github.io/post/ensemble/</link>
+      <pubDate>Mon, 05 Feb 2018 21:27:04 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/ensemble/</guid>
+      <description>&lt;p&gt;将集成学习分为基本集成学习方法、高级集成学习方法和基于集成学习的算法。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Ensemble models in machine learning operate on a similar idea. They combine the decisions from multiple models to improve the overall performance. This can be achieved in various ways, which you will discover in this article.&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

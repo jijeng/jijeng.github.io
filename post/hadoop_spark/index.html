@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Hadoop &amp; Spark - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="主要介绍 Hadoop 和 Spark 的关系和联系。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/hadoop_spark/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Hadoop &amp; Spark" />
+<meta property="og:description" content="主要介绍 Hadoop 和 Spark 的关系和联系。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/hadoop_spark/" />
+<meta property="article:published_time" content="2019-04-15T13:58:29+08:00" />
+<meta property="article:modified_time" content="2019-04-15T13:58:29+08:00" />
+<meta itemprop="name" content="Hadoop &amp; Spark">
+<meta itemprop="description" content="主要介绍 Hadoop 和 Spark 的关系和联系。">
+<meta itemprop="datePublished" content="2019-04-15T13:58:29+08:00" />
+<meta itemprop="dateModified" content="2019-04-15T13:58:29+08:00" />
+<meta itemprop="wordCount" content="8640">
+
+
+
+<meta itemprop="keywords" content="hadoop,spark," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Hadoop &amp; Spark"/>
+<meta name="twitter:description" content="主要介绍 Hadoop 和 Spark 的关系和联系。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Hadoop &amp; Spark</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-04-15 </span>
+        
+          <span class="more-meta"> 约 8640 字 </span>
+          <span class="more-meta"> 预计阅读 18 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#集中式和分布式的讲解">集中式和分布式的讲解</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>主要介绍 Hadoop 和 Spark 的关系和联系。</p>
+<p>Hadoop的框架最核心的设计就是：HDFS和MapReduce。HDFS为海量的数据提供了存储，则MapReduce为海量的数据提供了计算。所以使用Hadoop则可以抛开spark，而直接使用Hadoop自身的mapreduce完成数据的处理。Spark是不提供文件管理系统的，但也不是只能依附在Hadoop上，它同样可以选择其他的基于云的数据系统平台，但spark默认的一般选择的还是hadoop。</p>
+<p>HDFS是一个采用Master/Slave模式的高度容错的分布式文件系统，DataNode节点用于存储数据，NameNode节点维护集群内的元数据，Map负责对数据进行打散，Reduce负责对数据进行聚合，核心步骤为：首先将计算机任务拆分成若干个Map任务，然后分配到不同的节点上执行，每一个Map任务处理数据中的一部分，完成后生产的的中间结果，保存在磁盘中，Reduce将前面的若干个Map的输出汇总到一起输出。</p>
+<p>Hadoop集群由一个Master主节点和若干个Slave节点组成。其中，Master节点上运行NameNode和JobTracker守护进程；Slave节点上运行DataNode和TaskTracker守护进程。</p>
+<ul>
+<li>Namenode
+是整个文件系统的管理节点。它维护着1.整个文件系统的文件目录树，2.文件/目录的元信息和每个文件对应的数据块列表。3.接收用户的操作请求。</li>
+<li>dataNode提供真实文件数据的存储服务。</li>
+</ul>
+<ol>
+<li>文件块（block）：最基本的存储单位。对于文件内容而言，一个文件的长度大小是size，那么从文件的０偏移开始，按照固定的大小，顺序对文件进行划分并编号，划分好的每一个块称一个Block。</li>
+<li>HDFS默认Block大小是128MB，以一个256MB文件，共有256/128=2个Block. 不同于普通文件系统的是，HDFS中，如果一个文件小于一个数据块的大小，并不占用整个数据块存储空间。   (这样设置可以减轻namenode压力，因为namonode维护者文件与数据块列表的对应大小)</li>
+<li>Replication。多复本。默认是三个。（hdfs-site.xml的dfs.replication属性）</li>
+</ol>
+<p>首先了解一下Mapreduce，它最本质的两个过程就是Map和Reduce，Map的应用在于我们需要数据一对一的元素的映射转换，比如说进行截取，进行过滤，或者任何的转换操作，这些一对一的元素转换就称作是Map；Reduce主要就是元素的聚合，就是多个元素对一个元素的聚合，比如求Sum等，这就是Reduce。</p>
+<p>spark 的优势</p>
+<ul>
+<li>每一个作业独立调度，可以把所有的作业做一个图进行调度，各个作业之间相互依赖，在调度过程中一起调度，速度快。（形成了一个有向无环图）</li>
+<li>所有过程都基于内存，所以通常也将Spark称作是基于内存的迭代式运算框架。</li>
+<li>spark提供了更丰富的算子，让操作更方便。</li>
+<li>更容易的API：支持Python，Scala和Java</li>
+</ul>
+<p>其实spark里面也可以实现Mapreduce，但是这里它并不是算法，只是提供了map阶段和reduce阶段，但是在两个阶段提供了很多算法。如Map阶段的map, flatMap, filter, keyBy，Reduce阶段的reduceByKey, sortByKey, mean, gourpBy, sort等。</p>
+<p>Spark 算子大致可以分为以下两类:
+1.Transformation 变换/转换算子：这种变换并不触发提交作业，完成作业中间过程处理。
+2.Action 行动算子：这类算子会触发 SparkContext 提交 Job 作业。
+怎么区分transformation算子和action算子呢?
+transformation算子一定会返回一个rdd,action大多没有返回值,也可能有返回值,但是一定不是rdd.</p>
+<p>Spark 中的RDD就是为了解决这种问题而开发出来的，Spark使用了一种特殊设计的数据结构，称为RDD。RDD的一个重要特征是，分布式数据集可以在不同的并行环境当中被重复使用，这个特性将Spark和其他并行数据流模型框架(如MapReduce)区别开。</p>
+<p>RDD 的算子主要分成2类，action 和 transformation。这里的算子概念，可以理解成就是对数据集的变换。action 会触发真正的作业提交，而 transformation 算子是不会立即触发作业提交的。每一个 transformation 方法返回一个新的 RDD。只是某些 transformation 比较复杂，会包含多个子 transformation，因而会生成多个 RDD。这就是实际 RDD 个数比我们想象的多一些 的原因。通常是，当遇到 action 算子时会触发一个job的提交，然后反推回去看前面的 transformation 算子，进而形成一张有向无环图。</p>
+<p>列举一些 Transformation 和 Action
+Transformantion: Map, Filter, FlatMap, Sample, GroupByKey, ReduceByKey, Union, Join, Cogroup, MapValues, Sort, PartionBy</p>
+<p>Action: Collect, Reduce, Lookup, Save</p>
+<p>RDD 的转化操作是返回一个新的 RDD 的操作，比如 map() 和 filter() ，而行动操作则是向驱动器程序返回结果或把结果写入外部系统的操作，会触发实际的计算，比如 count() 和 first() 。Spark 对待转化操作和行动操作的方式很不一样，因此理解你正在进行的操作的类型是很重要的。如果对于一个特定的函数是属于转化操作还是行动操作感到困惑，你可以看看它的返回值类型：转化操作返回的是 RDD，而行动操作返回的是其他的数据类型。</p>
+<p>RDD 中所有的 Transformation 都是惰性的，也就是说，它们并不会直接计算结果。相反的它们只是记住了这些应用到基础数据集（例如一个文件）上的转换动作。只有当发生一个要求返回结果给 Driver 的 Action 时，这些 Transformation 才会真正运行。</p>
+<p>这个设计让 Spark 更加有效的运行。</p>
+<p>区别</p>
+<ol>
+<li>
+<p>数据处理速度</p>
+</li>
+<li>
+<p>spark 是支持许多机器学习的模型(分类、聚类、回归、协同过滤)，而 hadoop 中的MapReduce 是不支持的.</p>
+</li>
+<li>
+<p>数据安全恢复：Hadoop每次处理的后的数据是写入到磁盘上，所以其天生就能很有弹性的对系统错误进行处理；spark的数据对象存储在分布于数据集群中的叫做弹性分布式数据集中，这些数据对象既可以放在内存，也可以放在磁盘，所以spark同样可以完成数据的安全恢复。</p>
+</li>
+</ol>
+<p>基于内存的Spark和基于磁盘的Hadoop也是一个区别。</p>
+<p>Spark的核心在于RDD，可以理解为包含许多操作接口的数据集合，主要有Transformation（lazy）和action两类算子。spark根据RDD之间的依赖关系切分成不同的阶段stage,RDD之间的转换的思想是 lazy的，也就是说不是实际发生的，而是以有向无环图的方式记录，通过一个Action算子，将积累的所有算子一次性执行。</p>
+<p>spark 和mapreduce 的区别：</p>
+<ul>
+<li>性能</li>
+</ul>
+<p>Spark在内存中处理数据，而MapReduce是通过map和reduce操作在磁盘中处理数据。所以从这方面讲Spark的性能是超过MapReduce的。但是当数据量比较大，无法全部读入内存时，MapReduce就比较有优势。当涉及需要重复读取同样的数据进行迭代式计算的时候，Spark比较有优势；但是当涉及到单次读取，类似ETL操作任务时，适合用MapReduce进行处理。</p>
+<ul>
+<li>容错</li>
+</ul>
+<p>当执行中途失败时，MapReduce会从失败处继续执行，因为它是依赖于硬盘驱动器的。但是Spark就必须从头开始执行，这样MapReduce相对节省了时间。</p>
+<ul>
+<li>应用场景</li>
+</ul>
+<p>MapReduce主要是进行离线计算处理，计算一些已存在的数据，比如对已存在的订单或者日志进行分析。而Spark可以应用在一些实时查询和迭代分析的场景，比如像推荐系统。</p>
+<p>spark的有几种部署模式，每种模式特点？</p>
+<ul>
+<li>本地模式</li>
+</ul>
+<p>Spark不一定非要跑在hadoop集群，可以在本地，起多个线程的方式来指定。方便调试，本地模式分三类
+local：只启动一个executor
+local[k]: 启动k个executor
+local[*]：启动跟cpu数目相同的 executor</p>
+<ul>
+<li>standalone模式</li>
+</ul>
+<p>分布式部署集群，自带完整的服务，资源管理和任务监控是Spark自己监控，这个模式也是其他模式的基础</p>
+<ul>
+<li>Spark on yarn模式</li>
+</ul>
+<p>分布式部署集群，资源和任务监控交给yarn管理
+粗粒度资源分配方式，包含cluster和client运行模式
+cluster 适合生产，driver运行在集群子节点，具有容错功能
+client 适合调试，dirver运行在客户端</p>
+<p>spark on yarn 的支持两种模式
+1）yarn-cluster：适用于生产环境；
+2）yarn-client：适用于交互、调试，希望立即看到app的输出</p>
+<p><a href="https://matt33.com/2018/09/01/yarn-architecture-learn/">YARN 架构学习总结</a></p>
+<p><a href="https://cloud.tencent.com/developer/article/1074740">Spark核心技术原理透视二（Spark运行模式</a>
+<a href="https://www.zybuluo.com/sasaki/note/252413">谈谈Spark运行模式</a></p>
+<ul>
+<li>Spark On Mesos模式</li>
+</ul>
+<p>spark有哪些组件？</p>
+<p>master：管理集群和节点，不参与计算。
+worker：计算节点，进程本身不参与计算，和master汇报。
+Driver：运行程序的main方法，创建spark context对象。
+spark context：控制整个application的生命周期，包括dagsheduler和task scheduler等组件。
+client：用户提交程序的入口。</p>
+<p>spark架构与生态</p>
+<ul>
+<li>Spark Core</li>
+<li>Spark SQL</li>
+<li>Spark Streaming：对实时数据流进行处理和控制。Spark Streaming允许程序能够像普通RDD一样处理实时数据。</li>
+<li>MLlib：一个常用机器学习算法库，算法被实现为对RDD的Spark操作。这个库包含可扩展的学习算法，比如分类、回归等需要对大量数据集进行迭代的操作。</li>
+<li>GraphX</li>
+</ul>
+<p>hadoop分为 MapReduce 与 分布式文件系统(HDFS)</p>
+<ul>
+<li>MapReduce:</li>
+</ul>
+<p>仅支持Map和Reduce两种操作
+Map中间结果需要写磁盘
+任务调度和启动开销大
+无法充分利用内存
+Map和Reduce都需要排序
+不适合迭代计算</p>
+<ul>
+<li>Spark：</li>
+</ul>
+<p>丰富的API（Java、Scala、Python、R四种语言，sort、join等高效算子）
+DAG执行引擎，中间结果不落盘
+线程池模型减少task启动开销
+充分利用内存，减少磁盘IO
+避免不必要的排序操作
+适合迭代计算，比如机器学习算法</p>
+<ul>
+<li>RDD</li>
+</ul>
+<p>spark 涉及的核心概念就是resilient distributed dataset (RDD)，rdd是具有容错性的数据集合，并可以并行数据计算。有两种方法可以创建rdd,第一种就是parallelizing 方法：序列化存在driver program 中的集合，见下方代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">val data = Array(1, 2, 3, 4, 5)
+val distData = sc.parallelize(data)
+</code></pre></td></tr></table>
+</div>
+</div><p>并parallelize 方法中可以指定数据分区参数，并每个分区对应一个task 如下面代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">val data = Array(1, 2, 3, 4, 5)
+val distData = sc.parallelize(data,10)
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://upload.cc/i1/2019/10/17/HvBTyr.png"></a></p>
+<p>窄依赖是指每个父RDD的Partition最多被子RDD的一个Partition所使用，例如map、filter，见上左图
+宽依赖是指一个父RDD的Partition会被多个子RDD的Partition所使用，例如groupByKey、reduceByKey等</p>
+<p>RDD（Resilient Distributed Dataset）叫做弹性分布式数据集，是Spark中最基本的数据抽象，它代表一个不可变、可分区、元素可并行计算的集合。</p>
+<p>RDD的弹性表现:
+1、弹性之一：自动的进行内存和磁盘数据存储的切换；
+2、弹性之二：基于Lineage的高效容错（第n个节点出错，会从第n-1个节点恢复，血统容错）；
+3、弹性之三：Task如果失败会自动进行特定次数的重试（默认4次）；
+4、弹性之四：Stage如果失败会自动进行特定次数的重试（可以只运行计算失败的阶段）；只计算失败的数据分片；</p>
+<p>RDD的持久化是spark的一个重要的特性，当你把RDD持久化，每个Node会存储RDD的分区在内存，在其他action中用到此rdd的时候，就不用从头转化，而是直接使用。你可以用persist或者cache方法持久化rdd，Spark的 缓 存是一个容 错 的技 术 -如果RDD的任何一个分区 丢 失，它 可以通 过 原有的 转换 （ transformations ）操作自 动 的重复 计 算并且 创 建出 这 个分区。另外，每一个RDD可以选择不同的持久化级别.</p>
+<p>​</p>
+<p>RDD 的创建方式主要有2种:</p>
+<ul>
+<li>并行化(Parallelizing)一个已经存在与驱动程序(Driver Program)中的集合如set、list;</li>
+<li>读取外部存储系统上的一个数据集，比如HDFS、Hive、HBase,或者任何提供了Hadoop InputFormat的数据源.也可以从本地读取 txt、csv 等数据集</li>
+</ul>
+<p>RDD 的操作函数(operation)主要分为2种类型 Transformation 和 Action</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th style="text-align:center">函数</th>
+<th style="text-align:right">区别</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Transformation</td>
+<td style="text-align:center">Map,filter,groupBy,join, union,reduce,sort,partitionBy</td>
+<td style="text-align:right">返回值还是 RDD,不会马上 提交 Spark 集群运行</td>
+</tr>
+<tr>
+<td>Action</td>
+<td style="text-align:center">count,collect,take,save, show</td>
+<td style="text-align:right">返回值不是 RDD,会形成 DAG 图,提交 Spark 集群运行 并立即返回结果</td>
+</tr>
+</tbody>
+</table>
+<p>Spark运行模式？</p>
+<p>（这四种运行模式是需要好好看看的）
+Spark On Local
+Spark On Local Cluster（Spark Standalone）
+Spark On Yarn
+Spark Cluster模式</p>
+<p>常见的Spark的性能瓶颈有哪些？</p>
+<p>影响性能的主要因素是Shuffle，可以优化代码减少不必要的Stage数量及Shuffle数据量以改进Shuffle性能。由于Shuffle的中间结果数据都是要落磁盘的，所以可以考虑给服务器加SSD（一般100G左右就够了），将Spark的tmp目录设置为SSD目录，性能提升20%左右。</p>
+<p>其次是IO，网络IO建议上万兆网络（这也是影响Shuffle性能的一个因素），对于磁盘IO，一般是给服务器设置多块单盘，不要做RAID！挂载磁盘时设置noatime，提高磁盘IO性能。</p>
+<p>最后是CPU，Spark做计算如果数据已经加载到内存了，CPU就比较容易成为计算瓶颈，代码方面主要是优化计算，减少计算量，同时也要关注计算任务是否有数据倾斜的现象；硬件方面只能换性能更强劲的CPU了。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">正常的数据分布理论上都是倾斜的，就是我们所说的20-80原理：80%的财富集中在20%的人手中, 80%的用户只使用20%的功能 , 20%的用户贡献了80%的访问量 , 不同的数据字段可能的数据倾斜一般有两种情况。
+
+什么是数据倾斜
+简单的讲，数据倾斜就是我们在计算数据的时候，数据的分散度不够，导致大量的数据集中到了一台或者几台机器上计算，这些数据的计算速度远远低于平均计算速度，导致整个计算过程过慢。
+
+以Hadoop和Spark是最常见的两个计算平台，下面就以这两个平台说明：
+Hadoop中的数据倾斜
+- Hadoop中的数据倾斜主要表现在ruduce阶段卡在99.99%，一直99.99%不能结束。
+
+Spark中的数据倾斜的表现
+- 单个Executor执行时间特别久，整体任务卡在某个阶段不能结束
+- Executor lost，OOM，Shuffle过程出错
+
+
+数据倾斜的原理
+我们以Spark和Hive的使用场景为例。他们在做数据运算的时候会设计到，countdistinct、group by、join等操作，这些都会触发Shuffle动作，一旦触发，所有相同key的值就会拉到一个或几个节点上，就容易发生单点问题。
+
+
+
+
+
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="https://ftp.bmp.ovh/imgs/2019/10/62a4ef4f63e2329b.png" alt=""></p>
+<p>大部分数据倾斜的原理就类似于下图，很明了，因为数据分布不均匀，导致大量的数据分配到了一个节点。</p>
+<p>如何解决这种问题
+1.业务逻辑，我们从业务逻辑的层面上来优化数据倾斜，比如上面的例子，我们单独对这两个城市来做count，最后和其它城市做整合。
+2.程序层面，比如说在Hive中，经常遇到count（distinct）操作，这样会导致最终只有一个reduce，我们可以先group 再在外面包一层count，就可以了。
+3.调参方面，Hadoop和Spark都自带了很多的参数和机制来调节数据倾斜，合理利用它们就能解决大部分问题。</p>
+<p>硬盘有机械硬盘(HDD)和固态硬盘(SSD)</p>
+<p>针对不同的作业类型，在对集群进行良好配置的提前下，spark作业最耗时的部分往往是因为集群资源的限制，主要体现在三个方面：CPU、DISK IO、NETWORK IO。spark将作业拆分成的单元是stage，不同的stage内部执行不同的逻辑。stage内部既有io操作，也有cpu计算操作，还会有network（主要是shuffle引起的），当这三个部分其中某一部分所占的比例较大时，在资源占用上就会体现出这一部分的bottleneck。例如，</p>
+<p>这样一个stage，就是简单的从hdfs中读取文本数据计算有多少行。几乎没有cpu操作，shuffle的量也很小，主要的操作在DISK IO上，因此，这个stage耗时最长的部分就是在磁盘读写上。因此，判断一个作业最耗时的部分，需要实际的去分析stage的执行逻辑，结合实际的资源占用情况，这样才能的到准确完整的答案</p>
+<p>对于不同的计算场景，io，shuffle，cpu都有可能成为计算瓶颈。
+一般来说，做统计的时候io是最大的瓶颈，做数据挖掘的时候比较慢的是shuffle和cpu。</p>
+<p>Shuffle的作用是什么？</p>
+<p>Shuffle的中文解释为“洗牌操作”，可以理解成将集群中所有节点上的数据进行重新整合分类的过程。其思想来源于hadoop的mapReduce,Shuffle是连接map阶段和reduce阶段的桥梁。由于分布式计算中，每个阶段的各个计算节点只处理任务的一部分数据，若下一个阶段需要依赖前面阶段的所有计算结果时，则需要对前面阶段的所有计算结果进行重新整合和分类，这就需要经历shuffle过程。
+在spark中，RDD之间的关系包含窄依赖和宽依赖，其中宽依赖涉及shuffle操</p>
+<p>filter map flatMap等操作属于transform，rdd经过若干的transform，直到action（如take count isEmpty foreach foreachPartition）才会真正执行。</p>
+<p>spark 中常见的action 算子
+Action类算子也是一类算子（函数）叫做行动算子，如foreach,collect，count等。Transformations类算子是延迟执行，Action类算子是触发执行。一个application应用程序（就是我们编写的一个应用程序）中有几个Action类算子执行，就有几个job运行。</p>
+<p>reduce</p>
+<p>通过函数func聚集数据集中的所有元素，这个函数必须是关联性的，确保可以被正确的并发执行</p>
+<p>collect
+在driver的程序中，以数组的形式，返回数据集的所有元素，这通常会在使用filter或者其它操作后，返回一个足够小的数据子集再使用</p>
+<p>count
+返回数据集的元素个数</p>
+<p>first
+返回数据集的第一个元素(类似于take(1))</p>
+<p>take
+返回一个数组，由数据集的前n个元素组成。</p>
+<p>takeSample(withReplacement,num,seed)</p>
+<p>withReplacement:结果中是否可重复
+num:取多少个
+seed:随机种子</p>
+<p>返回一个数组，在数据集中随机采样num个元素组成，可以选择是否用随机数替换不足的部分，seed用于指定的随机数生成器种子</p>
+<p>saveAsTextFile</p>
+<p>saveAsTextFile用于将RDD以文本文件的格式存储到文件系统中</p>
+<p>hadoop: java
+hive: jave
+storm: clojure, jstorm java
+kafka: scala
+spark: scala
+flink: scala</p>
+<p>Spark is a fast and general engine for large-scale data processing.</p>
+<ul>
+<li>speed, run programs up to 100x faster than hadoop mapreduce in memory, or 10x faster on disk.</li>
+<li>ease of use, Java, Scala, Python, R</li>
+<li>combine SQL(离线任务), streaming（实时任务）, and complex analytics.</li>
+<li>run everywhere,  Spark runs on Hadoop, Mesos, standalone(这个是spark 自己的), or in the cloud. It can access diverse data sources including HDFS, Cassandra, HBase, and S3.</li>
+</ul>
+<p>有三种下载方式</p>
+<ol>
+<li>spark 官网</li>
+<li>github 托管</li>
+<li>arkive.apache.cn</li>
+</ol>
+<p><a href="https://www.bilibili.com/video/av21494023/?p=54">安装指南</a></p>
+<p>collect是收集起来，然后展示。
+spark 中的方法通常是被称为算子</p>
+<p>什么是 RDD?</p>
+<p>RDD( Resilient  distributed dataset) 叫做分布式数据集，是Spark 中最基本的数据抽象，它代表一个不可变，可分区，里面的位置可并行计算的集合。RDD 具有数据流模型的特点：自动容错，位置感知性调度和可伸缩性，RDD 允许用户执行多个查询时显式将工作集缓存在内存中，后序的查询能够重用工作集，极大的提供了查询的速度。</p>
+<p>RDD 的属性？（多看）</p>
+<p>生成RDD的两种方式</p>
+<p>一种是使用textFile()
+一种使用parallelize()</p>
+<p>两种类型的算法
+主要是从运行效率角度考虑</p>
+<p>transformation（转换类型），仅仅记录一个运算过程，只有当 action类型的动作产生，那么才会运行。
+action（动作类型），生成一个任务就提交了集群上进行计算，所以一定要记住 action 类型的算子，基于优化的角度，慎用。</p>
+<p>查找官方 spark programming guide, 官网中的 transformation 是常用的类型，不是全部的转换类型。</p>
+<p>存储mysql 数据库，使用 mappartitions 而不是 map进行操作，减少调用的次数。</p>
+<p><strong>常见的transformation 类型</strong></p>
+<ul>
+<li>map (func)  每一个元素 一个个根据 func 进行处理</li>
+<li>filter  需要给定一个filter 的逻辑</li>
+<li>flatmap 先是压平，然后处理</li>
+<li>mappartitions 取出数据的分区进行遍历，一个个分区进行处理</li>
+<li>sample 抽样</li>
+<li>union</li>
+<li>intersection</li>
+<li>distinct 去重</li>
+<li>groupbykey 使用key 进行分组，相同key 就分到一块</li>
+<li>reducebykey 使用key 来做聚合</li>
+<li>aggregatebykey</li>
+<li>sortbykey  使用key 来做排序</li>
+<li>join 左连接 和右连接</li>
+<li>repartition 重新分区</li>
+</ul>
+<p>** 常见的action **</p>
+<ul>
+<li>reduce 聚合</li>
+<li>collect</li>
+<li>count</li>
+<li>first 拿到第一个元素</li>
+<li>take (n) 拿到前 n 个元素</li>
+<li>take Sample 抽样</li>
+<li>takeOrdered 排序之后再去取元素</li>
+<li>saveAsTextFile(path) 存储</li>
+<li>foreach 没有返回值（和map 不一样，map 处理之后是有返回值的）， 比如说拿到数据并且存储到数据库</li>
+</ul>
+<p>MapReduce 6个过程</p>
+<p><img src="https://ftp.bmp.ovh/imgs/2019/10/885ded3d1dbfbe91.png" alt=""></p>
+<p>如何去优化 shuffle 过程？
+这个博客讲解的很好<a href="https://matt33.com/2016/03/02/hadoop-shuffle/">hadoop 中的shuffle</a></p>
+<h2 id="集中式和分布式的讲解">集中式和分布式的讲解</h2>
+<p>集中式开发：是将项目集中存放在中央服务器中，在工作的时候，大家只在自己电脑上操作，从同一个地方下载最新版本，然后开始工作，做完的工作再提交给中央服务器保存。使用一句话概括：一个主机有多个终端，终端没有数据处理能力，仅仅负责数据的录入和输出。</p>
+<img src="https://i.loli.net/2020/04/11/fTj1ulYzBbiyEmI.png" width="60%" height="60%">
+<p>优点：</p>
+<p>集中式架构的优势在于可靠性、一致性和稳定性</p>
+<p>部署简单</p>
+<p>缺点：</p>
+<p>需要联网才能工作，如果在局域网，需要带宽够大；</p>
+<p>缺点在于不适用于非结构化数据，特别是在支撑力有限的前提下，但对顶层设计的要求偏高</p>
+<p>应用场景：</p>
+<p>然而由于历史上的种种原因，集中式架构多用于传统的银行、电信、交通、医疗等行业，操作系统、中间件、数据库等“基础软件”多为闭源商用系统，“稳定、安全”几乎是集中式架构的代名词。</p>
+<p>分布式开发：只要提供一台电脑作为版本集中存的服务器放就够了，但这个服务器的作用仅仅是用来方便“交换”大家的修改，没有它也一样干活，只是交换修改不方便而已。</p>
+<img src="https://i.loli.net/2020/04/11/VwCE8NTdxFOfRyn.png" width="60%" height="60%">
+<p>优点</p>
+<p>安全性高：某一个节点坏了，也是没有关系，随便从另一节点上拷贝进行了。</p>
+<p>性价比更高，处理能力强，可扩展性高。</p>
+<p>缺点</p>
+<p>应用场景 ：</p>
+<p>互联网公司</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-04-15
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/hadoop/">hadoop</a>
+          <a href="/tags/spark/">spark</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/a-not-so-gentle-introduction-to-hyperparameters-tuning/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">A Not So Gentle Introduction to Hyperparameters Tuning</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/inverted_index/">
+            <span class="next-text nav-default">Inverted Index</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

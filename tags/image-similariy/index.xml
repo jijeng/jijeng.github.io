@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>image similariy on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/image-similariy/</link>
+    <description>Recent content in image similariy on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 30 Jul 2020 14:03:22 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/image-similariy/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>基于hash 的图像相似度的计算</title>
+      <link>http://jijeng.github.io/post/image_simialrity_hash/</link>
+      <pubDate>Thu, 30 Jul 2020 14:03:22 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/image_simialrity_hash/</guid>
+      <description>&lt;p&gt;使用hash 计算图像的相似度，是在图像预处理中去除重复的图像。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

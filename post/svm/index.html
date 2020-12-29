@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>SVM All You Need to Know - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="本文主要介绍SVM 相关内容，包括理论原理、在线性可分条件下的公式推导和 SVM的应用特点。最后综合 LR 和 Decision Tree的这篇博客，给出了一些小的建议。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/svm/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="SVM All You Need to Know" />
+<meta property="og:description" content="本文主要介绍SVM 相关内容，包括理论原理、在线性可分条件下的公式推导和 SVM的应用特点。最后综合 LR 和 Decision Tree的这篇博客，给出了一些小的建议。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/svm/" />
+<meta property="article:published_time" content="2019-06-08T16:51:21+08:00" />
+<meta property="article:modified_time" content="2019-06-08T16:51:21+08:00" />
+<meta itemprop="name" content="SVM All You Need to Know">
+<meta itemprop="description" content="本文主要介绍SVM 相关内容，包括理论原理、在线性可分条件下的公式推导和 SVM的应用特点。最后综合 LR 和 Decision Tree的这篇博客，给出了一些小的建议。">
+<meta itemprop="datePublished" content="2019-06-08T16:51:21+08:00" />
+<meta itemprop="dateModified" content="2019-06-08T16:51:21+08:00" />
+<meta itemprop="wordCount" content="2823">
+
+
+
+<meta itemprop="keywords" content="svm," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="SVM All You Need to Know"/>
+<meta name="twitter:description" content="本文主要介绍SVM 相关内容，包括理论原理、在线性可分条件下的公式推导和 SVM的应用特点。最后综合 LR 和 Decision Tree的这篇博客，给出了一些小的建议。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">SVM All You Need to Know</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-06-08 </span>
+        <div class="post-category">
+            <a href="/categories/machine-learning/"> machine learning </a>
+            </div>
+          <span class="more-meta"> 约 2823 字 </span>
+          <span class="more-meta"> 预计阅读 6 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#svm-理论">SVM 理论</a>
+          <ul>
+            <li><a href="#svm-原理">SVM 原理</a></li>
+            <li><a href="#svm-为什么采用间隔最大化">SVM 为什么采用间隔最大化</a></li>
+            <li><a href="#为什么要将求解-svm-的原始问题转换为其对偶问题">为什么要将求解 SVM 的原始问题转换为其对偶问题</a></li>
+            <li><a href="#为什么-svm-要引入核函数">为什么 SVM 要引入核函数</a></li>
+            <li><a href="#为什么svm对缺失数据敏感">为什么SVM对缺失数据敏感</a></li>
+            <li><a href="#svm-核函数之间的区别">SVM 核函数之间的区别</a></li>
+            <li><a href="#支持向量">支持向量</a></li>
+          </ul>
+        </li>
+        <li><a href="#svm公式推导线性可分条件下">SVM公式推导(线性可分条件下)</a></li>
+        <li><a href="#svm的特点">SVM的特点</a></li>
+        <li><a href="#takeoff">TakeOff</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>本文主要介绍SVM 相关内容，包括理论原理、在线性可分条件下的公式推导和 SVM的应用特点。最后综合 LR 和 Decision Tree的<a href="https://jijeng.github.io/2019/06/09/lr/">这篇博客</a>，给出了一些小的建议。</p>
+<h2 id="svm-理论">SVM 理论</h2>
+<p>支持向量机分为三个部分，线性可分支持向量机、线性支持向量机、非线性支持向量机。</p>
+<h3 id="svm-原理">SVM 原理</h3>
+<p>SVM 是一种二类分类模型。它的基本模型是在特征空间中寻找间隔最大化的分离超平面的线性分类器。</p>
+<p>当训练样本线性可分时，通过硬间隔最大化，学习一个线性分类器，即线性可分支持向量机；
+当训练数据近似线性可分时，引入松弛变量，通过软间隔最大化，学习一个线性分类器，即线性支持向量机；
+当训练数据线性不可分时，通过使用核技巧及软间隔最大化，学习非线性支持向量机。
+以上各种情况下的数学推到应当掌握，硬间隔最大化（几何间隔）、学习的对偶问题、软间隔最大化（引入松弛变量）、非线性支持向量机（核技巧）。</p>
+<h3 id="svm-为什么采用间隔最大化">SVM 为什么采用间隔最大化</h3>
+<p>当训练数据线性可分时，存在无穷个分离超平面可以将两类数据正确分开。感知机利用误分类最小策略，求得分离超平面，不过此时的解有无穷多个。线性可分支持向量机利用间隔最大化求得最优分离超平面，这时，解是唯一的。另一方面，此时的分隔超平面所产生的分类结果是最鲁棒的，对未知实例的泛化能力最强。可以借此机会阐述一下几何间隔以及函数间隔的关系。</p>
+<h3 id="为什么要将求解-svm-的原始问题转换为其对偶问题">为什么要将求解 SVM 的原始问题转换为其对偶问题</h3>
+<p>一是对偶问题往往更易求解，当我们寻找约束存在时的最优点的时候，约束的存在虽然减小了需要搜寻的范围，但是却使问题变得更加复杂。为了使问题变得易于处理，我们的方法是把目标函数和约束全部融入一个新的函数，即拉格朗日函数，再通过这个函数来寻找最优点。二是可以自然引入核函数，进而推广到非线性分类问题。</p>
+<h3 id="为什么-svm-要引入核函数">为什么 SVM 要引入核函数</h3>
+<p>当样本在原始空间线性不可分时，可将样本从原始空间映射到一个更高维的特征空间，使得样本在这个特征空间内线性可分。而引入这样的映射后，所要求解的对偶问题的求解中，无需求解真正的映射函数，而只需要知道其核函数。核函数的定义：K(x,y)=&lt;ϕ(x),ϕ(y)&gt;，即在特征空间的内积等于它们在原始样本空间中通过核函数 K 计算的结果。一方面数据变成了高维空间中线性可分的数据，另一方面不需要求解具体的映射函数，只需要给定具体的核函数即可，这样使得求解的难度大大降低。
+<img src="http://ws1.sinaimg.cn/large/e9a223b5ly1g3tlf561hbj20em07bmxe.jpg" alt=""></p>
+<h3 id="为什么svm对缺失数据敏感">为什么SVM对缺失数据敏感</h3>
+<p>这里说的缺失数据是指缺失某些特征数据，向量数据不完整。SVM 没有处理缺失值的策略。而 SVM 希望样本在特征空间中线性可分，所以特征空间的好坏对SVM的性能很重要。缺失特征数据将影响训练结果的好坏。</p>
+<h3 id="svm-核函数之间的区别">SVM 核函数之间的区别</h3>
+<p>一般选择线性核和高斯核，也就是线性核与 RBF 核。 线性核：主要用于线性可分的情形，参数少，速度快，对于一般数据，分类效果已经很理想了。 RBF 核：主要用于线性不可分的情形，参数多，分类结果非常依赖于参数。有很多人是通过训练数据的交叉验证来寻找合适的参数，不过这个过程比较耗时。 如果 Feature 的数量很大，跟样本数量差不多，这时候选用线性核的 SVM。 如果 Feature 的数量比较小，样本数量一般，不算大也不算小，选用高斯核的 SVM。</p>
+<p>以上是几个问题在面试中遇到 SVM 算法时，几乎是必问的问题，另外，大家一定要做到自己可以推导集合间隔、函数间隔以及对偶函数，并且理解对偶函数的引入对计算带来的优势。</p>
+<h3 id="支持向量">支持向量</h3>
+<p><img src="http://ws1.sinaimg.cn/large/e9a223b5ly1g3tlp6gqqzj20af07pweh.jpg" alt=""></p>
+<p>如图所示，上面只有三个点与求解的优化问题有关，它们就叫做支持向量。</p>
+<h2 id="svm公式推导线性可分条件下">SVM公式推导(线性可分条件下)</h2>
+<p>假定样本空间如下
+$$
+{ ( x _ { 1 } , y _ { 1 } ) , ( x _ { 2 } , y _ { 2 } ) , \ldots , ( x _ { N } , y _ { N } ) }
+$$</p>
+<p>共有N个向量，其中$x_k$是一个特征向量而不是一个单一数值。</p>
+<p>假设超平面能够将训练样本正确分类，那么就有以下的式子成立：</p>
+<ol>
+<li>这是一个二分类问题，所以$y=+1 $或者$ y=−1$。那么我们就可以得到</li>
+</ol>
+<p>$$ y = \begin{cases}
++1 &amp;  w^Tx +b &gt; 0 \\<br>
+-1 &amp;  w^Tx +b &lt;0
+\end{cases}$$</p>
+<p>上面是逻辑回归的思路，没有一点的缓冲余地。如实SVM 使用下面的判别式：</p>
+<p>$$ y = \begin{cases}
++1 &amp;  w^Tx +b &gt;= +1 \\<br>
+-1 &amp;  w^Tx +b &lt;= -1
+\end{cases}$$</p>
+<p>上面距离超平面最近的几个训练样本点使上式的等号成立，这几个训练样本被称为支持向量，两个异类支持向量到超平面的距离</p>
+<p>那么，我们可以得到
+$$
+y _ { i } \cdot ( w ^ { T } x _ { i } + b ) \geq 1 , i = 1,2 , \ldots , N
+$$</p>
+<ol start="2">
+<li>因为我们现在只讨论线性可分情况下的支持向量机，那么在这个样本空间中一定存在一个超平面可以将样本集按照y的值分割城两个部分，这个超平面可以表示为</li>
+</ol>
+<p>$$
+w ^ { T } x + b = 0
+$$</p>
+<ol start="3">
+<li>根据这个超平面的表达式以及第一步推到中我们得到的结果，可以得到这个样本集中任意一个样本点距离超平面的距离：</li>
+</ol>
+<p>$$
+\gamma = \frac { | w ^ { T } x + b | } { | w | } \geq \frac { 1 } { | w | }
+$$</p>
+<p>两个异类支持向量到超平面的距离之和，也称为间隔，为</p>
+<p>$$
+\gamma = \frac { 2 } { | w | }
+$$</p>
+<ol start="4">
+<li>由此，根据第一步和第三步的结果，我们可以得到最基本的目标函数：</li>
+</ol>
+<p>$$\arg \max _ { w , b } \frac { 2 } { | w | } ,  \text {s.t. } y _ { i } ( w ^ { T } x _ { i } + b ) \geq 1 , i = 1,2 , \ldots , N$$</p>
+<ol start="5">
+<li>我们还可以对这个目标函数进一步做变化：</li>
+</ol>
+<p>$$\arg \min _ { w , b } \frac { 1 } { 2 } | w | ^ { 2 }, \text {s.t. } y _ { i } ( w ^ { T } x _ { i } + b ) \geq 1 , i = 1,2 , \ldots , N $$</p>
+<ol start="6">
+<li>我们无法继续直接进行计算了，因此引入拉格朗日乘子</li>
+</ol>
+<p>$$
+L ( w , b , \alpha ) = \frac { 1 } { 2 } | w | ^ { 2 } + \sum _ { i } \alpha _ { i } [ 1 - y _ { i } ( w ^ { T } x _ { i } + b ) ]
+$$</p>
+<ol start="7">
+<li>
+<p>对w和b分别求L的偏导，并令其偏导数等于0：
+$$\frac { \partial L } { \partial w } = w - \sum _ { i } \alpha _ { i } y _ { i } x _ { i } = 0 \Rightarrow w = \sum _ { i } \alpha _ { i } y _ { i } x _ { i }$$
+$$\frac { \partial L } { \partial b } = \sum _ { i } \alpha _ { i } y _ { i } = 0$$</p>
+</li>
+<li>
+<p>将第七步得到的w和b代入L函数</p>
+</li>
+</ol>
+<p><img src="http://ws1.sinaimg.cn/large/e9a223b5ly1g3tmfcsgk1j20y60gg74q.jpg" alt=""></p>
+<ol start="9">
+<li>至此，我们的目标函数已经变成了</li>
+</ol>
+<p>$$
+\arg \max _ { \alpha } ( \sum _ { i } \alpha _ { i } - \frac { 1 } { 2 } \sum _ { i } \sum _ { j } \alpha _ { i } \alpha _ { j } y _ { i } y _ { j } x _ { i } ^ { T } x _ { j } )
+$$</p>
+<p>$$
+\text { s.t. } \sum _ { i } \alpha _ { i } y _ { i } = 0
+$$</p>
+<p>$$
+\alpha _ { i } \geq 0 , i = 1,2 , \ldots , N
+$$</p>
+<ol start="10">
+<li>用<strong>数值方法</strong>解出α以后，我们带入式子 7就可以得到</li>
+</ol>
+<p>$$
+w^ { * } = \sum _ { i } \alpha _ { i } ^ { * } y _ { i } x _ { i }
+$$</p>
+<h2 id="svm的特点">SVM的特点</h2>
+<p>SVM的优点：
+就是当大量的特征出现的时候，使用SVM handle large feature spaces; 然而此时 LR 不是一个很好的选择。</p>
+<blockquote>
+<p>SVM can handle large feature spaces which makes them one of the favorite algorithms in text analysis which almost always results in huge number of features where logistic regression is not a very good choice.</p>
+</blockquote>
+<p>SVM Pros:</p>
+<ul>
+<li>Can handle large feature space</li>
+<li>Can handle non-linear feature interactions</li>
+<li>Do not rely on entire data</li>
+</ul>
+<p>SVM Cons:</p>
+<ul>
+<li>Not very efficient with large number of observations</li>
+<li>It can be tricky to find appropriate kernel sometimes</li>
+</ul>
+<p>核函数的作用：</p>
+<ol>
+<li>核函数是将原始空间线性不可分，映射到一个高纬的特征空间，使得样本在这个维度变得线性可分。</li>
+<li>核函数的种类： 分为线性核函数和高斯核函数。前者参数少，计算量小，如果是特征数量比较大，那么是可以考虑线性核函数；如果特征数量比较小，可以考虑高斯核函数。</li>
+</ol>
+<h2 id="takeoff">TakeOff</h2>
+<p>首先使用 LR 进行尝试，不妨试一下 DT，然后 如果特征比较多，但是数据量不是很多，这个时候使用SVM。
+Always start with logistic regression, if nothing then to use the performance as baseline
+See if decision trees (Random Forests) provide significant improvement. Even if you do not end up using the resultant model, you can use random forest results to remove noisy variables
+Go for SVM if you have large number of features and number of observations are not a limitation for available resources and time
+附上链接：
+<a href="https://www.edvancer.in/logistic-regression-vs-decision-trees-vs-svm-part2/">https://www.edvancer.in/logistic-regression-vs-decision-trees-vs-svm-part2/</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-06-08
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/svm/">svm</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/logistic_regression/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Logistic Regression 概念</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/sentence_embedding/">
+            <span class="next-text nav-default">Sentence Embedding</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

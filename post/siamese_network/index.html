@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Siamese Network - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="主要是介绍自己论文中的网络结构：siamese network。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/siamese_network/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Siamese Network" />
+<meta property="og:description" content="主要是介绍自己论文中的网络结构：siamese network。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/siamese_network/" />
+<meta property="article:published_time" content="2019-03-26T16:45:06+08:00" />
+<meta property="article:modified_time" content="2019-03-26T16:45:06+08:00" />
+<meta itemprop="name" content="Siamese Network">
+<meta itemprop="description" content="主要是介绍自己论文中的网络结构：siamese network。">
+<meta itemprop="datePublished" content="2019-03-26T16:45:06+08:00" />
+<meta itemprop="dateModified" content="2019-03-26T16:45:06+08:00" />
+<meta itemprop="wordCount" content="1301">
+
+
+
+<meta itemprop="keywords" content="siamese network," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Siamese Network"/>
+<meta name="twitter:description" content="主要是介绍自己论文中的网络结构：siamese network。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Siamese Network</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-03-26 </span>
+        <div class="post-category">
+            <a href="/categories/deep-learning/"> deep learning </a>
+            </div>
+          <span class="more-meta"> 约 1301 字 </span>
+          <span class="more-meta"> 预计阅读 3 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#loss-function">loss function</a></li>
+            <li><a href="#spectral-normalization">Spectral Normalization</a></li>
+            <li><a href="#self-attention-mechanism">self-attention mechanism</a></li>
+            <li><a href="#结果">结果</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>主要是介绍自己论文中的网络结构：siamese network。</p>
+<p>但凡优化，无非两条路：在好的基础上更快，在快的基础上效果更好。 Siamese network训练速度快，所以只是需要其在训练效果上更好。</p>
+<p>先来分析一下为什么训练速度快。那么不得不分析该网络结构。整个网络的输入是 (img1, img2, y) 这样的三元组，img 表示图片，y表示label。图片可以是同一类别的图片，也可以是不同类别的，y表示两张图片之间的相似程度，y的取值 (0,1)，0表示相似（同一类别），1 表示不相似（不同类别）。并且y 是double 类型，属于0-1 区间任意的数字。网路结构最后的输出是 0-1 区间的任意数字。通常是以0.5 作为分界线，如果小于0.5 那么认为两种图片是属于同一类别，或者说更相似；反之也成立。
+重要的一点是中间的weights 实现了权值共享，这样可以加快网络的训练速度。
+<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g1fwyu5fnsj20z90cq75v.jpg" alt=""></p>
+<h3 id="loss-function">loss function</h3>
+<p>这个是属于经典的 contrastive loss function (对比损失函数)。当y 接近于0的时候，右半部分消失，这个是表示两张图片很是相似，然后就不断使得 欧氏距离减少；当y 接近于1的时候，左半部分消失，这个时候两张图片很不相似，然后右边就是 hinge loss （合页损失函数）。参数m 作为一种margin 是是可以调节，我的实验中 m 取1.
+总的思想：就是使得相近的图像距离相近，不想近的图像距离变远。</p>
+<p>$L ( W , ( Y , X _ { 1 } , X _ { 2 } ) ) = ( 1 - Y ) \frac { 1 } { 2 } ( D _ { W } ) ^ { 2 } + ( Y ) \frac { 1 } { 2 } { \max ( 0 , m - D _ { W } ) } ^ { 2 }$</p>
+<h3 id="spectral-normalization">Spectral Normalization</h3>
+<p>图像输入到网络之前使用正则化，然后输入到激活函数之前也是使用正则化，所以这种效果也是扩展到 weights，直接对 weights 进行正则化使其符合  Lipschitz 约束，避免使用大的gradients。在GAN 网络中的 discriminator 或者 generator 都发现了其可以稳定训练的过程。在实验中，我们扩大了这种使用范围，把其应用到所有的网络的 layer上。</p>
+<p>** Lipschitz Continuity **</p>
+<p>在 GAN 中，假设我们有一个判别器 $\mathrm { D } : 1 \rightarrow \mathrm { R }$， 其中 I 是图像空间. 如果判别器是 K-Lipschitz continuous 的, 那么对图像空间中的任意 x 和 y，有</p>
+<p>$$
+| D ( x ) - D ( y ) | \leq K | x - y |
+$$</p>
+<p>其中 $ | \cdot | $ 为L2 norm，如果K 取到最小值，那么K 被称为 Lipschitz constant。</p>
+<p>直观来说，Lipschitz 条件限制了函数变化的剧烈程度，即函数的梯度。在一维空间中，很容易看出 y=sin(x) 是 1-Lipschitz 的，它的最大斜率是 1。</p>
+<h3 id="self-attention-mechanism">self-attention mechanism</h3>
+<p>Attention 机制自从 <a href="https://arxiv.org/pdf/1706.03762.pdf">“Attention Is All You Need”</a> 开始火爆，并且实验的效果也是很好的，然后在图像领域也开始尝试使用 attention 机制来解决长依赖的问题。应用到图像领域主要是 explore spatial locality information, 说白了就是细节的信息。</p>
+<blockquote>
+<p>If we look at the DCGAN model, we see that regular GANs are heavily based on convolution operations, which use a local receptive field (convolutional kernel) to learn representations. Simple features like edges and corners are learned in the first few layers. Also, ConvNets are able to use these simple representations to learn more complex ones. However, long-range dependency might be hard to learn. Long-range dependency (long-term dependency) is from RNN, which we can say anything larger than trigram as a long term dependency. Thus, most of the image content does not exhibit elaborated shape such as sky or the ocean looks fine. The task of creating geometrically complex forms, such as four-legged animals, is far more challenging. This is where attention comes into play.</p>
+</blockquote>
+<p>而 self-attention 中QKV 三个部分是相同的，对于这种处理方法和Res_block 还是有点相似的。
+<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g1fx354ispj210k0fsaae.jpg" alt=""></p>
+<h3 id="结果">结果</h3>
+<p>训练数据集使用是 Cifar-10，记录了训练过程中 acc 和loss 的变化情况。除了训练的效果比较好外，训练速度也是非常快的，可以清楚的看到model acc 在接近25 epoches的时候就开始收敛。
+<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g1fx3rncspj20hi0d20t9.jpg" alt=""></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-03-26
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/siamese-network/">siamese network</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/data_structure/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Data Structure</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/linear_algebra/">
+            <span class="next-text nav-default">Linear Algebra</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

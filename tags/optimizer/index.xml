@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>optimizer on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/optimizer/</link>
+    <description>Recent content in optimizer on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 17 Nov 2019 15:53:57 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/optimizer/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Optimizer</title>
+      <link>http://jijeng.github.io/post/optimizer/</link>
+      <pubDate>Sun, 17 Nov 2019 15:53:57 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/optimizer/</guid>
+      <description>&lt;p&gt;深度学习中优化器 （optimizer）讲解。根据学习率的情况分成三个阶段，基础版本Gradient Descent，然后是人工设置学习率阶段和自适应学习率阶段。最后对应pytorch，说明常用的几种学习率优化策略。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

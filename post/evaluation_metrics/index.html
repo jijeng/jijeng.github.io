@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Evaluation Metrics - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="介绍机器学习中分类模型常用的评价指标：AUC、Precision-Recall, ACC和KS值。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/evaluation_metrics/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Evaluation Metrics" />
+<meta property="og:description" content="介绍机器学习中分类模型常用的评价指标：AUC、Precision-Recall, ACC和KS值。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/evaluation_metrics/" />
+<meta property="article:published_time" content="2018-06-13T13:31:09+08:00" />
+<meta property="article:modified_time" content="2018-06-13T13:31:09+08:00" />
+<meta itemprop="name" content="Evaluation Metrics">
+<meta itemprop="description" content="介绍机器学习中分类模型常用的评价指标：AUC、Precision-Recall, ACC和KS值。">
+<meta itemprop="datePublished" content="2018-06-13T13:31:09+08:00" />
+<meta itemprop="dateModified" content="2018-06-13T13:31:09+08:00" />
+<meta itemprop="wordCount" content="7081">
+
+
+
+<meta itemprop="keywords" content="roc,precision &amp; recall," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Evaluation Metrics"/>
+<meta name="twitter:description" content="介绍机器学习中分类模型常用的评价指标：AUC、Precision-Recall, ACC和KS值。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Evaluation Metrics</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-06-13 </span>
+        <div class="post-category">
+            <a href="/categories/machine-learning/"> machine learning </a>
+            </div>
+          <span class="more-meta"> 约 7081 字 </span>
+          <span class="more-meta"> 预计阅读 15 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#roc曲线和auc值">ROC曲线和AUC值</a></li>
+        <li><a href="#precision-recall">Precision-Recall</a></li>
+        <li><a href="#pr和roc联系和区别">PR和ROC联系和区别</a></li>
+        <li><a href="#三大相关系数">三大相关系数</a></li>
+        <li><a href="#其他指标">其他指标</a></li>
+        <li><a href="#结论">结论</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>介绍机器学习中分类模型常用的评价指标：AUC、Precision-Recall, ACC和KS值。</p>
+<p>评估指标和代价函数的关系</p>
+<p>代价函数，又称Cost function，loss function objective function。一般用在训练过程中，用来定义预测值和真实值之间的距离（也就是衡量模型在训练集上的性能），作为模型调整参数的反馈。代价函数越小，模型性能越好。</p>
+<p>评判指标，一般用于训练和测试过程中，用于评估模型好坏。评判指标越大（或越小），模型越好。</p>
+<p>两者的相同点：本质上代价函数和评判指标都是一家人，只他们的应用场景不同，分工不同。代价函数是用来优化模型参数的，评价指标是用来评判模型好坏的。不同点：</p>
+<ul>
+<li>作为代价函数所具备的条件：函数光滑且可导：可用梯度下降求解极值；函数为凸函数：可用梯度下降求解最优解</li>
+<li>我们经常使用的分类器评判指标 AUC 就不能直接被优化，因此我们常采用交叉熵来代替 AUC 进行优化。 一般情况下，交叉熵越小，AUC 就会越大。</li>
+</ul>
+<h2 id="roc曲线和auc值">ROC曲线和AUC值</h2>
+<p>ROC全称是“受试者工作特征”（Receiver Operating Characteristic）。ROC曲线的面积就是AUC（Area Under the Curve）。AUC用于衡量“二分类问题”机器学习算法性能（泛化能力）。说到这里不得不提及就是经常使用的符号，TP(True Positive), FP(False, Positive), TN(True Negative),FN(False Negative)。他们是根据真实数据类别和模型预测类别进行的排列组合。</p>
+<p>（1）定义</p>
+<p>ROC 曲线（接收者操作特征曲线）是一种显示分类模型在所有分类阈值下的效果的图表。该曲线绘制了以下两个参数：真正例率 和 假正例率。真正例率 (TPR) 是召回率的同义词，数学表达为：
+$$
+T P R = \frac { T P } { T P + F N }
+$$
+假正例率 (FPR) 的定义如下：
+$$
+F P R = \frac { F P } { F P + T N }
+$$</p>
+<p>TPR 是所有真实样本中被预测为真实样本的比例；FPR是所有虚假样本中被预测为真实样本的概率。可以使用混淆矩阵表示上述的关系：</p>
+<p><img src="/Users/jijeng/Notes/images/image-20201116173156765.png" alt="image-20201116173156765" style="zoom:70%;" /></p>
+<p>图中第一类错误和第二类措施是假设检验中的概念。第一类错误是原来假设是错误的，但是却被认为是正确的；第二类错误是原来的假设是正确的，但是被认为是错误的。</p>
+<p>（2）ROC 曲线是如何绘制的</p>
+<p>采用不同分类阈值时的 TPR 与 FPR。降低分类阈值会导致将更多样本归为正类别，从而增加假正例（FP）和真正例（TP）的个数，可以理解为降低了被认为正确的标准，数量自然就增多了。下图显示了一个典型的 ROC 曲线。注意观察图中TPR 和 FPR是呈正相关的，验证了上述的结论。</p>
+<p><img src="https://i.loli.net/2019/12/19/g9EeoXuZdsTjrwS.png" alt="1.png"></p>
+<p>为了计算 ROC 曲线上的点，我们可以使用不同的分类阈值多次评估逻辑回归模型，但这样做效率非常低。幸运的是，有一种基于排序的高效算法可以为我们提供此类信息，这种算法称为曲线下面积。最理想的目标：tpr =1， fpr =0，即图中的 (0, 1) 点， 故 ROC 曲线越靠近(0, 1 ) 点，分类效果越好。关于该图像还有一点，如果你的曲线拟合对角线（图中虚线），那么相当于随机猜测。</p>
+<p>阈值设定的两种方法：</p>
+<p>1). 等距离阈值，range(0, 1, 100) 生成了100 个阈值，那么对应着p-r 中的100 个点
+2). 二分类结果是模型的概率值，对概率值进行排序，依次使用这些概率值作为阈值，也是可以得到不同的点的坐标。</p>
+<p>（3）基于sklearn 绘制ROC曲线</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">gbc</span> <span class="o">=</span> <span class="n">GradientBoostingClassifier</span><span class="p">()</span>
+<span class="n">gbc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">resu</span> <span class="o">=</span> <span class="n">gbc</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>  <span class="c1">#进行预测</span>
+<span class="n">y_pred_gbc</span> <span class="o">=</span> <span class="n">gbc</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">x_test</span><span class="p">)[:,</span><span class="mi">1</span><span class="p">]</span>  <span class="c1">###这玩意就是预测概率的</span>
+<span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">threshold</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_gbc</span><span class="p">)</span>   <span class="c1">###画图的时候要用预测的概率，而不是你的预测的值</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;AUC = </span><span class="si">%0.2f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">rocauc</span><span class="p">)</span><span class="c1">#生成ROC曲线</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r--&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;真正率&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;假正率&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>一般来说，如果ROC曲线是光滑的，那么基本可以判断没有太大的overfitting（比如下图中0.2到0.4可能就有问题，但是样本太少了），这个时候调模型可以只看AUC，面积越大一般认为模型越好。</p>
+<p><img src="https://i.loli.net/2019/08/01/5d421f9678f9649303.jpg" alt="1.jpg"></p>
+<p>（4）AUC 数值</p>
+<blockquote>
+<p>Alternatively, it can be shown that ROC AUC score is equivalent to calculating the rank correlation between predictions and targets. From an interpretation standpoint, it is more useful because it tells us that this metric shows how good at ranking predictions your model is. It tells you what is the probability that a randomly chosen positive instance is ranked higher than a randomly chosen negative instance.</p>
+</blockquote>
+<p>对于AUC 有两类解释：</p>
+<ul>
+<li>从ROC 线下面积理解：AUC量化了ROC曲线表达的分类能力；</li>
+<li>从概率角度理解：AUC就是从所有正样本（类别1）中随机选取一个样本， 从所有负样本（类别0）样本中随机选取一个样本，然后根据你的分类器对两个随机样本进行预测，把1样本预测为1的概率为 $ p_1$，把0样本预测为1的概率为 $p_0$，$p1&gt;p0 $的概率就等于AUC。所以AUC 反应的是分类器的排序能力。例如0.7的AUC，其含义可以大概理解为：给定一个正样本和一个负样本，在70%的情况下，模型对正样本的打分高于对负样本的打分。可以看出在这个解释下，我们关心的只有正负样本之间的分数高低，而具体的分值则无关紧要。</li>
+</ul>
+<p>AUC 的优点：不关注具体得分，只关注排序结果，这使得它特别适用于排序问题的效果评估，例如推荐排序的评估，CTR的线下评估</p>
+<p>AUC的缺点： AUC只关注正负样本之间的排序，并不关心正样本内部，或者负样本内部的排序。这也体现了AUC的本质：任意个正样本的概率都大于负样本的概率的能力。</p>
+<p>（5）应用场景</p>
+<blockquote>
+<p>You should use it when you ultimately care about ranking predictions and not necessarily about outputting well-calibrated probabilities
+You should not use it when your data is heavily imbalanced. The intuition is the following: false positive rate for highly imbalanced datasets is pulled down due to a large number of true negatives.
+You should use it when you care equally about positive and negative classes.</p>
+</blockquote>
+<h2 id="precision-recall">Precision-Recall</h2>
+<p>在分类模型评价中还有一个曲线：PR曲线。同样使用混淆矩阵中的参数定义如下：
+$$
+\text { Precision }=\frac{\mathrm{TP}}{\mathrm{TP}+\mathrm{FP}}
+$$</p>
+<p>准确率（precision）表示预测的样本中正样本的比例。（在所有预测的结果中，预测正确的比例）
+$$
+\text { Recall }=\frac{\mathrm{TP}}{\mathrm{TP}+\mathrm{FN}}
+$$</p>
+<p>召回（recall）表示真实为正样本被预测为正样本的比例。（在所有真正的样本中，预测正确的比例）</p>
+<p>AUC曲线中有 ROC值，类似的，P-R曲线中也有F 值，定义$F_{\beta}$分数为
+$$
+F_{\beta}=\left(1+\beta^{2}\right) \cdot \frac{\text {precision} \cdot \text {recall}}{\left(\beta^{2} \cdot \text {precision}\right)+\text {recall}}
+$$
+$F_β$的物理意义就是将准确率和召回率这两个分值合并为一个分值，在合并的过程中，召回率的权重是准确率的 $β $倍。F1分数认为召回率和准确率同等重要，F2分数认为召回率的重要程度是准确率的2倍，而 $F_{0.5}$分数认为召回率的重要程度是准确率的一半。</p>
+<p>实际中使$F_1$更加常见，即当$ \beta =1$时候。
+$$
+F_{\beta}= \frac{ 2 \cdot \text{Precision}  \cdot \text{Recall}}{ \text{Precision} + \text{Recall}}
+$$</p>
+<p>同样使用不同的阀值，统计出精确率和召回率。如下图：</p>
+<p><img src="https://i.loli.net/2019/08/01/5d422029970c282991.png" alt="1.png"></p>
+<p>准确率应用场景：</p>
+<p>如果做疾病监测、反欺诈，这种情况下正负样本严重失衡，则是保准确率的条件下，提升召回。</p>
+<p>召回率应用场景：</p>
+<ul>
+<li>如果是做搜索，那么需要保证召回的条件下，提升准确率。因为即使召回的不是正样本，那么也没有很大的影响。</li>
+<li>如果是精准营销领域的商品推荐模型，模型目的是尽量将商品推荐给感兴趣的用户，若用户对推荐的商品不感兴趣，也不会有很大损失，因此此时TPR相对FPR更重要。</li>
+</ul>
+<p>有时候你希望模型能够正确分类对（high precision）；有时候你希望模型能够尽可能得到所有的样本（high recall）。所以需要在这两者之间进行平衡。</p>
+<p>使用场景</p>
+<ul>
+<li>when you want to communicate precision/recall decision to other stakeholders</li>
+<li>when you want to choose the threshold that fits the business problem.</li>
+<li>when your data is heavily imbalanced. As mentioned before, it was discussed extensively in this article by Takaya Saito and Marc Rehmsmeier. The intuition is the following: since PR AUC focuses mainly on the positive class (PPV and TPR) it cares less about the frequent negative class.</li>
+<li>when you care more about positive than negative class. If you care more about the positive class and hence PPV and TPR you should go with Precision-Recall curve and PR AUC (average precision).</li>
+</ul>
+<h2 id="pr和roc联系和区别">PR和ROC联系和区别</h2>
+<p>（1）联系
+1). 对于一个给定的的数据集，ROC空间和PR空间存在一一对应的关系，因为二者包含完全一致的混淆矩阵。我们可以将ROC曲线转化为PR曲线，反之亦然。
+2). 都有一个曲线和一个数值进行衡量：F1对于PRC就好象AUC对于ROC一样。
+（2）区别
+1). 最大的区别：在正负样本分布得极不均匀(highly skewed datasets)的情况下，PRC比ROC能更有效地反应分类器的好坏。
+2). 图像上区别</p>
+<ul>
+<li>PR 曲线是以Precision 为纵轴，Recall 为横轴；而 ROC曲线则是以TPR 为纵轴，FPR 为横轴。</li>
+<li>“曲线A优于曲线B” 是指曲线 B 的所有部分与曲线 A 重合或在曲线 A 之下。而在ROC空间，ROC曲线越凸向左上方向效果越好。与ROC曲线左上凸不同的是，PR曲线是右上凸效果越好。</li>
+</ul>
+<p>3). 代码实现上</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>ROC 曲线</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">testy</span><span class="p">,</span> <span class="n">probs</span><span class="p">)</span>
+<span class="n">pyplot</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">pyplot</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="n">pyplot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">testy</span><span class="p">,</span> <span class="n">probs</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;AUC: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">auc_score</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>P-R曲线</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">pyplot</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">pyplot</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">recall</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="n">pyplot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;AUC: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">auc_score</span><span class="p">)</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>当正负样本的分布发生变化时，ROC曲线的形状能够基本保持不变，而P-R曲线的形状一般会发生较剧烈的变化。ROC能够尽量降低不同测试集带来的干扰，更加客观的衡量模型本身的性能。如果在实际应用中更加关注正样本的表现，那么P-R曲线更加适合。</p>
+<p>总体来说ROC曲线的适用场景更多，被广泛用于排序、推荐、广告等领域。但需要注意的是，选择P-R曲线还是ROC曲线是因实际问题而异的，如果研究者希望更多地看到模型在特定数据集上的表现，P-R曲线则能够更直观地反映其性能。</p>
+<p>（4）针对样本不均衡问题</p>
+<p>当样本不均衡时候，使用ACC 肯定是bad choice，这个时候可以尝试使用ROC。当样本极大不均衡且更加关注正样本（正样本少）时候，P-R曲线是更好的选择。</p>
+<h2 id="三大相关系数">三大相关系数</h2>
+<p>（1）Person correlation coefficient（皮尔森相关性系数）</p>
+<p>Covariance</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">cov(X, Y) = (sum (x - mean(X)) * (y - mean(Y)) ) * 1/(n-1)
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>The use of the mean in the calculation suggests the need for each data sample to have a Gaussian or Gaussian-like distribution.</p>
+</blockquote>
+<blockquote>
+<p>The Pearson’s correlation coefficient is calculated as the covariance of the two variables divided by the product of the standard deviation of each data sample. It is the normalization of the covariance between the two variables to give an interpretable score.
+Person 相关系数等于各自的协方差除以各自的标准差的乘积。</p>
+</blockquote>
+<p>$$
+\begin{aligned}
+\rho (X, Y) &amp;=\frac{\operatorname{cov}(X, Y)}{\sigma X \sigma Y}
+=\frac{E\left(\left(X-\mu_{X}\right)(Y-\mu Y)\right)}{\sigma X \sigma Y} \\<br>
+&amp;=\frac{E(X Y-E(X) E(Y)}{\sqrt{E\left(X^{2}\right)-E^{2}(X)} \sqrt{E\left(Y^{2}\right)-E^{2}(Y)}}
+\end{aligned}
+$$</p>
+<blockquote>
+<p>The coefficient returns a value between -1 and 1 that represents the limits of correlation from a full negative correlation to a full positive correlation. A value of 0 means no correlation. The value must be interpreted, where often a value below -0.5 or above 0.5 indicates a notable correlation, and values below those values suggests a less notable correlation.
+结果的绝对值表示相关程度的大小，越接近1 那么相关性越大，越接近0，相关性越小。正负号表示正相关或负相关。正相关性意味着同增同减，负相关性意味着两个变量增减性质相反，数值为0 （从公式中知道实际上是协方差矩阵为0）意味着两者没有线性相关性。</p>
+</blockquote>
+<p>代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># calculate the Pearson&#39;s correlation between two variables</span>
+<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">randn</span>
+<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">seed</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">pearsonr</span>
+<span class="c1"># seed random number generator</span>
+<span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># prepare data</span>
+<span class="n">data1</span> <span class="o">=</span> <span class="mi">20</span> <span class="o">*</span> <span class="n">randn</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span> <span class="o">+</span> <span class="mi">100</span>
+<span class="n">data2</span> <span class="o">=</span> <span class="n">data1</span> <span class="o">+</span> <span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">randn</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span> <span class="o">+</span> <span class="mi">50</span><span class="p">)</span>
+<span class="c1"># calculate Pearson&#39;s correlation</span>
+<span class="n">corr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">pearsonr</span><span class="p">(</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Pearsons correlation: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">corr</span><span class="p">)</span>
+<span class="c1"># 0.88</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>使用的要求和范围</p>
+<ul>
+<li>计算公式中使用到了均值和方差，所以该洗漱需要满足 Gaussian or Gaussian-like distribution.（严格说这条约束是协方差矩阵所需要的）</li>
+<li>只能检测到数据之间的线性关系</li>
+</ul>
+<p>（2）Spearman correlation coefficient（斯皮尔曼相关性系数）</p>
+<p>Spearman相关性系数是一种秩相关系数，“秩”可以理解为一种顺序或者排序。同样值域也是在 $[1, 1] $之间，含义和Person 系数是一致的。</p>
+<p>计算流程
+Spearman 相关系数的计算和 Person 相关系数基本一致，只是使用特征的排序结果代替了原始的值。比如给定三个值：30，50，10，它们的等级就分别是2，3，1，则计算时用2，3，1。当变量为离散变量的时候，可以表示为以下的形式：
+$$
+\rho_{S}=\frac{\sum_{i=1}^{N}\left(R_{i}-\bar{R}\right)\left(S_{i}-\bar{S}\right)}{\left[\sum_{i=1}^{N}\left(R_{i}-\bar{R}\right)^{2} \sum_{i=1}^{N}\left(S_{i}-\bar{S}\right)^{2}\right]^{\frac{1}{2}}}
+$$</p>
+<p>其中 $R_i$  和$S_i$分别是观测值 $i$取值的等级，$ \bar{R} $ 和$\bar{S} $是变量 $x$ 和变量 $y$ 的平均等级，$N$ 是观测值的总数量。</p>
+<p>使用范围</p>
+<ul>
+<li>当数据之间不满足高斯分布也可以使用，比如数据错误或者极端值（因为计算的是排序之后的结果而不是数据本身）</li>
+<li>当数据之间不具备线性相关性</li>
+</ul>
+<p>可以发现Spearman 相关性的使用场景正好和Person 相关系数相反。那么Spearman 是否可以使用在线性场景呢？ 答案是效果并不好。所以Person 相关系数的使用范围并不是 Spearman的子集，两者更像是一种并集。</p>
+<p>调用 api 实现</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">rand</span>
+<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">seed</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">spearmanr</span>
+<span class="c1"># seed random number generator</span>
+<span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># prepare data</span>
+<span class="n">data1</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span> <span class="o">*</span> <span class="mi">20</span>
+<span class="n">data2</span> <span class="o">=</span> <span class="n">data1</span> <span class="o">+</span> <span class="p">(</span><span class="n">rand</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span>
+<span class="c1"># calculate spearman&#39;s correlation</span>
+<span class="n">coef</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">spearmanr</span><span class="p">(</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Spearmans correlation coefficient: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">coef</span><span class="p">)</span>
+<span class="c1"># interpret the significance</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="k">if</span> <span class="n">p</span> <span class="o">&gt;</span> <span class="n">alpha</span><span class="p">:</span>
+	<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Samples are uncorrelated (fail to reject H0) p=</span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">p</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+	<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Samples are correlated (reject H0) p=</span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">p</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>Running the example calculates the Spearman’s correlation coefficient between the two variables in the test dataset.
+The statistical test reports a strong positive correlation with a value of 0.9. The p-value is close to zero, which means that the likelihood of observing the data given that the samples are uncorrelated is very unlikely (e.g. 95% confidence) and that we can reject the null hypothesis that the samples are uncorrelated.</p>
+</blockquote>
+<p>···
+Spearmans correlation coefficient: 0.900
+Samples are correlated (reject H0) p=0.000
+···
+返回两个值： Spearmans 相关系数和拒绝原假设的可能性p</p>
+<p>（3）上述两个指标的的联系和区别</p>
+<p>联系：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span>
+
+<span class="c1"># Create two lists of random values</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">4.5</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mf">6.5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mf">9.5</span><span class="p">]</span>
+
+
+
+<span class="c1"># Create a function that takes in x&#39;s and y&#39;s</span>
+<span class="k">def</span> <span class="nf">spearmans_rank_correlation</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">):</span>
+    <span class="c1"># Calculate the rank of x&#39;s</span>
+    <span class="n">xranks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
+    <span class="c1"># Caclulate the ranking of the y&#39;s</span>
+    <span class="n">yranks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
+    <span class="c1"># Calculate Pearson&#39;s correlation coefficient on the ranked versions of the data</span>
+    <span class="k">return</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">pearsonr</span><span class="p">(</span><span class="n">xranks</span><span class="p">,</span> <span class="n">yranks</span><span class="p">)</span>
+    
+<span class="c1"># Run the function</span>
+<span class="n">spearmans_rank_correlation</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="c1"># 0.90377360145618091</span>
+<span class="c1"># Just to check our results, here it Spearman&#39;s using Scipy</span>
+<span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">spearmanr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1">#0.90377360145618102   </span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>Spearman’s rank correlation is the Pearson’s correlation coefficient of the ranked version of the variables.
+可以看出 Spearman’s 是Pearson’s rank 之后的结果</p>
+</blockquote>
+<p>区别：</p>
+<blockquote>
+<p>The Spearman&rsquo;s rank correlation is a non-parametric test so there are no requirements of the distributions of the variables to be tested.
+On the other hand, in a Pearson&rsquo;s correlation test, there is assumed to be a linear relationship between two variables. However, the Spearman&rsquo;s rank correlation test can identify non-linear relationships between two variables.
+如果原来的分布不符合高斯分布，那么使用Spearmans看看。</p>
+</blockquote>
+<p>（4）Kendall correlation coefficient（肯德尔相关性系数）</p>
+<p>Kendall 相关系数也会是一种秩相关。排序一致，取值为1， 排序完全相反则为-1. 无序分类变量：比如性别（男、女）、血型（A、B、O、AB）；有序分类变量：比如肥胖等级（重度肥胖，中度肥胖、轻度肥胖、不肥胖）。Kendall 相关系数是针对有序分类变量的。</p>
+<p>比如评委对选手的评分（优、中、差等），我们想看两个（或者多个）评委对几位选手的评价标准是否一致；或者医院的尿糖化验报告，想检验各个医院对尿糖的化验结果是否一致，这时候就可以使用肯德尔相关性系数进行衡量。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="c1">#原始数据</span>
+<span class="n">x</span><span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">y</span><span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s2">&#34;kendall&#34;</span><span class="p">)</span> <span class="c1">#-0.2611165</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>可以发现两个评委对选手的的看法是相反的，但是这种程度不大。</p>
+<p>使用场景：用于反映分类变量相关性的指标，即对有序序列的相关系数，非正太分布的数据</p>
+<p>（4） 观点</p>
+<p>数据经过标准化（$ \mu =0, \sigma =1$）之后，Pearson相关性系数、cosine 相关度和欧氏距离的平方可以认为是等价的。个人经验：一般在低维度优先使用标准化之后的欧氏距离，在高维度使用Pearson相关系数更合适。</p>
+<blockquote>
+<p>Correlation quantifies this association, often as a measure between the values -1 to 1 for perfectly negatively correlated and perfectly positively correlated. The calculated correlation is referred to as the “correlation coefficient.” This correlation coefficient can then be interpreted to describe the measures.
+相关系数值的定义</p>
+</blockquote>
+<blockquote>
+<p>The correlation between two variables that each have a Gaussian distribution can be calculated using standard methods such as the Pearson’s correlation. This procedure cannot be used for data that does not have a Gaussian distribution. Instead, rank correlation methods must be used.
+当不符合高斯分布的时候，就不能使用Pearson’s 相关系数，可以尝试使用 rank correlation。</p>
+</blockquote>
+<p>Spearman’s Rho 和</p>
+<p>The correlation between two variables that each have a Gaussian distribution can be calculated using standard methods such as the Pearson’s correlation.</p>
+<p>The correlation between two variables that each have a Gaussian distribution can be calculated using standard methods such as the Pearson’s correlation. This procedure cannot be used for data that does not have a Gaussian distribution. Instead, rank correlation methods must be used.</p>
+<p><a href="https://machinelearningmastery.com/how-to-calculate-nonparametric-rank-correlation-in-python/">How to Calculate Nonparametric Rank Correlation in Python</a></p>
+<h2 id="其他指标">其他指标</h2>
+<p>（1） ACC</p>
+<p>ACC 是在分类中熟悉的，但是不是那么常用。缺点主要有以下两点：</p>
+<ul>
+<li>正负样本失衡时候，比较难正确衡量模型的优劣。</li>
+<li>很多机器学习模型分类的结果都是概率，如果要计算ACC，那么需要手动设置阈值，该超参数的设置很大程度上影响了 accuracy的计算。</li>
+</ul>
+<p>（2）logloss</p>
+<p>logloss衡量的是预测概率分布和真实概率分布的差异性，取值越小越好。与AUC不同，logloss对预测概率本身敏感。从比较的意义上，logloss 主要评估预测是否准确，auc用来评估把正样本排到负样本前面的能力。举个例子：真实值是1 1 0 1 预测值 为 0.5 0.5 0.3 0.5，另外提升之后的预测值是 0.7 0.7 0.4 0.7。两个版本的auc 都是1，但是logloss 有了很大的提升。总结为：预测值乘以一个倍数，这种相互的排序关系没有改变，但是logloss 会改变。</p>
+<p>（3）KS曲线</p>
+<p>KS值是在模型中用于区分预测正负样本分隔程度的评价指标，一般应用于金融风控领域。KS曲线以阈值作为横坐标，以FPR和TPR作为纵坐标，KS曲线则为TPR-FPR，KS曲线的最大值通常为KS值。与ROC曲线相似，通过改变不同阈值可以得到曲线。</p>
+<p>如何求解KS值呢？我们知道，当阈值减小时，TPR和FPR会同时减小，当阈值增大时，TPR和FPR会同时增大。而在实际工程中，我们希望TPR更大一些，FPR更小一些，即TPR-FPR越大越好，即ks值越大越好。</p>
+<p>KS值的取值范围是[0，1]。通常来说，值越大，模型区分正负样本的能力越强（一般0.3以上，说明模型的效果比较好）。</p>
+<p>（4）马修斯相关系数 （Matthews Correlation Coefficient，MCC）</p>
+<p>可以看出该指标也是根据混淆矩阵计算得来的。</p>
+<p>$$
+MCC= \frac{ tp * tn - fp * fn}{( tp +fp)( tp + fn )( tn + fp)( tn + fn)}
+$$</p>
+<p><img src="https://i.loli.net/2019/12/23/DTOJRVtwd5x1MlU.png" alt="mcc_by_thres.png"></p>
+<p>如果接近+1 ，表示完美预测；如果接近0，那么相当于随机猜测；如果接近于-1，那么说明预测和观察之间的完全不一样。</p>
+<p>计算</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">matthews_corrcoef</span>
+<span class="n">y_pred_class</span> <span class="o">=</span> <span class="n">y_pred_pos</span> <span class="o">&gt;</span> <span class="n">threshold</span>
+<span class="n">matthews_corrcoef</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred_class</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>使用场景：</p>
+<ul>
+<li>When working on imbalanced problems,</li>
+<li>When you want to have something easily interpretable.</li>
+</ul>
+<p>（4）macro vs weighted</p>
+<p>macro 和weighted 是求解方式不同，表示有没有weight权重的形式。前者是平均求解，后者是有权重的计算。可以任意搭配precision，recall 和F1。主要涉及原始数据是否 balance，如果原始数据是balanced，那么两者相差不大，否则 weighted 是更加合理的计算方法.</p>
+<h2 id="结论">结论</h2>
+<p>If you have an imbalanced dataset accuracy can give you false assumptions regarding the classifier’s performance, it’s better to rely on precision and recall, in the same way a Precision-Recall curve is better to calibrate the probability threshold in an imbalanced class scenario as a ROC curve.</p>
+<ul>
+<li>
+<p>ROC Curves: summarise the trade-off between the true positive rate and false positive rate for a predictive model using different probability thresholds.</p>
+</li>
+<li>
+<p>Precision-Recall curves: summarise the trade-off between the true positive rate and the positive predictive value for a predictive model using different probability thresholds.</p>
+</li>
+</ul>
+<p>ROC curves are appropriate when the observations are balanced between each class, whereas precision-recall curves are appropriate for imbalanced datasets. In both cases the area under the curve (AUC) can be used as a summary of the model performance.</p>
+<p>Why a ROC curve cannot measure well?</p>
+<p>The Receiver Operating Characteristic (ROC) curves plot FPR vs. TPR as shown below. Because TPR only depends on positives, ROC curves do not measure the effects of negatives. **The area under the ROC curve (AUC) assesses overall classification performance **. AUC does not place more emphasis on one class over the other, so it does not reflect the minority class well.</p>
+<p>Davis and Goadrich in this paper propose that Precision-Recall (PR) curves will be more informative than ROC when dealing with highly skewed datasets. The PR curves plot precision vs. recall (FPR). Because Precision is directly influenced by class imbalance so the Precision-recall curves are better to highlight differences between models for highly imbalanced data sets. When you compare different models with imbalanced settings, the area under the Precision-Recall curve will be more sensitive than the area under the ROC curve.</p>
+<p>参考文献</p>
+<ul>
+<li><a href="http://www.davidsbatista.net/blog/2018/08/19/NLP_Metrics/">Evaluation Metrics, ROC-Curves and imbalanced datasets</a></li>
+<li><a href="https://neptune.ml/blog/evaluation-metrics-binary-classification">24 Evaluation Metrics for Binary Classification (And When to Use Them)</a></li>
+</ul>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2018-06-13
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/roc/">roc</a>
+          <a href="/tags/precision-recall/">precision &amp; recall</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/dimensionality_reduction/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">降维（Dimensionality Reduction）</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/leetcode_random/">
+            <span class="next-text nav-default">Leetcode Random</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Data Structure - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="介绍面试过程中的数据结构，树、Hash表和图。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/data_structure/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Data Structure" />
+<meta property="og:description" content="介绍面试过程中的数据结构，树、Hash表和图。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/data_structure/" />
+<meta property="article:published_time" content="2019-04-05T11:04:54+08:00" />
+<meta property="article:modified_time" content="2019-04-05T11:04:54+08:00" />
+<meta itemprop="name" content="Data Structure">
+<meta itemprop="description" content="介绍面试过程中的数据结构，树、Hash表和图。">
+<meta itemprop="datePublished" content="2019-04-05T11:04:54+08:00" />
+<meta itemprop="dateModified" content="2019-04-05T11:04:54+08:00" />
+<meta itemprop="wordCount" content="9818">
+
+
+
+<meta itemprop="keywords" content="data structure," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Data Structure"/>
+<meta name="twitter:description" content="介绍面试过程中的数据结构，树、Hash表和图。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Data Structure</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-04-05 </span>
+        
+          <span class="more-meta"> 约 9818 字 </span>
+          <span class="more-meta"> 预计阅读 20 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#树">树</a></li>
+        <li><a href="#hash-表">Hash 表</a></li>
+        <li><a href="#图">图</a></li>
+        <li><a href="#kmp-算法">KMP 算法</a></li>
+        <li><a href="#时空复杂度分析">时空复杂度分析</a></li>
+        <li><a href="#实现">实现</a>
+          <ul>
+            <li><a href="#模板课总结">模板课总结</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>介绍面试过程中的数据结构，树、Hash表和图。</p>
+<h2 id="树">树</h2>
+<p><strong>树中常见的概念</strong></p>
+<p>节点的度：指的是结点拥有的子树的个数，二叉树的度不大于2</p>
+<p>高度：叶子节点的高度是1， 根结点的高度最高</p>
+<p>节点的层次：从根结点开始，根结点为第一层，根结点的叶子节点为第二层，以此类推。</p>
+<p><strong>三种树的比较</strong></p>
+<p>full binary tree vs. complete binary tree vs. perfect binary tree 中文翻译的时候常常容易翻译不准，所以使用英文更加容易说清楚。</p>
+<p>Full Binary Tree A Binary Tree is full if every node has 0 or 2 children. Following are examples of a full binary tree. We can also say a full binary tree is a binary tree in which all nodes except leaves have two children.
+full binary tree 限制每个节点要么是有两个孩子好么是没有孩子。</p>
+<p>Complete Binary Tree: A Binary Tree is complete Binary Tree if all levels are completely filled except possibly the last level and the last level has all keys as left as possible
+complete binary tree限制最后一层只能是在最后一层的左边有左子树。</p>
+<p>Perfect Binary Tree A Binary tree is Perfect Binary Tree in which all internal nodes have two children and all leaves are at the same level.
+perfect binary tree 最后一层一定是满的。</p>
+<p><strong>满二叉树</strong></p>
+<p>一棵深度为 $k$ 且有 $2^{k+1} -1$个结点的二叉树被称为完美二叉树。</p>
+<p>特点：</p>
+<ol>
+<li>每一层上的结点都是最大结点数（每层都是满） 数学表达为，$2^{k-1}$</li>
+<li>叶子结点全部都是在最底层</li>
+<li>最后一层是 2^{k-1}， 总的结点个数是 $2^{k+1} -1$</li>
+</ol>
+<p><img src="https://i.bmp.ovh/imgs/2019/09/34819be3e755ae7c.png" alt=""></p>
+<p>对满二叉树结点位置进行编号（编号的定义对于完全二叉树的理解有重要的意义）</p>
+<ol>
+<li>从根节点开始，自上而下，自左而右</li>
+<li>每一结点位置上都有元素</li>
+</ol>
+<p><strong>完全二叉树</strong></p>
+<p>深度为 $k$ 的具有 $n$ 个结点的二叉树，当且仅当其每一个结点都与深度为 $k$ 的满二叉树中编号为 $1 \sim n$ 的结点一一对应，称之为完全二叉树。
+（满二叉树在实际中不是那么常见，但是完全二叉树就比较常见，因为没有约束最后一层必须是满的，但是存在的结点却保留这满二叉树的性质，存在的结点都是和满二叉树一一对应的）</p>
+<p><strong>大根堆和小根堆</strong></p>
+<p><img src="https://upload.cc/i1/2019/09/15/bTSD9e.png" alt="img"></p>
+<p>特点：</p>
+<ol>
+<li>堆是一个完全二叉树( 如果有 h 层，那么 1- h-1 层都是满的，在h 层缺失的若干个 右叶子)</li>
+<li>小根堆的根节点的值是最小值，大根堆的根节点是最大值</li>
+<li>堆的结构适合采用顺序存储</li>
+</ol>
+<p>堆的存储结构
+一般都用数组来表示堆，$i $结点的父结点下标就为 $(i–1)/2 $。它的左右子结点下标分别为 $2 * i + 1 $和 $2 * i + 2$。如第0个结点左右子结点下标分别为1和2。在二叉排序树中，某结点的右孩子结点的值一定大于该结点的左孩子结点的值；在堆中却不一定，堆只是限定了某结点的值大于（或小于）其左右孩子结点的值，但没有限定左右孩子结点之间的大小关系。</p>
+<p><img src="https://upload.cc/i1/2019/09/15/067dri.gif" alt="img"></p>
+<p>堆的结构和完全二叉树的区别：
+堆是一个完全二叉树，并且每个结点的值都大于或等于其左右孩子结点的值（这里的讨论以大根堆为例），所以，堆是结点之间满足一定次序关系的完全二叉树。具有n个结点的堆，其深度即为堆所对应的完全二叉树的深度$logn $。</p>
+<p>接下来的树结构都是一种高效的查找结构。</p>
+<p><strong>二叉搜索树（二叉排序树）</strong></p>
+<p>定义： 是空树或者满足以下的性质</p>
+<p>特点：</p>
+<ol>
+<li>若左子树不为空，那么左子树上所有结点的值小于（不大于）根结点的值</li>
+<li>若右子树不为空，那么右子树上所有结点的值大于（不小于）结点的值</li>
+</ol>
+<p>查找、插入、删除操作的<strong>最坏</strong>时间复杂度</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align:center">二叉查找树</th>
+<th style="text-align:right">平衡二叉树</th>
+<th>红黑树</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>查找</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:right">$O(logn)$</td>
+<td>$O(logn)$</td>
+</tr>
+<tr>
+<td>插入</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:right">$O(logn)$</td>
+<td>$O(logn)$</td>
+</tr>
+<tr>
+<td>删除</td>
+<td style="text-align:center">$O(N)$</td>
+<td style="text-align:right">$O(logn)$</td>
+<td>$O(logn)$</td>
+</tr>
+</tbody>
+</table>
+<p>查找、插入、删除操作的<strong>平均</strong>时间复杂度</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align:center">二叉查找树</th>
+<th style="text-align:right">平衡二叉树</th>
+<th>红黑树</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>查找</td>
+<td style="text-align:center">$O(logn)$</td>
+<td style="text-align:right">$O(logn)$</td>
+<td>$O(logn)$</td>
+</tr>
+<tr>
+<td>插入</td>
+<td style="text-align:center">$O(logn)$</td>
+<td style="text-align:right">$O(logn)$</td>
+<td>$O(logn)$</td>
+</tr>
+<tr>
+<td>删除</td>
+<td style="text-align:center">$O(logn)$</td>
+<td style="text-align:right">$O(logn)$</td>
+<td>$O(logn)$</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>二叉查找树出现 $O(N)$ 的时间复杂度在于树形结构变成了单链表的形式。</li>
+<li>平衡树和红黑树的区别：平衡二叉树的插入/删除操作带来的旋转操作可能会达到logn次，而红黑树的插入/删除操作带来的旋转操作最多为2 or 3次。</li>
+</ol>
+<p><img src="https://i.loli.net/2019/09/05/9gECZRzJqrswSiM.png" alt="1.png"></p>
+<p><strong>平衡二叉树（AVL树，俄国两个人名的首写字母）</strong></p>
+<p>可以介绍一个概念：平衡因子。该节点左子树的高度- 该节点的右子树高度，即左右子树高度之差，被称为平衡因子。</p>
+<p>平衡二叉树的特点</p>
+<ol>
+<li>
+<p>在AVL树中任意节点的两个子树的高度最大差为1.</p>
+</li>
+<li>
+<p>查找、删除、插入的平均和最坏情况下都是$O(N)$</p>
+</li>
+</ol>
+<p>使用左旋（left rotation）和右旋（right rotation）来调整树的平衡。</p>
+<p><img src="https://i.loli.net/2019/09/05/ogIAdEY7T4w6jZu.gif" alt="1.gif"></p>
+<p>如果在AVL树中进行插入或删除节点，可能导致AVL树失去平衡，这种失去平衡的二叉树可以概括为四种姿态：LL（左左）、RR（右右）、LR（左右）、RL（右左）。它们的示意图如下：</p>
+<p><img src="http://tva1.sinaimg.cn/large/007X8olVly1g6pusahnhqj30za05rtbn.jpg" alt=""></p>
+<p><strong>红黑树</strong></p>
+<p>是平衡二叉树的一种，被称为自平衡二叉树。红黑树的每个节点上都存储着表示节点的颜色，可以是红色或者是黑色，所以称为红黑树。相对于 avl 来说，红黑树并不是完整符合平衡条件（任意两个子树的高度最大差为1），因此查找性能从理论上稍微不如 AVL 树。但是插入和删除的效率更高。</p>
+<p>红黑树的特性：</p>
+<ol>
+<li>节点是红色或者黑色</li>
+<li>根结点是黑色</li>
+<li>每个叶节点（包括空节点）是黑色</li>
+<li>每个红色节点的两个子节点都是黑色（从每个叶子到根的所有路径上不能有两个连续的红色节点）</li>
+<li>从任一节点到其每个叶子节点的所有路径都包含相同数目的黑色节点</li>
+</ol>
+<p><img src="http://tva1.sinaimg.cn/large/007X8olVly1g6oodoretgj30m80apdgb.jpg" alt=""></p>
+<p>自平衡策略</p>
+<p>对于一棵红黑树的操作最基本的无外乎增删改查，其中查和改都不会改变树的结构，所以与普通平衡二叉树操作无异。剩下的就是增删操作，插入和删除都会破坏树的结构，不过借助一定的平衡策略能够让树重新满足定义。平衡策略可以简单概括为三种：<strong>左旋转</strong>、<strong>右旋转</strong>，以及** 变色**。在插入或删除结点之后，只要我们沿着结点到根的路径上执行这三种操作，就可以最终让树重新满足定义。</p>
+<p>三种基本操作：</p>
+<ul>
+<li>左旋转
+对于当前结点而言，如果右子结点为红色，左子结点为黑色，则执行左旋转，如下图：</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/09/07/nQBIw4.png" alt="nQBIw4.png"></p>
+<ul>
+<li>右旋转
+对于当前结点而言，如果左子、左孙子结点均为红色，则执行右旋转，如下图：</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/09/07/nQBhOU.png" alt="nQBhOU.png"></p>
+<ul>
+<li>变色</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/09/07/nQB5mF.png" alt="nQB5mF.png">
+场景：搜索</p>
+<p><strong>B 树</strong></p>
+<p>B 树概括来说是一个更加一般化的二叉搜索树，即一个节点可以拥有2 个以上的子节点。这种树结构又被称为平衡多路（即不止两个子树）查找树。</p>
+<p>首先介绍两个简单类似的树形结构。下面是 2-3 树。其中的2，3表示的可以有2个或者3 个子树。（这种就是一种多路平衡树）</p>
+<p><img src="https://i.loli.net/2019/09/05/DjHyrkJT3NFsenY.png" alt="1.png"></p>
+<p>然后是2-3-4 树。
+<img src="https://i.loli.net/2019/09/05/zfU9dKwN2ubYv4r.png" alt="2.png"></p>
+<p>上面的两种可以看做是B 树的特例。B 树中最重要的特性是下面图片中的第三点：除根节点外的非叶子结点都至少有 $\left \lceil  m/2 \right \rceil $棵子树。这个性质是控制着要不要进一步的分裂。第五个性质所有的叶子节点出现在同一层次上，不带信息。（参考上面的2-3树）</p>
+<p><img src="https://i.loli.net/2019/09/05/U6rEWxs3tpYqFOb.png" alt="3.png"></p>
+<p>B 树最重要的是查找，相当于是二叉排序树的扩展。
+<img src="https://i.loli.net/2019/09/05/2PDd1qfHcIrbuzB.png" alt="4.png"></p>
+<p>使用场景：适合于读写相对大的数据块的存储系统，比如硬盘， 常常被用在数据块和文件系统中。</p>
+<p><strong>哈夫曼树（最优二叉树）</strong></p>
+<p>这个树和上面有点差别。如何根据节点不同的查找频率构造更加有效的搜索树？</p>
+<p>总的原则：查询频率高的路径是比较短，查询频率低的路径比较长。最后的平均查找方式最低。</p>
+<p>这里引入了一个概念：带权值路径长度（WPL）：设二叉树有 $n$ 个叶子节点，每个叶子节点带有权值 $w_k$， 从根结点到每个叶子节点的长度为$l_k$，则每个叶子节点的带权路径长度纸盒就是 $	WPL = \sum{w_kl_k}$</p>
+<p>构造方式：每次把权值最小的两棵树合并。从这种构造方式中可以得到以下的特点：</p>
+<ol>
+<li>没有度为1 的节点</li>
+<li>$n$ 个叶子节点的哈夫曼树总共有 $2n-1$ 个结点</li>
+<li>对同一组权值 ${w_1, w_2, w_3&hellip; , w_n}$， 存在着不同构的两棵哈夫曼树</li>
+</ol>
+<p><img src="https://i.loli.net/2019/09/05/Xcx16rfh9eLAjIS.png" alt="3.png"></p>
+<p><strong>最小生成树算法</strong></p>
+<p>生成树的特点：</p>
+<ol>
+<li>没有环</li>
+<li>连接所有的顶点</li>
+<li>$N $个顶点， $N-1$ 边 (这种数量关系是很重要的)</li>
+</ol>
+<p>还有一个要求是边的权重相加是最小。</p>
+<p>这里介绍两种算法，kruskal 算法和prim算法。都是贪婪思想。方式不同。</p>
+<p><strong>Kruskal 算法 （克鲁斯卡尔）</strong></p>
+<p>此算法可以称为“加边法”，初始最小生成树边数为0，每迭代一次就选择一条满足条件的最小代价边，加入到最小生成树的边集合里。</p>
+<ol>
+<li>把图中的所有边按代价从小到大排序；</li>
+<li>把图中的n个顶点看成独立的n棵树组成的森林；</li>
+<li>按权值从小到大选择边，所选的边连接的两个顶点$u_i$, $v_i$应属于两颗不同的树（这个是防止生成环的条件），则成为最小生成树的一条边，并将这两颗树合并作为一颗树。</li>
+<li>重复(3) ，直到所有顶点都在一棵树内或者有 n-1 条边为止</li>
+</ol>
+<p><img src="https://i.loli.net/2019/09/05/8ybFoZ7qdjMhVlp.png" alt="1.png"></p>
+<p>（其中的判断条件 所选的边属于不同的树，也可以理解为选择的边不能构成环）</p>
+<p><strong>Prim 算法（普里姆算法）</strong></p>
+<p>此算法可以称为“加点法”，每次迭代选择代价最小的边对应的点，加入到最小生成树中。算法从某一个顶点s开始，逐渐长大覆盖整个连通网的所有顶点。</p>
+<ol>
+<li>图的所有顶点集合为 $V$；初始令集合 $u={s} $,$v=V−u$;</li>
+<li>在两个集合$u$, $v$能够组成的边中，选择一条代价最小的边$(u_0,v_0)$，并把$v_0$并入到集合 $u$中。</li>
+<li>重复上述步骤，直到最小生成树有 $n-1$条边或者 $n$个顶点为止。</li>
+</ol>
+<p><img src="https://i.loli.net/2019/09/05/WjuNKxF7J4psdyU.png" alt="1.png"></p>
+<p>在prim 算法中，没有判断是否为环的过程，跳出的条件是第一个列表全部已选，那么就形成了一个最小生成树。</p>
+<p>在实现的时候，需要维持三个列表：顶点是否选择列表，顶点之间的最小距离列表和顶点之间的信息列表。
+<img src="https://s2.ax1x.com/2019/09/06/nMmL5R.png" alt="nMmL5R.png"></p>
+<p>应用场景：</p>
+<p>考虑城市之间间隔的距离，建设通信线路的难度等各种因素，将这些因素综合成一个数值表示，然后可以计算最小的建设成本。</p>
+<p><a href="https://blog.csdn.net/luoshixian099/article/details/51908175">写作参考</a></p>
+<p><a href="https://www.bilibili.com/video/av47042691/">看视频理解</a></p>
+<p><strong>完全二叉树中叶子节点数量的计算</strong></p>
+<p>解法一：
+叶子节点为 n/2 （向上取整），其中n 个是节点的总个数
+解法二：
+节点总数=n0+n1+n2
+对于任意一个为空的子树 n0 =n2+1
+当节点总数为偶数时候，n1 为1；当结点总数为奇数，n1 为0.所以连方程组，求解n2 和n0</p>
+<p><strong>Trie 树</strong></p>
+<p>Trie树，又叫字典树、前缀树（Prefix Tree）、单词查找树 或 键树，是一种多叉树结构。如下图：</p>
+<p><img src="https://i.loli.net/2019/09/30/jnMcvP7C4wzmxT1.png" alt="1.png"></p>
+<p>a. 根节点不包含字符，除根节点外每一个节点都只包含一个字符
+b. 从根节点到某一节点，路径上经过的字符连接起来，为该节点对应的字符串
+c. 每个节点的所有子节点包含的字符都不相同</p>
+<p>可以看出，Trie树的关键字一般都是字符串，而且Trie树把每个关键字保存在一条路径上，而不是一个结点中。另外，两个有公共前缀的关键字，在Trie树中前缀部分的路径相同，所以Trie树又叫做前缀树（Prefix Tree）</p>
+<p>Trie树的核心思想是空间换时间，利用字符串的公共前缀来减少无谓的字符串比较以达到提高查询效率的目的。</p>
+<ol>
+<li>优点</li>
+</ol>
+<ul>
+<li>插入和查询的效率很高，都为O(m)O(m)，其中 mm 是待插入/查询的字符串的长度。（关于查询，会有人说 hash 表时间复杂度是O(1)O(1)不是更快？但是，哈希搜索的效率通常取决于 hash 函数的好坏，若一个坏的 hash 函数导致很多的冲突，效率并不一定比Trie树高。）</li>
+<li>Trie树只有在允许一个关键字关联多个值的情况下才有类似hash碰撞发生。</li>
+<li>Trie树可以对关键字按字典序排序。</li>
+</ul>
+<ol start="2">
+<li>缺点</li>
+</ol>
+<ul>
+<li>当 hash 函数很好时，Trie树的查找效率会低于哈希搜索。</li>
+<li>空间消耗比较大。</li>
+</ul>
+<ol start="3">
+<li>应用场景</li>
+</ol>
+<p>a. 前缀匹配
+例如：找出一个字符串集合中所有以 &ldquo;五分钟&rdquo; 开头的字符串。我们只需要用所有字符串构造一个 trie树，然后输出以 五−&gt;分−&gt;钟 开头的路径上的关键字即可。trie树前缀匹配常用于搜索提示。如当输入一个网址，可以自动搜索出可能的选择。当没有完全匹配的搜索结果，可以返回前缀最相似的可能</p>
+<p>b. 字符串检索
+给出 N 个单词组成的熟词表，以及一篇全用小写英文书写的文章，按最早出现的顺序写出所有不在熟词表中的生词。检索/查询功能是Trie树最原始的功能。给定一组字符串，查找某个字符串是否出现过，思路就是从根节点开始一个一个字符进行比较：</p>
+<p><img src="https://upload.cc/i1/2019/09/30/85zCd2.png" alt="img"></p>
+<ol start="4">
+<li>实现</li>
+</ol>
+<p>可以参考<a href="https://jijeng.github.io/2019/05/24/leetcode-string/">这里</a></p>
+<p><a href="https://juejin.im/post/5c2c096251882579717db3d2">看动画轻松理解「Trie树」</a></p>
+<h2 id="hash-表">Hash 表</h2>
+<p>一个hash 函数  $f(x) $</p>
+<p>hash 函数</p>
+<ol>
+<li>单向算法（不能从f(x) 得到x, 只能是从x 得到 f(x)）</li>
+<li>唯一性</li>
+<li>输出长度固定</li>
+</ol>
+<p>那么第三条会出现hash 碰撞。常用的处理方法：</p>
+<ol>
+<li>开放地址法（总的原则是在冲突的位置查找下一个位置，可以使用线性探查法，平方探查法等方式）</li>
+<li>再hash 法（同时使用多个hash 函数，如果第一个hash 函数发生冲突，那么接着使用第二个hash 函数）</li>
+<li>链地址法（将同一个hash 值相同的元素使用一个单链表进行存储）</li>
+</ol>
+<h2 id="图">图</h2>
+<p><strong>连通图</strong></p>
+<p>对于无向图 $G$而言，若 $V(G)$中任一两个不同的顶点 $V_i$ 和$V_j$都连通（即有路径），则称$G$为连通图。</p>
+<p>对于有向图$G$中， 如果对于两个顶点 $V_i$和$V_j$有一条从 $V_i$到 $V_j$ 的有向路径，同时有一条从 $V_j$ 到$V_i$的有向路径，那么称这两个顶点强连通。如果有向图中两个顶点都强连通，那么称这个图为强连通图。</p>
+<p><strong>连通分量</strong></p>
+<p>在无向图中，连通分量即为连通子图。
+<img src="https://upload.cc/i1/2019/11/10/ZNQk6B.png" alt="img"></p>
+<p>上图中，总共有四个连通分量。顶点A、B、C、D构成了一个连通分量，顶点E构成了一个连通分量，顶点F，G和H，I分别构成了两个连通分量。</p>
+<p>强连通分量：在有向图中，尽可能多的若干顶点组成的子图中，这些顶点都是相互可到达的，则这些顶点称为一个强连通分量。</p>
+<p><img src="https://upload.cc/i1/2019/11/10/YVSpah.jpg" alt="img"></p>
+<p>上图中有三个强连通分量，分别是a、b、e以及f、g和c、d、h。</p>
+<p>并查集：判断图上是否存在环。可以参考之前的一个<a href="https://jijeng.github.io/2019/08/05/union-find/">博客</a>。</p>
+<h2 id="kmp-算法">KMP 算法</h2>
+<p>next数组的含义：以 i 为终点的后缀 和以1 为起点的前缀相等，并且满足长度最长，那么这个就是 next[i]</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="cm">/**
+</span><span class="cm"> s 表示source， p表示pattern，n和m 分别是对应的长度
+</span><span class="cm"> get_next是计算了 next数组， 主程序中写了匹配的模板（逻辑结构）
+</span><span class="cm"> */</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">N</span> <span class="o">=</span><span class="mf">1e6</span><span class="o">+</span><span class="mi">10</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">;</span>
+<span class="kt">char</span> <span class="n">s</span><span class="p">[</span><span class="n">N</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">nex</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+
+<span class="c1">// 因为存储和计算的时候都是从 1开始的，所以 j+1 才是真正有意义比较项，这个模板其实很好记的。
+</span><span class="c1"></span><span class="kt">void</span> <span class="nf">get_next</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">j</span> <span class="o">&amp;&amp;</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span><span class="n">p</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="n">j</span><span class="o">=</span><span class="n">nex</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span><span class="n">p</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="n">j</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">nex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span><span class="n">j</span><span class="p">;</span>
+    <span class="p">}</span>    
+<span class="p">}</span>
+
+<span class="c1">// abcd, abcdd
+</span><span class="c1">// dd
+</span><span class="c1"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">cin</span><span class="o">&gt;&gt;</span> <span class="n">n</span><span class="o">&gt;&gt;</span><span class="n">m</span><span class="p">;</span>
+    
+    <span class="n">scanf</span><span class="p">(</span><span class="s">&#34;%s&#34;</span><span class="p">,</span> <span class="n">s</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">&#34;%s&#34;</span><span class="p">,</span> <span class="n">p</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+    
+    <span class="n">get_next</span><span class="p">();</span>
+    <span class="c1">//匹配
+</span><span class="c1"></span>    <span class="c1">//for(int i =1; i&lt;=m; i++) cout&lt;&lt; nex[i] &lt;&lt;&#34; &#34;;
+</span><span class="c1"></span>    
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">j</span> <span class="o">&amp;&amp;</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">p</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="n">j</span> <span class="o">=</span><span class="n">nex</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span><span class="n">p</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="n">j</span><span class="o">++</span><span class="p">;</span>
+        
+        <span class="k">if</span><span class="p">(</span><span class="n">j</span> <span class="o">==</span><span class="n">m</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">j</span> <span class="o">=</span><span class="n">nex</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+            <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;true&#34;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+            
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="时空复杂度分析">时空复杂度分析</h2>
+<p>复习之后，这两个视频是需要再快速过一遍的：</p>
+<p>视频一：https://www.bilibili.com/video/av32548823/?p=1
+视频二：https://www.bilibili.com/video/av32548823/?p=2</p>
+<p>快速排序的时间复杂度最坏是 $O(N^2)$， 但是这种情况是很难达到的。
+hash 表中时间复杂度最坏是 $O(N)$， 但由于不知道这种hash 函数是什么，所以很难达到这种情况。</p>
+<p>做笔试的时候的步骤</p>
+<ol>
+<li>首先看数据范围，然后根据数据范围约莫着使用什么算法</li>
+</ol>
+<p>下面介绍的是根据数据范围反推算法复杂度和算法内容：</p>
+<p>一般ACM或者笔试题的时间限制是1秒或2秒。
+在这种情况下，C++代码中的操作次数控制在 $10^7$ 为最佳。</p>
+<p>下面给出在不同数据范围下，代码的时间复杂度和算法该如何选择：</p>
+<ol>
+<li>$n &lt;= 30$, 指数级别, dfs+剪枝，状态压缩dp</li>
+<li>$n &lt;= 100 &ndash;&gt; O(n^3)$，floyd，dp</li>
+<li>$n≤1000 =&gt; O(n^2)$，$O(n^2logn)$，dp，二分</li>
+<li>$n≤10000 =&gt; O(n \times \sqrt(n)) $，块状链表</li>
+<li>$n≤100000  =&gt; O(nlogn)  $=&gt; 各种sort，set/map、heap、dijkstra+heap，二分</li>
+<li>$n≤1000000  =&gt; O(n) $, 以及常数较小的 $O(nlogn)$ 算法 =&gt; hash、双指针扫描、kmp，常数比较小的 $O(nlogn)$ 的做法：sort、树状数组、heap、dijkstra</li>
+<li>$n≤10000000 =&gt; O(n)$，双指针扫描、kmp</li>
+<li>$n≤10^9  =&gt; O( \sqrt(n)) $，判断质数</li>
+<li>$n≤10^{18}  =&gt; O(logn)$，最大公约数</li>
+</ol>
+<p>简单版本</p>
+<ol start="2">
+<li>$n &lt;= 100 =&gt; O(n^3)$，floyd，dp</li>
+<li>$n≤1000  =&gt; O(n^2)$，$O(n^2logn)$，dp，二分</li>
+<li>$n≤100000  =&gt; O(nlogn)  $=&gt; 各种sort，树状数组、set/map、heap、dijkstra+heap、二分</li>
+<li>$n≤1000000  =&gt; O(n) $, 以及常数较小的 $O(nlogn)$ 算法 =&gt; hash、双指针扫描、kmp 常数比较小的 $O(nlogn)$ 的做法：sort、heap、dijkstra</li>
+<li>$n≤10000000 =&gt; O(n)$，双指针扫描、kmp</li>
+<li>$n≤10^9  =&gt; O( \sqrt{n}) $，判断质数</li>
+<li>$n≤10^{18}  =&gt; O(logn)$，最大公约数</li>
+</ol>
+<p>总的原则：最好是 1s 能够进行 $10^7$ 次运算。</p>
+<p>$ 10^2  -&gt; O( n^3) $ dp， floyd
+$ 10^3  -&gt; O( n^2) $,  dp， 二分, 枚举
+$ 10^5  -&gt; O( nlogn) $ 各种 sort 函数， set/map, heap, 二分
+$ 10^6  -&gt; O( n) $， 常数较小的 $O(n log n)$算法 -&gt; hash， 双指针，kmp，
+$10^7 -&gt;  O(n)$，双指针， kmp 算法
+$ 10^18  -&gt; O( logn) $</p>
+<p>比较一下 $O(n^2)$ 和 $O(nlogn)$ 的时间复杂度， 当n =100000 的话</p>
+<ul>
+<li>$O(n) = 10^5$</li>
+<li>$O(n^2) = 10^{10}$</li>
+<li>$O(nlogn ) = 20n = 2 \times 10^6$</li>
+</ul>
+<p>在c++ 中分析递归的空间复杂度是不容易分析的，因为需要进行 $logn$ 级别的递归，这个栈空间是需要加到内存的申请中去的。
+快排只有递归写法，所以空间复杂度上至少是$log n$的。</p>
+<p><strong>链表</strong>的时间和空间分析是比较简单的。</p>
+<p>这个题目是可以好好看看，为什么不能使用快排但可以使用归并。因为前者不能写成非递归，后者可以写成非递归形式。</p>
+<p>主定理一般用于算dfs 中的时间复杂度
+对于dfs +剪枝的题目，一般是不好分析时间复杂度的，因为有的剪枝效率是很高的，那么久变得不可预测了。</p>
+<p><strong>树</strong>的时间度分析
+使用的例题： leetcode 192</p>
+<p><strong>动态规划</strong>：</p>
+<p>时间复杂度两种计算方法：</p>
+<ol>
+<li>状态 数量$O(n^2)$, 状态转移复杂度 $O(1)$ ， 所以总的是两者的相乘</li>
+<li>看循环的个数，两个for 循环叠加，那么就是 $O(N^2)$</li>
+</ol>
+<p>dp 中会用到 memory 的思想 （记忆化搜索），有可能是递归的形式，实际上时间复杂度并不是dfs 的形式。</p>
+<p><strong>二分</strong>查找的时间复杂度是 $O(log n)$（常识）</p>
+<p><strong>字符串</strong>
+leetcode 245 是比较nice 的题目，好好看看。
+kmp 算法是 214 ，可以看看</p>
+<p><strong>单调队列</strong>
+（这个对于两个例题是需要再看看）</p>
+<p>丑数，时间复杂度最优的是O(n)</p>
+<p>hash 表专题</p>
+<p><strong>hash表</strong>的最坏时间复杂度不用考虑，一般考虑均摊时间复杂度（$O(1)$）就可以。</p>
+<p>149 这个题目是比较困难的，可以看看的哦</p>
+<h2 id="实现">实现</h2>
+<ol>
+<li>two sum</li>
+</ol>
+<p>hash 表含义是存储之前的数字。hash 表的增删改查时间复杂度都是 $O( 1)$。下面的程序总的时间复杂度是 $O(n)$，空间是 $O(n)$</p>
+<ol start="2">
+<li>repeated DNA sequences</li>
+</ol>
+<p>unorderedc_map&lt;string, int&gt;
+使用 string.substr() 得到子串，然后将子串放到 hash 表中，如果 count()大于2，那么这个就是最后的结果。</p>
+<ol start="3">
+<li>design hashmap</li>
+</ol>
+<p>定义常量表示大数组的时候，应该多加几个数字，防止边界情况，并且尽量使用质数。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">int</span> <span class="n">N</span> <span class="o">=</span><span class="mi">20011</span> <span class="p">;</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>对待冲突是有两种方法：拉链法和开放寻址法。前者加一个链表，后者是发生冲突的时候，向着周围的空间进行寻找。？ 空间大小和原数据大小的关系？查找一下。</p>
+<p>使用到了 迭代器 概念，这个题目是比较难的。</p>
+<p><a href="https://leetcode.com/problems/design-hashmap/submissions/">design hashmap</a>， 这个题目特别好。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">MyHashMap</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="cm">/** Initialize your data structure here. */</span>
+    <span class="c1">// 实现自己的hashmap
+</span><span class="c1"></span>    <span class="c1">// 关键在于处理 冲突，有两种方式，链表法 和开放寻址法； 这里实现的时候，使用链表法
+</span><span class="c1"></span>    <span class="c1">//
+</span><span class="c1"></span>    <span class="kt">int</span> <span class="n">N</span> <span class="o">=</span><span class="mi">20011</span><span class="p">;</span>
+    
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">list</span><span class="o">&lt;</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&gt;&gt;</span> <span class="n">h</span><span class="p">;</span>
+    
+    <span class="n">MyHashMap</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">h</span> <span class="o">=</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">list</span><span class="o">&lt;</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">N</span><span class="p">);</span>
+        
+    <span class="p">}</span>
+    <span class="c1">// 快速的 find 一个key的位置, 首先是一个 list，然后是一个链表
+</span><span class="c1"></span>    <span class="c1">// 查找的时候，已经包含了处理链表的情况
+</span><span class="c1"></span>    <span class="n">list</span><span class="o">&lt;</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="o">::</span> <span class="n">iterator</span> <span class="n">find</span><span class="p">(</span><span class="kt">int</span> <span class="n">key</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span><span class="n">key</span> <span class="o">%</span><span class="n">N</span><span class="p">;</span>
+        
+        <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="n">it</span> <span class="o">=</span><span class="n">h</span><span class="p">[</span><span class="n">t</span><span class="p">].</span><span class="n">begin</span><span class="p">()</span> <span class="p">;</span> <span class="n">it</span> <span class="o">!=</span> <span class="n">h</span><span class="p">[</span><span class="n">t</span><span class="p">].</span><span class="n">end</span><span class="p">();</span> <span class="n">it</span> <span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">it</span> <span class="o">-&gt;</span> <span class="n">first</span> <span class="o">==</span><span class="n">key</span><span class="p">)</span> <span class="k">return</span> <span class="n">it</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">h</span><span class="p">[</span><span class="n">t</span><span class="p">].</span><span class="n">end</span><span class="p">();</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// 这种pair 的结构是非常容易操作key,value 这样的数字
+</span><span class="c1"></span>    <span class="cm">/** value will always be non-negative. */</span>
+    <span class="kt">void</span> <span class="nf">put</span><span class="p">(</span><span class="kt">int</span> <span class="n">key</span><span class="p">,</span> <span class="kt">int</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">auto</span> <span class="n">it</span> <span class="o">=</span><span class="n">find</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+        <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span><span class="n">key</span> <span class="o">%</span><span class="n">N</span><span class="p">;</span>
+        
+        <span class="k">if</span><span class="p">(</span><span class="n">it</span> <span class="o">==</span><span class="n">h</span><span class="p">[</span><span class="n">t</span><span class="p">].</span><span class="n">end</span><span class="p">())</span> <span class="n">h</span><span class="p">[</span><span class="n">t</span><span class="p">].</span><span class="n">push_back</span><span class="p">({</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">});</span>
+        <span class="k">else</span> <span class="n">it</span> <span class="o">-&gt;</span> <span class="n">second</span><span class="o">=</span> <span class="n">value</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="cm">/** Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key */</span>
+    <span class="kt">int</span> <span class="nf">get</span><span class="p">(</span><span class="kt">int</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">auto</span> <span class="n">it</span> <span class="o">=</span><span class="n">find</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+        
+        <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span><span class="n">key</span> <span class="o">%</span><span class="n">N</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">it</span> <span class="o">==</span><span class="n">h</span><span class="p">[</span><span class="n">t</span><span class="p">].</span><span class="n">end</span><span class="p">())</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">second</span><span class="p">;</span>
+        
+    <span class="p">}</span>
+    
+    <span class="cm">/** Removes the mapping of the specified value key if this map contains a mapping for the key */</span>
+    <span class="kt">void</span> <span class="nf">remove</span><span class="p">(</span><span class="kt">int</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">auto</span> <span class="n">it</span> <span class="o">=</span><span class="n">find</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+        <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span><span class="n">key</span> <span class="o">%</span><span class="n">N</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">it</span> <span class="o">!=</span> <span class="n">h</span><span class="p">[</span><span class="n">t</span><span class="p">].</span><span class="n">end</span><span class="p">())</span> <span class="n">h</span><span class="p">[</span><span class="n">t</span><span class="p">].</span><span class="n">erase</span><span class="p">(</span><span class="n">it</span><span class="p">);</span>
+        
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="cm">/**
+</span><span class="cm"> * Your MyHashMap object will be instantiated and called as such:
+</span><span class="cm"> * MyHashMap* obj = new MyHashMap();
+</span><span class="cm"> * obj-&gt;put(key,value);
+</span><span class="cm"> * int param_2 = obj-&gt;get(key);
+</span><span class="cm"> * obj-&gt;remove(key);
+</span><span class="cm"> */</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>** Subarray Sum Equals K**</p>
+<p>题解思路也是非常的惊奇。时间复杂度是 $O(1)$</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="c1">// 前缀和 + hash的思路
+</span><span class="c1"></span>    <span class="c1">// hash 处理的是插入和查询的问题
+</span><span class="c1"></span>    <span class="kt">int</span> <span class="n">subarraySum</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+        
+        <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">hash</span><span class="p">;</span>
+        
+        <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+        <span class="c1">//hash[]
+</span><span class="c1"></span>        
+        <span class="n">hash</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="c1">// 因为后面用到的 sum ==k 这样的前缀和
+</span><span class="c1"></span>        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">sum</span> <span class="o">+=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="n">res</span> <span class="o">+=</span> <span class="n">hash</span><span class="p">[</span><span class="n">sum</span> <span class="o">-</span><span class="n">k</span><span class="p">];</span>
+            <span class="n">hash</span><span class="p">[</span><span class="n">sum</span><span class="p">]</span> <span class="o">+=</span><span class="mi">1</span><span class="p">;</span>
+            
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+        
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>并查集常用的两种操作</p>
+<ol>
+<li>合并两个集合</li>
+<li>判断两个点是否在同一个集合中</li>
+</ol>
+<p>有两种优化，路径压缩和按秩合并。前者优化之后时间复杂度变成 $O(log n)$ 后者进一步优化变成 $loglog n$。因为后者优化之后收益不大，所以一般使用前者。</p>
+<p><a href="https://leetcode.com/problems/friend-circles/submissions/">leetcode题目</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">p</span><span class="p">;</span>
+    
+    <span class="kt">int</span> <span class="nf">find</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">p</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">!=</span><span class="n">x</span><span class="p">)</span> <span class="n">p</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span><span class="n">find</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">x</span><span class="p">]);</span>
+        <span class="k">return</span> <span class="n">p</span><span class="p">[</span><span class="n">x</span><span class="p">];</span>
+    <span class="p">}</span>
+    
+    
+    <span class="kt">int</span> <span class="nf">findCircleNum</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;&amp;</span> <span class="n">M</span><span class="p">)</span> <span class="p">{</span>
+        
+        <span class="kt">int</span> <span class="n">n</span><span class="o">=</span> <span class="n">M</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span><span class="n">n</span><span class="p">;</span>
+        
+        <span class="c1">// 初始化
+</span><span class="c1"></span>        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">p</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+        
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span>  <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">i</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">M</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+                
+                <span class="k">if</span><span class="p">(</span><span class="n">find</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">!=</span> <span class="n">find</span><span class="p">(</span><span class="n">j</span><span class="p">))</span>
+                <span class="p">{</span>
+                    <span class="c1">// find(x) 函数是找x 的父节点
+</span><span class="c1"></span>                    <span class="c1">// find(i) 的父节点指向了 find(j)
+</span><span class="c1"></span>                    <span class="n">p</span><span class="p">[</span><span class="n">find</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span><span class="n">find</span><span class="p">(</span><span class="n">j</span><span class="p">);</span>
+                    <span class="n">res</span> <span class="o">-=</span><span class="mi">1</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        
+        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>自己手写堆的话，可以实现以下四个功能：</p>
+<ol>
+<li>查找最大值  $O( 1) $</li>
+<li>插入一个数 $O (log n)$</li>
+<li>删除一个数 $ O(log n)$</li>
+<li>修改一个数 $O(log n)$</li>
+</ol>
+<p>如果使用 c++ 中 LST 中 priority_queue 那么只能使用上面 1. 2. 3. 种功能，并且删除一个数，只能删除堆顶，而不是删除任意一个。默认是大根堆的实现。</p>
+<p>** Top K Frequent Words**</p>
+<p>小根堆有很多实现方式，C++ 中默认是大根堆，所以可以存储相反数。hash 表存储单词出现的次数。 heap 表示堆的单词。 在result 存储的时候，实际上最先出来的是最差的，所以是从后往前遍历。</p>
+<p>pair 是双关键字比较大小，如果第一关键字不同，那么比较出来大小，如果第一关键字相同，那么比较第二关键字大小。题目中要求出现频率大且字典序小的在前面。如果使用 负数表示，那么就转换成了负数小（正数大）且字典序小的在前。所以使用大根堆比较好处理。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;unordered_map&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;queue&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="c1">// 注意 priorty_queue 是定义在 queue 里面的
+</span><span class="c1"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">topK_frequent</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">arr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">k</span> <span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">typedef</span> <span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">string</span><span class="o">&gt;</span> <span class="n">PAIR</span><span class="p">;</span>
+    <span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">string</span> <span class="p">,</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">hash</span><span class="p">;</span>
+    <span class="n">priority_queue</span><span class="o">&lt;</span><span class="n">PAIR</span><span class="o">&gt;</span> <span class="n">heap</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">word</span><span class="p">:</span> <span class="n">arr</span><span class="p">)</span>
+        <span class="n">hash</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">++</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">item</span> <span class="p">:</span> <span class="n">hash</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">PAIR</span> <span class="nf">t</span><span class="p">(</span><span class="o">-</span><span class="n">item</span><span class="p">.</span><span class="n">second</span><span class="p">,</span> <span class="n">item</span><span class="p">.</span><span class="n">first</span><span class="p">);</span>
+        <span class="n">heap</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">heap</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">k</span><span class="p">)</span> <span class="n">heap</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">res</span><span class="p">(</span><span class="n">k</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span><span class="n">heap</span><span class="p">.</span><span class="n">top</span><span class="p">().</span><span class="n">second</span><span class="p">;</span>
+        <span class="n">heap</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">arr</span><span class="o">=</span><span class="p">{</span><span class="s">&#34;i&#34;</span><span class="p">,</span> <span class="s">&#34;love&#34;</span><span class="p">,</span> <span class="s">&#34;leetcode&#34;</span><span class="p">,</span> <span class="s">&#34;i&#34;</span><span class="p">,</span> <span class="s">&#34;love&#34;</span><span class="p">,</span> <span class="s">&#34;coding&#34;</span><span class="p">};</span>
+    <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span><span class="mi">2</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">res</span> <span class="o">=</span><span class="n">topK_frequent</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">k</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">u</span><span class="p">:</span> <span class="n">res</span><span class="p">)</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">u</span><span class="o">&lt;&lt;</span> <span class="s">&#34; &#34;</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在python 中默认是小根堆，也是(-val, key) 这样保持一致，如果是都小，那么排在前面。最后的结果是先弹出来的，那么就是出现频率最大，并且字母序在前面的那种。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">topKFrequent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">words</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        :type words: List[str]
+</span><span class="s2">        :type k: int
+</span><span class="s2">        :rtype: List[str]
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="kn">import</span> <span class="nn">collections</span><span class="o">,</span> <span class="nn">heapq</span>
+        <span class="n">has</span> <span class="o">=</span><span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+            <span class="n">has</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">+=</span><span class="mi">1</span>
+        <span class="n">heap</span> <span class="o">=</span><span class="p">[]</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span> <span class="ow">in</span> <span class="n">has</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">heapq</span><span class="o">.</span><span class="n">heappush</span><span class="p">(</span><span class="n">heap</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="n">val</span><span class="p">,</span> <span class="n">key</span><span class="p">))</span>
+        <span class="n">res</span> <span class="o">=</span><span class="p">[]</span>
+        <span class="k">while</span> <span class="n">k</span><span class="p">:</span>
+            <span class="n">val</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">heapq</span><span class="o">.</span><span class="n">heappop</span><span class="p">(</span><span class="n">heap</span><span class="p">)</span>
+            <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">k</span> <span class="o">-=</span><span class="mi">1</span>
+        <span class="k">return</span> <span class="n">res</span>
+        
+</code></pre></td></tr></table>
+</div>
+</div><p>类似的题目</p>
+<p><a href="https://leetcode.com/problems/top-k-frequent-elements/">347. Top K Frequent Elements</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">topKFrequent</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">hash</span><span class="p">;</span>
+        <span class="k">typedef</span> <span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">PAIR</span><span class="p">;</span>
+        <span class="n">priority_queue</span><span class="o">&lt;</span><span class="n">PAIR</span><span class="o">&gt;</span> <span class="n">heap</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">num</span> <span class="p">:</span> <span class="n">nums</span><span class="p">)</span>
+            <span class="n">hash</span><span class="p">[</span><span class="n">num</span><span class="p">]</span> <span class="o">+=</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">item</span> <span class="p">:</span> <span class="n">hash</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">PAIR</span>  <span class="nf">t</span><span class="p">(</span><span class="o">-</span><span class="n">item</span><span class="p">.</span><span class="n">second</span><span class="p">,</span> <span class="n">item</span><span class="p">.</span><span class="n">first</span><span class="p">);</span>
+            <span class="n">heap</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">heap</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">k</span><span class="p">)</span> <span class="n">heap</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">res</span><span class="p">(</span><span class="n">k</span><span class="p">);</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="n">k</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span><span class="n">heap</span><span class="p">.</span><span class="n">top</span><span class="p">().</span><span class="n">second</span><span class="p">;</span>
+            <span class="n">heap</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">    是出现频率最大的k 个数字，那么想到的是使用小根堆的思想，维护 k 大的小根堆
+</span><span class="s2">    &#34;&#34;&#34;</span>
+    <span class="k">def</span> <span class="nf">topKFrequent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        :type nums: List[int]
+</span><span class="s2">        :type k: int
+</span><span class="s2">        :rtype: List[int]
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="kn">import</span> <span class="nn">collections</span><span class="o">,</span> <span class="nn">heapq</span>
+        <span class="n">has</span> <span class="o">=</span><span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">heap</span> <span class="o">=</span><span class="p">[]</span>
+        <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">:</span>
+            <span class="n">has</span><span class="p">[</span><span class="n">num</span><span class="p">]</span> <span class="o">+=</span><span class="mi">1</span>
+        <span class="c1"># 取反 这样保证是根据 次数进行选择，</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span> <span class="ow">in</span> <span class="n">has</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">heapq</span><span class="o">.</span><span class="n">heappush</span><span class="p">(</span><span class="n">heap</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="n">val</span><span class="p">,</span> <span class="n">key</span><span class="p">))</span>
+        <span class="n">res</span> <span class="o">=</span><span class="p">[]</span>
+        <span class="k">while</span> <span class="n">k</span><span class="p">:</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span><span class="n">heapq</span><span class="o">.</span><span class="n">heappop</span><span class="p">(</span><span class="n">heap</span><span class="p">)</span>
+            <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">k</span> <span class="o">-=</span><span class="mi">1</span>
+        <span class="k">return</span> <span class="n">res</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>LeetCode 295
+动态维护有序序列 -&gt; 手写平衡树</p>
+<p>使用对顶堆的思想。找中位数是 $O(1)$， 插入操作是 $O(log n)$ 的。</p>
+<h3 id="模板课总结">模板课总结</h3>
+<p>排序算法（快排和归并排序）</p>
+<p>二分（整数二分，浮点数二分）</p>
+<p>学习方法：理解只有，多写 3-5遍。重复才是王道。</p>
+<p>对于边界问题非常复杂的问题，建议大家背过模板，这样是比较nice的。
+如果对于数据量很大的情况，建议使用 scanf() 进行读入，因为 cin 相对来说是比较慢的。
+稳定性，两个相同的数字，如果再排序前后能够保持相对的顺序，那么就是稳定的。快排是不稳定的，归并排序是稳定的。快排中的数字变成 pair&lt;num, index&gt;类型，那么就可以成为稳定的排序。</p>
+<p>（背诵一个固定的模板就行）
+快排的思想： 分治。算法步骤：</p>
+<ol>
+<li>确定分界点， q[l], q[r], q[l(l +r) /2] 随机都是可以的</li>
+<li>调整区间， 使一侧是小于等于x，另外一侧是大于等于x 就是ok的</li>
+<li>递归处理左右两段</li>
+</ol>
+<p>快排的平均时间复杂度是$n log_{2} n$， 最坏是 $O(n^2)$。</p>
+<p>归并排序- 分治</p>
+<ol>
+<li>确定分界点，mid =(l +r) /2</li>
+<li>递归排序, left 和 right</li>
+<li>归并，合二为一</li>
+</ol>
+<p>快排是先操作后递归，归并是先递归然后其他操作。时间复杂度是(平均和最坏) $O(nlog_2n)$，总共是有 $logn$ 层，然后每层计算是$O(n)$。归并排序相对于快排是需要一个额外的$O(n)$ 的空间去存储排序之后的结果。</p>
+<p>if (l &gt;= r) 如果没有数字或者只有一个数字的时候，做的操作.
+在常用的模板中，因为使用了一个临时数组，所以是需要把结果拿回来，所以最后是需要一个循环进行操作的。</p>
+<p>二分</p>
+<p>二分的本质不是单调性（如果具有单调性，那么是可以二分，但如果没有单调性，也是有可能二分的）。二分的本质是边界，可以找到一个分界点，左边是满足这个条件，右边是不满足这个条件。这个时候就可以二分。每次二分的时候都保证答案是在这个区间内的。</p>
+<p>整数二分
+版本一：当我们将区间[l, r]划分成[l, mid]和[mid + 1, r]时，其更新操作是r = mid或者l = mid + 1;，计算mid时不需要加1。
+版本二：当我们将区间[l, r]划分成[l, mid - 1]和[mid, r]时，其更新操作是r = mid - 1或者l = mid;，此时为了防止死循环，计算mid时需要加1。
+可以通过这个题目好好理解两者的区别。<a href="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/description/">在排序数组中查找元素的第一个和最后一个位置</a></p>
+<p>cpp 中list 封装是链表，vector 封装是数组。</p>
+<p>该题目的讲解可以从<a href="https://www.bilibili.com/video/av41422769/?share_source=weixin&amp;ts=1555403943&amp;share_medium=iphone&amp;bbid=1207f6fdb7342f8b0ef90c1e15687e9f">这里</a>找找</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">searchRange</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">nums</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="k">return</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">({</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">});</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">res</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span> <span class="n">r</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">target</span><span class="p">)</span> <span class="n">r</span> <span class="o">=</span> <span class="n">mid</span><span class="p">;</span>
+            <span class="k">else</span> <span class="n">l</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">!=</span> <span class="n">target</span><span class="p">)</span> <span class="k">return</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">({</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">});</span>
+        <span class="n">res</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">r</span><span class="p">);</span>
+
+        <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span> <span class="n">r</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">target</span><span class="p">)</span> <span class="n">l</span> <span class="o">=</span> <span class="n">mid</span><span class="p">;</span>
+            <span class="k">else</span> <span class="n">r</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">res</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">r</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>浮点数二分问题。浮点数不存在 +1，-1 操作，因为这个是可分的。但是存在精度问题，如果题目要求是 6位小数，那么边界值判断是使用 $1e-8$ 就可以保证。（要保证比要求的位数多两位，一般是没有问题的）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    
+    <span class="kt">double</span> <span class="n">x</span> <span class="p">;</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span><span class="n">x</span><span class="p">;</span>
+    
+    <span class="kt">double</span> <span class="n">l</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span> <span class="n">r</span> <span class="o">-</span><span class="n">l</span> <span class="o">&gt;</span> <span class="mf">1e-8</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">double</span> <span class="n">mid</span> <span class="o">=</span><span class="p">(</span> <span class="n">l</span><span class="o">+</span><span class="n">r</span><span class="p">)</span> <span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">mid</span> <span class="o">*</span><span class="n">mid</span> <span class="o">&gt;=</span><span class="n">x</span><span class="p">)</span> <span class="n">r</span> <span class="o">=</span><span class="n">mid</span><span class="p">;</span>
+        <span class="k">else</span> <span class="n">l</span> <span class="o">=</span><span class="n">mid</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%lf</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">l</span><span class="p">);</span>
+    
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-04-05
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/data-structure/">data structure</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/generative_adversarial_network/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Generative Adversarial Network</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/siamese_network/">
+            <span class="next-text nav-default">Siamese Network</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

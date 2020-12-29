@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>基于中文简历的命名实体识别 - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="基于中文简历的命名实体识别项目（持续更新中）
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/name_entiry_recognition/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="基于中文简历的命名实体识别" />
+<meta property="og:description" content="基于中文简历的命名实体识别项目（持续更新中）" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/name_entiry_recognition/" />
+<meta property="article:published_time" content="2019-12-21T15:25:13+08:00" />
+<meta property="article:modified_time" content="2019-12-21T15:25:13+08:00" />
+<meta itemprop="name" content="基于中文简历的命名实体识别">
+<meta itemprop="description" content="基于中文简历的命名实体识别项目（持续更新中）">
+<meta itemprop="datePublished" content="2019-12-21T15:25:13+08:00" />
+<meta itemprop="dateModified" content="2019-12-21T15:25:13+08:00" />
+<meta itemprop="wordCount" content="10479">
+
+
+
+<meta itemprop="keywords" content="ner," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="基于中文简历的命名实体识别"/>
+<meta name="twitter:description" content="基于中文简历的命名实体识别项目（持续更新中）"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">基于中文简历的命名实体识别</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-12-21 </span>
+        <div class="post-category">
+            <a href="/categories/nlp/"> nlp </a>
+            </div>
+          <span class="more-meta"> 约 10479 字 </span>
+          <span class="more-meta"> 预计阅读 21 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#数据">数据</a></li>
+        <li><a href="#代码">代码</a></li>
+        <li><a href="#实验结果">实验结果</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>基于中文简历的命名实体识别项目（持续更新中）</p>
+<p>命名实体识别是一个极具挑战性的任务。首先，在大多数语言和领域中，训练数据非常少；其次，对可以成为实体的单词类型的限制很小，因此很难从小样本数据集训练出一个泛化性强的模型。本项目尝试了多种模型算法（如HMM, CRF，Bi-LSTM + CRF）来处理中文命名实体识别的问题。数据集来自 <code>Chinese NER using Lattice LSTM</code>（ACL 2018）中收集到的简历数据集。</p>
+<h2 id="数据">数据</h2>
+<p>总共的数据集有 4775（大概5000条数据），按照以下的 8：1：1 分成训练集、验证集和测试集。</p>
+<table>
+<thead>
+<tr>
+<th>数据集分类</th>
+<th style="text-align:center">数量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>train set</td>
+<td style="text-align:center">3821</td>
+</tr>
+<tr>
+<td>dev set</td>
+<td style="text-align:center">477</td>
+</tr>
+<tr>
+<td>test set</td>
+<td style="text-align:center">477</td>
+</tr>
+</tbody>
+</table>
+<p>数据的格式如下，它的每一行由一个字及其对应的标注组成，标注集采用BIOES，句子之间用一个空行隔开。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">美	B-LOC
+国	E-LOC
+的	O
+华	B-PER
+莱	I-PER
+士	E-PER
+
+我	O
+跟	O
+他	O
+谈	O
+笑	O
+风	O
+生	O 
+
+汉     S
+
+党 B-TITLE
+员 E-TITLE
+</code></pre></td></tr></table>
+</div>
+</div><p>训练数据
+词典大小总数 1792，tag 总数28</p>
+<p>一份简历信息可以划分成借个中长句子。每一条就是一个训练数据集。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">[&#39;高&#39;, &#39;勇&#39;, &#39;：&#39;, &#39;男&#39;, &#39;，&#39;, &#39;中&#39;, &#39;国&#39;, &#39;国&#39;, &#39;籍&#39;, &#39;，&#39;, &#39;无&#39;, &#39;境&#39;, &#39;外&#39;, &#39;居&#39;, &#39;留&#39;, &#39;权&#39;, &#39;，&#39;]
+&#39;高勇：男，中国国籍，无境外居留权，&#39;
+
+[&#39;1&#39;, &#39;9&#39;, &#39;6&#39;, &#39;6&#39;, &#39;年&#39;, &#39;出&#39;, &#39;生&#39;, &#39;，&#39;, &#39;汉&#39;, &#39;族&#39;, &#39;，&#39;, &#39;中&#39;, &#39;共&#39;, &#39;党&#39;, &#39;员&#39;, &#39;，&#39;, &#39;本&#39;, &#39;科&#39;, &#39;学&#39;, &#39;历&#39;, &#39;，&#39;, &#39;工&#39;, &#39;程&#39;, &#39;师&#39;, &#39;、&#39;, &#39;美&#39;, &#39;国&#39;, &#39;项&#39;, &#39;目&#39;, &#39;管&#39;, &#39;理&#39;, &#39;协&#39;, &#39;会&#39;, &#39;注&#39;, &#39;册&#39;, &#39;会&#39;, &#39;员&#39;, &#39;（&#39;, &#39;P&#39;, &#39;M&#39;, &#39;I&#39;, &#39;M&#39;, &#39;e&#39;, &#39;m&#39;, &#39;b&#39;, &#39;e&#39;, &#39;r&#39;, &#39;）&#39;, &#39;、&#39;, &#39;注&#39;, &#39;册&#39;, &#39;项&#39;, &#39;目&#39;, &#39;管&#39;, &#39;理&#39;, &#39;专&#39;, &#39;家&#39;, &#39;（&#39;, &#39;P&#39;, &#39;M&#39;, &#39;P&#39;, &#39;）&#39;, &#39;、&#39;, &#39;项&#39;, &#39;目&#39;, &#39;经&#39;, &#39;理&#39;, &#39;。&#39;]
+&#39;1966年出生，汉族，中共党员，本科学历，工程师、美国项目管理协会注册会员（PMIMember）、注册项目管理专家（PMP）、项目经理。&#39;
+
+[&#39;2&#39;, &#39;0&#39;, &#39;0&#39;, &#39;7&#39;, &#39;年&#39;, &#39;1&#39;, &#39;0&#39;, &#39;月&#39;, &#39;至&#39;, &#39;今&#39;, &#39;任&#39;, &#39;人&#39;, &#39;和&#39;, &#39;投&#39;, &#39;资&#39;, &#39;董&#39;, &#39;事&#39;, &#39;；&#39;]
+&#39;2007年10月至今任人和投资董事；&#39;
+
+[&#39;2&#39;, &#39;0&#39;, &#39;0&#39;, &#39;7&#39;, &#39;年&#39;, &#39;1&#39;, &#39;2&#39;, &#39;月&#39;, &#39;至&#39;, &#39;2&#39;, &#39;0&#39;, &#39;1&#39;, &#39;3&#39;, &#39;年&#39;, &#39;2&#39;, &#39;月&#39;, &#39;任&#39;, &#39;公&#39;, &#39;司&#39;, &#39;董&#39;, &#39;事&#39;, &#39;、&#39;, &#39;董&#39;, &#39;事&#39;, &#39;会&#39;, &#39;秘&#39;, &#39;书&#39;, &#39;、&#39;, &#39;综&#39;, &#39;合&#39;, &#39;管&#39;, &#39;理&#39;, &#39;部&#39;, &#39;部&#39;, &#39;长&#39;, &#39;；&#39;]
+&#39;2007年12月至2013年2月任公司董事、董事会秘书、综合管理部部长；&#39;
+
+[&#39;2&#39;, &#39;0&#39;, &#39;1&#39;, &#39;3&#39;, &#39;年&#39;, &#39;2&#39;, &#39;月&#39;, &#39;至&#39;, &#39;今&#39;, &#39;任&#39;, &#39;山&#39;, &#39;东&#39;, &#39;三&#39;, &#39;维&#39;, &#39;石&#39;, &#39;化&#39;, &#39;工&#39;, &#39;程&#39;, &#39;股&#39;, &#39;份&#39;, &#39;有&#39;, &#39;限&#39;, &#39;公&#39;, &#39;司&#39;, &#39;董&#39;, &#39;事&#39;, &#39;、&#39;, &#39;董&#39;, &#39;事&#39;, &#39;会&#39;, &#39;秘&#39;, &#39;书&#39;, &#39;、&#39;, &#39;副&#39;, &#39;总&#39;, &#39;经&#39;, &#39;理&#39;, &#39;。&#39;]
+&#39;2013年2月至今任山东三维石化工程股份有限公司董事、董事会秘书、副总经理。&#39;
+</code></pre></td></tr></table>
+</div>
+</div><p>特征向量（对于一条训练数据集而言）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">[{&#39;w&#39;: &#39;高&#39;, &#39;w-1&#39;: &#39;&lt;s&gt;&#39;, &#39;w+1&#39;: &#39;勇&#39;, &#39;w-1:w&#39;: &#39;&lt;s&gt;高&#39;, &#39;w:w+1&#39;: &#39;高勇&#39;, &#39;bias&#39;: 1}, {&#39;w&#39;: &#39;勇&#39;, &#39;w-1&#39;: &#39;高&#39;, &#39;w+1&#39;: &#39;：&#39;, &#39;w-1:w&#39;: &#39;高勇&#39;, &#39;w:w+1&#39;: &#39;勇：&#39;, &#39;bias&#39;: 1}, {&#39;w&#39;: &#39;：&#39;, &#39;w-1&#39;: &#39;勇&#39;, &#39;w+1&#39;: &#39;男&#39;, &#39;w-1:w&#39;: &#39;勇：&#39;, &#39;w:w+1&#39;: &#39;：男&#39;, &#39;bias&#39;: 1}, {&#39;w&#39;: &#39;男&#39;, &#39;w-1&#39;: &#39;：&#39;, &#39;w+1&#39;: &#39;，&#39;, &#39;w-1:w&#39;: &#39;：男&#39;, &#39;w:w+1&#39;: &#39;男，&#39;, &#39;bias&#39;: 1}, {&#39;w&#39;: &#39;，&#39;, &#39;w-1&#39;: &#39;男&#39;, &#39;w+1&#39;: &#39;中&#39;, &#39;w-1:w&#39;: &#39;男，&#39;, &#39;w:w+1&#39;: &#39;，中&#39;, &#39;bias&#39;: 1}, {&#39;w&#39;: &#39;中&#39;, &#39;w-1&#39;: &#39;，&#39;, &#39;w+1&#39;: &#39;国&#39;, &#39;w-1:w&#39;: &#39;，中&#39;, &#39;w:w+1&#39;: &#39;中国&#39;, &#39;bias&#39;: 1}, {&#39;w&#39;: &#39;国&#39;, &#39;w-1&#39;: &#39;中&#39;, &#39;w+1&#39;: &#39;国&#39;, &#39;w-1:w&#39;: &#39;中国&#39;, &#39;w:w+1&#39;: &#39;国国&#39;, &#39;bias&#39;: 1}, {&#39;w&#39;: &#39;国&#39;, &#39;w-1&#39;: &#39;国&#39;, &#39;w+1&#39;: &#39;籍&#39;, &#39;w-1:w&#39;: &#39;国国&#39;, &#39;w:w+1&#39;: &#39;国籍&#39;, &#39;bias&#39;: 1}, {&#39;w&#39;: &#39;籍&#39;, &#39;w-1&#39;: &#39;国&#39;, &#39;w+1&#39;: &#39;，&#39;, &#39;w-1:w&#39;: &#39;国籍&#39;, &#39;w:w+1&#39;: &#39;籍，&#39;, &#39;bias&#39;: 1}, {&#39;w&#39;: &#39;，&#39;, &#39;w-1&#39;: &#39;籍&#39;, &#39;w+1&#39;: &#39;无&#39;, &#39;w-1:w&#39;: &#39;籍，&#39;, &#39;w:w+1&#39;: &#39;，无&#39;, &#39;bias&#39;: 1}, {&#39;w&#39;: &#39;无&#39;, &#39;w-1&#39;: &#39;，&#39;, &#39;w+1&#39;: &#39;境&#39;, &#39;w-1:w&#39;: &#39;，无&#39;, &#39;w:w+1&#39;: &#39;无境&#39;, &#39;bias&#39;: 1}, {&#39;w&#39;: &#39;境&#39;, &#39;w-1&#39;: &#39;无&#39;, &#39;w+1&#39;: &#39;外&#39;, &#39;w-1:w&#39;: &#39;无境&#39;, &#39;w:w+1&#39;: &#39;境外&#39;, &#39;bias&#39;: 1}, {&#39;w&#39;: &#39;外&#39;, &#39;w-1&#39;: &#39;境&#39;, &#39;w+1&#39;: &#39;居&#39;, &#39;w-1:w&#39;: &#39;境外&#39;, &#39;w:w+1&#39;: &#39;外居&#39;, &#39;bias&#39;: 1}, {&#39;w&#39;: &#39;居&#39;, &#39;w-1&#39;: &#39;外&#39;, &#39;w+1&#39;: &#39;留&#39;, &#39;w-1:w&#39;: &#39;外居&#39;, &#39;w:w+1&#39;: &#39;居留&#39;, &#39;bias&#39;: 1}, {&#39;w&#39;: &#39;留&#39;, &#39;w-1&#39;: &#39;居&#39;, &#39;w+1&#39;: &#39;权&#39;, &#39;w-1:w&#39;: &#39;居留&#39;, &#39;w:w+1&#39;: &#39;留权&#39;, &#39;bias&#39;: 1}, {&#39;w&#39;: &#39;权&#39;, &#39;w-1&#39;: &#39;留&#39;, &#39;w+1&#39;: &#39;，&#39;, &#39;w-1:w&#39;: &#39;留权&#39;, &#39;w:w+1&#39;: &#39;权，&#39;, &#39;bias&#39;: 1}, {&#39;w&#39;: &#39;，&#39;, &#39;w-1&#39;: &#39;权&#39;, &#39;w+1&#39;: &#39;&lt;/s&gt;&#39;, &#39;w-1:w&#39;: &#39;权，&#39;, &#39;w:w+1&#39;: &#39;，&lt;/s&gt;&#39;, &#39;bias&#39;: 1}]
+</code></pre></td></tr></table>
+</div>
+</div><p>一元语法（unigram）、二元语法（bigram）、三元语法（trigram）和多元词法（n-gram），指的是文本中连续出现的n 个词语。对于英文来说 gram 越大，那么上下文信息越是明显，但是训练的时间成本相对变大；对于中文来说，使用unigram 就可以（左右各一个）</p>
+<p>BFGS 算法是一种拟牛顿算法。</p>
+<p>为什么使用BiLSTM，有人认为这种倒叙的是没有意义的。但是在实际工程中，BilSTM 的效果十有八九是好于LSTM，所以一般时候都是这样使用的。双向LSTM 的结构也很简单，就是两个单向LSTM 分别沿着正序和反序进行传播，然后将最后输出拼接在一起。注意该层输出的size 是 <code>2 * hidden_size</code> 。</p>
+<h2 id="代码">代码</h2>
+<p>（1）数据预处理阶段：</p>
+<p>输入是一个list，返回一个dictionary，其中key 是list 内容，val 是相应的index，所以完成了 char2index 的功能。实现比较巧妙 <code>maps[e] =len(maps)</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">build_map</span><span class="p">(</span><span class="n">lists</span><span class="p">):</span>
+    <span class="n">maps</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">list_</span> <span class="ow">in</span> <span class="n">lists</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">list_</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">e</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">maps</span><span class="p">:</span>
+                <span class="n">maps</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">maps</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">maps</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>只有在训练数据集上需要建立词典索引和tag 索引，在验证集和测试集上是不需要建立索引的。</p>
+<p>（2）HMM 模型</p>
+<p>train 阶段</p>
+<p>HMM 的训练就是根据训练语料对模型参数进行估计：我们有观测序列和对应的状态序列，然后使用极大似然的方法估计hmm 模型的参数。无论是转移概率矩阵还是观测概率矩阵，都是做的一个统计的工作。以观测矩阵为例</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python">        <span class="c1"># 估计观测概率矩阵</span>
+        <span class="k">for</span> <span class="n">tag_list</span><span class="p">,</span> <span class="n">word_list</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">tag_lists</span><span class="p">,</span> <span class="n">word_lists</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">tag_list</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">word_list</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">word</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">tag_list</span><span class="p">,</span> <span class="n">word_list</span><span class="p">):</span>
+                <span class="n">tag_id</span> <span class="o">=</span> <span class="n">tag2id</span><span class="p">[</span><span class="n">tag</span><span class="p">]</span>
+                <span class="n">word_id</span> <span class="o">=</span> <span class="n">word2id</span><span class="p">[</span><span class="n">word</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">[</span><span class="n">tag_id</span><span class="p">][</span><span class="n">word_id</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span> <span class="o">==</span> <span class="mf">0.</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-10</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>问题：当某个元素没有出现过的时候，该位置为0。解决方案是，将0替换成很小的数字，比如说 $e ^{-10}$。</p>
+<p>decoding阶段</p>
+<p>使用维特比算法，给定观测序列求解状态序列，这个是就是生成标注的过程。维特比算法实际上使用动态规划解hmm模型预测问题，基于dp 求解概率最大路径。</p>
+<p>维特比算法（viterbi algorithm）使用的是动态规划的思想解决HMM 和CRF 中的预测问题。即在HMM模型中寻找最有可能的隐状态的路径。使用一句话概括为：在每一时刻，计算当前时刻是由上一个时刻中的每种隐状态导致的最大概率，并且记录这个最大概率是从前一时刻哪个隐状态转移过来的，最后回溯最大概率，即为路径。</p>
+<p>DP 递推方程</p>
+<p>\begin{equation}
+\delta_{t}(j)=\max \left[\delta_{t-1}(i) \times a_{i j} \times b_{j}\left(o_{t}\right)\right]
+\end{equation}</p>
+<ul>
+<li>$\delta_{t}(j)$ ： $t$ 时刻沿着一条状态路径 $q_1$, $q_2$,  $q_t$， 当 $t$ 时刻处于$j$状态，产生$o_1$, $o_2$，&hellip; $o_t$的最大的概率</li>
+<li>$a_{ij}$ ：从状态$i$ 到状态 $j$ 的转移概率</li>
+<li>$b_j(o_t)$ ：从状态 $j$ 到输出$o_t$ 的概率</li>
+</ul>
+<p>时间复杂度 $O(TN^2)$，其中$T$ 表示时刻， $N$表示有多少种隐状态， $N^2$表示隐状态的组合。</p>
+<p>问题1： 当$T$很长的时候，连乘容易下溢。解决方案：使用对数概率，这样相乘变成了相加。
+问题2：如果某个词不再字典中，那么假设其为均匀分布。
+问题3：最优路径的计算。正向传播的时候，记录当前时刻最大概率是由上一时刻哪个隐状态转换过来的，然后回溯求解最大值。</p>
+<p>（3）CRF 模型</p>
+<p>对于中文的特征函数写的比较简单。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">word2features</span><span class="p">(</span><span class="n">sent</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+    <span class="s2">&#34;&#34;&#34;抽取单个字的特征&#34;&#34;&#34;</span>
+    <span class="n">word</span> <span class="o">=</span> <span class="n">sent</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">prev_word</span> <span class="o">=</span> <span class="s2">&#34;&lt;s&gt;&#34;</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">sent</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">next_word</span> <span class="o">=</span> <span class="s2">&#34;&lt;/s&gt;&#34;</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sent</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">else</span> <span class="n">sent</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c1"># 使用的特征：</span>
+    <span class="c1"># 前一个词，当前词，后一个词，</span>
+    <span class="c1"># 前一个词+当前词， 当前词+后一个词</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="n">word</span><span class="p">,</span>
+        <span class="s1">&#39;w-1&#39;</span><span class="p">:</span> <span class="n">prev_word</span><span class="p">,</span>
+        <span class="s1">&#39;w+1&#39;</span><span class="p">:</span> <span class="n">next_word</span><span class="p">,</span>
+        <span class="s1">&#39;w-1:w&#39;</span><span class="p">:</span> <span class="n">prev_word</span><span class="o">+</span><span class="n">word</span><span class="p">,</span>
+        <span class="s1">&#39;w:w+1&#39;</span><span class="p">:</span> <span class="n">word</span><span class="o">+</span><span class="n">next_word</span><span class="p">,</span>
+        <span class="s1">&#39;bias&#39;</span><span class="p">:</span> <span class="mi">1</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">features</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（4）Bi-LSTM</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">BiLSTM</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">,</span> <span class="n">emb_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">out_size</span><span class="p">):</span>
+       <span class="s2">&#34;&#34;&#34;初始化参数：
+</span><span class="s2">           vocab_size:字典的大小
+</span><span class="s2">           emb_size:词向量的维数
+</span><span class="s2">           hidden_size：隐向量的维数
+</span><span class="s2">           out_size:标注的种类
+</span><span class="s2">       &#34;&#34;&#34;</span>
+       <span class="nb">super</span><span class="p">(</span><span class="n">BiLSTM</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+       <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">emb_size</span><span class="p">)</span>
+       <span class="bp">self</span><span class="o">.</span><span class="n">bilstm</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LSTM</span><span class="p">(</span><span class="n">emb_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span>
+                             <span class="n">batch_first</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                             <span class="n">bidirectional</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+       <span class="bp">self</span><span class="o">.</span><span class="n">lin</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">out_size</span><span class="p">)</span>
+
+   <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sents_tensor</span><span class="p">,</span> <span class="n">lengths</span><span class="p">):</span>
+       <span class="n">emb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span><span class="p">(</span><span class="n">sents_tensor</span><span class="p">)</span>  <span class="c1"># [B, L, emb_size] # 分词之后是经过一个embedding，而不是one -hot</span>
+
+       <span class="n">packed</span> <span class="o">=</span> <span class="n">pack_padded_sequence</span><span class="p">(</span><span class="n">emb</span><span class="p">,</span> <span class="n">lengths</span><span class="p">,</span> <span class="n">batch_first</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> 
+       <span class="c1"># 这个操作有点怪呀， 在进入bilstm之前是需要把padding pack，然后出了lstm 之后需要把packed </span>
+       <span class="n">rnn_out</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bilstm</span><span class="p">(</span><span class="n">packed</span><span class="p">)</span> <span class="c1"># embedding 给padding</span>
+       <span class="c1"># rnn_out:[B, L, hidden_size*2] </span>
+      <span class="c1"># 这种操作可能的原因是减少 lstm 中的参数量吧</span>
+       <span class="n">rnn_out</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">pad_packed_sequence</span><span class="p">(</span><span class="n">rnn_out</span><span class="p">,</span> <span class="n">batch_first</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+       <span class="n">scores</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin</span><span class="p">(</span><span class="n">rnn_out</span><span class="p">)</span>  <span class="c1"># [B, L, out_size]</span>
+       <span class="k">return</span> <span class="n">scores</span>
+
+   <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sents_tensor</span><span class="p">,</span> <span class="n">lengths</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+       <span class="s2">&#34;&#34;&#34;第三个参数不会用到，加它是为了与BiLSTM_CRF保持同样的接口&#34;&#34;&#34;</span>
+       <span class="n">logits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">sents_tensor</span><span class="p">,</span> <span class="n">lengths</span><span class="p">)</span>  <span class="c1"># [B, L, out_size]</span>
+       <span class="n">_</span><span class="p">,</span> <span class="n">batch_tagids</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+       <span class="k">return</span> <span class="n">batch_tagids</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>文本的数据预处理无非是将文本转换成模型可以理解的数字，在训练lstm 的时候需要加上四个特殊的token：</p>
+<ul>
+<li>&lt; PAD&gt;: 补全字符。</li>
+<li>&lt; EOS&gt;: 解码器端的句子结束标识符。</li>
+<li>&lt; UNK&gt;: 低频词或者一些未遇到过的词等。</li>
+<li>&lt; GO&gt;: 解码器端的句子起始标识符。</li>
+</ul>
+<p>这种基于 <code>len()</code> 的实现实在是太骚了</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># LSTM模型训练的时候需要在word2id和tag2id加入PAD和UNK</span>
+<span class="c1"># 如果是加了CRF的lstm还要加入&lt;start&gt;和&lt;end&gt; (解码的时候需要用到)</span>
+<span class="k">def</span> <span class="nf">extend_maps</span><span class="p">(</span><span class="n">word2id</span><span class="p">,</span> <span class="n">tag2id</span><span class="p">,</span> <span class="n">for_crf</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="n">word2id</span><span class="p">[</span><span class="s1">&#39;&lt;unk&gt;&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">word2id</span><span class="p">)</span>
+    <span class="n">word2id</span><span class="p">[</span><span class="s1">&#39;&lt;pad&gt;&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">word2id</span><span class="p">)</span>
+    <span class="n">tag2id</span><span class="p">[</span><span class="s1">&#39;&lt;unk&gt;&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tag2id</span><span class="p">)</span>
+    <span class="n">tag2id</span><span class="p">[</span><span class="s1">&#39;&lt;pad&gt;&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tag2id</span><span class="p">)</span>
+    <span class="c1"># 如果是加了CRF的bilstm  那么还要加入&lt;start&gt; 和 &lt;end&gt;token</span>
+    <span class="k">if</span> <span class="n">for_crf</span><span class="p">:</span>
+        <span class="n">word2id</span><span class="p">[</span><span class="s1">&#39;&lt;start&gt;&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">word2id</span><span class="p">)</span>
+        <span class="n">word2id</span><span class="p">[</span><span class="s1">&#39;&lt;end&gt;&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">word2id</span><span class="p">)</span>
+        <span class="n">tag2id</span><span class="p">[</span><span class="s1">&#39;&lt;start&gt;&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tag2id</span><span class="p">)</span>
+        <span class="n">tag2id</span><span class="p">[</span><span class="s1">&#39;&lt;end&gt;&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tag2id</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">word2id</span><span class="p">,</span> <span class="n">tag2id</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果一个类中只有函数的（如 <code>utils.py</code>）,那么使用 <code>from utils import fun1</code>  就可以；如果某个类中包含类<code>crf.py</code>, 在引用的时候，使用 <code>from crf import CRF</code>的语句。</p>
+<p>（5）Bi-LSTM +CRF模型</p>
+<img src="https://s2.ax1x.com/2019/12/31/l19XvT.jpg" width="80%" height="80%">
+<p>为了使转移分数矩阵更具鲁棒性，我们加上START 和 END两类标签。START代表一个句子的开始（不是句子的第一个单词），END代表一个句子的结束。对于这种写法是非常有条理的：train，evaluation 和test 数据集是需要经过不同的处理，然后可以写一个函数，引入不同的参数，表示不同的处理。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">prepocess_data_for_lstmcrf</span><span class="p">(</span><span class="n">word_lists</span><span class="p">,</span> <span class="n">tag_lists</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">word_lists</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">tag_lists</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">word_lists</span><span class="p">)):</span>
+        <span class="n">word_lists</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&#34;&lt;end&gt;&#34;</span><span class="p">)</span> <span class="c1"># 对于训练数据集</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">test</span><span class="p">:</span>  <span class="c1"># 如果是测试数据，就不需要加end token了</span>
+            <span class="n">tag_lists</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&#34;&lt;end&gt;&#34;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">word_lists</span><span class="p">,</span> <span class="n">tag_lists</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果是<code> bi-lstm</code> 模型，因为相当于是一个语言模型，
+通过softmax 可以获得输出序列的概率 $p(y| X)$，然后取对数，这个时候的损失函数就定义为 $- \log p(y|X)$，使用最大似然估计求解。到了 <code>bi-lstm + CRF</code>中是可以使用各种损失函数的。</p>
+<p>LSTM without CRF 的损失函数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">cal_loss</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">tag2id</span><span class="p">):</span>
+    <span class="s2">&#34;&#34;&#34;计算损失
+</span><span class="s2">    参数:
+</span><span class="s2">        logits: [B, L, out_size]
+</span><span class="s2">        targets: [B, L]
+</span><span class="s2">        lengths: [B]
+</span><span class="s2">    &#34;&#34;&#34;</span>
+    <span class="n">PAD</span> <span class="o">=</span> <span class="n">tag2id</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;&lt;pad&gt;&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">PAD</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+
+    <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">targets</span> <span class="o">!=</span> <span class="n">PAD</span><span class="p">)</span>  <span class="c1"># [B, L]</span>
+    <span class="n">targets</span> <span class="o">=</span> <span class="n">targets</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+    <span class="n">out_size</span> <span class="o">=</span> <span class="n">logits</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">logits</span> <span class="o">=</span> <span class="n">logits</span><span class="o">.</span><span class="n">masked_select</span><span class="p">(</span>
+        <span class="n">mask</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">out_size</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">out_size</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">logits</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="n">targets</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">loss</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>LSTM with CRF的损失函数。相比于上一个损失函数，该损失函数增加了对于<em>生成label之间的约束</em>。具体如下：</p>
+<p>输入数据 $X$ 表示如下：</p>
+<p>\begin{equation}
+\mathbf{X}=\left(\mathbf{x} _{1}, \mathbf{x} _{2}, \dots, \mathbf{x} _{n}\right)
+\end{equation}</p>
+<p>\begin{equation}
+\mathbf{y}=\left(y_{1}, y_{2}, \ldots, y_{n}\right)
+\end{equation}</p>
+<blockquote>
+<p>we consider $P$ to be the matrix of scores output by the bidirectional LSTM network. P is of size $n × k$, where k is the number of distinct tags, and $P_{i,j} corresponds to the score of the $j$ th tag of the $i$th word in a sentence. For a sequence of predictions</p>
+</blockquote>
+<p>其中分数 score 定义为:
+\begin{equation}
+s(\mathbf{X}, \mathbf{y})=\sum_{i=0}^{n} A_{y_{i}, y_{i+1}}+\sum_{i=1}^{n} P_{i, y_{i}}
+\end{equation}</p>
+<p>$A$ 是转移矩阵，$A_{i, j}$表示从tags $i$ 到 tags$j$的转移。</p>
+<p>对结果使用softmax 可以得到：</p>
+<p>\begin{equation}
+p(\mathbf{y} | \mathbf{X})=\frac{e^{s(\mathbf{X}, \mathbf{y})}}{\sum_{\widetilde{\mathbf{y}} \in \mathbf{Y}_{\mathbf{X}}} e^{s(\mathbf{X}, \widetilde{\mathbf{y}})}}
+\end{equation}</p>
+<p>在训练过程中，经常将结果取对数。最终的tag 用 $y^*$表示为：</p>
+<p>\begin{equation}
+\mathbf{y}^{*}=\underset{\tilde{\mathbf{y}} \in \mathbf{Y}_{\mathbf{X}}}{\operatorname{argmax}} s(\mathbf{X}, \widetilde{\mathbf{y}})
+\end{equation}</p>
+<p>{% fold  开/合 %}</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">cal_lstm_crf_loss</span><span class="p">(</span><span class="n">crf_scores</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">tag2id</span><span class="p">):</span>
+    <span class="s2">&#34;&#34;&#34;计算双向LSTM-CRF模型的损失
+</span><span class="s2">    该损失函数的计算可以参考:https://arxiv.org/pdf/1603.01360.pdf
+</span><span class="s2">    &#34;&#34;&#34;</span>
+    <span class="n">pad_id</span> <span class="o">=</span> <span class="n">tag2id</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;&lt;pad&gt;&#39;</span><span class="p">)</span>
+    <span class="n">start_id</span> <span class="o">=</span> <span class="n">tag2id</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;&lt;start&gt;&#39;</span><span class="p">)</span>
+    <span class="n">end_id</span> <span class="o">=</span> <span class="n">tag2id</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;&lt;end&gt;&#39;</span><span class="p">)</span>
+
+    <span class="n">device</span> <span class="o">=</span> <span class="n">crf_scores</span><span class="o">.</span><span class="n">device</span>
+
+    <span class="c1"># targets:[B, L] crf_scores:[B, L, T, T]</span>
+    <span class="n">batch_size</span><span class="p">,</span> <span class="n">max_len</span> <span class="o">=</span> <span class="n">targets</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+    <span class="n">target_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tag2id</span><span class="p">)</span>
+
+    <span class="c1"># mask = 1 - ((targets == pad_id) + (targets == end_id))  # [B, L]</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">targets</span> <span class="o">!=</span> <span class="n">pad_id</span><span class="p">)</span>
+    <span class="n">lengths</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">targets</span> <span class="o">=</span> <span class="n">indexed</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">target_size</span><span class="p">,</span> <span class="n">start_id</span><span class="p">)</span>
+
+    <span class="c1"># # 计算Golden scores方法１</span>
+    <span class="c1"># import pdb</span>
+    <span class="c1"># pdb.set_trace()</span>
+    <span class="n">targets</span> <span class="o">=</span> <span class="n">targets</span><span class="o">.</span><span class="n">masked_select</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>  <span class="c1"># [real_L]</span>
+
+    <span class="n">flatten_scores</span> <span class="o">=</span> <span class="n">crf_scores</span><span class="o">.</span><span class="n">masked_select</span><span class="p">(</span>
+        <span class="n">mask</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">max_len</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">expand_as</span><span class="p">(</span><span class="n">crf_scores</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">target_size</span><span class="o">*</span><span class="n">target_size</span><span class="p">)</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+
+    <span class="n">golden_scores</span> <span class="o">=</span> <span class="n">flatten_scores</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span>
+        <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">targets</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+    <span class="c1"># 计算golden_scores方法２：利用pack_padded_sequence函数</span>
+    <span class="c1"># targets[targets == end_id] = pad_id</span>
+    <span class="c1"># scores_at_targets = torch.gather(</span>
+    <span class="c1">#     crf_scores.view(batch_size, max_len, -1), 2, targets.unsqueeze(2)).squeeze(2)</span>
+    <span class="c1"># scores_at_targets, _ = pack_padded_sequence(</span>
+    <span class="c1">#     scores_at_targets, lengths-1, batch_first=True</span>
+    <span class="c1"># )</span>
+    <span class="c1"># golden_scores = scores_at_targets.sum()</span>
+
+    <span class="c1"># 计算all path scores</span>
+    <span class="c1"># scores_upto_t[i, j]表示第i个句子的第t个词被标注为j标记的所有t时刻事前的所有子路径的分数之和</span>
+    <span class="n">scores_upto_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">target_size</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span> <span class="c1"># 凡是数据类型是 tensor 的，都是可以在后面加上 to(device) 的</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_len</span><span class="p">):</span>
+        <span class="c1"># 当前时刻 有效的batch_size（因为有些序列比较短)</span>
+        <span class="n">batch_size_t</span> <span class="o">=</span> <span class="p">(</span><span class="n">lengths</span> <span class="o">&gt;</span> <span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">scores_upto_t</span><span class="p">[:</span><span class="n">batch_size_t</span><span class="p">]</span> <span class="o">=</span> <span class="n">crf_scores</span><span class="p">[:</span><span class="n">batch_size_t</span><span class="p">,</span>
+                                                      <span class="n">t</span><span class="p">,</span> <span class="n">start_id</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># We add scores at current timestep to scores accumulated up to previous</span>
+            <span class="c1"># timestep, and log-sum-exp Remember, the cur_tag of the previous</span>
+            <span class="c1"># timestep is the prev_tag of this timestep</span>
+            <span class="c1"># So, broadcast prev. timestep&#39;s cur_tag scores</span>
+            <span class="c1"># along cur. timestep&#39;s cur_tag dimension</span>
+            <span class="n">scores_upto_t</span><span class="p">[:</span><span class="n">batch_size_t</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">logsumexp</span><span class="p">(</span>
+                <span class="n">crf_scores</span><span class="p">[:</span><span class="n">batch_size_t</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">+</span>
+                <span class="n">scores_upto_t</span><span class="p">[:</span><span class="n">batch_size_t</span><span class="p">]</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+                <span class="n">dim</span><span class="o">=</span><span class="mi">1</span>
+            <span class="p">)</span>
+    <span class="n">all_path_scores</span> <span class="o">=</span> <span class="n">scores_upto_t</span><span class="p">[:,</span> <span class="n">end_id</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+    <span class="c1"># 训练大约两个epoch loss变成负数，从数学的角度上来说，loss = -logP</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="p">(</span><span class="n">all_path_scores</span> <span class="o">-</span> <span class="n">golden_scores</span><span class="p">)</span> <span class="o">/</span> <span class="n">batch_size</span>
+    <span class="k">return</span> <span class="n">loss</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>{% endfold %}</p>
+<p>如果数据集比较小，那么是可以通过切分的方式获得一个 <code>batch size</code> 的数据的。其中的预先排序感觉有点意思，这样保证一个batch 中长度基本上是保持一致的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python">    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word_lists</span><span class="p">,</span> <span class="n">tag_lists</span><span class="p">,</span>
+              <span class="n">dev_word_lists</span><span class="p">,</span> <span class="n">dev_tag_lists</span><span class="p">,</span>
+              <span class="n">word2id</span><span class="p">,</span> <span class="n">tag2id</span><span class="p">):</span>
+        <span class="c1"># 对数据集按照长度进行排序</span>
+        <span class="n">word_lists</span><span class="p">,</span> <span class="n">tag_lists</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">sort_by_lengths</span><span class="p">(</span><span class="n">word_lists</span><span class="p">,</span> <span class="n">tag_lists</span><span class="p">)</span>
+        <span class="n">dev_word_lists</span><span class="p">,</span> <span class="n">dev_tag_lists</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">sort_by_lengths</span><span class="p">(</span>
+            <span class="n">dev_word_lists</span><span class="p">,</span> <span class="n">dev_tag_lists</span><span class="p">)</span>
+
+        <span class="n">B</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">epoches</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">losses</span> <span class="o">=</span> <span class="mf">0.</span>
+            <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">word_lists</span><span class="p">),</span> <span class="n">B</span><span class="p">):</span> <span class="c1"># 非常直接得到了一个batch 的数据集</span>
+                <span class="n">batch_sents</span> <span class="o">=</span> <span class="n">word_lists</span><span class="p">[</span><span class="n">ind</span><span class="p">:</span><span class="n">ind</span><span class="o">+</span><span class="n">B</span><span class="p">]</span>
+                <span class="n">batch_tags</span> <span class="o">=</span> <span class="n">tag_lists</span><span class="p">[</span><span class="n">ind</span><span class="p">:</span><span class="n">ind</span><span class="o">+</span><span class="n">B</span><span class="p">]</span>
+                <span class="n">losses</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_step</span><span class="p">(</span><span class="n">batch_sents</span><span class="p">,</span>
+                                          <span class="n">batch_tags</span><span class="p">,</span> <span class="n">word2id</span><span class="p">,</span> <span class="n">tag2id</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">%</span> <span class="n">TrainingConfig</span><span class="o">.</span><span class="n">print_step</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">total_step</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">word_lists</span><span class="p">)</span> <span class="o">//</span> <span class="n">B</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Epoch {}, step/total_step: {}/{} {:.2f}</span><span class="si">% Lo</span><span class="s2">ss:{:.4f}&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">e</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span><span class="p">,</span> <span class="n">total_step</span><span class="p">,</span>
+                        <span class="mf">100.</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">/</span> <span class="n">total_step</span><span class="p">,</span>
+                        <span class="n">losses</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">print_step</span>
+                    <span class="p">))</span>
+                    <span class="n">losses</span> <span class="o">=</span> <span class="mf">0.</span>
+            <span class="c1"># 每轮结束测试在验证集上的性能，保存最好的一个</span>
+            <span class="n">val_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span>
+                <span class="n">dev_word_lists</span><span class="p">,</span> <span class="n">dev_tag_lists</span><span class="p">,</span> <span class="n">word2id</span><span class="p">,</span> <span class="n">tag2id</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Epoch {}, Val Loss:{:.4f}&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">val_loss</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>所以LSTM-CRF最大的特点就是：由LSTM提供特征，而且特征是有参数的，是可以学习的！因此它可能根据不同问题学到各种合适的底层特征；而CRF的特征是人工定义出来的，不可变的，我们最多改改这个特征的参数。</p>
+<p>（6） ensemble多个模型</p>
+<p>这个ensemble机制也是比较简单，就是众人投票机制。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">ensemble_evaluate</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">remove_O</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="s2">&#34;&#34;&#34;ensemble多个模型&#34;&#34;&#34;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)):</span>
+        <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">flatten_lists</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+    <span class="n">pred_tags</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">results</span><span class="p">):</span>
+        <span class="n">ensemble_tag</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">pred_tags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ensemble_tag</span><span class="p">)</span>
+
+    <span class="n">targets</span> <span class="o">=</span> <span class="n">flatten_lists</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">pred_tags</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Ensemble 四个模型的结果如下：&#34;</span><span class="p">)</span>
+    <span class="n">metrics</span> <span class="o">=</span> <span class="n">Metrics</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">pred_tags</span><span class="p">,</span> <span class="n">remove_O</span><span class="o">=</span><span class="n">remove_O</span><span class="p">)</span>
+    <span class="n">metrics</span><span class="o">.</span><span class="n">report_scores</span><span class="p">()</span>
+    <span class="n">metrics</span><span class="o">.</span><span class="n">report_confusion_matrix</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>其他函数。</p>
+<p>下面有两个函数，第一个函数是能够递归的处理多层（三层及以上）的嵌套，第二个函数只能处理两层的嵌套。本质是需要采取递归的思路。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">t</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,[</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span><span class="mi">5</span><span class="p">],</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span><span class="mi">7</span><span class="p">,</span><span class="mi">4</span><span class="p">,[</span><span class="mi">6</span><span class="p">,</span><span class="mi">34</span><span class="p">]]</span>
+<span class="n">res</span> <span class="o">=</span><span class="p">[]</span>
+<span class="k">def</span> <span class="nf">flatten_list</span><span class="p">(</span><span class="n">list1</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">list1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">==</span><span class="nb">list</span><span class="p">:</span>
+            <span class="n">flatten_list</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+<span class="n">flatten_list</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+            
+<span class="k">def</span> <span class="nf">flatten_lists</span><span class="p">(</span><span class="n">lists</span><span class="p">):</span>
+    <span class="n">flatten_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lists</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="n">flatten_list</span> <span class="o">+=</span> <span class="n">l</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">flatten_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">flatten_list</span>
+<span class="k">print</span><span class="p">(</span><span class="n">flatten_lists</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（7）评估模型</p>
+<p>主要是针对precision， recall 和F1 的实现问题。按照行输出混淆矩阵。</p>
+<p>{% fold  开/合 %}</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span><span class="lnt">90
+</span><span class="lnt">91
+</span><span class="lnt">92
+</span><span class="lnt">93
+</span><span class="lnt">94
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Metrics</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">golden_tags</span><span class="p">,</span> <span class="n">predict_tags</span><span class="p">,</span> <span class="n">remove_0</span> <span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">golden_tags</span> <span class="o">=</span> <span class="n">flattent_list</span><span class="p">(</span><span class="n">golen_tags</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">predict_tags</span> <span class="o">=</span><span class="n">flattent_list</span><span class="p">(</span><span class="n">predict_tags</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">remove_0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_remove_0tags</span><span class="p">()</span>
+        
+        <span class="c1"># 辅助性的计算变量</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tagset</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">golden_tags</span><span class="p">)</span>
+        <span class="c1"># true positive </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">correct_tags_number</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">count_correct_tags</span><span class="p">()</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">predict_tags_counter</span> <span class="o">=</span><span class="n">Counter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">predict_tags</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">golden_tags_counter</span> <span class="o">=</span><span class="n">Counter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">golden_tags</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">precision_scores</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cal_precision</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recall_scores</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cal_recall</span><span class="p">()</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">f1_scores</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cal_f1</span><span class="p">()</span>
+        
+    <span class="k">def</span> <span class="nf">cal_precision</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="n">precision_scores</span> <span class="o">=</span><span class="p">{}</span>
+        
+        <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tagset</span><span class="p">:</span>
+            <span class="n">precision_scores</span><span class="p">[</span><span class="n">tag</span><span class="p">]</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">correct_tags_number</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">predict_tags_counter</span><span class="p">[</span><span class="n">tag</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">precision_scores</span>
+    
+    <span class="k">def</span> <span class="nf">cal_recall</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="n">recall_scores</span> <span class="o">=</span><span class="p">{}</span>
+        <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tagset</span><span class="p">:</span>
+            <span class="n">recall_scores</span><span class="p">[</span><span class="n">tag</span><span class="p">]</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">correct_tags_number</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">golden_tags_counter</span><span class="p">[</span><span class="n">tag</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">recall_scores</span>
+        
+    <span class="k">def</span> <span class="nf">cal_f1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">f1_scores</span> <span class="o">=</span><span class="p">{}</span>
+        
+        <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tagset</span><span class="p">:</span>
+            <span class="n">p</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">precision_scores</span><span class="p">[</span><span class="n">tag</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">recall_scores</span><span class="p">[</span><span class="n">tag</span><span class="p">]</span>
+            <span class="n">f1_scores</span><span class="p">[</span><span class="n">tag</span><span class="p">]</span> <span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">p</span><span class="o">*</span><span class="n">r</span> <span class="o">/</span><span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">r</span> <span class="o">+</span><span class="mf">1e-10</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">f1_scores</span>
+    
+    
+    
+    <span class="k">def</span> <span class="nf">report_confusion_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Confusion Matrix:&#34;</span><span class="p">)</span>
+        
+        <span class="n">tag_list</span> <span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tagset</span><span class="p">)</span>
+        <span class="n">tags_size</span> <span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">tag_list</span><span class="p">)</span>
+        
+        <span class="n">matrix</span><span class="o">=</span><span class="p">[]</span> <span class="c1"># 最后的结果就是一个二维矩阵</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tags_size</span><span class="p">):</span>
+            <span class="n">matrix</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">tags_size</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">golden_tag</span><span class="p">,</span> <span class="n">predict_tag</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">golden_tags</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict_tags</span><span class="p">):</span>
+            
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">row</span> <span class="o">=</span><span class="n">tag_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">golden_tag</span><span class="p">)</span>
+                <span class="n">col</span> <span class="o">=</span><span class="n">tag_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">predict_tag</span><span class="p">)</span>
+                
+                <span class="n">matrix</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">+=</span><span class="mi">1</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span> <span class="c1"># 极小的概率发生： 出现在gold tag 中，但是没有出现在predic tag中</span>
+                <span class="k">continue</span> 
+        
+        <span class="n">row_format_</span> <span class="o">=</span><span class="s1">&#39;{:&gt;7} &#39;</span><span class="o">*</span><span class="p">(</span><span class="n">tags_size</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">row_format_</span><span class="p">(</span><span class="s2">&#34;&#34;</span><span class="p">,</span> <span class="o">*</span> <span class="n">tags_list</span><span class="p">))</span>
+        <span class="c1"># 写得比较好的是以行为单位进行输出，这样至少看起来是非常美观的</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">matrix</span><span class="p">):</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">row_format_</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tags_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">*</span><span class="n">row</span><span class="p">))</span>
+            
+    
+    <span class="k">def</span> <span class="nf">_cal_weighted_average</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">weighted_average</span> <span class="o">=</span><span class="p">{}</span>
+        <span class="n">total</span> <span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">golden_tags</span><span class="p">)</span>
+        
+        <span class="n">weighted_average</span><span class="p">[</span><span class="s1">&#39;precision&#39;</span><span class="p">]</span> <span class="o">=</span><span class="mf">0.</span>
+        <span class="n">weighted_average</span><span class="p">[</span><span class="s1">&#39;recall&#39;</span><span class="p">]</span> <span class="o">=</span><span class="mf">0.</span>
+        <span class="n">weighted_average</span><span class="p">[</span><span class="s1">&#39;f1&#39;</span><span class="p">]</span> <span class="o">=</span><span class="mf">0.</span>
+        
+        <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tagset</span><span class="p">:</span>
+            <span class="n">size</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">golden_tags_counter</span><span class="p">[</span><span class="n">tag</span><span class="p">]</span>
+            <span class="n">weighted_average</span><span class="p">[</span><span class="s1">&#39;precision&#39;</span> <span class="p">]</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">precision_scores</span><span class="p">[</span><span class="n">tag</span><span class="p">]</span> <span class="o">*</span> <span class="n">size</span>
+            <span class="n">weighted_average</span><span class="p">[</span><span class="s1">&#39;recall&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">recall_scores</span><span class="p">[</span><span class="n">tag</span><span class="p">]</span> <span class="o">*</span><span class="n">size</span>
+            <span class="n">weighted_average</span><span class="p">[</span><span class="s1">&#39;f1&#39;</span><span class="p">]</span> <span class="o">+=</span><span class="bp">self</span><span class="o">.</span><span class="n">f1_score</span><span class="p">[</span><span class="n">tag</span><span class="p">]</span> <span class="o">*</span><span class="n">size</span>
+        
+        <span class="c1"># 这个加权平均和中的权重是 size长度</span>
+        <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">weighted_average</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">weighted_average</span><span class="p">[</span><span class="n">metric</span><span class="p">]</span> <span class="o">/=</span> <span class="n">total</span>
+        
+        <span class="k">return</span> <span class="n">weighted_average</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>{% endfold %}</p>
+<p>（8）常见的参数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">TrainingConfig</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span>
+    <span class="c1"># 学习速率</span>
+    <span class="n">lr</span> <span class="o">=</span> <span class="mf">0.001</span>
+    <span class="c1">#epoches = 30</span>
+    <span class="n">epoches</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">print_step</span> <span class="o">=</span> <span class="mi">5</span>
+
+
+<span class="k">class</span> <span class="nc">LSTMConfig</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">emb_size</span> <span class="o">=</span> <span class="mi">128</span>  <span class="c1"># 词向量的维数</span>
+    <span class="n">hidden_size</span> <span class="o">=</span> <span class="mi">128</span>  <span class="c1"># lstm隐向量的维数</span>
+    
+<span class="c1"># 多说一句，最后out size 的维度是 len(tags)， 因为模型是为了给定一个字，然后predict 其 tag，所以这个是没有问题的； 实际上问的embedding size ，那么是想要考虑 word embedding的大小， 是 128</span>
+<span class="n">out_size</span> <span class="o">=</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>使用DropOut 提高了最后的结果</p>
+<blockquote>
+<p>Initial experiments showed that character-level embeddings did not improve our overall performance when used in conjunction with pre-trained word representations. To encourage the model to depend on both representations, we use dropout training, applying a dropout mask to the final embedding layer just before the input to the bi-directional LSTM. We observe a significant improvement in our model’s performance after using dropout.</p>
+</blockquote>
+<p>（8）手写viterbi 算法</p>
+<p>{% fold  开/合 %}</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">torch</span>
+<span class="k">class</span> <span class="nc">HMM</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">M</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;Args:
+</span><span class="s2">            N: 状态数，这里对应存在的标注的种类
+</span><span class="s2">            M: 观测数，这里对应有多少不同的字
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">=</span> <span class="n">N</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="o">=</span> <span class="n">M</span>
+
+        <span class="c1"># 状态转移概率矩阵 A[i][j]表示从i状态转移到j状态的概率</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+        <span class="c1"># 观测概率矩阵, B[i][j]表示i状态下生成j观测的概率</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">M</span><span class="p">)</span>
+        <span class="c1"># 初始状态概率  Pi[i]表示初始时刻为状态i的概率</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Pi</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word_lists</span><span class="p">,</span> <span class="n">tag_lists</span><span class="p">,</span> <span class="n">word2id</span><span class="p">,</span> <span class="n">tag2id</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;HMM的训练，即根据训练语料对模型参数进行估计,
+</span><span class="s2">           因为我们有观测序列以及其对应的状态序列，所以我们
+</span><span class="s2">           可以使用极大似然估计的方法来估计隐马尔可夫模型的参数
+</span><span class="s2">        参数:
+</span><span class="s2">            word_lists: 列表，其中每个元素由字组成的列表，如 [&#39;担&#39;,&#39;任&#39;,&#39;科&#39;,&#39;员&#39;]
+</span><span class="s2">            tag_lists: 列表，其中每个元素是由对应的标注组成的列表，如 [&#39;O&#39;,&#39;O&#39;,&#39;B-TITLE&#39;, &#39;E-TITLE&#39;]
+</span><span class="s2">            word2id: 将字映射为ID
+</span><span class="s2">            tag2id: 字典，将标注映射为ID
+</span><span class="s2">        &#34;&#34;&#34;</span>
+
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">tag_lists</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">word_lists</span><span class="p">)</span>
+
+        <span class="c1"># 估计转移概率矩阵</span>
+        <span class="k">for</span> <span class="n">tag_list</span> <span class="ow">in</span> <span class="n">tag_lists</span><span class="p">:</span>
+            <span class="n">seq_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tag_list</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">seq_len</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">current_tagid</span> <span class="o">=</span> <span class="n">tag2id</span><span class="p">[</span><span class="n">tag_list</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+                <span class="n">next_tagid</span> <span class="o">=</span> <span class="n">tag2id</span><span class="p">[</span><span class="n">tag_list</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">current_tagid</span><span class="p">][</span><span class="n">next_tagid</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="c1"># 问题：如果某元素没有出现过，该位置为0，这在后续的计算中是不允许的</span>
+        <span class="c1"># 解决方法：我们将等于0的概率加上很小的数</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">==</span> <span class="mf">0.</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-10</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+        <span class="c1"># 估计观测概率矩阵</span>
+        <span class="k">for</span> <span class="n">tag_list</span><span class="p">,</span> <span class="n">word_list</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">tag_lists</span><span class="p">,</span> <span class="n">word_lists</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">tag_list</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">word_list</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">word</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">tag_list</span><span class="p">,</span> <span class="n">word_list</span><span class="p">):</span>
+                <span class="n">tag_id</span> <span class="o">=</span> <span class="n">tag2id</span><span class="p">[</span><span class="n">tag</span><span class="p">]</span>
+                <span class="n">word_id</span> <span class="o">=</span> <span class="n">word2id</span><span class="p">[</span><span class="n">word</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">[</span><span class="n">tag_id</span><span class="p">][</span><span class="n">word_id</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span> <span class="o">==</span> <span class="mf">0.</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-10</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+        <span class="c1"># 估计初始状态概率</span>
+        <span class="k">for</span> <span class="n">tag_list</span> <span class="ow">in</span> <span class="n">tag_lists</span><span class="p">:</span>
+            <span class="n">init_tagid</span> <span class="o">=</span> <span class="n">tag2id</span><span class="p">[</span><span class="n">tag_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Pi</span><span class="p">[</span><span class="n">init_tagid</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Pi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">Pi</span> <span class="o">==</span> <span class="mf">0.</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-10</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Pi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Pi</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">Pi</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word_lists</span><span class="p">,</span> <span class="n">word2id</span><span class="p">,</span> <span class="n">tag2id</span><span class="p">):</span>
+        <span class="n">pred_tag_lists</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">word_list</span> <span class="ow">in</span> <span class="n">word_lists</span><span class="p">:</span>
+            <span class="n">pred_tag_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decoding</span><span class="p">(</span><span class="n">word_list</span><span class="p">,</span> <span class="n">word2id</span><span class="p">,</span> <span class="n">tag2id</span><span class="p">)</span>
+            <span class="n">pred_tag_lists</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pred_tag_list</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pred_tag_lists</span>
+
+    <span class="k">def</span> <span class="nf">decoding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word_list</span><span class="p">,</span> <span class="n">word2id</span><span class="p">,</span> <span class="n">tag2id</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        使用维特比算法对给定观测序列求状态序列， 这里就是对字组成的序列,求其对应的标注。
+</span><span class="s2">        维特比算法实际是用动态规划解隐马尔可夫模型预测问题，即用动态规划求概率最大路径（最优路径）
+</span><span class="s2">        这时一条路径对应着一个状态序列
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="c1"># 问题:整条链很长的情况下，十分多的小概率相乘，最后可能造成下溢</span>
+        <span class="c1"># 解决办法：采用对数概率，这样源空间中的很小概率，就被映射到对数空间的大的负数</span>
+        <span class="c1">#  同时相乘操作也变成简单的相加操作</span>
+        <span class="n">A</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">)</span>
+        <span class="n">Pi</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Pi</span><span class="p">)</span>
+
+        <span class="c1"># 初始化 维比特矩阵viterbi 它的维度为[状态数, 序列长度]</span>
+        <span class="c1"># 其中viterbi[i, j]表示标注序列的第j个标注为i的所有单个序列(i_1, i_2, ..i_j)出现的概率最大值</span>
+        <span class="n">seq_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">word_list</span><span class="p">)</span>
+        <span class="n">viterbi</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">)</span>
+        <span class="c1"># backpointer是跟viterbi一样大小的矩阵</span>
+        <span class="c1"># backpointer[i, j]存储的是 标注序列的第j个标注为i时，第j-1个标注的id</span>
+        <span class="c1"># 等解码的时候，我们用backpointer进行回溯，以求出最优路径</span>
+        <span class="n">backpointer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">)</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
+
+        <span class="c1"># self.Pi[i] 表示第一个字的标记为i的概率</span>
+        <span class="c1"># Bt[word_id]表示字为word_id的时候，对应各个标记的概率</span>
+        <span class="c1"># self.A.t()[tag_id]表示各个状态转移到tag_id对应的概率</span>
+
+        <span class="c1"># 所以第一步为</span>
+        <span class="n">start_wordid</span> <span class="o">=</span> <span class="n">word2id</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">word_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="n">Bt</span> <span class="o">=</span> <span class="n">B</span><span class="o">.</span><span class="n">t</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">start_wordid</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="c1"># 如果字不再字典里，则假设状态的概率分布是均匀的</span>
+            <span class="n">bt</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bt</span> <span class="o">=</span> <span class="n">Bt</span><span class="p">[</span><span class="n">start_wordid</span><span class="p">]</span>
+        <span class="n">viterbi</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Pi</span> <span class="o">+</span> <span class="n">bt</span>
+        <span class="n">backpointer</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="c1"># 递推公式：</span>
+        <span class="c1"># viterbi[tag_id, step] = max(viterbi[:, step-1]* self.A.t()[tag_id] * Bt[word])</span>
+        <span class="c1"># 其中word是step时刻对应的字</span>
+        <span class="c1"># 由上述递推公式求后续各步</span>
+        <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">):</span>
+            <span class="n">wordid</span> <span class="o">=</span> <span class="n">word2id</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">word_list</span><span class="p">[</span><span class="n">step</span><span class="p">],</span> <span class="bp">None</span><span class="p">)</span>
+            <span class="c1"># 处理字不在字典中的情况</span>
+            <span class="c1"># bt是在t时刻字为wordid时，状态的概率分布</span>
+            <span class="k">if</span> <span class="n">wordid</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="c1"># 如果字不再字典里，则假设状态的概率分布是均匀的</span>
+                <span class="n">bt</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">bt</span> <span class="o">=</span> <span class="n">Bt</span><span class="p">[</span><span class="n">wordid</span><span class="p">]</span>  <span class="c1"># 否则从观测概率矩阵中取bt</span>
+            <span class="k">for</span> <span class="n">tag_id</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tag2id</span><span class="p">)):</span>
+                <span class="n">max_prob</span><span class="p">,</span> <span class="n">max_id</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span>
+                    <span class="n">viterbi</span><span class="p">[:,</span> <span class="n">step</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">A</span><span class="p">[:,</span> <span class="n">tag_id</span><span class="p">],</span>
+                    <span class="n">dim</span><span class="o">=</span><span class="mi">0</span>
+                <span class="p">)</span>
+                <span class="n">viterbi</span><span class="p">[</span><span class="n">tag_id</span><span class="p">,</span> <span class="n">step</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_prob</span> <span class="o">+</span> <span class="n">bt</span><span class="p">[</span><span class="n">tag_id</span><span class="p">]</span>
+                <span class="n">backpointer</span><span class="p">[</span><span class="n">tag_id</span><span class="p">,</span> <span class="n">step</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_id</span>
+
+        <span class="c1"># 终止， t=seq_len 即 viterbi[:, seq_len]中的最大概率，就是最优路径的概率</span>
+        <span class="n">best_path_prob</span><span class="p">,</span> <span class="n">best_path_pointer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span>
+            <span class="n">viterbi</span><span class="p">[:,</span> <span class="n">seq_len</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span>
+        <span class="p">)</span>
+
+        <span class="c1"># 回溯，求最优路径</span>
+        <span class="n">best_path_pointer</span> <span class="o">=</span> <span class="n">best_path_pointer</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="n">best_path</span> <span class="o">=</span> <span class="p">[</span><span class="n">best_path_pointer</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">back_step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">seq_len</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">best_path_pointer</span> <span class="o">=</span> <span class="n">backpointer</span><span class="p">[</span><span class="n">best_path_pointer</span><span class="p">,</span> <span class="n">back_step</span><span class="p">]</span>
+            <span class="n">best_path_pointer</span> <span class="o">=</span> <span class="n">best_path_pointer</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+            <span class="n">best_path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">best_path_pointer</span><span class="p">)</span>
+
+        <span class="c1"># 将tag_id组成的序列转化为tag</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">best_path</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">word_list</span><span class="p">)</span>
+        <span class="n">id2tag</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">id_</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span> <span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">id_</span> <span class="ow">in</span> <span class="n">tag2id</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+        <span class="n">tag_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">id2tag</span><span class="p">[</span><span class="n">id_</span><span class="p">]</span> <span class="k">for</span> <span class="n">id_</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">best_path</span><span class="p">)]</span>
+
+        <span class="k">return</span> <span class="n">tag_list</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>{% endfold %}</p>
+<h2 id="实验结果">实验结果</h2>
+<p>下面结果是不同类别加权平均和得来的。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>hmm</th>
+<th>crf</th>
+<th>bi-lstm</th>
+<th>bilstm+crf</th>
+<th>ensemble</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>precision</td>
+<td>91.49%</td>
+<td>95.43%</td>
+<td>95.37%</td>
+<td>95.74%</td>
+<td>95.69%</td>
+</tr>
+<tr>
+<td>recall</td>
+<td>91.22%</td>
+<td>95.43%</td>
+<td>95.32%</td>
+<td>95.72%</td>
+<td>95.65%</td>
+</tr>
+<tr>
+<td>F1</td>
+<td>91.30%</td>
+<td>95.42%</td>
+<td>95.32%</td>
+<td>95.70%</td>
+<td>95.64%</td>
+</tr>
+</tbody>
+</table>
+<p>可以看出<code>bilstm+crf</code> 得到了最好的结果 $F1=95.70%$，当使用 ensemble时候，并不见得能够得到更好的结果，尤其是当子模型有较大的重合度且模型效果不是很好的时候。</p>
+<p>数据特点：</p>
+<p>（1）IOBES标注方式更加细化，相应的label 预测要求更加高。
+作者提到了两种tagging scheme，一种是IOB标注形式的，这种形式标注集为{B、I、O}，B表示命名实体的开头词，I表示命名实体非开始的词，O表示非命名实体词。另一个中是IOBES标注形式，标注集合为{B、I、E、O、S}，添加的E表示命名实体结尾词，S表示单个词的命名实体。</p>
+<p>优化点：</p>
+<p>（1）CRF 模型中自定义更加丰富的特征函数，相对于HMM而言，能够表示上下文。
+（2）损失函数是交叉熵。ilstm+crf 中参考的是16年一篇论文中计算$y_{pred}$，但是那篇论文中的数据集是针对外文的（英文，德文）等，主要思想是加上了 $A_{i,j}$ 转换约束
+CRF： 通过上述的双向LSTM获得整个句子的表示后，一个简单有效的标记方法就是独立地为每个单词输出标签。尽管这种方法在简单任务如POS上很成功，但是它在输出标签有强相关性时有很大的局限性。NER就是这样，输出标签是有强相关性的，比如I-PER后不能接B-LOC。因此，使用条件随机场CRF来解决这个问题。</p>
+<p>展望：</p>
+<p>（1）基于少量的标注数据进行NER 也是研究的热点。一种常见的思路是使用海量无标注数据训练一个语言模型，然后使用这个训练好的语言模型获取当前要标注词的语言模型向量，然后将这些向量加入到原始的双向LSTM-RNN 的模型中。实验结果表明，加入语言模型向量可以提高NER 的效果。</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-12-21
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/ner/">ner</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/algorithm_interview_1/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Algorithm Interview(1)</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/graph_algorithm/">
+            <span class="next-text nav-default">Graph Algorithm</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>jupyter Notebook on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/jupyter-notebook/</link>
+    <description>Recent content in jupyter Notebook on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 28 May 2020 14:40:46 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/jupyter-notebook/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Jupyter Notebook Tutorial</title>
+      <link>http://jijeng.github.io/post/jupyter_notebook_tutorial/</link>
+      <pubDate>Thu, 28 May 2020 14:40:46 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/jupyter_notebook_tutorial/</guid>
+      <description>title: Jupyter notebook 教程（高级） date: 2020-03-05 11:22:17 总结在 Jupyter notebook 使用中涉及到的比较有意思的特性（advanced tutorial，不涉及安装软件）。 Shell Commands 1 2 ! echo Hello world! pip freeze |</description>
+    </item>
+    
+  </channel>
+</rss>

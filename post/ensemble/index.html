@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Ensemble - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="将集成学习分为基本集成学习方法、高级集成学习方法和基于集成学习的算法。
+ Ensemble models in machine learning operate on a similar idea. They combine the decisions from multiple models to improve the overall performance. This can be achieved in various ways, which you will discover in this article.
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/ensemble/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Ensemble" />
+<meta property="og:description" content="将集成学习分为基本集成学习方法、高级集成学习方法和基于集成学习的算法。
+
+Ensemble models in machine learning operate on a similar idea. They combine the decisions from multiple models to improve the overall performance. This can be achieved in various ways, which you will discover in this article.
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/ensemble/" />
+<meta property="article:published_time" content="2018-02-05T21:27:04+08:00" />
+<meta property="article:modified_time" content="2018-02-05T21:27:04+08:00" />
+<meta itemprop="name" content="Ensemble">
+<meta itemprop="description" content="将集成学习分为基本集成学习方法、高级集成学习方法和基于集成学习的算法。
+
+Ensemble models in machine learning operate on a similar idea. They combine the decisions from multiple models to improve the overall performance. This can be achieved in various ways, which you will discover in this article.
+">
+<meta itemprop="datePublished" content="2018-02-05T21:27:04+08:00" />
+<meta itemprop="dateModified" content="2018-02-05T21:27:04+08:00" />
+<meta itemprop="wordCount" content="3381">
+
+
+
+<meta itemprop="keywords" content="ensemble," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Ensemble"/>
+<meta name="twitter:description" content="将集成学习分为基本集成学习方法、高级集成学习方法和基于集成学习的算法。
+
+Ensemble models in machine learning operate on a similar idea. They combine the decisions from multiple models to improve the overall performance. This can be achieved in various ways, which you will discover in this article.
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Ensemble</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-02-05 </span>
+        <div class="post-category">
+            <a href="/categories/machine-learning/"> machine learning </a>
+            </div>
+          <span class="more-meta"> 约 3381 字 </span>
+          <span class="more-meta"> 预计阅读 7 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#基本集成学习方法">基本集成学习方法</a></li>
+        <li><a href="#高级集成学习方法">高级集成学习方法</a></li>
+        <li><a href="#基于集成学习的算法">基于集成学习的算法</a></li>
+        <li><a href="#代码实现">代码实现</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>将集成学习分为基本集成学习方法、高级集成学习方法和基于集成学习的算法。</p>
+<blockquote>
+<p>Ensemble models in machine learning operate on a similar idea. They combine the decisions from multiple models to improve the overall performance. This can be achieved in various ways, which you will discover in this article.</p>
+</blockquote>
+<h2 id="基本集成学习方法">基本集成学习方法</h2>
+<p>（1）Max Voting</p>
+<p>多人投票机制，使用所有的模型预测结果的多数，常用于分类问题。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">model1</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">DecisionTreeClassifier</span><span class="p">()</span>
+<span class="n">model2</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">()</span>
+<span class="n">model3</span><span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+
+<span class="n">model1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">model2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">model3</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">pred1</span><span class="o">=</span><span class="n">model1</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+<span class="n">pred2</span><span class="o">=</span><span class="n">model2</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+<span class="n">pred3</span><span class="o">=</span><span class="n">model3</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+
+<span class="n">final_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">x_test</span><span class="p">)):</span>
+    <span class="n">final_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">final_pred</span><span class="p">,</span> <span class="n">mode</span><span class="p">([</span><span class="n">pred1</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">pred2</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">pred3</span><span class="p">[</span><span class="n">i</span><span class="p">]]))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（2）Averaging</p>
+<blockquote>
+<p>Averaging can be used for making predictions in regression problems or while calculating probabilities for classification problems.
+如果是回归问题，那么求解均值；如果是分类问题，那么求解概率</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">model1</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">DecisionTreeClassifier</span><span class="p">()</span>
+<span class="n">model2</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">()</span>
+<span class="n">model3</span><span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+
+<span class="n">model1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">model2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">model3</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">pred1</span><span class="o">=</span><span class="n">model1</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+<span class="n">pred2</span><span class="o">=</span><span class="n">model2</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+<span class="n">pred3</span><span class="o">=</span><span class="n">model3</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+
+<span class="n">finalpred</span><span class="o">=</span><span class="p">(</span><span class="n">pred1</span><span class="o">+</span><span class="n">pred2</span><span class="o">+</span><span class="n">pred3</span><span class="p">)</span><span class="o">/</span><span class="mi">3</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（3）Weighted Averaging</p>
+<p>和上面的思想类似，是有权重的，权重的依据是模型的准确率等指标。如果模型效果越好，那么权重越高。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">model1</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">DecisionTreeClassifier</span><span class="p">()</span>
+<span class="n">model2</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">()</span>
+<span class="n">model3</span><span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+
+<span class="n">model1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">model2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">model3</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">pred1</span><span class="o">=</span><span class="n">model1</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+<span class="n">pred2</span><span class="o">=</span><span class="n">model2</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+<span class="n">pred3</span><span class="o">=</span><span class="n">model3</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+
+<span class="n">finalpred</span><span class="o">=</span><span class="p">(</span><span class="n">pred1</span><span class="o">*</span><span class="mf">0.3</span><span class="o">+</span><span class="n">pred2</span><span class="o">*</span><span class="mf">0.3</span><span class="o">+</span><span class="n">pred3</span><span class="o">*</span><span class="mf">0.4</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="高级集成学习方法">高级集成学习方法</h2>
+<p>这就引出了如何组合这些模型的问题。我们可以用三种主要的旨在组合弱学习器的「元算法」：</p>
+<ul>
+<li>bagging，该方法通常考虑的是同质弱学习器，相互独立地并行学习这些弱学习器，并按照某种确定性的平均过程将它们组合起来。</li>
+<li>boosting，该方法通常考虑的也是同质弱学习器。它以一种高度自适应的方法顺序地学习这些弱学习器（每个基础模型都依赖于前面的模型），并按照某种确定性的策略将它们组合起来。</li>
+<li>stacking，该方法通常考虑的是异质弱学习器，并行地学习它们，并通过训练一个「元模型」将它们组合起来，根据不同弱模型的预测结果输出一个最终的预测结果。</li>
+</ul>
+<p>（1）Bagging</p>
+<p>思想：使用同质模型和相同的数据集，大概率得到的是相同的结果，这个是后boosting 算法中使用了一种采样方式 <code>Bootstrapping</code>。</p>
+<blockquote>
+<p>Bootstrapping is a sampling technique in which we create subsets of observations from the original dataset, <strong>with replacement</strong>.</p>
+</blockquote>
+<p>算法步骤：</p>
+<ol>
+<li>从训练集 $𝑆$中有放回的随机选取数据集 $𝑀(∣𝑀∣&lt;∣𝑆∣) $;</li>
+<li>生成一个分类模型 $𝐶 $;</li>
+<li>重复以上步骤 $m$次，得到$m$个分类模型 $𝐶_1$, $𝐶_2 $,&hellip;, $𝐶_m $;</li>
+<li>对于分类问题，每一个模型投票决定，少数服从多数原则; 对于回归问题，取平均值。</li>
+</ol>
+<p>（2）Boosting</p>
+<p>思想：如果模型本身的准确率就不高，那么多个模型组合起来不见得好。所以Boosting 的思想是在针对上一个模型的错误来训练当下的模型。</p>
+<p>（3）Stacking</p>
+<p>以二层的stacking 作为讲解。</p>
+<p>算法步骤：</p>
+<p>1). The train set is split into 10 parts.
+2). A base model (suppose a decision tree) is fitted on 9 parts and predictions are made for the 10th part. This is done for each part of the train set.
+3). The base model (in this case, decision tree) is then fitted on the whole train dataset.
+4). Using this model, predictions are made on the test set.
+5). Steps 2 to 4 are repeated for another base model (say knn) resulting in another set of predictions for the train set and test set.
+6). The predictions from the train set are used as <strong>features to build a new model.</strong>
+7). This model is used to make final predictions on the test prediction set.</p>
+<p>关键步骤是以第一层模型的输出结果作为第二次的输入。给出代码实例。</p>
+<p>定义一个通用函数。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">Stacking</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">train</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">test</span><span class="p">,</span><span class="n">n_fold</span><span class="p">):</span>
+   <span class="n">folds</span><span class="o">=</span><span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="n">n_fold</span><span class="p">,</span><span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+   <span class="n">test_pred</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">1</span><span class="p">),</span><span class="nb">float</span><span class="p">)</span>
+   <span class="n">train_pred</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="nb">float</span><span class="p">)</span>
+   <span class="k">for</span> <span class="n">train_indices</span><span class="p">,</span><span class="n">val_indices</span> <span class="ow">in</span> <span class="n">folds</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">train</span><span class="p">,</span><span class="n">y</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+      <span class="n">x_train</span><span class="p">,</span><span class="n">x_val</span><span class="o">=</span><span class="n">train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_indices</span><span class="p">],</span><span class="n">train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">val_indices</span><span class="p">]</span>
+      <span class="n">y_train</span><span class="p">,</span><span class="n">y_val</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_indices</span><span class="p">],</span><span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">val_indices</span><span class="p">]</span>
+
+      <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">x_train</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y_train</span><span class="p">)</span>
+      <span class="n">train_pred</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_pred</span><span class="p">,</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_val</span><span class="p">))</span>
+      <span class="n">test_pred</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test_pred</span><span class="p">,</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">test_pred</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">train_pred</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>第一层有两个基本的模型：决策树和K最近邻。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">model1</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">test_pred1</span> <span class="p">,</span><span class="n">train_pred1</span><span class="o">=</span><span class="n">Stacking</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model1</span><span class="p">,</span><span class="n">n_fold</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="n">x_train</span><span class="p">,</span><span class="n">test</span><span class="o">=</span><span class="n">x_test</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">train_pred1</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">train_pred1</span><span class="p">)</span>
+<span class="n">test_pred1</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">test_pred1</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">model2</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">()</span>
+<span class="n">test_pred2</span> <span class="p">,</span><span class="n">train_pred2</span><span class="o">=</span><span class="n">Stacking</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model2</span><span class="p">,</span><span class="n">n_fold</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">train</span><span class="o">=</span><span class="n">x_train</span><span class="p">,</span><span class="n">test</span><span class="o">=</span><span class="n">x_test</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">train_pred2</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">train_pred2</span><span class="p">)</span>
+<span class="n">test_pred2</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">test_pred2</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>第一层的两个模型得到了predict的值，然后将结果拼接起来作为第二层模型的输入数据集，第二层模型的label 还是原始训练数据集的label。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">train_pred1</span><span class="p">,</span> <span class="n">train_pred2</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># 基本模型prediction 的结果当做训练的输入</span>
+<span class="n">df_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">test_pred1</span><span class="p">,</span> <span class="n">test_pred2</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 为了保证同分布，这里对test 数据集也做相同的转换</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span> <span class="c1"># 数据的label 还是作为第一层模型的label </span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span> <span class="c1"># 最后是模型的输出</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在 test 数据集上的预测，需要经过两层模型：首先输入到（决策树和k最近邻）的模型中，其结果再输入到第二层模型决策树中，决策树的预测值就是最后的结果。</p>
+<p>每一轮根据上一轮的分类结果动态调整每个样本在分类器中的权重，训练得到k个弱分类器，他们都有各自的权重，通过加权组合的方式得到最终的分类结果(综合所有的基模型预测结果)。</p>
+<p>（4）Blending</p>
+<p>Blending 相比于Stacking而言，Blending 是在训练集上train，在验证集和测试集上prediction，然后使用验证集和测试集的prediction作为 features 去学习下一个模型。</p>
+<p>算法步骤：</p>
+<p>1). The train set is split into training and validation sets.
+2). Model(s) are fitted on the training set.
+3). The predictions are made on the validation set and the test set.
+4). The validation set and its predictions are used as features to build a new model.
+5). This model is used to make final predictions on the test and meta-features.</p>
+<p>同样给出了sample codes</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">model1</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">DecisionTreeClassifier</span><span class="p">()</span>
+<span class="n">model1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">val_pred1</span><span class="o">=</span><span class="n">model1</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_val</span><span class="p">)</span>
+<span class="n">test_pred1</span><span class="o">=</span><span class="n">model1</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+<span class="n">val_pred1</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">val_pred1</span><span class="p">)</span>
+<span class="n">test_pred1</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">test_pred1</span><span class="p">)</span>
+
+<span class="n">model2</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">()</span>
+<span class="n">model2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">val_pred2</span><span class="o">=</span><span class="n">model2</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_val</span><span class="p">)</span>
+<span class="n">test_pred2</span><span class="o">=</span><span class="n">model2</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+<span class="n">val_pred2</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">val_pred2</span><span class="p">)</span>
+<span class="n">test_pred2</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">test_pred2</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>第二层使用了逻辑回归在test set 上进行预测。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">df_val</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">x_val</span><span class="p">,</span> <span class="n">val_pred1</span><span class="p">,</span><span class="n">val_pred2</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df_test</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">x_test</span><span class="p">,</span> <span class="n">test_pred1</span><span class="p">,</span><span class="n">test_pred2</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_val</span><span class="p">,</span><span class="n">y_val</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_test</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="基于集成学习的算法">基于集成学习的算法</h2>
+<p>Boosting 和Bagging 是最常使用的两类集成算法。Bagging algorithms的代表是Random fores。Boosting algorithms有以下几种：</p>
+<ul>
+<li>AdaBoost</li>
+<li>GBM</li>
+<li>XGBM</li>
+<li>Light GBM</li>
+<li>CatBoost</li>
+</ul>
+<p>（1）Random Forest</p>
+<p>Random Forest 的算法步骤：
+1). Random subsets are created from the original dataset (bootstrapping).
+2). At each node in the decision tree, only a random set of features are considered to decide the best split.
+3). A decision tree model is fitted on each of the subsets.
+4). The final prediction is calculated by averaging the predictions from all decision trees.</p>
+<p>总结来说，随机森林<strong>随机</strong> 选择数据点和特征，然后组成了多棵树的集合（森林）</p>
+<p>常见的超参数
+1 ). n_estimators (子树的个数)</p>
+<ul>
+<li>It defines the number of decision trees to be created in a random forest.</li>
+<li>Generally, a higher number makes the predictions stronger and more stable, but a very large number can result in higher training time.</li>
+</ul>
+<p>2 ). max_features (使用最多特征的数量进行建立树)</p>
+<ul>
+<li>It defines the maximum number of features allowed for the split in each decision tree.</li>
+<li>Increasing max features usually improve performance but a very high number can decrease the diversity of each tree.</li>
+</ul>
+<p>3 ). max_depth ( 是一个树的最大深度，也是所有树的最大深度)</p>
+<ul>
+<li>The maximum depth of the tree.</li>
+</ul>
+<p>4 ). min_samples_leaf</p>
+<ul>
+<li>This defines the minimum number of samples required to be at a leaf node.</li>
+<li>Smaller leaf size makes the model more prone to capturing noise in train data.</li>
+</ul>
+<p>（2）AdaBoost</p>
+<blockquote>
+<p>Adaptive boosting or AdaBoost is one of the simplest boosting algorithms. Usually, decision trees are used for modelling. Multiple sequential models are created, each correcting the errors from the last model. AdaBoost assigns weights to the observations which are incorrectly predicted and the subsequent model works to predict these values correctly.
+提升策略主要是从分错类的样本角度提升，通过给予更大的权重。下一个模型预测的时候，着重该样本。</p>
+</blockquote>
+<p>（3）Gradient Boosting (GBM)</p>
+<blockquote>
+<p>Gradient Boosting or GBM is another ensemble machine learning algorithm that works for both regression and classification problems. GBM uses the boosting technique, combining a number of weak learners to form a strong learner. Regression trees used as a base learner, each subsequent tree in series is built on the errors calculated by the previous tree.
+提升策略是从梯度角度考虑，使用决策树模型减少loss，进而提高模型的预测能力。</p>
+</blockquote>
+<p>优点</p>
+<ol>
+<li>在分布稠密的数据集上，泛化能力和表达能力都很好，这使得GBDT在Kaggle的众多竞赛中，经常名列榜首。</li>
+</ol>
+<p>缺点</p>
+<ol>
+<li>GBDT在高维稀疏的数据集上，表现不如支持向量机或者神经网络。（所以说这种树的模型是有利于处理连续数值， 如果是 one-hot 就不建议使用gbdt）</li>
+<li>GBDT在处理文本分类特征问题上，相对其他模型的优势不如它在处理数值特征时明显。</li>
+</ol>
+<p>（4）XGBoost</p>
+<blockquote>
+<p>XGBoost has high predictive power and is almost 10 times faster than the other gradient boosting techniques. It also includes a variety of regularization which reduces overfitting and improves overall performance. Hence it is also known as ‘regularized boosting‘ technique.
+提升速度和使用正则方式处理过拟合。</p>
+</blockquote>
+<p>主要采用以下的技术：
+1). Regularization:</p>
+<ul>
+<li>Standard GBM implementation has no regularisation like XGBoost.</li>
+<li>Thus XGBoost also helps to reduce overfitting.
+2). Parallel Processing:</li>
+<li>XGBoost implements parallel processing and is faster than GBM .</li>
+<li>XGBoost also supports implementation on Hadoop.
+3). High Flexibility:</li>
+<li>XGBoost allows users to define custom optimization objectives and evaluation criteria adding a whole new dimension to the model.
+4). Handling Missing Values:</li>
+<li>XGBoost has an in-built routine to handle missing values.
+5). Tree Pruning:</li>
+<li>XGBoost makes splits up to the max_depth specified and then starts pruning the tree backwards and removes splits beyond which there is no positive gain.
+6). Built-in Cross-Validation:</li>
+<li>XGBoost allows a user to run a cross-validation at each iteration of the boosting process and thus it is easy to get the exact optimum number of boosting iterations in a single run.</li>
+</ul>
+<p><strong>GBDT与XGboost联系与区别</strong></p>
+<p>(1) GBDT是机器学习算法，XGBoost是该算法的工程实现。
+(2) 在使用CART作为基分类器时，XGBoost显式地加入了正则项来控制模型的复杂度，有利于防止过拟合，从而提高模型的泛化能力。
+(3) GBDT在模型训练时只使用了代价函数的一阶导数信息，XGBoost对代价函数进行二阶泰勒展开，可以同时使用一阶和二阶导数。
+(4) 传统的GBDT采用CART作为基分类器，XGBoost支持多种类型的基分类器，比如线性分类器。
+(5) 传统的GBDT在每轮迭代时使用全部的数据，XGBoost则采用了与随机森林相似的策略，支持对数据进行采样。
+(6) 传统的GBDT没有设计对缺失值进行处理，XGBoost能够自动学习出缺失值的处理策略。</p>
+<p>（6）Light GBM</p>
+<blockquote>
+<p>** Light GBM beats all the other algorithms when the dataset is extremely large**. Compared to the other algorithms, Light GBM takes lesser time to run on a huge dataset.
+LightGBM is a gradient boosting framework that uses tree-based algorithms and follows leaf-wise approach while other algorithms work in a level-wise approach pattern. The images below will help you understand the difference in a better way.</p>
+</blockquote>
+<p>效果上使用基于叶子的树的生长方式，而非层次的生成方式。</p>
+<p>（7）CatBoost</p>
+<blockquote>
+<p>Handling categorical variables is a tedious process, especially when you have a large number of such variables. When your categorical variables have too many labels (i.e. they are highly cardinal), performing one-hot-encoding on them exponentially increases the dimensionality and it becomes really difficult to work with the dataset.
+CatBoost can automatically deal with categorical variables and does not require extensive data preprocessing like other machine learning algorithms. Here is an article that explains CatBoost in detail.</p>
+</blockquote>
+<p>从名字上就知道在处理类别信息很多的数据集中，不需要预处理，直接使用。</p>
+<h2 id="代码实现">代码实现</h2>
+<p>1). <a href="https://www.analyticsvidhya.com/blog/2018/06/comprehensive-guide-for-ensemble-models/">A Comprehensive Guide to Ensemble Learning (with Python codes)</a>：关于集成学习全面的讲解。
+2). <a href="https://machinelearningmastery.com/stacking-ensemble-for-deep-learning-neural-networks/">How to Develop a Stacking Ensemble for Deep Learning Neural Networks in Python With Keras</a>：搭建的是CNN 的网络。
+3). <a href="https://machinelearningmastery.com/implementing-stacking-scratch-python/">How to Implement Stacked Generalization (Stacking) From Scratch With Python</a>： 仅仅使用了python，没有使用其他的各种机器学习的库。</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2018-02-05
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/ensemble/">ensemble</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/algorithm_practice_4/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Algorithm Practice (4)</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/binary_search/">
+            <span class="next-text nav-default">Binary-Search</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

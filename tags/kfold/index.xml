@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>kfold on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/kfold/</link>
+    <description>Recent content in kfold on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 18 Jan 2019 15:19:05 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/kfold/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Model Training</title>
+      <link>http://jijeng.github.io/post/model_training/</link>
+      <pubDate>Fri, 18 Jan 2019 15:19:05 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/model_training/</guid>
+      <description>&lt;p&gt;介绍模型选择的两种方法：交叉检验和正则化。使用交叉检验（K-fold cross validation）进行选择模型并不难理解，但正则化和模型选择的关系，一开始还不是很理解，所以通过整理，希望能带来一些启发。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

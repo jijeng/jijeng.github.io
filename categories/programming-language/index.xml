@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>programming language on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/categories/programming-language/</link>
+    <description>Recent content in programming language on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 04 Nov 2019 16:08:25 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/categories/programming-language/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Python 学习笔记（三）</title>
+      <link>http://jijeng.github.io/post/python_tutorial_3/</link>
+      <pubDate>Mon, 04 Nov 2019 16:08:25 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/python_tutorial_3/</guid>
+      <description>&lt;p&gt;python 学习笔记，之前有两篇笔记，因为太多了，所以新开一篇。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Python Advanced Skills</title>
+      <link>http://jijeng.github.io/post/python_tutorial_2/</link>
+      <pubDate>Sat, 27 Jul 2019 16:07:02 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/python_tutorial_2/</guid>
+      <description>&lt;p&gt;介绍 python advanced skill。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43; 编程语言（二）</title>
+      <link>http://jijeng.github.io/post/cpp_tutorial_2/</link>
+      <pubDate>Mon, 06 May 2019 10:46:45 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/cpp_tutorial_2/</guid>
+      <description>&lt;p&gt;C++ 语言学习笔记2&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Python Tutorial</title>
+      <link>http://jijeng.github.io/post/python_tutorial/</link>
+      <pubDate>Wed, 09 Jan 2019 10:15:33 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/python_tutorial/</guid>
+      <description>&lt;p&gt;python 学习笔记&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43; 编程语言（一）</title>
+      <link>http://jijeng.github.io/post/cpp_tutorial_1/</link>
+      <pubDate>Sat, 05 Jan 2019 19:44:13 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/cpp_tutorial_1/</guid>
+      <description>主要介绍C++ 编程语言，面向对象中的封装、继承和多态； STL(Standard Template Library 标准模板库, string, list, map) 等函数；内存管理；指针。（持续更新中&amp;hellip;） 多态（一</description>
+    </item>
+    
+  </channel>
+</rss>

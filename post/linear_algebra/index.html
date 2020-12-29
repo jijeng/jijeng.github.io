@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Linear Algebra - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="线性代数、统计学中有很多概念作为机器学习中的基础，比如说矩阵运算、相关系数等。ML 中的一个难点就是由原来概率中的线性变换直接过渡到了矩阵和网络，这其中的过程却没有人铺垫。于是，本文持续更新和 ML 相关的线性代数、统计学知识和相关的实现。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/linear_algebra/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Linear Algebra" />
+<meta property="og:description" content="线性代数、统计学中有很多概念作为机器学习中的基础，比如说矩阵运算、相关系数等。ML 中的一个难点就是由原来概率中的线性变换直接过渡到了矩阵和网络，这其中的过程却没有人铺垫。于是，本文持续更新和 ML 相关的线性代数、统计学知识和相关的实现。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/linear_algebra/" />
+<meta property="article:published_time" content="2019-03-25T14:44:42+08:00" />
+<meta property="article:modified_time" content="2019-03-25T14:44:42+08:00" />
+<meta itemprop="name" content="Linear Algebra">
+<meta itemprop="description" content="线性代数、统计学中有很多概念作为机器学习中的基础，比如说矩阵运算、相关系数等。ML 中的一个难点就是由原来概率中的线性变换直接过渡到了矩阵和网络，这其中的过程却没有人铺垫。于是，本文持续更新和 ML 相关的线性代数、统计学知识和相关的实现。">
+<meta itemprop="datePublished" content="2019-03-25T14:44:42+08:00" />
+<meta itemprop="dateModified" content="2019-03-25T14:44:42+08:00" />
+<meta itemprop="wordCount" content="994">
+
+
+
+<meta itemprop="keywords" content="linear algebra," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Linear Algebra"/>
+<meta name="twitter:description" content="线性代数、统计学中有很多概念作为机器学习中的基础，比如说矩阵运算、相关系数等。ML 中的一个难点就是由原来概率中的线性变换直接过渡到了矩阵和网络，这其中的过程却没有人铺垫。于是，本文持续更新和 ML 相关的线性代数、统计学知识和相关的实现。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Linear Algebra</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-03-25 </span>
+        <div class="post-category">
+            <a href="/categories/machine-learning/"> machine learning </a>
+            </div>
+          <span class="more-meta"> 约 994 字 </span>
+          <span class="more-meta"> 预计阅读 2 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#变量特征个数和解的关系">变量（特征个数）和解的关系</a></li>
+        <li><a href="#terms-in-related-to-matrix">terms in related to matrix</a></li>
+        <li><a href="#特征值和奇异值">特征值和奇异值</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>线性代数、统计学中有很多概念作为机器学习中的基础，比如说矩阵运算、相关系数等。ML 中的一个难点就是由原来概率中的线性变换直接过渡到了矩阵和网络，这其中的过程却没有人铺垫。于是，本文持续更新和 ML 相关的线性代数、统计学知识和相关的实现。</p>
+<h2 id="变量特征个数和解的关系">变量（特征个数）和解的关系</h2>
+<p>多变量和最后target的关系是可以使用 matrices 进行表示的，这就是一种数学公式化。</p>
+<blockquote>
+<p>Broadly speaking, in linear algebra data is represented in the form of linear equations. These linear equations are in turn represented in the form of matrices and vectors.</p>
+</blockquote>
+<p>先直观的感受一下变量和图形（可视化）的关系。两个变量组成的equations 是两条线的相交情况。而三个变量在空间中有三种情况： 相交，平行，不在一个平面上。三个变量组成的equations 是三个面的相交情况。有四种情况 (try hard to figure it out)：
+No intersection at all.
+Planes intersect in a line.
+They can intersect in a plane.
+All the three planes intersect at a point.
+<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g1etf4u36aj20q00dutdk.jpg" alt=""></p>
+<p>当到达4 dims 的时候，it&rsquo;s impossible to visulize it.</p>
+<h2 id="terms-in-related-to-matrix">terms in related to matrix</h2>
+<p>这些词汇 (terms) 经常在文献中出现，需要对于其含义有个比较好的认识。
+<strong>Order of matrix</strong> – If a matrix has 3 rows and 4 columns, order of the matrix is 3<em>4 i.e. row</em>column. (翻译成 矩阵的阶)
+<strong>Square matrix</strong> – The matrix in which the number of rows is equal to the number of columns.
+<strong>Diagonal matrix</strong> – A matrix with all the non-diagonal elements equal to 0 is called a diagonal matrix.
+<strong>Upper triangular matrix</strong> – Square matrix with all the elements below diagonal equal to 0.
+<strong>Lower triangular matrix</strong> – Square matrix with all the elements above the diagonal equal to 0.
+<strong>Scalar matrix</strong> – Square matrix with all the diagonal elements equal to some constant k.
+<strong>Identity matrix</strong> – Square matrix with all the diagonal elements equal to 1 and all the non-diagonal elements equal to 0.
+<strong>Column matrix</strong> –  The matrix which consists of only 1 column. Sometimes, it is used to represent a vector.
+<strong>Row matrix</strong> –  A matrix consisting only of row.
+<strong>Trace</strong> – It is the sum of all the diagonal elements of a square matrix.
+<strong>Rank of a matrix</strong> – Rank of a matrix is equal to the maximum number of linearly independent row vectors in a matrix.
+<strong>Determinant of a matrix</strong> - 矩阵的行列式
+<strong>转置</strong> -在图形 matrix中还是很常见的。
+$$\mathrm { A } _ { \mathrm { ij } } ^ { \mathrm{T}} = \mathrm { A } _ { \mathrm { ji } }$$</p>
+<p>这个矩阵乘法和元素相称的区别，后者是element-wise 进行的。可以从另外一个角度去列及矩阵相称： This operation on a vector is called linear transformation. 就是后面的vector 映射到了前面的矩阵空间。
+<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g1eu88lj31j20ao048jrl.jpg" alt=""></p>
+<h2 id="特征值和奇异值">特征值和奇异值</h2>
+<p>着两个是分别对应着PCA 和SVD。
+Eigenvalues and Eigenvectors
+如公式所示，特征值和特征向量的乘积就是方阵和特征向量的乘积，原先的方阵是可以降维表示成特征向量和特征值的。$ A x  = \lambda  x $</p>
+<p><a href="https://www.cnblogs.com/shanlizi/p/8907693.html">特征值和特征向量的计算过程</a>，如果矩阵计算比较简单，那么还是容易计算的。</p>
+<p>对于奇异值分解，最常见的就是这种表达：$A = U \Sigma V ^ { T }$
+特征值分解和奇异值分解都是给一个矩阵(线性变换)找一组特殊的基，特征值分解找到了特征向量这组基，在这组基下该线性变换只有缩放效果。而奇异值分解则是找到另一组基，这组基下线性变换的旋转、缩放、投影三种功能独立地展示出来了。</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-03-25
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/linear-algebra/">linear algebra</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/siamese_network/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Siamese Network</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/fasttext_faiss/">
+            <span class="next-text nav-default">fastText &amp; faiss</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

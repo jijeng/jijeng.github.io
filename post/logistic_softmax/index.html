@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Logistic &amp; Softmax - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="title: logistics 和softmax 的公式推导 date: 2019-07-05 20:37:41 categories: 机器学习 Logistics 和 softmax 的公式推导。总结常在面试过程中用到的公式推导。 Logistics公式推导 Logistics Regression 是线性分类器" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/logistic_softmax/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Logistic &amp; Softmax" />
+<meta property="og:description" content="title: logistics 和softmax 的公式推导 date: 2019-07-05 20:37:41 categories: 机器学习 Logistics 和 softmax 的公式推导。总结常在面试过程中用到的公式推导。 Logistics公式推导 Logistics Regression 是线性分类器" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/logistic_softmax/" />
+<meta property="article:published_time" content="2019-10-22T14:56:13+08:00" />
+<meta property="article:modified_time" content="2019-10-22T14:56:13+08:00" />
+<meta itemprop="name" content="Logistic &amp; Softmax">
+<meta itemprop="description" content="title: logistics 和softmax 的公式推导 date: 2019-07-05 20:37:41 categories: 机器学习 Logistics 和 softmax 的公式推导。总结常在面试过程中用到的公式推导。 Logistics公式推导 Logistics Regression 是线性分类器">
+<meta itemprop="datePublished" content="2019-10-22T14:56:13+08:00" />
+<meta itemprop="dateModified" content="2019-10-22T14:56:13+08:00" />
+<meta itemprop="wordCount" content="2949">
+
+
+
+<meta itemprop="keywords" content="logistic,svm," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Logistic &amp; Softmax"/>
+<meta name="twitter:description" content="title: logistics 和softmax 的公式推导 date: 2019-07-05 20:37:41 categories: 机器学习 Logistics 和 softmax 的公式推导。总结常在面试过程中用到的公式推导。 Logistics公式推导 Logistics Regression 是线性分类器"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Logistic &amp; Softmax</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-10-22 </span>
+        <div class="post-category">
+            <a href="/categories/machine-learning/"> machine learning </a>
+            </div>
+          <span class="more-meta"> 约 2949 字 </span>
+          <span class="more-meta"> 预计阅读 6 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#logistics公式推导">Logistics公式推导</a></li>
+            <li><a href="#纯python-实现逻辑回归">纯python 实现逻辑回归</a></li>
+            <li><a href="#softmax-的推导">softmax 的推导</a></li>
+            <li><a href="#svm公式推导">SVM公式推导</a></li>
+            <li><a href="#反向传播的推导">反向传播的推导</a></li>
+            <li><a href="#xgboost-中的理论推导">xgboost 中的理论推导</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <hr>
+<p>title: logistics 和softmax 的公式推导
+date: 2019-07-05 20:37:41
+categories: 机器学习</p>
+<hr>
+<p>Logistics 和 softmax 的公式推导。总结常在面试过程中用到的公式推导。</p>
+<!-- more -->
+<h3 id="logistics公式推导">Logistics公式推导</h3>
+<p>Logistics Regression 是线性分类器。所以还是先从线性回归中开始推导。LR 模型推导分成以下四个部分： 线性回归表示，sigmoid 激活函数、优化目标极大似然估计 和使用梯度上升的方式更新权重。</p>
+<p><strong>线性函数</strong></p>
+<p>$$
+\begin{split}
+h_{w}\left(x^{i}\right) &amp;=w_{0}+w_{1} x_{1}+w x_{2}+\ldots+w_{n} x_{n} \\<br>
+h_{w}\left(x^{j}\right) &amp;=w^{T} x_{i}=W^{T} X
+\end{split}
+$$</p>
+<p>然后分别进行向量表示：</p>
+<p>$$
+\begin{split}
+X &amp;= \left[ 1  \  x_1  \  \dots x_n \right]^T  \\<br>
+W &amp;= \left[ w_0 \ w_1 \ \dots \ w_n \right]^T \\<br>
+\end{split}
+$$</p>
+<p>为了更好的表示分类模型，使用sigmoid 激活函数，引入了Logistics 回归。</p>
+<p>逻辑回归是假设数据服从 Bernoulli 分布（抛硬币），因此LR属于参数模型。LR目标函数的定义：$$h_{\theta}(x)=g\left(\theta^{T} x\right)$$
+其中sigmoid 函数为：$g(z)=\frac{1}{1+e^{-z}}$。 sigmoid 函数的导数有很好的性质 $ g^{\prime}(z)=g(z)(1-g(z))$</p>
+<p><strong>似然函数</strong></p>
+<p>为什么这里会出现概率呢？ 因为经过sigmoid 激活函数之后，会输出 $y_{pred}$， 范围是在 [0, 1] 之间，一般是跟军 0.5 去划分，如果大于 0.5 那么是 A 类，否则是B 类。
+逻辑回归的优化目标是极大化对数似然估计，采用梯度上升来学习及更新参数$ \theta $向量的值。</p>
+<p>假设有n个独立的训练样本 ${(x_1, y_1),(x_2, y_2), \ldots,(x_n, y_n)} $, 并且$ y ={ 0, 1} $。那每一个观察到的样本 $(x_i, y_i)$ 出现的概率是：</p>
+<p>$$
+P(y_i, x_i) = {P(y_i = 1| x_i)}^{y_i}{(1 -P(y_i =1| x_i)}^{1-y_i)}
+$$</p>
+<p>推广到所有样本下，得到整体的似然函数表达，需要将所有的样本似然函数全部相乘。</p>
+<p>$$
+L(\theta) =\Pi{P(y_i = 1| x_i)}^{y_i}({1 -P(y_i =1| x_i)})^{1-y_i}
+$$</p>
+<p>累乘的形式不利于进行优化分析，这里将似然函数取对数，得到对数似然函数，作为我们的最终优化目标，运用极大似然估计来求得最优的 $\theta$ (这个参数是来自线性相乘中的参数)</p>
+<p>$$
+\begin{split}
+l(\theta)  &amp;=logL(\theta) \\<br>
+&amp;= \sum_{i =1}^{m}(y^{(i)} \log h\left(x^{(i)}\right)+\left(1-y^{(i)}\right) \log \left(1-h\left(x^{(i)}\right)\right))
+\end{split}
+$$</p>
+<p><strong>最优化求解</strong></p>
+<p>使用链式法对目标函数进行求导然后求解。</p>
+<p>$$
+\frac{\partial}{\theta_{j}} J(\theta)=\frac{\partial J(\theta)}{\partial g\left(\theta^{T} x\right)} \times \frac{\partial g\left(\theta^{T} x\right)}{\partial \theta^{T} x} \times \frac{\partial \theta^{T} x}{\partial \theta_{j}}
+$$</p>
+<p>分成三部分：
+第一部分
+$$
+\frac{\partial J(\theta)}{\partial g\left(\theta^{T} x\right)}=y \times \frac{1}{g\left(\theta^{T} x\right)}+(y-1) \times \frac{1}{1-g\left(\theta^{T_{x} x}\right)}
+$$</p>
+<p>第二部分</p>
+<p>$$
+\frac{\partial g\left(\theta^{T} x\right)}{\partial \theta^{T} x}=g\left(\theta^{T} x\right)\left(1-g\left(\theta^{T} x\right)\right)
+$$</p>
+<p>第三部分</p>
+<p>$$
+\frac{\partial \theta^{T} x}{\theta_{j}}=\frac{\partial J\left(\theta_{1} x_{1}+\theta_{2} x_{2}+\cdots \theta_{n} x_{n}\right)}{\partial \theta_{j}}=x_{j}
+$$</p>
+<p>最后相乘可以得到：</p>
+<p>$$ \frac{\partial}{\partial \theta_{j}} \ell(\theta)= \left(y-h_{\theta}(x)\right) x_{j}$$</p>
+<p>因此总的 $\theta $ 的更新公式为：
+$$ J(\theta) := \theta_{j}+\alpha\left(y^{(i)}-h_{\theta}\left(x^{(i)}\right)\right) x_{j}^{(i)}$$</p>
+<p>关于logistics 的公式推导已经结束。</p>
+<p>原文链接：<a href="http://alexjiangzy.com/2019/02/13/LogisticsSummary/">Logistics到softmax推导整理</a></p>
+<h3 id="纯python-实现逻辑回归">纯python 实现逻辑回归</h3>
+<p>线性分类器：模型是参数的线性函数，分类平面是（超）平面；
+非线性分类器：模型分界面可以是曲面或者超平面的组合。
+典型的线性分类器有感知机，LDA，逻辑斯特回归，SVM（线性核）；
+典型的非线性分类器有 kNN，决策树，SVM（非线性核）</p>
+<p>关键是看后面，如何使用纯python 去实现一个逻辑回归。</p>
+<p>代码：<a href="https://github.com/Azure-Sky-L/Machine-learning/blob/master/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92.py">逻辑回归.py</a>
+讲解：<a href="https://juejin.im/post/5b124606e51d4506cf109b1a#heading-10">机器学习算法 之逻辑回归以及python实现</a></p>
+<p>在numpy 中，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">* 和 np.multiply 都是都是数字相乘，如果是矩阵，那么就是对应位置相乘
+@ 和np.dot 都是矩阵相称，对应向量内积
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="softmax-的推导">softmax 的推导</h3>
+<p>多分类中使用的是交叉熵损失函数 ( cross entropy error function)，交叉熵函数是凸函数。最后一层的网络展开，最终的结果展开成 one-hot 的形式，用 softmax 得到的概率值进行交叉熵的计算，带入公式</p>
+<p>$$
+J=-\sum_{c=1}^{M} y_{c} \log \left(p_{c}\right)
+$$</p>
+<p>好好理解一下从softmax 到交叉熵计算过程。</p>
+<p><img src="https://ftp.bmp.ovh/imgs/2019/09/b364e0a5d1a0ef53.png" alt=""></p>
+<p>这个里面有一部分关乎 softmax 的推导，但是感觉不是很全很详细：<a href="http://alexjiangzy.com/2019/02/13/LogisticsSummary/">Logistics到softmax推导整理</a></p>
+<h3 id="svm公式推导">SVM公式推导</h3>
+<p><img src="https://i.loli.net/2019/09/08/3LZow4UyMCSXkHc.jpg" alt="1.png"></p>
+<p>如上图中只有线上的点叫做支持向量，其他的点在 $y$ 中的表示要么是 1要么是-1。支持向量可以用来进行分类和回归，这里介绍的是分类问题。支持向量的目标是最大化正负样本之间的间隔。分类问题可以分成三类：</p>
+<ol>
+<li>线性可分（硬间隔支持向量）</li>
+<li>近似线性可分（软间隔支持向量，通过引入松弛变量实现）</li>
+<li>线性完全不可分（使用非线性核函数）</li>
+</ol>
+<p>下面的公式推导都是基于线性可分条件下的，也就是硬间隔支持向量机。步骤有二：</p>
+<ol>
+<li>寻找最大分隔间距（原问题可以转换成对偶问题）</li>
+<li>通过拉格朗日求解优化问题</li>
+</ol>
+<p>从第一步中得到是一个二次规划问题，可以求解，但当样本量大的时候，计算量非常大，所以可以转换成其对偶问题求解。然后使用拉格朗日公式求解，这个时候引入一个参数拉格朗日参数，求解这个参数即可。</p>
+<p>具体公式的推导可以参考下面的文章：</p>
+<p><a href="https://joshuaw1990.github.io/2017/12/12/SVM%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/">SVM公式推导</a></p>
+<p><strong>对于上面文章的解读</strong></p>
+<p>在样本空间，划分超平面可以通过以下线性方程描述：
+$$w^Tx+b =0$$
+假设超平面 $(w,b) $能将训练样本正确分类，即对于$(x_i,y_i)∈D $，若 $y_i=+1$，则有 $w^Tx+b&gt;0 $；若 $y_i=−1$ （这个条件是假设的，令）</p>
+<ol>
+<li>从原来的分段函数表示成下面的公式，在于这样的结果是可以直接表示分类结果的正确与否，如果结果大于0表示 $f(x)$ 和 $label $ 是同号，那么表示预测正确，否则预测错误。</li>
+</ol>
+<p>$$
+y_{i} \cdot\left(w^{T} x_{i}+b\right) \geq 1
+$$</p>
+<p>公式中的 1-5 对应的是步骤一；步骤6-10 是对应求解问题。</p>
+<ol start="2">
+<li>
+<p>在计算过程中支持向量的点是用来计算距离的，其他样本点是体现在约束条件中。</p>
+</li>
+<li>
+<p>判别模型</p>
+</li>
+</ol>
+<h3 id="反向传播的推导">反向传播的推导</h3>
+<p>这个推导也是超级简单，分成三个步骤：</p>
+<ol>
+<li>前向传播，注意$f_1$ 和 $y_1$ 所表示的含义的不同，前者经过激活函数 比如说sigmoid 就得到了后者</li>
+<li>反向传播，和前向传播是一样的，只不过出发点是 $\delta$，关键是要使用到前面的weight 信息进行 $\delta$ 的重新分配</li>
+<li>权值更新，注意涉及到原来的 weights、error、梯度和学习率四个变量。</li>
+</ol>
+<p>(注意在权值更新推导的时候，一定要使用到学习率，求导，error 这几个变量，否则是没有办法基于之前的进行更新的)
+详细情况可以看这里</p>
+<p><a href="http://galaxy.agh.edu.pl/~vlsi/AI/backp_t_en/backprop.html">反向传播的推导</a></p>
+<h3 id="xgboost-中的理论推导">xgboost 中的理论推导</h3>
+<p>xgboost 的loss 的二阶展开推导</p>
+<p><img src="https://ftp.bmp.ovh/imgs/2019/09/4f9f0a70e089c05b.png" alt=""></p>
+<p>上面式子中的 loss包含着正则项。</p>
+<ul>
+<li>一个是树里面叶子节点的个数T</li>
+<li>一个是树上叶子节点的得分w的L2模平方（对w进行L2正则化，相当于针对每个叶结点的得分增加L2平滑，目的是为了避免过拟合）</li>
+</ul>
+<p><img src="https://ftp.bmp.ovh/imgs/2019/09/ee34e6a361215d15.png" alt=""></p>
+<p>泰勒二阶展开式：</p>
+<p>$$
+f(x+\Delta x) \simeq f(x)+f^{\prime}(x) \Delta x+\frac{1}{2} f^{\prime \prime}(x) \Delta x^{2}
+$$</p>
+<p>XGBoost与GBDT有什么不同</p>
+<ul>
+<li>GBDT是机器学习算法，XGBoost是该算法的工程实现。</li>
+<li>在使用CART作为基分类器时，XGBoost显式地加入了正则项来控制模 型的复杂度，有利于防止过拟合，从而提高模型的泛化能力。</li>
+<li>GBDT在模型训练时只使用了代价函数的一阶导数信息（随机梯度下降），XGBoost对代 价函数进行二阶泰勒展开，可以同时使用一阶和二阶导数。（牛顿法）</li>
+<li>传统的GBDT采用CART作为基分类器，XGBoost支持多种类型的基分类 器，比如线性分类器。</li>
+<li>传统的GBDT在每轮迭代时使用全部的数据，XGBoost则采用了与随机 森林相似的策略，支持对数据进行采样。</li>
+<li>传统的GBDT没有设计对缺失值进行处理，XGBoost能够自动学习出缺 失值的处理策略。</li>
+<li>XGBoost使用了一阶和二阶偏导, 二阶导数有利于梯度下降的更快更准. 使用泰勒展开取得函数做自变量的二阶导数形式, 可以在不选定损失函数具体形式的情况下, 仅仅依靠输入数据的值就可以进行叶子分裂优化计算, 本质上也就把损失函数的选取和模型算法优化/参数选择分开了. 这种去耦合增加了XGBoost的适用性, 使得它按需选取损失函数, 可以用于分类, 也可以用于回归。</li>
+<li>XGBoost在训练的过程中给出各个特征的评分，从而表明每个特征对模型训练的重要性。XGBoost利用梯度优化模型算法, 样本是不放回的，想象一个样本连续重复抽出,梯度来回踏步，这显然不利于收敛。XGBoost支持子采样, 也就是每轮计算可以不使用全部样本。</li>
+</ul>
+<p>(XGBoost详解)[https://www.jianshu.com/p/ac1c12f3fba1]</p>
+<p><a href="https://www.jianshu.com/p/4b26c02249bb">XGBoost二阶泰勒展开公式推导</a></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-10-22
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/logistic/">logistic</a>
+          <a href="/tags/svm/">svm</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/knapsack/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Knapsack</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/word2vec/">
+            <span class="next-text nav-default">Word2vec</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

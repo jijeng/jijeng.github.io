@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>hook on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/hook/</link>
+    <description>Recent content in hook on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 29 Nov 2020 10:22:37 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/hook/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hook in pytorch</title>
+      <link>http://jijeng.github.io/post/hook_in_pytorch/</link>
+      <pubDate>Sun, 29 Nov 2020 10:22:37 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/hook_in_pytorch/</guid>
+      <description>&lt;p&gt;hook 的引入&lt;/p&gt;
+&lt;p&gt;在pytorch中的自动求梯度机制(Autograd mechanics)中，如果将tensor的requires_grad设为True, 那么涉及到它的一系列运算将在反向传播中自动求梯度。但是自动求导的机制有个我们需要注意的地方：&lt;strong&gt;在自动求导机制中只保存叶子节点，也就是中间变量在计算完成梯度后会自动释放以节省空间.&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

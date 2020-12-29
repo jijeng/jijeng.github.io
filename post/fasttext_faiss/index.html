@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>fastText &amp; faiss - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="主要介绍 fastText、faiss 两个常用的工具，然后顺带介绍一下容易混淆的概念 k-means 和knn。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/fasttext_faiss/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="fastText &amp; faiss" />
+<meta property="og:description" content="主要介绍 fastText、faiss 两个常用的工具，然后顺带介绍一下容易混淆的概念 k-means 和knn。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/fasttext_faiss/" />
+<meta property="article:published_time" content="2019-03-25T13:33:53+08:00" />
+<meta property="article:modified_time" content="2019-03-25T13:33:53+08:00" />
+<meta itemprop="name" content="fastText &amp; faiss">
+<meta itemprop="description" content="主要介绍 fastText、faiss 两个常用的工具，然后顺带介绍一下容易混淆的概念 k-means 和knn。">
+<meta itemprop="datePublished" content="2019-03-25T13:33:53+08:00" />
+<meta itemprop="dateModified" content="2019-03-25T13:33:53+08:00" />
+<meta itemprop="wordCount" content="9497">
+
+
+
+<meta itemprop="keywords" content="k-means,knn,fasttext,faiss," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="fastText &amp; faiss"/>
+<meta name="twitter:description" content="主要介绍 fastText、faiss 两个常用的工具，然后顺带介绍一下容易混淆的概念 k-means 和knn。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">fastText &amp; faiss</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-03-25 </span>
+        <div class="post-category">
+            <a href="/categories/nlp/"> nlp </a>
+            </div>
+          <span class="more-meta"> 约 9497 字 </span>
+          <span class="more-meta"> 预计阅读 19 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#fasttext">fastText</a>
+          <ul>
+            <li><a href="#模型架构">模型架构</a></li>
+            <li><a href="#hierarchical-softmax">Hierarchical Softmax</a></li>
+            <li><a href="#n-gram-特征">N-gram 特征</a></li>
+            <li><a href="#negative-sampling">Negative Sampling</a></li>
+            <li><a href="#positive-samples-and--negative-samples">Positive samples and  Negative samples</a></li>
+            <li><a href="#使用">使用</a></li>
+            <li><a href="#fasttext-vs-cbow">fasttext VS. CBOW</a></li>
+          </ul>
+        </li>
+        <li><a href="#faiss">faiss</a>
+          <ul>
+            <li><a href="#faiss的实现过程">faiss的实现过程</a></li>
+            <li><a href="#faiss-中的三种基本索引">faiss 中的三种基本索引</a></li>
+            <li><a href="#product-quantization-算法">product quantization 算法</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>主要介绍 fastText、faiss 两个常用的工具，然后顺带介绍一下容易混淆的概念 k-means 和knn。</p>
+<h2 id="fasttext">fastText</h2>
+<p>fastText结合了自然语言处理和机器学习中最成功的理念。这些包括了使用词袋以及n-gram袋表征语句，还有使用子字(subword)信息，效果上的提升。另外采用了一个softmax层级(利用了类别不均衡分布的优势)来加速运算过程。</p>
+<p>fastText 主要是用来解决 word representations和 sentence classification. 有趣的是前者是无监督的学习方式，后者是有监督的学习方式。分别主要来自 ”Enriching Word Vectors with Subword Information“ 和 &ldquo;Bag of Tricks for Efficient Text Classification&rdquo; 两篇论文。并且使用的是 shallow neural network 而不是深度网络。</p>
+<blockquote>
+<p>FastText is a library created by the Facebook Research Team for efficient learning of word representations and sentence classification.</p>
+</blockquote>
+<p>Take off:
+fastText 方法包含三部分：模型架构、层次 Softmax 和 N-gram 特征。
+fasttext 有两个用处： text classification 和 word embedding 。
+使用场景：大型数据，高效计算</p>
+<p>下面进行细说：</p>
+<h3 id="模型架构">模型架构</h3>
+<p>这个是总的框架图。
+<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g1f8ph67dkj21280yuk1n.jpg" alt="">
+分为两个部分介绍这个网络结构：
+从input -&gt; hidden:
+输入层输入的是一个已经分词后短文本。短文本中每个词的词向量是由该短文本的one-hot矩阵乘以一个初始化的矩阵w得到的。（原理图：下图是fasttext 运行的时候，这个分词是再处理成单词和n-gram 组成的特征，这个是不需要我们进行显性的操作的）
+<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g1f8x600o5j21440lsjz0.jpg" alt="">
+从 hidden -&gt; output：
+<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g1f8xzkf3yj213y0lsti8.jpg" alt="">
+插播一句，我们经常使用的预训练模型中的weights 是从input-&gt; hidden。</p>
+<h3 id="hierarchical-softmax">Hierarchical Softmax</h3>
+<p>Hierarchical Softmax 不是fasttext 首创，它的改进之处在于实现结构上基于 huffman 树而不是普通的二叉树，属于运算上的优化。具体说来：利用了类别（class）不均衡这个事实（一些类别出现次数比其他的更多），通过使用 Huffman 算法建立用于表征类别的树形结构。对标签进行编码，能够极大地缩小模型预测目标的数量。</p>
+<p>这个是softmax 的原始的计算公式：
+$$
+p \left( w _ { j } | w _ { I } \right) = y _ { j } = \frac { \exp \left( u _ { j } \right) } { \sum _ { j ^ { \prime } = 1 } ^ { V } \exp \left( u _ { j ^ { \prime } } \right) }
+$$</p>
+<p>采用二叉树的结构之后，时间上优化不少。$O ( N) \rightarrow O \left( \log _ { 2 } N \right)$。见下图。
+<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g1fboz6w71j20n20bedh7.jpg" alt=""></p>
+<p>和之前的神经网络模型相比，这里的huffmax树的所有内部节点就类似之前神经网络隐藏层的神经元。其中，根节点的词向量对应我们的投影后的词向量，而所有的叶子节点就类似于之前神经网softmax输出层的神经元。叶子节点的个数就是词汇表的大小.</p>
+<p>和之前的相比，从隐藏层到输出层的softmax映射不是一下就完成的，而是沿着 huffman树一步步完成的，因此这种 softmax取名为”Hierarchical softmax”.</p>
+<h3 id="n-gram-特征">N-gram 特征</h3>
+<p>N-gram是基于这样的思想：某个词的出现依赖于其他若干个词；我们获得的信息越多，预测越准确。我想说，我们每个人的大脑中都有一个N-gram模型，而且是在不断完善和训练的。我们的见识与经历，都在丰富着我们的阅历，增强着我们的联想能力。** N-gram 是一种思想，可以有两种level 的实现，一种是基于 character-level，一种是基于 word-level，前者是扩充了对于”不常见“单词，后者是考虑了部分的词的顺序，都是考虑了”周边“ 信息,用流行的话就是 context 的信息。所以比较难界定 fasttext 训练出来的是不是有比较强的词序。**</p>
+<p>N-gram模型是一种语言模型（Language Model，LM），语言模型是一个基于概率的判别模型，它的输入是一句话（单词的顺序序列），输出是这句话的概率，即这些单词的联合概率（joint probability）。</p>
+<p>这样的作用，使用N-gram来给文本添加额外的特征获得关于局部词顺序的部分信息。
+举个栗子：对于句子：“我 喜欢 喝 咖啡”, 如果不考虑顺序，那么就是每个词，“我”，“喜欢”，“喝”，“咖啡”这五个单词的word embedding求平均。如果考虑2-gram, 那么除了以上五个词，还有“我喜欢”，“喜欢喝”，“喝咖啡”等词。“我喜欢”，“喜欢喝”，“喝咖啡”这三个词就作为这个句子的文本特征。
+我们经常见到的场景：输入法的预选词汇。就是可以通过这种方式实现的。</p>
+<p>当然使用了更多的特征意味着计算量的增加，计算效率下降，于是该作者提出了两种解决方法：</p>
+<ul>
+<li>过滤掉低词频</li>
+<li>使用词粒度代替字粒度。</li>
+</ul>
+<p>还是使用上面的句子”我喜欢喝咖啡“，如果使用子粒度的2-gram，那么产生的特征是“我喜”，“喜欢”，“欢喝”，“喝咖”，“咖啡”。如果使用词粒度为2-gram，那么产生的特征是“我喜欢”，“喜欢喝”，“喝咖啡”。</p>
+<p>补充一句，subwords就是一个词的character-level的n-gram。比如单词”hello”，长度至少为3的char-level的ngram有”hel”,”ell”,”llo”,”hell”,”ello”以及本身”hello”。</p>
+<h3 id="negative-sampling">Negative Sampling</h3>
+<p>该 technique 主要是减轻计算量的角度考虑的，每次让一个训练样本仅仅更新一部分的权重参数，这个技术不是 fastText 首创的，但是本着总结知识点的，也就放在这里了。</p>
+<p>CBOW / Skip-gram模型 （这个论文中）提出了两种方法，一种是Hierarchical Softmax，另一种是Negative Sampling。论文中提出的两种方法都是用来提高计算效率的，下面说一下负采样。</p>
+<p>在训练神经网络时，每当接受一个训练样本，然后调整所有神经单元权重参数，来使神经网络预测更加准确。换句话说，每个训练样本都将会调整所有神经网络中的参数。而 Negative Sampling 每次让一个训练样本仅仅更新一小部分的权重参数，从而降低梯度下降过程中的计算量。如果 vocabulary 大小为1万时， 当输入样本 ( &ldquo;fox&rdquo;, &ldquo;quick&rdquo;) 到神经网络时， “ fox” 经过 one-hot 编码，在输出层我们期望对应 “quick” 单词的那个神经元结点输出 1，其余 9999 个都应该输出0。在这里，这9999个我们期望输出为0的神经元结点所对应的单词我们称为 negative word，随机选择一小部分的 negative words，比如选 10个 negative words 来更新对应的权重参数。</p>
+<p>解决的问题，在最后一层 softmax 的计算量太大，相当于每一次word 都是需要整个dict 量的级别的更新。然后选择 k 个negative words，只是计算这些softmax 的值。</p>
+<blockquote>
+<p>Training a neural network means taking a training example and adjusting all of the neuron weights slightly so that it predicts that training sample more accurately. In other words, each training sample will tweak all of the weights in the neural network.
+As we discussed above, the size of our word vocabulary means that our skip-gram neural network has a tremendous number of weights, all of which would be updated slightly by every one of our billions of training samples!
+Negative sampling addresses this by having each training sample only modify a small percentage of the weights, rather than all of them. Here’s how it works.
+When training the network on the word pair (“fox”, “quick”), recall that the “label” or “correct output” of the network is a one-hot vector. That is, for the output neuron corresponding to “quick” to output a 1, and for all of the other thousands of output neurons to output a 0.
+With negative sampling, we are instead going to randomly select just a small number of “negative” words (let’s say 5) to update the weights for. (In this context, a “negative” word is one for which we want the network to output a 0 for). We will also still update the weights for our “positive” word (which is the word “quick” in our current example).
+The paper says that selecting 5-20 words works well for smaller datasets, and you can get away with only 2-5 words for large datasets.
+Recall that the output layer of our model has a weight matrix that’s 300 x 10,000. So we will just be updating the weights for our positive word (“quick”), plus the weights for 5 other words that we want to output 0. That’s a total of 6 output neurons, and 1,800 weight values total. That’s only 0.06% of the 3M weights in the output layer!
+In the hidden layer, only the weights for the input word are updated (this is true whether you’re using Negative Sampling or not).</p>
+</blockquote>
+<p><strong>对应的参数</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">-wordNgrams	最大ngram	1
+-minn	字符ngram最小长度	0
+-maxn	字符ngram最大长度	0
+</code></pre></td></tr></table>
+</div>
+</div><p>其中 wordNgrams 是对应语序，字符minn 和maxn 是解决oov 问题。</p>
+<ul>
+<li>只用unigram的话会丢掉word order信息，所以通过加入N-gram features进行补充</li>
+<li>用hashing来减少N-gram的存储
+由于n-gram的量远比word大的多，完全存下所有的n-gram也不现实。Fasttext采用了Hash桶的方式，把所有的n-gram都哈希到buckets个桶中，哈希到同一个桶的所有n-gram共享一个embedding vector。如下图所示：</li>
+</ul>
+<p><img src="https://upload.cc/i1/2019/10/07/7jutsV.png" alt="img"></p>
+<h3 id="positive-samples-and--negative-samples">Positive samples and  Negative samples</h3>
+<p>One little detail that&rsquo;s missing from the description above is how do we select the negative samples.
+（下面说的是如何进行选择negative sample的问题：基本思路是根据出现频率进行选择）
+The negative samples are chosen using the unigram distribution. Essentially, the probability of selecting a word as a negative sample is related to its frequency, with more frequent words being more likely to be selected as negative samples. Instead of using the raw frequency in the original word2vec paper, each word is given a weight that&rsquo;s equal to it&rsquo;s frequency (word count) raised to the 3/4 power. The probability for selecting a word is just it&rsquo;s weight divided by the sum of weights for all words.
+$$P \left( w _ { i } \right) = \frac { f \left( w _ { i } \right) ^ { 3 / 4 } } { \sum _ { i = 0 } ^ { n } \left( f \left( w _ { j } \right) ^ { 3 / 4 } \right) }$$</p>
+<p>上述中的函数是幂函数，图像的形状和log 函数差不多，都是从 $y =x$ 进行了一下约束，函数变得更加的平缓。对于高频词进行了约束，对于低频次也有机会出现。</p>
+<p>This decision to raise the frequency to the 3/4 power appears to be empirical; as the author claims it outperformed other functions (e.g. just using unigram distribution).
+Side note: The way this selection is implemented in the original word2vec C code is interesting. They have a large array with 100M elements (which they refer to as the unigram table). They fill this table with the index of each word in the vocabulary multiple times, and the number of times a word’s index appears in the table is given by</p>
+<p>Then, to actually select a negative sample, we just generate a random integer between 0 and 100M, and use the word at that index in the table. Since the higher probability words occur more times in the table, we&rsquo;re more likely to pick those.</p>
+<p>这个也是有讲 任何进行negative sample的选择
+<a href="http://jalammar.github.io/illustrated-word2vec/">http://jalammar.github.io/illustrated-word2vec/</a>
+一般来说在 word2vec 中context 是会选择到 5，然后这个 positive / negative sample 会是(1/6), 然后 nagative sample 是随机在 dictionary里面选的（所以有可能选到 positive sample）， 这个是这个dictionary 是根据频率，出现次数越多的，被选中的可能性也越大。
+The number of negative samples is another factor of the training process. The original paper prescribes 5-20 as being a good number of negative samples. It also states that 2-5 seems to be enough when you have a large enough dataset. The Gensim default is 5 negative samples.</p>
+<p>To address this, we need to introduce negative samples to our dataset – samples of words that are not neighbors. Our model needs to return 0 for those samples. Now that’s a challenge that the model has to work hard to solve – but still at blazing fast speed.
+This idea is inspired by Noise-contrastive estimation. We are contrasting the actual signal (positive examples of neighboring words) with noise (randomly selected words that are not neighbors). This leads to a great tradeoff of computational and statistical efficiency.</p>
+<p>Essentially, the probability for selecting a word as a negative sample is related to its frequency, with more frequent words being more likely to be selected as negative samples.</p>
+<p>They fill this table with the index of each word in the vocabulary multiple times, and the number of times a word’s index appears in the table is given by $P(wi)*P(wi)$ table_size. Then, to actually select a negative sample, you just generate a random integer between 0 and 100M, and use the word at that index in the table. Since the higher probability words occur more times in the table, you’re more likely to pick those.</p>
+<p>(ps 这种数量比不是 1：1，常常是 positive ： negative =1：5， 这个是经验值，在传统机器学习中可能认为是 data unbalanced)
+It’s now time to build out our skip-gram generator which will give us pair of words and their relevance</p>
+<ul>
+<li>(word, word in the same window), with label 1 (positive samples).</li>
+<li>(word, random word from the vocabulary), with label 0 (negative samples).</li>
+</ul>
+<h3 id="使用">使用</h3>
+<p>第一个应用场景：词向量。
+fastText作为训练词向量认为可以有两种模式，一种是根据周围词语预测中心词汇的CBOW （continuous bag-of-words）模型，另一种是根据中心词汇预测上下文的 skip-gram 模型。</p>
+<blockquote>
+<p>./fasttext – It is used to invoke the FastText library.
+skipgram/cbow – It is where you specify whether skipgram or cbow is to be used to create the word representations.
+-input – This is the name of the parameter which specifies the following word to be used as the name of the file used for training. This argument should be used as is.
+data.txt – a sample text file over which we wish to train the skipgram or cbow model. Change this name to the name of the text file you have.
+-output – This is the name of the parameter which specifies the following word to be used as the name of the model being created. This argument is to be used as is.
+model – This is the name of the model created.
+Running the above command will create two files named model.bin and model.vec. model.bin contains the model parameters, dictionary and the hyperparameters and can be used to compute word vectors. model.vec is a text file that contains the word vectors for one word per line.</p>
+</blockquote>
+<p>最后生成有两个文件，一个 xxx.bin 文件，一个是 xxx.vec 文件，前者是预训练模型，后者是词向量。
+这两个可能是最重要的格式了。</p>
+<blockquote>
+<p>The most important parameters of the model are its dimension and the range of size for the subwords.</p>
+</blockquote>
+<p>常见的代码格式：</p>
+<pre><code>./fasttext skipgram -input data/fil9 -output result/fil9 -minn 2 -maxn 5 -dim 300
+</code></pre>
+<p>跑偏一下说一下shell的小技巧。
+使用echo 或者 &lt; 这样进行单个词或者多个词的词向量的查询。</p>
+<blockquote>
+<p>./fasttext print-word-vectors model.bin &lt; queries.txt
+echo &ldquo;word&rdquo; | ./fasttext print-word-vectors model.bin</p>
+</blockquote>
+<p>Finding simialr words:</p>
+<pre><code>./fasttext nn model.bin
+</code></pre>
+<p>最重要的几个参数：</p>
+<blockquote>
+<p>The most important parameters of the model are its dimension and the range of size for the subwords. The dimension (dim) controls the size of the vectors, the larger they are the more information they can capture but requires more data to be learned. But, if they are too large, they are harder and slower to train. By default, we use 100 dimensions, but any value in the 100-300 range is as popular. The subwords are all the substrings contained in a word between the minimum size (minn) and the maximal size (maxn). By default, we take all the subword between 3 and 6 characters, but other range could be more appropriate to different languages:</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="err">$</span> <span class="o">./</span><span class="n">fasttext</span> <span class="n">skipgram</span> <span class="o">-</span><span class="nb">input</span> <span class="n">data</span><span class="o">/</span><span class="n">fil9</span> <span class="o">-</span><span class="n">output</span> <span class="n">result</span><span class="o">/</span><span class="n">fil9</span> <span class="o">-</span><span class="n">minn</span> <span class="mi">2</span> <span class="o">-</span><span class="n">maxn</span> <span class="mi">5</span> <span class="o">-</span><span class="n">dim</span> <span class="mi">300</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>The following arguments for the dictionary are optional:</p>
+<p>-minCount           词出现的最少次数 [5]
+-minCountLabel      标签出现的最少次数 [0]
+-wordNgrams         单词 ngram 的最大长度 [1]
+-bucket             桶的个数 [2000000]
+-minn               char ngram 的最小长度 [3]
+-maxn               char ngram 的最大长度 [6]</p>
+<p>The following arguments for training are optional</p>
+<p>-dim                字向量的大小 [100]
+-ws                 上下文窗口的大小 [5]
+-epoch              迭代次数 [5]
+-neg                负样本个数 [5]
+-loss               损失函数 {ns, hs, softmax} [ns]</p>
+<p>第二个应用场景：文本分类。</p>
+<blockquote>
+<p>Sentiment analysis and email classification are classic examples of text classification</p>
+</blockquote>
+<p>（BERT 也是采用的这种label 的格式）
+在训练数据集中label 默认是使用 &ldquo;_<em>label</em>_&rdquo; 进行表示的，当然也是可以进行自定义的。</p>
+<pre><code>./fasttext supervised -input train.ft.txt -output model_kaggle -label  __label__ -lr 0.5
+就是进行predict的时候，有时候并不是很能想起来只是predict top 3 这样的东西。
+# Predicting on the test dataset
+./fasttext predict model_kaggle.bin test.ft.txt
+# Predicting the top 3 labels
+./fasttext predict model_kaggle.bin test.ft.txt 3
+</code></pre>
+<h3 id="fasttext-vs-cbow">fasttext VS. CBOW</h3>
+<p>在标准的多核CPU上， 能够训练10亿词级别语料库的词向量在10分钟之内，能够分类有着30万多类别的50多万句子在1分钟之内。</p>
+<p><strong>n-gram</strong></p>
+<p>n-gram 是一种基于语言模型的算法，基本思想是将文本内容按照字节顺序进行大小为N的滑动窗口操作，最终形成长度为N的字节片段序列。</p>
+<p>CBOW 是和词序无关的，实现 n-gram 作为额外的特征可以捕捉一些部分的词序。fastText是一种基于skip-gram模型的新扩展，它会使用subword的信息，将每个词被表示成一个字符级n-gram词袋(a bag of character n-grams)。每个向量表示与每个字符级n-gram相关联，而词(word)则可以看成是这些n-gram向量表示的求和(sum)。fastText在大语料上训练很快。</p>
+<p>** 网络结构方面**</p>
+<ol>
+<li>输入层：CBOW 的输入层是由目标词汇 $y$ 的上下文单词 ${ x _ { 1 } , \ldots , x _ { c } }$ 组成， $\boldsymbol { x } _ { i }$ 是被 onehot 编码过的 V 维向量，其中 V 是词汇量。而fasttext 的输入是多个单词及其n-gram特征。比如说，对于单词“apple”，假设n的取值为3，则它的trigram有:</li>
+</ol>
+<blockquote>
+<p>“&lt;ap”,  “app”,  “ppl”,  “ple”, “le&gt;”
+其中，&lt;表示前缀，&gt;表示后缀。于是，我们可以用这些trigram来表示“apple”这个单词，进一步，我们可以用这5个trigram的向量叠加来表示“apple”的词向量。
+这样做有两点好处：</p>
+</blockquote>
+<ul>
+<li>对于低频词生成的词向量效果会更好。因为它们的n-gram可以和其它词共享。</li>
+<li>对于训练词库之外的单词，仍然可以构建它们的词向量。我们可以叠加它们的字符级n-gram向量。</li>
+</ul>
+<ol start="2">
+<li>从输入层到隐藏层，CBOW会将上下文单词向量叠加起来并经过一次矩阵乘法（线性变化）并应用激活函数，而fastText省略了这一过程，直接将embedding过的向量特征求和取平均；</li>
+<li>两者都是使用的层次softmax，word2vec 最后的叶子节点是词典中的单词；而fasttext 针对多类有监督训练，将最后的叶子节点改为标签，并且基于哈夫曼树，类别多的标签的路径比较短。</li>
+</ol>
+<p>使用 fasttext 进行文本分类的时候，其核心思想是 将整篇文档的词及n-gram向量叠加平均得到文档向量，然后使用文档向量做softmax多分类。</p>
+<p>** 层次softmax**</p>
+<p>softmax 是在 逻辑回归 （logistic regression） 在多分类任务上的推广，是网络中的最后一层。当 词汇数量V 较大时候，softmax 的计算代价是很大的， O(v) 量级。层次softmax 是将全局多分类转化成了若干个二分类问题，从而将时间复杂度从O(V) 转化成了 O(log V)。</p>
+<p>缺点：fastText适用与分类类别非常大而且数据集足够多的情况，当分类类别比较小或者数据集比较少的话，很容易过拟合。</p>
+<h2 id="faiss">faiss</h2>
+<p>用途：相似度检测和稠密向量的聚类。</p>
+<blockquote>
+<p>Faiss is a library for efficient similarity search and clustering of dense vectors.</p>
+</blockquote>
+<p>之前的实习经历主要是用faiss 处理文本的representation，但是这个是有偏差的，凡是能够打成词向量，都是可以使用faiss 进行计算的，当然这词向量需要满足：相近内容在相近的空间。</p>
+<blockquote>
+<p>Once the vectors are extracted by learning machinery (from images, videos, text documents, and elsewhere), they’re ready to feed into the similarity search library.</p>
+</blockquote>
+<h3 id="faiss的实现过程">faiss的实现过程</h3>
+<p>首先使用 index对于向量进行预处理，然后选择不同的模式. 主要讲的是三种模式，一个维度是简单模式，适合在小数据上进行计算 欧氏距离；一个维度是加快检索速度，这种模式下是需要提前的train，其基本的思路对向量进行聚类，当然文中说的是 “细胞”，建立倒排索引，然后检索的时候，搜索这个“细胞”内 和周围的“细胞” 的id 的集合，就可以返回前 K 个最相近的结果；最后一个维度是减少内存的使用，上面两种都是使用的完整的向量，这个模式下是使用的压缩向量，可以使用PCA 进行实现，当然这个模式下得到的结果也是近似解。还有两种计算的上的优化，对于向量进行分段计算，这种可以实现并行，并且支持任务在GPU 上进行运算。</p>
+<p>牺牲了一些精确性来使得运行速度更快。</p>
+<blockquote>
+<p>Similarity search can be made orders of magnitude faster if we’re willing to trade some accuracy; that is, deviate a bit from the reference result. For example, it may not matter much if the first and second results of an image similarity search are swapped, since they’re probably both correct results for a given query. Accelerating the search involves some pre-processing of the data set, an operation that we call indexing.</p>
+</blockquote>
+<p>( 下面这句话的观点是什么，感觉不知道逻辑在哪里啊)
+向量的比较有两种metric：一种是L2 一种是基于consine (点乘)进行检索。前者是求解最小的值，后者是通过inner——product 求解maximum. 并且是支持GPU的，在原来CPU上建立的index，然后很好的迁移到 GPU上。</p>
+<h3 id="faiss-中的三种基本索引">faiss 中的三种基本索引</h3>
+<ol>
+<li>IndexFlatL2</li>
+</ol>
+<p>基于brute-force计算向量的L2距离，就是暴搜。检索速度慢，适用于小数据量。 在计算上进行了优化，比如使用堆存储结构，寻找最接近的 K 个元素时候后，进行分段计算，把 d 维向量分成几段分别进行计算；建立倒排索引( id -contents) ，先使用聚类，然后再类内和相近的类进行寻找而非整个空间。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="n">d</span> <span class="o">=</span> <span class="mi">64</span> <span class="c1"># 维度</span>
+<span class="n">nb</span> <span class="o">=</span> <span class="mi">100000</span> <span class="c1"># 数据库大小</span>
+<span class="n">nq</span> <span class="o">=</span> <span class="mi">10000</span> <span class="c1"># 要搜索的query</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span> <span class="c1"># 确定种子，使随机数可重现</span>
+<span class="n">xb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">nb</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">xb</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nb</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1000.</span> <span class="c1"># 每一行的第一个列增加一个等差数列的对应项数</span>
+<span class="n">xq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">nq</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">xq</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nq</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1000.</span>
+<span class="k">print</span><span class="p">(</span><span class="n">xq</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="c1"># (10000, 64)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">xb</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="c1"># (100000, 64)</span>
+<span class="kn">import</span> <span class="nn">faiss</span> <span class="c1"># make faiss available</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">faiss</span><span class="o">.</span><span class="n">IndexFlatL2</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="c1"># 构建FlatL2索引</span>
+<span class="k">print</span><span class="p">(</span><span class="n">index</span><span class="o">.</span><span class="n">is_trained</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">index</span><span class="o">.</span><span class="n">ntotal</span><span class="p">)</span>
+<span class="n">index</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span> <span class="c1"># 向索引中添加向量。add操作如果没有提供id，则使用向量序号作为id。</span>
+<span class="k">print</span><span class="p">(</span><span class="n">index</span><span class="o">.</span><span class="n">ntotal</span><span class="p">)</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">4</span> <span class="c1"># 搜索多少个临近向量</span>
+<span class="n">D</span><span class="p">,</span> <span class="n">I</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">xb</span><span class="p">[:</span><span class="mi">5</span><span class="p">],</span> <span class="n">k</span><span class="p">)</span> <span class="c1"># 用xb的前五行本身自己搜索自己，完整性检查，用于测试</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&#34;I=&#34;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">I</span><span class="p">)</span>
+<span class="c1">#I=</span>
+<span class="c1">#[[  0 393 363  78 924]</span>
+<span class="c1"># [  1 555 277 364 617]</span>
+<span class="c1"># [  2 304 101  13 801]</span>
+<span class="c1"># [  3 173  18 182 484]</span>
+<span class="c1"># [  4 288 370 531 178]]</span>
+<span class="c1"># I输出类似于上面，每行对应着相应向量的搜索结果。k为多少就有多少列，distance低的排在前面。</span>
+<span class="c1"># 可以看到前五行的第一列确实是0~4</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&#34;D=&#34;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+<span class="c1">#[[0.        7.1751733 7.207629  7.2511625]</span>
+<span class="c1"># [0.        6.3235645 6.684581  6.7999454]</span>
+<span class="c1"># [0.        5.7964087 6.391736  7.2815123]</span>
+<span class="c1"># [0.        7.2779055 7.5279865 7.6628466]</span>
+<span class="c1"># [0.        6.7638035 7.2951202 7.3688145]]</span>
+<span class="c1"># 可以看到第一行第一列都是0，意思是向量与自己本身的距离为0</span>
+<span class="n">D</span><span class="p">,</span> <span class="n">I</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">xq</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="c1"># 搜索</span>
+<span class="k">print</span><span class="p">(</span><span class="n">I</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span> <span class="c1"># 最初五个向量查询的结果</span>
+<span class="k">print</span><span class="p">(</span><span class="n">I</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">:])</span> <span class="c1"># 最后五个向量查询的结果</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>IndexIVFFlat (加速搜索)</li>
+</ol>
+<p>对于暴搜来说，海量数据搜索速度太慢，那么需要预训练把向量都聚类。这里使用IndexIVFFlat来加快搜索速度。IndexIVFFlat是faiss的倒排索引，把数据构成的向量空间切割为Voronoi细胞，每个向量落入其中一个Voronoi细胞中。在搜索时，只有查询x所在细胞中包含的数据库向量y与少数几个相邻查询向量进行比较。</p>
+<p>训练的时候还需要有一个量化器，用于决定以什么方式将向量分配给Voronoi细胞。每个细胞由一个质心定义，找到一个向量所在的Voronoi细胞包括在质心集中找到该向量的最近邻居。</p>
+<p>搜索方法有两个参数：</p>
+<ul>
+<li>nlist 划分Voronoi细胞的数量</li>
+<li>nprobe 执行搜索访问的单元格数(不包括nlist)，该参数调整结果速度和准确度之间折中的一种方式。如果设置nprobe=nlist则结果与暴搜一致。</li>
+</ul>
+<p>加快索引的方式之一，与暴搜对比就是需要train，把向量空间下的数据切割为Voronoi细胞，检索只对向量所在细胞和周围细胞进行检索。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="n">d</span> <span class="o">=</span> <span class="mi">64</span>                           <span class="c1"># dimension</span>
+<span class="n">nb</span> <span class="o">=</span> <span class="mi">100000</span>                      <span class="c1"># database size</span>
+<span class="n">nq</span> <span class="o">=</span> <span class="mi">10000</span>                       <span class="c1"># nb of queries</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span>             <span class="c1"># make reproducible</span>
+<span class="n">xb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">nb</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">xb</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nb</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1000.</span>
+<span class="n">xq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">nq</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">xq</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nq</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1000.</span>
+
+<span class="kn">import</span> <span class="nn">faiss</span>
+<span class="n">nlist</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">quantizer</span> <span class="o">=</span> <span class="n">faiss</span><span class="o">.</span><span class="n">IndexFlatL2</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>  <span class="c1"># 内部的索引方式</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">faiss</span><span class="o">.</span><span class="n">IndexIVFFlat</span><span class="p">(</span><span class="n">quantizer</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">nlist</span><span class="p">,</span> <span class="n">faiss</span><span class="o">.</span><span class="n">METRIC_L2</span><span class="p">)</span>
+<span class="c1"># here we specify METRIC_L2, by default it performs inner-product search</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&#34;before train&#34;</span><span class="p">)</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">index</span><span class="o">.</span><span class="n">is_trained</span>
+<span class="n">index</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">index</span><span class="o">.</span><span class="n">is_trained</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&#34;before add&#34;</span><span class="p">)</span>
+<span class="n">index</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>                  <span class="c1"># add may be a bit slower as well</span>
+<span class="n">D</span><span class="p">,</span> <span class="n">I</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">xq</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>     <span class="c1"># actual search</span>
+<span class="k">print</span><span class="p">(</span><span class="n">I</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">:])</span>                  <span class="c1"># neighbors of the 5 last queries</span>
+<span class="n">index</span><span class="o">.</span><span class="n">nprobe</span> <span class="o">=</span> <span class="mi">10</span>              <span class="c1"># default nprobe is 1, try a few more</span>
+<span class="n">D</span><span class="p">,</span> <span class="n">I</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">xq</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">I</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">:])</span>                  <span class="c1"># neighbors of the 5 last queries</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>IndexIVFPQ (减少内存使用)</li>
+</ol>
+<p>上面两种索引都是存储的完整向量，下面介绍一种压缩向量的方法。IndexIVFPQ基于PQ  (Product Quantizer)算法压缩向量。在这种情况下，由于向量没有精确存储，搜索方法返回的距离也是近似值。上面我们看到的索引IndexFlatL2和IndexIVFFlat都会全量存储所有的向量在内存中，为满足大的数据量的需求，faiss提供一种基于Product Quantizer(乘积量化)的压缩算法编码向量大小到指定的字节数。此时，存储的向量时压缩过的，查询的距离也是近似的。</p>
+<p>原理：简单来说就是通过PCA将高纬空间转换成低维空间。 原来的数据 train 得到一个转换矩阵P，然后这个矩阵和原来的数据X得到新的降维之后的Y ($PX =Y$)。这样转换过程中信息损失的更少，在faiss 中使用 train() 函数进行实现。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="mi">64</span> <span class="c1"># dimension</span>
+<span class="n">nb</span> <span class="o">=</span> <span class="mi">100000</span> <span class="c1"># database size</span>
+<span class="n">nq</span> <span class="o">=</span> <span class="mi">10000</span> <span class="c1"># nb of queries</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span> <span class="c1"># make reproducible</span>
+<span class="n">xb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">nb</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">xb</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nb</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1000.</span>
+<span class="n">xq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">nq</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">xq</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nq</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1000.</span>
+
+<span class="kn">import</span> <span class="nn">faiss</span>
+
+<span class="n">nlist</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">m</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">quantizer</span> <span class="o">=</span> <span class="n">faiss</span><span class="o">.</span><span class="n">IndexFlatL2</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="c1"># 内部的索引方式</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">faiss</span><span class="o">.</span><span class="n">IndexIVFPQ</span><span class="p">(</span><span class="n">quantizer</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">nlist</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="c1"># 每个向量都被编码为8个字节大小</span>
+<span class="n">index</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
+<span class="n">index</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
+<span class="n">D</span><span class="p">,</span> <span class="n">I</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">xb</span><span class="p">[:</span><span class="mi">5</span><span class="p">],</span> <span class="n">k</span><span class="p">)</span> <span class="c1"># sanity check</span>
+<span class="k">print</span><span class="p">(</span><span class="n">I</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+<span class="c1">#[[   0   78  714  372]</span>
+<span class="c1"># [   1 1063  555  277]</span>
+<span class="c1"># [   2  304  134   46]</span>
+<span class="c1"># [   3  773   64    8]</span>
+<span class="c1"># [   4  288  531  827]]</span>
+<span class="c1">#[[1.6675376 6.1988335 6.4136653 6.4228306]</span>
+<span class="c1"># [1.4083313 6.023788  6.025648  6.284443 ]</span>
+<span class="c1"># [1.6988016 5.592166  6.139589  6.6717234]</span>
+<span class="c1"># [1.7987373 6.625978  6.7166452 6.865783 ]</span>
+<span class="c1"># [1.5371588 5.7953157 6.38059   6.4141784]]</span>
+<span class="c1"># 可以看到确实搜索到了正确的结果，但是第一行第一列的distance不为零，属于有损压缩。</span>
+<span class="c1"># 虽然与接下来的几列（其他几个搜索结果）对比还是有几倍的优势。</span>
+<span class="n">index</span><span class="o">.</span><span class="n">nprobe</span> <span class="o">=</span> <span class="mi">10</span> <span class="c1"># 与以前的方法相比</span>
+<span class="n">D</span><span class="p">,</span> <span class="n">I</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">xq</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="c1"># search</span>
+<span class="k">print</span><span class="p">(</span><span class="n">I</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">:])</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在涉及index使用考虑速度，acc和内存大小三个不同的维度。然后不同的index 是有不同的侧重的。
+<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g1faf2twaaj20ft0e3ae0.jpg" alt=""></p>
+<p><a href="http://yizhanggou.top/faiss%e7%b4%a2%e5%bc%95%e8%b0%83%e7%a0%94%ef%bc%88%e4%b8%89%ef%bc%89-faiss%e5%88%86%e6%9e%90/">安装参考</a></p>
+<p>** Take Off**
+(这个是有三方面需要权衡的： query time、 query accuracy and preprocessing time)</p>
+<p>As with anything, there is a tradeoff between improving query time versus query accuracy versus preprocessing/index build time versus data storage:</p>
+<p>no build time, high query time, high storage, exact accuracy: Faiss IndexFlat</p>
+<p>low build time, med query time, high storage, high accuracy: Faiss IndexIVFFlat</p>
+<p>med build time, low query time, low-med storage, med-high accuracy: Faiss IndexIVFPQ</p>
+<p>very high build time, low query time, low-high storage (whether stored as a k-NN graph or raw data), high accuracy: NN-Descent by Dong et al. (e.g., nmslib)</p>
+<p>IndexIVFPQ with perhaps IMI is typically what we concentrate on, seems to be a reasonable sweet spot for billion-scale datasets.</p>
+<h3 id="product-quantization-算法">product quantization 算法</h3>
+<p>这里的乘积是指笛卡尔积（Cartesian product），意思是指把原来的向量空间分解为若干个低维向量空间的笛卡尔积，并对分解得到的低维向量空间分别做量化（quantization）。这样每个向量就能由多个低维空间的量化code组合表示。</p>
+<blockquote>
+<p>The idea is to decomposes the space into a Cartesian product of low dimensional subspaces and to quantize each subspace separately. A vector is represented by a short code composed of its subspace quantization indices.</p>
+</blockquote>
+<p><img src="https://i.loli.net/2019/07/02/5d1b275bd20aa40709.png" alt="compression.png"></p>
+<p>** Image Vector Dataset**: 存储的是离 embedding 最近的centroid (质心) 的编号 而非向量本身。</p>
+<p>Let’s say you have a collection of 50,000 images, and you’ve already performed some feature extraction with a convolutional neural network, and now you have a dataset of 50,000 feature vectors with 1,024 components each.</p>
+<p>The first thing we’re going to do is compress our dataset. The number of vectors will stay the same, but we’ll reduce the amount of storage required for each vector. Note that what we’re going to do is not the same as “dimensionality reduction”! This is because the values in the compressed vectors are actually symbolic rather than numeric, so we can’t compare the compressed vectors to one another directly.</p>
+<p>Two important benefits to compressing the dataset are that (1) memory access times are generally the limiting factor on processing speed, and (2) sheer memory capacity can be a problem for big datasets.</p>
+<p>Here’s how the compression works. For our example we’re going to chop up the vectors into 8 sub-vectors, each of length 128 (8 sub vectors x 128 components = 1,024 components). This divides our dataset into 8 matrices that are [50K x 128] each.</p>
+<p>These centroids are like “prototypes”. They represent the most commonly occurring patterns in the dataset sub-vectors.</p>
+<p>We’re going to use these centroids to compress our 1 million vector dataset. Effectively, we’re going to replace each subregion of a vector with the closest matching centroid, giving us a vector that’s different from the original, but hopefully still close.</p>
+<p>Doing this allows us to store the vectors much more efficiently—instead of storing the original floating point values, we’re just going to store cluster ids. For each subvector, we find the closest centroid, and store the id of that centroid.</p>
+<p>Each vector is going to be replaced by a sequence of 8 centroid ids. I think you can guess how we pick the centroid ids–you take each subvector, find the closest centroid, and replace it with that centroid’s id.</p>
+<p>Note that we learn a different set of centroids for each subsection. And when we replace a subvector with the id of the closest centroid, we are only comparing against the 256 centroids for that subsection of the vector.</p>
+<p>Because there are only 256 centroids, we only need 8-bits to store a centroid id. Each vector, which initially was a vector of 1,024 32-bit floats (4,096 bytes) is now a sequence of eight 8-bit integers (8 bytes total per vector!).</p>
+<p>总的来说faiss 高效实现了<a href="">PCA 算法</a>, <a href="">k-means 算法</a> 和PQ 算法。</p>
+<p><a href="https://mccormickml.com/2017/10/13/product-quantizer-tutorial-part-1/">ref 1</a>
+<a href="http://mccormickml.com/2017/10/22/product-quantizer-tutorial-part-2/">ref 2</a>
+<a href="http://vividfree.github.io/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/2017/08/05/understanding-product-quantization">ref 3</a>
+<a href="https://blog.easysol.net/machine-learning-algorithms-3/">ref 4</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-03-25
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/k-means/">k-means</a>
+          <a href="/tags/knn/">knn</a>
+          <a href="/tags/fasttext/">fasttext</a>
+          <a href="/tags/faiss/">faiss</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/linear_algebra/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Linear Algebra</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/data_preprocessing/">
+            <span class="next-text nav-default">Data_preprocessing</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

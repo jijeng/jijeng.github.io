@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>基于python 的JSON数据的处理 - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="JSON格式在python 中的使用。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/python_json/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="基于python 的JSON数据的处理" />
+<meta property="og:description" content="JSON格式在python 中的使用。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/python_json/" />
+<meta property="article:published_time" content="2020-05-24T11:38:31+08:00" />
+<meta property="article:modified_time" content="2020-05-24T11:38:31+08:00" />
+<meta itemprop="name" content="基于python 的JSON数据的处理">
+<meta itemprop="description" content="JSON格式在python 中的使用。">
+<meta itemprop="datePublished" content="2020-05-24T11:38:31+08:00" />
+<meta itemprop="dateModified" content="2020-05-24T11:38:31+08:00" />
+<meta itemprop="wordCount" content="791">
+
+
+
+<meta itemprop="keywords" content="python,json," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="基于python 的JSON数据的处理"/>
+<meta name="twitter:description" content="JSON格式在python 中的使用。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">基于python 的JSON数据的处理</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-05-24 </span>
+        
+          <span class="more-meta"> 约 791 字 </span>
+          <span class="more-meta"> 预计阅读 2 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>JSON格式在python 中的使用。</p>
+<p>JSON (JavaScript Object Notation) is a popular data format used for representing structured data. It&rsquo;s common to transmit and receive data between a server and web application in JSON format.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">{
+    &#34;firstName&#34;: &#34;Jane&#34;,
+    &#34;lastName&#34;: &#34;Doe&#34;,
+    &#34;hobbies&#34;: [&#34;running&#34;, &#34;sky diving&#34;, &#34;singing&#34;],
+    &#34;age&#34;: 35,
+    &#34;children&#34;: [
+        {
+            &#34;firstName&#34;: &#34;Alice&#34;,
+            &#34;age&#34;: 6
+        },
+        {
+            &#34;firstName&#34;: &#34;Bob&#34;,
+            &#34;age&#34;: 8
+        }
+    ]
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>JSON 主要有两种数据结构：</p>
+<ul>
+<li>由 key-value对组成的数据结构。这种数据结构在不同的语言中有不同的实现。例如在 Python中是一种 dict 对象；在C语言中是一个struct；在其他语言中，则可能是 record等。</li>
+<li>有序集合。这种数据结构在 Python 中对应于列表；在其他语言中，可能对应于 list等。</li>
+</ul>
+<p>python JSON to dict</p>
+<p>（注意使用string 类型表示 JSON 的方式，使用单引号，双引号，三个引号 区分不同）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">json</span>
+
+<span class="n">person</span> <span class="o">=</span> <span class="s1">&#39;{&#34;name&#34;: &#34;Bob&#34;, &#34;languages&#34;: [&#34;English&#34;, &#34;Fench&#34;]}&#39;</span>
+<span class="n">person_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">person</span><span class="p">)</span>
+
+<span class="c1"># Output: {&#39;name&#39;: &#39;Bob&#39;, &#39;languages&#39;: [&#39;English&#39;, &#39;Fench&#39;]}</span>
+<span class="k">print</span><span class="p">(</span> <span class="n">person_dict</span><span class="p">)</span>
+
+<span class="c1"># Output: [&#39;English&#39;, &#39;French&#39;]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">person_dict</span><span class="p">[</span><span class="s1">&#39;languages&#39;</span><span class="p">])</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">json</span>
+<span class="n">person_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Bob&#39;</span><span class="p">,</span>
+<span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+<span class="s1">&#39;children&#39;</span><span class="p">:</span> <span class="bp">None</span>
+<span class="p">}</span>
+<span class="n">person_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">person_dict</span><span class="p">)</span>
+
+<span class="c1"># Output: {&#34;name&#34;: &#34;Bob&#34;, &#34;age&#34;: 12, &#34;children&#34;: null}</span>
+<span class="k">print</span><span class="p">(</span><span class="n">person_json</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>还有一种写法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">my_json_string</span> <span class="o">=</span> <span class="s2">&#34;&#34;&#34;{
+</span><span class="s2">   &#34;article&#34;: [
+</span><span class="s2">
+</span><span class="s2">      {
+</span><span class="s2">         &#34;id&#34;:&#34;01&#34;,
+</span><span class="s2">         &#34;language&#34;: &#34;JSON&#34;,
+</span><span class="s2">         &#34;edition&#34;: &#34;first&#34;,
+</span><span class="s2">         &#34;author&#34;: &#34;Derrick Mwiti&#34;
+</span><span class="s2">      },
+</span><span class="s2">
+</span><span class="s2">      {
+</span><span class="s2">         &#34;id&#34;:&#34;02&#34;,
+</span><span class="s2">         &#34;language&#34;: &#34;Python&#34;,
+</span><span class="s2">         &#34;edition&#34;: &#34;second&#34;,
+</span><span class="s2">         &#34;author&#34;: &#34;Derrick Mwiti&#34;
+</span><span class="s2">      }
+</span><span class="s2">   ],
+</span><span class="s2">
+</span><span class="s2">   &#34;blog&#34;:[
+</span><span class="s2">   {
+</span><span class="s2">       &#34;name&#34;: &#34;Datacamp&#34;,
+</span><span class="s2">       &#34;URL&#34;:&#34;datacamp.com&#34;
+</span><span class="s2">   }
+</span><span class="s2">   ]
+</span><span class="s2">}
+</span><span class="s2">&#34;&#34;&#34;</span>
+<span class="n">to_python</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">my_json_string</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">to_python</span><span class="p">[</span><span class="s1">&#39;blog&#39;</span><span class="p">]</span>
+<span class="c1"># [{&#39;URL&#39;: &#39;datacamp.com&#39;, &#39;name&#39;: &#39;Datacamp&#39;}]</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>Python Tuple to JSON Array</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">tuple_example</span> <span class="o">=</span> <span class="s1">&#39;Mango&#39;</span><span class="p">,</span> <span class="s1">&#39;Banana&#39;</span><span class="p">,</span> <span class="s1">&#39;Apple&#39;</span><span class="p">;</span>
+<span class="k">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">tuple_example</span><span class="p">));</span>
+<span class="c1"># [&#34;Mango&#34;, &#34;Banana&#34;, &#34;Apple&#34;]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Converting JSON to Python Objects</p>
+<blockquote>
+<p>We can parse the above JSON string using json.loads() method from the json module. The result is a Python dictionary.</p>
+</blockquote>
+<p>Converting Python Objects to JSON</p>
+<blockquote>
+<p>Using json.dumps() we can convert Python Objects to JSON.</p>
+</blockquote>
+<p>json.load vs json.loads</p>
+<blockquote>
+<p>json.load is used when loading a file while json.loads(load string) is used when loading a string.</p>
+</blockquote>
+<p>json.dump vs json.dumps</p>
+<blockquote>
+<p>We use json.dump when we want to dump JSON into a file. json.dumps(dump string) is used when we need the JSON data as a string for parsing or printing.</p>
+</blockquote>
+<p>json.dump()方法将JSON写入文件。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">json</span>
+
+<span class="n">person_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Bob&#34;</span><span class="p">,</span>
+<span class="s2">&#34;languages&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;English&#34;</span><span class="p">,</span> <span class="s2">&#34;Fench&#34;</span><span class="p">],</span>
+<span class="s2">&#34;married&#34;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+<span class="s2">&#34;age&#34;</span><span class="p">:</span> <span class="mi">32</span>
+<span class="p">}</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;person.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
+  <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">person_dict</span><span class="p">,</span> <span class="n">json_file</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">json</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;person.json&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+  <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="c1"># Output: {&#39;languages&#39;: [&#39;English&#39;, &#39;Fench&#39;], &#39;name&#39;: &#39;http://china-testing.github.io/&#39;}</span>
+<span class="k">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Format the Result</p>
+<p>The example above prints a JSON string, but it is not very easy to read, with no indentations and line breaks.</p>
+<p>The json.dumps() method has parameters to make it easier to read the result:</p>
+<p>You can also define the separators, default value is (&quot;, &ldquo;, &ldquo;: &ldquo;), which means using a comma and a space to separate each object, and a colon and a space to separate keys from values:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># default choice</span>
+<span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>格式更加可读</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>修改了默认的分割符</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s2">&#34;. &#34;</span><span class="p">,</span> <span class="s2">&#34; = &#34;</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>python 格式和json 格式的相互转换</p>
+<table>
+<thead>
+<tr>
+<th>Python</th>
+<th>JSON</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>dict</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>list</td>
+<td>Array</td>
+</tr>
+<tr>
+<td>tuple</td>
+<td>Array</td>
+</tr>
+<tr>
+<td>str</td>
+<td>String</td>
+</tr>
+<tr>
+<td>int</td>
+<td>Number</td>
+</tr>
+<tr>
+<td>float</td>
+<td>Number</td>
+</tr>
+<tr>
+<td>True</td>
+<td>true</td>
+</tr>
+<tr>
+<td>False</td>
+<td>false</td>
+</tr>
+<tr>
+<td>None</td>
+<td>null</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">boolean_value</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="k">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">boolean_value</span><span class="p">))</span>
+<span class="c1"># false</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>JSON in APIs</p>
+<p>Flask provides the jsonify module that will enable us to achieve this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">jsonify</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/_get_current_user&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">get_current_user</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">g</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+                   <span class="n">email</span><span class="o">=</span><span class="n">g</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">,</span>
+                   <span class="nb">id</span><span class="o">=</span><span class="n">g</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-05-24
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/python/">python</a>
+          <a href="/tags/json/">json</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/optical_flow/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Optical Flow</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/macos_tutorial/">
+            <span class="next-text nav-default"> Mac OS 使用tutorial</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

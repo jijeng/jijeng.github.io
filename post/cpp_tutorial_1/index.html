@@ -1,0 +1,3587 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>C&#43;&#43; 编程语言（一） - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="主要介绍C&#43;&#43; 编程语言，面向对象中的封装、继承和多态； STL(Standard Template Library 标准模板库, string, list, map) 等函数；内存管理；指针。（持续更新中&amp;hellip;） 多态（一" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/cpp_tutorial_1/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="C&#43;&#43; 编程语言（一）" />
+<meta property="og:description" content="主要介绍C&#43;&#43; 编程语言，面向对象中的封装、继承和多态； STL(Standard Template Library 标准模板库, string, list, map) 等函数；内存管理；指针。（持续更新中&hellip;） 多态（一" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/cpp_tutorial_1/" />
+<meta property="article:published_time" content="2019-01-05T19:44:13+08:00" />
+<meta property="article:modified_time" content="2019-01-05T19:44:13+08:00" />
+<meta itemprop="name" content="C&#43;&#43; 编程语言（一）">
+<meta itemprop="description" content="主要介绍C&#43;&#43; 编程语言，面向对象中的封装、继承和多态； STL(Standard Template Library 标准模板库, string, list, map) 等函数；内存管理；指针。（持续更新中&hellip;） 多态（一">
+<meta itemprop="datePublished" content="2019-01-05T19:44:13+08:00" />
+<meta itemprop="dateModified" content="2019-01-05T19:44:13+08:00" />
+<meta itemprop="wordCount" content="23961">
+
+
+
+<meta itemprop="keywords" content="c&#43;&#43;," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="C&#43;&#43; 编程语言（一）"/>
+<meta name="twitter:description" content="主要介绍C&#43;&#43; 编程语言，面向对象中的封装、继承和多态； STL(Standard Template Library 标准模板库, string, list, map) 等函数；内存管理；指针。（持续更新中&hellip;） 多态（一"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">C&#43;&#43; 编程语言（一）</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-01-05 </span>
+        <div class="post-category">
+            <a href="/categories/programming-language/"> programming language </a>
+            </div>
+          <span class="more-meta"> 约 23961 字 </span>
+          <span class="more-meta"> 预计阅读 48 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#面向对象">面向对象</a></li>
+        <li><a href="#三种访问权限">三种访问权限</a></li>
+        <li><a href="#常见的关键字">常见的关键字</a></li>
+        <li><a href="#effective-stl">Effective STL</a></li>
+        <li><a href="#虚函数表相关">虚函数表相关</a></li>
+        <li><a href="#指针和引用">指针和引用</a></li>
+        <li><a href="#c-中输入字符串的几种方式">c++ 中输入字符串的几种方式</a>
+          <ul>
+            <li><a href="#接口和抽象类的区别">接口和抽象类的区别</a></li>
+            <li><a href="#c中的结构体">C++中的结构体</a></li>
+            <li><a href="#c-中的typedef">C++ 中的typedef</a></li>
+            <li><a href="#c-中各种数据类型的大小">c++ 中各种数据类型的大小</a></li>
+            <li><a href="#bitset">bitset</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>主要介绍C++ 编程语言，面向对象中的封装、继承和多态； STL(Standard Template Library 标准模板库, string, list, map) 等函数；内存管理；指针。（持续更新中&hellip;）</p>
+<!-- more -->
+<p>多态（一个接口，多种形态）：</p>
+<p>父类的指针或引用有多种表现形态，用父类的指针或者引用统一操作各种子类对象。</p>
+<h2 id="面向对象">面向对象</h2>
+<p>c语言是面向过程的语言，c++ 是面向对象的语言。c 语言结构体成员默认的访问权限是共有，c++ 的成员的默认访问权限是私有。面向对象主要体现在其三大特征：封装、继承和多态。</p>
+<p>封装</p>
+<ul>
+<li>把变量和函数写到一个类中</li>
+<li>不想暴露在外界的成员私有化</li>
+<li>可以使得代码模块化。</li>
+</ul>
+<p>继承</p>
+<ul>
+<li>可以使代码得到良好的复用，扩展已有的代码</li>
+<li>使整个程序设计更加符合人们的逻辑（在水果的基础上可以生成热带水果，温带水果）</li>
+</ul>
+<p>多态</p>
+<blockquote>
+<p>多态性是允许你将父对象设置成为和一个或更多的他的子对象相等的技术，赋值之后，父对象就可以根据当前赋值给它的子对象的特性以不同的方式运作。简单的说：允许将子类类型的指针赋值给父类类型的指针（一个接口，多种方法）。</p>
+</blockquote>
+<p>C++ 支持两种多态性</p>
+<ul>
+<li>编译时多态性（静态多态）：通过重载函数实现</li>
+<li>运行时多态性（动态多态）：通过虚函数实现。</li>
+</ul>
+<p>虚函数： 就是允许被其子类重新定义的成员函数，子类重新定义父类虚函数的做法，可实现成员函数的动态覆盖（Override）。调用的时候声明基类的指针，利用该指针指向任意一个子类对象，调用相应的虚函数，可以根据指向的子类的不同而实现不同的方法。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="k">class</span> <span class="nc">basic</span><span class="p">{</span>
+<span class="k">private</span><span class="o">:</span>
+    <span class="k">static</span> <span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">b</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+    <span class="kt">int</span> <span class="n">c</span><span class="p">;</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="k">static</span> <span class="kt">void</span> <span class="n">fun1</span><span class="p">(){</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;fun1&#34;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;}</span>
+    <span class="kt">void</span> <span class="nf">fun2</span><span class="p">(){</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;fun2&#34;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;}</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="nf">fun3</span><span class="p">(){</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;fun3&#34;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;}</span>
+    <span class="c1">//virtual void fun4(){cout&lt;&lt;&#34;fun4&#34;&lt;&lt;endl;}
+</span><span class="c1"></span>    <span class="c1">//virtual void fun5(){cout&lt;&lt;&#34;fun4&#34;&lt;&lt;endl;}
+</span><span class="c1"></span><span class="p">};</span>
+<span class="kt">int</span> <span class="n">basic</span><span class="o">::</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">basic</span> <span class="n">test</span><span class="p">;</span>
+    <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;size:&#34;</span><span class="o">&lt;&lt;</span><span class="k">sizeof</span><span class="p">(</span><span class="n">test</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span> <span class="err">#</span> <span class="mi">24</span> <span class="err">在</span><span class="mi">64</span><span class="err">位机器上，不管有几个虚函数，只是在最开始的地方有一个虚函数表，地址字节</span><span class="p">(</span><span class="mi">64</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span><span class="err">的大小</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>纯虚函数： 是在基类中声明的虚函数，它在基类中没有定义，但要求任何派生类都要定义自己的实现方法。在基类中实现纯虚函数的方法是在函数原型后加“=0”</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">//纯虚函数：虚函数只有声明，没有实现，函数体=0
+virtual void draw() =0;
+virtual void rotate(double ) =0; // 没有实现
+</code></pre></td></tr></table>
+</div>
+</div><p>抽象类： 包含纯虚函数的类称为抽象类。由于抽象类包含了没有定义的纯虚函数，所以不能进行实例化。</p>
+<p>纯虚函数的作用：
+1). 很多情况下，基类本身生成对象是不合理的。例如动物作为一个父类可以派生出老虎，但是动物本身生成对象是不合常理的。
+2).  编译器要求在派生类中必须予以重写以实现多态性。同时含有纯虚拟函数的类称为抽象类，它不能生成对象。这样就很好地解决了上述两个问题。</p>
+<p>（1）重载 vs. 重写 vs. 重定义（隐藏）</p>
+<p>隐藏是指派生类的函数屏蔽了与其同名的基类函数，规则如下：</p>
+<p>1). 如果派生类的函数与基类的函数同名，但是参数不同。此时，不论有无virtual关键字，基类的函数将被隐藏（注意别与重载混淆，重载是在同一个类中，而隐藏涉及派生类与基类）。
+2). 如果派生类的函数与基类的函数同名，并且参数也相同，但是基类函数没有virtual关键字。此时，基类的函数被隐藏（注意别与覆盖混淆，覆盖有virtual关键字）。</p>
+<p>重载（overload）</p>
+<p>重载是一个类内部函数之间的关系，调用时根据参数的等不同选择不同的函数。指函数名相同，但是它的参数表列个数或顺序，类型不同。但是不能靠返回类型来判断。 （1）相同的范围（在同一个作用域中） ； （2）函数名字相同； （3）参数不同； （4）virtual 关键字可有可无。 （5）返回值可以不同；</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">void</span> <span class="nf">a</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">){}</span>
+<span class="kt">void</span> <span class="nf">a</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">){}</span>
+<span class="kt">void</span> <span class="nf">a</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">,</span> <span class="kt">int</span> <span class="n">z</span><span class="p">){}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>重写（override）</p>
+<p>重写是父类和子类之间的关系，要求父类函数中有关键字virtual，并且覆盖的时候子类和父类函数名和参数需要相同。派生类重新定义基类的虚函数，特征是： （1）不在同一个作用域（分别位于派生类与基类） ； （2）函数名字相同； （3）参数相同； （4）基类函数必须有 virtual 关键字，不能有 static 。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">class Base
+{
+public: 
+		virtual void a(int x){}
+}
+
+class Derived: public Base
+{
+public:
+		void a(int x){}
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>重定义（隐藏）</p>
+<p>子类重定义父类中的<strong>非虚函数</strong>，屏蔽了父类的同名函数(相当于创建了一个新的函数，跟父类无关)</p>
+<p>两种情况</p>
+<p>1). 子类和父类函数的名称相同，参数也相同，父类中的函数不是virtual，父类的函数将被隐藏
+2). 子类和父类的函数名称相同，但参数不同，此时不管父类函数是不是virtual函数，都将被隐藏。</p>
+<p>（2）构造函数</p>
+<p>构造函数是一种比较特殊的成员函数，用于创建并初始化对象。声明对象时构造函数会被编译器自动调用。</p>
+<p>构造函数的四个特点：
+1). 构造函数的访问权限必须为公有（public）
+2). 构造函数名和类名相同
+3). 构造函数没有返回值
+4). 构造函数可以带参数，用于初始化成员变量</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">Circle();// 默认构造函数
+Circle(float a =0, float b =0, float c =0); // 默认构造函数
+Circle(float a, float b, float c);
+</code></pre></td></tr></table>
+</div>
+</div><p>（3）析构函数</p>
+<p>类的析构函数是类的一种特殊的成员函数，它会在每次删除所创建的对象时执行。</p>
+<p>析构函数的名称与类的名称是完全相同的，只是在前面加了个波浪号（~）作为前缀，它不会返回任何值，也不能带有任何参数。析构函数有助于在跳出程序（比如关闭文件、释放内存等）前释放资源。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span> <span class="cpf">&lt;cstdio&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">A</span><span class="p">()</span> <span class="p">{</span> <span class="n">printf</span><span class="p">(</span><span class="s">&#34;A()</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span> <span class="p">}</span>
+    <span class="k">virtual</span> <span class="o">~</span><span class="n">A</span><span class="p">()</span> <span class="p">{</span> <span class="n">printf</span><span class="p">(</span><span class="s">&#34;~A()</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span> <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">B</span> <span class="o">:</span> <span class="k">public</span> <span class="n">A</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">B</span><span class="p">()</span> <span class="p">{</span> <span class="n">printf</span><span class="p">(</span><span class="s">&#34;B()</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span> <span class="p">}</span>
+    <span class="o">~</span><span class="n">B</span><span class="p">()</span> <span class="p">{</span> <span class="n">printf</span><span class="p">(</span><span class="s">&#34;~B()</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span> <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">A</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="k">new</span> <span class="n">B</span><span class="p">;</span>
+    <span class="k">delete</span> <span class="n">p</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（4）cmp函数</p>
+<p>在c++ 使用sort() 函数的时候，经常需要重写 <code>cmp()</code> 函数，该函数经常使用到一个关键字<code>static</code></p>
+<ul>
+<li>加上static 就意味是类成员变量或者函数，只有一种存在形式，不同的对象不能进行修改；</li>
+<li>可以直接通过类名直接访问，不依赖于对象。<code>CRectangle::PrintTotal()</code></li>
+</ul>
+<p>并且输入参数也最好加上 <code>const</code>修饰，因为不希望修改比较的对象，最后返回的是true or false即可。</p>
+<h2 id="三种访问权限">三种访问权限</h2>
+<p>private: 只能由该类中的函数、其友元函数访问,不能被任何其他访问，该类的对象也不能访问.
+protected: 可以被该类中的函数、子类的函数、以及其友元函数访问,但不能被该类的对象访问
+public: 可以被该类中的函数、子类的函数、其友元函数访问,也可以由该类的对象访问
+注：友元函数包括两种：设为友元的全局函数，设为友元类中的成员函数</p>
+<p>public: 可以被任意实体访问
+protected: 只允许子类和本类中的成员函数访问
+private: 只允许本类中的成员函数访问</p>
+<p>当发生继承时访问权限的变化：</p>
+<ol>
+<li>public继承不改变基类成员的访问权限</li>
+<li>private继承使得基类所有成员在子类中的访问权限变为private</li>
+<li>protected继承将基类中public成员变为子类的protected成员，其它成员的访问 权限不变。</li>
+<li>基类中的private成员不受继承方式的影响，子类永远无权访问。</li>
+</ol>
+<blockquote>
+<p>类的友元函数是定义在类外部，但有权访问类的所有私有（private）成员和保护（protected）成员。尽管友元函数的原型有在类的定义中出现过，但是友元函数并不是成员函数。
+友元可以是一个函数，该函数被称为友元函数；友元也可以是一个类，该类被称为友元类，在这种情况下，整个类及其所有成员都是友元。
+如果要声明函数为一个类的友元，需要在类定义中该函数原型前使用关键字 friend，如下所示：</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Box</span>
+<span class="p">{</span>
+   <span class="kt">double</span> <span class="n">width</span><span class="p">;</span>
+<span class="k">public</span><span class="o">:</span>
+   <span class="kt">double</span> <span class="n">length</span><span class="p">;</span>
+   <span class="k">friend</span> <span class="kt">void</span> <span class="nf">printWidth</span><span class="p">(</span> <span class="n">Box</span> <span class="n">box</span> <span class="p">);</span> <span class="c1">// 友元函数
+</span><span class="c1"></span>   <span class="kt">void</span> <span class="nf">setWidth</span><span class="p">(</span> <span class="kt">double</span> <span class="n">wid</span> <span class="p">);</span>
+   <span class="k">friend</span> <span class="k">class</span> <span class="nc">ClassTwo</span><span class="p">;</span> <span class="c1">// 友元类
+</span><span class="c1"></span><span class="p">};</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="常见的关键字">常见的关键字</h2>
+<p>const 关键字： 总的原则是只读的，不能变。</p>
+<p>(1 ) const 定义常量     const float pi =3.14</p>
+<p>(2 ) const 与指针      指针常量和常量指针 (谁在前谁不能变，常量指针中常量不能变，指针常量中指针不能变)</p>
+<p>常量指针：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    
+    <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span><span class="mi">5</span><span class="p">;</span>
+    <span class="k">const</span> <span class="kt">int</span> <span class="o">*</span><span class="n">p</span> <span class="o">=&amp;</span><span class="n">a</span><span class="p">;</span> <span class="c1">// 不能使用 *p =20 这样的修改常量的操作
+</span><span class="c1"></span>    
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">p</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>这三种形式都是正确的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">    int const *x;
+    const int *y;
+    
+    int a =2;
+    int *const p =&amp;a;
+</code></pre></td></tr></table>
+</div>
+</div><p>指针常量（指向常量的指针）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">int</span> <span class="n">a</span> <span class="o">=</span><span class="mi">5</span><span class="p">;</span>
+<span class="kt">int</span> <span class="o">*</span><span class="k">const</span> <span class="n">p</span> <span class="o">=&amp;</span><span class="n">a</span><span class="p">;</span>
+<span class="o">*</span><span class="n">p</span> <span class="o">=</span><span class="mi">20</span><span class="p">;</span> <span class="c1">// 指针不能变，但是可以修改内容
+</span><span class="c1"></span>
+
+<span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span><span class="mi">5</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="o">*</span><span class="k">const</span> <span class="n">p</span> <span class="o">=&amp;</span><span class="n">a</span><span class="p">;</span> <span class="c1">// 不能使用 *p =20 这样的修改常量的操作
+</span><span class="c1"></span>    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">p</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span><span class="mi">6</span><span class="p">;</span>
+    <span class="o">*</span><span class="n">p</span> <span class="o">=</span><span class="mi">20</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">p</span> <span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>（3）const与函数的关系</p>
+<p>1). const 修饰函数参数，可以保证该参数在函数内部不被改变；如果以引用或者地址的形式传递一个参数，如果在该函数体内被修改，那么实参也会被修改，所以不想要被修改，那么是可以使用 const 进行修饰。</p>
+<p>2). const 修饰函数返回值，防止函数的返回值被修改</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">const</span> <span class="kt">int</span> <span class="nf">fun</span><span class="p">(){}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>3). const 修饰成员变量</p>
+<p>(4 ) const 对象 const Point p; 常量对象</p>
+<p>const 对象 只能调用const 成员函数，不能调用普通成员函数</p>
+<p>普通对象既可以调用const 成员函数 也可以调用普通成员函数</p>
+<p>static 关键字</p>
+<p>静态局部变量：函数结束后，静态局部变量的内存空间不会被系统回收，下一次调用函数时使用上一次退出时的值。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">show_average</span><span class="p">(</span><span class="kt">double</span> <span class="n">x</span><span class="p">){</span>
+<span class="k">static</span> <span class="kt">double</span> <span class="n">num</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>原理：</p>
+<p>1). 静态局部变量存储在静态存储区
+2). 静态局部变量在函数结束后不会被回收，下次使用的时候可以保留上一次的结果
+3). 静态局部变量如果未进行初始化，会被编译器初始化成0 或者NULL</p>
+<p>静态局部变量或全局变量的区别：作用域不同。局部变量只是在一个函数中，全局变量是整个class 文件。</p>
+<p>静态全局变量和全局变量的区别：静态全局变量只能被本文使用，而全局变量可以被别的文件使用</p>
+<p>类的静态成员的访问有两种方式，推荐使用方式一来访问，因为静态变量属于整个类，而不是某个特定的对象。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">//方式一 类名::静态成员名
+Student:: teacherName;
+// 方式二： 对象名.静态成员名
+Student s1; 
+s1.teacherName&#39;
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://space.bilibili.com/159088729/video?tid=0&amp;page=2&amp;keyword=c%2B%2B&amp;order=pubdate">视频讲解很好</a></p>
+<p>c++ 中队列操作的访问：</p>
+<blockquote>
+<p>front() 返回第一个元素
+pop() 删除第一个元素
+push() 在末尾加入一个元素
+back() 返回最后一个元素
+empty() 如果队列空则返回真
+size() 返回队列中元素的个数</p>
+</blockquote>
+<p>c++ 栈stack 的操作访问</p>
+<blockquote>
+<p>top() 返回栈顶元素，不删除（获取）
+pop() 移除栈顶元素 （删除）
+push() 在栈顶增加元素 （增加）
+empty() 堆栈为空则返回真
+size() 返回栈中元素数目</p>
+</blockquote>
+<p>auto 关键词</p>
+<p>在C++ 11 中，已经删除了该用法，取而代之的作用是：自动推断变量的类型。</p>
+<p>define和常量const的区别</p>
+<p>编译器处理不同： define 是宏定义， 是一个”编译时“概念，在预处理阶段完成；const 变量是”运行“状态概念；
+存储方式不同：宏定义是存储在代码段，不会分配内存，const 是分配内存，存储在数据段；</p>
+<p><strong>define 和 typedef 的区别</strong></p>
+<p><code>#define</code> 是 C 中定义的语法, <code>typedef</code> 是 C++ 中定义的语法, 二者在 C++ 中可以通用, 但 <code>#define</code> 成了预编译指令, <code>typedef</code> 当成语句处理. <code>typedef</code> 和 <code>define</code> 都可以用来给对象取一个别名, 但是俩者却有很大的不同, 有以下几点</p>
+<ul>
+<li>执行时间</li>
+</ul>
+<p>关键字 typedef 在编译阶段有效, 由于是在编译阶段, 因此 typededf 有类型检查的功能.
+define 是宏定义, 发生在预处理阶段, 也就是编译之前, 它只是进行简单而机械的字符串替换, 而不进行任何检查.</p>
+<ul>
+<li>功能不同</li>
+</ul>
+<p><code>typedef</code> 用来定义类型的别名
+<code>#define</code>不止可以为类型取别名, 还可以定义常量, 变量, 编译开关等.</p>
+<ul>
+<li>作用域不同</li>
+</ul>
+<p><code>#define</code> 没有作用域的限制, 只要是之前预定义过的宏, 在以后的程序中都可以使用. 而 <code>typedef</code> 有自己的作用域.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">void fun() {
+  #define A int
+}
+void gun() {
+//在这里也可以使用A，因为宏替换没有作用域，
+//但如果上面用的是typedef，那这里就不能用A ，不过一般不在函数内使用typedef
+} 
+</code></pre></td></tr></table>
+</div>
+</div><p>最指针操作作用不同</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">Typedef int * pint；  
+#define PINT int *  
+Const pint p；//p不可更改，p指向的内容可以更改，相当于 int * const p;  
+Const PINT p；//p可以更改，p指向的内容不能更改，相当于 const int *p；或 int const *p；  
+pint s1, s2; //s1和s2都是int型指针  
+PINT s3, s4; //相当于int * s3，s4；只有一个是指针。 
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">#define MAX(a,b) (a&gt;b)?a:b
+
+max = MAX(x,y);
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://www.jianshu.com/p/53ac91a23979">define 和 typedef 区别</a>
+<a href="https://whu-pzhang.github.io/define-and-typedef/">C/C++ 中的 define 和 typedef</a>
+<a href="https://www.cnblogs.com/Wayou/p/macros_in_c_and_cpp.html">C/C++ 中的宏/Macro</a></p>
+<p>decltype类型指示符</p>
+<p>从表达式的类型推断出要定义的变量的类型，但是不想用该表达式的值初始化变量。</p>
+<p><strong>c++ 中的值传递、指针传递和引用传递</strong></p>
+<p>对于 传值、传递引用、传递指针的理解。对于前者是不会修改原来的值，相当于一种copy 之后的操作；但是对于后两者，直接操作的是原来的值，类似一种全局变量的感觉。所以如果不想要修改原来的值，那么传递值，如果想要修改原来的值，那么就传递指针。后者就类似维护一种全局的变量。</p>
+<ol>
+<li>传值，就是copy 数值。</li>
+<li>传引用，就是传递地址， 使用 &lsquo;&amp;&rsquo; 这个符号</li>
+<li>传指针， 使用 &lsquo;*&rsquo; 符号。</li>
+</ol>
+<p>在改变原始的数据上面，2， 3两种方式是没有什么区别的。一般来说能用引用就用引用，指针强大，但是容易修改地址，比较危险。引用并不能改变其目标变量，而指针可以任意改变其指向的地址。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="c1">//值传递
+</span><span class="c1"></span> <span class="kt">void</span> <span class="nf">change1</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">){</span>
+    <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;值传递--函数操作地址&#34;</span><span class="o">&lt;&lt;&amp;</span><span class="n">n</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>         <span class="c1">//显示的是拷贝的地址而不是源地址 
+</span><span class="c1"></span>    <span class="n">n</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">//引用传递
+</span><span class="c1"></span><span class="kt">void</span> <span class="nf">change2</span><span class="p">(</span><span class="kt">int</span> <span class="o">&amp;</span> <span class="n">n</span><span class="p">){</span>
+    <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;引用传递--函数操作地址&#34;</span><span class="o">&lt;&lt;&amp;</span><span class="n">n</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span> 
+    <span class="n">n</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+ <span class="c1">//指针传递
+</span><span class="c1"></span><span class="kt">void</span> <span class="nf">change3</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">n</span><span class="p">){</span>
+     <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;指针传递--函数操作地址 &#34;</span><span class="o">&lt;&lt;</span><span class="n">n</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span> 
+    <span class="o">*</span><span class="n">n</span><span class="o">=*</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+ <span class="p">}</span> 
+<span class="kt">int</span>     <span class="nf">main</span><span class="p">(){</span>
+    <span class="kt">int</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">;</span>
+    <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;实参的地址&#34;</span><span class="o">&lt;&lt;&amp;</span><span class="n">n</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+    <span class="n">change1</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+    <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;after change1() n=&#34;</span><span class="o">&lt;&lt;</span><span class="n">n</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+    <span class="n">change2</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+    <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;after change2() n=&#34;</span><span class="o">&lt;&lt;</span><span class="n">n</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+    <span class="n">change3</span><span class="p">(</span><span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
+    <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;after change3() n=&#34;</span><span class="o">&lt;&lt;</span><span class="n">n</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="effective-stl">Effective STL</h2>
+<p>STL的一个重要特点是数据结构和算法的分离。尽管这是个简单的概念，但这种分离确实使得STL变得非常通用。例如，由于STL的sort()函数是完全通用的，你可以用它来操作几乎任何数据集合，包括链表，容器和数组。</p>
+<p>STL另一个重要特性是它不是面向对象的。为了具有足够通用性，STL主要依赖于模板而不是封装，继承和虚函数（多态性）——OOP的三个要素。你在STL中找不到任何明显的类继承关系。这好像是一种倒退，但这正好是使得STL的组件具有广泛通用性的底层特征。另外，由于STL是基于模板，内联函数的使用使得生成的代码短小高效。</p>
+<p>STL提供了大量的模板类和函数，可以在OOP和常规编程中使用。所有的STL的大约50个算法都是完全通用的，而且不依赖于任何特定的数据类型。下面的小节说明了三个基本的STL组件：（1）迭代器提供了访问容器中对象的方法。（2）   容器是一种数据结构，如list，vector，和deques ，以模板类的方法提供。（3）算法是用来操作容器中的数据的模板函数。</p>
+<p>字典序：按字母顺序排列的序列</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">vector, 变长数组，倍增的思想
+    size()  返回元素个数
+    empty()  返回是否为空
+    clear()  清空
+    front()/back()
+    push_back()/pop_back()
+    begin()/end()
+    []
+    支持比较运算，按字典序
+
+pair&lt;int, int&gt;
+    first, 第一个元素
+    second, 第二个元素
+    支持比较运算，以first为第一关键字，以second为第二关键字（字典序）
+
+string，字符串
+    size()/length()  返回字符串长度
+    empty()
+    clear()
+    substr(起始下标，(子串长度))  返回子串
+    c_str()  返回字符串所在字符数组的起始地址
+
+</code></pre></td></tr></table>
+</div>
+</div><p>length是因为沿用C语言的习惯而保留下来的，string类最初只有length，引入STL之后，为了兼容又加入了size，它是作为STL容器的属性存在的，便于符合STL的接口规则，以便用于STL的算法。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">queue, 队列
+    size()
+    empty()
+    push()  向队尾插入一个元素
+    front()  返回队头元素
+    back()  返回队尾元素
+    pop()  弹出队头元素
+
+priority_queue, 优先队列，默认是大根堆
+    push()  插入一个元素
+    top()  返回堆顶元素
+    pop()  弹出堆顶元素
+    定义成小根堆的方式：priority_queue&lt;int, vector&lt;int&gt;, greater&lt;int&gt;&gt; q;
+
+stack, 栈
+    size()
+    empty()
+    push()  向栈顶插入一个元素
+    top()  返回栈顶元素
+    pop()  弹出栈顶元素
+
+deque, 双端队列
+    size()
+    empty()
+    clear()
+    front()/back()
+    push_back()/pop_back()
+    push_front()/pop_front()
+    begin()/end()
+    []
+</code></pre></td></tr></table>
+</div>
+</div><p>（1）empty() vs. size()</p>
+<p>首先说结论，如果能使用 empty，那么尽量使用empty。理由有两点：</p>
+<ul>
+<li>writing generic code using empty makes sense.</li>
+<li><code>empty()</code> is a constant-time operation for all standard containers.
+逻辑上合规，时间上有保证。</li>
+</ul>
+<p>使用size() 的不好之处：当想要使用其他的 container（扩展时候），这个时候发现size() 的时间复杂度有可能不是 $O(1)$而是 $O(n)$。比如从STL 中的 vector转换成 list。</p>
+<p>std::vector vs std::list</p>
+<p>两种比较不可避免需要涉及到其本来的实现。</p>
+<blockquote>
+<p>List stores elements at non contiguous memory location i.e. it internally uses a doubly linked list ; Whereas, vector stores elements at contiguous memory locations like an array.
+list 基于双向链表非连续内存，vector 基于连续内存。所以这种比较就非常明显了：</p>
+</blockquote>
+<p>当修改（Insertion and Deletion）时候，list 是高效的；当访问（Random Access）时候，vector 是高效的。</p>
+<p><strong>注意</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;queue&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="n">queue</span><span class="o">&lt;</span><span class="n">Node</span> <span class="o">*&gt;</span> <span class="n">q</span><span class="p">;</span>
+<span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="k">nullptr</span><span class="p">);</span>
+<span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="k">nullptr</span><span class="p">);</span>
+
+<span class="c1">// 这个时候 q.empty() 是0， 但是 q.size() 是 2，所以当有空指针的时候，注意一下 empty() 和size() 的区别
+</span></code></pre></td></tr></table>
+</div>
+</div><p>C++ STL中最基本以及最常用的类或容器无非就是以下几个：</p>
+<ul>
+<li>vector</li>
+</ul>
+<p>C++ STL中的vector好比是C语言中的数组，但是vector又具有数组没有的一些高级功能。与数组相比，vector就是一个可以不用再初始化就必须制定大小的边长数组，当然了，它还有许多高级功能。</p>
+<p>需要包含头文件。下面是常见的初始化的操作</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">v1</span><span class="p">;</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="n">father</span><span class="o">&gt;</span> <span class="n">v2</span><span class="p">;</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">v3</span><span class="p">;</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&gt;</span><span class="p">;</span>  <span class="c1">//注意空格。这里相当于二维数组int a[n][n];
+</span><span class="c1"></span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">v5</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span> <span class="p">};</span> <span class="c1">//列表初始化,注意使用的是花括号
+</span><span class="c1"></span><span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">v6</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&#34;hi&#34;</span><span class="p">,</span><span class="s">&#34;my&#34;</span><span class="p">,</span><span class="s">&#34;name&#34;</span><span class="p">,</span><span class="s">&#34;is&#34;</span><span class="p">,</span><span class="s">&#34;lee&#34;</span> <span class="p">};</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">v7</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span> <span class="c1">//初始化为-1,-1,-1,-1,-1。第一个参数是数目，第二个参数是要初始化的值
+</span><span class="c1"></span><span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">v8</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s">&#34;hi&#34;</span><span class="p">);</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">v9</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span> <span class="c1">//默认初始化为0
+</span><span class="c1"></span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">v10</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span> <span class="c1">//默认初始化为空字符串
+</span></code></pre></td></tr></table>
+</div>
+</div><p>比如下面的代码是错误的，但是编译器不会报错，就像是数组越界。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">vector&lt;int&gt; vec;
+vec[0] = 1;  //错误！
+</code></pre></td></tr></table>
+</div>
+</div><p>STL中vector的实现原理：
+vector的数据安排以及操作方式与array非常类似。两者的唯一差别在于空间的运用的灵活性。array是静态空间，一旦配置好了就不能再改变了。如果程序需要一个更大空间的array，只能自己再申请一个更大的array，然后将以前array中的内容全部拷贝到新的array中。vector是动态空间，随着元素的加入，它的内部机制会自动扩充空间以容纳新的元素。vector的关键技术在于其对大小的控制以及重新配置时的数据移动效率。</p>
+<p>为了降低空间配置时候的速度，vector实际配置的大小可能比客户端需求量更大一些，以备将来可能的扩充。扩充空间需要经过的步骤：重新配置空间，元素移动，释放旧内存空间。</p>
+<p>vector 中的查询操作</p>
+<p><a href="https://imgchr.com/i/uSWZDJ"><img src="https://s2.ax1x.com/2019/09/22/uSWZDJ.png" alt="uSWZDJ.png"></a></p>
+<p>vector最常用的增删操作</p>
+<p><a href="https://imgchr.com/i/uSWeb9"><img src="https://s2.ax1x.com/2019/09/22/uSWeb9.png" alt="uSWeb9.png"></a></p>
+<ul>
+<li>string</li>
+</ul>
+<p>在c 语言中这样使用字符串</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">char* s1 = &#34;Hello SYSU!&#34;; //创建指针指向字符串常量，这段字符串我们是不能修改的
+
+//想要创建 可以修改的字符串，我们可以使用数组分配空间
+char s2[20] = &#34;Hello SYSU!&#34;;
+//或者这样
+char s3[] = &#34;Hello SYSU!&#34;;
+
+//当然我们也可以动态分配内存
+char* s4 = (char*)malloc(20）;
+gets(s4);
+</code></pre></td></tr></table>
+</div>
+</div><p>在 C++ 中string 类型是变长的，在头文件 string 中。用string初始化字符串分两类：用“=”号就是拷贝初始化，否则就是直接初始化。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">#include &lt;string&gt;
+string s1;//初始化字符串，空字符串
+string s2 = s1; //拷贝初始化，深拷贝字符串
+string s3 = &#34;I am Yasuo&#34;; //直接初始化，s3存了字符串
+string s4(10, &#39;a&#39;); //s4存的字符串是aaaaaaaaaa
+string s5(s4); //拷贝初始化，深拷贝字符串
+string s6(&#34;I am Ali&#34;); //直接初始化
+string s7 = string(6, &#39;c&#39;); //拷贝初始化，cccccc
+
+</code></pre></td></tr></table>
+</div>
+</div><p>string 中的IO 操作</p>
+<p>使用cin读入字符串时，遇到空格或者分隔符（\n）就停止读取。比如程序输入的是</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">&#34;     Hello   World&#34;
+</code></pre></td></tr></table>
+</div>
+</div><p>这个时候可以使用如下的语句进行读入</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">cin&gt;&gt;s1&gt;&gt;s2;
+</code></pre></td></tr></table>
+</div>
+</div><p>hello存在s1里，world存在s2里了。如果想要存储一行内容而不是单个的，那么使用以下的语句</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">string str;
+getline(cin, str);
+cout &lt;&lt; str &lt;&lt; endl;
+</code></pre></td></tr></table>
+</div>
+</div><p>当把string对象和字符面值及字符串面值混在一条语句中使用时，必须确保+的两侧的运算对象至少有一个是string</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">string s1 = s2 + &#34;, &#34;; //正确
+string s3 = &#34;s &#34; + &#34;, &#34;; //错误
+string s4 = &#34;hello&#34; + &#34;, &#34; + s1; //错误
+string s5 = s1 + &#34;hello &#34; + &#34;, &#34;; //改一下顺序，s1放前头，正确了，注意理解=号右边的运算顺序
+</code></pre></td></tr></table>
+</div>
+</div><p>处理string 类型的字符
+npos 表示 non-position 在cpp 中表示不可达的地址，如果找不见position，那么就返回这个值。不一定是 -1，在mac 中至少不是。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">s3</span><span class="o">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">s3</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+   <span class="n">s3</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;s&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>string还有一些很好用的函数，比如找子串</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+   <span class="n">string</span> <span class="n">str</span> <span class="o">=</span><span class="s">&#34;abcddd&#34;</span><span class="p">;</span>
+   
+   <span class="kt">char</span> <span class="n">ch</span> <span class="o">=</span><span class="sc">&#39;e&#39;</span><span class="p">;</span>
+   <span class="k">auto</span> <span class="n">position</span> <span class="o">=</span><span class="n">str</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">ch</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+   <span class="k">if</span><span class="p">(</span><span class="n">position</span> <span class="o">!=</span> <span class="n">str</span><span class="p">.</span><span class="n">npos</span><span class="p">)</span>
+       <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">position</span><span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+   <span class="k">else</span>
+       <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;could not find &#34;</span><span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+
+   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>string 中的查询操作</p>
+<p><img src="https://s2.ax1x.com/2019/09/22/uSWGKe.png" alt="uSWGKe.png"></p>
+<ul>
+<li>set</li>
+</ul>
+<p>set跟vector差不多，它跟vector的唯一区别就是，set里面的元素是有序的且唯一的，只要你往set里添加元素，它就会自动排序，而且，如果你添加的元素set里面本来就存在，那么这次添加操作就不执行。要想用set先加个头文件set。</p>
+<p>常用的操作</p>
+<p>set 和 map 都是有序且没有重复元素的。如果不强调有序，那么是可以使用 unordered_map 和 unordered_set 这两个进行定义的。</p>
+<p>set 的基本操作。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 访问容量
+empty() 　　　 //判断set容器是否为空
+size() 　　　　//返回当前set容器中的元素个数
+max_size() 　 //返回set容器可能包含的元素最大个数
+# 元素的访问
+begin()     　　 //返回set容器的第一个元素
+end() 　　　　   //返回set容器的最后一个元素
+
+# 修改
+erase(iterator)  //删除定位器iterator指向的值
+erase(first,second)    //删除定位器first和second之间的值
+erase(key_value)    //删除键值key_value的值
+
+insert(key_value)   //将key_value插入到set中（比较常见）
+insert(first,second)   //将定位器first到second之间的元素插入到set中
+
+# 使用迭代器进行遍历
+
+set&lt;int&gt;::iterator it;  //声明迭代器
+for(it = s.begin(); it!=s.end(); it++)   //迭代输出
+    {
+        cout&lt;&lt;*it&lt;&lt;endl;
+    }
+    
+begin()         返回指向第一个元素的迭代器
+clear()         清除所有元素
+count()         返回某个值元素的个数
+empty()         如果集合为空，返回true
+end()           返回指向最后一个元素的迭代器
+equal_range()   返回集合中与给定值相等的上下限的两个迭代器
+erase()         删除集合中的元素
+find()          返回一个指向被查找到元素的迭代器
+get_allocator() 返回集合的分配器
+insert()        在集合中插入元素
+lower_bound()   返回指向大于（或等于）某值的第一个元素的迭代器
+key_comp()      返回一个用于元素间值比较的函数
+max_size()      返回集合能容纳的元素的最大限值
+rbegin()        返回指向集合中最后一个元素的反向迭代器
+rend()          返回指向集合中第一个元素的反向迭代器
+size()          集合中元素的数目
+swap()          交换两个集合变量
+upper_bound()   返回大于某个值元素的迭代器
+value_comp()    返回一个用于比较元素间的值的函数
+</code></pre></td></tr></table>
+</div>
+</div><p>multiset 和 set 中常见的操作</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">set, map, multiset, multimap, 基于平衡二叉树（红黑树），动态维护有序序列
+    size()
+    empty()
+    clear()
+    begin()/end()
+    ++, -- 返回前驱和后继，时间复杂度 O(logn)
+
+    set/multiset
+        insert()  插入一个数
+        find()  查找一个数
+        count()  返回某一个数的个数
+        erase()
+            (1) 输入是一个数x，删除所有x   O(k + logn)
+            (2) 输入一个迭代器，删除这个迭代器
+        lower_bound()/upper_bound()
+            lower_bound(x)  返回大于等于x的最小的数的迭代器
+            upper_bound(x)  返回大于x的最小的数的迭代器
+    map/multimap
+        insert()  插入的数是一个pair
+        erase()  输入的参数是pair或者迭代器
+        find()
+        []  注意multimap不支持此操作。 时间复杂度是 O(logn)
+        lower_bound()/upper_bound()
+
+unordered_set, unordered_map, unordered_multiset, unordered_multimap, 哈希表
+    和上面类似，增删改查的时间复杂度是 O(1)
+    不支持 lower_bound()/upper_bound()， 迭代器的++，--
+
+bitset, 圧位
+    bitset&lt;10000&gt; s;
+    ~, &amp;, |, ^
+    &gt;&gt;, &lt;&lt;
+    ==, !=
+    []
+    count()  返回有多少个1
+    any()  判断是否至少有一个1
+    none()  判断是否全为0
+    set()  把所有位置成1
+    set(k, v)  将第k位变成v
+    reset()  把所有位变成0
+    flip()  等价于~
+    flip(k) 把第k位取反
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>list</p>
+</li>
+<li>
+<p>map</p>
+</li>
+</ul>
+<p>查看是否存在某个key，可以使用 cout 判断。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">if</span> <span class="p">(</span><span class="n">m1</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="s">&#34;Lee&#34;</span><span class="p">))</span>
+<span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Lee is in m1!&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">else</span>
+<span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Lee do not exist!&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>对于map 或者是 <code>unordered_map</code>的遍历。在C++ 11中使用 iterator 的思想进行遍历，其中这里使用到了关键词<code>auto</code>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;map&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">string</span><span class="o">&gt;</span> <span class="n">map_</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="k">auto</span>  <span class="n">it</span> <span class="o">=</span><span class="n">map_</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">it</span><span class="o">!=</span> <span class="n">map_</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="n">it</span> <span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">key</span>  <span class="o">=</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">;</span> <span class="err">#</span> <span class="n">map</span> <span class="err">就是一个结构体</span>
+        <span class="n">string</span> <span class="o">&amp;</span> <span class="n">val</span> <span class="o">=</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">second</span><span class="p">;</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">key</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; &#34;</span><span class="o">&lt;&lt;</span> <span class="n">val</span><span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://www.cnblogs.com/skyfsm/p/6934246.html">C++ STL快速入门</a></p>
+<p>介绍 C++ 中标准模板库 (standard template libary) STL</p>
+<ol>
+<li>C++ 中的大根堆和小根堆</li>
+</ol>
+<p>使用 C++ 中的优先队列实现 大根堆和小根堆.与前面FIFO结构的队列不同，优先队列中元素出队列的顺序由元素的优先级决定。从优先队列中删除元素是根据优先权高或低的次序，而不是元素进入队列的次序。对于最大优先队列（max priority queue），查找操作用来搜索优先权最大的元素，删除操作用来删除该元素。优先权队列中的元素可以有相同的优先权，查找与删除操作可根据任意优先权进行。
+(为什么使用队列来实现大根堆和小根堆呢？ 因为队列的出队和入队顺序和大根堆弹出和加入的顺序类似)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">priority_queue&lt;Type, Container, Functional&gt;
+Type为数据类型， Container为保存数据的容器，Functional为元素比较方式。
+如果不写后两个参数，那么容器默认用的是vector，比较方式默认用operator&lt;，也就是优先队列是大顶堆，队头元素最大。
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>大根堆</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">//构造一个空的优先队列（此优先队列默认为大顶堆）
+</span><span class="c1"></span><span class="n">priority_queue</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">big_heap</span><span class="p">;</span>   
+
+<span class="c1">//另一种构建大顶堆的方法
+</span><span class="c1"></span><span class="n">priority_queue</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">,</span><span class="n">less</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">big_heap2</span><span class="p">;</span>   
+
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>小根堆</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">//构造一个空的优先队列,此优先队列是一个小顶堆
+</span><span class="c1"></span><span class="n">priority_queue</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">,</span><span class="n">greater</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">small_heap</span><span class="p">;</span>   
+</code></pre></td></tr></table>
+</div>
+</div><p>意思是&lt;类型,&lt;存储方式&gt;,&lt;比较函数&gt; &gt;</p>
+<p>注意如果使用 &gt; less<int> 和 &gt; greater<int> ，那么是需要包含头问题：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span> <span class="cpf">&lt;functional&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="cm">/** addition 
+</span><span class="cm">equal_to       相等 
+</span><span class="cm">not_equal_to   不相等 
+</span><span class="cm">less           小于 
+</span><span class="cm">greater        大于 
+</span><span class="cm">less_equal     小于等于 
+</span><span class="cm">greater_equal 大于等 
+</span><span class="cm">这些在所有的排序算法中同样适用 
+</span><span class="cm">*/</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>c++中</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">char ch =&#39;a&#39;;
+string str =&#34;a&#34;;
+
+// 注意单引号和双引号的区别
+</code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>C++ queue 和 deque的区别</li>
+</ol>
+<p>queue函数</p>
+<p>一种先进先出(FIFO)的数据结构。</p>
+<p>常见的操作</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// 访问函数
+</span><span class="c1"></span><span class="n">front</span><span class="p">()</span> <span class="err">返回第一个元素</span>
+<span class="n">back</span><span class="p">()</span> <span class="err">返回最后一个元素</span>
+
+
+<span class="c1">// 修改函数
+</span><span class="c1"></span><span class="n">pop</span><span class="p">()</span> <span class="err">删除第一个元素</span>
+<span class="n">push</span><span class="p">()</span> <span class="err">在末尾加入一个元素</span>
+
+<span class="c1">// 判断函数
+</span><span class="c1"></span><span class="n">empty</span><span class="p">()</span> <span class="err">如果队列空则返回真</span>
+<span class="n">size</span><span class="p">()</span> <span class="err">返回队列中元素的个数</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>deque是双向队列Double ended queue, 可以在两段扩展和收缩，有着和 vector 相似的性质，但并不是严格连续存储的。常见的操作如下:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// 这里面存储的是index 信息，而不是数值信息
+</span><span class="c1"></span>
+<span class="c1">// 增加函数
+</span><span class="c1"></span><span class="kt">void</span> <span class="n">push_front</span><span class="p">(</span><span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">)</span><span class="o">:</span><span class="err">双端队列头部增加一个元素</span><span class="n">X</span>
+<span class="kt">void</span> <span class="n">push_back</span><span class="p">(</span><span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">)</span><span class="o">:</span><span class="err">双端队列尾部增加一个元素</span><span class="n">x</span>
+
+
+<span class="c1">// 删除函数
+</span><span class="c1"></span>
+<span class="kt">void</span> <span class="n">pop_front</span><span class="p">()</span><span class="o">:</span><span class="err">删除双端队列中最前一个元素</span>
+<span class="kt">void</span> <span class="n">pop_back</span><span class="p">()</span><span class="o">:</span><span class="err">删除双端队列中最后一个元素</span>
+<span class="n">Iterator</span> <span class="n">erase</span><span class="p">(</span><span class="n">iterator</span> <span class="n">it</span><span class="p">)</span><span class="o">:</span><span class="err">删除双端队列中的某一个元素</span>
+<span class="kt">void</span> <span class="n">clear</span><span class="p">()</span><span class="o">:</span><span class="err">清空双端队列中的元素</span>
+
+<span class="c1">// 判断函数
+</span><span class="c1"></span><span class="kt">bool</span> <span class="n">empty</span><span class="p">()</span> <span class="k">const</span><span class="o">:</span><span class="err">向量是否为空，若</span><span class="nb">true</span><span class="p">,</span><span class="err">则向量中无元素</span>
+
+<span class="c1">// 大小函数
+</span><span class="c1"></span><span class="n">Int</span> <span class="n">size</span><span class="p">()</span> <span class="k">const</span><span class="o">:</span><span class="err">返回向量中元素的个数</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>简单的实现模板。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;stack&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;queue&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">stack</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">s</span><span class="p">;</span>
+    <span class="n">queue</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">q</span><span class="p">;</span>
+    
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">10</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">s</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+    
+    <span class="k">while</span> <span class="p">(</span> <span class="o">!</span><span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+        <span class="n">s</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+    <span class="p">}</span>
+    
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+    
+    <span class="k">while</span> <span class="p">(</span> <span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+        <span class="n">cout</span><span class="o">&lt;&lt;</span> <span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">()</span><span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="n">q</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>queue 是单向队列，只能在尾部插入，在头部删除， 一般使用 vector 这类数组进行实现，连续空间。 deque 是双向队列，可以在头部和尾部进行删除和插入操作，一般存储地址不是连续的。</p>
+<p><strong>迭代器(iterator)是一中检查容器内元素并遍历元素的数据类型。</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">ivec</span><span class="p">;</span>
+    <span class="n">ivec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="n">ivec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+    <span class="n">ivec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+    <span class="n">ivec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">ivec</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span><span class="mf">1.</span> <span class="n">iter</span> <span class="o">!=</span> <span class="n">ivec</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">iter</span><span class="p">)</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">iter</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>set, map, multiset, multimap, 基于平衡二叉树（红黑树），动态维护有序序列
+set/multiset
+bitset （对这个讲解没有很大的感觉）</p>
+<p>map和set容器中，一个键只对应一个实例。而在multimap和multiset中，一个键可以对应多个实例，例如每个人都有一个电话联系人列表，列表中肯定不止一个人。</p>
+<p>有序关联容器 (按 key 值排序)</p>
+<ul>
+<li>map: key-value pairs</li>
+<li>set: 只有 key 值</li>
+<li>multimap: 允许 key 重复的 map，定义在中</li>
+<li>multiset: 允许 key 重复的 set，定义在中</li>
+</ul>
+<p>无序关联容器</p>
+<ul>
+<li>unordered_map: 通过 hash 组织的 map</li>
+<li>unordered_set: 通过 hash 组织的 set</li>
+<li>unordered_multimap: 通过 hash 组织的 multimap，定义在中</li>
+<li>unordered_multiset: 通过 hash 组织的 multiset，定义在中</li>
+</ul>
+<p>set 中存储的元素都是从小到大排序的，使用less 作为比较的工具，支持插入、删除、查找等操作，像一个集合一样。都是可以在 $logn$时间内完成，效率高。
+set 和 multiset 的区别：</p>
+<ul>
+<li>set 中插入的元素不能相同，但是multiset 可以有相同的元素。</li>
+<li>count(a) ，set 中返回的是0 或者1， multiset 是有多少个元素就返回多少个元素</li>
+</ul>
+<p><strong>cpp 中栈和队列</strong></p>
+<p>需要在头文件中</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;stack&gt;</span><span class="cp">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>基本操作：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">stack的基本操作有：对于stack&lt;int&gt; s
+  入     栈：           s.push(x);
+ 出      栈：           s.pop();   //出栈只是删除栈顶元素，并不返回该元素
+访问栈顶元素：    s.top();
+判  断   栈  空：    s.empty();//栈空时，返回true
+栈中的元素个数：s.size();
+</code></pre></td></tr></table>
+</div>
+</div><p>使用队列</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;queue&gt;</span><span class="cp">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>常见的操作</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">   入           队：q.push(x);   // 将x 接到队列的末端。
+   出           队：q.pop();      //弹出队列的第一个元素，注意，并不会返回被弹出元素的值。
+访问队首元素：q.front();   //即最早被压入队列的元素。
+访问队尾元素：q.back();  //即最后被压入队列的元素。
+    判断队列空   q.empty(); //当队列空时，返回true。
+队列中的元素个数：q.size();
+</code></pre></td></tr></table>
+</div>
+</div><p>pair 的实现：
+pair的实现是一个结构体，主要的两个成员变量是first second 因为是使用struct不是class，所以可以直接使用pair的成员变量。</p>
+<p>初始化和赋值：使用 {} 和 make_pair创建的是一个pair对象。</p>
+<p>访问方式：pair是单个数据对的操作，pair是一struct类型，有两个成员变量，通过first,second来访问，用的是“.”访问。</p>
+<p>pair的使用范围：</p>
+<ul>
+<li>STL中的map就是将key和value放在一起来保存。</li>
+<li>另一个应用是，当一个函数需要返回2个数据的时候，可以选择pair。</li>
+</ul>
+<h2 id="虚函数表相关">虚函数表相关</h2>
+<p>虚函数表原理简述</p>
+<p>{% fold  开/合 %}
+C++实现虚函数的方法是：为每个类对象添加一个隐藏成员，隐藏成员保存了一个指针，这个指针叫虚表指针（vptr），它指向一个虚函数表（virtual function table, vtbl）</p>
+<p>虚函数表就像一个数组，表中有许多的槽（slot），每个槽中存放的是一个虚函数的地址（可以理解为数组里存放着指向每个虚函数的指针）</p>
+<p>即：每个类使用一个虚函数表，每个类对象用一个虚表指针</p>
+<p>C++的编译器会保证虚函数表的指针存在于对象实例中最前面的位置（为了保证取虚函数表有最高的性能，在有多层继承或是多重继承的情况下），这意味着我们通过对象实例的地址得到这张虚函数表的地址，然后就可以遍历其中函数指针，并调用相应的函数</p>
+<p>我们建立一个新类</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Base</span> 
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">f</span><span class="p">()</span> <span class="p">{</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Base::f&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="nf">g</span><span class="p">()</span> <span class="p">{</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Base::g&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="nf">h</span><span class="p">()</span> <span class="p">{</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Base::h&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>按照上面的说法，我们可以通过Base的实例来得到虚函数表，这个表（数组）存了指向f，g，h这三个函数的指针</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">typedef</span> <span class="nf">void</span><span class="p">(</span><span class="o">*</span><span class="n">Fun</span><span class="p">)(</span><span class="kt">void</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Base</span> <span class="n">bObj</span><span class="p">;</span>
+    <span class="n">Fun</span> <span class="n">pFun</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>    
+    <span class="c1">//指向void* pf(void)类的函数的指针pFun
+</span><span class="c1"></span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;虚函数表的地址：&#34;</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="p">)(</span><span class="o">&amp;</span><span class="n">bObj</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;虚函数表的第一个函数地址：&#34;</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="p">)(</span><span class="o">&amp;</span><span class="n">bObj</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="c1">//再次取址得到第一个虚函数的地址
+</span><span class="c1"></span>
+    <span class="c1">//第一个虚函数
+</span><span class="c1"></span>    <span class="n">pFun</span> <span class="o">=</span> <span class="p">(</span><span class="n">Fun</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="kt">int</span><span class="o">*</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="p">)(</span><span class="o">&amp;</span><span class="n">bObj</span><span class="p">));</span>
+    <span class="n">pFun</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（1）计算内存大小</p>
+<p>c++中最重要的就是类，那么一个类的对象，它在内存中如何存储的？它占内存中多少个字节？
+首先确定类的构成：1) 数据成员：可以是内置类型，类类型；2) 函数成员：虚函数，非虚函数
+1）数据成员
+<strong>内置类型对齐原则</strong></p>
+<p>（对齐原则有两个维度，一个是在计算过程中，如果出现了前小后大，那么前面需要和后面对齐；最后就算完内存使用量之后，也是需要和类中最长的进行对齐。主要是为了方便存储。可以通过看下面链接中的实例 好好理解.）</p>
+<p>内置类型就是常用的：char,short,long,int,float,double.
+这些内置类型在类的对象中对齐方式，字节为单位（在c 中结构体也是一样的）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">char 1
+short 2
+long 4
+int 4
+float 4
+fouble 8
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>类类型对齐原则（c 中就是结构体对齐原则）</strong>
+取类中最长的数据成员作为对齐原则。例如，类中最长为 double,那么就是8 个字节。
+2）函数成员
+函数成员是不占用内存中类的对象的字节。为什么呢，你可以这样理解，c++中为了兼容c也允许struct 作为类的声明。在c 中struct 是用来声明结构体类型的，只不过c 中的结构体没有函数成员。同样 c++中允许的函数成员，只不过是类给函数提供了一个作用域</p>
+<p>上面所讲的其实都是关于sizeof()对于字符相关变量的操作，字符操作还有另一个常用的函数strlen()。前者是包括 <code>\0</code> ，后者不包括。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="n">string</span>  <span class="n">str</span> <span class="o">=</span><span class="s">&#34;abc&#34;</span><span class="p">;</span>
+<span class="k">sizeof</span><span class="p">(</span><span class="n">str</span><span class="p">)</span> <span class="err">本身大小是固定的，由编译器决定，不随着后面真实值的变化而变化。是一个常量。</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>派生类需要加上父类中的变量，因为前者是可以访问上述变量的。</p>
+<p>（2）虚表和多重继承</p>
+<p>首先说明一下多继承和多重继承是不一样的。多继承：A1，A2 是两个base 类，然后B 继承了A1 和A2。多重继承：A是base 类，A1，A2继承了A，然后B 继承了 A1，AA2，所以对于B 来说就是多重继承。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span>  <span class="nc">A</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+	<span class="k">virtual</span> <span class="kt">void</span> <span class="n">fun1</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;A::fun1&#34;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">virtual</span> <span class="kt">void</span> <span class="nf">fun2</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;A::fun2&#34;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">virtual</span> <span class="kt">void</span> <span class="nf">fun3</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;A::fun3&#34;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">};</span>
+<span class="k">class</span> <span class="nc">A1</span><span class="o">:</span><span class="k">public</span> <span class="n">A</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+	<span class="k">virtual</span> <span class="kt">void</span> <span class="n">fun1</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;A1::fun1&#34;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+	<span class="p">}</span>
+
+<span class="p">};</span>
+<span class="k">class</span> <span class="nc">A2</span><span class="o">:</span><span class="k">public</span> <span class="n">A</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+	<span class="k">virtual</span> <span class="kt">void</span> <span class="n">fun2</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;A2::fun2&#34;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">virtual</span> <span class="kt">void</span>  <span class="nf">fun3</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;A2::fun3&#34;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">};</span>
+<span class="k">class</span> <span class="nc">B</span> <span class="o">:</span><span class="k">public</span> <span class="n">A1</span><span class="p">,</span><span class="k">public</span> <span class="n">A2</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+	<span class="k">virtual</span> <span class="kt">void</span> <span class="n">fun4</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;B::fun4&#34;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>将上述中的虚函数表总结如下：</p>
+<p><img src="https://upload.cc/i1/2019/12/23/kATyfh.png" alt=""></p>
+<p>注意事项：</p>
+<p>如果子类没有重写父类的虚函数，那么<code>子类虚函数 置于虚函数表的后面，并按声明顺序存放。</code>
+如果子类函数有覆盖的情况，那么虚函数表也有相应的覆盖情况，详情见参考文献3
+上图中的最后的B类（多继承了 A1和A2），两个子表表示多继承，一个子表中可能发生多重继承。</p>
+<p><img src="https://i.loli.net/2019/12/23/JErhoOGwU6jRTIK.png" alt="transformer学习笔记.png"></p>
+<p>第一个图表示单继承，第二个图表示多继承。都是从当前类的虚函数表的一个槽中引出来的。</p>
+<p>{% endfold %}</p>
+<p>虚函数 vs. 纯虚函数</p>
+<ul>
+<li>当子类必须提供个性化的使用，父类应该实现为纯虚函数</li>
+<li>当子类大多数情况下需要实现个性化的时候，可以设计为虚函数</li>
+</ul>
+<p>构造函数和析构函数于虚函数的关系：</p>
+<p>构造函数不能设计成虚函数，但是析构函数可以是虚函数且推荐最好是虚函数。</p>
+<p>虚函数和普通函数在内存上的区别：</p>
+<p>对于一个只包含非静态成员变量和普通成员函数的类，如</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">C</span> <span class="p">{</span>
+  <span class="kt">void</span> <span class="nf">fun_a</span><span class="p">();</span>
+  <span class="kt">void</span> <span class="nf">fun_b</span><span class="p">();</span>
+  <span class="kt">int</span> <span class="n">var</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>那么成员函数存放在代码区，为类所有（公有），而成员变量为各个对象所有，存放在堆中。</p>
+<p>而对于包含虚函数的类是如何的呢？</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">D</span><span class="p">{</span>
+  <span class="kt">void</span> <span class="nf">func_a</span><span class="p">();</span>
+  <span class="k">virtual</span> <span class="kt">void</span> <span class="nf">func_b</span><span class="p">();</span>
+  <span class="kt">int</span> <span class="n">var</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果使用 <code>sizeof()</code> 那么发现类多了 4个字节大小，被用于存储唯一的虚函数指针 vptr。该指针指向虚函数表，如果有多个虚函数，那么表中有多个指针。</p>
+<p>参考文献：</p>
+<p>1). <a href="http://www.ishenping.com/ArtInfo/3127703.html">C++类的存储及类对象内存结构</a>
+2). <a href="https://blog.csdn.net/tangaowen/article/details/5830803">C++ 虚函数表研究 （二） 多重继承</a>
+3). <a href="https://songlee24.github.io/2014/09/02/cpp-virtual-table/">C++进阶之虚函数表</a></p>
+<h2 id="指针和引用">指针和引用</h2>
+<p>在C++中, 如果要对某个存储单元进行访问(读取/写入), 有两种方式, 一是通过变量名找到存储地址再进行访问, 二是直接通过存储地址进行访问。</p>
+<ul>
+<li>通过变量名进行访问
+通过变量名进行访问就是我们通过编译器起一个名字, 程序在运行时, 系统为该程序建立一个变量名与内存单元地址之间的映射表, 通过名字即可找到该存储单元的地址并进行操作。</li>
+<li>通过地址直接访问
+显然, 通过地址直接进行访问要比经过一次 &ldquo;中转&rdquo; 速度更快, 既然要通过地址进行直接访问那么就必须要知道这个地址的值(编号)是多少, 并且要把这个地址值(编号)给保存起来, 这样才能方便后来随时直接访问这个地址。</li>
+</ul>
+<p><strong>什么是指针？</strong></p>
+<p>指针是一个变量，其值为另一个变量的地址，即，内存位置的直接地址。指针变量声明的一般形式为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="n">type</span> <span class="o">*</span><span class="n">var</span><span class="o">-</span><span class="n">name</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>定义时, 其<em>号的位置可以靠左( int</em> pa; ), 居中( int * pa; )或靠右( int *pa; ), 具体使用哪种形式可根据个人习惯。</p>
+<p>指针即为地址，指针几个字节跟语言无关，而是跟系统的寻址能力有关，比如在16位机器上，指针是2字节；32位上，指针是4字节，现在在 64位上，就是 8字节。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt; </span><span class="cp">
+</span><span class="cp"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="n">b</span><span class="o">=</span><span class="sc">&#39;a&#39;</span><span class="p">;</span>
+	<span class="kt">float</span> <span class="n">c</span><span class="o">=</span><span class="mf">1.0</span><span class="p">;</span>
+	<span class="kt">void</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
+	<span class="n">p</span><span class="o">=&amp;</span><span class="n">a</span><span class="p">;</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">&#34;a的地址为：0x%x，其字节数为：%d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">p</span><span class="p">));</span>
+	<span class="n">p</span><span class="o">=&amp;</span><span class="n">b</span><span class="p">;</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">&#34;b的地址为：0x%x，其字节数为：%d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">p</span><span class="p">));</span>
+	<span class="n">p</span><span class="o">=&amp;</span><span class="n">c</span><span class="p">;</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">&#34;c的地址为：0x%x，其字节数为：%d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">p</span><span class="p">));</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>指针的初始化与赋值</p>
+<p>不一定声明的时候马上初始化，但是没有初始化的时候一定是不能访问的，否则就是野指针。因为在声明之后，系统会随机分配一个地址，如果这个时候访问其值，重新赋值，那么结果是不可预测的。</p>
+<p>我们就来看两个基本的运算符:&amp;(取址运算符)和*(间接访问运算符/解引用指针)
+在C++中, 用 &lsquo;&amp;&rsquo; 符号来获取变量的地址; 这是因为 a 与 *pa 实际上都是指向同一个存储地址, *号为间接访问符, 表示要访问指针变量中所存放的内存地址。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">10</span> <span class="p">;</span>
+    <span class="kt">int</span> <span class="o">*</span><span class="n">pa</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">a</span> <span class="p">;</span>      <span class="c1">//定义指针变量pa并初始化地址为变量a在内存中所在的地址
+</span><span class="c1"></span>    <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span> <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span> <span class="p">;</span>      <span class="c1">//通过变量名访问a变量所在的地址
+</span><span class="c1"></span>    <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">pa</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span> <span class="p">;</span>    <span class="c1">//运用*号访问指针变量pa中所保存的地址
+</span><span class="c1"></span>    <span class="k">return</span> <span class="mi">0</span> <span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>种类</strong></p>
+<ol>
+<li>常量指针</li>
+</ol>
+<p>不能把常量指针赋值给非常量指针。原因如下：定义常量指针的初衷是不能通过常量指针修改其指向的内容。如果把常量指针赋值给非常量指针，就可以通过非常量指针修改常量指针指向的内容。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">void</span> <span class="nf">MyPrintf</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">p</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">//strcpy函数原形第一个参数为char*，由于不能将常量指针赋值给非常量指针，因此编译报错
+</span><span class="c1"></span>    <span class="n">strcpy</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="s">&#34;this&#34;</span><span class="p">);</span><span class="c1">//编译出错
+</span><span class="c1"></span>    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%s&#34;</span><span class="p">,</span><span class="n">p</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>指针数组</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"> int var[MAX]={10,100,200};
+   int *ptr[MAX]; //把 ptr 声明为一个数组，由 MAX 个整数指针组成。因此，ptr 中的每个元素，都是一个指向 int 值的指针。
+   ptr[i] = &amp;var[i]; // 赋值为整数的地址
+   cout&lt;&lt;*ptr[i]&lt;&lt;endl; // 10 100 200
+</code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>函数指针</li>
+</ol>
+<p>程序运行期间，每个函数都会占用一段连续的内存空间。而函数名就是该函数所占内存区域的起始地址（入口地址）。我们可以将函数的入口地址赋给一个指针变量，使该变量指向该函数。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;sys/stat.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;fstream&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;cstddef&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="kt">void</span> <span class="nf">print_smaller</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span><span class="kt">int</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="p">((</span><span class="n">a</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">)</span> <span class="o">?</span> <span class="nl">a</span><span class="p">:</span><span class="n">b</span> <span class="p">)</span><span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="cm">/*等价于 void (*fn)(int ,int ) = print_smaller;*/</span>
+    <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">fn</span><span class="p">)(</span><span class="kt">int</span> <span class="p">,</span><span class="kt">int</span> <span class="p">);</span>
+    <span class="n">fn</span> <span class="o">=</span> <span class="n">print_smaller</span><span class="p">;</span>
+    <span class="n">fn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="4">
+<li>函数指针</li>
+</ol>
+<p>使用typedef定义函数指针</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">typedef</span> <span class="kt">int64_t</span> <span class="n">int64</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="5">
+<li>传递指针给函数</li>
+</ol>
+<p>声明函数参数为指针类型即可。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">double</span> <span class="nf">getAverage</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">arr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">size</span><span class="p">);</span> <span class="c1">//arr表示一个数组
+</span></code></pre></td></tr></table>
+</div>
+</div><ol start="5">
+<li>NULL指针和void*</li>
+</ol>
+<p>NULL指针是一种非常特殊的指针(废话,不然单独说它干嘛?),不指向任何东西.表示不指向任何东西的指针。有一个非常重要的是,因为NULL不指向任何地方,所以,也就肯定不能够解引用了.在C++11中,新引入了一种特殊类型的字面值nullptr来初始化指针为空指针.他能够被转换成任何类型的指针.</p>
+<p>Void*是一种特殊类型的指针,能够用来存放任何类型对象的地址.通俗来说,就是我不知道这个指针指向的是什么类型的对象.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="kt">int</span> <span class="nf">fun</span><span class="p">(</span><span class="kt">int</span> <span class="n">num</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">num</span><span class="o">+</span><span class="mi">10</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">double</span> <span class="n">x</span><span class="o">=</span><span class="mf">25.5</span><span class="p">;</span>
+    <span class="c1">//普通指针的话类型要严格保证
+</span><span class="c1"></span>    <span class="kt">double</span> <span class="o">*</span><span class="n">p</span><span class="o">=&amp;</span><span class="n">x</span><span class="p">;</span>
+
+    <span class="c1">//void* 类型可以接受任意类型对象地址
+</span><span class="c1"></span>    <span class="kt">void</span> <span class="o">*</span><span class="n">p_v</span><span class="o">=&amp;</span><span class="n">x</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="o">*</span><span class="n">p_v2</span><span class="o">=</span><span class="n">p</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;p_v:&#34;</span><span class="o">&lt;&lt;</span><span class="n">p_v</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;p_v2:&#34;</span><span class="o">&lt;&lt;</span><span class="n">p_v2</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="6">
+<li>指针的指针</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">a</span><span class="o">=</span><span class="mi">10</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="o">*</span><span class="n">p_a</span><span class="o">=&amp;</span><span class="n">a</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="o">**</span><span class="n">pp_a</span><span class="o">=&amp;</span><span class="n">p_a</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;p_a:&#34;</span><span class="o">&lt;&lt;</span><span class="n">p_a</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="o">&lt;&lt;</span><span class="s">&#34;*p_a:&#34;</span><span class="o">&lt;&lt;*</span><span class="n">p_a</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;PP_a:&#34;</span><span class="o">&lt;&lt;</span><span class="n">pp_a</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="o">&lt;&lt;</span><span class="s">&#34;*pp_a:&#34;</span><span class="o">&lt;&lt;*</span><span class="n">pp_a</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="o">&lt;&lt;</span><span class="s">&#34;**pp_a&#34;</span><span class="o">&lt;&lt;**</span><span class="n">pp_a</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>解引用的时候,带上两个星号,就回到的最开始的那个变量.这么说有点模糊.详细来说,**pp_a因为<em>的从右向左的结合性,这个表达式可以写成</em>(*pp_a),那么我们知道pp_a存放的是p_a的地址,<em>pp_a就是表示p_a这个地址中存放的内容即a的地址(不能晕!!!).那么</em>(<em>pp_a)就相当于</em>p_a或者a.</p>
+<ol start="7">
+<li>指针数组和数组指针</li>
+</ol>
+<p>指针数组：表示的是一个数组，数组中每一个变量都是指针型变量；</p>
+<p>数组指针：表示的是一个指针类型的变量，这个指针变量指向的是一个数组。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">int</span> <span class="o">*</span><span class="n">p1</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">p2</span><span class="p">)[</span><span class="mi">10</span><span class="p">];</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="https://ftp.bmp.ovh/imgs/2019/10/c2aae26f93e96a77.jpg" alt=""></p>
+<p>占用内存分析</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">int</span> <span class="o">*</span><span class="p">(</span><span class="n">p1</span><span class="p">[</span><span class="mi">5</span><span class="p">]);</span>  <span class="c1">//指针数组，可以去掉括号直接写作 int *p1[5];
+</span><span class="c1"></span><span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">p2</span><span class="p">)[</span><span class="mi">5</span><span class="p">];</span>  <span class="c1">//二维数组指针，不能去掉括号
+</span></code></pre></td></tr></table>
+</div>
+</div><p>指针数组是数组，占用空间为 单个元素字节数 × 元素个数，p1在32位环境下占4×5 = 20个字节；
+数组指针是指针，占用空间为指针占用空间，p2在32位环境下占用4个字节。（所以如何使用 数组指针存储最后的结果，那么占用的大小就是常量级别的。）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">“[]”的优先级比“”要高。p1 先与“[]”结合，构成一个数组的定义，数组名为p1，int *修饰的是数组的内容，即数组的每个元素。那现在我们清楚，这是一个数组，其包含10 个指向int 类型数据的指针，即指针数组。至于p2 就更好理解了，在这里“（）”的优先级比“[]”高，“”号和p2 构成一个指针的定义，指针变量名为p2，int 修饰的是数组的内容，即数组的每个元素。数组在这里并没有名字，是个匿名数组。那现在我们清楚p2 是一个指针，它指向一个包含10 个int 类型数据的数组，即数组指针。我们可以借助下面的图加深理解：
+</code></pre></td></tr></table>
+</div>
+</div><p>给一个例子</p>
+<ul>
+<li>int *a[4]; //指针数组</li>
+</ul>
+<p>指针数组就相当于一次声明了多个指针。数组的每一个元素都是一个指针。
+[ ]的优先级高于*，表示a是一个数组，元素为int * ，个数为4。</p>
+<ul>
+<li>int (*p)[4]; //数组指针</li>
+</ul>
+<p>数组指针就相当于一次声明了一个指针。只不过这个指针指向很特别，是一个数组。
+()的优先级高于[]，表示p是一个数组，类型是为int [4] ，步长为4。
+下标区别：指针数组的下标表示数组的元素个数，数组指针的表示指针的步长</p>
+<p>很多时候，使用指针数组来控制程序可以节约内存空间，也可以节约时间。</p>
+<p>好好体会一下<a href="https://juejin.im/post/5d64eb875188257ec8472b3a">数组指针 指针数组 用法 区别</a> 中的两个例子。</p>
+<p>通过行指针访问二维数组的元素</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">符号*：取内容，对指针取内容，就是把指针指向的东西取出来
+符号+：向前递进，如p+1就是向前递进一个元素的位置
+符号[]：向前递进并取内容。例如p[2]，即把原来的p先递进2个元素，再把它读出来，等价*(p+2)。
+</code></pre></td></tr></table>
+</div>
+</div><p>我们先给出指向第二行第三个元素的表达式：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">p[1][2];
+
+*(p+1)[2];
+
+*(*(p+1)+2);
+</code></pre></td></tr></table>
+</div>
+</div><ol start="8">
+<li>strlen与sizeof的区别</li>
+</ol>
+<p>sizeof：
+1、计算所有变量类型的占用字节大小
+2、在计算字符串的时候，会将字符串后面的’\0’的大小也计算上来。
+3、计算的是字节内存的大小
+4、计算数组名的时候特殊，会计算整个数组的长度。其他的均计算单个变量</p>
+<p>strlen：
+1、计算的是字符串的长度大小
+3、计算字符串长度时，将会忽略’\0’结束符，遇到’\0’字符就会结束。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">str</span><span class="p">[]</span> <span class="o">=</span><span class="s">&#34;world&#34;</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="s">&#34;:&#34;</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">strlen</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="s">&#34;:&#34;</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span><span class="n">str</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">&lt;&lt;</span><span class="s">&#34;:&#34;</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">i</span> <span class="o">=</span><span class="mi">10</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span><span class="s">&#34;:&#34;</span><span class="p">;</span>
+    <span class="c1">// 输出的结果 6:5:8:1:
+</span><span class="c1"></span>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>sizeof 会包含 <code>\0</code> 的长度， 但是strlen() 不会。但是当申请固定长度的 char 数组，那么sizeof 就不包括了<code>\0</code>，可以查看下面的例子。但是strlen 一直是有效的长度。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span><span class="s">&#34;world&#34;</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="s">&#34;:&#34;</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">strlen</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="s">&#34;:&#34;</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span><span class="n">str</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">&lt;&lt;</span><span class="s">&#34;:&#34;</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">i</span> <span class="o">=</span><span class="mi">10</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span><span class="s">&#34;:&#34;</span><span class="p">;</span>
+    <span class="c1">// 输出的结果 10:5:8:1:
+</span><span class="c1"></span>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="9">
+<li>利用malloc分配内存</li>
+</ol>
+<p>如果想将某一个字符串复制到某一个控件，一定要记得分配足够的空间大小，不要忘记”\0”结束符。 比如</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">char</span> <span class="o">*</span> <span class="n">strSrc</span> <span class="o">=</span> <span class="s">&#34;Hello Boy.&#34;</span><span class="p">;</span>
+ <span class="kt">char</span> <span class="o">*</span> <span class="n">strDest</span><span class="p">;</span>
+ <span class="c1">//错误，strlen并未计算&#34;\0&#34;结束符,赋值后的指针末尾指向未知空间。
+</span><span class="c1"></span> <span class="n">strDest</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">strSrc</span><span class="p">));</span>
+
+ <span class="c1">//正确，为&#34;\0&#34;留出空间。
+</span><span class="c1"></span> <span class="n">strDest</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">strSrc</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span> 
+ <span class="n">strcpy</span><span class="p">(</span><span class="n">strDest</span><span class="p">,</span><span class="n">strSrc</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="7">
+<li>C++引用</li>
+</ol>
+<p>引用变量是一个别名，也就是说，它是某个已存在变量的另一个名字。一旦把引用初始化为某个变量，就可以使用该引用名称或变量名称来指向变量。 
+  引用很容易与指针混淆，它们之间有三个主要的不同：
+不存在空引用。引用必须连接到一块合法的内存。
+一旦引用被初始化为一个对象，就不能被指向到另一个对象。指针可以在任何时候指向到另一个对象。
+引用必须在创建时被初始化。指针可以在任何时间被初始化。
+    int i=17;
+int&amp; r=i;  //&amp;读作引用，r 是一个初始化为 i 的整型引用
+cout&laquo;i&laquo;endl;  //5
+cout&laquo;r&laquo;endl; //5
+  引用通常用于函数参数列表和函数返回值。
+  把引用作为参数。  C++ 支持把引用作为参数传给函数，这比传一般的参数更安全</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="c1">// 函数声明
+</span><span class="c1"></span><span class="kt">void</span> <span class="nf">swap</span><span class="p">(</span><span class="kt">int</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span><span class="o">&amp;</span> <span class="n">y</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">// 局部变量声明
+</span><span class="c1"></span>    <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;交换前，a 的值：&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;交换前，b 的值：&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="cm">/* 调用函数来交换值 */</span>
+    <span class="n">swap</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">);</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;交换后，a 的值：&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>  <span class="c1">//200
+</span><span class="c1"></span>    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;交换后，b 的值：&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>  <span class="c1">//100
+</span><span class="c1"></span>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">swap</span><span class="p">(</span><span class="kt">int</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span><span class="o">&amp;</span> <span class="n">y</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">temp</span><span class="p">;</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span> <span class="cm">/* 保存地址 x 的值 */</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">y</span><span class="p">;</span>    <span class="cm">/* 把 y 赋值给 x */</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span> <span class="cm">/* 把 x 赋值给 y  */</span>
+    <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>单独整理，需要有代码加持</p>
+<p>内联函数
+函数调用是有开销的。如果函数本身只有几条语句，执行非常快，而且函数被反复执行很多次，相比之下调用函数所产生的这个开销就会显得比较大。
+为了减少函数调用的开销，引入了内联函数机制。编译器处理对内联函数的调用语句时，是将整个函数的代码插入到调用语句处，而不会产生调用函数的语句。
+在函数定义前面加inline关键字，即可定义内联函数。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">B</span><span class="p">{</span>
+    <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">func1</span><span class="p">();</span>
+    <span class="kt">void</span> <span class="nf">func2</span><span class="p">()</span>
+    <span class="p">{</span>    
+    <span class="p">}</span>
+<span class="p">};</span>
+<span class="kt">void</span> <span class="n">B</span><span class="o">::</span><span class="n">func2</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>友元函数</p>
+<p>This approach may be used in friendly function when a function needs to access private data in objects from two different class. This may be accomplished in two similar ways:
+a function of global or namespace scope may be declared as friend of both classes
+a member function of one class may be declared as friend of another one.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+ 
+<span class="k">class</span> <span class="nc">Foo</span><span class="p">;</span> <span class="c1">// Forward declaration of class Foo in order for example to compile.
+</span><span class="c1"></span><span class="k">class</span> <span class="nc">Bar</span> <span class="p">{</span>
+  <span class="k">private</span><span class="o">:</span>
+      <span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+  <span class="k">public</span><span class="o">:</span>
+      <span class="n">Bar</span><span class="p">()</span><span class="o">:</span> <span class="n">a</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{}</span>
+      <span class="kt">void</span> <span class="nf">show</span><span class="p">(</span><span class="n">Bar</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">,</span> <span class="n">Foo</span><span class="o">&amp;</span> <span class="n">y</span><span class="p">);</span>
+      <span class="k">friend</span> <span class="kt">void</span> <span class="nf">show</span><span class="p">(</span><span class="n">Bar</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">,</span> <span class="n">Foo</span><span class="o">&amp;</span> <span class="n">y</span><span class="p">);</span> <span class="c1">// declaration of global friend
+</span><span class="c1"></span><span class="p">};</span>
+ 
+<span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+  <span class="k">private</span><span class="o">:</span>
+      <span class="kt">int</span> <span class="n">b</span><span class="p">;</span>
+  <span class="k">public</span><span class="o">:</span> 
+      <span class="n">Foo</span><span class="p">()</span><span class="o">:</span> <span class="n">b</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="p">{}</span>
+      <span class="k">friend</span> <span class="kt">void</span> <span class="nf">show</span><span class="p">(</span><span class="n">Bar</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">,</span> <span class="n">Foo</span><span class="o">&amp;</span> <span class="n">y</span><span class="p">);</span> <span class="c1">// declaration of global friend
+</span><span class="c1"></span>      <span class="k">friend</span> <span class="kt">void</span> <span class="n">Bar</span><span class="o">::</span><span class="n">show</span><span class="p">(</span><span class="n">Bar</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">,</span> <span class="n">Foo</span><span class="o">&amp;</span> <span class="n">y</span><span class="p">);</span> <span class="c1">// declaration of friend from other class 
+</span><span class="c1"></span><span class="p">};</span>
+ 
+<span class="c1">// Definition of a member function of Bar; this member is a friend of Foo
+</span><span class="c1"></span><span class="kt">void</span> <span class="n">Bar</span><span class="o">::</span><span class="n">show</span><span class="p">(</span><span class="n">Bar</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">,</span> <span class="n">Foo</span><span class="o">&amp;</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Show via function member of Bar&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Bar::a = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">x</span><span class="p">.</span><span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Foo::b = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">y</span><span class="p">.</span><span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+ 
+<span class="c1">// Friend for Bar and Foo, definition of global function
+</span><span class="c1"></span><span class="kt">void</span> <span class="nf">show</span><span class="p">(</span><span class="n">Bar</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">,</span> <span class="n">Foo</span><span class="o">&amp;</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Show via global function&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Bar::a = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">x</span><span class="p">.</span><span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Foo::b = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">y</span><span class="p">.</span><span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+ 
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+   <span class="n">Bar</span> <span class="n">a</span><span class="p">;</span>
+   <span class="n">Foo</span> <span class="n">b</span><span class="p">;</span>
+ 
+   <span class="n">show</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">);</span>
+   <span class="n">a</span><span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>结果输出：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">Show via global function
+Bar::a = 0
+Foo::b = 6
+Show via function member of Bar
+Bar::a = 0
+Foo::b = 6
+Program ended with exit code: 0
+</code></pre></td></tr></table>
+</div>
+</div><p>使用一个友元函数去访问两个类别中的priate 变量。</p>
+<p>为什么要使用友元函数？</p>
+<p>在C++中，我们使用类对数据进行了隐藏和封装，类的数据成员一般都定义为私有成员，成员函数一般都定义为公有的，以此提供类与外界的通讯接口。但是，有时需要定义一些函数，这些函数不是类的一部分，但又需要频繁地访问类的数据成员，这时可以将这些函数定义为该函数的友元函数。（如果封装是一堵墙，那么友元函数就是一道门）</p>
+<p>（所以建议慎重使用）
+友元的作用是提高了程序的运行效率（即减少了类型检查和安全性检查等都需要时间开销），但它破坏了类的封装性和隐藏性，使得非成员函数可以访问类的私有成员。</p>
+<p>使用方法：
+需要再类内进行定义申明，但是在类外进行具体的实现。</p>
+<p>对象的大小=所有成员变量的大小之和</p>
+<h2 id="c-中输入字符串的几种方式">c++ 中输入字符串的几种方式</h2>
+<ol>
+<li>对于字符数组
+方法一：getline()
+读入整行数据，它使用回车键输入的换行符来确定输入结尾。
+调用方法: cin.getline(str, len);
+第一个参数str是用来存储输入行的数组名称，第二个参数len是要读取的字符数。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="mi">30</span><span class="p">];</span>
+    <span class="n">cin</span><span class="p">.</span><span class="n">getline</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="mi">30</span><span class="p">);</span>
+    
+    <span class="n">cout</span><span class="o">&lt;&lt;</span> <span class="n">str</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>方法二：get()
+调用方法：cin.get(str, len); 可以接受空格</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">str1</span><span class="p">[</span><span class="mi">30</span><span class="p">],</span> <span class="n">str2</span><span class="p">[</span><span class="mi">30</span><span class="p">];</span>
+    <span class="n">cin</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">str1</span><span class="p">,</span> <span class="mi">30</span><span class="p">);</span>
+    <span class="n">cin</span><span class="p">.</span><span class="n">get</span><span class="p">();</span> <span class="c1">// 使用get 是保留了 &#39;\n&#39; 换行符，所以这里需要清除一下
+</span><span class="c1"></span>    <span class="n">cin</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">str2</span><span class="p">,</span> <span class="mi">30</span><span class="p">);</span>
+    
+    <span class="n">cout</span><span class="o">&lt;&lt;</span> <span class="n">str1</span><span class="o">&lt;&lt;</span><span class="s">&#34; &#34;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span><span class="o">&lt;&lt;</span> <span class="n">str2</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; &#34;</span><span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>cin.getline()
+cin.getline()实际上有三个参数，cin.getline(接受字符串到m,接受个数5,结束字符). 当第三个参数省略时，系统默认为'\0' 是‘/n’吧。</p>
+<ol start="2">
+<li>cin 的用法
+接受一个字符串，遇“空格”、“TAB”、“回车”都结束</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">a</span><span class="p">[</span><span class="mi">20</span><span class="p">];</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span><span class="n">a</span><span class="p">;</span>
+    <span class="n">cout</span><span class="o">&lt;&lt;</span> <span class="n">a</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>对于 char 的支持</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">ch</span><span class="p">;</span>
+    <span class="n">ch</span> <span class="o">=</span><span class="n">cin</span><span class="p">.</span><span class="n">get</span><span class="p">();</span>
+    
+    <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">ch</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+    
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>对于string 类</li>
+</ol>
+<p>上面的cin.getline() 是类函数，在string 中还有一个函数.
+getline() // 接受一个字符串，可以接收空格并输出，需包含“#include<string>”</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">string</span> <span class="n">str</span><span class="p">;</span>
+    <span class="n">getline</span><span class="p">(</span><span class="n">cin</span> <span class="p">,</span><span class="n">str</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>gets() // 接受一个字符串，可以接收空格并输出，需包含“#include<string>”</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="mi">20</span><span class="p">];</span>
+    <span class="n">gets</span><span class="p">(</span><span class="n">str</span><span class="p">);</span>
+    <span class="n">cout</span><span class="o">&lt;&lt;</span> <span class="n">str</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+    
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>getchar() //接受一个字符，需包含“#include<string>”</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">ch</span><span class="p">;</span>
+    <span class="n">ch</span> <span class="o">=</span><span class="n">getline</span><span class="p">();</span>
+    <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">ch</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+    
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>所以总的来说，是有两套输入string 的方案的。</p>
+<ul>
+<li>使用 stringstream 实现字符串的split 功能。</li>
+</ul>
+<p>stringstream为字符串输入输出流，继承自iostream，灵活地使用stringstream流可以完成很多字符串处理功能，例如字符串和其他类型的转换，字符串分割等。在这里，我们使用其实现字符串分割功能。注意stingstream的使用需要包含sstream头文件。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;sstream&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">split</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span> <span class="o">&amp;</span> <span class="n">str</span><span class="p">,</span><span class="k">const</span> <span class="kt">char</span> <span class="n">ch</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">res</span><span class="p">;</span>
+    <span class="n">stringstream</span> <span class="nf">input</span><span class="p">(</span><span class="n">str</span><span class="p">);</span>
+    <span class="n">string</span> <span class="n">tmp</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">getline</span><span class="p">(</span><span class="n">input</span><span class="p">,</span> <span class="n">tmp</span><span class="p">,</span> <span class="n">ch</span><span class="p">))</span>
+        <span class="n">res</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">tmp</span><span class="p">);</span>
+    
+    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">string</span> <span class="n">str</span><span class="p">(</span><span class="s">&#34;a,b,c#,aaa&#34;</span><span class="p">);</span>
+    <span class="kt">char</span> <span class="n">ch</span><span class="o">=</span><span class="sc">&#39;,&#39;</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">res</span> <span class="o">=</span><span class="n">split</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="n">ch</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">u</span> <span class="p">:</span> <span class="n">res</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">u</span><span class="p">;</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>对于 cpp 中 getline() 的详解，下面是三个参数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">input	-	the stream to get data from
+str	-	the string to put the data into
+delim	-	the delimiter character
+</code></pre></td></tr></table>
+</div>
+</div><p>getline 是默认以 &ldquo;\n&rdquo; 作为结束符号的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">#include&lt;iostream&gt;
+#include&lt;string&gt;
+using namespace std;
+int main()
+{
+    string buff;
+    getline(cin, buff);
+    cout &lt;&lt; buff&lt;&lt; endl;
+    return 0;
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>注意这个和上面的区别，在于最后的 delim 是 &lsquo;,'。 那么只有当出现 , 才会停止</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">string</span> <span class="n">buff</span><span class="p">;</span>
+    <span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span> <span class="n">buff</span><span class="p">,</span> <span class="sc">&#39;,&#39;</span><span class="p">);</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">buff</span><span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>比较好的在 cpp 中实现</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;sstream&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">split</span><span class="p">(</span><span class="n">string</span> <span class="o">&amp;</span> <span class="n">str</span><span class="p">,</span> <span class="kt">char</span> <span class="n">ch</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">res</span><span class="p">;</span>
+    <span class="n">stringstream</span>  <span class="nf">input</span><span class="p">(</span><span class="n">str</span><span class="p">);</span>
+    <span class="n">string</span> <span class="n">tmp</span><span class="p">;</span>
+    <span class="c1">// 第一个参数需要是一个输入流，然后第二个参数是存储结果是按照 delim 分开的一个结果
+</span><span class="c1"></span>    <span class="c1">//res 是经过 split 之后的结果
+</span><span class="c1"></span>    <span class="k">while</span><span class="p">(</span><span class="n">getline</span><span class="p">(</span><span class="n">input</span><span class="p">,</span> <span class="n">tmp</span><span class="p">,</span><span class="n">ch</span><span class="p">))</span>
+    <span class="p">{</span>
+        <span class="n">res</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">tmp</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">string</span> <span class="n">str</span><span class="p">;</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">str</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">ch</span> <span class="o">=</span><span class="sc">&#39;,&#39;</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">res</span> <span class="o">=</span><span class="n">split</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="n">ch</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">u</span> <span class="p">:</span> <span class="n">res</span><span class="p">)</span>
+        <span class="n">cout</span><span class="o">&lt;&lt;</span> <span class="n">u</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="接口和抽象类的区别">接口和抽象类的区别</h3>
+<p>接口是一个概念。它在C++中用抽象类来实现，在C#和Java中用interface来实现。</p>
+<p>接口是专门被继承的。接口存在的意义也是被继承。和C++里的抽象类里的纯虚函数是相同的。不能被实例化。
+定义接口的关键字是interface，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">public interface MyInterface{ 　　
+public void add(int x,int y); 　　
+public void volume(int x,int y,int z); 　　
+} 　
+</code></pre></td></tr></table>
+</div>
+</div><p>继承接口的关键字是implements，相当于继承类的extends。需要注意的是，当继承一个接口时，接口里的所有函数必须全部被覆盖。
+当想继承多个类时，开发程序不允许，报错。这样就要用到接口。因为接口允许多重继承，而类不允许（C++中可以多重继承）。所以就要用到接口。</p>
+<h3 id="c中的结构体">C++中的结构体</h3>
+<p>c++98 和c++ 11 是目前使用比较广泛的两个版本。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span>  <span class="n">std</span><span class="p">;</span>
+<span class="c1">// 声明一个结构体类型 stu
+</span><span class="c1"></span><span class="k">struct</span> <span class="nc">Stu</span><span class="p">{</span>
+    <span class="kt">int</span> <span class="n">num</span><span class="p">;</span> <span class="c1">// 声明结构体中的整型变量
+</span><span class="c1"></span>    <span class="kt">char</span> <span class="n">name</span><span class="p">[</span><span class="mi">20</span><span class="p">];</span> <span class="c1">//声明字符串数组
+</span><span class="c1"></span>    <span class="kt">float</span> <span class="n">score</span><span class="p">;</span> <span class="c1">// 声明一个单精度变量
+</span><span class="c1"></span>    <span class="kt">int</span> <span class="n">age</span><span class="p">;</span> <span class="c1">// 声明一个整型age
+</span><span class="c1"></span><span class="p">}</span><span class="n">student1</span><span class="p">,</span> <span class="n">student2</span><span class="p">;</span>
+<span class="c1">// 声明变量 student1, student2
+</span><span class="c1"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Stu</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">student1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">student2</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>c++11 中结构体的声明和使用。</p>
+<ul>
+<li>声明的时候，可以加上构造器constructor，完成了初始化。</li>
+<li>使用的时候，如果变量本身表示一个结构体，那么需要使用 <code>.</code> 访问变量，比如 <code>node.data</code>和 <code>node.left</code>，但是如果变量本身是一个指针，那么需要使用 <code>-&gt;</code> 访问，比如 <code>Proot-&gt;left</code>。</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="k">struct</span> <span class="nc">TreeNode</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">data</span><span class="p">;</span>
+    <span class="n">TreeNode</span><span class="o">*</span> <span class="n">left</span><span class="p">;</span>
+    <span class="n">TreeNode</span><span class="o">*</span> <span class="n">right</span><span class="p">;</span>
+    <span class="n">TreeNode</span><span class="p">(</span><span class="kt">int</span> <span class="n">val</span><span class="p">)</span><span class="o">:</span> <span class="n">data</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">left</span><span class="p">(</span><span class="k">nullptr</span><span class="p">),</span> <span class="n">right</span><span class="p">(</span><span class="k">nullptr</span><span class="p">)</span> <span class="p">{}</span>
+<span class="p">};</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">TreeNode</span> <span class="n">foo</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span>     <span class="s">&#34;data: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">foo</span><span class="p">.</span><span class="n">data</span> <span class="o">&lt;&lt;</span>
+    <span class="s">&#34;, left: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">foo</span><span class="p">.</span><span class="n">left</span> <span class="o">&lt;&lt;</span>
+    <span class="s">&#34;, right: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">foo</span><span class="p">.</span><span class="n">right</span> <span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="c-中的typedef">C++ 中的typedef</h3>
+<p>typedef 用来设置别名</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">typedef</span> <span class="kt">char</span><span class="o">*</span> <span class="n">PCHAR</span><span class="p">;</span> <span class="c1">// 一般用大写
+</span></code></pre></td></tr></table>
+</div>
+</div><h3 id="c-中各种数据类型的大小">c++ 中各种数据类型的大小</h3>
+<p>** 字节 **(byte) 是由 8位( bit) 组成。<strong>字</strong>：“字&quot;由若干个字节构成，字的位数叫做字长，不同档次的机器有不同的字长。例如一台8位机，它的1个字就等于1个字节，字长为8位。如果是一台16位机，那么，它的1个字就由2个字节构成，字长为16位。字是计算机进行数据处理和运算的单位。</p>
+<p>常见的转换关系：
+1 byte = 8 bit
+1 KB = 1024 bytes = $2^{10} $ bytes
+1 MB = 1024 KB =  $2^{20}  $bytes
+1 GB = 1024 MB =  $2^{30} $ bytes
+terabyte(TB) = $2^{40}$ bytes</p>
+<p>如果使用10 进制表示，那么上面分别可以约等于 $10^3$, $10^6$ 和 $10^9$ 。</p>
+<p>sizeof的输出单位是字节，即B，1B=8b（位），测试工具为VS2013旗舰版。
+<img src="http://tva1.sinaimg.cn/large/007X8olVly1g7jzvczlytj304s050weg.jpg" alt=""></p>
+<h3 id="bitset">bitset</h3>
+<p>bitset是STL提供的用于记录01串的容器，也就是bitset的每个元素只能为0/1。</p>
+<p>类似于 vector，bitset也是一种类模板。bitset 类型之间的区别在于其长度而不是类型，在定义 bitset 类型时，要明确其含有多少位，&lt;&gt; 内指定它的长度：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;bitset&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="n">bitset</span><span class="o">&lt;</span><span class="mi">16</span><span class="o">&gt;</span> <span class="n">a</span><span class="p">;</span>  <span class="c1">//第0~15位都是0
+</span><span class="c1"></span><span class="n">bitset</span><span class="o">&lt;</span><span class="mi">6</span><span class="o">&gt;</span> <span class="n">b</span><span class="p">(</span><span class="n">string</span><span class="p">(</span><span class="s">&#34;010010&#34;</span><span class="p">));</span>  <span class="c1">//用字符串初始化b
+</span><span class="c1"></span><span class="n">bitset</span><span class="o">&lt;</span><span class="mi">32</span><span class="o">&gt;</span> <span class="n">c</span><span class="p">(</span><span class="mh">0x80000000</span><span class="p">);</span>  <span class="c1">//第0位是1，其他都是0
+</span></code></pre></td></tr></table>
+</div>
+</div><p>注意bitset声明后长度不可改变。和数组一样，bitset从0开始编号</p>
+<p><strong>bitset的操作</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="n">a</span><span class="p">.</span><span class="n">any</span><span class="p">()</span>  <span class="c1">//a中是否含1
+</span><span class="c1"></span><span class="n">a</span><span class="p">.</span><span class="n">none</span><span class="p">()</span>  <span class="c1">//a是否全为0
+</span><span class="c1"></span><span class="n">a</span><span class="p">.</span><span class="n">count</span><span class="p">()</span>  <span class="c1">//a中有几个1
+</span><span class="c1"></span><span class="n">a</span><span class="p">.[</span><span class="n">pos</span><span class="p">]</span>  <span class="c1">//访问第pos位
+</span><span class="c1"></span><span class="n">a</span><span class="p">.</span><span class="n">test</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>  <span class="c1">//第pos位是否为1
+</span><span class="c1"></span><span class="n">a</span><span class="p">.</span><span class="n">set</span><span class="p">()</span>  <span class="c1">//全部设为1
+</span><span class="c1"></span><span class="n">a</span><span class="p">.</span><span class="n">reset</span><span class="p">()</span>  <span class="c1">//全部清零
+</span><span class="c1"></span><span class="n">a</span><span class="p">.</span><span class="n">flip</span><span class="p">()</span>  <span class="c1">//全部取反
+</span><span class="c1"></span><span class="n">a</span><span class="p">.</span><span class="n">to_ulong</span><span class="p">()</span>  <span class="c1">//转成32位无符号整数
+</span></code></pre></td></tr></table>
+</div>
+</div><p>bitset 也是支持位操作的</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">a|b
+a&amp;b
+a^b
+~a
+a&lt;&lt;1
+a&gt;&gt;1
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>bitset的原理</strong></p>
+<p>将一个很长的01串按64位一组划分。每组01串用一个64位无符号整数记录。bitset所有的操作都是基于对整数的位操作实现的。所以bitset的效率非常高，可以看作$O(N/64) $。</p>
+<p><strong>bitset 的原理</strong></p>
+<ul>
+<li>bitset主要用于状态压缩，bitset可以用每一位0或者1来表示可达性，例如图上点与点的可达性，dp时可达性</li>
+<li>bitset主要用于暴力枚举，如果bitset的长度是n,一次与运算的复杂度就是n/32</li>
+<li>bitset主要用于合并集合，交并补运算显示不同的逻辑意义</li>
+</ul>
+<p>C/C++编译过程主要分为4个过程</p>
+<ol>
+<li>
+<p>编译预处理</p>
+</li>
+<li>
+<p>编译、优化阶段</p>
+</li>
+</ol>
+<p>在《编译原理》中我们可以了解到一个编译器对程序代码的编译主要分为下面几个过程：
+a) 词法分析
+b) 语法分析
+c) 语义分析
+d) 中间代码生成
+e) 代码优化
+f) 代码生成
+g) 符号表管理
+h) 将多个步骤组合成趟</p>
+<ol start="3">
+<li>汇编过程</li>
+</ol>
+<p>汇编过程实际上指把汇编语言代码翻译成目标机器指令的过程。对于被翻译系统处理的每一个C语言源程序，
+都将最终经过这一处理而得到相应的目标文件。目标文件中所存放的也就是与源程序等效的目标的机器语言代码。
+目标文件由段组成。通常一个目标文件中至少有两个段： 代码段：该段中所包含的主要是程序的指令。
+该段一般是可读和可执行的，但一般却不可写。 数据段：主要存放程序中要用到的各种全局变量或静态的数据。一般数据段都是可读，可写，可执行的。</p>
+<p>汇编语言和二级制代码是不一样的。汇编语言是最接近机器语言的编程语言。常用的命令比如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">mov a,#10000000B
+mov a,#80H
+mov a,#128
+</code></pre></td></tr></table>
+</div>
+</div><ol start="4">
+<li>链接程序</li>
+</ol>
+<p>链接程序的主要工作就是将有关的目标文件彼此相连接，也即将在一个文件中引用的符号同该符号在另外一个文件中的定义连接起来，使得所有的这些目标文件成为一个能够诶操作系统装入执行的统一整体。
+根据开发人员指定的同库函数的链接方式的不同，链接处理可分为两种：</p>
+<p>（1）静态链接 在这种链接方式下，函数的代码将从其所在地静态链接库中被拷贝到最终的可执行程序中。</p>
+<p>这样该程序在被执行时这些代码将被装入到该进程的虚拟地址空间中。静态链接库实际上是一个目标文件的集合，</p>
+<p>其中的每个文件含有库中的一个或者一组相关函数的代码。</p>
+<p>（2） 动态链接
+在此种方式下，函数的代码被放到称作是动态链接库或共享对象的某个目标文件中。链接程序此时所作的只是在最终的可执行程序中记录下共享对象的名字以及其它少量的登记信息。在此可执行文件被执行时，动态链接库的全部内容将被映射到运行时相应进程的虚地址空间。动态链接程序将根据可执行程序中记录的信息找到相应的函数代码。C/C++编译过程对于可执行文件中的函数调用，可分别采用动态链接或静态链接的方法。使用动态链接能够使最终的可执行文件比较短小，并且当共享对象被多个进程使用时能节约一些内存，因为在内存中只需要保存一份此共享对象的代码。但并不是使用动态链接就一定比使用静态链接要优越。在某些情况下动态链接可能带来一些性能上损害。</p>
+<p><a href="http://sniffer.site/2016/10/24/Java%E7%A8%8B%E5%BA%8F%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/">Java程序编译过程</a></p>
+<p>用gcc编译成执行程序。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">gcc hello.c
+</code></pre></td></tr></table>
+</div>
+</div><p>该命令将hello.c直接生成最终二进制可执行程序a.out</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">gcc hello.c -o hello.exe
+</code></pre></td></tr></table>
+</div>
+</div><p>如何要指定最终二进制可执行程序名，那么用-o选项来指定名称。比如需要生成执行程序hello.exe</p>
+<p>GCC的命令剖析&ndash;四步走
+GCC编译C源码有四个步骤：</p>
+<p>预处理&mdash;&ndash;&gt; 编译 &mdash;-&gt; 汇编 &mdash;-&gt; 链接</p>
+<p>预处理
+在该阶段，编译器将C源代码中的包含的头文件如stdio.h编译进来
+编译
+第二步进行的是编译阶段，在这个阶段中，Gcc首先要检查代码的规范性、是否有语法错误等，以确定代码的实际要做的工作，在检查无误后，Gcc把代码翻译成汇编语言。</p>
+<p>汇编
+汇编阶段是把编译阶段生成的”.s”文件转成二进制目标代码.
+链接阶段(Link)
+在成功编译之后，就进入了链接阶段。</p>
+<p><strong>解释型语言和编译型语言</strong></p>
+<p>计算机是不能够识别高级语言的，所以当我们运行一个高级语言程序的时候，就需要一个“翻译机”来从事把高级语言转变成计算机能读懂的机器语言的过程。这个过程分成两类，第一种是编译，第二种是解释。</p>
+<p>编译型语言在程序执行之前，先会通过编译器对程序执行一个编译的过程，把程序转变成机器语言。运行时就不需要翻译，而直接执行就可以了。最典型的例子就是C语言。</p>
+<p>解释型语言就没有这个编译的过程，而是在程序运行的时候，通过解释器对程序逐行作出解释，然后直接运行，最典型的例子是Ruby。</p>
+<p>通过以上的例子，我们可以来总结一下解释型语言和编译型语言的优缺点，因为编译型语言在程序运行之前就已经对程序做出了“翻译”，所以在运行时就少掉了“翻译”的过程，所以效率比较高。但是我们也不能一概而论，一些解释型语言也可以通过解释器的优化来在对程序做出翻译时对整个程序做出优化，从而在效率上超过编译型语言。</p>
+<p>此外，随着Java等基于虚拟机的语言的兴起，我们又不能把语言纯粹地分成解释型和编译型这两种。</p>
+<p>用Java来举例，Java首先是通过编译器编译成字节码文件，然后在运行时通过解释器给解释成机器文件。所以我们说Java是一种先编译后解释的语言。</p>
+<p>再换成C#，C#首先是通过编译器将C#文件编译成IL文件，然后在通过CLR将IL文件编译成机器文件。所以我们说C#是一门纯编译语言，但是C#是一门需要二次编译的语言。同理也可等效运用到基于.NET平台上的其他语言。</p>
+<p><strong>简述Python的运行过程</strong>
+在说这个问题之前，我们先来说两个概念，PyCodeObject和pyc文件。</p>
+<p>我们在硬盘上看到的pyc自然不必多说，而其实PyCodeObject则是Python编译器真正编译成的结果。我们先简单知道就可以了，继续向下看。</p>
+<p>当python程序运行时，编译的结果则是保存在位于内存中的PyCodeObject中，当Python程序运行结束时，Python解释器则将PyCodeObject写回到pyc文件中。</p>
+<p>当python程序第二次运行时，首先程序会在硬盘中寻找pyc文件，如果找到，则直接载入，否则就重复上面的过程。</p>
+<p>所以我们应该这样来定位PyCodeObject和pyc文件，我们说pyc文件其实是PyCodeObject的一种持久化保存方式。</p>
+<p>所以python 和java 是一样的，都是先编译然后再执行。</p>
+<p><strong>pyc的目的是重用</strong></p>
+<p>有时候能够find pyc文件，有时候不能find pyc 文件，那么问题是什么时候能够 find，什么时候不能find 呢？所以，我们需要编译成pyc文件的应该是那些可以重用的模块，这于我们在设计软件类时是一样的目的。我们可以这样理解Python解释器的意图，Python解释器只把我们可能重用到的模块持久化成pyc文件。</p>
+<p>pyc的过期时间</p>
+<p>其实了解Python程序的执行过程对于大部分程序员，包括Python程序员来说意义都是不大的，那么真正有意义的是，我们可以从Python的解释器的做法上学到什么，我认为有这样的几点：</p>
+<ul>
+<li>其实Python是否保存成pyc文件和我们在设计缓存系统时是一样的，我们可以仔细想想，到底什么是值得扔在缓存里的，什么是不值得扔在缓存里的。</li>
+<li>在跑一个耗时的Python脚本时，我们如何能够稍微压榨一些程序的运行时间，就是将模块从主模块分开。（虽然往往这都不是瓶颈）</li>
+<li>在设计一个软件系统时，重用和非重用的东西是不是也应该分开来对待，这是软件设计原则的重要部分。</li>
+<li>在设计缓存系统（或者其他系统）时，我们如何来避免程序的过期，其实Python的解释器也为我们提供了一个特别常见而且有效的解决方案。</li>
+</ul>
+<p>常见的编译性语言： c/ c++, pascal
+常见的解释性语言： java python javascript</p>
+<p>机器翻译的方式有两种，一个是编译，一个是解释。两种方式只是翻译的时间不同。
+编译型语言写的程序执行之前，需要一个专门的编译过程，把程序编译成为机器语言的文件，比如exe文件，以后要运行的话就不用重新翻译了，直接使用编译的结果就行了（exe文件），因为翻译只做了一次，运行时不需要翻译，所以编译型语言的程序执行效率高。</p>
+<p>解释性语言的程序不需要编译，省了道工序，解释性语言在运行程序的时候才翻译，比如解释性java语言，专门有一个解释器能够直接执行java程序，每个语句都是执行的时候才翻译。这样解释性语言每执行一次就要翻译一次，效率比较低。</p>
+<p>脚本语言是解释性语言。脚本语言一般都有相应的脚本引擎来解释执行。它们一般需要解释器才能运行。所以只要系统上有相应语言的解释程序就可以做到<strong>跨平台</strong>。脚本语言是一种解释性的语言，例如vbscript,javascript,install shield script等等,它不象c\c++等可以编译成二进制代码，以可执行文件的形式存在。脚本语言不需要编译，可以直接用，由解释器来负责解释。</p>
+<p>编译语言： 整个程序经过编译之后再执行，执行效率高。解释性语言，一行一行执行，执行效率低，解释性语言在运行程序的时候才翻译。（所以在debug 的时候，python 的出错的地方能够定位到某一行，但是c++ 就比较困难。）</p>
+<p>其实java 不能完全划分为第二类，java 执行的过程，先是编译成 字节码，然后再执行。脚本语言和解释性语言是一个意思。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-01-05
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/c&#43;&#43;/">c&#43;&#43;</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/python_tutorial/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Python Tutorial</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/leetcode_data-structure/">
+            <span class="next-text nav-default">Leetcode Data Structure</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

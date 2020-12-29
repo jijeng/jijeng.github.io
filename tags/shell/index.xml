@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>shell on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/shell/</link>
+    <description>Recent content in shell on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 18 Feb 2020 16:43:01 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/shell/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Shell Tutorial</title>
+      <link>http://jijeng.github.io/post/shell_tutorial/</link>
+      <pubDate>Tue, 18 Feb 2020 16:43:01 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/shell_tutorial/</guid>
+      <description>&lt;p&gt;本文是介绍shell 语言的学习笔记。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

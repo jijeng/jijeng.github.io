@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>git on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/git/</link>
+    <description>Recent content in git on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 11 Jan 2020 13:53:30 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/git/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Git tutorial</title>
+      <link>http://jijeng.github.io/post/git/</link>
+      <pubDate>Sat, 11 Jan 2020 13:53:30 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/git/</guid>
+      <description>&lt;p&gt;学习笔记- Git 相关的命令。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

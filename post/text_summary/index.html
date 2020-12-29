@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Text Summary - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="Text Summarization
+ Text summarization is the process of distilling the most important information from a source (or sources) to produce an abridged version for a particular user (or users) and task (or tasks).
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/text_summary/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Text Summary" />
+<meta property="og:description" content="Text Summarization
+
+Text summarization is the process of distilling the most important information from a source (or sources) to produce an abridged version for a particular user (or users) and task (or tasks).
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/text_summary/" />
+<meta property="article:published_time" content="2019-06-30T16:53:00+08:00" />
+<meta property="article:modified_time" content="2019-06-30T16:53:00+08:00" />
+<meta itemprop="name" content="Text Summary">
+<meta itemprop="description" content="Text Summarization
+
+Text summarization is the process of distilling the most important information from a source (or sources) to produce an abridged version for a particular user (or users) and task (or tasks).
+">
+<meta itemprop="datePublished" content="2019-06-30T16:53:00+08:00" />
+<meta itemprop="dateModified" content="2019-06-30T16:53:00+08:00" />
+<meta itemprop="wordCount" content="3003">
+
+
+
+<meta itemprop="keywords" content="text summarization," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Text Summary"/>
+<meta name="twitter:description" content="Text Summarization
+
+Text summarization is the process of distilling the most important information from a source (or sources) to produce an abridged version for a particular user (or users) and task (or tasks).
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Text Summary</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-06-30 </span>
+        <div class="post-category">
+            <a href="/categories/nlp/"> nlp[ </a>
+            </div>
+          <span class="more-meta"> 约 3003 字 </span>
+          <span class="more-meta"> 预计阅读 6 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#extractive-techniques">Extractive Techniques</a></li>
+            <li><a href="#abstraction-techniques">Abstraction techniques</a></li>
+            <li><a href="#to-summarize">To Summarize..</a></li>
+            <li><a href="#case-study-text-summarization-on-emails">Case Study: Text Summarization on Emails</a></li>
+            <li><a href="#pagerank-算法和textrank-介绍">PageRank 算法和TextRank 介绍</a></li>
+            <li><a href="#references">References</a></li>
+            <li><a href="#复习总结">复习总结</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>Text Summarization</p>
+<blockquote>
+<p>Text summarization is the process of distilling the most important information from a source (or sources) to produce an abridged version for a particular user (or users) and task (or tasks).</p>
+</blockquote>
+<p>There are many reasons why Automatic Text Summarization is useful:</p>
+<ul>
+<li>Summaries reduce reading time.</li>
+<li>Automatic summarization algorithms are less biased than human summarizers.</li>
+<li>Personalized summaries are useful in question-answering systems as they provide personalized information.</li>
+</ul>
+<p>Text summarization methods can be classified into different types.</p>
+<p><img src="https://i.bmp.ovh/imgs/2019/06/1924eda833df4777.png" alt=""></p>
+<p>虽然是可以从不同的角度进行划分，但最常见的分类角度是 based on output type: extractive and abstractive.  All extractive summarization algorithms attempt to score the phrases or sentences in a document and return only the most highly informative blocks of text. Abstractive text summarization actually creates new text which doesn’t exist in that form in the document. Abstractive summarization is what you might do when explaining a book you read to your friend, and it is much more difficult for a computer to do than extractive summarization.</p>
+<p>extractive 是从源句子中找关键句的过程， abstractive 是概括，生成对于文章总结的过程。</p>
+<p>Computers just aren’t that great at the act of creation. To date, there aren’t any abstractive summarization techniques which work suitably well on long documents. The best performing ones merely create a sentence based upon a single paragraph, or cut the length of a sentence in half while maintaining as much information as possible. Often, grammar suffers horribly. They’re usually based upon neural network models.</p>
+<p>** What is ROUGE?**
+To evaluate the goodness of the generated summary, the common metric in the Text Summarization space is called Rouge score.</p>
+<blockquote>
+<p>ROUGE stands for Recall-Oriented Understudy for Gisting Evaluation</p>
+</blockquote>
+<p>It works by comparing an automatically produced summary or translation against a set of reference summaries (typically human-produced). It works by matching overlap of n-grams of the generated and reference summary.</p>
+<h3 id="extractive-techniques">Extractive Techniques</h3>
+<p>** LexRank Summarizer**
+LexRank is an unsupervised approach that gets its inspiration from the same ideas behind Google’s PageRank algorithm. It finds the relative importance of all words in a document and selects the sentences which contain the most of those high-scoring words.</p>
+<p><strong>NLTK Summarizer</strong></p>
+<p>将句子的重要程度下放到词语 word 的关键程度。先是文本的预处理，然后挑选关键词，然后挑选关键句。</p>
+<p><img src="https://i.bmp.ovh/imgs/2019/06/22c679cb23964d87.png" alt=""></p>
+<p>Although the technique is basic, we found that it did a good job at <em><strong>creating large summaries.</strong></em></p>
+<p><strong>Gensim Summarizer</strong></p>
+<p>（pagerank 的思想很简单，每一个网页都是一种投票，然后被投票的重要程度越高，那么这个网页或者网站的重要性就越高，最后的排名就越靠前）
+TextRank is based on PageRank algorithm that is used on Google Search Engine. ***In simple words, it prefers pages which has higher number of pages hitting it. *** TextRank is a bit more simplistic than LexRank; although both algorithms are very similar, LexRank applies a heuristic post-processing step to remove sentences with highly duplicitous.</p>
+<p>The gensim algorithm does a good job at creating both long and short summaries. Another cool feature of gensim is that we can get a list of top keywords chosen by the algorithm. This feature can come in handy for other NLP tasks, where we want to use “TextRank” to select words from a document instead of “Bag of Words” or “TF-IDF”. Gensim also has a well-maintained repository and has an active community which is an added asset to using this algorithm.</p>
+<p><strong>Sentence Embeddings</strong>
+（当源文本比较短的时候，比如 review 或者email， sentence embedding ，然后使用聚类的方式，得到不同的簇之后，每个簇可以选择一个句子，类似于降维的思想）</p>
+<p>We wanted to evaluate how text summarization works on shorter documents like reviews, emails etc.  We used K-means clustering to summarize the types of documents following the aforementioned structure.</p>
+<p>Then, all of the sentences in a document are clustered in k = sqrt(length of document) clusters. Each cluster of sentence embeddings can be interpreted as a set of semantically similar sentences whose meaning can be expressed by just one candidate sentence in the summary.</p>
+<p>Candidate sentences corresponding to each cluster are then ordered to form a summary for an email. The order of the candidate sentences in the summary is determined by the positions of the sentences in their corresponding clusters in the original document.</p>
+<h3 id="abstraction-techniques">Abstraction techniques</h3>
+<p>** Pointer — Generator Networks**</p>
+<p>Compared to the sequence-to-sequence-with-attention system, the pointer-generator network does a better job at copying words from the source text. Additionally it also is able to copy out-of-vocabulary words allowing the algorithm to handle unseen words even if the corpus has a smaller vocabulary.</p>
+<p>Hence we can think of pointer generator as a combination approach combining both extraction (pointing) and abstraction (generating).</p>
+<p>Drawbacks of Abstractive summarization</p>
+<ol>
+<li>
+<p>Firstly, training the model requires a lot of data and hence time.</p>
+</li>
+<li>
+<p>An inherent problem with abstraction is that the summarizer reproduces factual details incorrectly. For instance, if the article talks about Germany beating Argentina 3–2, the summarizer may replace 3–2 by 2–0</p>
+</li>
+<li>
+<p>Repetition is another problem faced by the summarizer. As we can see in the second example above, some phrases are repeated in the summary</p>
+</li>
+</ol>
+<h3 id="to-summarize">To Summarize..</h3>
+<p>Given the architecture of RNNs and the current computing capabilities, we observed that extractive summarization methods are faster, but equally intuitive as abstractive methods. A few other observations:</p>
+<ul>
+<li>The network fails to focus on the core of the source text and summarizes a less important, secondary piece of information</li>
+<li>The attention mechanism, by revealing what the network is “looking at”, shines some precious light into the black box of neural networks, helping us to debug problems like repetition and copying.</li>
+<li>To make further advances, we need greater insight into what RNNs are learning from text and how that knowledge is represented.</li>
+</ul>
+<h3 id="case-study-text-summarization-on-emails">Case Study: Text Summarization on Emails</h3>
+<p>Unsupervised Text Summarization using Sentence Embeddings</p>
+<p><img src="https://i.bmp.ovh/imgs/2019/06/a273acb19e72e1c6.png" alt=""></p>
+<p>Step-1: Email Cleaning
+As salutation and signature lines (称谓签名行) can vary from email to email and from one language to the other, removing them will require matching against a regular expression.</p>
+<pre><code>Hi Jane,
+
+Thank you for keeping me updated on this issue. I'm happy to hear that the issue got resolved after all and you can now use the app in its full functionality again. 
+Also many thanks for your suggestions. We hope to improve this feature in the future. 
+
+In case you experience any further problems with the app, please don't hesitate to contact me again.
+
+Best regards,
+
+John Doe
+Customer Support
+
+1600 Amphitheatre Parkway
+Mountain View, CA
+United States
+</code></pre>
+<p>Step-2: Language Detection</p>
+<p>As the emails to be summarized can be of any language, the first thing one needs to do is to determine which language an email is in. I used ** langdetect** for my purpose and it supports 55 different languages.</p>
+<p>Step-3: Sentence Tokenization
+Once the languages identification is performed for every email, we can use this information to split each email into its constituent sentences using specific rules for sentence delimiters (分隔符) for each language.</p>
+<p>Step-4: Skip-Thought Encoder
+We need a way to generate fixed length vector representations for each sentence in our emails.</p>
+<p>Step-5: Clustering
+（对于 最后summary 的长度，这个是一个很好的baseline，给出了一个定量的结果，使用 $ \sqrt{N}$, N 表示原始段落或者文章的长度）
+The number of clusters will be equal to desired number of sentences in the summary. I chose the numbers of sentences in the summary to be equal to the square root of the total number of sentence in the email.</p>
+<p>Step-6: Summarization
+Each cluster of sentence embeddings can be interpreted as a set of semantically similar sentences whose meaning can be expressed by just one candidate sentence in the summary. The candidate sentence is chosen to be the sentence whose vector representation is closest to the cluster center. Candidate sentences corresponding to each cluster are then ordered to form a summary for an email.</p>
+<h3 id="pagerank-算法和textrank-介绍">PageRank 算法和TextRank 介绍</h3>
+<p>** PageRank 算法**</p>
+<p>PageRank通过互联网中的超链接关系来确定一个网页的排名，其公式是通过一种投票的思想来设计的。整个互联网可以看作是一张有向图，网页是图中的节点，网页之间的链接就是图中的边。如果网页 A 存在到网页 B 的链接，那么就有一条从网页 A 指向网页 B 的有向边。构造完图后，使用下面的公式来计算网页$ i$的重要性（PR值）：</p>
+<p>$$
+S \left( V _ { i } \right) = ( 1 - d ) + d \cdot \sum _ { j \in I n \left( V _ { i } \right) } \frac { 1 } { \left| O u t \left( V _ { j } \right) \right| } S \left( V _ { j } \right)
+$$</p>
+<p>$d$ 是阻尼系数，一般设置为0.85. $\operatorname { In } \left( V _ { i } \right)$ 是指向网页 $i$ 的链接的网页集合。 $\operatorname { Out } \left( V _ { j } \right)$ 是网页 $j$ 中的链接指向的网页的集合。 $\left| O u t \left( V _ { j } \right) \right|$ 是集合中元素的个数。 PageRank 需要多次迭代才能得到最后的结果。</p>
+<p>(公式看着比较复杂，但是原理非常简单，如果计算网页 i的 pagerank，那么对于所有指向该网页的网站集合，进行权重的分摊。也就是说某个pageranking 很高的网站指向了某个网站，那么这个网站的pageranking  会变高，类似带有权重的投票)</p>
+<p><img src="https://s2.ax1x.com/2019/07/01/Z8xG8S.png" alt="Z8xG8S.png">
+假设我们有4个网页——w1，w2，w3，w4。这些页面包含指向彼此的链接。有些页面可能没有链接，这些页面被称为悬空页面。</p>
+<table>
+<thead>
+<tr>
+<th>Webpage</th>
+<th>Links</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>w1</td>
+<td>[w4, 22]</td>
+</tr>
+<tr>
+<td>w2</td>
+<td>[w3, w1]</td>
+</tr>
+<tr>
+<td>w3</td>
+<td>[]</td>
+</tr>
+<tr>
+<td>w4</td>
+<td>[w1]</td>
+</tr>
+</tbody>
+</table>
+<p>在本例中初始化成这样：
+<img src="https://upload.cc/i1/2019/07/01/xFyTtn.png" alt=""></p>
+<p>最后，这个矩阵中的值将以迭代的方式更新，以获得网页排名。</p>
+<p>（上面的pageranking 的讲解是为了 下面的textranking 的理解）
+** TextRank 关键词提取**</p>
+<p>两者的相似之处：</p>
+<ul>
+<li>In place of web pages, we use sentences</li>
+<li>Similarity between any two sentences is used as an equivalent to the web page transition probability</li>
+<li>The similarity scores are stored in a square matrix, similar to the matrix M used for PageRank</li>
+</ul>
+<p>不同之处在于后者使用句子之间的相似度作为 weights.</p>
+<p>$W S \left( V _ { i } \right) = ( 1 - d ) + d \cdot \sum _ { V _ { j } \in \operatorname { In } ( V i ) } \frac { w _ { j i } } { \sum _ { V _ { k } \in O u t \left( V _ { j } \right) } w _ { j k } } W S \left( V _ { j } \right)$</p>
+<p>$w_{ij}$ 就是图中节点 $V_i$ 到$V_j$ 的边的权值， 就是两个句子 $S_i$ 和句子 $S_j$ 的相似程度。下面的代码中使用的是 cosine 函数来表示这种相似度。</p>
+<p><img src="https://i.bmp.ovh/imgs/2019/07/48a971bacfd92ac0.png" alt=""></p>
+<p>步骤：</p>
+<ul>
+<li>The first step would be to concatenate all the text contained in the articles</li>
+<li>Then split the text into individual sentences</li>
+<li>In the next step, we will find vector representation (word embeddings) for each and every sentence</li>
+<li>Similarities between sentence vectors are then calculated and stored in a matrix</li>
+<li>The similarity matrix is then converted into a graph, with sentences as vertices and similarity scores as edges, for sentence rank calculation</li>
+<li>Finally, a certain number of top-ranked sentences form the final summary</li>
+</ul>
+<p>这里使用的 cosine similarity scores，计算句子之间的相似度，句子embedding 是通过 word embedding 相加而成。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sentences</span><span class="p">)):</span>
+  <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sentences</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">j</span><span class="p">:</span>
+      <span class="n">sim_mat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">sentence_vectors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">),</span> <span class="n">sentence_vectors</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">))[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Applying PageRank Algorithm</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span>
+<span class="n">nx_graph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">from_numpy_array</span><span class="p">(</span><span class="n">sim_mat</span><span class="p">)</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">pagerank</span><span class="p">(</span><span class="n">nx_graph</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>** TF-IDF 和 TextRank 对比总结：**</p>
+<ul>
+<li>TextRank与TFIDF均严重依赖于分词结果——如果某词在分词时被切分成了两个词，那么在做关键词提取时无法将两个词黏合在一起（TextRank有部分黏合效果，但需要这两个词均为关键词）。因此是否添加标注关键词进自定义词典，将会造成准确率、召回率大相径庭。</li>
+<li>TextRank的效果并不优于TFIDF。</li>
+<li>TextRank虽然考虑到了词之间的关系，但是仍然倾向于将频繁词作为关键词。</li>
+<li>由于TextRank涉及到构建词图及迭代计算，所以提取速度较慢。</li>
+</ul>
+<p>自然语言处理有两个切入点，一个是频率一个是语义。上述两种方法本质上还是基于词频的。如何进行方法的评价，如果是基于概率 （频率）进行计算，那么一个切入点是否能够体现上下文关系，是否有语义信息。如果是基于网络，那么一个方法就是内存和训练时间上是否可以在大规模的工业界展开使用。</p>
+<h3 id="references">References</h3>
+<p><a href="https://medium.com/jatana/unsupervised-text-summarization-using-sentence-embeddings-adb15ce83db1">https://medium.com/jatana/unsupervised-text-summarization-using-sentence-embeddings-adb15ce83db1</a></p>
+<p><a href="https://towardsdatascience.com/data-scientists-guide-to-summarization-fc0db952e363">https://towardsdatascience.com/data-scientists-guide-to-summarization-fc0db952e363</a></p>
+<p><a href="https://www.jiqizhixin.com/articles/2018-12-28-18">https://www.jiqizhixin.com/articles/2018-12-28-18</a></p>
+<p><a href="https://www.analyticsvidhya.com/blog/2018/11/introduction-text-summarization-textrank-python/">https://www.analyticsvidhya.com/blog/2018/11/introduction-text-summarization-textrank-python/</a></p>
+<p><a href="https://xiaosheng.me/2017/04/08/article49/">https://xiaosheng.me/2017/04/08/article49/</a></p>
+<h3 id="复习总结">复习总结</h3>
+<ol>
+<li>文本摘要有两种方法，一种是从源句子中抽取的过程，一种是概括的过程，生成对于文章总结的过程。</li>
+<li>pagerank 算法和 textrank 算法对于简历上的内容相关性不大，就先不复习了</li>
+</ol>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-06-30
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/text-summarization/">text summarization</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/gbdt/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">A Gentle Introduction of GBDT</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/machine_translation/">
+            <span class="next-text nav-default">Machine_translation</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,2513 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Python 学习笔记（三） - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="python 学习笔记，之前有两篇笔记，因为太多了，所以新开一篇。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/python_tutorial_3/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Python 学习笔记（三）" />
+<meta property="og:description" content="python 学习笔记，之前有两篇笔记，因为太多了，所以新开一篇。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/python_tutorial_3/" />
+<meta property="article:published_time" content="2019-11-04T16:08:25+08:00" />
+<meta property="article:modified_time" content="2019-11-04T16:08:25+08:00" />
+<meta itemprop="name" content="Python 学习笔记（三）">
+<meta itemprop="description" content="python 学习笔记，之前有两篇笔记，因为太多了，所以新开一篇。">
+<meta itemprop="datePublished" content="2019-11-04T16:08:25+08:00" />
+<meta itemprop="dateModified" content="2019-11-04T16:08:25+08:00" />
+<meta itemprop="wordCount" content="10860">
+
+
+
+<meta itemprop="keywords" content="python," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Python 学习笔记（三）"/>
+<meta name="twitter:description" content="python 学习笔记，之前有两篇笔记，因为太多了，所以新开一篇。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Python 学习笔记（三）</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-11-04 </span>
+        <div class="post-category">
+            <a href="/categories/programming-language/"> programming language </a>
+            </div>
+          <span class="more-meta"> 约 10860 字 </span>
+          <span class="more-meta"> 预计阅读 22 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#python2-和python3-的差异">python2 和python3 的差异</a></li>
+        <li><a href="#python中的使用">python中<code>*</code>的使用</a></li>
+        <li><a href="#随机数">随机数</a>
+          <ul>
+            <li><a href="#random-with-python">Random with Python</a></li>
+            <li><a href="#random-numbers-with-numpy">Random Numbers with Numpy</a></li>
+          </ul>
+        </li>
+        <li><a href="#python-中的import-函数">python 中的import 函数</a></li>
+        <li><a href="#python多线程和多进程">Python多线程和多进程</a>
+          <ul>
+            <li><a href="#python中-pickle-模块">python中 pickle 模块</a></li>
+            <li><a href="#easydict">easydict</a></li>
+            <li><a href="#python中的文件遍历">python中的文件遍历</a></li>
+            <li><a href="#switch-在python-中的实现">switch 在python 中的实现</a></li>
+          </ul>
+        </li>
+        <li><a href="#python-中的with-statement">python 中的with statement</a>
+          <ul>
+            <li><a href="#python-和numpy-中关于类型函数">python 和numpy 中关于类型函数</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>python 学习笔记，之前有两篇笔记，因为太多了，所以新开一篇。</p>
+<p>python 中常见的判别函数</p>
+<ol>
+<li><code>isinstance()</code></li>
+</ol>
+<p>判断一个item 是否是list or tuple</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">myextend</span><span class="p">(</span><span class="n">alist</span><span class="p">):</span>
+    <span class="n">blist</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">alist</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="n">blist</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">myextend</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">blist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">blist</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>基本类型对于 <code>classinfo</code> 可以是</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">int，float，bool，complex，str(字符串)，list，dict(字典)，set，tuple
+</code></pre></td></tr></table>
+</div>
+</div><p>isinstance() 与 type() 区别：</p>
+<ul>
+<li>type() 不会认为子类是一种父类类型，不考虑继承关系。</li>
+<li>isinstance() 会认为子类是一种父类类型，考虑继承关系。
+如果要判断两个类型是否相同推荐使用 isinstance()。</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">A</span><span class="p">:</span>
+    <span class="k">pass</span>
+ 
+<span class="k">class</span> <span class="nc">B</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="k">pass</span>
+ 
+<span class="nb">isinstance</span><span class="p">(</span><span class="n">A</span><span class="p">(),</span> <span class="n">A</span><span class="p">)</span>    <span class="c1"># returns True</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">A</span><span class="p">())</span> <span class="o">==</span> <span class="n">A</span>        <span class="c1"># returns True</span>
+<span class="nb">isinstance</span><span class="p">(</span><span class="n">B</span><span class="p">(),</span> <span class="n">A</span><span class="p">)</span>    <span class="c1"># returns True</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">B</span><span class="p">())</span> <span class="o">==</span> <span class="n">A</span>        <span class="c1"># returns False</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>针对字符串的判别函数</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">s.isalnum() 所有字符都是数字或者字母
+s.isalpha() 所有字符都是字母
+s.isdigit() 所有字符都是数字
+s.islower() 所有字符都是小写
+s.isupper() 所有字符都是大写
+s.istitle() 所有单词都是首字母大写，像标题
+s.isspace() 所有字符都是空白字符、\t、\n、\r
+</code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>对于数字的判别</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">isdigit()
+True: Unicode数字，byte数字（单字节），全角数字（双字节），罗马数字
+False: 汉字数字
+Error: 无
+
+isdecimal()
+True: Unicode数字，，全角数字（双字节）
+False: 罗马数字，汉字数字
+Error: byte数字（单字节）
+
+isnumeric()
+True: Unicode数字，全角数字（双字节），罗马数字，汉字数字
+False: 无
+Error: byte数字（单字节）
+</code></pre></td></tr></table>
+</div>
+</div><p>具体实例可以看<a href="https://www.cnblogs.com/guigujun/p/6133057.html">这里</a></p>
+<ol start="4">
+<li>字符串的拼接</li>
+</ol>
+<p>在python 开发中，很多时候需要使用到字符串拼接，python 字符串拼接有很多，这里就总结一下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">格式化类：%、format()、template
+拼接类：+、()、join()
+插值类：f-string
+</code></pre></td></tr></table>
+</div>
+</div><ol>
+<li>使用<code>+</code> 拼接</li>
+<li>使用 <code>%</code> 拼接</li>
+<li>使用 <code>join()</code> 方法拼接</li>
+<li>使用 <code>format()</code> 方法拼接</li>
+<li>使用 <code>f-string</code> 拼接</li>
+</ol>
+<p>** 使用<code>+</code> 拼接**</p>
+<p>这个适合数据量比价小的时候，当总长度小于 20 的时候，可以使用</p>
+<p><strong>使用 <code>%</code> 拼接</strong></p>
+<p>借鉴了C语言中 printf 函数的功能，如果你有C语言基础，看下文档就知道了。这种方式用符号“%”连接一个字符串和一组变量，字符串中的特殊标记会被自动用右边变量组中的变量替换：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1">&#39;</span><span class="o">%</span><span class="p">(</span><span class="s1">&#39;Python&#39;</span><span class="p">,</span> <span class="s1">&#39;Tab&#39;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>使用 <code>join()</code> 方法拼接</strong>
+如果你想要合并的字符串是在一个序列或者 iterable 中，那么最快的方式就是使用 join() 方法。比如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Is&#39;</span><span class="p">,</span> <span class="s1">&#39;Chicago&#39;</span><span class="p">,</span> <span class="s1">&#39;Not&#39;</span><span class="p">,</span> <span class="s1">&#39;Chicago?&#39;</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span>
+<span class="s1">&#39;Is Chicago Not Chicago?&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span>
+<span class="s1">&#39;Is,Chicago,Not,Chicago?&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span>
+<span class="s1">&#39;IsChicagoNotChicago?&#39;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>使用 <code>format()</code> 方法拼接</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;There are {}, {}, {} on the table&#39;</span>
+<span class="nb">str</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fruit1</span><span class="p">,</span><span class="n">fruit2</span><span class="p">,</span><span class="n">fruit3</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>还可以指定参数对应位置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;There are {2}, {1}, {0} on the table&#39;</span>
+<span class="nb">str</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fruit1</span><span class="p">,</span><span class="n">fruit2</span><span class="p">,</span><span class="n">fruit3</span><span class="p">)</span> <span class="c1">#fruit1出现在0的位置</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>最重要的需要引起注意的是，当我们使用加号(+)操作符去连接大量的字符串的时候是非常低效率的， 因为加号连接会引起内存复制以及垃圾回收操作。 特别的，你永远都不应像下面这样写字符串连接代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span>
+    <span class="n">s</span> <span class="o">+=</span> <span class="n">p</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>同样还得注意不必要的字符串连接操作。有时候程序员在没有必要做连接操作的时候仍然多此一举。比如在打印的时候：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="s1">&#39;:&#39;</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="s1">&#39;:&#39;</span> <span class="o">+</span> <span class="n">c</span><span class="p">)</span> <span class="c1"># Ugly</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">]))</span> <span class="c1"># Still ugly</span>
+<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">)</span> <span class="c1"># Better</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>当混合使用I/O操作和字符串连接操作的时候，有时候需要仔细研究你的程序。 比如，考虑下面的两端代码片段：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Version 1 (string concatenation)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">chunk1</span> <span class="o">+</span> <span class="n">chunk2</span><span class="p">)</span>
+
+<span class="c1"># Version 2 (separate I/O operations)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">chunk1</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">chunk2</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果两个字符串很小，那么第一个版本性能会更好些，因为I/O系统调用天生就慢。 另外一方面，如果两个字符串很大，那么第二个版本可能会更加高效， 因为它避免了创建一个很大的临时结果并且要复制大量的内存块数据。 还是那句话，有时候是需要根据你的应用程序特点来决定应该使用哪种方案。</p>
+<p>这种方式也</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="s1">&#39;tab&#39;</span> <span class="p">,</span><span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>使用 <code>f-string</code> 拼接</strong></p>
+<p>从Python3.6版本引入。这种方式在可读性上秒杀format()方式，处理长字符串的拼接时，速度与join()方法相当。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;world&#39;</span>
+<span class="n">myname</span> <span class="o">=</span> <span class="s1">&#39;python_cat&#39;</span>
+<span class="n">words</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;Hello {name}. My name is {myname}.&#39;</span>
+<span class="k">print</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">Hello</span> <span class="n">world</span><span class="o">.</span> <span class="n">My</span> <span class="n">name</span> <span class="ow">is</span> <span class="n">python_cat</span><span class="o">.</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>总结：</p>
+<p>当要处理字符串列表等序列结构时，采用join()方式；拼接长度不超过20时，选用+号操作符方式；长度超过20的情况，高版本选用f-string，低版本时看情况使用format()或join()方式。</p>
+<p><strong>python中strip()，lstrip()，rstrip()函数</strong></p>
+<p>想要去掉什么字符，那么就传入什么字符，默认是空格。如果没有输入，那么就是删除首尾空格的意思： strip() 删除前导和后缀字符</p>
+<p>但是当有了参数（<strong>传入的是一个字符数组</strong>）那么就会删除所有字符数组中的所有数组。比如说：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">theString</span> <span class="o">=</span> <span class="s1">&#39;saaaay yes no yaaaass&#39;</span>
+<span class="k">print</span> <span class="n">theString</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;say&#39;</span><span class="p">)</span> 
+<span class="k">print</span> <span class="n">theString</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;say &#39;</span><span class="p">)</span> <span class="c1">#say后面有空格 </span>
+<span class="k">print</span> <span class="n">theString</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;say&#39;</span><span class="p">)</span> 
+<span class="k">print</span> <span class="n">theString</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;say&#39;</span><span class="p">)</span> 
+<span class="c1"># 输出结果是</span>
+<span class="n">yes</span> <span class="n">no</span> 
+<span class="n">es</span> <span class="n">no</span> 
+<span class="n">yes</span> <span class="n">no</span> <span class="n">yaaaass</span> 
+<span class="n">saaaay</span> <span class="n">yes</span> <span class="n">no</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Python 中的 <code>is</code> 和 <code>==</code></p>
+<p><code>is</code> is the identity comparison. #比较引用是否相同</p>
+<p><code>==</code> is the equality comparison. #比较内容是否相同</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">The operator a is b returns True if a and b are bound to the same object, otherwise False. When you create two empty lists you get two different objects, so is returns False (and therefore is notreturns True)
+</code></pre></td></tr></table>
+</div>
+</div><ol start="5">
+<li>magic method</li>
+</ol>
+<p>定义：函数声明时候的函数名是以双下划线开始和结尾的，比如说<code>__init__</code>这样的函数声明，被认为是 magic函数。常见的魔法函数有以下几种：</p>
+<p>（1）创建 <code>__new__</code>函数</p>
+<p>创建类并且返回类的实例。</p>
+<p>（2）初始化<code>__init__</code>函数</p>
+<p>初始化该实例</p>
+<p>（3）<code>__str__</code>函数</p>
+<p>（4）<code>__len__</code>函数</p>
+<p>运算符相关的魔法方法很多，比如说
+（5）<code>__cmp__()</code>函数</p>
+<p>（6）<code>__eq__()</code>函数</p>
+<p>（7）<code>__add__(self, other)</code>函数</p>
+<p>python中魔术方法（magic method）是一种重载（overloading）函数。</p>
+<p>（6）python交换值为何不使用中间变量</p>
+<p>在C++和C 中交换两个变量需要使用到临时变量<code>tmp</code>，但是在python 中是不必的。交换两个变量一般使用如下的语句：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">x</span><span class="p">,</span> <span class="n">y</span>  <span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>一般来说python语句是从左到右解析的，但是在赋值操作的时候，因为右值具有更高的计算优先级，所以是从右到左解析的。执行顺序如下：</p>
+<ul>
+<li>计算等号右边 <code>y, x</code> （可能是比较复杂的表达式），然后创建元组，分别存储 <code>y, x</code>的值</li>
+<li>计算左边的标识符，元组中的element 分别赋值（如果等号左右两边标识符数量不等的时候会出现 <code>ValueError</code>， 当左边只有一个变量时候，右边计算值就pack成一个元组传递给了左边的变量）</li>
+</ul>
+<h2 id="python2-和python3-的差异">python2 和python3 的差异</h2>
+<p>使用了<code>from __future__ import xxx </code>可以在python2，python3环境下运行同一份代码而不出错</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>以 为<a href="https://www.cnblogs.com/ajianbeyourself/p/4471035.html">例子</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1">#coding:utf-8</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%m月</span><span class="si">%d</span><span class="s1">日 %H:%M&#39;</span><span class="p">)</span>
+<span class="c1">#  03月12日 21:53</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%m月</span><span class="si">%d</span><span class="s1">日 %H:%M&#39;</span><span class="p">)</span>
+<span class="c1"># 报错 UnicodeEncodeError: &#39;ascii&#39; codec can&#39;t encode character u&#39;\u6708&#39; in position 2: ordinal not in range(128)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>原因： 因为datetime.strftime()只接受str类型的字符串，不接受unicode类型的字符串。
+解决方案：
+推荐做法： 传入 str类型的参数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1">#coding:utf-8</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%m月</span><span class="si">%d</span><span class="s1">日 %H:%M&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>  <span class="c1"># 指明str类型字符串</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>不推荐做法： 设置运行的时候的编码为 utf-8</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1">#coding:utf-8</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="nb">reload</span><span class="p">(</span><span class="n">sys</span><span class="p">)</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">setdefaultencoding</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+
+<span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%m月</span><span class="si">%d</span><span class="s1">日 %H:%M&#39;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="python中的使用">python中<code>*</code>的使用</h2>
+<p>python 中 <code>*</code>有乘法和赋值 (<code>[1] *5</code>) 的用法，除此之外还有解压（unpack）的功能。而zip() 是压缩的功能，如下代码所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">stuff</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;apple&#39;</span><span class="p">,</span><span class="s1">&#39;banana&#39;</span><span class="p">,</span><span class="s1">&#39;peach&#39;</span><span class="p">]</span>
+<span class="n">money</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+
+<span class="n">pair</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">stuff</span><span class="p">,</span><span class="n">money</span><span class="p">))</span>
+<span class="c1"># pair = [(&#39;apple&#39;,10),(&#39;banana&#39;,5),(&#39;peach&#39;,7)]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>同样的，当我们想要还原成原来的两个list， stuff 和money 时候，我们需要用到 <code>*</code> 符号。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">stuff, money =zip(*pair)
+</code></pre></td></tr></table>
+</div>
+</div><p>当然，并不是说 <code>*</code>只能使用在 list 中，凡是可迭代对象都是可以使用 <code>*</code>符号。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">do_something</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;x is &#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;y is &#39;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;z is &#39;</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+
+<span class="n">list1</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">]</span>
+<span class="n">do_something</span><span class="p">(</span><span class="o">*</span><span class="n">list1</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>可见， <code>*</code>操作符自动将list1 中的三个元素赋给了三个形参，所以是一种非常方便的用法。</p>
+<p><code>**</code> 的用法</p>
+<p>对于字典（dict） 来说，也是可以使用<code>*</code>运算符，但是一个 <code>*</code> 得到的是key 值，如果想要得到 value 值，那么是需要使用 <code>**</code>运算符。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">dict2</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;z&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">}</span>
+<span class="n">do_something</span><span class="p">(</span><span class="o">**</span><span class="n">dict2</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>所以上面那种传参的方式就是在程序中经常见到的。</p>
+<p><code>*args</code> 和 <code>**kwargs</code> 是我们经常见到的两个参数。用法很简单，当不确定有什么待传入的参数时候，就使用<code>*args</code> 将形参传入到 <code>args</code> 元组里面。同理 <code>**kwargs</code>效果则是将输入的未定义的形参及其对应的值存在kwargs字典。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">intro</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">Data type of argument:&#34;</span><span class="p">,</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&#34;{} is {}&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">value</span><span class="p">))</span>
+
+<span class="n">intro</span><span class="p">(</span><span class="n">Firstname</span><span class="o">=</span><span class="s2">&#34;Sita&#34;</span><span class="p">,</span> <span class="n">Lastname</span><span class="o">=</span><span class="s2">&#34;Sharma&#34;</span><span class="p">,</span> <span class="n">Age</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span> <span class="n">Phone</span><span class="o">=</span><span class="mi">1234567890</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>也可以进行字典的合并 <code>**</code>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">date_info</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;year&#39;</span><span class="p">:</span> <span class="s2">&#34;2020&#34;</span><span class="p">,</span> <span class="s1">&#39;month&#39;</span><span class="p">:</span> <span class="s2">&#34;01&#34;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">:</span> <span class="s2">&#34;01&#34;</span><span class="p">}</span> 
+<span class="n">track_info</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;artist&#39;</span><span class="p">:</span> <span class="s2">&#34;Beethoven&#34;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Symphony No 5&#39;</span><span class="p">}</span> 
+<span class="n">all_info</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">date_info</span><span class="p">,</span> <span class="o">**</span><span class="n">track_info</span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="随机数">随机数</h2>
+<blockquote>
+<p>We do not need true randomness in machine learning. Instead we can use pseudorandomness. Pseudorandomness is a sample of numbers that look close to random, but were generated using a deterministic process.
+很难得到到真实的随机数，然而是可以生成伪随机数。</p>
+</blockquote>
+<p>python 中的random() 库函数是基于马特赛特旋转演算法 （Mersenne Twister）算法生成的。</p>
+<blockquote>
+<p>The pseudorandom number generator is a mathematical function that generates a sequence of nearly random numbers. It takes a parameter to start off the sequence, called the seed. The function is deterministic, meaning given the same seed, it will produce the same sequence of numbers every time. The choice of seed does not matter.
+给定特定的种子（seed），可以产生 deterministic 的结果，所以可以重复多次，所以可以复现相同的实验结果。</p>
+</blockquote>
+<h3 id="random-with-python">Random with Python</h3>
+<p>（1） Random Floating Point Values</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">seed</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">random</span>
+
+<span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span> <span class="c1"># generate random numbers between 0-1</span>
+	<span class="n">val</span> <span class="o">=</span><span class="n">random</span><span class="p">()</span>
+	<span class="k">print</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>产生的是[0, 1]区间的浮点数，可以 rescale to 任意的范围。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">scaled_value</span> <span class="o">=</span><span class="nb">min</span> <span class="o">+</span><span class="p">(</span><span class="n">val</span> <span class="o">*</span><span class="p">(</span><span class="nb">max</span> <span class="o">-</span><span class="nb">min</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（2） Random Integer Values</p>
+<p>使用 <code>randint()</code> 得到整数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">frmo</span> <span class="n">random</span> <span class="kn">import</span> <span class="nn">seed</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+
+<span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+	<span class="n">val</span> <span class="o">=</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+	<span class="k">print</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（3）Random Gaussian Values</p>
+<p>使用的是 <code>gauss</code> 分布。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">seed</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">gauss</span>
+
+<span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+	<span class="n">val</span> <span class="o">=</span><span class="n">gauss</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+	<span class="k">print</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（4） Random Choosing From a List</p>
+<p>使用到了 <code>choice()</code> 函数，choice 每次只是选择了其中的一个。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">seed</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span>
+
+<span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">sequence</span> <span class="o">=</span><span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+	<span class="n">selection</span> <span class="o">=</span><span class="n">choice</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
+	<span class="k">print</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（5）Random Subsample From a List</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">seed</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">sample</span>
+
+<span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">sequence</span> <span class="o">=</span><span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
+<span class="c1"># default without replacement，不放回抽样</span>
+<span class="n">subset</span> <span class="o">=</span><span class="n">sample</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">sample with replacement vs sample without replacement
+
+两者的区别： 前者是有放回的，所以两次sample 是独立的；后者是没有放回的，两次sample是不独立的。
+
+</code></pre></td></tr></table>
+</div>
+</div><p>python 中的 <code>random.sample()</code> 默认是没有放回抽样的。如果想要实现，一种方式是基于 <code>randint()</code> 改造，一种是使用numpy 中的函数：<code>numpy.random.choice(replace =True)</code>。但是python自带的包中可以设置 <code>weight</code>权重，也就是有权重的sample。</p>
+<p>（5） Randomly Shuffle a List</p>
+<p>shuffle 操作在python 中是 <code>in-place()</code> 的</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">seed</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">shuffle</span>
+<span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">sequence</span> <span class="o">=</span><span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
+
+<span class="n">shuffle</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>(6) random sampling with replacemnet: <code>random.choices()</code></p>
+<p><code>random.choices()</code> returns multiple random elements from the list with replacemnt.</p>
+<p>choices 默认是有放回的； sample默认是无放回的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">random</span>
+<span class="n">ll</span> <span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span><span class="n">ll</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="random-numbers-with-numpy">Random Numbers with Numpy</h3>
+<blockquote>
+<p>The NumPy pseudorandom number generator is different from the Python standard library pseudorandom number generator. Importantly, seeding the Python pseudorandom number generator does not impact the NumPy pseudorandom number generator. It must be seeded and used separately.
+Numpy 中有自己实现的Random 机制，该机制和Numpy 中的机制不一样，当然Numpy 中也有马特赛特旋转演算法 （Mersenne Twister）算法。重要的是，两者是需要单独设置的。</p>
+</blockquote>
+<p>（1） Seed The Random Number Generator</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># seed the pseudorandom number generator</span>
+<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">seed</span>
+<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">rand</span>
+<span class="c1"># seed random number generator</span>
+<span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># generate some random numbers</span>
+<span class="k">print</span><span class="p">(</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（2）Array of Random Floating Point Values</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">seed</span>
+<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">rand</span>
+<span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">vals</span> <span class="o">=</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（3）Array of 	Random Integer Values</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">seed</span>
+<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">randint</span>
+
+<span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># start, end, numbers</span>
+<span class="n">values</span> <span class="o">=</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（4）Array of Random Gaussian Values</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">numpy.randon</span> <span class="kn">import</span> <span class="n">seed</span>
+<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">randn</span>
+<span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">values</span> <span class="o">=</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（5）Shuffle Numpy Array
+这个也是 in-place 的操作</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">seed</span>
+<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">shuffle</span>
+<span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">sequence</span> <span class="o">=</span><span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
+<span class="n">shuffle</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>总结：
+随机数的生成需要设置 <code>seed</code>，如果生成number，那么使用 <code>python standard library</code>； 如果是生成array, 那么使用 <code>NumPy library</code>。</p>
+<p>参考文献</p>
+<p><a href="https://machinelearningmastery.com/how-to-generate-random-numbers-in-python/">How to Generate Random Numbers in Python</a></p>
+<h2 id="python-中的import-函数">python 中的import 函数</h2>
+<p>（1）搜索路径</p>
+<p>首先是当前的路径，然后是一些内置函数的路径，重要的是如果加上 <code>sys.path.append(path)</code> ，可以添加自定义的路径, path可以是相对路径或者是绝对路径。其中 <code>.</code> 表示当前目录（同一级别的）。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&#34;..&#34;</span><span class="p">)</span> 
+<span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>输出结果：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">[&#39;/home/jeng/projects/named_entity_recognition&#39;, &#39;/home/jeng/anaconda3/lib/python37.zip&#39;, &#39;/home/jeng/anaconda3/lib/python3.7&#39;, &#39;/home/jeng/anaconda3/lib/python3.7/lib-dynload&#39;, &#39;/home/jeng/anaconda3/lib/python3.7/site-packages&#39;]
+[&#39;/home/jeng/projects/named_entity_recognition&#39;, &#39;/home/jeng/anaconda3/lib/python37.zip&#39;, &#39;/home/jeng/anaconda3/lib/python3.7&#39;, &#39;/home/jeng/anaconda3/lib/python3.7/lib-dynload&#39;, &#39;/home/jeng/anaconda3/lib/python3.7/site-packages&#39;, &#39;..&#39;]
+</code></pre></td></tr></table>
+</div>
+</div><p>（2）import语句</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">import os, sys, time   # 虽然可以一次导入多个，但是不建议这样做，不是python 风格
+import sys as system # 建议一条语句导入一个
+import solongname as shortname # 这个也是可以的
+</code></pre></td></tr></table>
+</div>
+</div><p>（2）<code>from ... import * </code></p>
+<p>from-import 是导入指定模块中指定方法的方式。将一个模块中所有内容全部导入到当前的命名空间，只需要使用如下的声明：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">modname</span> <span class="kn">import</span> <span class="o">*</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>一般不建议这样写，太消耗内存，不要过多这样使用。唯一推荐全部导入的只有 <code>Tkinter</code>（是python 中的一个gui 框架）。可以选择一个折中的方案， 从 <code>os</code>中导入5 个函数。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span><span class="p">,</span> <span class="n">walk</span><span class="p">,</span> <span class="n">unlink</span><span class="p">,</span> <span class="n">uname</span><span class="p">,</span> <span class="n">remove</span><span class="p">,</span> <span class="n">rename</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（3）reload() 函数</p>
+<p>当一个模块被导入到一个脚本，模块顶层部分的代码只会被执行一次。因此，如果你想重新执行模块里顶层部分的代码，可以用 reload() 函数。该函数会重新导入之前导入过的模块。语法如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="nb">reload</span><span class="p">(</span><span class="n">module_name</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（4）导入顺序</p>
+<p>1). python 标准库模块
+2). python 第三方模块
+3). 自定义模块</p>
+<p>（5）可选导入</p>
+<p>可以使用该方式去处理版本问题</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">try</span><span class="p">:</span>
+    <span class="c1"># For Python 3</span>
+    <span class="kn">from</span> <span class="nn">http.client</span> <span class="kn">import</span> <span class="n">responses</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>  <span class="c1"># For Python 2.5-2.7</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">httplib</span> <span class="kn">import</span> <span class="n">responses</span>  <span class="c1"># NOQA</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>  <span class="c1"># For Python 2.4</span>
+        <span class="kn">from</span> <span class="nn">BaseHTTPServer</span> <span class="kn">import</span> <span class="n">BaseHTTPRequestHandler</span> <span class="k">as</span> <span class="n">_BHRH</span>
+        <span class="n">responses</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">_BHRH</span><span class="o">.</span><span class="n">responses</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（6）局部导入</p>
+<p>当再次需要使用 <code>math</code> 模块的时候，还是需要再次导入，所以平衡好是全局导入还是局部导入</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">import sys # 全局导入
+
+def square_root(a):
+	import math # 局部
+	return math.sqrt(a)
+</code></pre></td></tr></table>
+</div>
+</div><p>（7）python 中的 <code>-m</code> 参数</p>
+<p>如果在运行的时候，加上了 <code>-m</code> 参数，那么将导入的包先运行，然后再运行本脚本</p>
+<p><code>__main__.py</code>文件与python -m
+Python的-m参数用于将一个模块或者包作为一个脚本运行，而__main__.py文件相当于是一个包的“入口程序“。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">-m module-name：Searches sys.path for the named module and runs the corresponding .py file as a script.
+</code></pre></td></tr></table>
+</div>
+</div><p>比如下面的例子</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">package
+├── __init__.py
+└── __main__.py
+</code></pre></td></tr></table>
+</div>
+</div><p>其中 <code>__init__.py</code> 文件内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="s2">&#34;__init__&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>其中 <code>__main__.py</code> 文件内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="s2">&#34;__main__&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>当使用 <code>python -m </code>执行，先是执行了init 函数，然后是main 函数。输出是</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">__init__
+__main__
+</code></pre></td></tr></table>
+</div>
+</div><p>当使用 <code>python </code>执行的时候，直接执行 main, 输出是</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">__main__
+</code></pre></td></tr></table>
+</div>
+</div><p>所以不管加不加 <code>-m</code>，最后的 main函数都是会被执行。加上 <code>-m</code> 会将模块或者包导入之后才执行</p>
+<p>（8）<code>__name__ ==&quot;__main__&quot; </code>的作用</p>
+<p>很多编程语言都有一个入口，比如C++、C 和Java中都需要一个 <code>main</code> 函数作为程序的入口。但是和上述的编译语言不同，Python属于脚本语言，不需要编译成二进制执行，而是动态逐行解释运行，可以没有统一的入口。所以可以没有 <code>main</code>函数入口。</p>
+<p>但是除了作为脚本语言直接被运行外，还是可以作为模块（库）被其他 <code>.py</code> 文件导入。所有的模块中都有一个内置的属性 <code>__name__</code>，表示当前模块的名字。如果被当做脚本运行，<code>__name__</code>值为<code>__main__</code>。而被别的模块引用的时候， <code>__name__</code>值为模块的名字。</p>
+<p>总结：</p>
+<p><code>__name__</code> 可以用于调试代码：当脚本执行，在 <code>if __name__ == '__main__</code> 中的代码会被执行；而被别的模块所引用的时候，因为这个时候的 <code>__name__</code> 不是 main ，所以该函数不会被执行。</p>
+<p>在Python中，使用单引号(')和双引号(&quot;)定义的字符串没有区别。</p>
+<h2 id="python多线程和多进程">Python多线程和多进程</h2>
+<p>多线程和多进程问题是可以对应到 并发 （cncurrency）和并行(parallelism)上的。 并发，就是一个单核cpu同时开始了多个任务，但是这个任务并不是同时独立进行的，而是通过cpu的不断切换，保存现场，然后重启这样的快速的切换，给用户的感觉是并发，但是实际上是cpu的计算能力受到了限制，用户体验比较好一些。如果在多核cpu （比如我的mac 是一cpu 6核）这样的话完全是可以达到并行的，这个是真正的独立操作(parallelism)，对应的是多进程的。对应python 中的实现多线程是使用threading，处理的是io 响应；多进程是Concurrency，使用multiprocessing包，处理的是多核cpu的操作。</p>
+<p>Take off: 如果处理io 响应，那么使用多线程；如果是计算，那么使用多进程。</p>
+<blockquote>
+<p>So, before we go deeper into the multiprocessing module, it’s worthwhile ensuring you know the advantages of using multiprocessing over multithreading. The general rule of thumb is that, if you are trying to improve the performance of CPU-bound tasks, multiprocessing is what you want to use. However, if your particular task is Input/Output bound, then you’ll generally want to use multithreading to improve the performance of your applications.</p>
+</blockquote>
+<p>这个是多线程的demo 响应的io 请求。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">threading</span>
+
+<span class="k">class</span> <span class="nc">Worker</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">):</span>
+    <span class="c1"># Our workers constructor, note the super() method which is vital if we want this</span>
+    <span class="c1"># to function properly</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Worker</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">thread1</span> <span class="o">=</span> <span class="n">Worker</span><span class="p">()</span>
+    <span class="n">thread1</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="n">thread2</span> <span class="o">=</span> <span class="n">Worker</span><span class="p">()</span>
+    <span class="n">thread2</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="n">thread3</span> <span class="o">=</span> <span class="n">Worker</span><span class="p">()</span>
+    <span class="n">thread3</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="n">thread4</span> <span class="o">=</span> <span class="n">Worker</span><span class="p">()</span>
+    <span class="n">thread4</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>下面是多进程的demo响应的计算请求。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="kn">as</span> <span class="nn">mp</span>
+
+<span class="k">def</span> <span class="nf">my_func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">mp</span><span class="o">.</span><span class="n">current_process</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">**</span> <span class="n">x</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">pool</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">mp</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">())</span>
+    <span class="c1"># 这个还是很好的 pool 这个的个数和你的cpu count 是保持一致的</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">my_func</span><span class="p">,</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+    <span class="n">result_set_2</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">my_func</span><span class="p">,</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">result_set_2</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>python 多进程下载图片的功能</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">multiprocessing.dummy</span> <span class="kn">import</span> <span class="n">Pool</span> <span class="k">as</span> <span class="n">ThreadPool</span>
+<span class="kn">import</span> <span class="nn">pymongo</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span>  <span class="nn">requests</span>
+
+<span class="c1"># 从数据库中查出来所要下载的图片 url，加入 ImgUrlList = [] 列表</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">pymongo</span><span class="o">.</span><span class="n">MongoClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">27017</span><span class="p">)</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">dwr</span>
+<span class="n">collection</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Accessories</span>
+
+<span class="n">dic1</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s1">&#39;Collection&#39;</span><span class="p">:</span> <span class="s1">&#39;Accessories&#39;</span><span class="p">})</span>
+<span class="n">ImgUrlList</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">dic1</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">i</span><span class="p">[</span><span class="s1">&#39;ImageUrl&#39;</span><span class="p">]:</span>
+        <span class="n">ImgUrlList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+
+
+<span class="c1"># 图片下载方法</span>
+<span class="k">def</span>  <span class="nf">downImg</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+        <span class="n">a</span><span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;(.*?)\?wid&#39;</span><span class="p">,</span> <span class="n">a</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.jpg&#39;&#39;</span>
+        <span class="n">B</span> <span class="o">=</span><span class="s2">&#34;target_dir&#34;</span> <span class="o">+</span><span class="n">name</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">B</span><span class="p">):</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+
+<span class="c1"># 相当于上面是一个function，然后放入到多进程的池子中</span>
+<span class="n">pool</span> <span class="o">=</span> <span class="n">ThreadPool</span><span class="p">()</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">downImg</span><span class="p">,</span> <span class="n">ImgUrlList</span><span class="p">);</span>
+<span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">();</span>
+<span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">();</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="python中-pickle-模块">python中 pickle 模块</h3>
+<p>pickle模块是python中用来持久化对象的一个模块。所谓对对象进行持久化，即将对象的数据类型、存储结构、存储内容等所有信息作为文件保存下来以便下次使用。在神经网络中训练的模型也是可以经过序列化处理的，需要注意的是以二进制保存和读取的内容，所以在读写的时候需要加上 <code>b</code> 超参数。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># 向文件中写入 pickle 对象</span>
+<span class="c1">#导入pickle模块</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+
+<span class="c1">#创建一个名为data1的对象</span>
+<span class="n">data1</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;123&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]}</span>
+
+<span class="c1">#打开(或创建)一个名为data1.pkl的文件，打开方式为二进制写入(参数‘wb’)</span>
+<span class="n">file_to_save</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&#34;data1.pkl&#34;</span><span class="p">,</span> <span class="s2">&#34;wb&#34;</span><span class="p">)</span>
+
+<span class="c1">#通过pickle模块中的dump函数将data1保存到data1.pkl文件中。</span>
+<span class="c1">#第一个参数是要保存的对象名</span>
+<span class="c1">#第二个参数是写入到的类文件对象file。file必须有write()接口， file可以是一个以&#39;w&#39;方式打开的文件或者一个StringIO对象或者其他任何实现write()接口的对象。如果protocol&gt;=1，文件对象需要是二进制模式打开的。</span>
+<span class="c1">#第三个参数为序列化使用的协议版本，0：ASCII协议，所序列化的对象使用可打印的ASCII码表示；1：老式的二进制协议；2：2.3版本引入的新二进制协议，较以前的更高效；-1：使用当前版本支持的最高协议。其中协议0和1兼容老版本的python。protocol默认值为0。</span>
+<span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data1</span><span class="p">,</span> <span class="n">file_to_save</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1">#关闭文件对象</span>
+<span class="n">file_to_save</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c1"># 从文件中读取 pickle 对象</span>
+<span class="c1">#导入pickle模块</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+
+<span class="c1">#打开一个名为data1.pkl的文件，打开方式为二进制读取(参数‘rb’)</span>
+<span class="n">file_to_read</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data1.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span>
+
+<span class="c1">#通过pickle的load函数读取data1.pkl中的对象，并赋值给data2</span>
+<span class="n">data2</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file_to_read</span><span class="p">)</span>
+
+<span class="c1">#打印data2</span>
+<span class="k">print</span> <span class="n">data2</span>
+
+<span class="c1">#关闭文件对象</span>
+<span class="n">file_to_read</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="easydict">easydict</h3>
+<p>python 中的easydict 的使用，比系统自带dict 更加方便的字典 EasyDict。</p>
+<p>easydict的作用：可以使得以属性的方式去访问字典的值！所以主要是写得方便。
+···
+pip install easyinstall
+····
+使用代码：</p>
+<p>···python
+from easydict import EasyDict as edict
+easy = edict(d = {&lsquo;foo&rsquo;:3, &lsquo;bar&rsquo;:{&lsquo;x&rsquo;:1, &lsquo;y&rsquo;:2}}) # 将普通的字典传入到edict()
+print(easy[&lsquo;foo&rsquo;]) # 这是传统的方法
+print(easy.foo) # 这是我们使用easydict输出二者结果是一样的，但是可以更为方便的使用字典了
+print(easy.bar.x) # 我们也是可以很方便的使用字典中字典的元素了
+····</p>
+<p>解析json目录时很有用</p>
+<h3 id="python中的文件遍历">python中的文件遍历</h3>
+<p>（1）os.listdir</p>
+<p>适用情况：在一个目录下面只有文件，没有文件夹（有文件夹的时候会遍历到文件夹，但是不会继续递归往下遍历）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">file_name</span><span class="p">(</span><span class="n">file_dir</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">file_dir</span><span class="p">):</span>  <span class="c1"># 不仅仅是文件，当前目录下的文件夹也会被认为遍历到</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&#34;files：&#34;</span><span class="p">,</span> <span class="n">files</span><span class="p">)</span>
+        
+<span class="c1">#files： A            # 指定路径文件夹的子文件</span>
+<span class="c1">#files： B            # 指定路径文件夹的子文件</span>
+<span class="c1">#files： text.txt     # 指定路径文件夹的非文件夹内容  </span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（2）os.walk</p>
+<p>适用情况：递归的情况，一个目录下面既有目录（目录下面还可能有目录和文件）也有文件，如何读取里面所有文件，使用os.walk；</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">os</span>
+<span class="k">def</span> <span class="nf">file_name</span><span class="p">(</span><span class="n">file_site</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">file_dir</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&#34;root&#34;</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span>      <span class="c1"># 当前目录路径</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&#34;dirs&#34;</span><span class="p">,</span> <span class="n">dirs</span><span class="p">)</span>      <span class="c1"># 当前路径下所有子文件夹</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&#34;files&#34;</span><span class="p">,</span> <span class="n">files</span><span class="p">)</span>    <span class="c1"># 当前路径下所有非子文件夹的文件</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="switch-在python-中的实现">switch 在python 中的实现</h3>
+<p>c、c++ 中都有 switch (case )语句的实现，但是python 中就没有相关的实现，只能通过其他的方式去完成该功能。基本的思路是通过 dictionary</p>
+<p>实现方式一</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="p">}[</span><span class="n">x</span><span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>实现方式二</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span>
+    <span class="c1"># Do the thing</span>
+<span class="k">elif</span> <span class="n">x</span> <span class="o">==</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span>
+    <span class="c1"># Do the other thing</span>
+<span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="s1">&#39;bc&#39;</span><span class="p">:</span>
+    <span class="c1"># Fall-through by not using elif, but now the default case includes case &#39;a&#39;!</span>
+<span class="k">elif</span> <span class="n">x</span> <span class="ow">in</span> <span class="s1">&#39;xyz&#39;</span><span class="p">:</span>
+    <span class="c1"># Do yet another thing</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="c1"># Do the default</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://www.pydanny.com/why-doesnt-python-have-switch-case.html">Why Doesn&rsquo;t Python Have Switch/Case?</a> 比较详细介绍了在python 中为什么没有 switch -case 语句。</p>
+<p>使用的是一种 dictionary 去实现了 switch 的功能</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">numbers_to_strings</span><span class="p">(</span><span class="n">argument</span><span class="p">):</span>
+    <span class="n">switcher</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="mi">0</span><span class="p">:</span> <span class="s2">&#34;zero&#34;</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="s2">&#34;one&#34;</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="s2">&#34;two&#34;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">switcher</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">argument</span><span class="p">,</span> <span class="s2">&#34;nothing&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>比较复杂的版本（借助了 function）, function 中可以实现更加复杂的功能。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">zero</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s2">&#34;zero&#34;</span>
+
+<span class="k">def</span> <span class="nf">one</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s2">&#34;one&#34;</span>
+
+<span class="k">def</span> <span class="nf">numbers_to_functions_to_strings</span><span class="p">(</span><span class="n">argument</span><span class="p">):</span>
+    <span class="n">switcher</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="mi">0</span><span class="p">:</span> <span class="n">zero</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="n">one</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="s2">&#34;two&#34;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="c1"># Get the function from switcher dictionary</span>
+    <span class="n">func</span> <span class="o">=</span> <span class="n">switcher</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">argument</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="s2">&#34;nothing&#34;</span><span class="p">)</span>
+    <span class="c1"># Execute the function</span>
+    <span class="k">return</span> <span class="n">func</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>使用类的形式 (更好的封装性能)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Switcher</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">numbers_to_methods_to_strings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">argument</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;Dispatch method&#34;&#34;&#34;</span>
+        <span class="c1"># prefix the method_name with &#39;number_&#39; because method names</span>
+        <span class="c1"># cannot begin with an integer.</span>
+        <span class="n">method_name</span> <span class="o">=</span> <span class="s1">&#39;number_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">argument</span><span class="p">)</span>
+        <span class="c1"># Get the method from &#39;self&#39;. Default to a lambda.</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method_name</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="s2">&#34;nothing&#34;</span><span class="p">)</span>
+        <span class="c1"># Call the method as we return it</span>
+        <span class="k">return</span> <span class="n">method</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">number_0</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&#34;zero&#34;</span>
+
+    <span class="k">def</span> <span class="nf">number_1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&#34;one&#34;</span>
+
+    <span class="k">def</span> <span class="nf">number_2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&#34;two&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="python-中的with-statement">python 中的with statement</h2>
+<p>遇到with是在文件那一章，with的作用是就是会自动关掉文件管道。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">,</span><span class="s1">&#39;读写模式‘) as f:</span>
+    <span class="n">do</span> <span class="n">something</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>上面的功能等价于</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">,</span><span class="s1">&#39;读写模式&#39;</span><span class="p">)</span>
+<span class="n">do</span> <span class="n">something</span>
+<span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>with statement 适合在消耗比较多的资源的情况下使用，是一种更好的管理资源的方式。</p>
+<p>下面这种方式，需要手写 open 和close 语句。</p>
+<blockquote>
+<p>Perhaps the most common (and important) use of context managers is to properly manage resources. In fact, that&rsquo;s the reason we use a context manager when reading from a file. The act of opening a file consumes a resource (called a file descriptor), and this resource is limited by your OS. That is to say, there are a maximum number of files a process can have open at one time. To prove it, try running this code:</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">files</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">):</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;foo.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>In other languages, developers are forced to use try&hellip;except&hellip;finally every time they work with a file (or any other type of resource that needs to be closed, like sockets or database connections). Luckily, Python loves us and gives us a simple way to make sure all resources we use are properly cleaned up, regardless of if the code returns or an exception is thrown: context managers.
+是可以使用 try except 和finally 进行处理的，但是 python 中有更好的方式实现</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">with</span> <span class="n">something_that_returns_a_context_manager</span><span class="p">()</span> <span class="k">as</span> <span class="n">my_resource</span><span class="p">:</span>
+    <span class="n">do_something</span><span class="p">(</span><span class="n">my_resource</span><span class="p">)</span>
+    <span class="o">...</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;done using my_resource&#39;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>That&rsquo;s it! Using with, we can call anything that returns a context manager (like the built-in open() function). We assign it to a variable using &hellip; as &lt;variable_name&gt;. Crucially, the variable only exists within the indented block below the with statement. Think of with as creating a mini-function: we can use the variable freely in the indented portion, but once that block ends, the variable goes out of scope. When the variable goes out of scope, it automatically calls a special method that contains the code to clean up the resource.
+这上面说 在with 之外的变量是无法访问的，但实际上就我的经验而言，貌似也是能够访问的。</p>
+</blockquote>
+<blockquote>
+<p>这里说的with 之外的变量是无法访问，是指的文件 as 之后的变量，但是对于 <code>with</code> 缩进之内的变量是可以访问的。</p>
+</blockquote>
+<p>with 是如何工作的？</p>
+<ul>
+<li>紧跟with后面的语句被求值后,返回对象的’<strong>enter</strong>()’方法被调用,这个方法的返回值将被赋值给as后面的变量.</li>
+<li>当with后面的代码块全部执行完之后,将被调用前面返回对象的__exit__()方法.</li>
+</ul>
+<p>总之，with-as表达式极大的简化了每次写finally的工作，这对保持代码的优雅性是有极大帮助的。如果有多个项，那么可以这样写</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&#34;x.txt&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f1</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;xxx.txt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f2</span><span class="p">:</span>
+    <span class="n">do</span> <span class="n">something</span> <span class="k">with</span> <span class="n">f1</span><span class="p">,</span><span class="n">f2</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="python-和numpy-中关于类型函数">python 和numpy 中关于类型函数</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">type()    返回参数的数据类型
+dtype    返回数组中元素的数据类型
+astype()    对数据类型进行转换
+</code></pre></td></tr></table>
+</div>
+</div><p>ndim返回的是数组的维度，返回的只有一个数，该数即表示数组的维度。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">print(arr1.ndim, arr2.ndim, arr3.ndim)
+# 返回的是一个数字，表示数组的维度
+</code></pre></td></tr></table>
+</div>
+</div><p>shape：表示各位维度大小的元组。返回的是一个元组。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">print(arr1.shape, arr2.shape, arr3.shape)
+# 返回的是一个元祖
+# (5,) (2, 3) (2, 2, 3)
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">print(arr1.dtype, arr2.dtype, arr3.dtype)
+# 返回的是数组的数据类型
+# int64 int64 int64
+</code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>astype</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">arr1.astype(&#39;int32&#39;)
+# 转换数组的数据类型
+# array([1, 2, 3, 4, 5], dtype=int32)
+# int32 --&gt; float64        完全ojbk
+# float64 --&gt; int32        会将小数部分截断
+# string_ --&gt; float64        如果字符串数组表示的全是数字，也可以用astype转化为数值类型
+</code></pre></td></tr></table>
+</div>
+</div><p>关于取整数 取小数的知识</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 数据转换 astype() 的知识
+a =3.75
+int(a) # 向下取整
+round(a) # 四舍五入
+
+import math
+math.ceil(a) # 向上取整
+
+# 取整数和小数部分
+import math
+math.modf(3.25)
+#(0.25, 3.0)
+</code></pre></td></tr></table>
+</div>
+</div><ol>
+<li></li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span><span class="lnt">177
+</span><span class="lnt">178
+</span><span class="lnt">179
+</span><span class="lnt">180
+</span><span class="lnt">181
+</span><span class="lnt">182
+</span><span class="lnt">183
+</span><span class="lnt">184
+</span><span class="lnt">185
+</span><span class="lnt">186
+</span><span class="lnt">187
+</span><span class="lnt">188
+</span><span class="lnt">189
+</span><span class="lnt">190
+</span><span class="lnt">191
+</span><span class="lnt">192
+</span><span class="lnt">193
+</span><span class="lnt">194
+</span><span class="lnt">195
+</span><span class="lnt">196
+</span><span class="lnt">197
+</span><span class="lnt">198
+</span><span class="lnt">199
+</span><span class="lnt">200
+</span><span class="lnt">201
+</span><span class="lnt">202
+</span><span class="lnt">203
+</span><span class="lnt">204
+</span><span class="lnt">205
+</span><span class="lnt">206
+</span><span class="lnt">207
+</span><span class="lnt">208
+</span><span class="lnt">209
+</span><span class="lnt">210
+</span><span class="lnt">211
+</span><span class="lnt">212
+</span><span class="lnt">213
+</span><span class="lnt">214
+</span><span class="lnt">215
+</span><span class="lnt">216
+</span><span class="lnt">217
+</span><span class="lnt">218
+</span><span class="lnt">219
+</span><span class="lnt">220
+</span><span class="lnt">221
+</span><span class="lnt">222
+</span><span class="lnt">223
+</span><span class="lnt">224
+</span><span class="lnt">225
+</span><span class="lnt">226
+</span><span class="lnt">227
+</span><span class="lnt">228
+</span><span class="lnt">229
+</span><span class="lnt">230
+</span><span class="lnt">231
+</span><span class="lnt">232
+</span><span class="lnt">233
+</span><span class="lnt">234
+</span><span class="lnt">235
+</span><span class="lnt">236
+</span><span class="lnt">237
+</span><span class="lnt">238
+</span><span class="lnt">239
+</span><span class="lnt">240
+</span><span class="lnt">241
+</span><span class="lnt">242
+</span><span class="lnt">243
+</span><span class="lnt">244
+</span><span class="lnt">245
+</span><span class="lnt">246
+</span><span class="lnt">247
+</span><span class="lnt">248
+</span><span class="lnt">249
+</span><span class="lnt">250
+</span><span class="lnt">251
+</span><span class="lnt">252
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"> 2 **3 # 8乘方
+ # 计算的先后顺序（和数学中定义的方法是一样的）
+()
+**
+*/
++-
+
+round() # 四舍五入，将浮点数转换成 int 类型
+min(), max()
+abs()
+#e 相当于计算 10 的多少次幂，科学计数法
+1.3e5 # 130000 
+
+tang =2
+1 &lt; tang &lt;3 # 在python中，可以连续判断
+
+tang =&#34;hello&#34;
+tang *3  # 可以相乘操作 
+
+# 能切能合
+tang =&#34;1 2 3&#34;
+tang =tang.split()
+tang_str =&#34;&#34;
+tang_str.join(tang) # 将分散的合到一起了
+
+
+tang_str.upper() # 全部大写
+tang_str.lower() # 全部小写
+
+tang =&#34;   hello python  &#34;
+tang.strip() # 将前后的空格去掉
+
+tang.lstrip() #去掉左边的空格去掉
+tang.rstrip() # 去掉右边的空格
+
+&#39;{} {} {}&#39;.format(&#39;tang&#39;, &#39;yu&#39;, &#39;di&#39;)
+
+# 索引: 前面从0 开始，可以从
+tang[::2] # 每间隔2个取值
+
+
+lst =[123, 456]
+lst[:] =[&#39;tang&#39;, &#39;yudi&#39;] # 是全部重新赋值
+del lst[0]  # 这个是inplace 操作，直接删除了
+del lst[0:]
+
+tang =[&#39;apple&#39;, &#39;apple&#39;, &#39;banana&#39;]
+tang.count(&#39;apple&#39;) # 计数功能
+tang.index(&#39;apple&#39;) # 找到词的index 操作
+tang.index(2, &#39;python&#39;) # 在index =2 插入位置
+tang.remove(&#39;python&#39;) # 默认去掉匹配的第一个元素
+tang.pop(1) # 弹出index =1 元素
+
+tang.reverse() # 翻转
+
+
+# 字典结构
+# 字典中没有顺序，是依靠 key 找结果；不是顺序
+tang ={} # key-value 结构， key 值是字符串，value值可以是任意的结构
+tang[&#39;first&#39;] =123
+tang[&#39;python&#39;]  =456
+tang[&#39;python&#39;] =444  # dict 和list 都是可以嵌套
+tang.pop(&#39;tang&#39;)
+# dict 的更新是比较常见的
+tang ={&#39;tang&#39; : 123, &#39;yudi&#39; :456}
+tang2 ={&#39;tang&#39; : 789, &#39;python&#39;: 888}
+tang.update(tang2) # 用新的数据tang2 去更新旧的数据 tang
+
+tang.keys() # 打印所有的键值
+tang.values() #
+tang.items()
+
+
+# 集合 set
+tang =set([123, 123, 456, 789])
+tang =set()
+tang ={} # 这个和dictionary 是一样的初始化
+
+a ={1, 2, 3,4}
+b ={5, 6}
+a.union(b) # a|b 符号操作， 并集
+a.intersection(b) # a &amp; b, 交集
+a.difference(b) #  a-b，减法
+
+b.issubset(a)  # b &lt;=a 符号操作， 判断是否是子集
+
+# 基本操作
+a ={1, 2, 3}
+a.add(4)
+a.update([4,5])
+a.remove(1)
+a.pop() # 只能是弹出最后一个元素
+
+
+# 赋值机制
+
+tang =123
+yudi =tang
+id(yudi)
+id(tang) # id 是用来查看变量内存的位置
+tang is yudi  # 判断两个变量是否是同一个东西
+
+tang =1
+yudi =1
+id(tang)
+id(yudi) # 两个是指向同一个内存，python 中对于比较简单的内容，直接采用的是复用
+
+tang =1000
+yudi =1000
+id(tang)
+id(yudi)
+# 对于比较大的数字，python 中是分别进行赋值，所以两个id 是不一样的
+
+
+# 循环：for, while , break, continue 
+
+# 函数的定义 args 表示没有限制参数的个数
+def add_number(a, *args):
+  for i in args:
+    a += i
+  return a
+add_number(1, 2, 3, 4)
+
+# 参数是设置成键值对的格式 （很有用的参数类型）
+def add_number(a, **kargs):
+  for arg, val in kargs.items():
+    print(arg, val)
+add_number(a, x =1, y=2)
+
+# python 是一个脚本语言，包的本质是脚本文件
+
+
+# python包
+# 复用，这个功能还是很强大的
+import tang as tg
+from tang import tang_v, tang_add
+from tang import * # 所有的东西都进行了导入
+
+# 如果想要在 os 中删除一个文件（内存中的）
+import os
+os.remove(&#34;tang.py&#34;)
+
+
+# 异常处理
+# 这种写法需要清楚知道每一个异常
+for i in range(10):
+  try:
+    input_number =input(&#34;write a number&#34;)
+    if input_number ==&#39;q&#39;:
+      break
+     result =math.log(float(input_number))
+  except ValueError:
+    print(&#34;Value Error&#34;)
+    break
+
+# 或者直接将异常写成一个类
+for i in range(10):
+  try:
+    input_number =input(&#34;write a number&#34;)
+    if input_number ==&#39;q&#39;:
+      break
+     result =1.0/ math.log(float(input_number))
+  except Exception:  # 只要出现一种异常，那么都可以捕捉到，而不是某一种具体的 error。
+    print(&#34;Value Error&#34;)
+    break
+
+    
+    
+    
+for i in range(10):
+  try:
+    input_number =input(&#34;write a number&#34;)
+    if input_number ==&#39;q&#39;:
+      break
+     result =1.0/ math.log(float(input_number))
+  except ValueError:  # 写成具体的error 类型
+    print(&#34;Value Error&#34;)
+  except ZeroDivisionError: 
+    print(&#34;log value must != 0&#34;)
+    break
+
+    
+for i in range(10):
+  try:
+    input_number =input(&#34;write a number&#34;)
+    if input_number ==&#39;q&#39;:
+      break
+     result =1.0/ math.log(float(input_number))
+  except ValueError:  # 写成具体的error 类型
+    print(&#34;Value Error&#34;)
+  except ZeroDivisionError: 
+    print(&#34;log value must != 0&#34;)
+  except Exception:
+    print(&#34;other error&#34;)
+    break
+
+# raise 抛出异常； try catch 是捕捉
+
+try:
+  print(1/0)
+except Exception:
+  print(&#34;Exception&#34;)
+finally:
+  print(&#34;finally&#34;) # 有没有异常都会执行该语句
+    
+# 这个语句实现的是在jupyter 中创建文件并且写入文件内容
+%%writefile tang.txt
+hello python
+tang yu di
+ji tain tian 
+
+# 类的学习
+
+class people:
+    &#39;帮助信息： xxx&#39;
+    number =100 # 类变量，该类或者对象都可以直接访问
+    def __init__(self,name, age):
+        self.name =name # 将name 初始为传入的参数 
+        self.age =age
+
+    def display(self):
+        print(&#34;number = :&#34;, people.number)
+    def display_name(self):
+        print(self.name)
+    
+    
+ # 使用
+# people.__doc__ 可以查看帮助信息
+
+p1 =people(&#34;tang&#34;, 40)
+p2 =people(&#34;pytho&#34;, &#39;50&#39;)
+
+p1.name # 调用一个属性
+del p1.name # 在内存中删掉
+
+hasattr(p1, &#39;name&#39;) # 判断类中是否有相应的属性
+getattr(p1, &#39;name&#39;) # get
+setattr(p1, &#39;name&#39;) # set 
+delattr(p1, &#39;name&#39;) # 删除属性
+
+
+# 时间操作
+import time
+print(time.time()) # 时间戳，1970年1月1日 经过了多少时间
+# 一般有用的是格式化的时间：年月日，时分秒
+print(time.strftime(&#39;%Y-%m-%d %H:%M:%S&#39;, time.localtime()))
+
+
+import calendar
+print(calendar.month(2017,11))
+
+help(calendar.month) # 在python 或者 jupyter 中使用 help 帮助文档
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-11-04
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/python/">python</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/entropy/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Entropy</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/knapsack/">
+            <span class="next-text nav-default">Knapsack</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

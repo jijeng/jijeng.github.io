@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Generative Adversarial Network - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="从损失函数角度分析GAN和WGAN等经典的网络模型；分析GAN评价的两个指标Inception Score 和Frechet Inception Distance（FID）" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/generative_adversarial_network/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Generative Adversarial Network" />
+<meta property="og:description" content="从损失函数角度分析GAN和WGAN等经典的网络模型；分析GAN评价的两个指标Inception Score 和Frechet Inception Distance（FID）" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/generative_adversarial_network/" />
+<meta property="article:published_time" content="2019-04-09T13:50:20+08:00" />
+<meta property="article:modified_time" content="2019-04-09T13:50:20+08:00" />
+<meta itemprop="name" content="Generative Adversarial Network">
+<meta itemprop="description" content="从损失函数角度分析GAN和WGAN等经典的网络模型；分析GAN评价的两个指标Inception Score 和Frechet Inception Distance（FID）">
+<meta itemprop="datePublished" content="2019-04-09T13:50:20+08:00" />
+<meta itemprop="dateModified" content="2019-04-09T13:50:20+08:00" />
+<meta itemprop="wordCount" content="2167">
+
+
+
+<meta itemprop="keywords" content="gan," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Generative Adversarial Network"/>
+<meta name="twitter:description" content="从损失函数角度分析GAN和WGAN等经典的网络模型；分析GAN评价的两个指标Inception Score 和Frechet Inception Distance（FID）"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Generative Adversarial Network</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-04-09 </span>
+        <div class="post-category">
+            <a href="/categories/deep-learning/"> deep learning </a>
+            </div>
+          <span class="more-meta"> 约 2167 字 </span>
+          <span class="more-meta"> 预计阅读 5 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#损失函数角度分析gan模型">损失函数角度分析GAN模型</a></li>
+        <li><a href="#两个评价指标">两个评价指标</a></li>
+        <li><a href="#参考文献">参考文献</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>从损失函数角度分析GAN和WGAN等经典的网络模型；分析GAN评价的两个指标Inception Score 和Frechet Inception Distance（FID）。</p>
+<!-- more -->
+<h2 id="损失函数角度分析gan模型">损失函数角度分析GAN模型</h2>
+<p>对抗生成网络是尝试使用无监督的方式学习原数据的概率分布。在GAN的训练过程中，使用损失函数反映真实图像分布和生成图像分布之间的差异。本文主要介绍两种GAN损失函数：</p>
+<ul>
+<li>最大最小化损失函数（minmax loss）</li>
+<li>Wasserstein损失函数（Wasserstein loss）</li>
+</ul>
+<p>除了本文介绍的两个损失函数，还有许多其他不同的损失函数。</p>
+<p>GAN的训练过程中有两个损失函数：一个作为网络$G$的损失函数，一个作为网络$D$的损失函数。问题是，如果使用两个损失函数反映真实图像分布和生成图像分布之间的差异呢？</p>
+<p>（1） 最大最小化损失函数</p>
+<p>\begin{equation}\label{eq1}
+\min_G \max_D V(D,G) =E_{x \sim p_{data}(x)}[ \log D(x)] + E_{z \sim p_z (z)}[log (1- D(G(z)))] \tag{1}
+\end{equation}</p>
+<p>其中，$D(x)$ 是$D$网络对真实样本$x$ 预测为真的概率估计， $E_x$是所有的样本的期望值，$G(z)$ 是网络$G$的生成结果， $D(G(z))$是$D$网络对生成样本判别为真的概率估计， $E_z$ 是对所有生成样本判别为真的概率估计。</p>
+<p>$E_{x \sim p_{data}(x)}[ \log D(x)]$ 表示网络$D$判别真实的样本是真，$D(G(z))$表示网络$D$判别网路$G$生成的样本为真，$E_{z \sim p_z (z)}[log (1- D(G(z)))]$表示网络$D$判别网络$G$生成的样本为假。在网络$D$训练的过程中，需要最大化两个子式子；在网络$G$训练的过程中是需要最小化右边的式子，即$ E_{z \sim p_z (z)}[log (1- D(G(z)))]$。上述的计算都需要进行log运算。$D$网络承担的是分类器的功能，网络的输出是在$[0, 1]$之间，一般来说以0.5为界限，如果大于0.5，那么$D$网络认为该样本是真实的样本，否则是虚假的样本。</p>
+<p>该损失函数来源于交叉熵。如果两个分布$p$ 和$q$，那么两者之间的交叉熵为：
+$$
+H(p, q) =-\sum_{i} p_{i} \log q_{i}
+$$
+其中$p$ 和$q$分别是真实和预测的分布。两者都是离散的分布，如果是连续的话，那么应该使用积分符号而非求和符合。最初GAN的设计是一个二分类，判别图像是真实的$1$还是虚假的$0$。GAN的训练目标可以表示为以下形式：</p>
+<p>$$
+H((x_{1}, y_{1}), D)=-y_{1} \log D(x_{1})-(1-y_{1}) \log (1-D(x_{1}))
+$$</p>
+<p>对于真实样本$x$，网络$D$可以映射到 $[0,1]$区间，对于生成样本的判别，需要转化一下 $1-D(z)$，所以输出就约束于$[0, 1]$。上述是一个样本，然后将所有的样本加起来求期望得</p>
+<p>$$
+H((x _{i}, y _{i}) _{i=1}^{N}, D)=-\sum _{i=1}^{N} y _{i} \log D(x _{i})-\sum _{i=1}^{N}(1-y _{i}) \log (1-D(x _{i}))
+$$</p>
+<p>输入样本到$D$网络中的样本一般是来自真实数据集，一半是来自$G$网络，并且把求和符号转换成期望，写成如下的形式：</p>
+<p>$$
+H((x _{i}, y _{i}) _{i=1}^{\infty}, D)=-\frac{1}{2} E _{x \sim p _{\text {data }}}[\log D(x)]-\frac{1}{2} E _{z}[\log (1-D(G(z)))]
+$$
+是不是和公式$(1)$很类似。</p>
+<p>（2）修正后的最大最小化损失函数</p>
+<p>最初的论文发现，对抗生成网路训练的开始几个阶段，最大最小化损失函数容易停止不动，这可能是$D$网络判别太容易。所以论文中修改原来损失函数中的$G$网络为最大化$ \log D(G(z))$。</p>
+<p>（3）Wasserstein损失函数</p>
+<p>在Wasserstein GAN（WGAN）中网络$D$不再承担分类样本的功能。这里的$D$只要能使得真实的样本的输出大于$G$生成样本就可以。所以这里的额$D$网路更像是一种&quot;critic&quot;的角色而不是一个&quot;discriminator&quot;的角色。损失函数就变得异常简单</p>
+<p>Critic Loss: $D(x) - D(G(z))$</p>
+<p>在训练过程中，$D$网络去最大化上述式子。也就是说，$D$网络努力最大化真实样本输出和生成样本输出之间的差距。</p>
+<p>Generator Loss: $D(G(z))$</p>
+<p>训练过程中，$G$网络最大化上述式子。也就是说，$G$网络的输出要被$D$网络认为是“真”。$D$网络的输出不必约束于$[0, 1]$之间。</p>
+<h2 id="两个评价指标">两个评价指标</h2>
+<p>两个指标的计算都是基于Inception network预训练模型，然后得到某一层的信息，最后进行计算。Inception Score是基于最后一层softmax层，Frechet Inception Distance是基于中间的某个特征层（v3 pool3）得到的特征向量。</p>
+<p>（1）Inception Score</p>
+<p>在最后softmax层中计算两个分布之间的距离
+\begin{equation}
+IS=exp[E_xD_{KL}(p(y|x)||p(y))]
+\end{equation}</p>
+<p>原作者认为$p(y|x)$ 是图像真实度的衡量，$p(y)$是由前者积分得到， 是图像多样性的衡量。所以IS是计算的$p(y|x)$和$p(y)$两个分布之间的KL 散度。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="kn">as</span> <span class="nn">F</span>
+<span class="kn">from</span> <span class="nn">torch.autograd</span> <span class="kn">import</span> <span class="n">Variable</span>
+<span class="kn">from</span> <span class="nn">torchvision.models</span> <span class="kn">import</span> <span class="n">inception_v3</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">inception_v3</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">inception_score</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">images</span><span class="p">))</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)))):</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">images</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">batch_size</span><span class="p">:</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">batch_size</span><span class="p">],</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="n">s</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>  <span class="c1"># skipping aux logits</span>
+        <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">p_yx</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">p_y</span> <span class="o">=</span> <span class="n">p_yx</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">p_yx</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">KL_d</span> <span class="o">=</span> <span class="n">p_yx</span> <span class="o">*</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">p_yx</span><span class="p">)</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">p_y</span><span class="p">))</span>
+    <span class="n">final_score</span> <span class="o">=</span> <span class="n">KL_d</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">final_score</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>使用Inception Score进行评价的时候，只需要输入一个生成图像路径即可。</p>
+<p>（2）Frechet Inception Distance</p>
+<p>在特征维度计算两个分布的距离</p>
+<p>\begin{equation}
+{d}^{2}((m, C),(m_{w}, C_{w}))=|m-m_{2}|+{Tr}(C+C_{w}-2(C C_{w})^{1 / 2})
+\end{equation}</p>
+<p>其中$m$ 和$m_w$表示真实图像和生成图像在特征空间的均值，$C$和$C_w$表示真实图像和生成图像在特征空间向量的协方差矩阵中的协方差（在二维中就是方差）。$Tr$表示矩阵中的迹（主对角线元素之和）。</p>
+<p>基于numpy的代码实现。两个正太分布之间的距离。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># calculate frechet inception distance</span>
+<span class="k">def</span> <span class="nf">calculate_fid</span><span class="p">(</span><span class="n">act1</span><span class="p">,</span> <span class="n">act2</span><span class="p">):</span>
+	<span class="c1"># calculate mean and covariance statistics</span>
+	<span class="n">mu1</span><span class="p">,</span> <span class="n">sigma1</span> <span class="o">=</span> <span class="n">act1</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">cov</span><span class="p">(</span><span class="n">act1</span><span class="p">,</span> <span class="n">rowvar</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+	<span class="n">mu2</span><span class="p">,</span> <span class="n">sigma2</span> <span class="o">=</span> <span class="n">act2</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">cov</span><span class="p">(</span><span class="n">act2</span><span class="p">,</span> <span class="n">rowvar</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+	<span class="n">ssdiff</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">mu1</span> <span class="o">-</span> <span class="n">mu2</span><span class="p">)</span><span class="o">**</span><span class="mf">2.0</span><span class="p">)</span>
+	<span class="n">covmean</span> <span class="o">=</span> <span class="n">sqrtm</span><span class="p">(</span><span class="n">sigma1</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">sigma2</span><span class="p">))</span>
+	<span class="k">if</span> <span class="n">iscomplexobj</span><span class="p">(</span><span class="n">covmean</span><span class="p">):</span>
+		<span class="n">covmean</span> <span class="o">=</span> <span class="n">covmean</span><span class="o">.</span><span class="n">real</span>
+	<span class="n">fid</span> <span class="o">=</span> <span class="n">ssdiff</span> <span class="o">+</span> <span class="n">trace</span><span class="p">(</span><span class="n">sigma1</span> <span class="o">+</span> <span class="n">sigma2</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">covmean</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">fid</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>使用FID进行GAN的评价时候，需要给定两个路径分别指向真实的图像和生成的图像。</p>
+<h2 id="参考文献">参考文献</h2>
+<p><a href="https://danieltakeshi.github.io/2017/03/05/understanding-generative-adversarial-networks/">Understanding Generative Adversarial Networks</a>
+<a href="https://gg1.chn.moe/extdomains/developers.google.com/machine-learning/gan/loss">Loss Functions</a></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-04-09
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/gan/">gan</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/inverted_index/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Inverted Index</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/data_structure/">
+            <span class="next-text nav-default">Data Structure</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

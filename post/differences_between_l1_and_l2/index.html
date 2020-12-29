@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Differences Between L1 and L2 - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="L1 和L2 既可以作为 loss function 也可以作为 reguarization，分别介绍了一下两者，最后介绍 overfitting 的概念。 As loss function loss function or error function 是用来衡量真实$y$ 和生成" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/differences_between_l1_and_l2/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Differences Between L1 and L2" />
+<meta property="og:description" content="L1 和L2 既可以作为 loss function 也可以作为 reguarization，分别介绍了一下两者，最后介绍 overfitting 的概念。 As loss function loss function or error function 是用来衡量真实$y$ 和生成" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/differences_between_l1_and_l2/" />
+<meta property="article:published_time" content="2018-07-21T13:22:06+08:00" />
+<meta property="article:modified_time" content="2018-07-21T13:22:06+08:00" />
+<meta itemprop="name" content="Differences Between L1 and L2">
+<meta itemprop="description" content="L1 和L2 既可以作为 loss function 也可以作为 reguarization，分别介绍了一下两者，最后介绍 overfitting 的概念。 As loss function loss function or error function 是用来衡量真实$y$ 和生成">
+<meta itemprop="datePublished" content="2018-07-21T13:22:06+08:00" />
+<meta itemprop="dateModified" content="2018-07-21T13:22:06+08:00" />
+<meta itemprop="wordCount" content="3324">
+
+
+
+<meta itemprop="keywords" content="l1,l2," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Differences Between L1 and L2"/>
+<meta name="twitter:description" content="L1 和L2 既可以作为 loss function 也可以作为 reguarization，分别介绍了一下两者，最后介绍 overfitting 的概念。 As loss function loss function or error function 是用来衡量真实$y$ 和生成"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Differences Between L1 and L2</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-07-21 </span>
+        <div class="post-category">
+            <a href="/categories/machine-learning/"> machine learning </a>
+            </div>
+          <span class="more-meta"> 约 3324 字 </span>
+          <span class="more-meta"> 预计阅读 7 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#as-loss-function">As loss function</a></li>
+        <li><a href="#as-regularization">As regularization</a></li>
+        <li><a href="#overfitting">overfitting</a></li>
+        <li><a href="#l0-范数">L0 范数</a></li>
+        <li><a href="#复习总结">复习总结</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>L1 和L2 既可以作为 loss function 也可以作为 reguarization，分别介绍了一下两者，最后介绍 overfitting 的概念。</p>
+<!-- more -->
+<h2 id="as-loss-function">As loss function</h2>
+<p>loss function or error function 是用来衡量真实$y$ 和生成的$ f(x)$ 之间差距的函数。在模型训练中我们一般情况下不断训练模型使得loss function不断下降（如果task要求loss function是增大，这时候一般加上符号或者转换成 1- loss fucntion，最后实现的还是loss function下降）。好的回到L1 loss function和L2 loss function.</p>
+<p>概括：从鲁棒性（对待异常值）的角度看，L1 是比L2 具有更好的性质，因为L2 是把误差进行了平方处理，误差回放大；从稳定性角度（数据集的一个小的移动），L2 是比L1 具有更好的性质，这个是可以从实验的角度进行总结。</p>
+<p><img src="https://upload.cc/i1/2019/07/15/Tb2BI3.png" alt="img"></p>
+<p>L1-norm loss function is also known as least absolute deviations(LAD), least absolute errors. It is basically minimizing the sum of the absolute differences between the target value Y and the estimated values (f(x)).</p>
+<p>$$
+S = \sum _ { i = 1 } ^ { n } \left| y _ { i } - f \left( x _ { i } \right) \right|
+$$</p>
+<p>L2-norm loss function is also known as least squares error(LSE). It is basically minimizing the sum of the square of the differences between the target value Y and the estimated values (f(x)).</p>
+<p>$$
+S = \sum _ { i = 1 } ^ { n } \left( y _ { i } - f \left( x _ { i } \right) \right) ^ { 2 }
+$$</p>
+<p>比较L1-norm 和L2-norm在前两个评价指标中的表现：</p>
+<p><img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g44de1ykfjj20aj039mwz.jpg" alt=""></p>
+<p>对于是否具有唯一解，可以从这个角度分析：L1是可以有多种解，而L2只有一种解。
+(曼哈顿距离)
+<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g44dgr4ywvj206u06waaf.jpg" alt=""></p>
+<p>使用范围：</p>
+<p>L1 适合在稀疏数据上使用，具有特征选择功能，得到的稀疏解；L2 适合在稠密数据上使用，得到的是唯一解，没有特征选择的功能。</p>
+<h2 id="as-regularization">As regularization</h2>
+<p>从<a href="http://xgboost.readthedocs.io/en/latest/model.html">XGBoost调参指南</a>中我们知道objective function = loss funcion + regularization. 而我们大多数情况下提及的都是loss function,常常忽略了regularization 的作用。</p>
+<p>The regularization term controls the complexity of the model, which helps us to avoid overfitting.
+对于模型训练，一开始的想法是尽量的overfitting, 因为就现在不成熟的经验而言，对于overfitting这个问题有很多处理方法，比如卷积深度神经网络中的dropout, LightGBM中的early stop 和随机采样的思想。 这些方法都是可以缓解overfitting，所以可以出现overfitting。相反，如果你的模型是underfitting，那么你就微显尴尬了。好，收回到L1 and L2。</p>
+<p>总结： L1 在系数weights 中使用，L2 在非稀疏的情况下使用更好。可以从计算效率、是否稀疏输出和特征选择进行分析。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>计算效率</th>
+<th>稀疏结果</th>
+<th>特征选择</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L1</td>
+<td>在稀疏解 上效率比较高，在非稀疏解上效率比较低</td>
+<td>产生稀疏解</td>
+<td>具有特征选择的功能</td>
+</tr>
+<tr>
+<td>L2</td>
+<td>在非稀疏解上效率高</td>
+<td>不产生稀疏解</td>
+<td>没有特征选择的功能</td>
+</tr>
+</tbody>
+</table>
+<p>首先理解为什么要正则化？</p>
+<p>如果网络足够的强大，数据量不是那么充足，那么网络完全是可以通过“记住” 这些样本，然后得到很高的 training acc，但是这个 test error 会比较大，这个时候就出现了过拟合。正则化就类似减轻了数据的复杂程度。关于过拟合是可以从两个维度进行解决：网络和数据。</p>
+<p>常常使用的 dropout 就是减弱网络复杂性的一种手段，随机减少了某些网络中的节点，那么网络就没有那么强的“记忆”功能，但是最后的loss（要求）还是不变的，所以只能去寻找数据更加“简单普遍”的规律；正则化是对数据和weights 两种类型的，前者是对于数据的操作，然后weights 更加倾向于对于网络结构的操作，使得系数更加“光滑”。</p>
+<p>为什么L1 相比于L2 产生了更加稀疏的解？</p>
+<p>（这里从数据分布的角度进行解读，L2 的数据来源是高斯分布；L1 可以看成是来自laplace 分布）</p>
+<p><a href="https://vimsky.com/article/969.html">这里</a>从数学角度和空间角度进行了解释。 但是从更加 tuition 的角度去理解，L1 没有一个连续的导数，能产生权值为0，所以类似剔除了某些特征，产生了稀疏的权值，而L2 是具有比较连续的导数，产生了比较平滑的权值。</p>
+<p>更加数学化的理解：</p>
+<p>$$
+f ( x ) = \frac { 1 } { \sqrt { 2 \pi } \sigma } \exp \left( - \frac { ( x - \mu ) ^ { 2 } } { 2 \sigma ^ { 2 } } \right)
+$$
+如果把高斯密度函数取对数，那么就只会剩下一个平方项，这个就是L2正则项的来源，所以数据是比较稠密的。</p>
+<p>同样，如果是数据比较稀疏，不妨假设来自 laplace 分布，下面是
+<img src="https://i.loli.net/2019/07/15/5d2be624c660286724.jpg" alt="82ba0546d4713b242df43bfe2de96e22_hd.jpg">
+其中的 $u$ 表示位置参数， $ b $ 表示尺度参数, 当 $b$ 越大的时候，图像越低矮，数据越不集中，越类似均匀分布，所以有一种稀疏的感觉。这两个都是可以对标正太分布的。可以看到图像的尾部都是比较平滑，然后大多数是接近于0的。</p>
+<p>公式：
+$$
+f ( x | \mu , b ) = \frac { 1 } { 2 b } \exp \left( - \frac { | x - \mu | } { b } \right)
+$$
+同样取对数，那么得到是L1 正则项。</p>
+<p>所以L2 得到的是一个比较平滑的weights 适合处理稠密的向量，而L1 得到是一个稀疏的结果，因为有很大程度的被置为0.</p>
+<p>先上公式
+L1 regularization on least squares:
+$$
+\mathbf { w } ^ { * } = \underset { \mathbf { w } } { \arg \min } \sum _ { j } \left( t \left( \mathbf { x } _ { j } \right) - \sum _ { i } w _ { i } h _ { i } \left( \mathbf { x } _ { j } \right) \right) ^ { 2 }
+$$
+<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g44db9p4toj20ee022aa2.jpg" alt=""></p>
+<p>L2 regularization on least squares:</p>
+<p><img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g44dbhp8f4j20ee02274b.jpg" alt=""></p>
+<p>The difference between their properties can be promptly summarized as follows:</p>
+<p><img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g44dc1qt7gj20at03va9x.jpg" alt=""></p>
+<p>对于第一点computational efficient的理解：平方比绝对值更容易计算，平方可以求导直接求最值，但是绝对值就无法求导。并且L1 regularization在 non-sparse cases中是 computational inefficient，但是在 sparse(0比较多) cases中是有相应的稀疏算法来进行优化的，所以是computational efficient.
+对于第二点是否具有sparse solution可以从几何意义的角度解读：
+<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g44dgr4ywvj206u06waaf.jpg" alt="">
+The green line(L2-norm) is the unique shortest path, while the red, blue yellow(L1-norm) are all same length for the same route.</p>
+<p>Built-in feature selection is frequently mentioned as a useful property of the L1-norm, which the L2-norm does not. This is actually a result of the L1-norm, which tends to produces sparse coefficients (explained below). Suppose the model have 100 coefficients but only 10 of them have non-zero coefficients, this is effectively saying that “the other 90 predictors are useless in predicting the target values”. L2-norm produces non-sparse coefficients, so does not have this property.</p>
+<p>所以表格中第三点也是顺理成章的了。
+至此，我们区分了L1-norm vs L2-norm loss function 和L1-regularization vs L2-regularization，下面说一下 overfitting的东西。</p>
+<h2 id="overfitting">overfitting</h2>
+<p>现在，我们的训练优化算法是一个由两项内容组成的函数：一个是损失项，用于衡量模型与数据的拟合度，另一个是正则化项，用于衡量模型复杂度。</p>
+<p>对于过拟合有两种解读方式，一种是模型是复杂，然后是去拟合了所有的数据，没有了泛化性能； 一种是从数据角度，模型去拟合了noise ，这些random的数据。
+然后从loss function的角度去优化的话，就是降低模型的复杂度，正则项就是降低模型复杂度的一种手段。所以从这个角度，L2 是降低模型复杂度的一种手段，也是一种减轻overfit的手段，这两者是相辅相成的。</p>
+<h2 id="l0-范数">L0 范数</h2>
+<p>对于 范数的一般定义, p-norrm 如下：</p>
+<p>$$
+|x|<em>{p} :=\left(\sum</em>{i=1}^{n}\left|x_{i}\right|^{p}\right)^{\frac{1}{p}}
+$$
+虽然L0严格说不属于范数，我们可以采用上述等式给出l0-norm得定义：</p>
+<p>$$
+|x|<em>{0} :=\sqrt[0]{\sum</em>{i=0}^{n} x_{i}^{0}}
+$$</p>
+<p>0的指数和平方根严格意义上是受限条件下才成立的。因此在实际应用中，多数人给出下面的替代定义：
+$$
+|x|<em>{0}=#(i) \text { with } x</em>{i} \neq 0
+$$
+其表示向量中所有非零元素的个数。正是L0范数的这个属性，使得其非常适合机器学习中稀疏编码，特征选择的应用。通过最小化L0范数，来寻找最少最优的稀疏特征项。但不幸的是，L0范数的最小化问题在实际应用中是NP难问题。因此很多情况下，L0优化问题就会被relaxe为更高维度的范数问题，如L1范数，L2范数最小化问题。</p>
+<p>从最优化问题解的平滑性来看，L1范数的最优解相对于L2范数要少，但其往往是最优解，而L2的解很多，但更多的倾向于某种局部最优解。</p>
+<p><a href="https://www.jianshu.com/p/de05e6745fb6">L0,L1,L2范数及其应用</a></p>
+<h2 id="复习总结">复习总结</h2>
+<ol>
+<li>
+<p>作为loss function L1和L2 的区别： (1) 鲁棒性（对待异常值）角度，L1 是比L2 具有更好的性质，因为后者把误差进行了平方放大。(2 ) L2 是具有唯一解L1 是有多种解 （3） L1适合在稀疏矩阵上使用，具有特征选择的功能（因为是有0 存在）</p>
+</li>
+<li>
+<p>关于正则项L1 是如何求导？ 判断导数是否为0 有两种方式，一种是令导数为0；另一种是判断一阶导数在该点左右两个导数的符号，如果符号相反，那么该点导数为0. 对于L1，就是使用这种方式进行求导。这个<a href="https://www.cnblogs.com/gczr/p/10507676.html">链接</a> 解释从导数这个角度解释了为什么L1 是容易产生稀疏解，是因为在0 点产生了极值点。对于L1 和L2 的一种解读方式，L1是来自拉普拉斯分布，L2 是来自正太分布。</p>
+</li>
+<li>
+<p>过拟合问题可以从数据和模型两方面进行考虑。(1 )数据角度，使用更多的数据集 (2 ) 模型分成节点和连线(weights) 两部分。dropout 随机减少了网络中的节点，减少网络复杂程度； 正则化可有作用于weights，可以作用于训练数据集，减少了noise，都是使得系数更加”光滑“。</p>
+</li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2018-07-21
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/l1/">l1</a>
+          <a href="/tags/l2/">l2</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/leetcode_data-structure/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Leetcode Data Structure</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/sort_algorithm/">
+            <span class="next-text nav-default">常见的排序算法总结</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

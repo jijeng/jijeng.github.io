@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>基于hash 的图像相似度的计算 - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="使用hash 计算图像的相似度，是在图像预处理中去除重复的图像。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/image_simialrity_hash/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="基于hash 的图像相似度的计算" />
+<meta property="og:description" content="使用hash 计算图像的相似度，是在图像预处理中去除重复的图像。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/image_simialrity_hash/" />
+<meta property="article:published_time" content="2020-07-30T14:03:22+08:00" />
+<meta property="article:modified_time" content="2020-07-30T14:03:22+08:00" />
+<meta itemprop="name" content="基于hash 的图像相似度的计算">
+<meta itemprop="description" content="使用hash 计算图像的相似度，是在图像预处理中去除重复的图像。">
+<meta itemprop="datePublished" content="2020-07-30T14:03:22+08:00" />
+<meta itemprop="dateModified" content="2020-07-30T14:03:22+08:00" />
+<meta itemprop="wordCount" content="1147">
+
+
+
+<meta itemprop="keywords" content="image similariy,hash," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="基于hash 的图像相似度的计算"/>
+<meta name="twitter:description" content="使用hash 计算图像的相似度，是在图像预处理中去除重复的图像。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">基于hash 的图像相似度的计算</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-07-30 </span>
+        
+          <span class="more-meta"> 约 1147 字 </span>
+          <span class="more-meta"> 预计阅读 3 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#average-hash均值散列简称ahash">average hash（均值散列），简称aHash</a></li>
+        <li><a href="#感知哈希算法phash">感知哈希算法（pHash）</a></li>
+        <li><a href="#差异哈希算法dhash">差异哈希算法（dHash）</a></li>
+        <li><a href="#wavelet-hashing">wavelet hashing</a></li>
+        <li><a href="#优缺点">优缺点</a></li>
+        <li><a href="#结论">结论</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>使用hash 计算图像的相似度，是在图像预处理中去除重复的图像。</p>
+<p>图像相似度的计算有很多方法。哈希是一种传统的方式，相比于深度学习的方法。该算法可以用以计算图像之间的相似性。</p>
+<p>图片hash是检测一张图片的内容然后根据检测的内容为图片建立一个唯一值的过程。为什么不使用md5,sha-1等算法？不幸的是，我们不能在实现中使用加密hash算法。由于加密hash算法的本质使然，输入文件中非常微小的差别也能造成差异极大的hash值。而在图片指纹的案例中，我们实际上希望相似的输入可以有相似的hash输出值。</p>
+<p>简单来说，DHash算法着眼于两个相邻像素之间的差值。然后，基于这样的差值，就建立起一个hash值了。</p>
+<p>应用场景</p>
+<p>相似图片的搜索功能。促使了一个三阶段算法的实现：</p>
+<ol>
+<li>
+<p>为不雅图片建立指纹，然后将图片指纹存储在一个数据库中。</p>
+</li>
+<li>
+<p>当一个用户上传一份新的头像时，我们会将它与数据库中的图片指纹对比。如果上传图片的指纹与数据库任意一个不雅图片指纹相符，我们就阻止用户将该图片设置为个人头像。</p>
+</li>
+<li>
+<p>当图片监管人标记新的色情图片时，这些图片也被赋予指纹并存入我们的数据库，建立一个能用于阻止非法上传且不断进化的数据库。</p>
+</li>
+</ol>
+<h2 id="average-hash均值散列简称ahash">average hash（均值散列），简称aHash</h2>
+<p>平均哈希算法（aHash）此算法通过将图像转为灰度，比较灰度图每个像素与平均值来实现的。</p>
+<h2 id="感知哈希算法phash">感知哈希算法（pHash）</h2>
+<p>perception hashing</p>
+<p>感知哈希算法（pHash）平均哈希算法过于严格、不够精确，为了获得更精确的结果可以选择感知哈希算法，它采用的是DCT（离散余弦变换）来降低频率的方法。</p>
+<p>主函数：def phash(image, hash_size=8, highfreq_factor=4):</p>
+<p>两个参数，一起决定了图片resize的大小，最适合的才最好，按照公式：</p>
+<ul>
+<li>img_size = hash_size * highfreq_factor</li>
+<li>hash_size代表最终返回hash数值长度</li>
+<li>highfreq_factor，代表resize的尺度</li>
+</ul>
+<h2 id="差异哈希算法dhash">差异哈希算法（dHash）</h2>
+<p>difference hashing</p>
+<p>梯度散列，计算每个像素的差值，并与平均差异的差异进行比较。</p>
+<p>dHash的速度比pHash要快的多，同情况效率比aHash要好，它是基于渐变实现的。</p>
+<h2 id="wavelet-hashing">wavelet hashing</h2>
+<p>离散小波变换（DWT）是频表示的另一种形式。</p>
+<h2 id="优缺点">优缺点</h2>
+<p><a href="https://blog.csdn.net/kingroc/article/details/102504472">Python imagehash中的均值哈希、感知哈希、梯度哈希、小波哈希对比图片相似度</a></p>
+<blockquote>
+<p>上述博客给出的一些简单的结论，可以作为参考，不一定是正确的。</p>
+</blockquote>
+<p>pHash测试效果：
+结果是对分辨率不敏感，但是对图像的内容很敏感。</p>
+<p>wHash测试效果：
+对分辨率不是很敏感，对显示内容更敏感。</p>
+<p>aHash测试效果：
+对分辨率不是很敏感，对显示内容更敏感。</p>
+<p>dHash测试效果：
+对分辨率不是很敏感，对显示内容更敏感。</p>
+<p>pHash相对aHash鲁棒性更好，但速度会略慢。从上述例子也可以看出，用不同的方法最后的相似度数值不同，因此在实际应用中还需结合实际效果不断调整确定阈值。</p>
+<h2 id="结论">结论</h2>
+<p>如果想要使用的话，强烈建议先阅读官方文档 <a href="https://pypi.org/project/ImageHash/">ImageHash 4.1.0</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-07-30
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/image-similariy/">image similariy</a>
+          <a href="/tags/hash/">hash</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/leetcode_weekly_contest_2/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Leetcode weekly contest(2)</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/similarity_metrics/">
+            <span class="next-text nav-default">Similarity Metrics</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

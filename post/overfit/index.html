@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Overfit - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="分析机器学习 和深度学习中出现的过拟合现象，从不同的角度简述常用的处理手段。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/overfit/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Overfit" />
+<meta property="og:description" content="分析机器学习 和深度学习中出现的过拟合现象，从不同的角度简述常用的处理手段。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/overfit/" />
+<meta property="article:published_time" content="2020-07-11T15:55:36+08:00" />
+<meta property="article:modified_time" content="2020-07-11T15:55:36+08:00" />
+<meta itemprop="name" content="Overfit">
+<meta itemprop="description" content="分析机器学习 和深度学习中出现的过拟合现象，从不同的角度简述常用的处理手段。">
+<meta itemprop="datePublished" content="2020-07-11T15:55:36+08:00" />
+<meta itemprop="dateModified" content="2020-07-11T15:55:36+08:00" />
+<meta itemprop="wordCount" content="4399">
+
+
+
+<meta itemprop="keywords" content="overfit,dropout,normalization," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Overfit"/>
+<meta name="twitter:description" content="分析机器学习 和深度学习中出现的过拟合现象，从不同的角度简述常用的处理手段。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Overfit</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-07-11 </span>
+        <div class="post-category">
+            <a href="/categories/deep-learning/"> deep learning </a>
+            <a href="/categories/machine-learning/"> machine learning </a>
+            </div>
+          <span class="more-meta"> 约 4399 字 </span>
+          <span class="more-meta"> 预计阅读 9 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#什么是过拟合">什么是过拟合?</a></li>
+        <li><a href="#如何处理过拟合">如何处理过拟合</a>
+          <ul>
+            <li><a href="#模型角度">模型角度</a></li>
+            <li><a href="#数据角度">数据角度</a></li>
+            <li><a href="#训练过程角度">训练过程角度</a></li>
+            <li><a href="#正则化角度">正则化角度</a></li>
+            <li><a href="#四种不同的normalization">四种不同的normalization</a></li>
+            <li><a href="#深度学习中的模型">深度学习中的模型</a></li>
+            <li><a href="#使用多种模型">使用多种模型</a></li>
+          </ul>
+        </li>
+        <li><a href="#总结">总结</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>分析机器学习 和深度学习中出现的过拟合现象，从不同的角度简述常用的处理手段。</p>
+<h2 id="什么是过拟合">什么是过拟合?</h2>
+<p>训练数据集规模小是导致过拟合的原因，而网络足够的复杂（有能力）记住了所有的样本，然后在train sets 表现要远远好于 test sets。 还有一种说法是网络拟合了噪声数据。</p>
+<h2 id="如何处理过拟合">如何处理过拟合</h2>
+<p>处理该问题可以从数据和模型两个方面去考虑。</p>
+<h3 id="模型角度">模型角度</h3>
+<p>简化模型，通过不断降低模型的复杂度（比如随机森林中的估计量，神经网络中的参数），最终达到一个平衡状态：模型足够简单到不产生过拟合，又足够复杂到能从数据中学习。这样操作时一个比较方便的方法是根据模型的复杂程度查看模型在所有数据集上的误差。如 <span id='jump'> 图 1 </span> 所示。</p>
+<p><img src="https://b2.bmp.ovh/imgs/2019/07/a345c92ae8db05eb.png" alt=""></p>
+<center>  图 1</center>
+<p>简化模型的另一个好处在于训练速度更加快.</p>
+<h3 id="数据角度">数据角度</h3>
+<ul>
+<li>获取更多的数据</li>
+<li>数据增强</li>
+</ul>
+<p>获取更多的数据侧重获取得到的原始的训练数据集；而数据增强在图像处理中更加常见，主要是图像的变形，噪声方面进行考虑。</p>
+<h3 id="训练过程角度">训练过程角度</h3>
+<p>提前终止 (early stop)</p>
+<p>如<a href="#jump">图 1</a> ，当 test error 增加的时候，那么模型就应该停止了。</p>
+<h3 id="正则化角度">正则化角度</h3>
+<p>神经网络中有主要有两类实体：神经元和连接神经元的边。所以按照规范化的操作对象的不同可以分成两大类，一类是对于L 层的神经元的激活值或者说对于第 L+1 层网络神经元的输入值进行normalization 操作，比如说 batch normalization / Layer normalization 等方法都是属于这类；另一种是对于神经元之间相连的边上的权重进行规范化操作，比如说 weights normalization就属于这类。 广义上讲，一般机器学习中的损失函数中加入的 L1/ L2 等正则项 属于第二类。L1 正则项造成参数的稀疏性，使得大量的参数取得 0值， L2 正则项使得原始参数值有效的减小。通过这些规范化的手段改变参数值，已达到避免模型过拟合的目的。</p>
+<p>（最初对于输入data 的normalization， 是属于神经元的 normalization）</p>
+<p>虽然上述方法分别对神经元和weights 进行了规范化，但本质上都实现了对数据的规范化，只是 scale 的参数的来源是不同的。</p>
+<p>使用L1 or L2 在 loss function (error function) 中添加正则项，对损失函数中的weights 进行限制其变大。</p>
+<p>对于神经元的激活值来说，不管哪种方式，其目标都是一样的，将激活值规范到均值为0，方差为1 的正太分布。
+** BN **</p>
+<p>定义：
+BN针对一个minibatch的输入样本，计算均值和方差，基于计算的均值和方差来对某一层神经网络的输入X中每一个case进行归一化操作。</p>
+<p>BN 的优点：</p>
+<ul>
+<li>是一种正则化手段，加上BN 之后，学习率可以有很大的提高，可以加快模型的收敛速度</li>
+<li>一般来说在激活函数之前比较好解释一些，效果好一些；输入激活函数之前进行了数据的归一化，防止进去到激活函数的饱和区。</li>
+</ul>
+<p>所以可以得到BN 的适用场景：每个mini-batch 都比较大，数据分布比较接近。在训练之前，最好是做好了 充分的shuffle，否则效果可能不太好。</p>
+<p>BN 的不足：</p>
+<ul>
+<li>高度依赖 mini-batch 的大小，当batch size 比较小的时候，效果不好。因为数据样本少，得不到有效的统计量，也可以说噪声比较大。
+当然是可以通过调整 batch size 的大小规避这种问题，但是有的任务要求 batch size 不能太大；并且BN 是无法应用到 online learning 中的，因为online 都是单实例更新模型，很难组织起 mini-batch 的结构。</li>
+<li>对于相似级别的图像生成任务，BN 效果不佳
+对于图片分类等任务，只要能够找出关键特征，就能正确分类，这算是一种粗粒度的任务，在这种情形下通常 BN 是有积极效果的。但是对于有些输入输出都是图片的像素级别图片生成任务，比如图片风格转换等应用场景，使用 BN 会带来负面效果，这很可能是因为在 Mini-Batch 内多张无关的图片之间计算统计量，弱化了单张图片本身特有的一些细节信息。</li>
+<li>因为输入的 Sequence 序列是不定长的，这源自同一个 Mini-Batch 中的训练实例有长有短。对于类似 RNN 这种动态网络结构，BN 使用起来不方便</li>
+<li>训练时和推理时统计量不一致
+对于 BN 来说，采用 Mini-Batch 内实例来计算统计量，这在训练时没有问题，但是在模型训练好之后，在线推理的时候会有麻烦。因为在线推理或预测的时候，是单实例的，不存在 Mini-Batch。
+虽说实际使用并没大问题，但是确实存在训练和推理时刻统计量计算方法不一致的问题。
+** Layer normalization ** 也是一种正则化手段</li>
+</ul>
+<p>BN vs LN ：</p>
+<p><img src="https://i.loli.net/2019/08/03/gkYd5AIiXlqeu2V.jpg" alt="1.jpg"></p>
+<p>从图中看可以知道 batch是“竖”着来的，各个维度做归一化，所以与batch size有关系。 layer是“横”着来的，对一个样本，不同的神经元neuron间做归一化。显示了同一层的神经元的情况。假设这个mini-batch一共有N个样本，则Batch Normalization是对每一个维度进行归一。而Layer Normalization对于单个的样本就可以处理。</p>
+<p>相同点： BN 和LN 都是可以很好的一直梯度消失和梯度爆炸的。</p>
+<p>实践证明， LN 更加适合 RNN ，BN 更加适合CNN</p>
+<p>至于各种 Normalization 的适用场景，可以简洁归纳如下：对于 RNN 的神经网络结构来说，目前只有 LayerNorm 是相对有效的；如果是 GAN 等图片生成或图片内容改写类型的任务，可以优先尝试 InstanceNorm；如果使用场景约束 BatchSize 必须设置很小，无疑此时考虑使用 GroupNorm；而其它任务情形应该优先考虑使用 BatchNorm。</p>
+<p>参考文献：<a href="https://www.jiqizhixin.com/articles/2018-08-29-7">深度学习中的Normalization模型</a></p>
+<h3 id="四种不同的normalization">四种不同的normalization</h3>
+<blockquote>
+<p>Task-specific limitations. A key assumption in BN is the independence between samples appearing
+in each batch. While this assumption seems to hold for most convolutional networks used to classify
+images in conventional datasets, it falls short when employed in domains with strong correlations
+between samples, such as time-series prediction, reinforcement learning, and generative modeling.
+For example, BN requires modifications to work in recurrent networks [6], for which alternatives such
+as weight-normalization [27] and layer-normalization [2] were explicitly devised, without reaching
+the success and wide adoption of BN. Another example is Generative adversarial networks, which
+are also noted to suffer from the common form of BN. GAN training with BN proved unstable in
+some cases, decreasing the quality of the trained model [28]. Instead, it was replaced with virtual-BN
+[28], weight-norm [39] and spectral normalization [32]. Also, BN may be harmful even in plain
+classification tasks, when using unbalanced classes, or correlated instances. In addition, while BN is
+defined for the training phase of the models, it requires a running estimate for the evaluation phase
+– causing a noticeable difference between the two [19]. This shortcoming was addressed later by
+batch-renormalization [18], yet still requiring the original BN at the early steps of training.
+在图像分类中，BN 效果比较好，并且BN 在 unbalanced class 中效果可能也不是很好 ；但是在风格转换（gan）中BN 一般不行，</p>
+</blockquote>
+<p><a href="https://papers.nips.cc/paper/7485-norm-matters-efficient-and-accurate-normalization-schemes-in-deep-networks.pdf">Norm matters: efficient and accurate normalization schemes in deep networks</a></p>
+<p>** 四种 normalization 时间轴**</p>
+<p>BN（Batch Normalization）于2015年由 Google 提出，开创了Normalization 先河；2016年出了LN（layer normalization）和IN（Instance Normalization）；2018年也就是今年，Kaiming提出了GN（Group normalization），成为了ECCV 2018最佳论文提名。</p>
+<p>正则化的本质是为了减少数据的复杂程度和减少模型的复杂程度，这样就可以设置更大的学习率，更快的进行收敛。</p>
+<p><img src="https://ftp.bmp.ovh/imgs/2019/09/24205c5cadebe345.png" alt=""></p>
+<p>用更简单的语言来讲，各种Norm之间的差别只是针对的维度不同而已。</p>
+<ol>
+<li>BN是在batch上，对N、H、W做归一化，而保留通道 C 的维度。BN对较小的batch size效果不好。BN适用于固定深度的前向神经网络，如CNN，不适用于RNN；</li>
+<li>LN在通道方向上，对C、H、W归一化，主要对RNN效果明显；</li>
+<li>IN在图像像素上，对H、W做归一化，用在风格化迁移；</li>
+<li>GN将channel分组，然后再做归一化。</li>
+</ol>
+<p><strong>BN</strong></p>
+<p>主要在 CNN中使用</p>
+<p>BN 的缺点</p>
+<ol>
+<li>效果依赖于batch size，如果batch size 比较小，那么效果比较差</li>
+<li>Recurrent connections in an RNN</li>
+</ol>
+<p><strong>LN</strong></p>
+<p>不依赖于 batch size, 在 RNN 中效果更好。</p>
+<p>BN 和LN 的区别，如下所示。</p>
+<p><img src="https://s1.ax1x.com/2020/03/28/GkzOsA.png" alt="GkzOsA.png"></p>
+<p><strong>IN</strong></p>
+<p>IN针对图像像素做normalization，最初用于图像的风格化迁移。</p>
+<blockquote>
+<p>Instance Normalization is similar to layer normalization but goes one step further: it computes the mean/standard deviation and normalize across each channel in each training example.
+Originally devised for style transfer, the problem instance normalization tries to address is that the network should be agnostic to the contrast of the original image. Therefore, it is specific to images and not trivially extendable to RNNs.
+IN是 layer normalization的扩展，在图像中有三个维度（RGB），在某个维度进行layer normalization，所以只是局限于 图像领域。</p>
+</blockquote>
+<p><strong>GN</strong></p>
+<p>GN是为了解决BN对较小的mini-batch size效果差的问题。</p>
+<p>就像作者自己比较的说法：LN和IN只是GN的两种极端形式。我们对channel进行分组，分组数为G，即一共分G组。 当G=1时，GN就是LN了；当G=C时，GN就是IN了。这也是一个有趣的比较，类似于GN是LN和IN的一个tradeoff。文章里对G的默认值是32。</p>
+<p><strong>Spectral Normalization</strong></p>
+<p>The weights of the generator are normalized using spectral normalization.
+weights 变化服从利普次子变化。</p>
+<p>Spectral normalization for use in GANs was described by Takeru Miyato, et al. in their 2018 paper titled “Spectral Normalization for Generative Adversarial Networks.” Specifically, it involves normalizing the spectral norm of the weight matrix.</p>
+<p>Spectral Normalization the spectral normalization normalized the weight matrix by their spectral norm or $\ell_2$ norm: $\hat{W} = \frac{W}{\lvert W\rvert_2}$. Experimental results show that spectral normalization improves the training of GANs with minimal additional tuning.</p>
+<p>Note $W\in\mathbb{R}^{M\times (NWH)}$ is 2D representation of the weight tensor $W\in\mathbb{R}^{M\times N\times W\times H)}$ where $M$ is the number of output channels and $N$ is the number of input channels.</p>
+<blockquote>
+<p>Previously, Miyato et al proposed a normalization technique called spectral normalization (SN). In a few words, SN constrains the Lipschitz constant of the convolutional filters. Spectral norm was used as a way to stabilize the training of the discriminator network. In practice, it worked very.
+Yet, there is one fundamental problem when training a normalized discriminator. Prior work has shown that regularized discriminators make the GAN training slower. For this reason, some workarounds consist of uneven the rate of update steps between the generator and the discriminator. In other words, we can update the discriminator a few times before updating the generator. For instance, regularized discriminators might require 5 or more update steps for 1 generator update.
+To solve the problem of slow learning and imbalanced update steps, there is a simple yet effective approach. It is important to note that in the GAN framework, G and D train together. In this context, Heusel et al introduced the two-timescale update rule (TTUR) in the GAN training. It consists of providing different learning rates for optimizing the generator and discriminator.
+The discriminator trains with a learning rate 4 times greater than G - 0.004 and 0.001 respectively. A larger learning rate means that the discriminator will absorb a larger part of the gradient signal. Hence, a higher learning rate eases the problem of slow learning of the regularized discriminator. Also, this approach makes it possible to use the same rate of updates for the generator and the discriminator. In fact, we use a 1:1 update interval between generator and discriminator.
+Moreover, [6] have shown that well-conditioned generators are causally related to GAN performance. Given that, Self-Attention for GANs proposed using spectral normalization for stabilizing training of the generator network as well. For G, spectral norm prevents the parameters to get very big and avoids unwanted gradients.</p>
+</blockquote>
+<p><a href="https://mlexplained.com/2018/11/30/an-overview-of-normalization-methods-in-deep-learning/">An Overview of Normalization Methods in Deep Learning</a></p>
+<h3 id="深度学习中的模型">深度学习中的模型</h3>
+<p>Dropout 或者Dropconnect. 其理念就是在训练中随机让神经元无效（即dropout）或让网络中的连接无效（即dropconnect）。这个有点类似集成学习，提高网络模型的泛化性能，减少过拟合的问题。（类似bagging 的思想，使用不同的网络结构在不同的训练集上进行训练）.如果从集成学习角度理解dropout，那么resnet 网络是不是也有点集成学习的味道。</p>
+<p>** Dropout 的具体流程**</p>
+<ol>
+<li>首先随机（临时）删掉网络中一半的隐藏神经元，输入输出神经元保持不变（图3中虚线为部分临时被删除的神经元）</li>
+<li>然后把输入x通过修改后的网络前向传播，然后把得到的损失结果通过修改的网络反向传播。一小批训练样本执行完这个过程后，在没有被删除的神经元上按照随机梯度下降法更新对应的参数（w，b）。</li>
+<li>然后继续重复这一过程</li>
+</ol>
+<ul>
+<li>恢复被删掉的神经元（此时被删除的神经元保持原样，而没有被删除的神经元已经有所更新）</li>
+<li>从隐藏层神经元中随机选择一个一半大小的子集临时删除掉（备份被删除神经元的参数）。</li>
+<li>对一小批训练样本，先前向传播然后反向传播损失并根据随机梯度下降法更新参数（w，b） （没有被删除的那一部分参数得到更新，删除的神经元参数保持被删除前的结果）。</li>
+</ul>
+<p>Dropout vs Dropconnect：</p>
+<p><img src="https://i.loli.net/2019/07/23/5d370b5ee206022821.png" alt="1.png">
+它们的区别大体在于，在训练过程中dropout是随机drop掉一些节点，而dropconnect则是随机drop掉一些边。</p>
+<h3 id="使用多种模型">使用多种模型</h3>
+<p>Bagging： 最典型的就是 随机森林( Random Forest)， 通过不相关的决策树在不同的数据集上进行训练，最后的每个模型使用相同的权重来“融合”。
+Boosting: 在简单的网络上不断提升。</p>
+<h2 id="总结">总结</h2>
+<p>降低“过拟合”的方法：
+（1）获得更多的训练数据
+（2）降低模型复杂度
+（3）正则化方法
+（4）集成学习方法
+降低“欠拟合”风险的方法：
+（1）添加新特征
+（2）增加模型复杂度
+（3）减小正则化系数</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-07-11
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/overfit/">overfit</a>
+          <a href="/tags/dropout/">dropout</a>
+          <a href="/tags/normalization/">normalization</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/pandas_tutorial/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Pandas Tutorial</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/image_caption/">
+            <span class="next-text nav-default">Image Caption</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

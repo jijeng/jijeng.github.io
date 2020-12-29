@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ensemble on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/ensemble/</link>
+    <description>Recent content in ensemble on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 05 Feb 2018 21:27:04 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/ensemble/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ensemble</title>
+      <link>http://jijeng.github.io/post/ensemble/</link>
+      <pubDate>Mon, 05 Feb 2018 21:27:04 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/ensemble/</guid>
+      <description>&lt;p&gt;将集成学习分为基本集成学习方法、高级集成学习方法和基于集成学习的算法。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Ensemble models in machine learning operate on a similar idea. They combine the decisions from multiple models to improve the overall performance. This can be achieved in various ways, which you will discover in this article.&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

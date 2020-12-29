@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>ProGAN &amp; StyleGAN &amp; StyleGAN2 - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="阅读论文&amp;ndash; 关于GAN 的一篇综述；介绍对比 ProGAN &amp;amp; StyleGAN &amp;amp; StyleGAN2。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/progan_stylegan/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="ProGAN &amp; StyleGAN &amp; StyleGAN2" />
+<meta property="og:description" content="阅读论文&ndash; 关于GAN 的一篇综述；介绍对比 ProGAN &amp; StyleGAN &amp; StyleGAN2。
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/progan_stylegan/" />
+<meta property="article:published_time" content="2020-01-11T15:58:59+08:00" />
+<meta property="article:modified_time" content="2020-01-11T15:58:59+08:00" />
+<meta itemprop="name" content="ProGAN &amp; StyleGAN &amp; StyleGAN2">
+<meta itemprop="description" content="阅读论文&ndash; 关于GAN 的一篇综述；介绍对比 ProGAN &amp; StyleGAN &amp; StyleGAN2。
+">
+<meta itemprop="datePublished" content="2020-01-11T15:58:59+08:00" />
+<meta itemprop="dateModified" content="2020-01-11T15:58:59+08:00" />
+<meta itemprop="wordCount" content="5504">
+
+
+
+<meta itemprop="keywords" content="gan,progan,stylegan," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ProGAN &amp; StyleGAN &amp; StyleGAN2"/>
+<meta name="twitter:description" content="阅读论文&ndash; 关于GAN 的一篇综述；介绍对比 ProGAN &amp; StyleGAN &amp; StyleGAN2。
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">ProGAN &amp; StyleGAN &amp; StyleGAN2</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-01-11 </span>
+        <div class="post-category">
+            <a href="/categories/deep-learning/"> deep learning </a>
+            </div>
+          <span class="more-meta"> 约 5504 字 </span>
+          <span class="more-meta"> 预计阅读 11 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#gan-综述论文">GAN 综述论文</a></li>
+            <li><a href="#progan">ProGAN</a></li>
+            <li><a href="#从progan-到-stylegan">从ProGAN 到 StyleGAN</a></li>
+            <li><a href="#从-stylegan-到-stylegan2">从 StyleGAN 到 StyleGAN2</a></li>
+            <li><a href="#实验环境">实验环境</a></li>
+            <li><a href="#kaggle-中gan生成图像的总结">kaggle 中GAN生成图像的总结</a></li>
+            <li><a href="#比较好的代码">比较好的代码</a></li>
+            <li><a href="#图像数据预处理">图像数据预处理</a></li>
+            <li><a href="#调参部分">调参部分</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>阅读论文&ndash; 关于GAN 的一篇综述；介绍对比 ProGAN &amp; StyleGAN &amp; StyleGAN2。</p>
+<p><img src="https://i.loli.net/2020/02/21/qQNFgKlwHEJ4Gc1.png" alt="Screen Shot 2020-02-21 at 5.32.45 PM.png"></p>
+<h3 id="gan-综述论文">GAN 综述论文</h3>
+<p><a href="https://arxiv.org/abs/2001.06937">A Review on Generative Adversarial Networks: Algorithms, Theory, and Applications</a></p>
+<blockquote>
+<p>Generative algorithms and discriminative algorithms are two categories of machine learning algorithms. If a machine learning algorithm is based on a fully probabilistic model of the observed data, this algorithm is generative.</p>
+</blockquote>
+<p>关于 GANs 的training</p>
+<blockquote>
+<p>One difficulty is from the fact that optimal weights for GANs correspond to saddle points, and not minimizers, of the loss function.
+是不是说最优点是在鞍点（G 网络不能辨雌雄），具体需要分析一下 Loss 是如何变化？</p>
+</blockquote>
+<h3 id="progan">ProGAN</h3>
+<p>In Progressive GAN (PGGAN) , a new training methodology for GAN is proposed. The structure of Progressive GAN is based on progressive neural networks that is first proposed in . The key idea of Progressive GAN is to grow both the generator and discriminator progressively: starting from a low resolution, adding new layers that model increasingly fine details as training progresses.</p>
+<p>BigGANs successfully generates images with quite high resolution up to 512 by 512 pixels. If you do not have enough data, it can be a challenging task to replicate the BigGANs results from scratch. Lucic et al. [199] propose to train BigGANs quality model with fewer labels. BigBiGAN [200], based on BigGANs, extends it to representation learn- ing by adding an encoder and modifying the discriminator. BigBiGAN achieve the state of the art in both unsupervised representation learning on ImageNet and unconditional image generation.</p>
+<p>创新点：</p>
+<p>NVIDIA在2017年提出的ProGAN解决了生成高分辨率图像(如1024×1024)的问题。ProGAN的关键创新之处在于渐进式训练——从训练分辨率非常低的图像(如4×4)的生成器和判别器开始，每次都增加一个更高的分辨率层。</p>
+<p>存在的问题：</p>
+<p>ProGAN生成高质量的图像，但与大多数模型一样，它控制所生成图像的特定特征的能力非常有限。换句话说，这些特性是互相关联的，因此尝试调整一下输入，即使是一点儿，通常也会同时影响多个特性。一个很好的类比就是基因组，在其中改变一个基因可能影响多个特性。</p>
+<h3 id="从progan-到-stylegan">从ProGAN 到 StyleGAN</h3>
+<p>StyleGAN 生成的图像非常逼真，它是一步一步地生成人工的图像，从非常低的分辨率开始，一直到高分辨率（1024×1024）。通过分别地修改网络中每个级别的输入，它可以控制在该级别中所表示的视觉特征，从粗糙的特征（姿势、面部形状）到精细的细节（头发颜色），而不会影响其它的级别。</p>
+<blockquote>
+<p>StyleGAN’s generator is a really high-quality generator for other generation tasks like generating faces. It is particular exciting because it allows to separate different factors such as hair, age and sex that are involved in controlling the appearance of the final example and we can then control them separately from each other. StyleGAN [37] has also been used in such as generating high-resolution fashion model images wearing custom outfits [201].
+stylegan 能够把不同的factor 分割开来，然后生成图像。</p>
+</blockquote>
+<h3 id="从-stylegan-到-stylegan2">从 StyleGAN 到 StyleGAN2</h3>
+<p>改进点包括：</p>
+<ul>
+<li>提出了替代 ProGAN 的新方法，牙齿、眼睛等细节更完美</li>
+<li>改善了 Style-mixing</li>
+<li>更加平滑的插值（额外的正则化）</li>
+</ul>
+<p>（1）问题：斑点似的伪影（artifacts）问题</p>
+<p>StyleGAN 生成的大多数图像都有类似水滴的斑状伪影。如下图所示，即使当水滴在最终图像中并不明显时，它也会出现在生成器的中间特征图中。这种异常在大约 64×64 分辨率时开始出现，并会出现在所有特征图中，还会在分辨率增高时逐渐变强。这种总是存在的伪影很令人困惑，因为判别器本应该有检测它的能力的。</p>
+<p><img src="https://ftp.bmp.ovh/imgs/2020/02/69e17ae45e915869.png" alt=""></p>
+<p>更多前后效果展示可以查看 <a href="http://finance.sina.com.cn/wm/2019-12-15/doc-iihnzahi7657860.shtml">这里</a></p>
+<p>可能的原因和解决思路</p>
+<p>原因一：</p>
+<p>首先，我们研究了常见的斑点状artifacts的起源，并发现生成器创建它们是为了规避其架构中的设计缺陷。我们重新设计了生成器中使用的normalization，从而删除了artifacts。把归一化拿掉或者采用 lazy regularization 的方式，那么水滴就消失了。</p>
+<p>使用 Adaptive Instance Normalization （来自于 Style Transfer）</p>
+<p>（2）问题： 五官的姿态不同步</p>
+<p>StyleGAN 是采用的渐进增大（Progressive Growing）的训练方式。从 4* 4 图像开始，然后到 8* 8，到16 *16，一步步增大生成图像的分辨率，最后形成了1024* 1024. Progressive growing已被证明在稳定高分辨率图像合成方面非常成功。关键问题在于，渐进式增长的生成器在细节上似乎有很强的位置偏好，例如，当牙齿或眼睛等特征在图像上平滑移动时，它们可能会停留在原来的位置，然后跳到下一个首选位置。</p>
+<p><img src="https://files.catbox.moe/nspvxp.png" alt="">
+（虽然脸发生了旋转，但是牙齿并没有及时跟着走）</p>
+<p>为了解决这些问题，我们提出一种替代的方法，在保留progressive growing优势的同时消除了缺陷。下图a展示了MSG-GAN[22]，它使用多个skip connections连接生成器和鉴别器的匹配分辨率。下图b中，我们通过对不同分辨率对应的RGB输出进行向上采样和求和来简化这种设计。在鉴别器中，我们同样向鉴别器的每个分辨率块提供下采样图像。我们在所有上采样和下采样操作中都使用了双线性滤波。下图c中，我们进一步修改了设计，以使用残差连接。这种设计类似于LAPGAN。</p>
+<p>一句话总结：Removing Progressive Growing，然后使用上采样和下采样去处理这个问题。</p>
+<p><img src="https://i.loli.net/2020/02/11/XuyzvANSHwDVrhF.png" alt="Screen Shot 2020-02-11 at 11.06.30 AM.png"></p>
+<p>（3）一些小的启发</p>
+<ul>
+<li>提出了一个新的指标 PPL
+FID和P&amp;R都基于分类器网络，最近的研究表明，分类器网络侧重于纹理而不是形状，因此，这些指标不能准确地代表图像质量的所有方面。所以提出了一个新的指标：感知路径长度（PPL），用来量化从隐空间到输出图像的映射的平滑度。至于为什么，这一点并不直接和明显。猜想是该指标能够惩罚快速变化的隐藏空间。计算过程中涉及到正则化计算成本比较高，所以作者提出了懒惰式正则化（lazy regularization）。</li>
+<li>使用了斜坡下降噪声优化了生成器的随机噪声输入</li>
+<li>Deepfake Detection via Projection
+这种思路的来源是 kaggle 比赛中，有人通过将图像projection 之后可以有效发现图像是来自GAN网络生成还是真实的图像。</li>
+</ul>
+<p>结果：</p>
+<p>训练速度更快</p>
+<p>生成的图像的质量更高（FID 分数更高, ~3%的提升 ，artifacts 减少）</p>
+<p><img src="https://ftp.bmp.ovh/imgs/2020/02/06e05cccd4bcfc57.png" alt=""></p>
+<p>(4) 损失函数</p>
+<p>作为一篇很好的对比性质的论文（项目），loss 函数中提供了很多种类的loss 可供选择。 默认 config-e 和config-f 是下面的loss</p>
+<p>D 网络的loss</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># R1 and R2 regularizers from the paper</span>
+<span class="c1"># &#34;Which Training Methods for GANs do actually Converge?&#34;, Mescheder et al. 2018</span>
+
+<span class="k">def</span> <span class="nf">D_logistic_r1</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">training_set</span><span class="p">,</span> <span class="n">minibatch_size</span><span class="p">,</span> <span class="n">reals</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">10.0</span><span class="p">):</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">opt</span><span class="p">,</span> <span class="n">training_set</span>
+    <span class="n">latents</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">random_normal</span><span class="p">([</span><span class="n">minibatch_size</span><span class="p">]</span> <span class="o">+</span> <span class="n">G</span><span class="o">.</span><span class="n">input_shapes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="n">fake_images_out</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">get_output_for</span><span class="p">(</span><span class="n">latents</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">is_training</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">real_scores_out</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">get_output_for</span><span class="p">(</span><span class="n">reals</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">is_training</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">fake_scores_out</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">get_output_for</span><span class="p">(</span><span class="n">fake_images_out</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">is_training</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">real_scores_out</span> <span class="o">=</span> <span class="n">autosummary</span><span class="p">(</span><span class="s1">&#39;Loss/scores/real&#39;</span><span class="p">,</span> <span class="n">real_scores_out</span><span class="p">)</span>
+    <span class="n">fake_scores_out</span> <span class="o">=</span> <span class="n">autosummary</span><span class="p">(</span><span class="s1">&#39;Loss/scores/fake&#39;</span><span class="p">,</span> <span class="n">fake_scores_out</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softplus</span><span class="p">(</span><span class="n">fake_scores_out</span><span class="p">)</span> <span class="c1"># -log(1-sigmoid(fake_scores_out))</span>
+    <span class="n">loss</span> <span class="o">+=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softplus</span><span class="p">(</span><span class="o">-</span><span class="n">real_scores_out</span><span class="p">)</span> <span class="c1"># -log(sigmoid(real_scores_out)) # pylint: disable=invalid-unary-operand-type</span>
+
+    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">name_scope</span><span class="p">(</span><span class="s1">&#39;GradientPenalty&#39;</span><span class="p">):</span>
+        <span class="n">real_grads</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">gradients</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">real_scores_out</span><span class="p">),</span> <span class="p">[</span><span class="n">reals</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">gradient_penalty</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">real_grads</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">gradient_penalty</span> <span class="o">=</span> <span class="n">autosummary</span><span class="p">(</span><span class="s1">&#39;Loss/gradient_penalty&#39;</span><span class="p">,</span> <span class="n">gradient_penalty</span><span class="p">)</span>
+        <span class="n">reg</span> <span class="o">=</span> <span class="n">gradient_penalty</span> <span class="o">*</span> <span class="p">(</span><span class="n">gamma</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">loss</span><span class="p">,</span> <span class="n">reg</span>
+
+<span class="k">def</span> <span class="nf">D_logistic_r2</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">training_set</span><span class="p">,</span> <span class="n">minibatch_size</span><span class="p">,</span> <span class="n">reals</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">10.0</span><span class="p">):</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">opt</span><span class="p">,</span> <span class="n">training_set</span>
+    <span class="n">latents</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">random_normal</span><span class="p">([</span><span class="n">minibatch_size</span><span class="p">]</span> <span class="o">+</span> <span class="n">G</span><span class="o">.</span><span class="n">input_shapes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="n">fake_images_out</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">get_output_for</span><span class="p">(</span><span class="n">latents</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">is_training</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">real_scores_out</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">get_output_for</span><span class="p">(</span><span class="n">reals</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">is_training</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">fake_scores_out</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">get_output_for</span><span class="p">(</span><span class="n">fake_images_out</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">is_training</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">real_scores_out</span> <span class="o">=</span> <span class="n">autosummary</span><span class="p">(</span><span class="s1">&#39;Loss/scores/real&#39;</span><span class="p">,</span> <span class="n">real_scores_out</span><span class="p">)</span>
+    <span class="n">fake_scores_out</span> <span class="o">=</span> <span class="n">autosummary</span><span class="p">(</span><span class="s1">&#39;Loss/scores/fake&#39;</span><span class="p">,</span> <span class="n">fake_scores_out</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softplus</span><span class="p">(</span><span class="n">fake_scores_out</span><span class="p">)</span> <span class="c1"># -log(1-sigmoid(fake_scores_out))</span>
+    <span class="n">loss</span> <span class="o">+=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softplus</span><span class="p">(</span><span class="o">-</span><span class="n">real_scores_out</span><span class="p">)</span> <span class="c1"># -log(sigmoid(real_scores_out)) # pylint: disable=invalid-unary-operand-type</span>
+
+    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">name_scope</span><span class="p">(</span><span class="s1">&#39;GradientPenalty&#39;</span><span class="p">):</span>
+        <span class="n">fake_grads</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">gradients</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">fake_scores_out</span><span class="p">),</span> <span class="p">[</span><span class="n">fake_images_out</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">gradient_penalty</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">fake_grads</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">gradient_penalty</span> <span class="o">=</span> <span class="n">autosummary</span><span class="p">(</span><span class="s1">&#39;Loss/gradient_penalty&#39;</span><span class="p">,</span> <span class="n">gradient_penalty</span><span class="p">)</span>
+        <span class="n">reg</span> <span class="o">=</span> <span class="n">gradient_penalty</span> <span class="o">*</span> <span class="p">(</span><span class="n">gamma</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">loss</span><span class="p">,</span> <span class="n">reg</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>G 网络的loss</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">G_logistic_ns_pathreg</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">training_set</span><span class="p">,</span> <span class="n">minibatch_size</span><span class="p">,</span> <span class="n">pl_minibatch_shrink</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pl_decay</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">pl_weight</span><span class="o">=</span><span class="mf">2.0</span><span class="p">):</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">opt</span>
+    <span class="n">latents</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">random_normal</span><span class="p">([</span><span class="n">minibatch_size</span><span class="p">]</span> <span class="o">+</span> <span class="n">G</span><span class="o">.</span><span class="n">input_shapes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">training_set</span><span class="o">.</span><span class="n">get_random_labels_tf</span><span class="p">(</span><span class="n">minibatch_size</span><span class="p">)</span>
+    <span class="n">fake_images_out</span><span class="p">,</span> <span class="n">fake_dlatents_out</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">get_output_for</span><span class="p">(</span><span class="n">latents</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">is_training</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">return_dlatents</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">fake_scores_out</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">get_output_for</span><span class="p">(</span><span class="n">fake_images_out</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">is_training</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softplus</span><span class="p">(</span><span class="o">-</span><span class="n">fake_scores_out</span><span class="p">)</span> <span class="c1"># -log(sigmoid(fake_scores_out))</span>
+
+    <span class="c1"># Path length regularization.</span>
+    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">name_scope</span><span class="p">(</span><span class="s1">&#39;PathReg&#39;</span><span class="p">):</span>
+
+        <span class="c1"># Evaluate the regularization term using a smaller minibatch to conserve memory.</span>
+        <span class="k">if</span> <span class="n">pl_minibatch_shrink</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">pl_minibatch</span> <span class="o">=</span> <span class="n">minibatch_size</span> <span class="o">//</span> <span class="n">pl_minibatch_shrink</span>
+            <span class="n">pl_latents</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">random_normal</span><span class="p">([</span><span class="n">pl_minibatch</span><span class="p">]</span> <span class="o">+</span> <span class="n">G</span><span class="o">.</span><span class="n">input_shapes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:])</span>
+            <span class="n">pl_labels</span> <span class="o">=</span> <span class="n">training_set</span><span class="o">.</span><span class="n">get_random_labels_tf</span><span class="p">(</span><span class="n">pl_minibatch</span><span class="p">)</span>
+            <span class="n">fake_images_out</span><span class="p">,</span> <span class="n">fake_dlatents_out</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">get_output_for</span><span class="p">(</span><span class="n">pl_latents</span><span class="p">,</span> <span class="n">pl_labels</span><span class="p">,</span> <span class="n">is_training</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">return_dlatents</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+        <span class="c1"># Compute |J*y|.</span>
+        <span class="n">pl_noise</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">random_normal</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">fake_images_out</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">output_shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:]))</span>
+        <span class="n">pl_grads</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">gradients</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">fake_images_out</span> <span class="o">*</span> <span class="n">pl_noise</span><span class="p">),</span> <span class="p">[</span><span class="n">fake_dlatents_out</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">pl_lengths</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">pl_grads</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">pl_lengths</span> <span class="o">=</span> <span class="n">autosummary</span><span class="p">(</span><span class="s1">&#39;Loss/pl_lengths&#39;</span><span class="p">,</span> <span class="n">pl_lengths</span><span class="p">)</span>
+
+        <span class="c1"># Track exponential moving average of |J*y|.</span>
+        <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">control_dependencies</span><span class="p">(</span><span class="bp">None</span><span class="p">):</span>
+            <span class="n">pl_mean_var</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;pl_mean&#39;</span><span class="p">,</span> <span class="n">trainable</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">initial_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="n">pl_mean</span> <span class="o">=</span> <span class="n">pl_mean_var</span> <span class="o">+</span> <span class="n">pl_decay</span> <span class="o">*</span> <span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">pl_lengths</span><span class="p">)</span> <span class="o">-</span> <span class="n">pl_mean_var</span><span class="p">)</span>
+        <span class="n">pl_update</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">pl_mean_var</span><span class="p">,</span> <span class="n">pl_mean</span><span class="p">)</span>
+
+        <span class="c1"># Calculate (|J*y|-a)^2.</span>
+        <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">control_dependencies</span><span class="p">([</span><span class="n">pl_update</span><span class="p">]):</span>
+            <span class="n">pl_penalty</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">pl_lengths</span> <span class="o">-</span> <span class="n">pl_mean</span><span class="p">)</span>
+            <span class="n">pl_penalty</span> <span class="o">=</span> <span class="n">autosummary</span><span class="p">(</span><span class="s1">&#39;Loss/pl_penalty&#39;</span><span class="p">,</span> <span class="n">pl_penalty</span><span class="p">)</span>
+
+        <span class="c1"># Apply weight.</span>
+        <span class="c1">#</span>
+        <span class="c1"># Note: The division in pl_noise decreases the weight by num_pixels, and the reduce_mean</span>
+        <span class="c1"># in pl_lengths decreases it by num_affine_layers. The effective weight then becomes:</span>
+        <span class="c1">#</span>
+        <span class="c1"># gamma_pl = pl_weight / num_pixels / num_affine_layers</span>
+        <span class="c1"># = 2 / (r^2) / (log2(r) * 2 - 2)</span>
+        <span class="c1"># = 1 / (r^2 * (log2(r) - 1))</span>
+        <span class="c1"># = ln(2) / (r^2 * (ln(r) - ln(2))</span>
+        <span class="c1">#</span>
+        <span class="n">reg</span> <span class="o">=</span> <span class="n">pl_penalty</span> <span class="o">*</span> <span class="n">pl_weight</span>
+
+    <span class="k">return</span> <span class="n">loss</span><span class="p">,</span> <span class="n">reg</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="实验环境">实验环境</h3>
+<p>运行环境</p>
+<ol>
+<li>显卡：官网要求有16GB内存的NVIDIA GPU（即：NVIDIA 特斯拉 Tesla V100），经实测，11GB内存的NVIDIA GeForce RTX 2080Ti也可以跑起来。如果只是简单的跑跑别人训练好的例子，那么使用配置比较低的也可以，但是训练的话，那么得使用比较高的配置。</li>
+<li>版本：使用 TensorFlow 1.14 而不要使用 TensorFlow 1.15； linux 环境</li>
+</ol>
+<h3 id="kaggle-中gan生成图像的总结">kaggle 中GAN生成图像的总结</h3>
+<h3 id="比较好的代码">比较好的代码</h3>
+<p>{% fold 开/合 %}</p>
+<ol>
+<li>图像预处理和数据增强</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">32</span>
+<span class="n">batchSize</span> <span class="o">=</span> <span class="mi">64</span>
+<span class="n">imageSize</span> <span class="o">=</span> <span class="mi">64</span>
+
+<span class="c1"># 64x64 images!</span>
+<span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span><span class="n">transforms</span><span class="o">.</span><span class="n">Resize</span><span class="p">(</span><span class="mi">64</span><span class="p">),</span>
+                                <span class="n">transforms</span><span class="o">.</span><span class="n">CenterCrop</span><span class="p">(</span><span class="mi">64</span><span class="p">),</span>
+                                <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+                                <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))])</span>
+
+<span class="n">train_data</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">ImageFolder</span><span class="p">(</span><span class="s1">&#39;../input/all-dogs/&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+
+<span class="n">dataloader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                           <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">)</span>
+
+<span class="n">imgs</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">dataloader</span><span class="p">))</span>
+<span class="n">imgs</span> <span class="o">=</span> <span class="n">imgs</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">image_size</span> <span class="o">=</span> <span class="mi">64</span>
+
+<span class="n">random_transforms</span> <span class="o">=</span> <span class="p">[</span><span class="n">transforms</span><span class="o">.</span><span class="n">ColorJitter</span><span class="p">(),</span> <span class="n">transforms</span><span class="o">.</span><span class="n">RandomRotation</span><span class="p">(</span><span class="n">degrees</span><span class="o">=</span><span class="mi">20</span><span class="p">)]</span>
+<span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span><span class="n">transforms</span><span class="o">.</span><span class="n">Resize</span><span class="p">(</span><span class="mi">64</span><span class="p">),</span>
+                                <span class="n">transforms</span><span class="o">.</span><span class="n">CenterCrop</span><span class="p">(</span><span class="mi">64</span><span class="p">),</span>
+                                <span class="n">transforms</span><span class="o">.</span><span class="n">RandomHorizontalFlip</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span>
+                                <span class="n">transforms</span><span class="o">.</span><span class="n">RandomApply</span><span class="p">(</span><span class="n">random_transforms</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.2</span><span class="p">),</span>
+                                <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+                                <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))])</span>
+
+<span class="n">train_data</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">ImageFolder</span><span class="p">(</span><span class="s1">&#39;../input/all-dogs/&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                           <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">)</span>
+                                           
+<span class="n">imgs</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">train_loader</span><span class="p">))</span>
+<span class="n">imgs</span> <span class="o">=</span> <span class="n">imgs</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+
+<span class="c1"># 水平旋转， 和常见的从中间 centercrop 这样的操作</span>
+<span class="n">transform</span> <span class="o">=</span> <span class="n">albu</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span>
+    <span class="n">albu</span><span class="o">.</span><span class="n">CenterCrop</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span>
+    <span class="n">albu</span><span class="o">.</span><span class="n">HorizontalFlip</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span>
+    <span class="n">albu</span><span class="o">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)),</span>
+<span class="p">])</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">DogDataset</span><span class="p">(</span>
+    <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+<span class="n">dataset</span><span class="o">.</span><span class="n">show_examples</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>Crop images using bounding box</li>
+</ol>
+<p>想说的是，如果有了标注（bounding box），那么这个是可以做到更加精确，至少在数据预处理部分。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">bounding_box</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="n">bpath</span><span class="o">=</span><span class="n">root_annots</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">breed_map</span><span class="p">[</span><span class="n">image</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&#34;_&#34;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]])</span><span class="o">+</span><span class="s2">&#34;/&#34;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&#34;.&#34;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">bpath</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;object&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">objects</span><span class="p">:</span>
+        <span class="n">bndbox</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;bndbox&#39;</span><span class="p">)</span> <span class="c1"># reading bound box</span>
+        <span class="n">xmin</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">bndbox</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;xmin&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">ymin</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">bndbox</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;ymin&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">xmax</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">bndbox</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;xmax&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">ymax</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">bndbox</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;ymax&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="p">(</span><span class="n">xmin</span><span class="p">,</span><span class="n">ymin</span><span class="p">,</span><span class="n">xmax</span><span class="p">,</span><span class="n">ymax</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">image</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">all_images</span><span class="p">):</span>
+    <span class="n">bbox</span><span class="o">=</span><span class="n">bounding_box</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    <span class="n">im</span><span class="o">=</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_images</span><span class="p">,</span><span class="n">image</span><span class="p">))</span>
+    <span class="n">im</span><span class="o">=</span><span class="n">im</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">bbox</span><span class="p">)</span>
+    
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&#34;off&#34;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>    
+    <span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="mi">8</span><span class="p">):</span>
+        <span class="k">break</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（3）第三种对于数据的处理, <a href="https://www.kaggle.com/theoviel/conditional-progan-30-public/notebook">Conditional ProGan </a></p>
+<p>Transforms</p>
+<ul>
+<li>RandomHorizontalFlip, p=0.5</li>
+<li>CenterCrop or RandomCrop</li>
+<li>A bit of ColorJitter</li>
+<li>Rescale between [-1, 1]</li>
+</ul>
+<p>Rotating is not used, and I also tried other normalization methods.</p>
+<p>（4） 在jupyter 中随机展示图像的技术，还是比较好的</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span> <span class="c1"># linear algebra</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span> <span class="c1"># data processing, CSV file I/O (e.g. pd.read_csv)</span>
+
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="kn">as</span> <span class="nn">ET</span>
+
+<span class="kn">import</span> <span class="nn">torch</span> 
+<span class="kn">import</span> <span class="nn">torchvision</span>
+
+<span class="c1"># Input data files are available in the &#34;../input/&#34; directory.</span>
+<span class="c1"># For example, running this (by clicking run or pressing Shift+Enter) will list the files in the input directory</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="k">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s2">&#34;../input&#34;</span><span class="p">))</span>
+
+<span class="n">img_base_path</span> <span class="o">=</span> <span class="s2">&#34;../input/all-dogs/all-dogs&#34;</span>
+<span class="c1"># Files</span>
+<span class="n">images</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">img_base_path</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&#34;Number of Images: &#34;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">images</span><span class="p">))</span>
+
+<span class="c1"># choose 16 random images to display</span>
+<span class="n">images_to_display</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">16</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">img</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">images_to_display</span><span class="p">):</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">xticks</span><span class="o">=</span><span class="p">[],</span> <span class="n">yticks</span><span class="o">=</span><span class="p">[])</span>
+    
+    <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">img_base_path</span><span class="p">,</span> <span class="n">img</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如何去判断 GAN 已经过拟合了？如果过拟合了（可以使用数据增强，但是对于gan 如何去判断过拟合了呢？）</p>
+<p>Data Augmentation help in training model better. Its like increasing size of your Dataset and prevents overfitting.</p>
+<p><strong>Crops will give be having only dogs in them, so model will be able to learn better and easier.</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Data Pre-procesing and Augmentation (Experiment on your own)</span>
+<span class="n">random_transforms</span> <span class="o">=</span> <span class="p">[</span><span class="n">transforms</span><span class="o">.</span><span class="n">ColorJitter</span><span class="p">(),</span> <span class="n">transforms</span><span class="o">.</span><span class="n">RandomRotation</span><span class="p">(</span><span class="n">degrees</span><span class="o">=</span><span class="mi">20</span><span class="p">)]</span>
+
+<span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span>
+                                <span class="n">transforms</span><span class="o">.</span><span class="n">CenterCrop</span><span class="p">(</span><span class="mi">64</span><span class="p">),</span>
+                                <span class="n">transforms</span><span class="o">.</span><span class="n">RandomHorizontalFlip</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span>
+                                <span class="n">transforms</span><span class="o">.</span><span class="n">RandomApply</span><span class="p">(</span><span class="n">random_transforms</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.3</span><span class="p">),</span>
+                                <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+                                <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))])</span>
+
+<span class="c1"># The dataset (example)</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">ImageFolder</span><span class="p">(</span>
+    <span class="s1">&#39;../input/all-dogs/&#39;</span><span class="p">,</span>
+    <span class="n">loader</span><span class="o">=</span><span class="n">ImageLoader</span><span class="p">,</span> <span class="c1"># THE CUSTOM LOADER</span>
+    <span class="n">transform</span><span class="o">=</span><span class="n">transform</span>
+<span class="p">)</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>在pytorch 中固定 seed</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">seed_everything</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
+    <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PYTHONHASHSEED&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">deterministic</span> <span class="o">=</span> <span class="bp">True</span>
+    
+<span class="n">seed_everything</span><span class="p">()</span>
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&#34;cuda&#34;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&#34;cpu&#34;</span><span class="p">)</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>使用长宽比例进行筛选图像,
+<a href="https://www.kaggle.com/leonshangguan/dcgan-data-cleaning-sub-v1?scriptVersionId=18470145">SUB of RaLSGAN-improved-parameters-ram-64</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">get_cleaned_data</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">annot</span><span class="p">,</span> <span class="n">class_dict</span><span class="p">):</span>
+    <span class="n">select_dogs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">select_bbox</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">select_labels</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">image</span><span class="p">)):</span>
+        <span class="n">bbox</span> <span class="o">=</span> <span class="n">get_bbox</span><span class="p">(</span><span class="n">annot</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">bbox</span> <span class="o">=</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">dog</span><span class="p">,</span> <span class="n">dog_class</span> <span class="o">=</span> <span class="n">get_image</span><span class="p">(</span><span class="n">annot</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">dog</span> <span class="o">==</span> <span class="s1">&#39;../input/all-dogs/all-dogs/n02105855_2933.jpg&#39;</span><span class="p">:</span>   <span class="c1"># this jpg is not in the dataset</span>
+            <span class="k">continue</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">dog</span><span class="p">)</span>
+        
+        <span class="n">xdiff</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">bbox</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">ydiff</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">bbox</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        
+        <span class="k">if</span> <span class="p">((</span><span class="nb">abs</span><span class="p">(</span><span class="n">ydiff</span> <span class="o">-</span> <span class="n">xdiff</span><span class="p">)</span><span class="o">/</span><span class="nb">min</span><span class="p">(</span><span class="n">ydiff</span><span class="p">,</span> <span class="n">xdiff</span><span class="p">)</span><span class="o">&lt;=</span><span class="mf">0.25</span><span class="p">)</span> <span class="ow">and</span> <span class="p">((</span><span class="n">xdiff</span><span class="o">&gt;=</span><span class="mi">64</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">ydiff</span><span class="o">&gt;=</span><span class="mi">64</span><span class="p">))):</span>
+<span class="c1">#         if (0.8&lt;(ydiff/xdiff)&lt;1.25) and (min(xdiff, ydiff)&gt;=128):            </span>
+            <span class="n">select_dogs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dog</span><span class="p">)</span>
+            <span class="n">select_bbox</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bbox</span><span class="p">)</span>
+            <span class="n">select_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">class_dict</span><span class="p">[</span><span class="n">dog_class</span><span class="p">])</span>
+            
+    <span class="k">return</span> <span class="n">select_dogs</span><span class="p">,</span> <span class="n">select_bbox</span><span class="p">,</span> <span class="n">select_labels</span>
+
+<span class="n">select_dogs</span><span class="p">,</span> <span class="n">select_bbox</span><span class="p">,</span> <span class="n">select_labels</span> <span class="o">=</span> <span class="n">get_cleaned_data</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">annot</span><span class="p">,</span> <span class="n">class_dict</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">transform1</span> <span class="o">=</span> <span class="bp">None</span> <span class="c1">#transforms.Compose([transforms.RandomResizedCrop(64, (1.0, 1.0))])</span>
+
+<span class="c1"># Data augmentation and converting to tensors</span>
+<span class="n">transform2</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span><span class="n">transforms</span><span class="o">.</span><span class="n">RandomResizedCrop</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.85</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)),</span>
+                                 <span class="n">transforms</span><span class="o">.</span><span class="n">RandomHorizontalFlip</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span> 
+                                 <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+                                 <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))])</span>
+
+
+<span class="n">train_data</span> <span class="o">=</span> <span class="n">DogsDataset</span><span class="p">(</span>
+    <span class="n">PATH</span><span class="p">,</span>
+    <span class="n">transform1</span><span class="p">,</span>
+    <span class="n">transform2</span>
+<span class="p">)</span>
+
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                           <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="c1"># Plot some training images</span>
+<span class="n">real_batch</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">train_loader</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&#34;off&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&#34;Training Images&#34;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">make_grid</span><span class="p">(</span><span class="n">real_batch</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)[:</span><span class="mi">64</span><span class="p">],</span> <span class="n">padding</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">)))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>{% endfold %}</p>
+<h3 id="图像数据预处理">图像数据预处理</h3>
+<blockquote>
+<p>The blue rectangles are the provided bounding boxes. I cropped all images to the yellow squares and resized them to 80x80 pixels. I chose a square that captures my best guess of where the dog head is and added padding beyond the bounding box to allow for random cropping during training.
+如果你最后使用 64 *64 去跑实验，那么先resize 成80 *80，这样是是可以之后进行数据增强的。（很好的tips）</p>
+</blockquote>
+<blockquote>
+<p>Data Augmentation, Random Cropping
+Each original image was cropped to a 80x80 square that included 25% extra image beyond bounding box (yellow squares below). This extra room allows us to randomly choose a 64x64 crop within (red squares below) and mostly stay outside the bounding box (blue rectangles).
+上面的一步是为了下面的步骤做准备</p>
+</blockquote>
+<p><img src="https://img.vim-cn.com/e8/3b74cbcc500141fb1879eadcfb9b37bbdbf74c.png" alt=""></p>
+<p>使用上面两个步骤得到的图像如下。
+<img src="https://i.niupic.com/images/2020/02/29/6X52.png" alt=""></p>
+<p>三种图像的预处理：</p>
+<blockquote>
+<p>image processing
+a) bounding box cropping only;
+b) bounding box cropping for images with multiple objects, for images with single object and boxsize / imagesize &gt;= 0.75, use original images instead of bounding box.
+c) bounding box cropping plus all original images</p>
+</blockquote>
+<p>Among the three processing methods, b) gets me the best private score, c) gets me the best public score 18, but did not go well with the private dataset.
+如果有了 bounding box，那么最后的结果是是更好的的。</p>
+<p>常见的可能需要调整的超参数</p>
+<p>losses
+I experimented with losses such as &ldquo;standard-dcgan&rdquo;, &ldquo;wgan-gp&rdquo;, &ldquo;lsgan&rdquo;, &ldquo;lsgan-with-sigmoid&rdquo;, &ldquo;hinge&rdquo;, &ldquo;relative-hinge&rdquo;. My experience is the best one for this problem with various models is the &ldquo;standard dcgan&rdquo; loss, the second best is &ldquo;lsgan-with-sigmoid&rdquo; loss.</p>
+<p>Attention at different stages
+According to the paper &ldquo;Self-Attention Generative Adversarial Networks&rdquo;(<a href="https://arxiv.org/pdf/1805.08318v2.pdf),">https://arxiv.org/pdf/1805.08318v2.pdf),</a> self-attention at middle-to-high level feature maps achieve better performance because it receives more evidence and more freedom to choose conditions with larger feature maps. My experiences mostly concur with the paper findings. I have attention at 32x32 feature map for the generator, but at 16x16 feature map for the discriminator.</p>
+<p>Training settings
+The learning rate for the discriminator is 0.0004, and the learning rate for the generator is 0.0002;
+batch size is 32(tried 64 but the result is not as stable as 32);
+label smoothing; thanks the kernel <a href="https://www.kaggle.com/phoenix9032/gan-dogs-starter-24-jul-custom-layers">https://www.kaggle.com/phoenix9032/gan-dogs-starter-24-jul-custom-layers</a> and its author Nirjhar Roy.
+learning rate scheduler: CosineAnnealingWarmRestarts
+number of epoch: 170</p>
+<p>the best latent space dimension size: 180</p>
+<blockquote>
+<p>8th place solution(private 89)</p>
+</blockquote>
+<p>To be honest, there is no special technique in my solution.
+I chose stylegan, then looked for good parameters.
+My stylegan starts with public score 140, then tuning parameters, I got 35.</p>
+<p>for preprocessing: crop image by bounding box, random horizontal flip （从道理上讲，水平翻转还是有用的，因为90度翻转可能没有语义信息，但是水平翻转是有点语义的）
+reduce input channel size of style generator to 256 because of resource limitation.
+all hyper parameters are shown in below.</p>
+<p>stylegan 中的参数好好看：</p>
+<blockquote>
+<p>trials that didn&rsquo;t work for me
+Truncation trick from stylegan paper. I tried various truncation strength, but without truncation was the best.
+Auxiliary Classifier
+Data cleaning. I thought training data quality is quite important, so I did some procedure (dog face detection, manually picking good images..) but nothing worked.
+Today, I read some kernels and learned there&rsquo;s some good techniques.
+This is one of the room for improvement of my solution, I guess.
+It was really fun competition! Thanks for kaggle team!!</p>
+</blockquote>
+<p>Truncation trick in W， 这个数字是在0和1 之间，越是接近0，那么最后生成的图像越是趋同；越是接近1，最后的图像越是多样性。</p>
+<blockquote>
+<p>1st place solution</p>
+</blockquote>
+<p>Preprocessing&amp;Augmentations</p>
+<ul>
+<li>exclude images with extreme aspect ratio (y/x &lt; 0.2 and y/x &gt; 4.0)</li>
+<li>exclude images with intruders (thanks @korovai for sharing the kernel <a href="https://www.kaggle.com/korovai/dogs-images-intruders-extraction-tf-gan">https://www.kaggle.com/korovai/dogs-images-intruders-extraction-tf-gan</a>)</li>
+<li>use BoundingBox (no modification)</li>
+<li>Resize 64 (one side) and then RandomCrop to image size (64,64)</li>
+<li>HorizontalFlip(p=0.5 以p=0.5 的概率)</li>
+</ul>
+<p>模型和参数相关</p>
+<p>・Model: BigGAN</p>
+<ul>
+<li>number of parameters G:10M, D:8M</li>
+<li>input noise from normal distribution (nz=120)</li>
+<li>use LeakyReLU</li>
+<li>attention on size 32 feature map</li>
+<li>use truncated trick (threshold=0.8)</li>
+<li>no EMA</li>
+</ul>
+<p>・Loss: BCE loss
+・Optimizer: Adam (lrG=3e-4, lrD=3e-4, beta1=0.0, beta2=0.999)
+・Batch Size: 32
+・Epochs: 130 (maximum kernel time limit, i.e. 32400sec)
+・Others</p>
+<ul>
+<li>label smoothing 0.9</li>
+</ul>
+<p>I made my kernel public <a href="https://www.kaggle.com/tikutiku/gan-dogs-starter-biggan">https://www.kaggle.com/tikutiku/gan-dogs-starter-biggan</a>
+version32 is the 1st place solution （注意查看的是version 32 ）</p>
+<p>数据预处理方面</p>
+<p>Transforms</p>
+<ul>
+<li>
+<p>RandomHorizontalFlip, p=0.5</p>
+</li>
+<li>
+<p>CenterCrop or RandomCrop</p>
+</li>
+<li>
+<p>A bit of ColorJitter</p>
+</li>
+<li>
+<p>Rescale between [-1, 1]</p>
+</li>
+<li>
+<p>I used dog boxes, but enlarge them by 10px on each side (这个的使用，是和上面的 centercrop 和randomcrop 相适应的)</p>
+</li>
+<li>
+<p>Dog races are also used</p>
+</li>
+</ul>
+<p>ColorJitter类也比较常用，主要是修改输入图像的4大参数值：brightness, contrast and saturation，hue，也就是亮度，对比度，饱和度和色度。可以根据注释来合理设置这4个参数。</p>
+<p><a href="https://www.kaggle.com/theoviel/conditional-progan-30-public"> medalConditional ProGan [30 public]</a></p>
+<p>数据预处理方面</p>
+<p>在使用 resize的时候， cv2.INTER_AREA 这个是关键。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># crop by square bounding box -&gt; resize and normalize.</span>
+<span class="c1"># cv2.INTER_AREA is better than others.</span>
+
+<span class="k">def</span> <span class="nf">load_bboxcrop_resized_image</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="n">bbox</span><span class="p">):</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_images</span><span class="p">,</span> <span class="nb">file</span><span class="p">))</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+
+    <span class="n">xmin</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">bbox</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="p">[</span><span class="n">ymin</span><span class="p">:</span><span class="n">ymax</span><span class="p">,</span><span class="n">xmin</span><span class="p">:</span><span class="n">xmax</span><span class="p">]</span>
+
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span><span class="n">A</span><span class="o">.</span><span class="n">Resize</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">INTER_AREA</span><span class="p">),</span>
+                           <span class="n">A</span><span class="o">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))])</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="n">img</span><span class="p">)[</span><span class="s1">&#39;image&#39;</span><span class="p">]</span>
+    
+    <span class="k">return</span> <span class="n">img</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>G 网络的noise 是不是也可以使用其他的方式，比如下面的Uniform input noise ？</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">truncated_normal</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">truncnorm</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="o">-</span><span class="n">threshold</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">x</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>FID emphasizes sample diversity too much.</p>
+<p>Key points:</p>
+<p>Model: based on BigGAN
+shared embedding of dog breed labels
+hierarchical latent noise
+projection
+auxiliary classifier (ACGAN)
+Loss: RaLS with weighted auxiliary classification loss
+Batch size: 128
+Exponential Moving Average of generator weights
+Uniform input noise on real images</p>
+<p>数据处理方面</p>
+<p>My goal with image transformations at first was to keep as much usefull information as possible. Given how the FID metric is sensitive to missing modes, it&rsquo;s reasonable to keep most of the images, even the unhandy ones.I focused mostly on geometric transformation. Pixel-level augmentation didn&rsquo;t bring any improvements for me.</p>
+<p>超参数方面</p>
+<p>I found it a lot easier to use generator with less parameters than default settings. （使用更加简单的G 网络）</p>
+<p>cyclic learning rates with cosine annealing and soft/hard warmups. With some settings it has a positive impact but tend to lack consistency. （learning rate 的调度算法）</p>
+<p>other possible z distrubutions as described in the BigGAN paper (Appendix E). Bernoulli didn&rsquo;t work at all, censored Gaussian gave a bit worse results than usual normal distribution.（z 的分布这个超参数）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">annotation_outdir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="调参部分">调参部分</h3>
+<p>大胆去尝试调参！！！</p>
+<p>To build a great GAN, you first build two great convolutional networks (Gen and Disc). Use either ResNet (BigGAN) or VGGNet (DCGAN) architecture. Next choose a loss function. Hinge loss is the current favorite. (Others are GAN, RaLSGAN, WGAN, ACGAN, etc) Then to prevent training from exploding, add normalization/regularization such as weight clipping, gradient penalty (WGAN-GP), batch norm, or spectral normalization (SN-GAN), etc. For best performance add modulation via batch norm using either class labels (CGAN), style labels (StyleGAN), or random noise labels (Self Mod). Next optimize your hyperparameters; alpha, beta1 and beta2 of your Adam optimizer. Choose if the discriminator will train extra epochs versus generator. Lastly choose a dataset, add more data with data augmentation, and start training on a fast GPU !</p>
+<p>After a few experiments, my BigGAN achieves LB 42 with the following changes from default. Batch size to 32 (from 64), learning rates to Adam alpha=0.0003, beta1=0.2, beta2=0.9 (from 0.0002, 0, 0.9). Discriminator channels to 48 (from 64), generator channels to 48 (from 64), train for 40,000 iterations with exponential decay beginning at 32,000.</p>
+<p>11th place solution</p>
+<p>这两篇是使用stylegan 进行调参的经验，可以多看看。
+<a href="https://www.kaggle.com/c/generative-dog-images/discussion/106452">https://www.kaggle.com/c/generative-dog-images/discussion/106452</a>
+<a href="https://www.kaggle.com/c/generative-dog-images/discussion/104281">https://www.kaggle.com/c/generative-dog-images/discussion/104281</a></p>
+<p>参考文献</p>
+<p><a href="https://towardsdatascience.com/stylegan2-ace6d3da405d">StyleGAN2</a></p>
+<p><a href="https://www.kaggle.com/c/generative-dog-images/discussion/106305">posted in Generative Dog Images</a></p>
+<p>其他：https://github.com/interviewBubble/Data-Science-Competitions</p>
+<p>这个给出了一个 ui 界面进行训练的 （这种项目是可以用来作为小作业的，因为是可以展示的）</p>
+<p><a href="https://github.com/HyperGAN/HyperGAN">https://github.com/HyperGAN/HyperGAN</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">python3 gpu_info.py 39.105.75.26 -u jeng
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-01-11
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/gan/">gan</a>
+          <a href="/tags/progan/">progan</a>
+          <a href="/tags/stylegan/">stylegan</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/pygen/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Pygen</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/git/">
+            <span class="next-text nav-default">Git tutorial</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

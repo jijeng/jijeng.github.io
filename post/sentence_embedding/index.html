@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Sentence Embedding - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="sentence embedding 学习笔记
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/sentence_embedding/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Sentence Embedding" />
+<meta property="og:description" content="sentence embedding 学习笔记" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/sentence_embedding/" />
+<meta property="article:published_time" content="2019-06-01T15:35:46+08:00" />
+<meta property="article:modified_time" content="2019-06-01T15:35:46+08:00" />
+<meta itemprop="name" content="Sentence Embedding">
+<meta itemprop="description" content="sentence embedding 学习笔记">
+<meta itemprop="datePublished" content="2019-06-01T15:35:46+08:00" />
+<meta itemprop="dateModified" content="2019-06-01T15:35:46+08:00" />
+<meta itemprop="wordCount" content="6031">
+
+
+
+<meta itemprop="keywords" content="sentence embedding," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Sentence Embedding"/>
+<meta name="twitter:description" content="sentence embedding 学习笔记"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Sentence Embedding</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-06-01 </span>
+        <div class="post-category">
+            <a href="/categories/nlp/"> nlp </a>
+            </div>
+          <span class="more-meta"> 约 6031 字 </span>
+          <span class="more-meta"> 预计阅读 13 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#why-consider-sentence-embedding">Why Consider Sentence Embedding?</a></li>
+        <li><a href="#words-embed">Words Embed</a>
+          <ul>
+            <li><a href="#平均词向量与tfidf加权平均词向量">平均词向量与TFIDF加权平均词向量</a></li>
+            <li><a href="#sif加权平均词向量">SIF加权平均词向量</a></li>
+            <li><a href="#利用n-grams-embedding">利用n-grams embedding</a></li>
+            <li><a href="#dan">DAN</a></li>
+          </ul>
+        </li>
+        <li><a href="#unsupervised-sentence-embed">Unsupervised Sentence Embed</a>
+          <ul>
+            <li><a href="#基于encoder-decoder的skip-thought-vectors">基于Encoder-decoder的Skip-Thought Vectors</a></li>
+            <li><a href="#quick-thought-vectors">Quick-Thought vectors</a></li>
+          </ul>
+        </li>
+        <li><a href="#supervised-sentence-embed">Supervised Sentence Embed</a>
+          <ul>
+            <li><a href="#infersent">InferSent</a></li>
+          </ul>
+        </li>
+        <li><a href="#multi-task-learning-sentence-embed">Multi-task learning Sentence Embed</a>
+          <ul>
+            <li><a href="#universal-sentence-encoder">Universal Sentence Encoder</a></li>
+          </ul>
+        </li>
+        <li><a href="#sentence-embedding">sentence embedding</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>sentence embedding 学习笔记</p>
+<h2 id="why-consider-sentence-embedding">Why Consider Sentence Embedding?</h2>
+<p>One simple way you could do this is by generating a word embedding for each word in a sentence, adding up all the embeddings and divide by the number of words in the sentence to get an “average” embedding for the sentence.</p>
+<p>句子embedding的表示 = words emebdding，可能使用 TF-IDF or SIF 作为weights 进行优化。</p>
+<p>Alternatively, you could use a more advanced method which attempts to add a weighting function to word embeddings which down-weights common words. This latter approach is known as Smooth Inverse Frequency (SIF).</p>
+<p>These methods can be used as a successful proxy for sentence embeddings. However, this “success” depends on the dataset being used and the task you want to execute. So for some tasks these methods could be good enough</p>
+<p>上述方法的主要缺点：语序；文字在上下文中才有意义；阅读理解，不同的句子是相同的意思，却得到不同的embedding；依赖于前期处理，如分词。</p>
+<p>However, there are a number of issues with any of these types of approaches:</p>
+<ul>
+<li>They ignore word ordering. This is obviously problematic.</li>
+<li>It&rsquo;s difficult to capture the semantic meaning of a sentence. The word crash can be used in multiple contexts, e.g. I crashed a party, the stock market crashed, or I crashed my car. It’s difficult to capture this change of context in a word embedding.</li>
+<li>Sentence length becomes problematic. With sentences we can chain them together to create a long sentence without saying very much, The Philadelphia Eagles won the Super Bowl, The Washington Post reported that the Philadelphia Eagles won the Super Bowl, The politician claimed it was fake news when the Washington Post reported that the Philadelphia Eagles won the Super Bowl, and so on. All these sentences are essentially saying the same thing but if we just use word embeddings, it can be difficult to discover if they are similar.</li>
+<li>They introduce extra complexity. When using word embeddings as a proxy for sentence embeddings we often need to take extra steps in conjunction with the base model. For example, we need to remove stop words, get averages, measure sentence length and so on.</li>
+</ul>
+<p>sentence embedding的应用场景：
+Similar approaches can be used to go beyond representations and semantic search, to document classification and understanding and eventually document summarizing or generation.</p>
+<h2 id="words-embed">Words Embed</h2>
+<h3 id="平均词向量与tfidf加权平均词向量">平均词向量与TFIDF加权平均词向量</h3>
+<h3 id="sif加权平均词向量">SIF加权平均词向量</h3>
+<p>来自论文 A simple but tough-to-beat baseline for sentence embeddings，更多信息可以参考<a href="https://jijeng.github.io/2019/05/27/paper-reading-nlp/">这里</a>。在大家都从无监督学习走向有监督学习的时候，这个无监督的方法和神经网络的效果是旗鼓相当的。</p>
+<h3 id="利用n-grams-embedding">利用n-grams embedding</h3>
+<p><a href="https://jijeng.github.io/2019/03/25/fastText-faiss/">fasttext</a> 介绍。简单说 n-gram 是一种概念，可以细化成两部分：character-level 和word-level，前者是可以用来补充词汇，加强对于不常见词的表示能力，后者是对于词序的补充。</p>
+<h3 id="dan">DAN</h3>
+<p>（Deep Unordered Composition Rivals Syntactic Methods for Text Classification）
+其实DAN(Deep Averaging Networks)应该属于Bag of Words类的算法。因为比较特殊，单独列出来。 它是在对所有词语取平均后，在上面加上几层神经网络。特殊的地方在于它在sentiment analysis中表现也不错，这在BOW类方法中比较罕见。</p>
+<p>文中提出了DAN(Deep average network)，说白了就是对于一个句子或者一个段落，把每个单词的embedding进行平均求和，得到第一层固定维度的向量，然后在套几层全连接神经网络。
+本质来讲，这个模型没有考虑单词之间的顺序，not在第一个位置和在最后一个位置对于DAN来讲输入都是一样的，所以自然conver不住这种情况。这是模型本身的问题，没有办法改进，除非换模型，比如textcnn就能很好的解决这种情况
+对于否定词敏感，比如but,not等，常常判断为negative。
+训练速度快，且结果较好，和Syntactic Composition性能差不多，但是消耗的计算资源少
+作为有监督学习任务来讲，可以试一试。但是由于全连接层，无法进行无监督学习。相反，NBOW可以无监督学习，比如文本相似度计算等。当然。对于DAN而言，可以通过迁移学习，预训练好全连接参数，实现无监督学习</p>
+<p><img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g3lqb2p5otj20bg08djt6.jpg" alt=""></p>
+<p>总结一下：对简单的任务来说，用简单的网络结构进行处理基本就够了，但是对比较复杂的任务，还是依然需要更复杂的网络结构来学习sentence representation的。</p>
+<h2 id="unsupervised-sentence-embed">Unsupervised Sentence Embed</h2>
+<h3 id="基于encoder-decoder的skip-thought-vectors">基于Encoder-decoder的Skip-Thought Vectors</h3>
+<p>skip-thoughts 中提及一个重要的方法是 词汇扩展。
+具体来说我们可以先用海量的语料训练一个Word2Vec，这样可以把一个词映射到一个语义空间，我们把这个向量叫做 $ V_{w 2 v} $。而我们之前训练的得到的输入向量也是把一个词映射到另外一个语义空间，我们记作$V_{r n n}$.</p>
+<p>我们假设它们之间存在一个线性变换$ f:  V_{w 2 v}  \rightarrow V_{r n n}$。这个线性变换的参数是矩阵W，使得$V_{r n n}$= $W V_{w 2 v} $。那怎么求这个变换矩阵W呢？因为两个训练语料会有公共的词(通常训练word2vec的语料比skip vector大得多，从而词也多得多)。因此我们可以用这些公共的词来寻找 $W$。寻找的依据是：遍历所有可能的W，使得$ W V_{w 2 v} $和$V_{rnn}$尽量接近。</p>
+<p>对于双向训练
+（不是使用了两个模型，而是使用正反两种不同顺序不同的训练数据集）
+此外还训练了bi-skip向量，它是这样得到的：首先训练1200维的uni-skip，然后句子倒过来，比如原来是”aa bb”、”cc dd”和”ee ff”，我们是用”cc dd”来预测”aa bb”以及”ee ff”，现在反过来变成”ff ee”、”dd cc”和”bb aa”。这样也可以训练一个模型，当然也就得到一个encoder(两个decoder不需要了)，给定一个句子我们把它倒过来然后也编码成1200为的向量，最后把这个两个1200维的向量拼接成2400维的向量。</p>
+<p>模型训练完成之后还需要进行词汇扩展。通过BookCorpus学习到了20,000个词，而word2vec共选择了930,911词，通过它们共同的词学习出变换矩阵W，从而使得我们的Skip Thought Vector可以处理930,911个词。
+（最终得到还是语言模型）</p>
+<p>这篇论文中的要点</p>
+<ul>
+<li>训练的时候在远大于 word2vec 的训练集上展开。如 skip-thought 中使用的 BookCorpus 数据集中是千万级别的 words(984,846,357)，在word2vec 中英文的 wikicorpus 是百万 (120 million words)， 所以相差一个数量级。</li>
+<li>objective function 是语言模型（类似 machine translation), 给定上下一个句子，然后预测中心句子的概率，不断的最大化的过程。</li>
+<li>词汇扩展，使用了一个word2vec 中的embedding 补充在训练数据集中没有出现过的 word，从word2vec 中的word 到该模型中的 word embedding 是学习了一个matrix，转换关系。缓解了oov 问题；关于oov 问题，句子的相似度不是exact的相似，而是一种 在语法和语义上的近似相似。</li>
+</ul>
+<p>Continuing the tour of older papers that started with our ResNet blog post, we now take on Skip-Thought Vectors by Kiros et al. Their goal was to come up with a useful embedding for sentences that was not tuned for a single task and did not require labeled data to train. They took inspiration from Word2Vec skip-gram (you can find my explanation of that algorithm here) and attempt to extend it to sentences.</p>
+<p>Changing a single word has had almost no effect on the meaning of that sentence. To account for these word level changes, the skip-thought model needs to be able to handle a large variety of words, some of which were not present in the training sentences. The authors solve this by using a pre-trained continuous bag-of-words (CBOW) Word2Vec model and learning a translation from the Word2Vec vectors to the word vectors in their sentences. Below are shown the nearest neighbor words after the vocabulary expansion using query words that do not appear in the training vocabulary:</p>
+<p>论文描述了一种通用、分布式句子编码器的无监督学习方法。使用从书籍中提取的连续文本，训练了一个编码器-解码器模型，借鉴了word2vec中skip-gram模型，通过一句话来预测这句话的上一句和下一句。
+语义和语法属性一致的句子被映射到相似的向量表示。接着引入一个简单的词汇扩展方法来编码不再训练集内的单词，令词汇量扩展到一百万词。
+本文的模型被称为skip-thoughts，生成的向量称为skip-thought vector。模型采用了当下流行的端到端框架，通过搜集了大量的小说作为训练数据集，将得到的模型中encoder部分作为feature extractor，可以给任意句子生成vector。</p>
+<p>skip-thought模型结构借助了skip-gram的思想。在skip-gram中，是以中心词来预测上下文的词；在skip-thought同样是利用中心句子来预测上下文的句子。</p>
+<p><img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g3kgkdu4ivj20t7049glk.jpg" alt="">
+论文采用了GRU-RNN作为encoder和decoder，encoder部分的最后一个词的hidden
+state作为decoder的输入来生成词。这里用的是最简单的网络结构，并没有考虑复杂的多层网络、双向网络等提升效果。decoder部分也只是一个考虑了encoder last hidden state的语言模型，并无其他特殊之处，只是有两个decoder，是一个one maps two的情况，但计算方法一样。模型中的目标函数也是两个部分，一个来自于预测下一句，一个来自于预测上一句。</p>
+<p>传说中的 objective function or loss function 是下面这个样子：</p>
+<p><img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g3khqremrtj20k001zwet.jpg" alt="">
+我们将构造一个类似于自编码器的序列到序列结构，但是它与自编码器有两个主要的区别。第一，我们有两个 LSTM 输出层：一个用于之前的句子，一个用于下一个句子；第二，我们会在输出 LSTM 中使用教师强迫（teacher forcing）。这意味着我们不仅仅给输出 LSTM 提供了之前的隐藏状态，还提供了实际的前一个单词。</p>
+<p>看上去，Skip-thought和Skip-gram挺象。唯一的遗憾是Skip-thought的decoder那部分，它是作为language modeling来处理的.</p>
+<p><img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g3kjhda478j20hz09p3yp.jpg" alt=""></p>
+<p>从这里的讲解知道这个是不存在 ”正负“样本的， 这个的损失函数是 正确的上下句和生成的上下句之间的reconstruction error。
+<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g3kk2h1usnj218g0hvn0n.jpg" alt=""></p>
+<p>The end product of Skip-Thoughts is the Encoder. The Decoders are thrown away after training. The trained encoder can then be used to generate fixed length representations of sentences which can be used for several downstream tasks such as sentiment classification, semantic similarity, etc.</p>
+<p>The encoder utilises a word embedding layer that serves as a look up table. This converts each word in the input sentence to its corresponding word embedding, effectively converting the input sentence into a sequence of word embeddings. This embedding layer is also shared with both of the decoders. The model is then trained to minimise the reconstruction error of the previous and next sentences using the resulting embedding h(i) generated from sentence s(i) after it is passed through the encoder. Back propagating the reconstruction error from the decoder allows the encoder to learn the best representation of the input sentence while capturing the relation between itself and the surrounding sentences.
+Skip-Thoughts is designed to be a sentence encoder and the result is that the decoders are actually discarded after the training process. The encoder along with the word embedding layer is used as a feature extractor able to encode new sentences that are fed through it. Using cosine similarity on the resulting encoded sentence embeddings, provides a powerful semantic similarity mechanism, where you can measure how closely two sentences relate in terms of meaning as well as syntax.</p>
+<p><strong>Encoder Network:</strong> The encoder is typically a GRU-RNN which generates a fixed length vector representation h(i) for each sentence S(i) in the input. The encoded representation h(i) is obtained by passing final hidden state of the GRU cell (i.e. after it has seen the entire sentence) to multiple dense layers.</p>
+<p><strong>Decoder Network:</strong> The decoder network takes this vector representation h(i) as input and tries to generate two sentences — S(i-1) and S(i+1), which could occur before and after the input sentence respectively. Separate decoders are implemented for generation of previous and next sentences, both being GRU-RNNs. The vector representation h(i) acts as the initial hidden state for the GRUs of the decoder networks.</p>
+<p><strong>词汇扩展</strong></p>
+<p>当初有个面试官问道的训练样本不足的问题，现在给出答案，一种是大量的数据集，因为这个是无监督的学习，不需要标签，所以使用了大量的小说作为训练集；对于相似句子的定义，不是 exact的相似，只要在语法或者语义上相似，那么这个就可以看做相同的样本；然后还使用了 预训练的 模型进行 vocabulary 中词汇的补充。</p>
+<p>作者在训练完过后用在Google News dataset上预训练的模型对Vocabulary进行了词汇扩展主要是为了弥补我们的 Decoder 模型中词汇不足的问题。具体的做法就是：
+<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g3lpn0w28jj2184068wex.jpg" alt="">
+(from <a href="https://www.cnblogs.com/jiangxinyang/p/9638991.html">https://www.cnblogs.com/jiangxinyang/p/9638991.html</a>)</p>
+<p>该思路借鉴于Tomas Mikolov的一篇文章Exploiting Similarities among Languages for Machine Translation中解决机器翻译missing words问题的思路，对训练集产生的词汇表V(RNN)进行了扩展，具体的思路可参考Mikolov的文章，达到的效果是建立了大数据集下V(Word2Vec)和本文V(RNN)之间的映射，V(Word2Vec)的规模远远大于V(RNN)，论文中V(RNN)包括了20000个词，V(Word2Vec)包括了930000多个词，成功地解决了这一问题，使得本文提出的无监督模型有大的应用价值。</p>
+<p><strong>评价观点</strong>
+这个方法只是适用于长文本，要求是至少有两个衔接的句子，思想和skip-gram 比较相近。
+<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g3lprunwuyj212u0guq4v.jpg" alt=""></p>
+<p><strong>源码</strong>
+<a href="https://github.com/tensorflow/models/tree/master/research/skip_thoughts">google 的实现</a>
+<a href="https://github.com/ryankiros/skip-thoughts">作者的实现</a>
+<a href="https://papers.nips.cc/paper/5950-skip-thought-vectors.pdf">论文</a></p>
+<h3 id="quick-thought-vectors">Quick-Thought vectors</h3>
+<p>intuition:</p>
+<ul>
+<li>基于生成的model， the models are trained to reconstruct the surface form of a sentence, but sometimes words are irrelevant to the meaning of the sentence as well</li>
+<li>生成模型的计算成本比较高，</li>
+</ul>
+<p>而文中的模型是一种判别模型，所以从原理上这种计算的效率就远远高于生成模型。 Viewing generation as choosing  a sentence from all possible sentences, this can be seen as a discriminative approximation to the generation problem.</p>
+<p>在实践中经验之谈， 不是要求分类器去判别 positive / negative, 只是要求分类器对于 ground-truth contexts than contrastive contexts more plausible。这个比前者在实验结果上是好的。</p>
+<p>论文中的一些观点：
+encoder-decoder based sequence models 虽然效果好，但是 slow to train on large amounts of data. 另一方面, bag-of-words 虽然高效，但是无法捕捉到 word order 信息。</p>
+<p>2018年发表的论文<a href="https://arxiv.org/pdf/1803.02893.pdf">An efficient framework for learning sentence representations</a>提出了一种简单且有效的框架用于学习句子表示。和常规的编码解码类模型（如skip-thoughts和SDAE）不同的是，本文采用一种分类器的方式学习句子表示。具体地，模型的输入为一个句子$s$以及一个候选句子集合$S_{cand}$，其中$S_{cand}$包含一个句子$s_{ctxt}$是$s$的上下文句子（也就是$s $)的前一个句子或后一个句子）以及其他不是$s$上下文的句子。模型通过对$s$以及$S_{cand}$中的每个句子进行编码，然后输入到一个分类器中，让分类器选出$S_{cand}$中的哪个句子是$s_{ctxt}$。实验设置候选句子集合大小为3，即$S_{cand}$包含1个上下文句子和两个无关句子。模型结构如下：</p>
+<p>模型有如下两个细节需要注意：
+模型使用的分类器（得分函数）$c$非常简单，是两个向量内积，即$c(u, v)=u^Tv$，计算$s$的embedding与所有$S_{cand}$中的句子向量内积得分后，输入到softmax层进行分类。使用简单分类器是为了引导模型着重训练句子编码器，因为我们的目的是为了得到好的句子向量表示而不是好的分类器。
+<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g3lq4allnfj20gk0ji0th.jpg" alt="">
+虽然某些监督任务模型如文本蕴含模型是参数共享的，$s$的编码器参数和候选句子编码器参数是不同的（不共享），**因为句子表示学习往往是在大规模语料上进行训练，不必担心参数学习不充分的问题 **。测试时，给定待编码句子$s$，通过该模型得到的句子表示是两种编码器的连结 $[ f ( s ) ;g ( s ) ]$。</p>
+<p><img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g3klfpv0g9j20k0083go0.jpg" alt="">
+看上去，Skip-thought和Skip-gram挺象。唯一的遗憾是Skip-thought的decoder那部分，它是作为language modeling来处理的。QT针对这个问题，对decoder部分做了大的调整，它直接把decoder拿掉，取而代之的是一个classifier。这个classifier负责预测哪些句子才是context sentences。</p>
+<p>QT的classifier取代了Skip-thought的Decoder。这样做的好处是运行的速度大大提升了，<strong>用判别问题取代了生成式问题</strong>（这个是才是速度提升的原因）。有趣的是，虽然QT出现的比Skip-thought更晚，但是方法更简单，也更加接近Word2Vec算法。</p>
+<p>QT是一种新的state-of-art的算法。它不光效果好，而且训练时间要远小于其他算法。在算法方法上和效果上，都可称为是句子表征界的Word2Vec一般的存在。和前面几篇介绍的不同算法放在一起比较，同样都是为了找到好的句子表征，它们采取了不同的路径：InferSent在寻找NLP领域的ImageNet, 它的成功更像是在寻找数据集和任务上的成功，当然它成功的找到了SNLI; Concatenated p-means在寻找NLP领域的convolutional filter; QT则是直接在算法层面上，寻找句子级别的Word2Vec, 算法上的改进让它受益。我们看到不同的方法在不同的方向上都作出了努力和取得了成效，很难讲哪种努力会更有效或者更有潜力。</p>
+<h2 id="supervised-sentence-embed">Supervised Sentence Embed</h2>
+<h3 id="infersent">InferSent</h3>
+<p>来自论文Supervised Learning of Universal Sentence Representations from Natural Language Inference Data，更多信息参考 <a href="https://jijeng.github.io/2019/05/27/paper-reading-nlp/">这里</a></p>
+<h2 id="multi-task-learning-sentence-embed">Multi-task learning Sentence Embed</h2>
+<h3 id="universal-sentence-encoder">Universal Sentence Encoder</h3>
+<p>来自论文 Universal Sentence Encoder，更多信息参考 <a href="https://jijeng.github.io/2019/05/27/paper-reading-nlp/">Universal Sentence Encoder</a></p>
+<h2 id="sentence-embedding">sentence embedding</h2>
+<p>为什么考虑sentence embedding?</p>
+<ul>
+<li>语序（语义）在word embedding 中不能体现</li>
+<li>word embedding 的效果依赖于分词</li>
+</ul>
+<p>SIF 是一种无监督的学习方式，但是最后的效果和NN 是相当的。</p>
+<p>训练样本不足的问题</p>
+<ul>
+<li>
+<p>词汇扩展：使用word embedding补充 sentence embedding</p>
+</li>
+<li>
+<p>集成学习：使用多个不同的模型或者大的数据集进行补充 词向量</p>
+</li>
+</ul>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-06-01
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/sentence-embedding/">sentence embedding</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/svm/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">SVM All You Need to Know</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/leetcode_string/">
+            <span class="next-text nav-default">Leetcode-String</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

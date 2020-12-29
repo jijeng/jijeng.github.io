@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>image classification on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/image-classification/</link>
+    <description>Recent content in image classification on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 29 Oct 2020 09:54:55 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/image-classification/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Image classification</title>
+      <link>http://jijeng.github.io/post/image_classification/</link>
+      <pubDate>Thu, 29 Oct 2020 09:54:55 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/image_classification/</guid>
+      <description>&lt;p&gt;记录图像分类过程中常见的优化点（code）。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

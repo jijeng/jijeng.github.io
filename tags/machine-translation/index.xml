@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>machine translation on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/machine-translation/</link>
+    <description>Recent content in machine translation on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 29 Jun 2019 15:34:19 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/machine-translation/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Machine_translation</title>
+      <link>http://jijeng.github.io/post/machine_translation/</link>
+      <pubDate>Sat, 29 Jun 2019 15:34:19 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/machine_translation/</guid>
+      <description>&lt;p&gt;介绍机器翻译的五个发展阶段，然后是关于机器翻译的论文阅读笔记（持续更新）&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Image Interpolation - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="对于图像（image interpolation） 和图像resize 相关知识的整理学习。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/image_interpolation/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Image Interpolation" />
+<meta property="og:description" content="对于图像（image interpolation） 和图像resize 相关知识的整理学习。
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/image_interpolation/" />
+<meta property="article:published_time" content="2020-02-18T14:29:39+08:00" />
+<meta property="article:modified_time" content="2020-02-18T14:29:39+08:00" />
+<meta itemprop="name" content="Image Interpolation">
+<meta itemprop="description" content="对于图像（image interpolation） 和图像resize 相关知识的整理学习。
+">
+<meta itemprop="datePublished" content="2020-02-18T14:29:39+08:00" />
+<meta itemprop="dateModified" content="2020-02-18T14:29:39+08:00" />
+<meta itemprop="wordCount" content="3770">
+
+
+
+<meta itemprop="keywords" content="image interpolation," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Image Interpolation"/>
+<meta name="twitter:description" content="对于图像（image interpolation） 和图像resize 相关知识的整理学习。
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Image Interpolation</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-02-18 </span>
+        
+          <span class="more-meta"> 约 3770 字 </span>
+          <span class="more-meta"> 预计阅读 8 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#图像插值">图像插值</a>
+          <ul>
+            <li><a href="#图像处理中常见的插值算法分类">图像处理中常见的插值算法分类</a></li>
+          </ul>
+        </li>
+        <li><a href="#图像的resize">图像的resize</a></li>
+        <li><a href="#image-warping">Image warping</a></li>
+        <li><a href="#图像的格式修改">图像的格式修改</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>对于图像（image interpolation） 和图像resize 相关知识的整理学习。</p>
+<img src="https://s1.ax1x.com/2020/05/22/YOpwd0.png" width="80%" height="80%">
+<p>插值算法主要可以分为两类，一类是线性图像插值方法，另一类是非线性图像插值方法。传统的插值方法如最近邻插值，双线性插值以及双三次插值等都属于线性插值方法。这类插值方法在图像插值过程中采用同一种插值内核，不用考虑待插像素点所处的位置，这种做法会使图像中的边缘变得模糊不清，达不到高清图像的视觉效果。</p>
+<p>非线性插值方法主要包括：基于小波系数的方法基于边缘信息的方法。其中，基于边缘信息的方法又可分为隐式方法和显式方法两种。隐式方法包含边缘导向插值(New edge directive interpolation，NEDI)，最小均方误差估计插值(Linear minimum mean square-error estimation，LMMSE)、软判决自适应插值(Soft-decision adaptive interpolation interpolation,SAI)，提出的边缘对比度引导的图像插值(Contrast-guideed image interpolation,CGI)等都是隐式的基于图像边缘的插值方法。</p>
+<p>最新发展的话有基于决策树，深度学习，字典学习的图像插值算法。</p>
+<p>线性插值算法常用有五种，在OpenCV中设置可以通过相关参数很方便地进行设置。</p>
+<h2 id="图像插值">图像插值</h2>
+<p>缩小图像（下采样或者降采样）的主要目的：使得图像符合显示区域的大小；生成图像的缩略图。当乳香像素数量减少时候，图像的质量不可避免受到影响。然而确实存在一些缩放方法能够增加图像的信息，从而使得缩放后的图像质量高于原图质量。</p>
+<p>放大图像（上采样或者插值-image interpolating）主要目的是放大原图像，从而显示在更高的分辨率上。向上采样，可以指定插值算法来实现。</p>
+<p>插值就是在不生成图像的情况下增加图像像素的一种方式，根据周围像素色彩使用数学方法计算丢失图像的色彩，插值并不能增加图像信息。</p>
+<h3 id="图像处理中常见的插值算法分类">图像处理中常见的插值算法分类</h3>
+<p>1.传统差值原理和评价</p>
+<p>在传统图像插值算法中，邻插值较简单，容易实现，早期的时候应用比较普遍。但是，该方法会在新图像中产生明显的锯齿边缘和马赛克现象。双线性插值法具有平滑功能，能有效地克服邻法的不足，但会退化图像的高频部分，使图像细节变模糊。在放大倍数比较高时，高阶插值，如双三次和三次样条插值等比低阶插值效果好。这些插值算法可以使插值生成的像素灰度值延续原图像灰度变化的连续性，从而使放大图像浓淡变化自然平滑。但是在图像中，有些像素与相邻像素间灰度值存在突变，即存在灰度不连续性。这些具有灰度值突变的像素就是图像中描述对象的轮廓或纹理图像的边缘像素。在图像放大中，对这些具有不连续灰度特性的像素，如果采用常规的插值算法生成新增加的像素，势必会使放大图像的轮廓和纹理模糊，降低图像质量。</p>
+<p>2.基于边缘的图像插值算法</p>
+<p>为了克服传统方法的不足， 提出了许多边缘保护的插值方法，对插值图像的边缘有一定的增强， 使得图像的视觉效果更好， 边缘保护的插值方法可以分为两类： 基于原始低分辨图像边缘的方法和基于插值后高分辨率图像边缘的方法。基于原始低分辨率图像边缘的方法:( 1)首先检测低分辨率图像的边缘， 然后根据检测的边缘将像素分类处理， 对于平坦区域的像素，采用传统方法插值；对于边缘区域的像素， 设计特殊插值方法， 以达到保持边缘细节的目的。(2)基于插值后高分辨率图像边缘的方法这类插值方法:首先采用传统方法插值低分辨率图像，然后检测高分辨率图像的边缘，最后对边缘及附近像素进行特殊处理， 以去除模糊， 增强图像的边缘。</p>
+<p>3.基于区域的图像插值算法</p>
+<p>首先将原始低分辨率图像分割成不同区域，然后将插值点映射到低分辨率图像， 判断其所属区域， 最后根据插值点的邻域像素设计不同的插值公式， 计算插值点的值。</p>
+<ol start="4">
+<li>Common interpolation algorithms can be grouped into two categories: adaptive and non-adaptive.</li>
+</ol>
+<blockquote>
+<p>Non-adaptive algorithms include: nearest neighbor, bilinear, bicubic, spline, sinc, lanczos and others. Depending on their complexity, these use anywhere from 0 to 256 (or more) adjacent pixels when interpolating. The more adjacent pixels they include, the more accurate they can become, but this comes at the expense of much longer processing time. These algorithms can be used to both distort and resize a photo.</p>
+</blockquote>
+<blockquote>
+<p>Adaptive algorithms include many proprietary algorithms in licensed software such as: Qimage, PhotoZoom Pro, Genuine Fractals and others. Many of these apply a different version of their algorithm (on a pixel-by-pixel basis) when they detect the presence of an edge — aiming to minimize unsightly interpolation artifacts in regions where they are most apparent. These algorithms are primarily designed to maximize artifact-free detail in enlarged photos, so some cannot be used to distort or rotate an image.
+能够检测边缘信息，然后根据这些信息选择不同的 interpolation 算法</p>
+</blockquote>
+<h2 id="图像的resize">图像的resize</h2>
+<p>经常说的像素，有时候却不注意其定义。</p>
+<p>resolution = width x height</p>
+<p>使用 PIL 软件，可以 resize 图像（可以保持长宽比例），比如下面的例子</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;&lt;name of image file&gt;&#39;</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="n">fx</span><span class="o">=</span><span class="n">scaleX</span><span class="p">,</span><span class="n">fy</span><span class="o">=</span><span class="n">scaleY</span><span class="p">,</span> <span class="n">interpolation</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">INTER_CUBIC</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>给定一定的宽度，然后根据宽度去调整高度，按照上述规则去resize 图像。</p>
+<p>如果想要在尺寸变小的情况下保持比较好的图像的质量，那么是可以使用 OpenCV 进行图像的预处理。（可以保持图像的质量）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;&lt;name of image file&gt;&#39;</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="n">fx</span><span class="o">=</span><span class="n">scaleX</span><span class="p">,</span><span class="n">fy</span><span class="o">=</span><span class="n">scaleY</span><span class="p">,</span> <span class="n">interpolation</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">INTER_CUBIC</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>Nearest Neighbor Scaling— This is the fastest and simplest to implement. This technique replaces every pixel with the nearest pixel in the output. When upscaling an image, multiple pixels of the same color will be duplicated throughout the image. For example let us say we have an image region of 2x2 blue pixels. When we upscale it to 3x3, we create 5 additional pixels, that have no color associated with it. Using Nearest Neighbor, the algorithm merely uses the blue pixel’s color to assign to the new pixels. One problem this can introduce are jagged edges or aliasing, so refining the process is required.</p>
+</blockquote>
+<blockquote>
+<p>Bilinear — This interpolates pixels much better than Nearest Neighbor. It uses the same approach but the computation is much more complex. The technique will set the color or gray value of each pixel according to the nearest pixels. It takes a 2x2 or 4 pixel sample of the 4 nearest cells of the grid, and applies weights based on distance. Bilinear is not continuous over square boundaries, so the colors are not radially symmetric.</p>
+</blockquote>
+<blockquote>
+<p>Bicubic Interpolation — This technique uses interpolation on a 2D grid of pixels. This is a much slower algorithm, since it takes time to process when resampling an image. Bicubic samples 4x4 or 16 pixels at a time. The results are much smoother looking images with less artifacts. This algorithm produces the best results out of the three discussed.</p>
+</blockquote>
+<p>PIL提供了4种不同的采样滤波器：</p>
+<p>① NEAREST：最近滤波。从输入图像中选取最近的像素作为输出像素。</p>
+<p>② BILINEAR：双线性内插滤波。在输入图像的2*2矩阵上进行线性插值。</p>
+<p>③ BICUBIC：双立方滤波。在输入图像的4*4矩阵上进行立方插值。</p>
+<p>④ ANTIALIAS：平滑滤波。对所有可以影响输出像素的输入像素进行高质量的重采样滤波，以计算输出像素值。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">im.resize()和im.thumbnail()用到了滤波器
+方法一：resize(size,filter = None)
+&gt;&gt;&gt; from PIL import Image 
+&gt;&gt;&gt; im = Image.open(&#39;*.jpg&#39;)
+&gt;&gt;&gt; im.size
+&gt;&gt;&gt; im_resize = im.resize((256,256)) #default 情况下是NEAREST插值方法
+&gt;&gt;&gt; im_resize0 = im.resize((256,256), Image.BILINEAR)
+&gt;&gt;&gt; im_resize0.size
+&gt;&gt;&gt; im_resize1 = im.resize((256,256), Image.BICUBIC)
+&gt;&gt;&gt; im_resize2 = im.resize((256,256), Image.ANTIALIAS)
+
+方法二：im.thumbnail(size,filter = None)
+</code></pre></td></tr></table>
+</div>
+</div><p>PIL 和cv2 的resize 效果对比</p>
+<p>PIL 中比较好的是 <code>Image.ANTIALIAS</code></p>
+<p>很明显可以看出PIL默认的resize效果很差（中间），很多细节已经失真。加入Image.ANTIALIAS后，效果要比默认的好，但是在某些细节还是没有opencv默认的resize效果好。</p>
+<p>cv2 中当压缩图像时候，比较好的是 CV_INTER_AREA；当放大图像比较好的是 CV_INTER_CUBIC。</p>
+<blockquote>
+<p>To shrink an image, it will generally look best with CV_INTER_AREA interpolation, whereas to enlarge an image, it will generally look best with CV_INTER_CUBIC (slow) or CV_INTER_LINEAR (faster but still looks OK).</p>
+</blockquote>
+<p>一般来说 cv2 中的CV_INTER_AREA 要比 PIL 中的 Image.ANTIALIAS 要好。</p>
+<p>imagemagic 中常用的几个命令</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 查看图片属性的命令
+identify **.png 
+
+# 这个是convert resize 大小的命令
+convert input.jpg -resize 300 output.jpg
+convert input.jpg -resize 300 -quality 75 output.jpg
+
+# 按照比例缩放
+convert -resize 600×600 src.jpg dst.jpg
+
+# 无序保持你原有的比例 （注意有一个 ! 号，并且是宽高 这样的顺序）
+convert -resize 600×600! src.jpg dst.jpg
+
+4.使用^命令后缀可以使用宽高中较小的那个值作为尺寸
+
+convert -resize “300×300^” src.jpg dst.jpg
+
+#此命令执行后，dst.jpg图片大小为（400×300），图片保持原有比例，(300:300 &lt; 200:150，选择高作为最小尺寸）。
+
+convert -resize “300×200^” src.jpg dst.jpg
+
+#此命令执行后，dst.jpg图片大小为（300×225），图片保持原有比例，(300:200 &gt; 200:150，选择宽作为最小尺寸）。
+
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><a href="https://www.smashingmagazine.com/2015/06/efficient-image-resizing-with-imagemagick/">ImageMagic</a> 和 <a href="https://chadrick-kwag.net/cv2-resize-interpolation-methods/">cv2</a> 是比较好的实现工具;</li>
+<li>对于自己的图像，需要具体尝试不同的算法，使用多个数据源，然后对比不同的压缩效果。</li>
+</ul>
+<p>在linux 下也有视频相关处理的方案：ffmpeg</p>
+<p>因为自己不是很常用，那么简单给出了相关的参考资料。之后可以学习一下</p>
+<p><a href="https://zhuanlan.zhihu.com/p/67878761">给新手的 20 多个 FFmpeg 命令示例</a>
+<a href="http://www.ruanyifeng.com/blog/2020/01/ffmpeg.html">FFmpeg 视频处理入门教程</a> 阮一峰写的教程</p>
+<p>强大的图像处理库（可以使用命令行哦，接下来好好学习ImageMagic）</p>
+<p><a href="https://www.smashingmagazine.com/2015/06/efficient-image-resizing-with-imagemagick/">Efficient Image Resizing With ImageMagick</a>
+<a href="https://www.cnblogs.com/2333333he-tui/p/10622495.html">图像插值笔记</a>
+<a href="https://medium.com/hd-pro/jpeg-image-scaling-algorithms-913987c9d588">JPEG Image Scaling Algorithms</a></p>
+<h2 id="image-warping">Image warping</h2>
+<ol>
+<li>定义</li>
+</ol>
+<blockquote>
+<p>Image warping is the process of digitally manipulating an image such that any shapes portrayed in the image have been significantly distorted. Warping may be used for correcting image distortion as well as for creative purposes (e.g., morphing[1]). The same techniques are equally applicable to video.
+图像扭曲</p>
+</blockquote>
+<blockquote>
+<p>Move pixels of an image</p>
+</blockquote>
+<ol start="2">
+<li>分类</li>
+</ol>
+<p>Forward warping是在基于知道坐标的转换关系x(u,v)x(u,v)、y(u,v)y(u,v)后，直接把原图的每个坐标变换到新位置上，如果变换坐标(x,y)(x,y)不是整数，那么就按最近的取整。但问题是，新图中很多格子并没有对应到原图中的点上。</p>
+<img src="https://i.loli.net/2020/05/27/ezpalqUmCPBJgnT.png"  height ="80%" width ="80%">
+<p>Inverse warping是对于每个获得的新坐标(x,y)(x,y)，用逆向的映射函数u(x,y)u(x,y)、v(x,y)v(x,y)找到它在原图中对应的位置(u,v)(u,v)，然后让g(x,y)=f(u,v)g(x,y)=f(u,v)。如果算出来的点(u,v)(u,v)不在格子上，就用插值方法获得像素值。</p>
+<img src="https://i.loli.net/2020/05/27/XsYGipd73AJke8v.png"  height ="80%" width ="80%">
+<p><a href="https://blog.csdn.net/Cyiano/article/details/78658368">图像处理中的forward warping 和 inverse warping</a></p>
+<p><a href="https://www.seas.upenn.edu/~cse399b/Lectures/CSE399b-07-warping.pdf">Image Warping</a></p>
+<p><a href="https://www.cs.princeton.edu/courses/archive/spr11/cos426/notes/cos426_s11_lecture03_warping.pdf">Image Warping</a></p>
+<p><a href="https://www.cs.princeton.edu/courses/archive/fall00/cs426/lectures/warp/warp.pdf">Image Warping</a></p>
+<ol start="3">
+<li>应用</li>
+</ol>
+<p>面部变形(Face Morph)，这里面将要用到一种叫做扭曲(Image Warp)的图像变换技术。</p>
+<p>Issues:
+ How do we specify where every pixel goes? (mapping)
+ How do we compute colors at dest pixels? (resampling)</p>
+<p>How do we specify where every pixel goes? (mapping)</p>
+<p>Parametric Mappings</p>
+<ul>
+<li>Scale by factor:</li>
+<li>Rotate by Θ degrees:</li>
+<li>Any function of u and v:</li>
+</ul>
+<p>Point Correspondence Mappings</p>
+<ul>
+<li>Mappings implied by correspondences:</li>
+<li>Beier &amp; Neeley use pairs of lines to specify warp</li>
+</ul>
+<p>How do we compute colors at dest pixels? (resampling)
+Image warping requires resampling of image</p>
+<p>Point Sampling</p>
+<ul>
+<li>Point filter</li>
+<li>Triangle filter</li>
+<li>Gaussian filter</li>
+</ul>
+<p>Use nearest sample</p>
+<h2 id="图像的格式修改">图像的格式修改</h2>
+<p>如果是一张图片，那么从 png 转成 jpg，那么使用以下的命令</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">convert image.png image.jpg
+</code></pre></td></tr></table>
+</div>
+</div><p>如果是一批图片，那么使用以下的命令</p>
+<p>it will keep the original as well as creating the converted image. As for batch. I think you need to use the Mogrify tool (from the same command line when in imagemagick). Keep in mind that this overwrites the old images. The command is:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">mogrify -format jpg *.png  
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-02-18
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/image-interpolation/">image interpolation</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/linux_service/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">linux service monitors</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/pix2pixhd/">
+            <span class="next-text nav-default">Pix2pixhd</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

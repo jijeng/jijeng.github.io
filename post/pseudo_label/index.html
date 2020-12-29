@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>伪标签（Pseudo-Label）：一种简单有效的半监督学习方式 - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="对于伪标签（Pseudo-Label）的学习整理。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/pseudo_label/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="伪标签（Pseudo-Label）：一种简单有效的半监督学习方式" />
+<meta property="og:description" content="对于伪标签（Pseudo-Label）的学习整理。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/pseudo_label/" />
+<meta property="article:published_time" content="2020-02-26T16:01:25+08:00" />
+<meta property="article:modified_time" content="2020-02-26T16:01:25+08:00" />
+<meta itemprop="name" content="伪标签（Pseudo-Label）：一种简单有效的半监督学习方式">
+<meta itemprop="description" content="对于伪标签（Pseudo-Label）的学习整理。">
+<meta itemprop="datePublished" content="2020-02-26T16:01:25+08:00" />
+<meta itemprop="dateModified" content="2020-02-26T16:01:25+08:00" />
+<meta itemprop="wordCount" content="1333">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="伪标签（Pseudo-Label）：一种简单有效的半监督学习方式"/>
+<meta name="twitter:description" content="对于伪标签（Pseudo-Label）的学习整理。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">伪标签（Pseudo-Label）：一种简单有效的半监督学习方式</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-02-26 </span>
+        
+          <span class="more-meta"> 约 1333 字 </span>
+          <span class="more-meta"> 预计阅读 3 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#半监督学习">半监督学习</a></li>
+        <li><a href="#伪标签方式">伪标签方式</a></li>
+        <li><a href="#实现demo未做">实现（Demo未做）</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>对于伪标签（Pseudo-Label）的学习整理。</p>
+<h2 id="半监督学习">半监督学习</h2>
+<p> 我们在解决有监督机器学习（深度学习）中取得了巨大的进步，这个过程需要大量构建训练数据集。但是这并不是人类的学习过程，我们可能需要少量的点，然后就从中总结出规律，俗话说举一反三，对应到机器学习领域，该技术称为半监督学习。所谓的监督就是数据的label，如果学习的过程全部需要label，那么就是有监督学习；如果全部不需要，那就是无监督学习，介于两者之间的是半监督学习。如下图所示。</p>
+<p><img src="https://i.loli.net/2020/02/26/Xx7RoPSb54TqKOH.jpg" alt="1.jpg"></p>
+<p>半监督学习方式有很强的现实意义。获取有标注的数据是需要成本和时间，并且有时候并不能获取大量标注数据。相比之下，我们很容易能够收集到大量未标注数据这，所以半监督学习就很有实用价值。使用一部分的标注数据和比较大量的未标注数据就可以学习到模型的模式。</p>
+<p><img src="https://i.ibb.co/52GR5vb/1.png" alt=""></p>
+<h2 id="伪标签方式">伪标签方式</h2>
+<p>伪标签方式是一种简单有效的半监督方式（<del>没有说效果最好的方式</del>），首次被该篇<a href="http://deeplearning.net/wp-content/uploads/2013/03/pseudo_label_final.pdf">论文</a>提出
+（Pseudo-labeling was introduced by Lee (2013), so you can find more details there.）</p>
+<p>算法步骤</p>
+<p>利用训练数据构建模型
+预测测试集的标签
+将预测的置信度较高的测试集标签和结果加到训练集中
+重新在新的合并的数据集上训练模型
+利用新的模型预测并提交结果</p>
+<p>Take the same model that you used with your training set and that gave you good results.
+Use it now with your unlabeled test set to predict the outputs ( or pseudo-labels). We don’t know if these predictions are correct, but we do now have quite accurate labels and that’s what we aim in this step.
+Concatenate the training labels with the test set pseudo labels.
+Concatenate the features of the training set with the features of the test set.
+Finally, train the model in the same way you did before with the training set.</p>
+<p>Train model on a batch of labeled data
+Use the trained model to predict labels on a batch of unlabeled data
+Use the predicted labels to calculate the loss on unlabeled data
+Combine labeled loss with unlabeled loss and backpropagate
+…and repeat.</p>
+<p>其中loss 函数可以表示为</p>
+<p>\begin{equation}
+L=\frac{1}{n} \sum_{m=1}^{n} \sum_{i=1}^{C} L\left(y_{i}^{m}, f_{i}^{m}\right)+\alpha(t) \frac{1}{n^{\prime}} \sum_{m=1}^{n^{\prime}} \sum_{i=1}^{C} L\left(y_{i}^{\prime m}, f_{i}^{\prime m}\right)
+\end{equation}</p>
+<p>或者简单表示为</p>
+<p>$$
+loss = label loss + weights * unlabeled loss
+$$</p>
+<blockquote>
+<p>In the equation, the weight (alpha) is used to control the contribution of unlabeled data to the overall loss. In addition, the weight is a function of time (epochs) and is slowly increased during training. This allows the model to focus more on the labeled data initially when the performance of the classifier can be bad. As the model’s performance increases over time (epochs), the weight increases and the unlabeled loss has more emphasis on the overall loss.
+其中公式中的weights 是随着时间（epoch）变化。</p>
+</blockquote>
+<p>\begin{equation}
+\alpha(t)=\left{\begin{array}{ll}{0} &amp; {t&lt;T_{1}} \ {\frac{t-T_{1}}{T_{2}-T_{1}} \alpha_{f}} &amp; {T_{1} \leq t&lt;T_{2}} \ {\alpha_{f}} &amp; {T_{2} \leq t}\end{array}\right.
+\end{equation}</p>
+<p>变化关系可以汇总为</p>
+<p><img src="https://files.catbox.moe/0d9aq7.png" alt="">
+（可以理解随着时间增长，unlabeled loss 的权重是变大的）</p>
+<p>Intuition ( Why does Pseudo-Labeling work?)</p>
+<blockquote>
+<ol>
+<li>Continuity Assumption (Smoothness): Points that are close to each other are more likely to share a label. (Wikipedia) In other words, small changes in input do not cause large changes in output. This assumption allows pseudo labeling to conclude that small changes in images like rotation, shearing, etc do not change the label.</li>
+</ol>
+</blockquote>
+<ol start="2">
+<li>Cluster Assumption: The data tend to form discrete clusters, and points in the same cluster are more likely to share a label. This is a special case of the continuity assumption (Wikipedia) Another way to look at this is — the decision boundary between classes lies in the low-density region (doing so helps in generalization — similar to maximum margin classifiers like SVM).
+两大假设支撑该理论</li>
+</ol>
+<blockquote>
+<p>This is why the initial labeled data is important — it helps the model learn the underlying cluster structure. When we assign a pseudo label in the code, we are using the cluster structure that the model has learned to infer labels for the unlabeled data. As the training progresses, the learned cluster structure is improved using the unlabeled data.
+If the initial labeled data is too small in size or contains outliers, pseudo labeling will likely assign incorrect labels to the unlabeled points. The opposite also holds, i.e. pseudo labeling can benefit from a classifier that is already performing well with just the labeled data.
+使用该方式的基本条件：有足够（）的数据能够比较好描述数据的分布，然后 Pseudo-Labeling 做得是能够使得结果更好；如果初始化很不好，那么最后的结果也不会很好。</p>
+</blockquote>
+<p>常见的问题</p>
+<blockquote>
+<p>But, how can I know the proportion of true labels and pseudo-labels in each batch? In other words, how much do I make it a mix of training vs pseudo?
+The general rule of thumb is to have 1/4–1/3 of your batches be pseudo-labeled.
+搭配比例：一般是需要四分之一到三分之一作为虚假label 存在。
+How do I know when to stop changing a model?
+We still don’t know how to create optimal architectures nor when to stop messing with a model, So just keep trying.</p>
+</blockquote>
+<p>常见的应用场景</p>
+<h2 id="实现demo未做">实现（Demo未做）</h2>
+<p>参考文献</p>
+<p><a href="https://towardsdatascience.com/simple-explanation-of-semi-supervised-learning-and-pseudo-labeling-c2218e8c769b">Simple explanation of Semi-Supervised Learning and Pseudo Labeling</a>
+<a href="https://towardsdatascience.com/pseudo-labeling-to-deal-with-small-datasets-what-why-how-fd6f903213af">Pseudo-Labeling to deal with small datasets — What, Why &amp; How?</a>
+<a href="https://stats.stackexchange.com/questions/364584/why-does-using-pseudo-labeling-non-trivially-affect-the-results">Why does using pseudo-labeling non-trivially affect the results?</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-02-26
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/nosql/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Nosql-mongodb 和redis 简介</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/union_find/">
+            <span class="next-text nav-default">Union find</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

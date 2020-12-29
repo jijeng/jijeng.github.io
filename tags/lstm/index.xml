@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>lstm on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/lstm/</link>
+    <description>Recent content in lstm on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 28 Nov 2019 15:05:54 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/lstm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Lstm</title>
+      <link>http://jijeng.github.io/post/lstm/</link>
+      <pubDate>Thu, 28 Nov 2019 15:05:54 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/lstm/</guid>
+      <description>&lt;p&gt;从 RNN到LSTM，重点介绍LSTM 的网络结构和LSTM是如何缓解RNN 中出现的梯度消失。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

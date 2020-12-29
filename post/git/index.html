@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Git tutorial - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="学习笔记- Git 相关的命令。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/git/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Git tutorial" />
+<meta property="og:description" content="学习笔记- Git 相关的命令。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/git/" />
+<meta property="article:published_time" content="2020-01-11T13:53:30+08:00" />
+<meta property="article:modified_time" content="2020-01-11T13:53:30+08:00" />
+<meta itemprop="name" content="Git tutorial">
+<meta itemprop="description" content="学习笔记- Git 相关的命令。">
+<meta itemprop="datePublished" content="2020-01-11T13:53:30+08:00" />
+<meta itemprop="dateModified" content="2020-01-11T13:53:30+08:00" />
+<meta itemprop="wordCount" content="2749">
+
+
+
+<meta itemprop="keywords" content="git," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Git tutorial"/>
+<meta name="twitter:description" content="学习笔记- Git 相关的命令。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Git tutorial</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-01-11 </span>
+        <div class="post-category">
+            <a href="/categories/tutorial/"> tutorial </a>
+            </div>
+          <span class="more-meta"> 约 2749 字 </span>
+          <span class="more-meta"> 预计阅读 6 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#一新建代码块">一、新建代码块</a></li>
+        <li><a href="#二-配置">二、 配置</a></li>
+        <li><a href="#三增加-删除文件">三、增加/ 删除文件</a></li>
+        <li><a href="#四代码提交">四、代码提交</a></li>
+        <li><a href="#五分支">五、分支</a></li>
+        <li><a href="#六标签版本tag操作">六、标签版本（tag）操作</a></li>
+        <li><a href="#六查看信息">六、查看信息</a></li>
+        <li><a href="#七远程同步">七、远程同步</a></li>
+        <li><a href="#八撤销">八、撤销</a></li>
+        <li><a href="#多项目管理">多项目管理</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>学习笔记- Git 相关的命令。</p>
+<p>Git 是分布式版本管理系统，SCN 是集中式（服务器挂了就没有了），Git 跟踪并管理的是修改，而非文件。</p>
+<p><img src="https://img.vim-cn.com/d4/47fd01c7f5a484b6d7a2fc5cfe1600cbf99aa7.png" alt=""></p>
+<ul>
+<li>Workspace 工作区是我们平时编辑文件的地方</li>
+<li>Index / Stage 暂存区， 使用 <code>git add</code>将编辑好的命令放到一个临时地方，叫做Index，如果加入了不希望加入的文件，那么使用 <code>git rm --cache</code> 移除</li>
+<li>local repo 本地仓库</li>
+<li>remote repo 远程仓库</li>
+</ul>
+<h2 id="一新建代码块">一、新建代码块</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">git init # 在当前目录下新建代码库
+git init project_name # 新建一个目录 初始化为git 代码库
+git clone url # 下载一个项目和整个代码的历史
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="二-配置">二、 配置</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">git config --list # 显示当前 git 配置
+git config -e [--global] # 编辑git 配置文件，如果没有 `--global` 那么是当前仓库的配置；否则是整个用户的
+
+git config [--global] user.name &#34;name&#34; 
+git config [--global] user.email &#34;email_address&#34;
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="三增加-删除文件">三、增加/ 删除文件</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">git add [file1] [file2] [dir] # 将指定的文件放到暂存区，文件夹包括子目录
+git add . # 将当前目录的所有文件放到暂存区
+
+git rm --cached [file] # 文件保留在工作局，但是从暂存区删除了
+
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="四代码提交">四、代码提交</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">git commit -m [message] # 从暂存区 提交到仓库， 并加上message
+git commit [file1] [file2] -m [message] # 指定文件从暂存到 仓库
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="五分支">五、分支</h2>
+<ul>
+<li>每一次git commit，都会生成一个commit id记录该次提交，Git都会将它们串成一条时间线，这条时间线就是一个分支。</li>
+<li>因为创建、合并、删除分支都很快，所以git鼓励你使用分支完成某个任务，合并后再删除分支。过程比直接在master分支工作更安全，且效果一样。</li>
+<li>分支策略：master分支应该是非常稳定的，仅用来发布新版本，平时不能在上面干活，干活都在dev分支，dev是不稳定的，到1.0发布时，再将dev合并到master上，由master发布新版本。</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">git branch # 列出所有本地分支
+git branch -r  # 列出所有远程分支
+git branch -a # 列出所有本地分支和远程分支
+
+git branch [branch_name] # 新建分支，但是依然留在当前分支
+git checkout [branch_name] # 切换到指定分支
+
+git checkout -b [branch_name] #新建分支，并切换到 branch_name 分支 
+git checkout -  # 切换到上一个分支
+
+git merge [branch_name] #合并指定分支到当前分支
+
+git branch -d [branch_name] # 删除本地分支
+git branch -D [branch_name] #  -d 只能删除已经参与合并的分支，但对于未参与合并的分支是无法删除的，如果想要强制删除，那么使用-D
+
+#删除远程分支
+git push origin --delete [branch_name] 
+git branch -dr [remote/branch] 
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="六标签版本tag操作">六、标签版本（tag）操作</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">git tag # 查看版本
+git tag [name] # 创建版本
+git tag -d [name] # 删除版本
+git tag -r # 查看远程版本
+
+</code></pre></td></tr></table>
+</div>
+</div><p>为什么有了 commit id 还需要tag呢？ 因为tag 是有意义的名字，比较好找，可以和commit 绑定在一起。</p>
+<h2 id="六查看信息">六、查看信息</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">git status # 显示所有有变更的文件
+git log # 显示当前分支的版本历史
+
+git diff # 显示暂存区和工作区的差异
+git diff README.md # 查看具体修改了什么内容
+git diff --cached [file] # 显示暂存和上一个 commit 的差异
+
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="七远程同步">七、远程同步</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">git remote show []
+
+git push [remote] [branch] # 上传本地指定的分支到远程仓库
+git push [remote]  --force # 强行推送当前分支到远程仓库，即使有冲突
+git push [remote] --all # 推送所有分支到远程仓库
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="八撤销">八、撤销</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">git checkout [file] # 恢复暂存区的指定文件到工作区
+git checkout . # 恢复暂存区的所有文件到工作区
+
+</code></pre></td></tr></table>
+</div>
+</div><p>通常git将（每个branch中的）文件分成了4个区域。</p>
+<ol>
+<li>我们平时编辑的文件在workspace区。</li>
+<li>当文件编辑完成，我们需要将文件备份到git的时候，我们把这些文件选择出来，放到一个临时的区域，叫index.</li>
+</ol>
+<ul>
+<li>添加这个过程是通过git add 命令来实现的。</li>
+<li>如果不小心添加了不想要的文件，通过git rm &ndash;cache命令来移除</li>
+</ul>
+<ol start="3">
+<li>当想提交的文件都放入到index临时区之后，可以进行正式的提交</li>
+</ol>
+<ul>
+<li>正式提交需要用git commit这个命令。</li>
+<li>在使用git commit的时候，需要写一段提交程序的更改说明。通常说明的第一行是一个很简短的介绍。然后是内容的正文。在正文中，可以利用github提供的一些关键字，将commit同github上面的issue和pull request联系起来。比如我们可以写 &ldquo;fix #32&rdquo;，那么当这个commit被提交到github上去之后，第32号bug也就会自动关闭。这样后面的人看到这个commit的时候，也比较方便找到它对应的bug是什么。</li>
+</ul>
+<ol start="4">
+<li>一旦commit成功，本次更改就写进了git的历史了。但是这时候还没有和github同步(remote branch)。同步是通过git push 命令完成的。一般是git push 远程的git repo名称 本地要提交的branch名。比如git push origin shiy_dev 就是说把我本地的shiy_dev 这个branch里的commit都推送到远端的叫做origin的这个repo</li>
+</ol>
+<ul>
+<li>我们可以有很多个远端的repo。比如可以同时拥有gitlab和github的远端repo。需要查看目前有哪些远端的repo，我们可以用git remote -v命令。</li>
+<li>需要添加新的远端repo，可以用git remote add 命令。</li>
+</ul>
+<ol start="5">
+<li>很多时候git push命令会失败。原因是有其他的人对同样的branch进行了改动。这时候我们需要先把对方提交的文件取到本机，看看是不是有矛盾的地方。这是通过git pull 远端git repo名称 远端的branch名 来实现的。
+远端的文件取到之后，git会尝试自动和本地的文件进行整合。整合成功的话，叫fastforward merge。通常当大家改动了不同的文件的时候，merge都会比较容易。如果大家改动的文件有冲突，就会有merge conflict。这时候git会报告有conflict的文件，需要我们打开查看，并且纠正。当纠正完成之后，需要重新用git add 命令将纠正过的文件添加到index然后再次git commit，和git push。</li>
+<li>当很多人同时在改一个git repo的相同branch下的文件的时候，会频繁出现merge conflict。再有就是代码需要经过充分的测试才好提交到正式的branch (master)，这样不会影响到其他的开发者。所以建议大家在文件进行改动的时候全部都在单独的branch中进行。</li>
+</ol>
+<ul>
+<li>建立一个新的branch，使用git checkout -b branch名称 这个命令。</li>
+<li>通常会有很多branch。如果需要切换，可以用git checkout branch名称</li>
+<li>如果一个branch已经提交，不再需要了，可以用git branch -d branch名称 来操作</li>
+</ul>
+<ol start="7">
+<li>如何查看文件更改历史</li>
+</ol>
+<ul>
+<li>可以用git log来查看commit的历史</li>
+<li>用git blame 来查看每一行文件的改动记录</li>
+<li>在Linux下，我用gitk这个图形工具来查看</li>
+</ul>
+<ol start="8">
+<li>当文件被push到远端(github)的branch的时候，还需要经过code review，然后才正式可以master branch合并。这时候需要提交一个pull request. 这一步可以直接通过网站上点选完成。</li>
+</ol>
+<h2 id="多项目管理">多项目管理</h2>
+<p><a href="https://juejin.im/post/5bf5913fe51d457dd7800a73">Google Git-Repo 多仓库项目管理</a></p>
+<p><a href="https://segmentfault.com/a/1190000015430066">Git多分支平行发展（一个仓库包含多个不同的项目）</a></p>
+<p><a href="https://blog.csdn.net/Asuna_Yu/article/details/80217020">在github同一个仓库立上传多个项目</a>
+<a href="https://juejin.im/post/5cac5651f265da03b11f1697">如何在github同一个仓库上传多个项目</a></p>
+<p><a href="https://www.jianshu.com/p/284ded3d191b">Git多项目管理</a></p>
+<p>使用git下载repo中的子文件夹而非整个文件夹</p>
+<p><a href="https://stackoverflow.com/questions/600079/how-do-i-clone-a-subdirectory-only-of-a-git-repository">How do I clone a subdirectory only of a Git repository?</a></p>
+<p>参考文献</p>
+<p>更多命令的详解，参考以下链接：</p>
+<p><a href="https://git-scm.com/book/zh/v2">Git Book</a></p>
+<p>[常用Git命令使用教程](</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-01-11
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/git/">git</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/progan_stylegan/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">ProGAN &amp; StyleGAN &amp; StyleGAN2</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/nginx/">
+            <span class="next-text nav-default">nginx 学习记录</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

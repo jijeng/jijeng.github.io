@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>inverted index on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/tags/inverted-index/</link>
+    <description>Recent content in inverted index on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 09 Apr 2019 14:34:11 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/inverted-index/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Inverted Index</title>
+      <link>http://jijeng.github.io/post/inverted_index/</link>
+      <pubDate>Tue, 09 Apr 2019 14:34:11 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/inverted_index/</guid>
+      <description>&lt;p&gt;首先介绍了信息检索中两种匹配方式：精确匹配和最好匹配，然后介绍在实现过程中涉及到的boolean retrieval 和倒排索引，实现了基于set 的搜索引擎和boolean retrieval的算法。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>基于隐马尔科夫的命名实体识别 - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="介绍自然语言处理中的命名实体识别（Named Entity Recognition，NER ）相关概念，主要介绍基于HMM 的NER，包括HMM中的两大假设，三大参数和Viterbi 算法。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/hmm/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="基于隐马尔科夫的命名实体识别" />
+<meta property="og:description" content="介绍自然语言处理中的命名实体识别（Named Entity Recognition，NER ）相关概念，主要介绍基于HMM 的NER，包括HMM中的两大假设，三大参数和Viterbi 算法。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/hmm/" />
+<meta property="article:published_time" content="2019-09-06T14:00:01+08:00" />
+<meta property="article:modified_time" content="2019-09-06T14:00:01+08:00" />
+<meta itemprop="name" content="基于隐马尔科夫的命名实体识别">
+<meta itemprop="description" content="介绍自然语言处理中的命名实体识别（Named Entity Recognition，NER ）相关概念，主要介绍基于HMM 的NER，包括HMM中的两大假设，三大参数和Viterbi 算法。">
+<meta itemprop="datePublished" content="2019-09-06T14:00:01+08:00" />
+<meta itemprop="dateModified" content="2019-09-06T14:00:01+08:00" />
+<meta itemprop="wordCount" content="5574">
+
+
+
+<meta itemprop="keywords" content="hmm," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="基于隐马尔科夫的命名实体识别"/>
+<meta name="twitter:description" content="介绍自然语言处理中的命名实体识别（Named Entity Recognition，NER ）相关概念，主要介绍基于HMM 的NER，包括HMM中的两大假设，三大参数和Viterbi 算法。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">基于隐马尔科夫的命名实体识别</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-09-06 </span>
+        <div class="post-category">
+            <a href="/categories/nlp/"> nlp </a>
+            </div>
+          <span class="more-meta"> 约 5574 字 </span>
+          <span class="more-meta"> 预计阅读 12 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#命名实体识别">命名实体识别</a></li>
+        <li><a href="#hmm">HMM</a></li>
+        <li><a href="#分析代码">分析代码</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>介绍自然语言处理中的命名实体识别（Named Entity Recognition，NER ）相关概念，主要介绍基于HMM 的NER，包括HMM中的两大假设，三大参数和Viterbi 算法。</p>
+<h2 id="命名实体识别">命名实体识别</h2>
+<p>序列标注简单来说就是给定一个序列， 然后对序列中的每一个元素做一个标记或者打一个标签，这是一个比较宽泛的概念。中文命名实体识别（NER）、中文分词和词性标注（part-of-speech tag, POS）等这些基本的NLP 任务都属于序列标注的范畴。中文命名实体识别问题就是将一段文本序列中包含我们感兴趣的实体识别出来，比如说人名、地名、机构名和时间等。</p>
+<p>（1）定义</p>
+<blockquote>
+<p>Named-entity recognition (NER) (also known as entity identification, entity chunking and entity extraction) is a subtask of information extraction that seeks to locate and classify named entity mentions in unstructured text into pre-defined categories such as the person names, organizations, locations, medical codes, time expressions, quantities, monetary values, percentages, etc.
+给定一个句子，然后识别出句子中有意义的实体，比如说人名，机构名，地名，医药编码，时间表达，数量词，金钱表达和百分比。</p>
+</blockquote>
+<p>命名实体识别主要分类，一般包括 3 大类（实体类、时间类和数字类）和 7 小类（人名、地名、组织名、机构名、时间、日期、货币和百分比）。但随着 NLP 任务的不断扩充，在特定领域中会出现特定的类别，比如医药领域中，药名、疾病等类别。</p>
+<p>（2）发展脉络</p>
+<p>1). 隐马尔可夫模型（Hidden Markov Model，HMM）</p>
+<p>NER本质上可以看成是一种序列标注问题（预测每个字的BIOES标记），在使用HMM解决NER这种序列标注问题的时候，我们所能观测到的是字组成的序列（观测序列），观测不到的是每个字对应的标注（状态序列）。</p>
+<p>解码问题，我们使用的是维特比（viterbi）算法。</p>
+<p>2). 条件随机场（Conditional Random Field, CRF)</p>
+<p>上面讲的HMM模型中存在两个假设，一是输出观察值之间严格独立，二是状态转移过程中当前状态只与前一状态有关。也就是说，在命名实体识别的场景下，HMM认为观测到的句子中的每个字都是相互独立的，而且当前时刻的标注只与前一时刻的标注相关。但实际上，命名实体识别往往需要更多的特征，比如词性，词的上下文等等，同时当前时刻的标注应该与前一时刻以及后一时刻的标注都相关联。由于这两个假设的存在，显然HMM模型在解决命名实体识别的问题上是存在缺陷的。</p>
+<p>而条件随机场就没有这种问题，它通过引入自定义的特征函数，不仅可以表达观测之间的依赖，还可表示当前观测与前后多个状态之间的复杂依赖，可以有效克服HMM模型面临的问题。</p>
+<p>解码的时候与HMM类似，也可以采用维特比算法。</p>
+<p>3). Bi-LSTM</p>
+<p>除了以上两种基于概率图模型的方法，LSTM也常常被用来解决序列标注问题。和HMM、CRF不同的是，LSTM是依靠神经网络超强的非线性拟合能力，在训练时将样本通过高维空间中的复杂非线性变换，学习到从样本到标注的函数，之后使用这个函数为指定的样本预测每个token的标注。</p>
+<p>LSTM比起CRF模型最大的好处就是简单粗暴，不需要做繁杂的特征工程，直接训练即可，同时比起HMM，LSTM的准确率也比较高。</p>
+<p>4). Bi-LSTM+CRF</p>
+<p>CRF	 是机器学习的方法，机器学习中困难的是如何构造和选择特征。Bi-LSTM属于深度学习算法，其优势在于不需要人为选择和构造特征。LSTM的优点是能够通过双向的设置学习到观测序列（输入的字）之间的依赖，在训练过程中，LSTM能够根据目标（比如识别实体）自动提取观测序列的特征，但是缺点是无法学习到状态序列（输出的标注）之间的关系，要知道，在命名实体识别任务中，标注之间是有一定的关系的，比如B类标注（表示某实体的开头）后面不会再接一个B类标注，所以LSTM在解决NER这类序列标注任务时，虽然可以省去很繁杂的特征工程，但是也存在无法学习到标注上下文的缺点。</p>
+<p>相反，CRF的优点就是能对隐含状态建模，学习状态序列的特点，但它的缺点是需要手动提取序列特征。所以一般的做法是，在LSTM后面再加一层CRF，以获得两者的优点。</p>
+<p>上述问题可以看成一个文本多分类的问题，按照道理讲使用一个语言模型应该是可以解决的，但是为什么还要加上概率图模型？</p>
+<blockquote>
+<p>&ldquo;自贸区&quot;对应的标注是: <strong>自(B-LOC)贸(I-LOC)区(I-LOC)</strong>, 这三个字都对应一个&quot;地名&quot;的标签, 但是第一个字属于实体开头的字, 所以使用&quot;B&quot;开头的标签, 后面两个字的标签都是&quot;I&quot;开头.<br>
+当单独使用语言模型时候可能出现上述的问题。所以如果加上概率图模型，比如条件随机场，就可以约束模型的输出，防止出现不合规的标注输出。</p>
+</blockquote>
+<p>5). BERT + CRF</p>
+<p>目前主流的方式是通过一个语言模型（比如LSTM，BERT）+CRT（条件随机场）实现。那么BERT 作为一种语言模型，也是可以和CRF 结合起来进行NER 问题求解。</p>
+<p>（3）评价指标</p>
+<p>实际上NER 是对于字（或词）的多分类问题，所以分类中常用的评价指标如ACC，Precision-Recall和F1 同样适用于该场景。</p>
+<p>（4）NER 的应用场景：</p>
+<p>**新闻标注：**和文本分类不同, 这里可以使用NER技术将与文章相关的人物, 地点都以标签的形式标注出来, 方便用户对某个人物或地点进行索引。
+**搜索引擎：**可以通过使用命名实体识别来抽取web页面中的实体, 后续可以使用这些信息来提高搜索效率和准确度。
+<strong>从商品描述中自动提取商品类别, 品牌等信息</strong>, 提高货物上架效率, 在咸鱼等应用上已经实现了类似功能。
+<strong>工具易用性提升</strong>, 例如从短信息或邮件中提取时间和地点等实体, 从而实现点击时间直接创建日历, 点击地址直接跳转到地图App等便捷操作。
+<strong>一般来说 NER 是不使用在文本分类领域的。</strong></p>
+<p>（5）序列标注的两种模式</p>
+<p>BIO
+B: 命名实体的起始 或 单个字命名实体
+I: 命名实体的中间位置 或 结束位置
+O：非命名实体</p>
+<p>BIOES
+B: 命名实体的起始标注（Only哦）
+I: 命名实体的中间标注（Only哦）
+E: 命名实体的结尾标注（Only哦）
+O: 非命名实体
+S: 单个字命名实体</p>
+<p>（6）北大词性标注集部分标注词性如下表所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"> Ag     形语素     形容词性语素。形容词代码为a，语素代码ｇ前面置以A。
+    a       形容词      取英语形容词adjective的第1个字母。
+　ad     副形词 直接作状语的形容词。形容词代码a和副词代码d并在一起。
+　an     名形词 具有名词功能的形容词。形容词代码a和名词代码n并在一起。
+    b       区别词      取汉字“别”的声母。
+    c       连词        取英语连词conjunction的第1个字母。
+    Dg     副语素     副词性语素。副词代码为d，语素代码ｇ前面置以D。
+    d       副词     取adverb的第2个字母，因其第1个字母已用于形容词。
+    e       叹词     取英语叹词exclamation的第1个字母。
+    f        方位词      取汉字“方” 的声母。
+　g       语素    绝大多数语素都能作为合成词的“词根”，取汉字“根”的声母。
+    h       前接成分   取英语head的第1个字母。
+    i        成语        取英语成语idiom的第1个字母。
+    j        简称略语  取汉字“简”的声母。
+    k       后接成分
+    l        习用语     习用语尚未成为成语，有点“临时性”，取“临”的声母。
+    m       数词     取英语numeral的第3个字母，n，u已有他用。
+    Ng      名语素     名词性语素。名词代码为n，语素代码ｇ前面置以N。
+    n        名词        取英语名词noun的第1个字母。
+    nr      人名        名词代码n和“人(ren)”的声母并在一起。
+    ns      地名     名词代码n和处所词代码s并在一起。
+    nt      机构团体    “团”的声母为t，名词代码n和t并在一起。
+    nz     其他专名    “专”的声母的第1个字母为z，名词代码n和z并在一起。 
+    o       拟声词     取英语拟声词onomatopoeia的第1个字母。
+    p       介词     取英语介词prepositional的第1个字母。
+    q       量词        取英语quantity的第1个字母。
+    r       代词        取英语代词pronoun的第2个字母,因p已用于介词。
+    s       处所词     取英语space的第1个字母。
+    Tg     时语素      时间词性语素。时间词代码为t,在语素的代码g前面置以T。
+    t        时间词      取英语time的第1个字母。
+    u       助词        取英语助词auxiliary 的第2个字母,因a已用于形容词。
+    Vg     动语素      动词性语素。动词代码为v。在语素的代码g前面置以V。
+    v       动词        取英语动词verb的第一个字母。
+    vd     副动词      直接作状语的动词。动词和副词的代码并在一起。
+    vn     名动词      指具有名词功能的动词。动词和名词的代码并在一起。
+    w      标点符号   
+    x       非语素字    非语素字只是一个符号，字母x通常用于代表未知数、符号。
+    y       语气词      取汉字“语”的声母。
+    z       状态词      取汉字“状”的声母的前一个字母。
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="hmm">HMM</h2>
+<p>（1）定义</p>
+<p>马尔科夫模型（markov model）</p>
+<blockquote>
+<p>In probability theory, a Markov model is a stochastic model used to model randomly changing systems. It is assumed that future states depend only on the current state, not on the events that occurred before it (that is, it assumes the Markov property). Generally, this assumption enables reasoning and computation with the model that would otherwise be intractable.
+在概率中，马尔科夫假设未来的状态仅仅由当前的状态决定，和其他的任何状态都无关。这种假设极大的简化了运算。</p>
+</blockquote>
+<p>隐马尔科夫模型</p>
+<blockquote>
+<p>A hidden Markov model is a Markov chain for which the state is only partially observable. In other words, observations are related to the state of the system, but they are typically insufficient to precisely determine the state. Several well-known algorithms for hidden Markov models exist. For example, given a sequence of observations, the Viterbi algorithm will compute the most-likely corresponding sequence of states, the forward algorithm will compute the probability of the sequence of observations, and the Baum–Welch algorithm will estimate the starting probabilities, the transition function, and the observation function of a hidden Markov model.
+隐马尔科夫模型描述的是由不可观测的隐状态序列（实体标注）生成可观测状态（可读文本）的过程。使用前向传递算法计算观测序列的概率，使用viterbi 算法得到最优的标注徐磊，使用Baum-Welch 算法估计初始的状态，转移概率矩阵和发射矩阵。&ldquo;隐&quot;表示标注状态是不可见的。</p>
+</blockquote>
+<p>（2）两大基本假设</p>
+<p><img src="https://ftp.bmp.ovh/imgs/2019/10/2ee1d361a3b03f25.jpg" alt=""></p>
+<ol>
+<li>第$t$个隐状态(实体标签)只跟前一时刻的$t-1$隐状态(实体标签)有关, 与除此之外的其他隐状态(如$t-2,\  t+3$)无关.<br>
+例如上图中: 蓝色的部分指的是$i_t$只与$i_{t-1}$有关, 而与蓝色区域之外的所有内容都无关, 而$P(i_{t}|i_{t-1})$指的是隐状态$i$从$t-1$时刻转向$t$时刻的概率, 具体转换方式下面会细讲.</li>
+<li>观测独立的假设, HMM模型中是由<strong>隐状态序列(实体标记)生成可观测状态(可读文本)的过程</strong>, 观测独立假设是指在任意时刻观测$o_t$只依赖于当前时刻的隐状态$i_t$, 与其他时刻的隐状态无关. 例如上图中: 粉红色的部分指的是$i_{t+1}$只与$o_{t+1}$有关, 跟粉红色区域之外的所有内容都无关.</li>
+</ol>
+<p>（3）三大参数</p>
+<ol>
+<li>HMM的转移概率矩阵（transition probabilities）</li>
+</ol>
+<p><img src="https://i.loli.net/2019/10/10/sQ79N2dwJxjH3GV.jpg" alt="transition.jpg"></p>
+<p>转移矩阵表示为$A$矩阵, 则$A_{ij}$表示矩阵中第i行第j列:<br>
+$$A_{ij}=P(i_{t+1}= q_j | i_{t} = q_i) \quad q_i \in Q_{hidden}$$
+上式表示在$t$ 时刻的实体标签是 $q_i$， 在 $t+1$时刻的实体标签转换成了 $q_j$，概率表示为上式。</p>
+<ol start="2">
+<li>HMM的发射概率矩阵（emission probabilities）</li>
+</ol>
+<p><img src="https://i.loli.net/2019/10/10/5tNl7M4ERpoiAK8.jpg" alt="emission.jpg"></p>
+<p>发射矩阵表示为$B$矩阵, 则$B_{jk}$表示矩阵中第$j$行第$k$列:<br>
+$$B_{jk}=P(o_{t}= v_k | i_{t} = q_j) \quad q_i \in Q_{hidden} \quad v_k \in V_{obs.}={v_0, v_1, &hellip; , v_{M-1} }$$
+上式表示指的是在$t$时刻由实体标签(隐状态)$q_j$生成汉字(观测结果)$v_k$的概率.</p>
+<ol start="3">
+<li>HMM的初始隐状态概率（initial probabilities）</li>
+</ol>
+<p>通常用$\pi$来表示（不是圆周率）:<br>
+$$\pi=P(i_1=q_i) \quad q_i \in Q_{hidden} = { q_0, q_1, &hellip; , q_{N-1}}$$
+上式指的是**语言序列中第一个字**$o_1$的实体标记是$q_i$的概率, 也就是初始隐状态概率.</p>
+<p>（4）Viterbi算法</p>
+<p>1). 定义</p>
+<blockquote>
+<p>The Viterbi algorithm is a dynamic programming algorithm for finding the most likely sequence of hidden states—called the Viterbi path—that results in a sequence of observed events, especially in the context of Markov information sources and hidden Markov models (HMM).</p>
+</blockquote>
+<p>维特比算法（viterbi algorithm）使用的是动态规划的思想解决HMM 和CRF 中的预测问题。即在HMM模型中寻找最有可能的隐状态的路径。使用一句话概括为：在每一时刻，计算当前时刻是由上一个时刻中的每种隐状态导致的最大概率，并且记录这个最大概率是从前一时刻哪个隐状态转移过来的，最后回溯最大概率，即为路径。</p>
+<p>2). 数学表达</p>
+<ul>
+<li>$A_{i, j}^{t-1, t}$, 是转移概率矩阵$A$中的第$i$行第$j$列(下标), 指的是在$t-1$时刻实体标签为$q_i$, 而在$t$时刻实体标签转换到$q_j$的概率.</li>
+<li>$B_{jk}$是发射矩阵的第j行第k列, 指的是在第$t$时刻, 由隐状态$q _j$生成观测$v _k$的概率.</li>
+<li>有了上面两点, 则$\hat{q} _j = A _{ij}B _{jk}$表示在$t$时刻的隐状态为$q _j$的概率估计.</li>
+</ul>
+<p>3). 计算过程</p>
+<p>假设我们通过HMM建模并学习, 得到了模型所估计的参数$(A, B, \pi)$, 注意下面的$A, B$矩阵按行求和为$1$;
+<img src="https://ftp.bmp.ovh/imgs/2019/11/a486241f73ebf648.jpg" alt=""></p>
+<p>需要申请$T1, T2$两个表格：如果$T1, T2$表格是$i*j$的矩阵, 则矩阵中第$j$列指的是第$j$时刻, 第$i$行指的是第$i$种隐状态, $T1[i, \ j]$指的是在第$j$时刻, 落到隐状态$i$的最大可能的概率是多少(不要着急, 到了下一个时刻就会明白<strong>最大</strong>是什么意思), 而$T2[i, \ j]$记录的是这个<strong>最大可能的概率</strong>是从第$j-1$时刻(上一时刻)的哪一种隐状态$i$转移过来的, 也就是说我们记录的是<strong>最大可能的概率的转移路径</strong>. <br>
+我们现在将第一时刻的计算结果填入$T1, T2$表格, 注意在第$0$时刻的隐状态是由初始隐状态概率矩阵提供的, 而不是从上一时刻的隐状态转移过来的, 所以我们直接在$T2$表格上记为$NAN(not \ a \ number)$。然后计算表格上每个位置的最大概率。</p>
+<p><img src="https://ftp.bmp.ovh/imgs/2019/11/0f22b049e5783bc3.jpg" alt=""></p>
+<p>4). 时间复杂度</p>
+<p>假设有$N$种隐状态，在每个时刻之间，一共可能有 $N^2$种方式，假设有$T$时刻，那么viterbi 算法的时间复杂度$O(TN^2)$</p>
+<h2 id="分析代码">分析代码</h2>
+<p>（1）数据处理部分</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="bp">self</span><span class="o">.</span><span class="n">tag_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tag2idx</span><span class="p">)</span> <span class="c1"># 对于tag标签是len 取得长度</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">vocab_size</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">v</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">char2idx</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span> <span class="o">+</span> <span class="mi">1</span> <span class="c1"># 对于vocab 是需要求解index的最大值，有可能vocab中空着一些，以备后用</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="bp">self</span><span class="o">.</span><span class="n">pi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="c1"># 在计算矩阵相乘的时候，log 运算转换成了矩阵加法，防止下溢出</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">transition</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transition</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">emission</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">emission</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">T1_table</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">curr_score</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># 使用viterbi 算法时候，t1 table存储概率最大值，t2 table 存储最大值所属于上一个隐状态的序号</span>
+<span class="n">T2_table</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">curr_score</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="nb">eval</span><span class="p">()</span> <span class="c1"># 执行一个字符串表达式，然后返回运行的结果；一般来说可能不安全</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>参考文献</p>
+<p>1.<a href="https://gg2.chn.moe/extdomains/en.wikipedia.org/wiki/Hidden_Markov_model">Hidden Markov model</a>
+2.<a href="https://github.com/aespresso/a_journey_into_math_of_ml">NER_hidden_markov_model</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-09-06
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/hmm/">hmm</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/word2vec/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Word2vec</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/docker/">
+            <span class="next-text nav-default">Docker</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

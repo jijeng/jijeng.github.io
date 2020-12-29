@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>OpenCV Blending 技术 - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="OpenCV Blending 技术 的介绍说明。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/blending_cv2/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="OpenCV Blending 技术" />
+<meta property="og:description" content="OpenCV Blending 技术 的介绍说明。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/blending_cv2/" />
+<meta property="article:published_time" content="2020-03-27T15:50:50+08:00" />
+<meta property="article:modified_time" content="2020-03-27T15:50:50+08:00" />
+<meta itemprop="name" content="OpenCV Blending 技术">
+<meta itemprop="description" content="OpenCV Blending 技术 的介绍说明。">
+<meta itemprop="datePublished" content="2020-03-27T15:50:50+08:00" />
+<meta itemprop="dateModified" content="2020-03-27T15:50:50+08:00" />
+<meta itemprop="wordCount" content="4279">
+
+
+
+<meta itemprop="keywords" content="blending," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="OpenCV Blending 技术"/>
+<meta name="twitter:description" content="OpenCV Blending 技术 的介绍说明。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">OpenCV Blending 技术</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-03-27 </span>
+        
+          <span class="more-meta"> 约 4279 字 </span>
+          <span class="more-meta"> 预计阅读 9 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#histograms">Histograms</a></li>
+        <li><a href="#图像类型">图像类型</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>OpenCV Blending 技术 的介绍说明。</p>
+<p>如果没有使用 blending，那么是这种效果</p>
+<img src="https://img.vim-cn.com/ae/1c7e7b7bbc187528611616de13d97547053187.png" width="80%" height="80%">
+<img src="https://i.loli.net/2020/03/29/sWfmZUcTQ3lEIJH.png" width="80%" height="80%">
+<p>两个图像拼接起来的时候，希望有 羽化的效果。</p>
+<img src="https://s1.ax1x.com/2020/03/29/GV75Mq.png" width="80%" height="80%">
+<img src="https://files.catbox.moe/cf54au.png" width="80%" height="80%">
+<p>常见的关键词</p>
+<p>Feathering / Linear  blending</p>
+<p>\begin{equation}
+I_{blend}=\alpha I_{left}+(1-\alpha) I_{right}
+\end{equation}</p>
+<p>Alpha Blending / Feathering</p>
+<p>是下图中所示的样子吗？ 中间是灰色的</p>
+<img src="https://img.vim-cn.com/94/2c650e6f7e25b11fbf391d60570d48fed529f0.png" width="80%" height="80%">
+<p>在各个维度上进行 alpha blending</p>
+<img src="https://ftp.bmp.ovh/imgs/2020/03/cfd831df8ff776c7.png" width="80%" height="80%">
+<p>Setting alpha: simple averaging：Alpha = .5 in overlap region</p>
+<p>Setting alpha: center seam： Setting alpha: center seam</p>
+<p>Setting alpha: center seam：Alpha = blurred</p>
+<p>Setting alpha: center weighting：Alpha = dtrans1 / (dtrans1+dtrans2)</p>
+<p>Setting alpha: center seam</p>
+<p>Setting alpha: blurred seam</p>
+<p>Setting alpha: simple averaging</p>
+<p>Setting alpha: center weighting</p>
+<p>“Optimal” Window: smooth but not ghosted</p>
+<p>Good Window Size</p>
+<p>Coarse structure should blend very slowly between images (lots of feathering), while fine details should transition more quickly.</p>
+<p>Coarse structure should blend very slowly
+between images (lots of feathering), while
+fine details should transition more quickly.</p>
+<p>Affect of Window Size</p>
+<p>Multi-band / Pyramid Blending</p>
+<p>Image mode 相关知识点</p>
+<p>PIL mode</p>
+<blockquote>
+<p>9种，分别为1，L，P，RGB，RGBA，CMYK，YCbCr，I，F。</p>
+</blockquote>
+<ol>
+<li>
+<p>模式“1”为二值图像，非黑即白。但是它每个像素用8个bit表示，0表示黑，255表示白。</p>
+</li>
+<li>
+<p>模式L”为灰色图像，它的每个像素用8个bit表示，0表示黑，255表示白，其他数字表示不同的灰度。在PIL中，从模式“RGB”转换为“L”模式是按照下面的公式转换的
+L = R * 299/1000 + G * 587/1000+ B * 114/1000</p>
+</li>
+<li>
+<p>模式“P”为8位彩色图像，它的每个像素用8个bit表示，其对应的彩色值是按照调色板查询出来的。</p>
+</li>
+<li>
+<p>模式“RGBA”为32位彩色图像，它的每个像素用32个bit表示，其中24bit表示红色、绿色和蓝色三个通道，另外8bit表示alpha通道，即透明通道。</p>
+</li>
+<li>
+<p>模式“CMYK”为32位彩色图像，它的每个像素用32个bit表示。模式“CMYK”就是印刷四分色模式，它是彩色印刷时采用的一种套色模式，利用色料的三原色混色原理，加上黑色油墨，共计四种颜色混合叠加，形成所谓“全彩印刷”。
+四种标准颜色是：C：Cyan = 青色，又称为‘天蓝色’或是‘湛蓝’M：Magenta = 品红色，又称为‘洋红色’；Y：Yellow = 黄色；K：Key Plate(blacK) = 定位套版色（黑色）。PIL中“RGB”转换为“CMYK”的公式如下：
+C = 255 - R
+M = 255 - G
+Y = 255 - B
+K = 0</p>
+</li>
+<li>
+<p>模式“YCbCr”为24位彩色图像，它的每个像素用24个bit表示。YCbCr其中Y是指亮度分量，Cb指蓝色色度分量，而Cr指红色色度分量。人的肉眼对视频的Y分量更敏感，因此在通过对色度分量进行子采样来减少色度分量后，肉眼将察觉不到的图像质量的变化。
+模式“RGB”转换为“YCbCr”的公式如下：
+Y= 0.257R+0.504G+0.098B+16
+Cb = -0.148R-0.291G+0.439B+128
+Cr = 0.439R-0.368G-0.071*B+128</p>
+</li>
+<li>
+<p>模式“I”为32位整型灰色图像，它的每个像素用32个bit表示，0表示黑，255表示白，(0,255)之间的数字表示不同的灰度。在PIL中，从模式“RGB”转换为“I”模式是按照下面的公式转换的：
+I = R * 299/1000 + G * 587/1000 + B * 114/1000</p>
+</li>
+<li>
+<p>模式“F”为32位浮点灰色图像，它的每个像素用32个bit表示，0表示黑，255表示白，(0,255)之间的数字表示不同的灰度。在PIL中，从模式“RGB”转换为“F”模式是按照下面的公式转换的：
+F = R * 299/1000+ G * 587/1000 + B * 114/1000</p>
+</li>
+<li>
+<p>模式“F”与模式“L”的转换公式是一样的，都是RGB转换为灰色值的公式，但模式“F”会保留小数部分.
+模式“RGB”为24位彩色图像，它的每个像素用24个bit表示，分别表示红色、绿色和蓝色三个通道。
+在PIL中，对于彩色图像，open后都会转换为“RGB”模式，然后该模式可以转换为其他模式，比如“1”、“L”、“P”和“RGBA”，这几种模式也可以转换为“RGB”模式。</p>
+</li>
+<li>
+<p>RGB 和灰白图的相互转换</p>
+</li>
+</ol>
+<p>PIL包中Image模块的convert()函数的具体使用：</p>
+<p>模式L为灰色图像，它的每个像素用8个bit表示，0表示黑，255表示白，其他数字表示不同的灰度。在PIL中，从模式“RGB”转换为“L”模式是按照下面的公式转换的：
+L = R * 0.299 + G * 0.587+ B * 0.114</p>
+<p>模式 <code>L</code> 和模式 <code>1</code>的区别在于：前者是 8位像素，存在灰色的像素（过渡像素）；后者是1 位像素，只是黑白两色，其中的阈值一般设置为 128，是可以修改阈值，但仍然是容易出现抖动的现象。</p>
+<blockquote>
+<p>对于彩色图像，不管其图像格式是PNG，还是BMP，或者JPG，在PIL中，使用Image模块的open()函数打开后，返回的图像对象的模式都是“RGB”。而对于灰度图像，不管其图像格式是PNG，还是BMP，或者JPG，打开后，其模式为“L”。</p>
+</blockquote>
+<p><a href="https://piazza.com/class_profile/get_resource/hz5ykuetdmr53k/i0zbj8uvcao7lp">Alpha Blending</a></p>
+<p>openCV中的图像的通道可以是 1，2，3 和4。其中常见的是 1通道和 3通道，4通道，其中2通道不常见。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">1 通道是灰度图
+3 通道是彩色图，比如RGB图像
+4通道的图像是RGBA，是RGB加上一个A通道，也叫alpha通道，表示透明度。PNG图像是一种典型的4通道图像。alpha通道可以赋值0到1，或者0到255，表示透明到不透明。
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="histograms">Histograms</h2>
+<p>关于 opencv 中的histogram 的使用。</p>
+<blockquote>
+<p>So what is histogram ? You can consider histogram as a graph or plot, which gives you an overall idea about the intensity distribution of an image. It is a plot with pixel values (ranging from 0 to 255, not always) in X-axis and corresponding number of pixels in the image on Y-axis.
+定义， 是关于pixel 密度分布的图像</p>
+</blockquote>
+<p>对于灰度图，channel 是0， 对于RGB 图片</p>
+<blockquote>
+<p>For color image, you can pass [0],[1] or [2] to calculate histogram of blue,green or red channel respectively.</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">cv2.calcHist(images, channels, mask, histSize, ranges[, hist[, accumulate]])
+</code></pre></td></tr></table>
+</div>
+</div><ol>
+<li>images : it is the source image of type uint8 or float32. it should be given in square brackets, ie, “[img]”.</li>
+<li>channels : it is also given in square brackets. It the index of channel for which we calculate histogram. For example, if input is grayscale image, its value is [0]. For color image, you can pass [0],[1] or [2] to calculate histogram of blue,green or red channel respectively.</li>
+<li>mask : mask image. To find histogram of full image, it is given as “None”. But if you want to find histogram of particular region of image, you have to create a mask image for that and give it as mask. (I will show an example later.)</li>
+<li>histSize : this represents our BIN count. Need to be given in square brackets. For full scale, we pass [256].</li>
+<li>ranges : this is our RANGE. Normally, it is [0,256].</li>
+</ol>
+<p>关于bin 的理解：
+hist 中 x轴是 [0, 255] 的颜色值，y 轴是对应数值的数量。所以默认情况下，bins 的256， 但是可以把不同的数值当做一个整体看待，这样的话，就出现了bin的概念。</p>
+<p>关于 mask的使用</p>
+<blockquote>
+<p>We used cv2.calcHist() to find the histogram of the full image. What if you want to find histograms of some regions of an image? Just create a mask image with white color on the region you want to find histogram and black otherwise. Then pass this as the mask.
+对于mask 的定义十分准确，white color 是想要的，black color 是屏蔽掉的。所以可以单独获得某一个区域的 histogram 信息。</p>
+</blockquote>
+<p><a href="https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_histograms/py_histogram_begins/py_histogram_begins.html">Histograms - 1 : Find, Plot, Analyze !!!</a></p>
+<p>参考文献</p>
+<h2 id="图像类型">图像类型</h2>
+<p>在计算机中，按照颜色和灰度的多少可以将图像分为四种类型：</p>
+<ul>
+<li>二值图像</li>
+<li>灰度图像</li>
+<li>索引图像</li>
+<li>RGB图像</li>
+</ul>
+<ol>
+<li>二值图像（位图模式）</li>
+</ol>
+<p>一幅二值图像的二维矩阵仅由0、1两个值构成，“0”代表黑色，“1”代白色。由于每一像素（矩阵中每一元素）取值仅有0、1两种可能，所以计算机中二值图像的数据类型通常为1个二进制位。二值图像通常用于文字、线条图的扫描识别（OCR）和掩膜图像的存储。</p>
+<p>位图模式的图像也叫做黑白图像，它包含的信息最少，因而图像也最小。当一幅彩色图像要转换成黑白（位图）模式时，不能直接转换，必须先将图像转换成灰度模式。</p>
+<ol start="2">
+<li>灰度图像</li>
+</ol>
+<p>灰度图像矩阵元素的取值范围通常为[0，255]。因此其数据类型一般为8位无符号整数的（int8），这就是人们经常提到的256灰度图像。“0”表示纯黑色，“255”表示纯白色，中间的数字从小到大表示由黑到白的过渡色。二值图像可以看做是灰度图像的一个特例。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">灰度模式：纯黑(00000000) ... 纯白(11111111)     # 单通道
+RGB模式：纯黑(0,0,0) ... 纯白(255,255,255)     # 三通道
+</code></pre></td></tr></table>
+</div>
+</div><p>灰度通常表示方法是百分比，范围从0％到100％。注意此百分比以纯黑为基准。
+与RGB正好相反，百分比越高颜色越偏黑，百分比越低颜色越偏白。</p>
+<ol start="3">
+<li>RGB模式</li>
+</ol>
+<p>RGB模式是相加的模式，当R、G、B的值都达到最大值时，三色合成便成白色。</p>
+<p>图片也可以看作是三层二维数组的叠加，每一层二维数组都是一个通道。单通道的图像是灰色的，每个像素pixel只有一个value，数字越高，颜色越白，也就越亮。</p>
+<p>RGB 格式里(0,0,0)代表着黑色，(255,255,255)代表着白色。R channel数值越高，说明颜色中含有的红色分量越多。</p>
+<ol start="4">
+<li>图像通道</li>
+</ol>
+<p>PNG图像(便携式网络图形（Portable Network Graphics）)是一种典型的4通道图像。alpha通道可以赋值0到1，或者0到255，表示透明到不透明。其实任何一张彩图都是4通道图像，只是读不读的问题。Alpha通道是计算机图形学中的术语，指的是特别的通道，意思是“非彩色”通道，主要是用来保存选区和编辑选区。</p>
+<ol start="5">
+<li>GRAY颜色模型</li>
+</ol>
+<p>GRAY模型并不是一个彩色模型，他是一个灰度图像的模型，其命名使用的是英文单词gray的全字母大写。常用的RGB模型转成灰度图的方式如式中所示：</p>
+<p>\begin{equation}
+\mathrm{Gray}=\mathrm{R} * 0.3+\mathrm{G} * 0.59+\mathrm{B} * 0.11
+\end{equation}</p>
+<p>读取图片函数：</p>
+<p>Image.open()读取的通道顺序是RGB，cv2.imread()读取的通道顺序为BGR。</p>
+<p>显示的区别：</p>
+<p>cv2.imshow()采用BGR模式</p>
+<p>plt.imshow() 采用RGB模式</p>
+<p>Opencv转PIL.Image</p>
+<p>cv2_img = cv2.cvtColor(numpy.asarray(Img_img),cv2.COLOR_RGB2BGR)</p>
+<p>PIL.Image转Opencv</p>
+<p>pil_img = Image.fromarray(cv2.cvtColor(cv_img,cv2.COLOR_BGR2RGB))</p>
+<p>使用 cv2 处理图像的时候</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">cv2</span>  
+<span class="c1">#打开图片并显示</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&#34;./cat.png&#34;</span><span class="p">)</span> 
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s2">&#34;Image&#34;</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span> 
+<span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="c1">#将彩色图像转成灰度图像,利用opencv自带的cvtColor可以将彩色图像转成灰度图像</span>
+<span class="n">gray_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span> 
+<span class="c1">#查看图片通道格式</span>
+<span class="n">gray_image</span><span class="o">.</span><span class="n">shape</span>
+<span class="c1">#img.shape 返回图像高（图像矩阵的行数）、宽（图像矩阵的列数）和通道数3个属性组成的元组，若图像是非彩色图，则只返回高和宽组成的元组。</span>
+<span class="c1">#图像存储</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="s1">&#39;./new_img2.jpg&#39;</span><span class="p">,</span><span class="n">gray_image</span><span class="p">)</span>
+
+<span class="c1"># （如果使用cv2 中的img.show() 那么使用 waitKey(0)）</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>cv2.imread()会默认以彩色模式读取图片，这样黑白图片读取后也成了三通道，想以图片原始模式读取使用</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&#34;./cat.png&#34;</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>使用PIL 处理图像</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1">#1、显示图片</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;lena.png&#39;</span><span class="p">)</span>
+<span class="n">im</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="c1">#2、将 PIL Image 图片转换为 numpy 数组</span>
+<span class="n">im_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
+<span class="c1">#3、保存 PIL 图片</span>
+<span class="c1">#直接调用 Image 类的 save 方法</span>
+
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;lena.png&#39;</span><span class="p">)</span>
+<span class="n">I</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;new_lena.png&#39;</span><span class="p">)</span>
+<span class="c1">#5、RGB 转换为灰度图、二值化图</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;lena.png&#39;</span><span class="p">)</span>
+<span class="n">I</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">L</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">)</span>   <span class="c1">#转化为灰度图</span>
+<span class="n">L</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">)</span>   <span class="c1">#转化为二值化图</span>
+<span class="n">L</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="c1">#查看图片模式</span>
+<span class="n">lena</span><span class="o">=</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;lena.png&#39;</span><span class="p">)</span>
+<span class="n">lena</span><span class="o">.</span><span class="n">mode</span>
+<span class="c1">#输出RGB为彩色图片，通道数为3，输出&#39;L&#39;者&#34;1&#34;为灰度及黑白图，通道数为1</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>重要的一点时图像只要经过转换及存储后，其模式就不会变，只是读取时以不同的模式读会有差异，不用担心</p>
+<p>读入图像通道</p>
+<p>对于Image.open()函数默认真彩图像读取通道顺序为RGB，而cv2.imread()则是BGR。同时，当图像格式为RGBA时，Image.open(‘&mdash;.jpg’)读取的格式为RGBA（其中A表示图像的alpha通道，即RGBA共四个通道），而cv2.imread('&mdash;.jpg')读取的格式是BGR，只有三个通道。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python">    <span class="kn">import</span> <span class="nn">cv2</span>
+    <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="sa">r</span><span class="s2">&#34;F:\DailyPractice\AffectiveComputing\ck+_dataset\1_17_0.png&#34;</span><span class="p">)</span>
+    <span class="n">b</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="sa">r</span><span class="s2">&#34;F:\DailyPractice\AffectiveComputing\ck+_dataset\1_17_0.png&#34;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>OpenCV转换成PIL.Image格式</p>
+<p>OpenCV转换成PIL.Image格式：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">cv2</span>  
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>  
+<span class="kn">import</span> <span class="nn">numpy</span>  
+  
+<span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&#34;plane.jpg&#34;</span><span class="p">)</span>  
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s2">&#34;OpenCV&#34;</span><span class="p">,</span><span class="n">img</span><span class="p">)</span>  
+<span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>  
+<span class="n">image</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>  
+<span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">()</span>  
+</code></pre></td></tr></table>
+</div>
+</div><p>PIL.Image转换成OpenCV格式：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">cv2</span>  
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>  
+<span class="kn">import</span> <span class="nn">numpy</span>  
+  
+<span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&#34;plane.jpg&#34;</span><span class="p">)</span>  
+<span class="n">image</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>  
+<span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">image</span><span class="p">),</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_RGB2BGR</span><span class="p">)</span>  
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s2">&#34;OpenCV&#34;</span><span class="p">,</span><span class="n">img</span><span class="p">)</span>  
+<span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">()</span> 
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-03-27
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/a67dbe80ab6832ca.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="https://ftp.bmp.ovh/imgs/2020/12/b575cd4858bd404d.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/blending/">blending</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/gpu/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">深度学习中的 GPU</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/vim_tutorial/">
+            <span class="next-text nav-default">Vim Tutorial</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
