@@ -50,7 +50,7 @@
 <meta itemprop="description" content="介绍linux 中常见的命令 和github 中常用的命令">
 <meta itemprop="datePublished" content="2019-02-18T10:06:48+08:00" />
 <meta itemprop="dateModified" content="2019-02-18T10:06:48+08:00" />
-<meta itemprop="wordCount" content="21404">
+<meta itemprop="wordCount" content="21429">
 
 
 
@@ -127,7 +127,7 @@
         <div class="post-category">
             <a href="/categories/tutorial/"> tutorial </a>
             </div>
-          <span class="more-meta"> 约 21404 字 </span>
+          <span class="more-meta"> 约 21429 字 </span>
           <span class="more-meta"> 预计阅读 43 分钟 </span>
         
       </div>
@@ -1140,7 +1140,16 @@ ps -ef | grep 进程名
 <p>netstat无权限控制，lsof有权限控制，只能看到本用户
 losf能看到pid和用户，可以找到哪个进程占用了这个端口</p>
 </blockquote>
-<p>查看哪些端口被打开</p>
+<p>端口开放（查看某个特定的端口是否开放）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">netstat -anlp | grep 3306
+</code></pre></td></tr></table>
+</div>
+</div><p>查看哪些端口被打开</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -2935,7 +2944,7 @@ journalctl -xb <span class="p">|</span> egrep -i <span class="s1">&#39;killed pr
   <span class="copyright-year">
     &copy; 
     2018 - 
-    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
   </span>
 </div>
 

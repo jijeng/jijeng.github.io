@@ -52,7 +52,7 @@
 ">
 <meta itemprop="datePublished" content="2020-04-18T10:34:04+08:00" />
 <meta itemprop="dateModified" content="2020-04-18T10:34:04+08:00" />
-<meta itemprop="wordCount" content="4721">
+<meta itemprop="wordCount" content="5118">
 
 
 
@@ -130,8 +130,8 @@
         <div class="post-category">
             <a href="/categories/machine-learning/"> machine learning </a>
             </div>
-          <span class="more-meta"> 约 4721 字 </span>
-          <span class="more-meta"> 预计阅读 10 分钟 </span>
+          <span class="more-meta"> 约 5118 字 </span>
+          <span class="more-meta"> 预计阅读 11 分钟 </span>
         
       </div>
     </header>
@@ -146,6 +146,7 @@
         <li><a href="#k-means-算法">K-means 算法</a></li>
         <li><a href="#em-算法">EM 算法</a></li>
         <li><a href="#knn">KNN</a></li>
+        <li><a href="#nearest-neighbors">Nearest Neighbors</a></li>
       </ul>
     </li>
   </ul>
@@ -503,7 +504,37 @@ Step 6: Repeat steps 4 and 5 until we reach global optima where no improvements 
 <p>聚类算法是最常见的无监督学习算法，而K-Means算法是最常见的聚类算法</p>
 <p>EM算法是一个迭代式的算法，分为两个步骤：E步和M步；EM算法也可以视为将目标函数作坐标上升的过程，每个步骤都是固定一个参数并估计另一个参数</p>
 <p>EM算法和K-Means算法的迭代过程比较类似，不同的是K-Means算法中每次对参数的更新是硬猜测，而EM中每次对参数的更新是软猜测；相同的是，两个算法都可能得到局部最优解，采用不同的初始参数迭代会有利于得到全局最优解</p>
-<p>[Clustering, K-Means, EM Tutorial ](</p>
+<h2 id="nearest-neighbors">Nearest Neighbors</h2>
+<p>(摘录于官网网站)</p>
+<p>无监督学习</p>
+<blockquote>
+<p><a href="https://scikit-learn.org/stable/modules/classes.html#module-sklearn.neighbors"><code>sklearn.neighbors</code></a> provides functionality for unsupervised and supervised neighbors-based learning methods. Unsupervised nearest neighbors is the foundation of many other learning methods, notably manifold learning and spectral clustering. Supervised neighbors-based learning comes in two flavors: <a href="https://scikit-learn.org/stable/modules/neighbors.html#classification">classification</a> for data with discrete labels, and <a href="https://scikit-learn.org/stable/modules/neighbors.html#regression">regression</a> for data with continuous labels.</p>
+</blockquote>
+<p>Nearest Neighbors Classification</p>
+<blockquote>
+<p>Neighbors-based classification is a type of <em>instance-based learning</em> or <em>non-generalizing learning</em>: it does not attempt to construct a general internal model, but simply stores instances of the training data. Classification is computed from a simple majority vote of the nearest neighbors of each point: a query point is assigned the data class which has the most representatives within the nearest neighbors of the point.</p>
+</blockquote>
+<p>Nearest Neighbors Regression</p>
+<blockquote>
+<p>Neighbors-based regression can be used in cases where the data labels are continuous rather than discrete variables. The label assigned to a query point is computed based on the mean of the labels of its nearest neighbors.</p>
+</blockquote>
+<p>Nearest Neighbor Algorithms</p>
+<blockquote>
+<p>Fast computation of nearest neighbors is an active area of research in machine learning. The most naive neighbor search implementation involves the brute-force computation of distances between all pairs of points in the dataset: for N samples in D dimensions, this approach scales as O[DN2]. Efficient brute-force neighbors searches can be very competitive for small data samples. However, as the number of samples N grows, the brute-force approach quickly becomes infeasible. In the classes within <a href="https://scikit-learn.org/stable/modules/classes.html#module-sklearn.neighbors"><code>sklearn.neighbors</code></a>, brute-force neighbors searches are specified using the keyword <code>algorithm = 'brute'</code>, and are computed using the routines available in <a href="https://scikit-learn.org/stable/modules/classes.html#module-sklearn.metrics.pairwise"><code>sklearn.metrics.pairwise</code></a>.</p>
+</blockquote>
+<p>有三种算法：</p>
+<p>Brute Force</p>
+<p>K-D Tree</p>
+<p>Ball Tree</p>
+<p>Neighborhood Components Analysis</p>
+<blockquote>
+<p>Combined with a nearest neighbors classifier (<a href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html#sklearn.neighbors.KNeighborsClassifier"><code>KNeighborsClassifier</code></a>), NCA is attractive for classification because it can naturally handle multi-class problems without any increase in the model size, and does not introduce additional parameters that require fine-tuning by the user.</p>
+<p>Dimensionality reduction （在项目中使用的就是该技术）</p>
+<p>NCA can be used to perform supervised dimensionality reduction. The input data are projected onto a linear subspace consisting of the directions which minimize the NCA objective.</p>
+</blockquote>
+<p>（可以进一步比较一下 NCA、PCA 和t-sne 的区别和联系）</p>
+<p>参考资料：</p>
+<p><a href="https://scikit-learn.org/stable/modules/neighbors.html">Nearest Neighbors</a></p>
     </div>
 
     <div class="post-copyright">
@@ -588,7 +619,7 @@ Step 6: Repeat steps 4 and 5 until we reach global optima where no improvements 
   <span class="copyright-year">
     &copy; 
     2018 - 
-    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
   </span>
 </div>
 

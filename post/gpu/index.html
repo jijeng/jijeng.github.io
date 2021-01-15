@@ -50,7 +50,7 @@
 <meta itemprop="description" content="如题所示，介绍深度学习中的gpu 的使用。">
 <meta itemprop="datePublished" content="2020-03-30T13:56:42+08:00" />
 <meta itemprop="dateModified" content="2020-03-30T13:56:42+08:00" />
-<meta itemprop="wordCount" content="1719">
+<meta itemprop="wordCount" content="1881">
 
 
 
@@ -127,7 +127,7 @@
         <div class="post-category">
             <a href="/categories/deep-learning/"> deep learning </a>
             </div>
-          <span class="more-meta"> 约 1719 字 </span>
+          <span class="more-meta"> 约 1881 字 </span>
           <span class="more-meta"> 预计阅读 4 分钟 </span>
         
       </div>
@@ -364,7 +364,37 @@ NOTE: This only works with servers using NVIDIA&rsquo;s GPUs.
 
 </code></pre></td></tr></table>
 </div>
+</div><p>针对某个程序优化GPU 的使用</p>
+<blockquote>
+<p>GPUs are optimized to parallelize the feature generation process and hence will give better results when multiple images are passed instead of just one image.
+The opportunity to improve can be seen based on GPU Utilization. Low GPU Utilization indicates an opportunity to further improve the througput.</p>
+<p>目的是为了最大程度的提高gpu 的使用效率，设置不同的</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># GPU Utilization can be seen using the nvidia-smi command. To update it every half a second</span>
+watch -n .5 nvidia-smi
+    
+<span class="c1"># To pool the GPU utilization every second and dump into a file</span>
+nvidia-smi --query-gpu<span class="o">=</span>utilization.gpu --format<span class="o">=</span>csv,noheader,nounits -f gpu_utilization.csv -l <span class="m">1</span>
+    
+<span class="c1"># To calculate median GPU Utilization from the file generated</span>
+sort -n gpu_utilization.csv <span class="p">|</span> datamash median <span class="m">1</span>
+
+</code></pre></td></tr></table>
 </div>
+</div><p>安装 datamash 的教程： <a href="https://www.gnu.org/software/datamash/download/">https://www.gnu.org/software/datamash/download/</a></p>
     </div>
 
     <div class="post-copyright">
@@ -448,7 +478,7 @@ NOTE: This only works with servers using NVIDIA&rsquo;s GPUs.
   <span class="copyright-year">
     &copy; 
     2018 - 
-    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
   </span>
 </div>
 

@@ -50,7 +50,7 @@
 <meta itemprop="description" content="介绍容器（Docker）的原理和常见的命令。">
 <meta itemprop="datePublished" content="2019-09-04T13:09:19+08:00" />
 <meta itemprop="dateModified" content="2019-09-04T13:09:19+08:00" />
-<meta itemprop="wordCount" content="2991">
+<meta itemprop="wordCount" content="3042">
 
 
 
@@ -125,8 +125,8 @@
       <div class="post-meta">
         <span class="post-time"> 2019-09-04 </span>
         
-          <span class="more-meta"> 约 2991 字 </span>
-          <span class="more-meta"> 预计阅读 6 分钟 </span>
+          <span class="more-meta"> 约 3042 字 </span>
+          <span class="more-meta"> 预计阅读 7 分钟 </span>
         
       </div>
     </header>
@@ -553,6 +553,10 @@ CMD [ &#34;app.py&#34;,&#34;run&#34;,&#34;--host&#34;,&#34;0.0.0.0&#34;] # 这�
 </span><span class="lnt">11
 </span><span class="lnt">12
 </span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-fallback" data-lang="fallback"># install system dependencies
@@ -568,18 +572,27 @@ RUN pip install --no-cache-dir -r requirements.txt
 # --no-cache-dir              Disable the cache.
 
 
+
+# 如果在国内为了方便测试可以使用国内镜像
+RUN pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+
 </code></pre></td></tr></table>
 </div>
 </div><h3 id="部署">部署</h3>
 <p>cd  到某个路径中，该路径中有 dockerfile</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-sh" data-lang="sh"><span class="c1"># build 的命令  -&gt; image 。最后的一个 . 表示上下文路径, 当执行 build 时候，会将该路径下的所有内容打包，所以一定要把没有必要的文件删掉</span>
@@ -588,6 +601,11 @@ docker build --tag  image_name .
 <span class="c1"># run 的命令 -&gt; docker ps 中可查</span>
 docker run --name deployML -p localport:dockerport image_name
 <span class="c1"># 实现的是端口映射</span>
+
+
+docker <span class="nb">exec</span> -it container_name  <span class="c1"># docker 进入容器里面</span>
+
+docker stop my_container
 </code></pre></td></tr></table>
 </div>
 </div><h2 id="参考文献">参考文献</h2>
@@ -680,7 +698,7 @@ docker run --name deployML -p localport:dockerport image_name
   <span class="copyright-year">
     &copy; 
     2018 - 
-    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
   </span>
 </div>
 
