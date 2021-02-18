@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>OpenAI CLIP(Connecting Text and Images) 调研学习 - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="CLIP 调研学习
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/clip_connecting_text_image/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="OpenAI CLIP(Connecting Text and Images) 调研学习" />
+<meta property="og:description" content="CLIP 调研学习" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/clip_connecting_text_image/" />
+<meta property="article:published_time" content="2021-02-11T10:44:57+08:00" />
+<meta property="article:modified_time" content="2021-02-11T10:44:57+08:00" />
+<meta itemprop="name" content="OpenAI CLIP(Connecting Text and Images) 调研学习">
+<meta itemprop="description" content="CLIP 调研学习">
+<meta itemprop="datePublished" content="2021-02-11T10:44:57+08:00" />
+<meta itemprop="dateModified" content="2021-02-11T10:44:57+08:00" />
+<meta itemprop="wordCount" content="1933">
+
+
+
+<meta itemprop="keywords" content="CLIP," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="OpenAI CLIP(Connecting Text and Images) 调研学习"/>
+<meta name="twitter:description" content="CLIP 调研学习"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">OpenAI CLIP(Connecting Text and Images) 调研学习</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-02-11 </span>
+        <div class="post-category">
+            <a href="/categories/nlp/"> nlp </a>
+            </div>
+          <span class="more-meta"> 约 1933 字 </span>
+          <span class="more-meta"> 预计阅读 4 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>CLIP 调研学习</p>
+<ol>
+<li><a href="https://blog.roboflow.com/how-to-use-openai-clip/?fbclid=IwAR3TFIykuO6p7dswKL5haG1JLgpZRWYWsnGne95zRT4vh82GTQmabQaeauY">How to Try CLIP: OpenAI&rsquo;s Zero-Shot Image Classifier</a></li>
+</ol>
+<p>对应的 colab：<a href="https://colab.research.google.com/drive/1LXla2q9MCRRI_kTjpvag2Vz-7EGLnki5#scrollTo=lOF3Feb7jrnu">Roboflow-CLIP-Zero-Shot-Classification.ipynb</a>  直觉上效果一般</p>
+<p>CLIP (Contrastive Language-Image Pre-training), is a zero-shot model, meaning it can identify an enormous range of things it has never seen before.</p>
+<blockquote>
+<p>In traditional classifiers, the meaning of the labels is ignored (in fact, they&rsquo;re often simply discarded and replaced with integers internally). By contrast, CLIP creates an encoding of its classes and is pre-trained on over 400 million text to image pairs. This allows it to leverage transformer models' ability to extract semantic meaning from text to make image classifications out of the box without being fine-tuned on custom data.</p>
+<p>传统上说， 图像分类中的文字被映射成数字，但 CLIP 不是这样的。数据量是 4 亿 (image- text) pair.</p>
+</blockquote>
+<blockquote>
+<p>n this post, we will walk through a demonstration of how to test out CLIP&rsquo;s performance on your own images so you can get some hard numbers and an intuition for how well CLIP actually does on various use case. <strong>We found that CLIP does better than <a href="https://blog.roboflow.com/custom-resnet34-classification-model/">our custom trained ResNet classification models</a> on a <a href="https://public.roboflow.com/classification/flowers_classification">flower classification</a> task.</strong> It also does surprisingly well over a range of more obscure and challenging tasks (including identifying mushroom species in pictures from our camera roll and <a href="https://public.roboflow.com/object-detection/oxford-pets/2">identifying breeds of dogs and cats</a>).</p>
+<p>有实践说明效果好，大概看一下 link 上的数据集，貌似数据有点少呀。</p>
+</blockquote>
+<ol start="2">
+<li><a href="https://habr.com/en/post/537334/">CLIP from OpenAI: what is it and how you can try it out yourself</a></li>
+</ol>
+<p>对应的 google jupyter： <a href="https://colab.research.google.com/drive/1ZSDOa6W5NxNdIwT79zFCEE4UwQ3PZjoU?usp=sharing#scrollTo=gnjiAdEJEwtS">CLIP Face descrimination</a>  建议尝试一下。</p>
+<p><strong>Intuition</strong></p>
+<p>For this to work successfully, the network must learn good visual representations and good connections between visual cues and text.</p>
+<p><strong>How CLIP works</strong></p>
+<p>(1) contrastive pre-training</p>
+<p>CLIP achieves this by reframing the problem and using the contrastive pre-training. Instead of predicting label text, CLIP is training on predicting how likely this image is to correspond to that text.</p>
+<p><img src="http://123.56.8.10:8899/images/2021/02/18/image-20210203170157558.png" alt="image-20210203170157558" style="zoom:50%;" /></p>
+<blockquote>
+<p>Input images and texts are encoded, and their vector representations are used to build a similarity matrix (I*T is an inner product). Now, we know (during training) that the values on the diagonal represent correct classifications, so their similarity must be higher than those in the same row/column. This approach contrasts what we know go together (diagonal values) to what we know doesn’t go together (non-diagonal values). You can see that each row is a classification task: given an input image I, predict the text. Similarly, each column is a classification task: given an input text T, predict the image. During training, OpenAI used a very large size of mini-batches 32768 (N on the figure above).</p>
+</blockquote>
+<p>(2) create dataset classifier from label text</p>
+<blockquote>
+<p>During inference one takes a set of labels, creates texts based on labels and runs these texts through the text encoder. Text embeddings are later matched to image representation.</p>
+</blockquote>
+<p>(3) use for zero-shot prediction</p>
+<blockquote>
+<p>Classic classification training cares only about the predefined labels. If it is successful in findings dogs, then it doesn’t care if it is a photo or a sketch of a dog or a specific breed. Whereas CLIP training coupled with a large dataset makes the network learn various aspects of images and point attention to details.</p>
+</blockquote>
+<p>**One detail that is worth mentioning is that CLIP is sensitive to words used for image descriptions. **Texts “a photo of a bird”, “a photo of a bird siting near bird feeder”, or “an image of a bird” all produce different probability paired with the same image:</p>
+<blockquote>
+<p>Another result shown here is that CLIP was not training with image similarity in mind. Yet it learned useful representations that may be used in image similarity scenarios.</p>
+<p>博主使用该模型作为 image retrieval，发现效果很好。</p>
+</blockquote>
+<p>(4) zero-shot ImageNet accuracy</p>
+<p><img src="http://123.56.8.10:8899/images/2021/02/18/image-20210203182236864.png" alt="image-20210203182236864" style="zoom:30%;" /></p>
+<blockquote>
+<p>This Zero-shot learning approach coupled with natural language supervision is what differentiates CLIP from the other vision models. By training a wide variety of data easily accessible on the internet and no direct optimizing for benchmark, CLIP is much more generalized and representative.</p>
+<p>We can see in the above image that the CLIP achieved the language model accuracy at just 33M parameters compared to 400M. CLIP is 12 times more efficient!!
+As a result of this methodology, CLIP can easily be applied to nearly any visual classification tasks and achieve great performance.</p>
+<p>从部署方面考虑（parameter 小），效率高。</p>
+</blockquote>
+<p><strong>CLIP current limitations</strong></p>
+<blockquote>
+<p>CLIP authors are open about its limitations. CLIP struggles on more abstract or systematic tasks such as counting the number of objects and on a more complex tasks such as estimating relative distances between objects. On such datasets, CLIP is only slightly better than random guessing. CLIP also struggles with very fine-grained classification, such as telling the difference between car models, variants of aircraft, or flower species.</p>
+<p>抽象文字问题上吃力；在 fine-grained 的分类上有点吃力。</p>
+</blockquote>
+<blockquote>
+<p>CLIP model itself is data hungry and expensive to train. If pre-trained model doesn’t work well for you, it may be not feasible to train your own version.</p>
+<p>划重点，不能在自己的数据集上train，因为 CLIP model 本身是 data hungry and expensive to train. 如果能用则用，不能用那么是一种intuition。</p>
+</blockquote>
+<ol start="3">
+<li><a href="https://towardsdatascience.com/open-ai-clip-learning-visual-concepts-from-natural-language-supervision-d02644969278">Open AI CLIP: learning visual concepts from natural language supervision</a></li>
+</ol>
+<p>从知识点的角度讲解还是很好的。</p>
+<p><strong>main selling point</strong></p>
+<blockquote>
+<p>For instance, ImageNet (the largest images dataset) is only able to classify images that belong to the classes that it was trained on. It doesn’t make sense to keep adding a new class to the dataset and re-train the network long-term.</p>
+<p>这个还是在说 zero-shot</p>
+</blockquote>
+<p><strong>Contrastive learning</strong></p>
+<p>定义：</p>
+<blockquote>
+<p><em>Contrastive learning is an approach to formulate the task of finding similar and dissimilar things for an ML model. Using this approach, one can train a machine learning model to classify between similar and dissimilar images.</em></p>
+</blockquote>
+<blockquote>
+<p>You can think of Contrastive learning as a matching problem. If you were to match the picture of a cat to another similar one, you can do it easily. First, recognize the first cat, then find an image of another cat. So, you can <strong>contrast</strong> between similar and dissimilar things.</p>
+</blockquote>
+<blockquote>
+<p>The model starts off with <a href="https://arxiv.org/abs/2010.06351">contrastive pre-training</a> where image text pairs are matched with the similarity from a batch of images. This is done using an image encoder and a text encoder. Contrastive pre-training attempts to learn noise invariant sequence representations which encourage consistency between the learned representations and the original sequence.</p>
+<p>They got the inspiration from <a href="https://arxiv.org/pdf/2006.06666.pdf">VirTex</a> which is a pretraining approach using semantically dense captions to learn visual representations. This approach has been shown to surpass other supervised approaches such as classic high-end ImageNet networks.</p>
+<p>关键技术是 VirTex，因为其验证了使用 text + image 一块train 的效果是要好于 image +label 的效果。</p>
+</blockquote>
+<p>缺点</p>
+<blockquote>
+<ol>
+<li>The first one is that it doesn&rsquo;t perform too well on systematic tasks such as counting the number of objects in images</li>
+<li>Week generalization ability on images not covered in its pre-training dataset.</li>
+<li>Sensitive to wording and phrasing</li>
+</ol>
+</blockquote>
+<p><a href="https://towardsdatascience.com/openais-dall-e-and-clip-101-a-brief-introduction-3a4367280d4e">OpenAI’s DALL-E and CLIP 101: a brief introduction</a></p>
+<p>CLIP is multimodal neural network.</p>
+<p>**Multimodal neural networks: what are they? **</p>
+<blockquote>
+<p>Our experiences as humans are multimodal, meaning that we receive inputs from the world surrounding us in different formats (sound, image, odors, textures, etc.) that we combine using different senses (touch, sight, hearing, smell and taste) to produce learnings and to retain information.</p>
+<p>如果想要了解更深，那么可以参考这个paper  <a href="https://arxiv.org/pdf/1705.09406.pdf">Multimodal Machine Learning: A Survey and Taxonomy</a></p>
+<p>In Deep Learning, it is very common to train models in only one data format (single modality).</p>
+<p>之前的model 好多都是 single modality</p>
+</blockquote>
+<blockquote>
+<p>CLIP is trained not by using labeled image datasets but from images and their descriptions (captions) taken from the internet .</p>
+<p>爬虫相比于 label 是 label free。</p>
+</blockquote>
+<p><a href="https://analyticsindiamag.com/hands-on-guide-to-openais-clip-connecting-text-to-images/">Hands-on Guide to OpenAI’s CLIP – Connecting Text To Images</a></p>
+<blockquote>
+<p>CLIP implements several existing learning visual representations from natural language supervision techniques. This involves modern and advanced architectures like the Vision and text Transformers, ICMLM, which explores masked language modelling, VirTex, which is applied to autoregressive language modelling, and ConVIRT, used in the contrastive objective that is used in CLIP for medical imaging.</p>
+<p>CLIP 实现时候使用的基本 模型。</p>
+</blockquote>
+<p><a href="https://www.marktechpost.com/2021/01/24/openai-introduces-clip-a-neural-network-that-efficiently-learns-visual-concepts-from-natural-language-supervision/">OpenAI Introduces CLIP: A Neural Network That Efficiently Learns Visual Concepts From Natural Language Supervision</a></p>
+<blockquote>
+<p>CLIP builds on a vast body of work on zero-shot transfer, multimodal learning, and natural language supervision.</p>
+<p>这句话可以将不同的 selling points 联系起来。</p>
+</blockquote>
+<p>大概的意思是站在巨人的肩膀上</p>
+<blockquote>
+<p>CLIP is part of a group of papers revisiting visual learning representations from natural language supervision in the past year. This work uses more modern architectures like the Transformer and includes:</p>
+<ol>
+<li>VirTex: It explored autoregressive language modeling.</li>
+<li>ICMLM: It investigated masked language modeling.</li>
+<li>ConVIRT: It studied the same contrastive objective that the team used for CLIP but in medical imaging.</li>
+</ol>
+</blockquote>
+<p><a href="https://towardsdatascience.com/beyond-tags-and-entering-the-semantic-search-era-on-images-with-openai-clip-1f7d629a9978">Beyond tags and entering the semantic search era on images with OpenAI CLIP</a></p>
+<p>上面有对应的 code，不是完整的，但是有思路。所以可以看看考虑一下。</p>
+<blockquote>
+<p><strong>Semantic search</strong> refers to the ability of search engines to consider the intent and contextual meaning of search phrases. Instead of trying to find exact matches for the word in the input phrase, semantic search captures broader context and relationships between words and retrieves results that are more closely related to the context of the search query.</p>
+<p>对于 semantic search 的定义很好，consider the intent and contextual meaning of search phrases. 不是 find exact matches for the word in the input phrase.  实现前者的功能可以考虑的是 <strong>sentence-bert</strong></p>
+</blockquote>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2021-02-11
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/wechatpay.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/alipay.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/clip/">CLIP</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/coroutine_in_python/">
+            <span class="next-text nav-default">Coroutine in Python</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

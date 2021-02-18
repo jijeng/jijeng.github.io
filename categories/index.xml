@@ -6,7 +6,16 @@
     <description>Recent content in Categories on Jijeng&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 07 Feb 2021 10:53:12 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 11 Feb 2021 10:44:57 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>nlp</title>
+      <link>http://jijeng.github.io/categories/nlp/</link>
+      <pubDate>Thu, 11 Feb 2021 10:44:57 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/categories/nlp/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>programming-language</title>
       <link>http://jijeng.github.io/categories/programming-language/</link>
@@ -76,15 +85,6 @@
       <pubDate>Tue, 18 Feb 2020 14:46:35 +0800</pubDate>
       
       <guid>http://jijeng.github.io/categories/linux/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>nlp</title>
-      <link>http://jijeng.github.io/categories/nlp/</link>
-      <pubDate>Sat, 21 Dec 2019 15:25:13 +0800</pubDate>
-      
-      <guid>http://jijeng.github.io/categories/nlp/</guid>
       <description></description>
     </item>
     

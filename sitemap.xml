@@ -3,7 +3,49 @@
   
   <url>
     <loc>http://jijeng.github.io/categories/</loc>
-    <lastmod>2021-02-07T10:53:12+08:00</lastmod>
+    <lastmod>2021-02-11T10:44:57+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://jijeng.github.io/tags/clip/</loc>
+    <lastmod>2021-02-11T10:44:57+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://jijeng.github.io/</loc>
+    <lastmod>2021-02-11T10:44:57+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://jijeng.github.io/categories/nlp/</loc>
+    <lastmod>2021-02-11T10:44:57+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://jijeng.github.io/post/clip_connecting_text_image/</loc>
+    <lastmod>2021-02-11T10:44:57+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://jijeng.github.io/post/</loc>
+    <lastmod>2021-02-11T10:44:57+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://jijeng.github.io/tags/</loc>
+    <lastmod>2021-02-11T10:44:57+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -23,20 +65,6 @@
   </url>
   
   <url>
-    <loc>http://jijeng.github.io/</loc>
-    <lastmod>2021-02-07T10:53:12+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://jijeng.github.io/post/</loc>
-    <lastmod>2021-02-07T10:53:12+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>http://jijeng.github.io/categories/programming-language/</loc>
     <lastmod>2021-02-07T10:53:12+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -45,13 +73,6 @@
   
   <url>
     <loc>http://jijeng.github.io/tags/python/</loc>
-    <lastmod>2021-02-07T10:53:12+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://jijeng.github.io/tags/</loc>
     <lastmod>2021-02-07T10:53:12+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -668,13 +689,6 @@
   
   <url>
     <loc>http://jijeng.github.io/tags/ner/</loc>
-    <lastmod>2019-12-21T15:25:13+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://jijeng.github.io/categories/nlp/</loc>
     <lastmod>2019-12-21T15:25:13+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

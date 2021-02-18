@@ -6,7 +6,16 @@
     <description>Recent content in Tags on Jijeng&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 07 Feb 2021 10:53:12 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 11 Feb 2021 10:44:57 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CLIP</title>
+      <link>http://jijeng.github.io/tags/clip/</link>
+      <pubDate>Thu, 11 Feb 2021 10:44:57 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/clip/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>coroutine</title>
       <link>http://jijeng.github.io/tags/coroutine/</link>
