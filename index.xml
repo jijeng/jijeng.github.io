@@ -6,7 +6,36 @@
     <description>Recent content on Jijeng&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 29 Nov 2020 10:22:37 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 07 Feb 2021 10:53:12 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Coroutine in Python</title>
+      <link>http://jijeng.github.io/post/coroutine_in_python/</link>
+      <pubDate>Sun, 07 Feb 2021 10:53:12 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/coroutine_in_python/</guid>
+      <description>&lt;p&gt;主要介绍同步、异步、协程的概念；在实践部分给出了code 样本和网络下载图像的异步程序。异步的使用场景：network-based or file I/O-based.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Image Deduplication</title>
+      <link>http://jijeng.github.io/post/image_deduplication/</link>
+      <pubDate>Sat, 30 Jan 2021 11:18:16 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/image_deduplication/</guid>
+      <description>&lt;p&gt;图像去重算法的学习整理。&lt;/p&gt;
+&lt;p&gt;图像去重和相似性查找可以当做一件事情，当找到相似图像之后执行删除操作就是去重，找到相似图像之后返回给前端，那么就是相似性查找。为了方便起见，下文都是写成图像去重。&lt;/p&gt;
+&lt;p&gt;图像去重算法分成两大类别：基于 hash 的算法去重；基于 CNN 的算法去重。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Multiprocess in Python</title>
+      <link>http://jijeng.github.io/post/multiprocess_in_python/</link>
+      <pubDate>Sun, 10 Jan 2021 11:10:58 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/multiprocess_in_python/</guid>
+      <description>&lt;p&gt;多进程学习，介绍了 &lt;code&gt;Process&lt;/code&gt; 和 &lt;code&gt;Pool&lt;/code&gt; 类并且在最后进行了比较。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Hook in pytorch</title>
       <link>http://jijeng.github.io/post/hook_in_pytorch/</link>

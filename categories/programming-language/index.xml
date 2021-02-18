@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>programming language on Jijeng&#39;s Blog</title>
+    <title>programming-language on Jijeng&#39;s Blog</title>
     <link>http://jijeng.github.io/categories/programming-language/</link>
-    <description>Recent content in programming language on Jijeng&#39;s Blog</description>
+    <description>Recent content in programming-language on Jijeng&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 04 Nov 2019 16:08:25 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/categories/programming-language/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 07 Feb 2021 10:53:12 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/categories/programming-language/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Coroutine in Python</title>
+      <link>http://jijeng.github.io/post/coroutine_in_python/</link>
+      <pubDate>Sun, 07 Feb 2021 10:53:12 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/coroutine_in_python/</guid>
+      <description>&lt;p&gt;主要介绍同步、异步、协程的概念；在实践部分给出了code 样本和网络下载图像的异步程序。异步的使用场景：network-based or file I/O-based.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Multiprocess in Python</title>
+      <link>http://jijeng.github.io/post/multiprocess_in_python/</link>
+      <pubDate>Sun, 10 Jan 2021 11:10:58 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/multiprocess_in_python/</guid>
+      <description>&lt;p&gt;多进程学习，介绍了 &lt;code&gt;Process&lt;/code&gt; 和 &lt;code&gt;Pool&lt;/code&gt; 类并且在最后进行了比较。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Python 学习笔记（三）</title>
       <link>http://jijeng.github.io/post/python_tutorial_3/</link>

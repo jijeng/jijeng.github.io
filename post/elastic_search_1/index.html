@@ -50,7 +50,7 @@
 <meta itemprop="description" content="介绍使用 elastic search">
 <meta itemprop="datePublished" content="2020-06-29T11:22:11+08:00" />
 <meta itemprop="dateModified" content="2020-06-29T11:22:11+08:00" />
-<meta itemprop="wordCount" content="9102">
+<meta itemprop="wordCount" content="9363">
 
 
 
@@ -125,7 +125,7 @@
       <div class="post-meta">
         <span class="post-time"> 2020-06-29 </span>
         
-          <span class="more-meta"> 约 9102 字 </span>
+          <span class="more-meta"> 约 9363 字 </span>
           <span class="more-meta"> 预计阅读 19 分钟 </span>
         
       </div>
@@ -148,43 +148,6 @@
         <li><a href="#学习笔记">学习笔记</a></li>
       </ul>
     </li>
-    <li><a href="#升序排序">升序排序</a></li>
-    <li><a href="#搜索条件放在结构体中">搜索条件放在结构体中</a></li>
-    <li><a href="#先升序-然后再降序">先升序 然后再降序</a></li>
-    <li><a href="#match_all-查询所有">match_all 查询所有</a></li>
-    <li><a href="#_source-返回部分字段">_source 返回部分字段</a></li>
-    <li><a href="#match-匹配非字符串那么就是精确查询">match 匹配非字符串，那么就是精确查询。</a></li>
-    <li><a href="#字符串的全文检索-只要包含这个信息的">字符串的全文检索 （只要包含这个信息的）</a></li>
-    <li><a href="#倒排索引">倒排索引</a></li>
-    <li><a href="#其中有-_score-关键字表示匹配的程度按照_score-进行">其中有 _score 关键字，表示匹配的程度，按照_score 进行</a></li>
-    <li><a href="#对于-query-进行分词匹配">对于 query 进行分词匹配</a></li>
-    <li><a href="#match_phase-短词分词不进行分词当做完整的短语">match_phase 短词分词（不进行分词，当做完整的短语）</a></li>
-    <li><a href="#多字段匹配多个字段只要有一个能匹配上-query-就行-对query-进行分词的">多字段匹配，多个字段只要有一个能匹配上 query 就行， 对query 进行分词的</a></li>
-    <li><a href="#bool-查询复合查询">bool 查询（复合查询）</a></li>
-    <li><a href="#三个关键字-must-must_not-should-可选的满足了-_score-会更高结果比较排前">三个关键字 must， must_not, should 可选的；满足了 _score 会更高，结果比较排前</a></li>
-    <li><a href="#must-should-can-contribute-to-how-documents-are-scored">must, should can contribute to how documents are scored.</a></li>
-    <li><a href="#must_not-is-treated-as-a-filter-but-does-not-contribute-to-how-documents-are-scored">must_not is treated as a filter, but does not contribute to how documents are scored</a></li>
-    <li><a href="#term">term</a></li>
-    <li><a href="#使用条件-avoid-using-the-term-query-for-text-fields-to-search-text-field-values-use-the-match-query-instead">使用条件, avoid using the term query for text fields. To search text field values, use the match query instead.</a></li>
-    <li><a href="#当检索非字符串-使用term-关键词-当检索字符串时候使用-match-关键字">当检索非字符串 使用term 关键词； 当检索字符串时候，使用 match 关键字</a></li>
-    <li><a href="#当-es-在存储-text-字段的时候-存在-analysis-分词的问题那么这个时候使用-term-进行-exact-match-那么就是非常困难的">当 ES 在存储 text 字段的时候， 存在 analysis 分词的问题，那么这个时候使用 term 进行 exact match 那么就是非常困难的。</a></li>
-    <li><a href="#keyword-和-match_phrase-的区别-前者是-特别exact后者是整体包含就ok">keyword 和 match_phrase 的区别： 前者是 特别exact，后者是整体包含就ok</a></li>
-    <li><a href="#基于上一步进行聚合">基于上一步进行聚合</a></li>
-    <li><a href="#这个是在上一步的基础上进行聚合">这个是在上一步的基础上进行聚合</a></li>
-    <li><a href="#这样就得到了字典映射类型">这样就得到了字典映射类型</a></li>
-    <li><a href="#添加一个新的字段映射">添加一个新的字段映射</a></li>
-    <li><a href="#修改一个新的字段映射-这样是不成立">修改一个新的字段映射 （这样是不成立）</a></li>
-    <li><a href="#更新index-的操作先创建出-新的-正确的映射然后使用如下的方式进行数据迁移">更新index 的操作：先创建出 新的 正确的映射，然后使用如下的方式进行数据迁移</a></li>
-    <li><a href="#总结-不用type如果需要新的字段映射那么首先先创建新的正确映射然后再进行数据迁移">总结， 不用type，如果需要新的字段映射，那么首先先创建新的正确映射，然后再进行数据迁移</a></li>
-    <li><a href="#全文检索-elastic-search-分词">全文检索 elastic search 分词</a></li>
-    <li><a href="#标准的分词--es-都是针对英文的分词如果是中文-那么需要找到对应的-ik-分词器">标准的分词,  ES 都是针对英文的分词，如果是中文 （那么需要找到对应的 ik 分词器）</a></li>
-    <li><a href="#自定义扩展词库">自定义扩展词库</a></li>
-    <li><a href="#把自定义的词库放到-nginx-服务器上然后访问服务器就可以下载到本地这样是可以随时更新词库的">把自定义的词库放到 nginx 服务器上，然后访问服务器就可以下载到本地，这样是可以随时更新词库的</a></li>
-    <li><a href="#在docker-中使用nginx">在docker 中使用nginx</a></li>
-    <li><a href="#这个是端口映射外部的80-端口映射到nginx-的80-端口">这个是端口映射，外部的80 端口映射到nginx 的80 端口</a></li>
-    <li><a href="#这个是重启命令">这个是重启命令</a></li>
-    <li><a href="#这个命令是-restart-kibana720--和--elasticsearch720">这个命令是 restart kibana:7.2.0  和  elasticsearch:7.2.0</a></li>
-    <li><a href="#然后-restart-之前的镜像">然后 restart 之前的镜像</a></li>
   </ul>
 </nav>
   </div>
@@ -656,329 +619,254 @@ PUT customer/external/1
 </span><span class="lnt"> 9
 </span><span class="lnt">10
 </span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo docker update id(or name) --restart =always
 
 
-
-
 ES 中检索的两种方式
 
-
-
 1. 搜索条件放在 url 中
+# 升序排序
+GET bank/_search?q=*&amp;sort=account_number:asc
 
-</code></pre></td></tr></table>
-</div>
-</div><h1 id="升序排序">升序排序</h1>
-<p>GET bank/_search?q=*&amp;sort=account_number:asc</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">2. query DSL (复杂 query)
-
-
+2. query DSL (复杂 query)
 https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html
 
-elastic search 作为检索功能的讲解
 
 </code></pre></td></tr></table>
 </div>
-</div><h1 id="搜索条件放在结构体中">搜索条件放在结构体中</h1>
-<h1 id="先升序-然后再降序">先升序 然后再降序</h1>
-<h1 id="match_all-查询所有">match_all 查询所有</h1>
-<h1 id="_source-返回部分字段">_source 返回部分字段</h1>
-<p>GET bank/_search
-{
-&ldquo;query&rdquo;: {&ldquo;match_all&rdquo; : {}},
-&ldquo;sort&rdquo; : [ {&ldquo;account_number&rdquo; : &ldquo;asc&rdquo;}, {&ldquo;balance&rdquo;: &ldquo;desc&rdquo;}]
-&ldquo;from&rdquo;: 10,
-&ldquo;_source&rdquo;: [&ldquo;balance&rdquo;, &ldquo;firstname&rdquo;]
-}</p>
-<div class="highlight"><div class="chroma">
+</div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
+<pre class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">match 匹配
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># elastic search 作为检索功能的讲解
+
+# 搜索条件放在结构体中
+
+# 先升序 然后再降序
+
+# match_all 查询所有
+
+# _source 返回部分字段
+
+GET bank/_search
+{
+&#34;query&#34;: {&#34;match_all&#34; : {}},
+&#34;sort&#34; : [ {&#34;account_number&#34; : &#34;asc&#34;}, {&#34;balance&#34;: &#34;desc&#34;}] 
+&#34;from&#34;: 10,
+&#34;_source&#34;: [&#34;balance&#34;, &#34;firstname&#34;]
+}
 
 
+match 匹配
+#  match 匹配非字符串，那么就是精确查询。
+
+GET bank/_search
+{
+&#34;query&#34; :{
+&#34;match&#34; :{&#34;balance&#34; : 20}
+}
+}
 
 
-</code></pre></td></tr></table>
-</div>
-</div><h1 id="match-匹配非字符串那么就是精确查询">match 匹配非字符串，那么就是精确查询。</h1>
-<p>GET bank/_search
+# 字符串的全文检索 （只要包含这个信息的）
+
+# 倒排索引
+
+# 其中有 _score 关键字，表示匹配的程度，按照_score 进行
+
+# 对于 query 进行分词匹配
+
+GET bank/_search
 {
-&ldquo;query&rdquo; :{
-&ldquo;match&rdquo; :{&ldquo;balance&rdquo; : 20}
-}
-}</p>
-<h1 id="字符串的全文检索-只要包含这个信息的">字符串的全文检索 （只要包含这个信息的）</h1>
-<h1 id="倒排索引">倒排索引</h1>
-<h1 id="其中有-_score-关键字表示匹配的程度按照_score-进行">其中有 _score 关键字，表示匹配的程度，按照_score 进行</h1>
-<h1 id="对于-query-进行分词匹配">对于 query 进行分词匹配</h1>
-<p>GET bank/_search
-{
-&ldquo;query&rdquo; :{
-&ldquo;match&rdquo; :{&ldquo;address&rdquo; : &ldquo;Kings&rdquo;}
-}
-}</p>
-<h1 id="match_phase-短词分词不进行分词当做完整的短语">match_phase 短词分词（不进行分词，当做完整的短语）</h1>
-<p>GET /bank/_search
-{
-&ldquo;query&rdquo;: {
-&ldquo;match_phrase&rdquo; :
-{
-&ldquo;address&rdquo;: &ldquo;mill land&rdquo;
+&#34;query&#34; :{
+&#34;match&#34; :{&#34;address&#34; : &#34;Kings&#34;}
 }
 }
-}</p>
-<h1 id="多字段匹配多个字段只要有一个能匹配上-query-就行-对query-进行分词的">多字段匹配，多个字段只要有一个能匹配上 query 就行， 对query 进行分词的</h1>
-<p>GET bank/_search{
-&ldquo;query&rdquo;: {
-&ldquo;multi_mach&rdquo; :{
-&ldquo;query&rdquo;: &ldquo;mill&rdquo;,
-&ldquo;fields&rdquo;: [&ldquo;address&rdquo;, &ldquo;name&rdquo;]
-}</p>
-<p>}
-}</p>
-<h1 id="bool-查询复合查询">bool 查询（复合查询）</h1>
-<h1 id="三个关键字-must-must_not-should-可选的满足了-_score-会更高结果比较排前">三个关键字 must， must_not, should 可选的；满足了 _score 会更高，结果比较排前</h1>
-<h1 id="must-should-can-contribute-to-how-documents-are-scored">must, should can contribute to how documents are scored.</h1>
-<h1 id="must_not-is-treated-as-a-filter-but-does-not-contribute-to-how-documents-are-scored">must_not is treated as a filter, but does not contribute to how documents are scored</h1>
-<p>GET bank/_search
+
+# match_phase 短词分词（不进行分词，当做完整的短语）
+GET /bank/_search
 {
-&ldquo;query&rdquo; : {
-&ldquo;bool&rdquo;:{
-&ldquo;must&rdquo;: [{
+&#34;query&#34;: {
+&#34;match_phrase&#34; :
+{
+&#34;address&#34;: &#34;mill land&#34;
+} 
+}
+}
+
+# 多字段匹配，多个字段只要有一个能匹配上 query 就行， 对query 进行分词的
+GET bank/_search{
+&#34;query&#34;: {
+&#34;multi_mach&#34; :{
+&#34;query&#34;: &#34;mill&#34;,
+&#34;fields&#34;: [&#34;address&#34;, &#34;name&#34;]
+}
+}
+}
+
+# bool 查询（复合查询）
+
+# 三个关键字 must， must_not, should 可选的；满足了 _score 会更高，结果比较排前
+
+# must, should can contribute to how documents are scored. 
+
+# must_not is treated as a filter, but does not contribute to how documents are scored
+
+GET bank/_search
+{
+&#34;query&#34; : {
+&#34;bool&#34;:{
+&#34;must&#34;: [{
 }]
-&ldquo;must_not&rdquo; :[{}]
-&ldquo;should&rdquo; :[{}]
+&#34;must_not&#34; :[{}]
+&#34;should&#34; :[{}]
 }
 }
-}</p>
-<h1 id="term">term</h1>
-<h1 id="使用条件-avoid-using-the-term-query-for-text-fields-to-search-text-field-values-use-the-match-query-instead">使用条件, avoid using the term query for text fields. To search text field values, use the match query instead.</h1>
-<h1 id="当检索非字符串-使用term-关键词-当检索字符串时候使用-match-关键字">当检索非字符串 使用term 关键词； 当检索字符串时候，使用 match 关键字</h1>
-<h1 id="当-es-在存储-text-字段的时候-存在-analysis-分词的问题那么这个时候使用-term-进行-exact-match-那么就是非常困难的">当 ES 在存储 text 字段的时候， 存在 analysis 分词的问题，那么这个时候使用 term 进行 exact match 那么就是非常困难的。</h1>
-<p>GET  bank/_search
+}
+
+# term 
+
+# 使用条件, avoid using the term query for text fields. To search text field values, use the match query instead. 
+
+# 当检索非字符串 使用term 关键词； 当检索字符串时候，使用 match 关键字
+
+# 当 ES 在存储 text 字段的时候， 存在 analysis 分词的问题，那么这个时候使用 term 进行 exact match 那么就是非常困难的。
+
+GET  bank/_search
 {
-&ldquo;query&rdquo; : {
-&ldquo;term&rdquo; : {&ldquo;age&rdquo; : &ldquo;28&rdquo;}
+&#34;query&#34; : {
+&#34;term&#34; : {&#34;age&#34; : &#34;28&#34;}
 }
-}</p>
-<h1 id="keyword-和-match_phrase-的区别-前者是-特别exact后者是整体包含就ok">keyword 和 match_phrase 的区别： 前者是 特别exact，后者是整体包含就ok</h1>
-<p>GET bank/_search
+}
+# keyword 和 match_phrase 的区别： 前者是 特别exact，后者是整体包含就ok
+
+GET bank/_search
 {
-&ldquo;query&rdquo; : {
-&ldquo;match&rdquo; :{
-&ldquo;address.keyworrd&rdquo; :&ldquo;789 MAdison&rdquo;
+&#34;query&#34; : {
+&#34;match&#34; :{
+&#34;address.keyworrd&#34; :&#34;789 MAdison&#34;
 }
 }
-}</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">
-9. aggregation （执行聚合）
-
-
-聚合提供了从数据中分组和提取数据的能力。大致等原因 SQL GROUP BY 和 SQL 聚合函数。
-
-
-
-聚合是可以嵌套的。
-
-
-
-搜索address 中
-
+}
 
 </code></pre></td></tr></table>
 </div>
-</div><p>GET bank/_search
-{
-&ldquo;query&rdquo; :{
-&ldquo;match&rdquo;: {
-&ldquo;address&rdquo;: &ldquo;mill&rdquo;
-}
-}</p>
-<h1 id="基于上一步进行聚合">基于上一步进行聚合</h1>
-<p>&ldquo;aggs&rdquo;: {
-&ldquo;ageAvg&rdquo; :{
-&ldquo;avg&rdquo; : {
-&ldquo;field&rdquo; : &ldquo;age&rdquo;
-}
-}</p>
-<p>&ldquo;balanceAvg&rdquo;: {</p>
-<p>}
-}
-size =0 # 不看查询结构，只是查看 agg 的结果
-}</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">
-这里是嵌套的聚合操作
-
-</code></pre></td></tr></table>
-</div>
-</div><p>GET bank/_search
-{
-&ldquo;query&rdquo; :{
-&ldquo;match_all&rdquo; : {}
-},
-&ldquo;aggs&rdquo; : {
-&ldquo;aggAgg&rdquo; : {
-&ldquo;terms&rdquo; : {
-&ldquo;field&rdquo; : &ldquo;age&rdquo;,
-&ldquo;size&rdquo; : 100
-},</p>
-<h1 id="这个是在上一步的基础上进行聚合">这个是在上一步的基础上进行聚合</h1>
-<p>&ldquo;aggs&rdquo;: {
-&ldquo;ageAvg&rdquo;: {
-&ldquo;avg&rdquo; : {&ldquo;field&rdquo; : &ldquo;balance&rdquo;}
-}
-}
-}
-}
-}</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">3. mapping
-
-
-ES 7 去掉了 type 就是为了提高 ES 处理数据的效率。 ES 是基于 Lucene 开发的搜索引擎，在ES 中不同type 下名称相同的filed 最终在 Lucene 中处理方式是一样的。 所以直接去掉了中间的概念 type。ES 8 就没有type 字段了。第一次导入数据，我们不用刻意指定 type，因为 ES 已经帮我们猜测得到了 type。
-</code></pre></td></tr></table>
-</div>
-</div><p>GET /bank/_mapping</p>
-<h1 id="这样就得到了字典映射类型">这样就得到了字典映射类型</h1>
-<p>数字是long 类型；文本是 text 类型，默认有 keyword 属性。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">
-</code></pre></td></tr></table>
-</div>
-</div><h1 id="添加一个新的字段映射">添加一个新的字段映射</h1>
-<p>PUT /my_index/_mapping
-{
-&ldquo;properties&rdquo; :{
-&ldquo;employee-id&rdquo; : {
-&ldquo;type&rdquo; :&ldquo;keyword&rdquo;,
-&ldquo;index&rdquo; : false # 这个参数很重要，表明是否可以被检索到，如果是false，那么就不参与检索
-}
-}
-}</p>
-<h1 id="修改一个新的字段映射-这样是不成立">修改一个新的字段映射 （这样是不成立）</h1>
-<h1 id="更新index-的操作先创建出-新的-正确的映射然后使用如下的方式进行数据迁移">更新index 的操作：先创建出 新的 正确的映射，然后使用如下的方式进行数据迁移</h1>
-<p>POST _reindex
-{
-&ldquo;source&rdquo; : {&ldquo;index&rdquo; : &ldquo;twitter&rdquo;}
-} ,
-&ldquo;dest&rdquo; : {&ldquo;index&rdquo; : &ldquo;new_twitter&rdquo;}</p>
-<h1 id="总结-不用type如果需要新的字段映射那么首先先创建新的正确映射然后再进行数据迁移">总结， 不用type，如果需要新的字段映射，那么首先先创建新的正确映射，然后再进行数据迁移</h1>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">
-</code></pre></td></tr></table>
-</div>
-</div><h1 id="全文检索-elastic-search-分词">全文检索 elastic search 分词</h1>
-<h1 id="标准的分词--es-都是针对英文的分词如果是中文-那么需要找到对应的-ik-分词器">标准的分词,  ES 都是针对英文的分词，如果是中文 （那么需要找到对应的 ik 分词器）</h1>
-<p>POST _analyze
-{
-&ldquo;analyzer&rdquo; : &ldquo;standard&rdquo;,
-&ldquo;text&rdquo; : &ldquo;The 2 Quick Brown-foxes jumped over the lazy dog&rsquo;s hone.&rdquo;
-}</p>
-<p>POST _analyze
-{
-&ldquo;analyzer&rdquo; : &ldquo;ik_max_word&rdquo;,
-&ldquo;text&rdquo; :&ldquo;我是中国人&rdquo;
-}</p>
-<h1 id="自定义扩展词库">自定义扩展词库</h1>
-<h1 id="把自定义的词库放到-nginx-服务器上然后访问服务器就可以下载到本地这样是可以随时更新词库的">把自定义的词库放到 nginx 服务器上，然后访问服务器就可以下载到本地，这样是可以随时更新词库的</h1>
-<h1 id="在docker-中使用nginx">在docker 中使用nginx</h1>
-<p>docker run -p 80:80 -name nginx -d nginx:1.10</p>
-<p>先使用 docker image 查看本地下载的镜像，然后 docker 可以run，如果第一次 run，那么是会先下载然后再run</p>
-<p>docker container cp nginx:/etc/nginx .
-docker stop nginx
-docker rm nginx
-mv nginx conf
-mkdir nginx
-mv conf nginx</p>
-<h1 id="这个是端口映射外部的80-端口映射到nginx-的80-端口">这个是端口映射，外部的80 端口映射到nginx 的80 端口</h1>
-<p>docker run -p 80:80 &ndash;name nginx<br>
--v /mydata/nginx/html:/usr/share/nginx/html<br>
--v /mydata/nginx/logs:/var/log/nginx<br>
--v /mydata/nginx/conf:/etc/nginx<br>
--d nginx:1.10</p>
-<p>写一个 html 也是非常的简单，只要放到index 文件夹中 就ok index.html
-nginx 是默认加载 html 中的资源
-mkdir es
-vi fenci.txt</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">
-</code></pre></td></tr></table>
-</div>
-</div><p>docker ps # 表示正在运行的镜像
-docker ps -a # 所有的镜像（包括没有运行的）</p>
-<p>docker # 可以重新挂载到不同的目录中，然后走到对应的目录中</p>
-<p>docker exec -it 84ca /bin/bash # 使用交互的方式 进入到了docker 84ca的镜像中 ，然后pwd 看看这里的目录
-使用 exit 退出容器中</p>
-<p>docker 的安装，都做好外部的挂载就 ok，这个步骤很重要，本地保存的观念。挂载到本地的好处，就是即使 docker down掉了，但是本地的数据和 plugin 还是可以保存下来，这样的话可以重新启动一下。</p>
-<h1 id="这个是重启命令">这个是重启命令</h1>
-<p>docker restart elasticsearch</p>
-<p>docker update elasticsearch &ndash;restart=always</p>
-<div class="highlight"><div class="chroma">
+</div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -997,10 +885,332 @@ docker ps -a # 所有的镜像（包括没有运行的）</p>
 </span><span class="lnt">15
 </span><span class="lnt">16
 </span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">9. aggregation （执行聚合）
+
+聚合提供了从数据中分组和提取数据的能力。大致等原因 SQL GROUP BY 和 SQL 聚合函数。
+
+聚合是可以嵌套的。
+
+搜索address 中
+GET bank/_search
+{
+&#34;query&#34; :{
+&#34;match&#34;: {
+&#34;address&#34;: &#34;mill&#34;
+}
+}
+
+# 基于上一步进行聚合
+
+&#34;aggs&#34;: {
+&#34;ageAvg&#34; :{
+&#34;avg&#34; : {
+&#34;field&#34; : &#34;age&#34;
+}
+}
+
+&#34;balanceAvg&#34;: {
+
+}
+}
+size =0 # 不看查询结构，只是查看 agg 的结果
+}
+
+
+这里是嵌套的聚合操作
+
+GET bank/_search
+{
+&#34;query&#34; :{
+&#34;match_all&#34; : {}
+},
+&#34;aggs&#34; : {
+&#34;aggAgg&#34; : {
+&#34;terms&#34; : {
+&#34;field&#34; : &#34;age&#34;,
+&#34;size&#34; : 100
+},
+
+# 这个是在上一步的基础上进行聚合
+
+&#34;aggs&#34;: {
+&#34;ageAvg&#34;: {
+&#34;avg&#34; : {&#34;field&#34; : &#34;balance&#34;}
+}
+}
+}
+}
+}
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">3. mapping
+
+ES 7 去掉了 type 就是为了提高 ES 处理数据的效率。 ES 是基于 Lucene 开发的搜索引擎，在ES 中不同type 下名称相同的filed 最终在 Lucene 中处理方式是一样的。 所以直接去掉了中间的概念 type。ES 8 就没有type 字段了。第一次导入数据，我们不用刻意指定 type，因为 ES 已经帮我们猜测得到了 type。
+GET /bank/_mapping
+
+# 这样就得到了字典映射类型
+
+数字是long 类型；文本是 text 类型，默认有 keyword 属性。
+
+# 添加一个新的字段映射
+
+PUT /my_index/_mapping
+{
+&#34;properties&#34; :{
+&#34;employee-id&#34; : {
+&#34;type&#34; :&#34;keyword&#34;,
+&#34;index&#34; : false # 这个参数很重要，表明是否可以被检索到，如果是false，那么就不参与检索
+}
+}
+}
+
+
+# 修改一个新的字段映射 （这样是不成立）
+
+# 更新index 的操作：先创建出 新的 正确的映射，然后使用如下的方式进行数据迁移
+
+POST _reindex
+{
+&#34;source&#34; : {&#34;index&#34; : &#34;twitter&#34;}
+} ,
+&#34;dest&#34; : {&#34;index&#34; : &#34;new_twitter&#34;}
+
+总结， 不用type，如果需要新的字段映射，那么首先先创建新的正确映射，然后再进行数据迁移
+
+# 全文检索 elastic search 分词
+
+# 标准的分词,  ES 都是针对英文的分词，如果是中文 （那么需要找到对应的 ik 分词器）
+
+POST _analyze
+{
+&#34;analyzer&#34; : &#34;standard&#34;,
+&#34;text&#34; : &#34;The 2 Quick Brown-foxes jumped over the lazy dog&#39;s hone.&#34;
+}
+
+POST _analyze
+{
+&#34;analyzer&#34; : &#34;ik_max_word&#34;,
+&#34;text&#34; :&#34;我是中国人&#34;
+}
+
+# 自定义扩展词库
+
+# 把自定义的词库放到 nginx 服务器上，然后访问服务器就可以下载到本地，这样是可以随时更新词库的
+
+# 在docker 中使用nginx
+
+docker run -p 80:80 -name nginx -d nginx:1.10
+
+先使用 docker image 查看本地下载的镜像，然后 docker 可以run，如果第一次 run，那么是会先下载然后再run
+
+docker container cp nginx:/etc/nginx .
+docker stop nginx
+docker rm nginx
+mv nginx conf
+mkdir nginx 
+mv conf nginx
+
+
+# 这个是端口映射，外部的80 端口映射到nginx 的80 端口
+
+docker run -p 80:80 --name nginx \
+-v /mydata/nginx/html:/usr/share/nginx/html \
+-v /mydata/nginx/logs:/var/log/nginx \
+-v /mydata/nginx/conf:/etc/nginx \
+-d nginx:1.10
+
+
+写一个 html 也是非常的简单，只要放到index 文件夹中 就ok index.html
+nginx 是默认加载 html 中的资源
+mkdir es
+vi fenci.txt
+
+
+docker ps # 表示正在运行的镜像
+docker ps -a # 所有的镜像（包括没有运行的） 
+
+
+docker # 可以重新挂载到不同的目录中，然后走到对应的目录中
+
+docker exec -it 84ca /bin/bash # 使用交互的方式 进入到了docker 84ca的镜像中 ，然后pwd 看看这里的目录
+使用 exit 退出容器中
+
+docker 的安装，都做好外部的挂载就 ok，这个步骤很重要，本地保存的观念。挂载到本地的好处，就是即使 docker down掉了，但是本地的数据和 plugin 还是可以保存下来，这样的话可以重新启动一下。
+
+# 这个是重启命令
+
+docker restart elasticsearch 
+
+docker update elasticsearch --restart=always
+
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-fallback" data-lang="fallback">### ES 中index 的理解
-
 
 [ElasticsearchTutorial.com](http://www.elasticsearchtutorial.com/basic-elasticsearch-concepts.html)
 
@@ -1140,33 +1350,11 @@ Elasticsearch =&gt; Indices =&gt; Types =&gt; Documents with Properties</p>
 </span><span class="lnt">16
 </span><span class="lnt">17
 </span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-fallback" data-lang="fallback">[Index some documents](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-index.html#getting-started-index)
 
 &gt; index 的操作，是可以 bulk 操作，这样可以节省时间。
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1481,16 +1669,6 @@ https://medium.com/faun/building-a-real-time-elastic-search-engine-using-python-
 </span><span class="lnt">46
 </span><span class="lnt">47
 </span><span class="lnt">48
-</span><span class="lnt">49
-</span><span class="lnt">50
-</span><span class="lnt">51
-</span><span class="lnt">52
-</span><span class="lnt">53
-</span><span class="lnt">54
-</span><span class="lnt">55
-</span><span class="lnt">56
-</span><span class="lnt">57
-</span><span class="lnt">58
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-fallback" data-lang="fallback">2.1 [A-Flask-full-of-WSGI](https://github.com/ashokc/A-Flask-full-of-WSGI)
@@ -1521,16 +1699,6 @@ https://medium.com/faun/building-a-real-time-elastic-search-engine-using-python-
 
 &gt; We will store the indexed data in the Elasticsearch container to ES_DATA folder in our project folder. The basic syntax for mounting volumes is /host/path:/container/path
 其中的 ES_DATA 和indexed data，这个仍然是对不上号的。现在不知道之前的 elastic search 的data 保存在哪个目录下，貌似自己没有挂载到本地的目录
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1650,8 +1818,6 @@ http://192.168.1.34:5601/app/ml#/filedatavisualizer?_g=()
 
 
 
-
-
 pin_text
 
 id:
@@ -1713,12 +1879,12 @@ path:
 
 
 1. 简单方案 
+# 这个命令是 restart kibana:7.2.0  和  elasticsearch:7.2.0 
 
+docker restart a8d835f1916e 2c67e9a24aac
 </code></pre></td></tr></table>
 </div>
-</div><h1 id="这个命令是-restart-kibana720--和--elasticsearch720">这个命令是 restart kibana:7.2.0  和  elasticsearch:7.2.0</h1>
-<p>docker restart a8d835f1916e 2c67e9a24aac</p>
-<div class="highlight"><div class="chroma">
+</div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -1732,26 +1898,41 @@ path:
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">使用 Get 查询
-</code></pre></td></tr></table>
-</div>
-</div><p>GET /img_text/_search
-{
-&ldquo;query&rdquo;: {
-&ldquo;match&rdquo;: {&ldquo;column3&rdquo;: &ldquo;interior modern style&rdquo;}
-},
-&ldquo;_source&rdquo;: [&ldquo;column1&rdquo;,&ldquo;column3&rdquo;]
-}</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">使用 Get 查询
+GET /img_text/_search
+{
+  &#34;query&#34;: {
+    &#34;match&#34;: {&#34;column3&#34;: &#34;interior modern style&#34;}
+  },
+  &#34;_source&#34;: [&#34;column1&#34;,&#34;column3&#34;]
+}
+
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-fallback" data-lang="fallback">返回的是图片list 
@@ -1760,12 +1941,15 @@ path:
 
 2. 进阶版本
 
+cd  /home/jeng/Projects/es_search_engine
+
+# 然后 restart 之前的镜像
+
+docker-compose restart 
+
 </code></pre></td></tr></table>
 </div>
-</div><p>cd  /home/jeng/Projects/es_search_engine</p>
-<h1 id="然后-restart-之前的镜像">然后 restart 之前的镜像</h1>
-<p>docker-compose restart</p>
-<div class="highlight"><div class="chroma">
+</div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2

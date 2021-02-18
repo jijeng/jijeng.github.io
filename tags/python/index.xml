@@ -6,7 +6,16 @@
     <description>Recent content in python on Jijeng&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 24 May 2020 11:38:31 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 07 Feb 2021 10:53:12 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Coroutine in Python</title>
+      <link>http://jijeng.github.io/post/coroutine_in_python/</link>
+      <pubDate>Sun, 07 Feb 2021 10:53:12 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/coroutine_in_python/</guid>
+      <description>&lt;p&gt;主要介绍同步、异步、协程的概念；在实践部分给出了code 样本和网络下载图像的异步程序。异步的使用场景：network-based or file I/O-based.&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>基于python 的JSON数据的处理</title>
       <link>http://jijeng.github.io/post/python_json/</link>

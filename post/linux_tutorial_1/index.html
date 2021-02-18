@@ -50,7 +50,7 @@
 <meta itemprop="description" content="介绍linux 中常见的命令 和github 中常用的命令">
 <meta itemprop="datePublished" content="2019-02-18T10:06:48+08:00" />
 <meta itemprop="dateModified" content="2019-02-18T10:06:48+08:00" />
-<meta itemprop="wordCount" content="21429">
+<meta itemprop="wordCount" content="21471">
 
 
 
@@ -127,7 +127,7 @@
         <div class="post-category">
             <a href="/categories/tutorial/"> tutorial </a>
             </div>
-          <span class="more-meta"> 约 21429 字 </span>
+          <span class="more-meta"> 约 21471 字 </span>
           <span class="more-meta"> 预计阅读 43 分钟 </span>
         
       </div>
@@ -1418,20 +1418,26 @@ Z 僵死 a defunct (&#34;zombie&#34;) process
 </div><p>显示的结果中pid 是进程，ppid 显示的是父进程。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-fallback" data-lang="fallback">ps -ef  
 
 ps -ax | grep vulgar_
 kill -9 pid 杀死进程
+# 根据进程的名字杀死进程, 这里的p 表示的pattern，可以使用正则匹配
+pkill -f &#39;PATTERN&#39;
+
 
 #自定义ps 的输出形式（查看进程的pid、开始时间，持续时间和命令格式） 
 ps -eo pid,lstart,etime,cmd | grep &#39;bash run.sh&#39;

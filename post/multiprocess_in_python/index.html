@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Multiprocess in Python - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="多进程学习，介绍了 Process 和 Pool 类并且在最后进行了比较。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/multiprocess_in_python/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Multiprocess in Python" />
+<meta property="og:description" content="多进程学习，介绍了 Process 和 Pool 类并且在最后进行了比较。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/multiprocess_in_python/" />
+<meta property="article:published_time" content="2021-01-10T11:10:58+08:00" />
+<meta property="article:modified_time" content="2021-01-10T11:10:58+08:00" />
+<meta itemprop="name" content="Multiprocess in Python">
+<meta itemprop="description" content="多进程学习，介绍了 Process 和 Pool 类并且在最后进行了比较。">
+<meta itemprop="datePublished" content="2021-01-10T11:10:58+08:00" />
+<meta itemprop="dateModified" content="2021-01-10T11:10:58+08:00" />
+<meta itemprop="wordCount" content="1857">
+
+
+
+<meta itemprop="keywords" content="multiprocess," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Multiprocess in Python"/>
+<meta name="twitter:description" content="多进程学习，介绍了 Process 和 Pool 类并且在最后进行了比较。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Multiprocess in Python</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-01-10 </span>
+        <div class="post-category">
+            <a href="/categories/programming-language/"> programming-language </a>
+            </div>
+          <span class="more-meta"> 约 1857 字 </span>
+          <span class="more-meta"> 预计阅读 4 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#process-类">Process 类</a></li>
+            <li><a href="#pool-类">Pool 类</a></li>
+            <li><a href="#比较">比较</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>多进程学习，介绍了 <code>Process</code> 和 <code>Pool</code> 类并且在最后进行了比较。</p>
+<p>what is such a multiprocessing system? We have the following possibilities:</p>
+<ul>
+<li>A multiprocessor- a computer with more than one central processor</li>
+<li>A multi-core processor- a single computing component with more than one independent actual processing units /cores.</li>
+</ul>
+<p>In either case, the CPU is able to execute multiple tasks at once assigning a processor to each task</p>
+<blockquote>
+<p>As CPU manufacturers start adding more and more cores to their processors, creating parallel code is a great way to improve performance. Python introduced <strong>multiprocessing</strong> module to let us write parallel code.</p>
+<p>因为 CPU 现在是多核的，所以自然就可以使用多进程去并行处理计算。</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="k">print</span><span class="p">(</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">())</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>Depending on the application, two common approaches in parallel programming are either to run code via threads or multiple processes, respectively. If we submit “jobs” to different threads, those jobs can be pictured as “sub-tasks” of a single process and those threads will usually have access to the same memory areas (i.e., shared memory). This approach can easily lead to conflicts in case of improper synchronization, for example, if processes are writing to the same memory location at the same time.</p>
+<p>多线程可以共享一个进程的资源，与此同时容易发生同时读写同一个 memory area 的情况；相对来说 multi-processing 是可以处理上述的冲突。</p>
+</blockquote>
+<h3 id="process-类">Process 类</h3>
+<blockquote>
+<p>Process used when function based parallelism is required, where I could define different functionality with parameters that they receive and run those different functions in parallesl which are doing  totally vairous kind of computations.</p>
+</blockquote>
+<p>There are two important functions that belongs to the Process class – <code>start()</code> and <code>join()</code> function.</p>
+<blockquote>
+<p>If we create a process object, nothing will happen until we tell it to start processing via <code>start()</code> function. Then, the process will run and return its result. After that we tell the process to complete via <code>join()</code> function.</p>
+<p>调用 start() 之后程序开始运行，当调用 join() 之后进程终止。</p>
+<p>Without <code>join()</code> function call, process will remain idle and won’t terminate. So if you create many processes and don’t terminate them, you may face scarcity of resources. Then you may need to kill them manually.</p>
+<p>（所以调用 join() 是必须要做的一个很好的习惯问题）</p>
+<ul>
+<li>.start() helps in starting a process and that too asynchronously.</li>
+<li>.join() method on a <code>Process</code> does <strong>block</strong> until the process has finished, but because we called <code>.start()</code> on both p1 and p2 before joining, then both processes will run asynchronously. The interpreter will, however, wait until p1 finishes before attempting to wait for p2 to finish.</li>
+</ul>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Process</span>
+<span class="k">def</span> <span class="nf">print_func</span><span class="p">(</span><span class="n">continent</span><span class="o">=</span><span class="s1">&#39;Asia&#39;</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;The name of continent is : &#39;</span><span class="p">,</span> <span class="n">continent</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>  <span class="c1"># confirms that the code is under main function</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;America&#39;</span><span class="p">,</span> <span class="s1">&#39;Europe&#39;</span><span class="p">,</span> <span class="s1">&#39;Africa&#39;</span><span class="p">]</span>
+    <span class="n">procs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">proc</span> <span class="o">=</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">print_func</span><span class="p">)</span>  <span class="c1"># instantiating without any argument</span>
+    <span class="n">procs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">proc</span><span class="p">)</span>
+    <span class="n">proc</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="c1"># instantiating process with arguments</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+        <span class="c1"># print(name)</span>
+        <span class="n">proc</span> <span class="o">=</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">print_func</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">name</span><span class="p">,))</span>
+        <span class="n">procs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">proc</span><span class="p">)</span>
+        <span class="n">proc</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="c1"># complete the processes</span>
+    <span class="k">for</span> <span class="n">proc</span> <span class="ow">in</span> <span class="n">procs</span><span class="p">:</span>
+        <span class="n">proc</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果想要在不同的进程中共享数据，那么可以使用 <code>multiprocessing</code> 中的 <code>Queue</code></p>
+<blockquote>
+<p>Python Multiprocessing modules provides <code>Queue</code> class that is exactly a <strong>First-In-First-Out</strong> data structure. They can store any pickle Python object (though simple ones are best) and are extremely useful for sharing data between processes.</p>
+<p>Queues are specially useful when passed as a parameter to a Process’ target function to enable the Process to consume data. By using <code>put()</code> function we can insert data to then queue and using <code>get()</code> we can get items from queues. See the following code for a quick example.</p>
+<p>python 中的队列 queue， 在这里可以用来 share data。使用 <code>put</code> 放入 queue 中，使用 <code>get</code> 获得相应的data，按照 first-in-first-out 的顺序。</p>
+</blockquote>
+<p>Process 中常见的还有以下属性：<code>pid</code>, <code>is_alive</code>, <code>name</code></p>
+<p>getting Process ID, Process name and checking if alive</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Process</span><span class="p">,</span><span class="n">current_process</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="k">def</span> <span class="nf">child1</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Child 1&#34;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">getppid</span><span class="p">())</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">current_process</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">child2</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Child 2&#34;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">getppid</span><span class="p">())</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">current_process</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span><span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Parent ID&#34;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">getppid</span><span class="p">())</span>
+    <span class="n">p1</span> <span class="o">=</span><span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span> <span class="n">child1</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span><span class="s2">&#34;Child 1&#34;</span><span class="p">)</span>
+    <span class="n">p2</span> <span class="o">=</span><span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span> <span class="n">child2</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span><span class="s2">&#34;Child 2&#34;</span><span class="p">)</span>
+    <span class="n">p1</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="n">p2</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="n">p1</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+    <span class="n">alive</span> <span class="o">=</span> <span class="s2">&#34;YES&#34;</span> <span class="k">if</span> <span class="n">p1</span><span class="o">.</span><span class="n">is_alive</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;No&#39;</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Is P1 alive? {}&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">alive</span><span class="p">))</span>
+    <span class="n">alive</span> <span class="o">=</span> <span class="s2">&#34;YES&#34;</span> <span class="k">if</span> <span class="n">p2</span><span class="o">.</span><span class="n">is_alive</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;No&#39;</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Is P2 alive? {}&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">alive</span><span class="p">))</span>
+    <span class="n">p2</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>锁机制不是很常用，但是写一下吧</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Process</span><span class="p">,</span> <span class="n">Lock</span>
+
+<span class="n">lock</span> <span class="o">=</span><span class="n">Lock</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">printer</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+    <span class="n">lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span><span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+    <span class="n">processes</span> <span class="o">=</span><span class="p">[]</span>
+    <span class="n">items</span> <span class="o">=</span><span class="p">[</span><span class="s2">&#34;nacho&#34;</span><span class="p">,</span> <span class="s2">&#34;salsa&#34;</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span><span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span> <span class="n">printer</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="n">processes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">processes</span><span class="p">:</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>How to retrieve results in a particular order?</p>
+<p>（可以将文本中的index 信息放入到最后的结果中，所以这样就能保持原来的顺序）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Define an output queue</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+
+<span class="c1"># define a example function</span>
+<span class="k">def</span> <span class="nf">rand_string</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
+    <span class="s2">&#34;&#34;&#34; Generates a random string of numbers, lower- and uppercase chars. &#34;&#34;&#34;</span>
+    <span class="n">rand_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+                        <span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span>
+                        <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_uppercase</span>
+                        <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span>
+                   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">length</span><span class="p">))</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">pos</span><span class="p">,</span> <span class="n">rand_str</span><span class="p">))</span>
+
+<span class="c1"># Setup a list of processes that we want to run</span>
+<span class="n">processes</span> <span class="o">=</span> <span class="p">[</span><span class="n">mp</span><span class="o">.</span><span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">rand_string</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">output</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
+
+<span class="c1"># Run processes</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">processes</span><span class="p">:</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="c1"># Exit the completed processes</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">processes</span><span class="p">:</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+<span class="c1"># Get process results from the output queue</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">output</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">processes</span><span class="p">]</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+
+
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="pool-类">Pool 类</h3>
+<blockquote>
+<p>The pool class schedules execution using FIFO policy. It workings like a map reduce design. The input are mapped from different processors and bring together the output from all the processors. After the running the code, it restores the output in the form of a list or array. It waits for all the jobs to finish and then returns the output. The processes in execution are put in memory and other non-executing processes are puts away out of memory.</p>
+</blockquote>
+<p>Pool 可以理解为 map-reduce，那么得到的结果是和原来数据的顺序是不吻合的。</p>
+<blockquote>
+<p>The pool distributes the tasks to the available processors using a FIFO scheduling. It works like a map-reduce architecture. It maps the input to the different processors and collects the output from all the processors. After the execution of code, it returns the output in form of a list or array. It waits for all the tasks to finish and then returns the output. The processes in execution are stored in memory and other non-executing processes are stored out of memory.</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/02/18/image-20210207140952235.png" alt="image-20210207140952235" style="zoom:50%;" /></p>
+<p>在初始化<code>Pool()</code> 的时候，默认 <code>processes</code> 是 <code>cpu_count</code></p>
+<blockquote>
+<p><em>processes</em> is the number of worker threads to use. If <em>processes</em> is <code>None</code> then the number returned by <a href="https://docs.python.org/3/library/os.html#os.cpu_count"><code>os.cpu_count()</code></a> is used.</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Pool</span> 
+<span class="k">def</span> <span class="nf">double</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">*</span><span class="mi">2</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span><span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+    <span class="n">nums</span><span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+    <span class="n">cpu_count</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span>
+    <span class="n">pool</span> <span class="o">=</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span> <span class="n">cpu_count</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span><span class="n">pool</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="n">double</span><span class="p">,</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>using pool: data based parallelism, it offers a convenient means of parallelizing the execution of function across multiple input values, distributing the input data across processes.</p>
+<blockquote>
+<ul>
+<li><code>apply</code> Call <em>func</em> with arguments <em>args.</em> It blocks until the result is ready.</li>
+<li><code>apply_async</code> It is better suited for performing work in parallel.</li>
+<li><code>map</code> A parallel equivalent of the <code>map()</code> built-in function (it supports only one <em>iterable</em> argument though, for multiple iterables). But it blocks.</li>
+<li><code>map_async</code> It is better suited for performing work as <em>map</em> in parallel.</li>
+</ul>
+</blockquote>
+<p>The <code>Pool.map</code> and <code>Pool.apply</code> will lock the main program until all processes are finished, which is quite useful if we want to obtain results in a particular order for certain applications.
+In contrast, the <code>async</code> variants will submit all processes at once and retrieve the results as soon as they are finished. One more difference is that we need to use the <code>get</code> method after the <code>apply_async()</code> call in order to obtain the <code>return</code> values of the finished processes.</p>
+<h3 id="比较">比较</h3>
+<p>Pool 和 Process 的比较</p>
+<ol>
+<li>task number 方面</li>
+</ol>
+<blockquote>
+<p>As we have seen, the Pool allocates only executing processes in memory and the process allocates all the tasks in memory, when the task number is small, we can use proces class and when the task number is large, we can use the Pool. In the case of Pool, there is overhead in creating it, Hence with small task numbers, the performance is impacted when Pool is used</p>
+</blockquote>
+<ol start="2">
+<li>IO operations</li>
+</ol>
+<blockquote>
+<p>The Pool distributes the processes among the available cores in FIFO manner. On each core, the allocated process executes serially. So if there is a long IO operation, it waits till the IO operation is completed and does not schedule another process. The Process class suspends the process executing IO operations and schedules another process. So, in the case of long IO operation, it is advisable to user Process class.</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/02/18/image-20210207141920384.png" alt="image-20210207141920384" style="zoom:50%;" /></p>
+<blockquote>
+<p>Pool: <br>
+When you have junk of data, you can use Pool class.
+Only the process under execution are kept in the memory.
+I/O operation: It waits till the I/O operation is completed &amp; does not schedule another process. This might increase the execution time.
+Uses FIFO scheduler.Process: <br>
+When you have a small data or functions and less repetitive tasks to do.
+It puts all the process in the memory. Hence in the larger task, it might cause to loss of memory.
+I/O operation: The process class suspends the process executing I/O operations and schedule another process parallel.
+Uses FIFO scheduler.</p>
+</blockquote>
+<p>参考文献</p>
+<p><a href="https://www.journaldev.com/15631/python-multiprocessing-example">Python Multiprocessing Example</a></p>
+<p><a href="https://sebastianraschka.com/Articles/2014_multiprocessing.html">https://sebastianraschka.com/Articles/2014_multiprocessing.html</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2021-01-10
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/wechatpay.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/alipay.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/multiprocess/">multiprocess</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/image_deduplication/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Image Deduplication</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/hook_in_pytorch/">
+            <span class="next-text nav-default">Hook in pytorch</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -50,7 +50,7 @@
 <meta itemprop="description" content="介绍容器（Docker）的原理和常见的命令。">
 <meta itemprop="datePublished" content="2019-09-04T13:09:19+08:00" />
 <meta itemprop="dateModified" content="2019-09-04T13:09:19+08:00" />
-<meta itemprop="wordCount" content="2971">
+<meta itemprop="wordCount" content="3189">
 
 
 
@@ -125,8 +125,8 @@
       <div class="post-meta">
         <span class="post-time"> 2019-09-04 </span>
         
-          <span class="more-meta"> 约 2971 字 </span>
-          <span class="more-meta"> 预计阅读 6 分钟 </span>
+          <span class="more-meta"> 约 3189 字 </span>
+          <span class="more-meta"> 预计阅读 7 分钟 </span>
         
       </div>
     </header>
@@ -175,7 +175,43 @@
 在同一硬件上运行更多工作负载</p>
 <p>Docker 的缺点：对于开发者是非常友好的，但是对于运维人员，想要在已经封装好的容器上做一些调整，是很难的。</p>
 <p>（3）在Ubuntu 18 上的安装和使用</p>
-<p>安装比较简单，这种安装的Docker不是最新版本，不过对于学习够用了，依次执行下面命令进行安装。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># 安装常规操作，读取软件列表</span>
+$ sudo apt-get update
+
+<span class="c1"># 添加 docker 官方 GPG key</span>
+$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg <span class="p">|</span> sudo apt-key add -
+
+<span class="c1"># 设置稳定仓库</span>
+$ sudo add-apt-repository <span class="se">\
+</span><span class="se"></span>   <span class="s2">&#34;deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+</span><span class="s2">   </span><span class="k">$(</span>lsb_release -cs<span class="k">)</span><span class="s2"> \
+</span><span class="s2">   stable&#34;</span>
+   
+<span class="c1"># 安装 Docker Engine</span>
+$ sudo apt-get update
+$ sudo apt-get install docker-ce docker-ce-cli containerd.io 
+</code></pre></td></tr></table>
+</div>
+</div><p>安装比较简单，这种安装的Docker不是最新版本，不过对于学习够用了，依次执行下面命令进行安装。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -221,6 +257,19 @@ docker run docker_name
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo docker run hello-world
+</code></pre></td></tr></table>
+</div>
+</div><p>设置用户组</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo groupadd docker          <span class="c1">#添加docker用户组</span>
+$ sudo gpasswd -a <span class="nv">$USER</span> docker  <span class="c1">#将当前用户添加至docker用户组</span>
+$ newgrp docker                 <span class="c1">#更新docker用户组</span>
 </code></pre></td></tr></table>
 </div>
 </div><h2 id="docker-常用命令">Docker 常用命令</h2>
@@ -613,6 +662,8 @@ docker stop my_container
 <p><a href="https://hijiangtao.github.io/2018/04/17/Docker-in-Action/">Docker 学习新手笔记：从入门到放弃</a></p>
 <p>制作 docker 的教程：</p>
 <p><a href="https://www.jianshu.com/p/26f15063de7d">迈出使用Docker的第一步，学习第一个Docker容器</a></p>
+<p>有背景图家具替换demo：http://47.92.49.9:9998/
+白背景家具替换demo：http://47.92.49.9:9999/</p>
     </div>
 
     <div class="post-copyright">

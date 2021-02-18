@@ -50,7 +50,7 @@
 <meta itemprop="description" content="python 学习笔记，之前有两篇笔记，因为太多了，所以新开一篇。">
 <meta itemprop="datePublished" content="2019-11-04T16:08:25+08:00" />
 <meta itemprop="dateModified" content="2019-11-04T16:08:25+08:00" />
-<meta itemprop="wordCount" content="10860">
+<meta itemprop="wordCount" content="10197">
 
 
 
@@ -127,8 +127,8 @@
         <div class="post-category">
             <a href="/categories/programming-language/"> programming language </a>
             </div>
-          <span class="more-meta"> 约 10860 字 </span>
-          <span class="more-meta"> 预计阅读 22 分钟 </span>
+          <span class="more-meta"> 约 10197 字 </span>
+          <span class="more-meta"> 预计阅读 21 分钟 </span>
         
       </div>
     </header>
@@ -148,8 +148,7 @@
             <li><a href="#random-numbers-with-numpy">Random Numbers with Numpy</a></li>
           </ul>
         </li>
-        <li><a href="#python-中的import-函数">python 中的import 函数</a></li>
-        <li><a href="#python多线程和多进程">Python多线程和多进程</a>
+        <li><a href="#python-中的import-函数">python 中的import 函数</a>
           <ul>
             <li><a href="#python中-pickle-模块">python中 pickle 模块</a></li>
             <li><a href="#easydict">easydict</a></li>
@@ -162,6 +161,7 @@
             <li><a href="#python-和numpy-中关于类型函数">python 和numpy 中关于类型函数</a></li>
           </ul>
         </li>
+        <li><a href="#python操作数据库">python操作数据库</a></li>
       </ul>
     </li>
   </ul>
@@ -1211,198 +1211,7 @@ __main__
 <p>总结：</p>
 <p><code>__name__</code> 可以用于调试代码：当脚本执行，在 <code>if __name__ == '__main__</code> 中的代码会被执行；而被别的模块所引用的时候，因为这个时候的 <code>__name__</code> 不是 main ，所以该函数不会被执行。</p>
 <p>在Python中，使用单引号(')和双引号(&quot;)定义的字符串没有区别。</p>
-<h2 id="python多线程和多进程">Python多线程和多进程</h2>
-<p>多线程和多进程问题是可以对应到 并发 （cncurrency）和并行(parallelism)上的。 并发，就是一个单核cpu同时开始了多个任务，但是这个任务并不是同时独立进行的，而是通过cpu的不断切换，保存现场，然后重启这样的快速的切换，给用户的感觉是并发，但是实际上是cpu的计算能力受到了限制，用户体验比较好一些。如果在多核cpu （比如我的mac 是一cpu 6核）这样的话完全是可以达到并行的，这个是真正的独立操作(parallelism)，对应的是多进程的。对应python 中的实现多线程是使用threading，处理的是io 响应；多进程是Concurrency，使用multiprocessing包，处理的是多核cpu的操作。</p>
-<p>Take off: 如果处理io 响应，那么使用多线程；如果是计算，那么使用多进程。</p>
-<blockquote>
-<p>So, before we go deeper into the multiprocessing module, it’s worthwhile ensuring you know the advantages of using multiprocessing over multithreading. The general rule of thumb is that, if you are trying to improve the performance of CPU-bound tasks, multiprocessing is what you want to use. However, if your particular task is Input/Output bound, then you’ll generally want to use multithreading to improve the performance of your applications.</p>
-</blockquote>
-<p>这个是多线程的demo 响应的io 请求。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">threading</span>
-
-<span class="k">class</span> <span class="nc">Worker</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">):</span>
-    <span class="c1"># Our workers constructor, note the super() method which is vital if we want this</span>
-    <span class="c1"># to function properly</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Worker</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">thread1</span> <span class="o">=</span> <span class="n">Worker</span><span class="p">()</span>
-    <span class="n">thread1</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-
-    <span class="n">thread2</span> <span class="o">=</span> <span class="n">Worker</span><span class="p">()</span>
-    <span class="n">thread2</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-
-    <span class="n">thread3</span> <span class="o">=</span> <span class="n">Worker</span><span class="p">()</span>
-    <span class="n">thread3</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-
-    <span class="n">thread4</span> <span class="o">=</span> <span class="n">Worker</span><span class="p">()</span>
-    <span class="n">thread4</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>下面是多进程的demo响应的计算请求。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="kn">as</span> <span class="nn">mp</span>
-
-<span class="k">def</span> <span class="nf">my_func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">mp</span><span class="o">.</span><span class="n">current_process</span><span class="p">())</span>
-    <span class="k">return</span> <span class="n">x</span> <span class="o">**</span> <span class="n">x</span>
-
-
-<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">pool</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">mp</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">())</span>
-    <span class="c1"># 这个还是很好的 pool 这个的个数和你的cpu count 是保持一致的</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">my_func</span><span class="p">,</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
-    <span class="n">result_set_2</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">my_func</span><span class="p">,</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">result_set_2</span><span class="p">)</span>
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>python 多进程下载图片的功能</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">multiprocessing.dummy</span> <span class="kn">import</span> <span class="n">Pool</span> <span class="k">as</span> <span class="n">ThreadPool</span>
-<span class="kn">import</span> <span class="nn">pymongo</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span>  <span class="nn">requests</span>
-
-<span class="c1"># 从数据库中查出来所要下载的图片 url，加入 ImgUrlList = [] 列表</span>
-<span class="n">client</span> <span class="o">=</span> <span class="n">pymongo</span><span class="o">.</span><span class="n">MongoClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">27017</span><span class="p">)</span>
-<span class="n">db</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">dwr</span>
-<span class="n">collection</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Accessories</span>
-
-<span class="n">dic1</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s1">&#39;Collection&#39;</span><span class="p">:</span> <span class="s1">&#39;Accessories&#39;</span><span class="p">})</span>
-<span class="n">ImgUrlList</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">dic1</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">i</span><span class="p">[</span><span class="s1">&#39;ImageUrl&#39;</span><span class="p">]:</span>
-        <span class="n">ImgUrlList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
-
-
-<span class="c1"># 图片下载方法</span>
-<span class="k">def</span>  <span class="nf">downImg</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
-        <span class="n">a</span><span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;(.*?)\?wid&#39;</span><span class="p">,</span> <span class="n">a</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.jpg&#39;&#39;</span>
-        <span class="n">B</span> <span class="o">=</span><span class="s2">&#34;target_dir&#34;</span> <span class="o">+</span><span class="n">name</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">B</span><span class="p">):</span>
-            <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
-                <span class="k">print</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
-
-<span class="c1"># 相当于上面是一个function，然后放入到多进程的池子中</span>
-<span class="n">pool</span> <span class="o">=</span> <span class="n">ThreadPool</span><span class="p">()</span>
-<span class="n">results</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">downImg</span><span class="p">,</span> <span class="n">ImgUrlList</span><span class="p">);</span>
-<span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">();</span>
-<span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">();</span>
-
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="python中-pickle-模块">python中 pickle 模块</h3>
+<h3 id="python中-pickle-模块">python中 pickle 模块</h3>
 <p>pickle模块是python中用来持久化对象的一个模块。所谓对对象进行持久化，即将对象的数据类型、存储结构、存储内容等所有信息作为文件保存下来以便下次使用。在神经网络中训练的模型也是可以经过序列化处理的，需要注意的是以二进制保存和读取的内容，所以在读写的时候需要加上 <code>b</code> 超参数。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -2389,6 +2198,111 @@ import calendar
 print(calendar.month(2017,11))
 
 help(calendar.month) # 在python 或者 jupyter 中使用 help 帮助文档
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="python操作数据库">python操作数据库</h2>
+<p>python 操作mongbdb数据库</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">pymongo</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">pymongo</span><span class="o">.</span><span class="n">MongoClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;db.collov.com&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">9788</span><span class="p">)</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">Inventory</span>
+<span class="n">db</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="s1">&#39;inventory&#39;</span><span class="p">,</span><span class="s1">&#39;e135abfa17dee86ef5472d5ad53f1b97e1b470d8c06a92cd8aefc73258440400&#39;</span><span class="p">)</span>
+<span class="n">collection</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">object_detection_collov</span>
+
+<span class="n">number</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">find</span><span class="p">({},{</span><span class="s1">&#39;objects&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="s1">&#39;labels.embedding&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">})</span>
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;aaaaa.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvfile</span><span class="p">:</span>
+        <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">csvfile</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;img_id&#39;</span><span class="p">],</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;s3_path&#39;</span><span class="p">),</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;labels&#39;</span><span class="p">)])</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+    <span class="n">number</span> <span class="o">+=</span> <span class="mi">1</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>python 操作mysql 数据库</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">pymysql</span>
+<span class="kn">import</span> <span class="nn">pandas</span>  <span class="kn">as</span> <span class="nn">pd</span>
+<span class="n">conn</span> <span class="o">=</span><span class="n">pymysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;172.31.31.76&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s2">&#34;admin&#34;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s2">&#34;Goflair2019&#34;</span><span class="p">,</span> <span class="n">port</span> <span class="o">=</span><span class="mi">3303</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s2">&#34;flair&#34;</span><span class="p">)</span>
+
+<span class="n">cursor</span> <span class="o">=</span><span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&#34;select id, name, description, category, link, visual_type_one, visual_type_two, materials,saved_pics,bg_removed_pics from t_flair_goods&#34;</span><span class="p">)</span>
+
+<span class="n">all_rows</span> <span class="o">=</span><span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="n">columns</span> <span class="o">=</span><span class="p">[</span>
+    <span class="s1">&#39;id&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;name&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;description&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;category&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;link&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;visual_type_one&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;visual_type_two&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;materials&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;saved_pics&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;bg_removed_pics&#39;</span>
+<span class="p">]</span>
+
+<span class="n">df</span> <span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">all_rows</span><span class="p">),</span> <span class="n">columns</span> <span class="o">=</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&#34;test.csv&#34;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">)</span>
+
 </code></pre></td></tr></table>
 </div>
 </div>
