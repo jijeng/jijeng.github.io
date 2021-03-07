@@ -2,21 +2,56 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://jijeng.github.io/categories/</loc>
-    <lastmod>2021-02-11T10:44:57+08:00</lastmod>
+    <loc>http://jijeng.github.io/tags/albumentation/</loc>
+    <lastmod>2021-03-07T17:18:39+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://jijeng.github.io/tags/clip/</loc>
-    <lastmod>2021-02-11T10:44:57+08:00</lastmod>
+    <loc>http://jijeng.github.io/post/albumentations_explain_with_example/</loc>
+    <lastmod>2021-03-07T17:18:39+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://jijeng.github.io/categories/</loc>
+    <lastmod>2021-03-07T17:18:39+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://jijeng.github.io/categories/deep-learning/</loc>
+    <lastmod>2021-03-07T17:18:39+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>http://jijeng.github.io/</loc>
+    <lastmod>2021-03-07T17:18:39+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://jijeng.github.io/post/</loc>
+    <lastmod>2021-03-07T17:18:39+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://jijeng.github.io/tags/</loc>
+    <lastmod>2021-03-07T17:18:39+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://jijeng.github.io/tags/clip/</loc>
     <lastmod>2021-02-11T10:44:57+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -31,20 +66,6 @@
   
   <url>
     <loc>http://jijeng.github.io/post/clip_connecting_text_image/</loc>
-    <lastmod>2021-02-11T10:44:57+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://jijeng.github.io/post/</loc>
-    <lastmod>2021-02-11T10:44:57+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://jijeng.github.io/tags/</loc>
     <lastmod>2021-02-11T10:44:57+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -116,13 +137,6 @@
   <url>
     <loc>http://jijeng.github.io/tags/pytorch/</loc>
     <lastmod>2020-11-29T10:22:37+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://jijeng.github.io/categories/depp-learning/</loc>
-    <lastmod>2020-10-29T09:54:55+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -221,13 +235,6 @@
   <url>
     <loc>http://jijeng.github.io/categories/tutorial/</loc>
     <lastmod>2020-07-28T10:13:57+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://jijeng.github.io/categories/deep-learning/</loc>
-    <lastmod>2020-07-11T15:55:36+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -480,6 +487,20 @@
   <url>
     <loc>http://jijeng.github.io/post/pseudo_label/</loc>
     <lastmod>2020-02-26T16:01:25+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://jijeng.github.io/categories/algorithm/</loc>
+    <lastmod>2020-02-22T16:54:49+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://jijeng.github.io/tags/leetcode/</loc>
+    <lastmod>2020-02-22T16:54:49+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -744,14 +765,14 @@
   </url>
   
   <url>
-    <loc>http://jijeng.github.io/post/lstm/</loc>
+    <loc>http://jijeng.github.io/tags/lstm/</loc>
     <lastmod>2019-11-28T15:05:54+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://jijeng.github.io/tags/lstm/</loc>
+    <loc>http://jijeng.github.io/post/lstm/</loc>
     <lastmod>2019-11-28T15:05:54+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -794,6 +815,13 @@
   
   <url>
     <loc>http://jijeng.github.io/post/bfs/</loc>
+    <lastmod>2019-11-24T16:11:40+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://jijeng.github.io/tags/bfs/</loc>
     <lastmod>2019-11-24T16:11:40+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -1381,6 +1409,13 @@
   </url>
   
   <url>
+    <loc>http://jijeng.github.io/post/leetcode_list/</loc>
+    <lastmod>2019-02-16T16:29:37+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://jijeng.github.io/post/leetcode_array_1/</loc>
     <lastmod>2019-02-16T16:26:58+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -1502,6 +1537,13 @@
   <url>
     <loc>http://jijeng.github.io/post/dimensionality_reduction/</loc>
     <lastmod>2018-06-29T13:06:49+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://jijeng.github.io/post/algorithm_practice_3/</loc>
+    <lastmod>2018-06-22T22:20:43+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

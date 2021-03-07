@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Jijeng&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 11 Feb 2021 10:44:57 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 07 Mar 2021 17:18:39 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Albumentations：图像数据增强</title>
+      <link>http://jijeng.github.io/post/albumentations_explain_with_example/</link>
+      <pubDate>Sun, 07 Mar 2021 17:18:39 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/albumentations_explain_with_example/</guid>
+      <description>&lt;p&gt;针对图像领域，对比总结几种常见的数据增强方式。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://123.56.8.10:8899/images/2021/02/23/68747470733a2f2f686162726173746f726167652e6f72672f776562742f62642f6e652f72762f62646e6572763563746b75646d73617a6e687734637273646669772e6a706567.jpg&#34; alt=&#34;parrot&#34; style=&#34;zoom:80%;&#34;  /&gt;&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>OpenAI CLIP(Connecting Text and Images) 调研学习</title>
       <link>http://jijeng.github.io/post/clip_connecting_text_image/</link>
@@ -278,7 +288,7 @@
       <pubDate>Sat, 22 Feb 2020 16:54:49 +0800</pubDate>
       
       <guid>http://jijeng.github.io/post/union_find/</guid>
-      <description>title: Union-Find (并查集算法) date: 2019-08-05 22:13:40 tags: union-find categories: 算法 并查集是一种树型数据结构，用于处理不相交 (Disjoint Sets) 的合并及查询问题。 定义 并查集，在一些有N个元素的集合应用问题中</description>
+      <description>并查集是一种树型数据结构，用于处理不相交 (Disjoint Sets) 的合并及查询问题。 定义 并查集，在一些有N个元素的集合应用问题中，我们通常是在开始时让每个元素构成</description>
     </item>
     
     <item>
@@ -456,7 +466,7 @@
     </item>
     
     <item>
-      <title>Lstm</title>
+      <title>lstm</title>
       <link>http://jijeng.github.io/post/lstm/</link>
       <pubDate>Thu, 28 Nov 2019 15:05:54 +0800</pubDate>
       
@@ -906,6 +916,15 @@
     </item>
     
     <item>
+      <title>Leetcode-list</title>
+      <link>http://jijeng.github.io/post/leetcode_list/</link>
+      <pubDate>Sat, 16 Feb 2019 16:29:37 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/leetcode_list/</guid>
+      <description>&lt;p&gt;LeetCode 刷题总结（二）， 使用Python 实现。该篇题目类型主要是： list, linkedList 还有简单的 tree。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Leetcode Array(1)</title>
       <link>http://jijeng.github.io/post/leetcode_array_1/</link>
       <pubDate>Sat, 16 Feb 2019 16:26:58 +0800</pubDate>
@@ -1003,6 +1022,15 @@
       
       <guid>http://jijeng.github.io/post/dimensionality_reduction/</guid>
       <description>&lt;p&gt;降维分为以PCA为代表的线性降维和T-SNE为代表非线性降维。本文主要介绍这两种降维方式和代码实现，当然也会提及其他的降维算法比如LDA。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Algorithm Practice(3)</title>
+      <link>http://jijeng.github.io/post/algorithm_practice_3/</link>
+      <pubDate>Fri, 22 Jun 2018 22:20:43 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/algorithm_practice_3/</guid>
+      <description>&lt;p&gt;日常算法总结&lt;/p&gt;</description>
     </item>
     
     <item>

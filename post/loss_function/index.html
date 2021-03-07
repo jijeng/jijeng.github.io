@@ -452,13 +452,17 @@ $$</p>
 <p>Mathematically, it is the preferred loss function under the inference framework of maximum likelihood. It is the loss function to be evaluated first and only changed if you have a good reason. It is intended for use with binary classification where the target values are in the set {0, 1}.</p>
 </blockquote>
 <p>在pytorch 中 <code>nn.CrossEntropyLoss()</code>是<code>nn.logSoftmax()</code>和 <code>nn.NLLLoss()</code>的整合。损失函数计算如下：</p>
-<p>\begin{equation}
+<p>$$
+\begin{equation}
 \operatorname{loss}(x, \text { class })=-\log \left(\frac{\exp (x[\text { class }])}{\sum_{j} \exp (x[j])}\right)=-x[\text { class }]+\log \left(\sum_{j} \exp (x[j])\right)
-\end{equation}</p>
-<p>其中 $C$ 表示类别数。损失函数中也有权重weight参数设置，针对样本不均衡的情况下，是有优化效果的。</p>
-<p>\begin{equation}
+\end{equation}
+$$</p>
+<p>其中 $C$ 表示类别数。损失函数中也有权重weight参数设置，针对样本不均衡的情况下，是有优化效果的。
+$$
+\begin{equation}
 \operatorname{loss}(x, \text { class })= \text{weight}[\text{class}] (-x[\text { class }]+\log \left(\sum_{j} \exp (x[j])\right))
-\end{equation}</p>
+\end{equation}
+$$</p>
 <p>需要注意的是，target输入必须是 tensor long 类型（int64位)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -539,7 +543,7 @@ target=torch.autograd.Variable(torch.LongTensor(3).random_(4))
 loss = loss_fn(input, target)
 </code></pre></td></tr></table>
 </div>
-</div><p>** Hinge Loss**</p>
+</div><p><strong>Hinge Loss</strong></p>
 <p>An alternative to cross-entropy for binary classification problems is the hinge loss function, primarily developed for use with Support Vector Machine (SVM) models.</p>
 <p>Hinge Loss，又称合页损失，其表达式如下：</p>
 <p>$$
@@ -797,7 +801,7 @@ $$</p>
 <p>计算出一张图片各个标签的精度，然后取平均值。</p>
 <p>该处理方法的本质：把一个多标签问题，转化为了在每个标签上的二分类问题。</p>
 <h3 id="损失函数的选择">损失函数的选择</h3>
-<p>** 基于逻辑回归的二分类问题**：
+<p><strong>基于逻辑回归的二分类问题</strong>：
 使用逻辑回归二分类loss function的推导，上面的一小节是有详细的介绍的。</p>
 <p><strong>基于 Softmax 的多分类问题</strong></p>
 <p>softmax层中的softmax 函数是logistic函数在多分类问题上的推广，它将一个N维的实数向量压缩成一个满足特定条件的N维实数向。压缩后的向量满足两个条件：</p>
@@ -898,7 +902,7 @@ $$</p>
       <nav class="post-nav">
         <a class="prev" href="/post/lstm/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Lstm</span>
+            <span class="prev-text nav-default">lstm</span>
             <span class="prev-text nav-mobile">上一篇</span>
           </a>
         <a class="next" href="/post/greedy_algorithm/">

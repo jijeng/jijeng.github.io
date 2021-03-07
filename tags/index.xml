@@ -6,7 +6,16 @@
     <description>Recent content in Tags on Jijeng&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 11 Feb 2021 10:44:57 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 07 Mar 2021 17:18:39 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>albumentation</title>
+      <link>http://jijeng.github.io/tags/albumentation/</link>
+      <pubDate>Sun, 07 Mar 2021 17:18:39 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/albumentation/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>CLIP</title>
       <link>http://jijeng.github.io/tags/clip/</link>
@@ -260,6 +269,15 @@
     </item>
     
     <item>
+      <title>leetcode</title>
+      <link>http://jijeng.github.io/tags/leetcode/</link>
+      <pubDate>Sat, 22 Feb 2020 16:54:49 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/leetcode/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>union find</title>
       <link>http://jijeng.github.io/tags/union-find/</link>
       <pubDate>Sat, 22 Feb 2020 16:54:49 +0800</pubDate>
@@ -436,6 +454,15 @@
       <pubDate>Thu, 28 Nov 2019 14:58:04 +0800</pubDate>
       
       <guid>http://jijeng.github.io/tags/loss-function/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>bfs</title>
+      <link>http://jijeng.github.io/tags/bfs/</link>
+      <pubDate>Sun, 24 Nov 2019 16:11:40 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/tags/bfs/</guid>
       <description></description>
     </item>
     

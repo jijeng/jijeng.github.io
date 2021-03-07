@@ -53,7 +53,7 @@
 不理解的地方，一个是关于 nn包搭建网络的部分。">
 <meta itemprop="datePublished" content="2019-02-01T16:11:50+08:00" />
 <meta itemprop="dateModified" content="2019-02-01T16:11:50+08:00" />
-<meta itemprop="wordCount" content="6427">
+<meta itemprop="wordCount" content="6599">
 
 
 
@@ -131,8 +131,8 @@
         <div class="post-category">
             <a href="/categories/tutorial/"> tutorial </a>
             </div>
-          <span class="more-meta"> 约 6427 字 </span>
-          <span class="more-meta"> 预计阅读 13 分钟 </span>
+          <span class="more-meta"> 约 6599 字 </span>
+          <span class="more-meta"> 预计阅读 14 分钟 </span>
         
       </div>
     </header>
@@ -640,6 +640,44 @@ It should be disabled during testing ( model.eval() ) since you may want to use 
 </code></pre></td></tr></table>
 </div>
 </div><p>官方建议使用前两种方式，即设置 <code>CUDA_VISIBLE_DEVICES</code></p>
+<p>pytorch 中的 squeeze 函数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">m</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>  <span class="c1"># torch.Size([2, 1, 2, 1, 2])</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>  <span class="c1"># torch.Size([2, 2, 2])</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># 当给定dim时，那么挤压操作只在给定维度上</span>
+<span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>  <span class="c1"># torch.Size([2, 1, 2, 1, 2])</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>  <span class="c1"># torch.Size([2, 2, 1, 2])</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>  <span class="c1"># torch.Size([2, 1, 2, 1, 2])</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>多维张量本质上就是一个变换，如果维度是 1 ，那么，1 仅仅起到扩充维度的作用，而没有其他用途，因而，在进行降维操作时，为了加快计算，是可以去掉这些 1 的维度。</p>
+</blockquote>
 <p>参考文献</p>
 <p><a href="https://www.jianshu.com/p/9779683ffa58">介绍PyTorch的简单示例</a>
 <a href="https://pytorch.org/tutorials/beginner/pytorch_with_examples.html#examples">LEARNING PYTORCH WITH EXAMPLES</a></p>

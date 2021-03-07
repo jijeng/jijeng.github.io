@@ -13,7 +13,7 @@
       <pubDate>Sat, 22 Feb 2020 16:54:49 +0800</pubDate>
       
       <guid>http://jijeng.github.io/post/union_find/</guid>
-      <description>title: Union-Find (并查集算法) date: 2019-08-05 22:13:40 tags: union-find categories: 算法 并查集是一种树型数据结构，用于处理不相交 (Disjoint Sets) 的合并及查询问题。 定义 并查集，在一些有N个元素的集合应用问题中</description>
+      <description>并查集是一种树型数据结构，用于处理不相交 (Disjoint Sets) 的合并及查询问题。 定义 并查集，在一些有N个元素的集合应用问题中，我们通常是在开始时让每个元素构成</description>
     </item>
     
   </channel>

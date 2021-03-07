@@ -50,7 +50,7 @@
 <meta itemprop="description" content="本文是介绍shell 语言的学习笔记。">
 <meta itemprop="datePublished" content="2020-02-18T16:43:01+08:00" />
 <meta itemprop="dateModified" content="2020-02-18T16:43:01+08:00" />
-<meta itemprop="wordCount" content="5366">
+<meta itemprop="wordCount" content="5435">
 
 
 
@@ -125,7 +125,7 @@
       <div class="post-meta">
         <span class="post-time"> 2020-02-18 </span>
         
-          <span class="more-meta"> 约 5366 字 </span>
+          <span class="more-meta"> 约 5435 字 </span>
           <span class="more-meta"> 预计阅读 11 分钟 </span>
         
       </div>
@@ -156,6 +156,7 @@
             <li><a href="#文件包含">文件包含</a></li>
             <li><a href="#调试bash-脚本">调试bash 脚本</a></li>
             <li><a href="#多行命令的执行">多行命令的执行</a></li>
+            <li><a href="#shell-适用函数">shell 适用函数</a></li>
           </ul>
         </li>
       </ul>
@@ -1240,6 +1241,38 @@ ok
 <span class="o">[</span>root@localhost etc<span class="o">]</span><span class="c1"># lld || echo “ok” || echo “haha”</span>
 -bash: lld: <span class="nb">command</span> not found
 ok
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="shell-适用函数">shell 适用函数</h3>
+<ol>
+<li>shell 中判断是否存在文件夹，如果不存在，那么创建。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="cp">#!/bin/sh
+</span><span class="cp"></span><span class="nv">DATASET</span><span class="o">=</span><span class="s2">&#34;adityajn105/flickr8k&#34;</span>
+<span class="nv">DATA_DIR</span><span class="o">=</span><span class="s2">&#34;data/f8k&#34;</span>
+
+<span class="k">if</span> <span class="o">[</span> -d <span class="si">${</span><span class="nv">DATA_DIR</span><span class="si">}</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+  <span class="nb">echo</span> <span class="si">${</span><span class="nv">DATA_DIR</span><span class="si">}</span><span class="s1">&#39; exists, please remove it before running the script&#39;</span>
+  <span class="nb">exit</span> <span class="m">1</span>
+<span class="k">fi</span>
+
+mkdir -p <span class="si">${</span><span class="nv">DATA_DIR</span><span class="si">}</span>
+kaggle datasets download -d <span class="si">${</span><span class="nv">DATASET</span><span class="si">}</span>
 </code></pre></td></tr></table>
 </div>
 </div>

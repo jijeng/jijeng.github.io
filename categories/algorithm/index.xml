@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>algorithm on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/categories/algorithm/</link>
+    <description>Recent content in algorithm on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 22 Feb 2020 16:54:49 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/categories/algorithm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Union find</title>
+      <link>http://jijeng.github.io/post/union_find/</link>
+      <pubDate>Sat, 22 Feb 2020 16:54:49 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/union_find/</guid>
+      <description>并查集是一种树型数据结构，用于处理不相交 (Disjoint Sets) 的合并及查询问题。 定义 并查集，在一些有N个元素的集合应用问题中，我们通常是在开始时让每个元素构成</description>
+    </item>
+    
+    <item>
+      <title>Leetcode Array(2)</title>
+      <link>http://jijeng.github.io/post/leetcode_array_2/</link>
+      <pubDate>Wed, 01 Jan 2020 12:28:17 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/leetcode_array_2/</guid>
+      <description>&lt;p&gt;LeetCode 刷题记录，以 array专题开刷。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Leetcode-mysql</title>
+      <link>http://jijeng.github.io/post/leetcode_mysql/</link>
+      <pubDate>Fri, 27 Dec 2019 19:30:44 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/leetcode_mysql/</guid>
+      <description>&lt;p&gt;LeetCode 刷题笔记，数据库专题，使用mysql 实现。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Algorithm Interview(1)</title>
+      <link>http://jijeng.github.io/post/algorithm_interview_1/</link>
+      <pubDate>Fri, 27 Dec 2019 17:23:49 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/algorithm_interview_1/</guid>
+      <description>&lt;p&gt;面试过程中的算法题目总结。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>BFS</title>
+      <link>http://jijeng.github.io/post/bfs/</link>
+      <pubDate>Sun, 24 Nov 2019 16:11:40 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/bfs/</guid>
+      <description>&lt;p&gt;宽度优先遍历（Breadth First Search，BFS）概念和实践介绍。概念部分包括定义，使用的场景和时空复杂度；实践就是代码部分，包括树的深度优先遍历、无向图的深度优先遍历（迪杰斯特拉算法，Dijkstra&amp;rsquo;s algorithm）和有向图的深度优先遍历（拓扑排序）。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Algorithm Practice(2)</title>
+      <link>http://jijeng.github.io/post/algorithm_practice_2/</link>
+      <pubDate>Tue, 30 Jul 2019 16:08:31 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/algorithm_practice_2/</guid>
+      <description>&lt;p&gt;刷题整理笔记。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Leetcode-Recursion</title>
+      <link>http://jijeng.github.io/post/leetcode_recursion/</link>
+      <pubDate>Thu, 16 May 2019 23:17:29 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/leetcode_recursion/</guid>
+      <description>&lt;p&gt;LeetCode 刷题总结（三）， 使用Python 实现。该篇题目类型主要包括：recursion, iteration 和dynamic programming。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Leetcode-list</title>
+      <link>http://jijeng.github.io/post/leetcode_list/</link>
+      <pubDate>Sat, 16 Feb 2019 16:29:37 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/leetcode_list/</guid>
+      <description>&lt;p&gt;LeetCode 刷题总结（二）， 使用Python 实现。该篇题目类型主要是： list, linkedList 还有简单的 tree。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Algorithm Practice (1)</title>
+      <link>http://jijeng.github.io/post/algorithm_practice_1/</link>
+      <pubDate>Wed, 06 Feb 2019 14:49:01 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/algorithm_practice_1/</guid>
+      <description>&lt;p&gt;介绍基础性算法&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>常见的排序算法总结</title>
+      <link>http://jijeng.github.io/post/sort_algorithm/</link>
+      <pubDate>Fri, 29 Jun 2018 22:16:18 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/sort_algorithm/</guid>
+      <description>&lt;p&gt;常见的排序算法总结&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Algorithm Practice(3)</title>
+      <link>http://jijeng.github.io/post/algorithm_practice_3/</link>
+      <pubDate>Fri, 22 Jun 2018 22:20:43 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/algorithm_practice_3/</guid>
+      <description>&lt;p&gt;日常算法总结&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Algorithm Practice (4)</title>
+      <link>http://jijeng.github.io/post/algorithm_practice_4/</link>
+      <pubDate>Tue, 27 Feb 2018 17:22:11 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/algorithm_practice_4/</guid>
+      <description>日常刷题笔记。 最长公共子串 给定两个字符串A和B，长度分别为m和n，要求找出它们最长的公共子串，并返回其长度。例如： 1 2 A = &amp;#34;HelloWorld&amp;#34; B = &amp;#34;loop&amp;#34; 第一种做法</description>
+    </item>
+    
+    <item>
+      <title>Binary-Search</title>
+      <link>http://jijeng.github.io/post/binary_search/</link>
+      <pubDate>Tue, 23 Jan 2018 16:13:21 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/binary_search/</guid>
+      <description>&lt;p&gt;介绍二分查找中的三个模板，以 LeetCode 中的习题为例。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

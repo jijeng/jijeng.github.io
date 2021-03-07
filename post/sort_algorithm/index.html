@@ -50,7 +50,7 @@
 <meta itemprop="description" content="常见的排序算法总结">
 <meta itemprop="datePublished" content="2018-06-29T22:16:18+08:00" />
 <meta itemprop="dateModified" content="2018-06-29T22:16:18+08:00" />
-<meta itemprop="wordCount" content="9066">
+<meta itemprop="wordCount" content="8966">
 
 
 
@@ -124,9 +124,11 @@
 
       <div class="post-meta">
         <span class="post-time"> 2018-06-29 </span>
-        
-          <span class="more-meta"> 约 9066 字 </span>
-          <span class="more-meta"> 预计阅读 19 分钟 </span>
+        <div class="post-category">
+            <a href="/categories/algorithm/"> algorithm </a>
+            </div>
+          <span class="more-meta"> 约 8966 字 </span>
+          <span class="more-meta"> 预计阅读 18 分钟 </span>
         
       </div>
     </header>
@@ -172,9 +174,10 @@
 <h3 id="插入排序insert-sort">插入排序(Insert Sort)</h3>
 <p>思想：</p>
 <p>有序数组+insert one every one time</p>
-<p>插入排序的工作方式非常像人们排序一手扑克牌一样。开始时，我们的左手为空并且桌子上的牌面朝下。然后，我们每次从桌子上拿走一张牌并将它插入左手中正确的位置。为了找到一张牌的正确位置，我们从右到左将它与已在手中的每张牌进行比较，如下图所示：
-<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g3dcsdbf8hj209807y0tn.jpg" alt="">
-步骤：</p>
+<p>插入排序的工作方式非常像人们排序一手扑克牌一样。开始时，我们的左手为空并且桌子上的牌面朝下。然后，我们每次从桌子上拿走一张牌并将它插入左手中正确的位置。为了找到一张牌的正确位置，我们从右到左将它与已在手中的每张牌进行比较，如下图所示：</p>
+<p><img src="http://123.56.8.10:8899/images/2021/02/25/e9a223b5ly1g3dcsdbf8hj209807y0tn.jpg" alt="e9a223b5ly1g3dcsdbf8hj209807y0tn.jpg"></p>
+<p><img src="/Users/jijeng/Notes/images/e9a223b5ly1g3dcsdbf8hj209807y0tn-20210225154135443.jpg" alt="e9a223b5ly1g3dcsdbf8hj209807y0tn.jpg"></p>
+<p>步骤：</p>
 <ol>
 <li>从第一个元素开始，该元素可以认为已经被排序</li>
 <li>取出下一个元素，在已经排序的元素序列中从后向前扫描</li>
@@ -184,71 +187,7 @@
 <li>重复步骤2~5</li>
 </ol>
 <p><img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g3dcspp50xj20fm0ftwfq.jpg" alt=""></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1">#include&lt;iostream&gt;</span>
-<span class="c1">#include&lt;string&gt;</span>
-<span class="c1">#include&lt;vector&gt;</span>
-<span class="n">using</span> <span class="n">namespace</span> <span class="n">std</span><span class="p">;</span>
-<span class="n">void</span> <span class="n">insert_sort</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">nums</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="nb">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">nums</span><span class="o">.</span><span class="n">size</span><span class="p">();</span>
-    <span class="k">for</span><span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="nb">int</span> <span class="n">tmp</span> <span class="o">=</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-        <span class="nb">int</span> <span class="n">j</span> <span class="o">=</span><span class="n">i</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-        <span class="o">//</span> <span class="err">如果当前的元素比之前的元素小，那么一直是为当前的元素往后挪地方</span>
-        <span class="o">//</span> <span class="err">这样写法也是有规律的，好好体会</span>
-        <span class="k">while</span><span class="p">(</span><span class="n">j</span> <span class="o">&gt;=</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">tmp</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
-        <span class="p">{</span>
-            <span class="n">nums</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span><span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
-            <span class="n">j</span> <span class="o">--</span><span class="p">;</span>
-        <span class="p">}</span>
-        <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span><span class="n">tmp</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-<span class="nb">int</span> <span class="n">main</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="n">vector</span><span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="n">nums</span> <span class="o">=</span><span class="p">{</span><span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">24</span><span class="p">};</span>
-    <span class="n">insert_sort</span><span class="p">(</span><span class="n">nums</span><span class="p">);</span>
-    <span class="k">for</span><span class="p">(</span><span class="n">auto</span>  <span class="n">u</span><span class="p">:</span> <span class="n">nums</span><span class="p">)</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">u</span><span class="o">&lt;&lt;</span><span class="s2">&#34; &#34;</span><span class="p">;</span>
-    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>c++实现</p>
+<p>c++实现</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -321,8 +260,8 @@
 <p>简单选择排序是最简单直观的一种算法，基本思想为每一趟从待排序的数据元素中选择最小（或最大）的一个元素作为首元素，直到所有元素排完为止，简单选择排序是不稳定排序。</p>
 <p><img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g3dcxrw5sbg20mj06wdsb.gif" alt=""></p>
 <p>分析：</p>
-<p>无论什么数据进去都是 O(n²) 的时间复杂度。所以用到它的时候，数据规模越小越好。唯一的好处可能就是不占用额外的内存空间了吧。</p>
-<p>代码实现:</p>
+<p>无论什么数据进去都是 $O(n^2)$ 的时间复杂度。所以用到它的时候，数据规模越小越好。唯一的好处可能就是不占用额外的内存空间了吧。</p>
+<p>python 代码实现:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -403,8 +342,8 @@
 <p>归并排序（MERGE-SORT）是利用归并的思想实现的排序方法，该算法采用经典的分治（divide-and-conquer）策略（分治法将问题分(divide)成一些小的问题然后递归求解，而治(conquer)的阶段则将分的阶段得到的各答案&quot;修补&quot;在一起，即分而治之)。</p>
 <p><img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g3dda8orlwj21d411m0z8.jpg" alt=""></p>
 <p>分析：
-时间复杂度：O(nlogn)
-空间复杂度：O(N)，归并排序需要一个与原数组相同长度的数组做辅助来排序</p>
+时间复杂度：$O(nlogn)$</p>
+<p>空间复杂度：$O(n)$ ，归并排序需要一个与原数组相同长度的数组做辅助来排序</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -545,7 +484,7 @@
     <span class="p">}</span>
     <span class="k">while</span><span class="p">(</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="n">mid</span><span class="p">)</span> <span class="n">tmp</span><span class="p">[</span><span class="n">k</span> <span class="o">++</span><span class="p">]</span> <span class="o">=</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span> <span class="o">++</span><span class="p">];</span>
     <span class="k">while</span><span class="p">(</span><span class="n">j</span> <span class="o">&lt;=</span> <span class="n">r</span><span class="p">)</span> <span class="n">tmp</span><span class="p">[</span><span class="n">k</span><span class="o">++</span><span class="p">]</span><span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span> <span class="o">++</span><span class="p">];</span>
-    <span class="c1">// push back
+    <span class="c1">// push back, 将临时数组中的元素放回原来数组中
 </span><span class="c1"></span>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="n">l</span><span class="p">,</span><span class="n">j</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span><span class="n">k</span><span class="p">;)</span>
         <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="o">++</span><span class="p">]</span><span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="n">j</span><span class="o">++</span><span class="p">];</span>
 <span class="p">}</span>
@@ -628,9 +567,11 @@
 </span><span class="lnt">48
 </span><span class="lnt">49
 </span><span class="lnt">50
+</span><span class="lnt">51
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-python3" data-lang="python3"><span class="c1"># 从小到大排</span>
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># 从小到大排</span>
+<span class="c1"># quickSort 和归并排序的流程是相反的；quickSort 是先选定锚点；归并是先分裂。</span>
 <span class="k">def</span> <span class="nf">quickSort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">l</span><span class="o">&gt;</span> <span class="n">r</span><span class="p">:</span> <span class="k">return</span>
     <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span><span class="n">l</span> <span class="p">,</span> <span class="n">r</span>
@@ -673,12 +614,12 @@
     <span class="n">arr</span> <span class="o">=</span><span class="nb">input</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&#34; &#34;</span><span class="p">)</span>
     <span class="n">arr</span> <span class="o">=</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">arr</span><span class="p">]</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
 
     <span class="c1">#quickSort(arr, 0, len(arr)-1)</span>
     <span class="n">quickSort2</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
 
 </code></pre></td></tr></table>
 </div>
@@ -703,7 +644,6 @@
 </span><span class="lnt">16
 </span><span class="lnt">17
 </span><span class="lnt">18
-</span><span class="lnt">19
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">quick_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
@@ -712,7 +652,6 @@
     <span class="n">key</span> <span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span>
     
     <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">):</span>
-        
         <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span> <span class="ow">and</span> <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">&gt;=</span><span class="n">key</span><span class="p">):</span> <span class="n">r</span> <span class="o">--</span><span class="p">;</span>
         <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span>
         <span class="k">while</span><span class="p">(</span><span class="n">l</span><span class="o">&lt;</span> <span class="n">r</span> <span class="ow">and</span> <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">key</span><span class="p">):</span> <span class="n">l</span> <span class="o">++</span><span class="p">;</span>
@@ -735,107 +674,102 @@
 <p>关于快速排序的三种写法。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">  1
-</span><span class="lnt">  2
-</span><span class="lnt">  3
-</span><span class="lnt">  4
-</span><span class="lnt">  5
-</span><span class="lnt">  6
-</span><span class="lnt">  7
-</span><span class="lnt">  8
-</span><span class="lnt">  9
-</span><span class="lnt"> 10
-</span><span class="lnt"> 11
-</span><span class="lnt"> 12
-</span><span class="lnt"> 13
-</span><span class="lnt"> 14
-</span><span class="lnt"> 15
-</span><span class="lnt"> 16
-</span><span class="lnt"> 17
-</span><span class="lnt"> 18
-</span><span class="lnt"> 19
-</span><span class="lnt"> 20
-</span><span class="lnt"> 21
-</span><span class="lnt"> 22
-</span><span class="lnt"> 23
-</span><span class="lnt"> 24
-</span><span class="lnt"> 25
-</span><span class="lnt"> 26
-</span><span class="lnt"> 27
-</span><span class="lnt"> 28
-</span><span class="lnt"> 29
-</span><span class="lnt"> 30
-</span><span class="lnt"> 31
-</span><span class="lnt"> 32
-</span><span class="lnt"> 33
-</span><span class="lnt"> 34
-</span><span class="lnt"> 35
-</span><span class="lnt"> 36
-</span><span class="lnt"> 37
-</span><span class="lnt"> 38
-</span><span class="lnt"> 39
-</span><span class="lnt"> 40
-</span><span class="lnt"> 41
-</span><span class="lnt"> 42
-</span><span class="lnt"> 43
-</span><span class="lnt"> 44
-</span><span class="lnt"> 45
-</span><span class="lnt"> 46
-</span><span class="lnt"> 47
-</span><span class="lnt"> 48
-</span><span class="lnt"> 49
-</span><span class="lnt"> 50
-</span><span class="lnt"> 51
-</span><span class="lnt"> 52
-</span><span class="lnt"> 53
-</span><span class="lnt"> 54
-</span><span class="lnt"> 55
-</span><span class="lnt"> 56
-</span><span class="lnt"> 57
-</span><span class="lnt"> 58
-</span><span class="lnt"> 59
-</span><span class="lnt"> 60
-</span><span class="lnt"> 61
-</span><span class="lnt"> 62
-</span><span class="lnt"> 63
-</span><span class="lnt"> 64
-</span><span class="lnt"> 65
-</span><span class="lnt"> 66
-</span><span class="lnt"> 67
-</span><span class="lnt"> 68
-</span><span class="lnt"> 69
-</span><span class="lnt"> 70
-</span><span class="lnt"> 71
-</span><span class="lnt"> 72
-</span><span class="lnt"> 73
-</span><span class="lnt"> 74
-</span><span class="lnt"> 75
-</span><span class="lnt"> 76
-</span><span class="lnt"> 77
-</span><span class="lnt"> 78
-</span><span class="lnt"> 79
-</span><span class="lnt"> 80
-</span><span class="lnt"> 81
-</span><span class="lnt"> 82
-</span><span class="lnt"> 83
-</span><span class="lnt"> 84
-</span><span class="lnt"> 85
-</span><span class="lnt"> 86
-</span><span class="lnt"> 87
-</span><span class="lnt"> 88
-</span><span class="lnt"> 89
-</span><span class="lnt"> 90
-</span><span class="lnt"> 91
-</span><span class="lnt"> 92
-</span><span class="lnt"> 93
-</span><span class="lnt"> 94
-</span><span class="lnt"> 95
-</span><span class="lnt"> 96
-</span><span class="lnt"> 97
-</span><span class="lnt"> 98
-</span><span class="lnt"> 99
-</span><span class="lnt">100
-</span><span class="lnt">101
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span><span class="lnt">90
+</span><span class="lnt">91
+</span><span class="lnt">92
+</span><span class="lnt">93
+</span><span class="lnt">94
+</span><span class="lnt">95
+</span><span class="lnt">96
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
@@ -847,22 +781,17 @@
 <span class="p">{</span>
     <span class="k">if</span><span class="p">(</span><span class="n">l</span> <span class="o">&gt;</span><span class="n">r</span><span class="p">)</span> <span class="k">return</span> <span class="p">;</span>
     <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span><span class="n">l</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span><span class="n">r</span><span class="p">;</span>
-    
     <span class="kt">int</span> <span class="n">key</span> <span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">];</span>
-    
     <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">)</span>
     <span class="p">{</span>
         <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span> <span class="o">&amp;&amp;</span> <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">key</span><span class="p">)</span> <span class="n">l</span> <span class="o">++</span><span class="p">;</span>
-        <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">];</span>
-        
+        <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">];</span>        
         <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span> <span class="o">&amp;&amp;</span> <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">key</span><span class="p">)</span> <span class="n">r</span> <span class="o">--</span><span class="p">;</span>
         <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">];</span>
     <span class="p">}</span>
     <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span><span class="n">key</span><span class="p">;</span>
-    
     <span class="n">quickSort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">l</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-    <span class="n">quickSort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">l</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">right</span><span class="p">);</span>
-    
+    <span class="n">quickSort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">l</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">right</span><span class="p">);</span>   
 <span class="p">}</span>
 
 <span class="c1">// 从小到大
@@ -1062,12 +991,9 @@
 </span><span class="lnt">30
 </span><span class="lnt">31
 </span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    
     <span class="k">def</span> <span class="nf">partition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
         <span class="c1"># 快排的思路</span>
         <span class="n">key</span> <span class="o">=</span><span class="n">nums</span><span class="p">[</span><span class="n">r</span><span class="p">]</span>
@@ -1090,7 +1016,6 @@
         <span class="c1"># 题目要求找到第k 个大的即可，不要求数组的其他部分是有序的</span>
         
         <span class="n">l</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span>
-        
         <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
             
             <span class="n">pos</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">r</span> <span class="p">,</span> <span class="n">nums</span><span class="p">)</span>

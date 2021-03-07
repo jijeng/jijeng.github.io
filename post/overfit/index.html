@@ -50,7 +50,7 @@
 <meta itemprop="description" content="分析机器学习 和深度学习中出现的过拟合现象，从不同的角度简述常用的处理手段。">
 <meta itemprop="datePublished" content="2020-07-11T15:55:36+08:00" />
 <meta itemprop="dateModified" content="2020-07-11T15:55:36+08:00" />
-<meta itemprop="wordCount" content="4399">
+<meta itemprop="wordCount" content="4498">
 
 
 
@@ -128,7 +128,7 @@
             <a href="/categories/deep-learning/"> deep learning </a>
             <a href="/categories/machine-learning/"> machine learning </a>
             </div>
-          <span class="more-meta"> 约 4399 字 </span>
+          <span class="more-meta"> 约 4498 字 </span>
           <span class="more-meta"> 预计阅读 9 分钟 </span>
         
       </div>
@@ -168,7 +168,7 @@
 <p>处理该问题可以从数据和模型两个方面去考虑。</p>
 <h3 id="模型角度">模型角度</h3>
 <p>简化模型，通过不断降低模型的复杂度（比如随机森林中的估计量，神经网络中的参数），最终达到一个平衡状态：模型足够简单到不产生过拟合，又足够复杂到能从数据中学习。这样操作时一个比较方便的方法是根据模型的复杂程度查看模型在所有数据集上的误差。如 <span id='jump'> 图 1 </span> 所示。</p>
-<p><img src="https://b2.bmp.ovh/imgs/2019/07/a345c92ae8db05eb.png" alt=""></p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/02/a345c92ae8db05eb.png" alt=""></p>
 <center>  图 1</center>
 <p>简化模型的另一个好处在于训练速度更加快.</p>
 <h3 id="数据角度">数据角度</h3>
@@ -185,8 +185,9 @@
 <p>（最初对于输入data 的normalization， 是属于神经元的 normalization）</p>
 <p>虽然上述方法分别对神经元和weights 进行了规范化，但本质上都实现了对数据的规范化，只是 scale 的参数的来源是不同的。</p>
 <p>使用L1 or L2 在 loss function (error function) 中添加正则项，对损失函数中的weights 进行限制其变大。</p>
-<p>对于神经元的激活值来说，不管哪种方式，其目标都是一样的，将激活值规范到均值为0，方差为1 的正太分布。
-** BN **</p>
+<p><strong>神经元</strong>可以总结为三种方式：输入数据的 normalization、进入激活函数之前的 BN 和 layer normalization。对于神经元的激活值来说，不管哪种方式，其目标都是一样的，将激活值规范到均值为0，方差为1 的正太分布。</p>
+<p><strong>神经元的边</strong>的处理方式：weights normalization、损失函数中的正则项 L1, L2。</p>
+<p><strong>BN</strong></p>
 <p>定义：
 BN针对一个minibatch的输入样本，计算均值和方差，基于计算的均值和方差来对某一层神经网络的输入X中每一个case进行归一化操作。</p>
 <p>BN 的优点：</p>
@@ -197,18 +198,26 @@ BN针对一个minibatch的输入样本，计算均值和方差，基于计算的
 <p>所以可以得到BN 的适用场景：每个mini-batch 都比较大，数据分布比较接近。在训练之前，最好是做好了 充分的shuffle，否则效果可能不太好。</p>
 <p>BN 的不足：</p>
 <ul>
-<li>高度依赖 mini-batch 的大小，当batch size 比较小的时候，效果不好。因为数据样本少，得不到有效的统计量，也可以说噪声比较大。
-当然是可以通过调整 batch size 的大小规避这种问题，但是有的任务要求 batch size 不能太大；并且BN 是无法应用到 online learning 中的，因为online 都是单实例更新模型，很难组织起 mini-batch 的结构。</li>
-<li>对于相似级别的图像生成任务，BN 效果不佳
-对于图片分类等任务，只要能够找出关键特征，就能正确分类，这算是一种粗粒度的任务，在这种情形下通常 BN 是有积极效果的。但是对于有些输入输出都是图片的像素级别图片生成任务，比如图片风格转换等应用场景，使用 BN 会带来负面效果，这很可能是因为在 Mini-Batch 内多张无关的图片之间计算统计量，弱化了单张图片本身特有的一些细节信息。</li>
-<li>因为输入的 Sequence 序列是不定长的，这源自同一个 Mini-Batch 中的训练实例有长有短。对于类似 RNN 这种动态网络结构，BN 使用起来不方便</li>
-<li>训练时和推理时统计量不一致
+<li>
+<p>高度依赖 mini-batch 的大小，当batch size 比较小的时候，效果不好。因为数据样本少，得不到有效的统计量，也可以说噪声比较大。
+当然是可以通过调整 batch size 的大小规避这种问题，但是有的任务要求 batch size 不能太大；并且BN 是无法应用到 online learning 中的，因为online 都是单实例更新模型，很难组织起 mini-batch 的结构。</p>
+</li>
+<li>
+<p>对于相似级别的图像生成任务，BN 效果不佳
+对于图片分类等任务，只要能够找出关键特征，就能正确分类，这算是一种粗粒度的任务，在这种情形下通常 BN 是有积极效果的。但是对于有些输入输出都是图片的像素级别图片生成任务，比如图片风格转换等应用场景，使用 BN 会带来负面效果，这很可能是因为在 Mini-Batch 内多张无关的图片之间计算统计量，弱化了单张图片本身特有的一些细节信息。</p>
+</li>
+<li>
+<p>因为输入的 Sequence 序列是不定长的，这源自同一个 Mini-Batch 中的训练实例有长有短。对于类似 RNN 这种动态网络结构，BN 使用起来不方便</p>
+</li>
+<li>
+<p>训练时和推理时统计量不一致
 对于 BN 来说，采用 Mini-Batch 内实例来计算统计量，这在训练时没有问题，但是在模型训练好之后，在线推理的时候会有麻烦。因为在线推理或预测的时候，是单实例的，不存在 Mini-Batch。
-虽说实际使用并没大问题，但是确实存在训练和推理时刻统计量计算方法不一致的问题。
-** Layer normalization ** 也是一种正则化手段</li>
+虽说实际使用并没大问题，但是确实存在训练和推理时刻统计量计算方法不一致的问题。</p>
+</li>
 </ul>
+<p><strong>Layer normalization</strong> 也是一种正则化手段，更加偏向于样本进行 normalization。</p>
 <p>BN vs LN ：</p>
-<p><img src="https://i.loli.net/2019/08/03/gkYd5AIiXlqeu2V.jpg" alt="1.jpg"></p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/02/gkYd5AIiXlqeu2V.jpg" alt="1.jpg"></p>
 <p>从图中看可以知道 batch是“竖”着来的，各个维度做归一化，所以与batch size有关系。 layer是“横”着来的，对一个样本，不同的神经元neuron间做归一化。显示了同一层的神经元的情况。假设这个mini-batch一共有N个样本，则Batch Normalization是对每一个维度进行归一。而Layer Normalization对于单个的样本就可以处理。</p>
 <p>相同点： BN 和LN 都是可以很好的一直梯度消失和梯度爆炸的。</p>
 <p>实践证明， LN 更加适合 RNN ，BN 更加适合CNN</p>
@@ -233,10 +242,10 @@ batch-renormalization [18], yet still requiring the original BN at the early ste
 在图像分类中，BN 效果比较好，并且BN 在 unbalanced class 中效果可能也不是很好 ；但是在风格转换（gan）中BN 一般不行，</p>
 </blockquote>
 <p><a href="https://papers.nips.cc/paper/7485-norm-matters-efficient-and-accurate-normalization-schemes-in-deep-networks.pdf">Norm matters: efficient and accurate normalization schemes in deep networks</a></p>
-<p>** 四种 normalization 时间轴**</p>
-<p>BN（Batch Normalization）于2015年由 Google 提出，开创了Normalization 先河；2016年出了LN（layer normalization）和IN（Instance Normalization）；2018年也就是今年，Kaiming提出了GN（Group normalization），成为了ECCV 2018最佳论文提名。</p>
+<p><strong>四种 normalization 时间轴</strong></p>
+<p>BN（Batch Normalization）于2015年由 Google 提出，开创了Normalization 先河；2016年出了LN（layer normalization）和IN（Instance Normalization）；2018年，Kaiming提出了GN（Group normalization），成为了ECCV 2018最佳论文提名。</p>
 <p>正则化的本质是为了减少数据的复杂程度和减少模型的复杂程度，这样就可以设置更大的学习率，更快的进行收敛。</p>
-<p><img src="https://ftp.bmp.ovh/imgs/2019/09/24205c5cadebe345.png" alt=""></p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/02/24205c5cadebe345.png" alt=""></p>
 <p>用更简单的语言来讲，各种Norm之间的差别只是针对的维度不同而已。</p>
 <ol>
 <li>BN是在batch上，对N、H、W做归一化，而保留通道 C 的维度。BN对较小的batch size效果不好。BN适用于固定深度的前向神经网络，如CNN，不适用于RNN；</li>
@@ -253,8 +262,6 @@ batch-renormalization [18], yet still requiring the original BN at the early ste
 </ol>
 <p><strong>LN</strong></p>
 <p>不依赖于 batch size, 在 RNN 中效果更好。</p>
-<p>BN 和LN 的区别，如下所示。</p>
-<p><img src="https://s1.ax1x.com/2020/03/28/GkzOsA.png" alt="GkzOsA.png"></p>
 <p><strong>IN</strong></p>
 <p>IN针对图像像素做normalization，最初用于图像的风格化迁移。</p>
 <blockquote>
@@ -281,7 +288,7 @@ Moreover, [6] have shown that well-conditioned generators are causally related t
 <p><a href="https://mlexplained.com/2018/11/30/an-overview-of-normalization-methods-in-deep-learning/">An Overview of Normalization Methods in Deep Learning</a></p>
 <h3 id="深度学习中的模型">深度学习中的模型</h3>
 <p>Dropout 或者Dropconnect. 其理念就是在训练中随机让神经元无效（即dropout）或让网络中的连接无效（即dropconnect）。这个有点类似集成学习，提高网络模型的泛化性能，减少过拟合的问题。（类似bagging 的思想，使用不同的网络结构在不同的训练集上进行训练）.如果从集成学习角度理解dropout，那么resnet 网络是不是也有点集成学习的味道。</p>
-<p>** Dropout 的具体流程**</p>
+<p><strong>Dropout 的具体流程</strong></p>
 <ol>
 <li>首先随机（临时）删掉网络中一半的隐藏神经元，输入输出神经元保持不变（图3中虚线为部分临时被删除的神经元）</li>
 <li>然后把输入x通过修改后的网络前向传播，然后把得到的损失结果通过修改的网络反向传播。一小批训练样本执行完这个过程后，在没有被删除的神经元上按照随机梯度下降法更新对应的参数（w，b）。</li>

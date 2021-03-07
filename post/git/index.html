@@ -50,7 +50,7 @@
 <meta itemprop="description" content="学习笔记- Git 相关的命令。">
 <meta itemprop="datePublished" content="2020-01-11T13:53:30+08:00" />
 <meta itemprop="dateModified" content="2020-01-11T13:53:30+08:00" />
-<meta itemprop="wordCount" content="2749">
+<meta itemprop="wordCount" content="2949">
 
 
 
@@ -127,7 +127,7 @@
         <div class="post-category">
             <a href="/categories/tutorial/"> tutorial </a>
             </div>
-          <span class="more-meta"> 约 2749 字 </span>
+          <span class="more-meta"> 约 2949 字 </span>
           <span class="more-meta"> 预计阅读 6 分钟 </span>
         
       </div>
@@ -328,7 +328,13 @@ git push [remote]  --force # 强行推送当前分支到远程仓库，即使有
 git push [remote] --all # 推送所有分支到远程仓库
 </code></pre></td></tr></table>
 </div>
-</div><h2 id="八撤销">八、撤销</h2>
+</div><blockquote>
+<p>git clone vs git pull</p>
+<p>git clone is how you get a local copy of an existing repository to work on. It’s usually only used once for a given repository, unless you want to have multiple working copies of it around. (Or want to get a clean copy after messing up your local one…)</p>
+<p>git pull (or git fetch + git merge) is how you update that local copy with new commits from the remote repository. If you are collaborating with others, it is a command that you will run frequently.</p>
+<p>git pull 在团队协作的时候用得很多，相当于是增量的修改本机的 repository；git clone 是将 repository 完全拷贝到本地。</p>
+</blockquote>
+<h2 id="八撤销">八、撤销</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -393,6 +399,11 @@ git checkout . # 恢复暂存区的所有文件到工作区
 <p><a href="https://www.jianshu.com/p/284ded3d191b">Git多项目管理</a></p>
 <p>使用git下载repo中的子文件夹而非整个文件夹</p>
 <p><a href="https://stackoverflow.com/questions/600079/how-do-i-clone-a-subdirectory-only-of-a-git-repository">How do I clone a subdirectory only of a Git repository?</a></p>
+<p>下载某个分支（非master）</p>
+<blockquote>
+<p>下载某个分支的代码（默认是 master）</p>
+<p>git clone -b cla <a href="https://github.com/jina-ai/jina.git">https://github.com/jina-ai/jina.git</a> # 分支的名字叫做 cla</p>
+</blockquote>
 <p>参考文献</p>
 <p>更多命令的详解，参考以下链接：</p>
 <p><a href="https://git-scm.com/book/zh/v2">Git Book</a></p>
