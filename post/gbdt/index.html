@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="jijeng" /><meta name="description" content="介绍GBDT 的定义、训练过程、优缺点和常见的问题。
+<meta name="author" content="jijeng" /><meta name="description" content="介绍GBDT (gradient boosting decision tree)的定义、训练过程、优缺点和常见的问题。
 " /><meta name="keywords" content="Hugo, theme, even" />
 
 
@@ -41,23 +41,23 @@
 
 
 <meta property="og:title" content="A Gentle Introduction of GBDT" />
-<meta property="og:description" content="介绍GBDT 的定义、训练过程、优缺点和常见的问题。" />
+<meta property="og:description" content="介绍GBDT (gradient boosting decision tree)的定义、训练过程、优缺点和常见的问题。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://jijeng.github.io/post/gbdt/" />
 <meta property="article:published_time" content="2019-07-12T13:51:52+08:00" />
 <meta property="article:modified_time" content="2019-07-12T13:51:52+08:00" />
 <meta itemprop="name" content="A Gentle Introduction of GBDT">
-<meta itemprop="description" content="介绍GBDT 的定义、训练过程、优缺点和常见的问题。">
+<meta itemprop="description" content="介绍GBDT (gradient boosting decision tree)的定义、训练过程、优缺点和常见的问题。">
 <meta itemprop="datePublished" content="2019-07-12T13:51:52+08:00" />
 <meta itemprop="dateModified" content="2019-07-12T13:51:52+08:00" />
-<meta itemprop="wordCount" content="4512">
+<meta itemprop="wordCount" content="4755">
 
 
 
 <meta itemprop="keywords" content="gbdt," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="A Gentle Introduction of GBDT"/>
-<meta name="twitter:description" content="介绍GBDT 的定义、训练过程、优缺点和常见的问题。"/>
+<meta name="twitter:description" content="介绍GBDT (gradient boosting decision tree)的定义、训练过程、优缺点和常见的问题。"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -127,7 +127,7 @@
         <div class="post-category">
             <a href="/categories/machine-learning/"> machine learning </a>
             </div>
-          <span class="more-meta"> 约 4512 字 </span>
+          <span class="more-meta"> 约 4755 字 </span>
           <span class="more-meta"> 预计阅读 10 分钟 </span>
         
       </div>
@@ -162,11 +162,13 @@
   </div>
 </div>
     <div class="post-content">
-      <p>介绍GBDT 的定义、训练过程、优缺点和常见的问题。</p>
+      <p>介绍GBDT (gradient boosting decision tree)的定义、训练过程、优缺点和常见的问题。</p>
 <p>Boosting、bagging和stacking是集成学习的三种主要方法。不同于bagging方法，boosting方法通过分步迭代（stage-wise）的方式来构建模型，在迭代的每一步构建的弱学习器都是为了弥补已有模型的不足，通过弱学习器提升为 强学习器的算法。Boosting族算法的著名代表是AdaBoost 和GBDT。</p>
 <h2 id="定义">定义</h2>
 <p>由于GBDT的学习过程是通过多轮迭代，每次都在上一轮训练结果的残差（如果是回归问题，使用平方误差作为loss function）的基础上进行学习（基函数的线性组合），来对数据进行分类或者回归。训练的过程是通过不断降低偏差来提高最后分类器的精度。</p>
 <p>理解GBDT要分为两步，第一步是理解什么叫做用决策树去拟合当前模型的残差，第二步是理解为什么以及如何用损失函数的负梯度去替代当前模型的残差。</p>
+<p>GBDT 是一种 boosting 算法。Boosting 方法训练基分类器时采用串行方式，各个基分类器之间有依赖。它的基本思路是将基分类器层层叠加，每一层在训练的时候，对前一层基分类器分错的样本，给予更高的权重。测试时，根据各层分类器的结果加权得到最后的结果。</p>
+<p>Bagging与Boosting的串行训练方式不同，Bagging方法在训练过程中，各基分类器之间无强依赖，可以进行并行训练。</p>
 <h2 id="gdbt-处理分类问题">GDBT 处理分类问题</h2>
 <p>GBDT在解决分类问题时有两种办法，一个是选择指数损失函数作为损失函数，此时GBDT退化为AdaBoost算法，另一个是选择类似于逻辑回归的对数似然损失函数。（逻辑回归使用的是对数似然函数）</p>
 <p>使用平方损失函数时候，GBDT算法的每一步在生成决策树只是拟合前面模型的残差，（y- y^）残差是梯度的一个特例。
@@ -218,10 +220,10 @@ GBDT 选择特征的过程就是 CART (分类回归树)选择特征的过程。�
 <p>优点（相对于 LR or SVM）：</p>
 <ul>
 <li>
-<p>可以灵活的处理各种类型的数据，包括连续型和离散型，处理分类和回归问题</p>
+<p>预测阶段计算速度快，树于树之间可以并行计算</p>
 </li>
 <li>
-<p>继承了树模型的优点： 对异常值鲁棒，处理缺省值</p>
+<p>在分布稠密的数据集上，泛化能力和表达能力都很好。</p>
 </li>
 <li>
 <p>即使是大量数据，也可以方便的处理，相对比SVM 来说。</p>
@@ -229,12 +231,9 @@ GBDT 选择特征的过程就是 CART (分类回归树)选择特征的过程。�
 </ul>
 <p>缺点：</p>
 <ul>
-<li>
-<p>无法并行</p>
-</li>
-<li>
-<p>在不带噪声的数据上，分类效果不如LR或者 SVM</p>
-</li>
+<li>GBDT 在高纬稀疏的数据集上，表现不如神经网络</li>
+<li>GBDT 在处理文本分类特征上，相对于其他模型模型优势不如其在处理数值特征上</li>
+<li>训练过程中需要串行训练，只能在决策树内部采用一些局部并行的方式提高训练速度</li>
 </ul>
 <h2 id="常见的问题">常见的问题</h2>
 <ul>

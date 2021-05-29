@@ -50,7 +50,7 @@
 <meta itemprop="description" content="介绍激活函数（activation function）、损失函数（loss function）和在pytorch框架下的使用。">
 <meta itemprop="datePublished" content="2019-11-28T14:58:04+08:00" />
 <meta itemprop="dateModified" content="2019-11-28T14:58:04+08:00" />
-<meta itemprop="wordCount" content="8331">
+<meta itemprop="wordCount" content="9595">
 
 
 
@@ -128,8 +128,8 @@
             <a href="/categories/deep-learning/"> deep learning </a>
             <a href="/categories/machine-learning/"> machine learning </a>
             </div>
-          <span class="more-meta"> 约 8331 字 </span>
-          <span class="more-meta"> 预计阅读 17 分钟 </span>
+          <span class="more-meta"> 约 9595 字 </span>
+          <span class="more-meta"> 预计阅读 20 分钟 </span>
         
       </div>
     </header>
@@ -160,6 +160,7 @@
           <ul>
             <li><a href="#基本概念">基本概念</a></li>
             <li><a href="#损失函数的选择">损失函数的选择</a></li>
+            <li><a href="#例子">例子</a></li>
             <li><a href="#总结">总结</a></li>
           </ul>
         </li>
@@ -193,8 +194,9 @@ $$</p>
 <p>激活函数的本质是增加网络的非线性。</p>
 <p>The thresholds are pre-defined numerical values in the function. This very nature of the activation functions can add non-linearity to the output.</p>
 <h3 id="activation-function-types">Activation Function Types</h3>
-<p>** Linear Activation Function:**</p>
-<p>$$
+<p>sigmoid 和 tanh 都是饱和激活函数；relu 及其变体都是非饱和函数。</p>
+<p><strong>Linear Activation Function:</strong>
+$$
 output  = k * x
 $$
 where $k$ is a scalar value, as an instance 2, and $x$ is the input.</p>
@@ -278,7 +280,7 @@ $$</p>
 <p>$$
 \text{ELU}(x) = \max(0,x) + \min(0, \alpha * (\exp(x) - 1))`.
 $$
-<img src="https://i.loli.net/2019/12/19/A4CbxqHPifJ51ZY.png" alt="1.png">
+<img src="http://123.56.8.10:8899/images/2021/03/19/A4CbxqHPifJ51ZY.png" alt="1.png">
 继承了Relu的所有优点，but贵一点，均值为0的输出、而且处处一阶可导。</p>
 <p>**Softmax Activation Function **</p>
 <p>Softmax is an extension of the Sigmoid activation function. Softmax function adds non-linearity to the output, however it is mainly used for classification examples where multiple classes of results can be computed.</p>
@@ -317,8 +319,7 @@ c. Kullback Leibler Divergence Loss</p>
 <h3 id="regression--loss-function-回归">Regression  Loss Function (回归)</h3>
 <p>如何进行选择？</p>
 <p>对于回归问题，一个baseline 的loss function 是可以选择平方损失函数。从数据的角度进行分析，如果数据服从正太分布，那么平方损失函数没有问题，如果数据有一些 outlier，可以使用 mean squared logarithmic error loss， 先进行   $\hat { y } $然后再计算平方和。如果 outlier 比较多的话，那么使用 mean absolute error loss，计算差值的时候换成绝对值函数。</p>
-<p>** 平方损失函数**</p>
-<p>定义：</p>
+<p><strong>平方损失函数</strong></p>
 <blockquote>
 <p>Mean Squared Error (MSE), or quadratic, loss function is widely used in linear regression as the performance measure, and the method of minimizing MSE is called Ordinary Least Squares (OSL)。</p>
 </blockquote>
@@ -352,13 +353,17 @@ It has the effect of relaxing the punishing effect of large differences in large
 <p>使用说明：
 如果最后的结果的数值有大值，那么可以尝试一下。不是那么符合高斯分布，就可以尝试一下。</p>
 <p>均方差误差数学表达为：
+$$
 \begin{equation}
 \frac{1}{n} \sum_{i=1}^{n}\left(X_{i}-\bar{X}\right)^{2}
 \end{equation}
-或者：
+$$</p>
+<p>或者
+$$
 \begin{equation}
 \frac{1}{n-1} \sum_{i=1}^{n}\left(X_{i}-\bar{X}\right)^{2}
-\end{equation}</p>
+\end{equation}
+$$</p>
 <p>其中 $\bar{X} = \frac{X_1 + \dots + X_n}{n}$。</p>
 <p>在pytorch 中使用<code>nn.MSELoss</code> 实现。首先定义了二维数组用于计算：</p>
 <div class="highlight"><div class="chroma">
@@ -543,7 +548,11 @@ target=torch.autograd.Variable(torch.LongTensor(3).random_(4))
 loss = loss_fn(input, target)
 </code></pre></td></tr></table>
 </div>
-</div><p><strong>Hinge Loss</strong></p>
+</div><p>NLLLoss : negative log likelihood</p>
+<blockquote>
+<p>对softmax 之后的数值，取log，然后再取负，得到正值，然后求解平均数。</p>
+</blockquote>
+<p><strong>Hinge Loss</strong></p>
 <p>An alternative to cross-entropy for binary classification problems is the hinge loss function, primarily developed for use with Support Vector Machine (SVM) models.</p>
 <p>Hinge Loss，又称合页损失，其表达式如下：</p>
 <p>$$
@@ -601,7 +610,7 @@ Mathematically, it is the preferred loss function under the inference framework 
 </div><p><strong>Sparse Multiclass Cross-Entropy Loss</strong></p>
 <p>和上面的区别主要在于 label 是不需要转成 one-hot 类型的，保持这原来的 number 形式。
 Sparse cross-entropy addresses this by performing the same cross-entropy calculation of error, without requiring that the target variable be one hot encoded prior to training.</p>
-<p>** Kullback Leibler Divergence Loss**</p>
+<p><strong>Kullback Leibler Divergence Loss</strong></p>
 <p>Kullback Leibler Divergence, or KL Divergence for short, is a measure of how one probability distribution differs from a baseline distribution.</p>
 <p>数学原理：(以 bit 为单位的 信息熵)</p>
 <p>A KL divergence loss of 0 suggests the distributions are identical. In practice, the behavior of KL Divergence is very similar to cross-entropy. It calculates how much information is lost (in terms of bits) if the predicted probability distribution is used to approximate the desired target probability distribution.</p>
@@ -609,9 +618,9 @@ Sparse cross-entropy addresses this by performing the same cross-entropy calcula
 <p>As such, the KL divergence loss function is more commonly used when using models that learn to approximate a more complex function than simply multi-class classification, such as in the case of an autoencoder used for learning a dense feature representation under a model that must reconstruct the original input. In this case, KL divergence loss would be preferred. Nevertheless, it can be used for multi-class classification, in which case it is functionally equivalent to multi-class cross-entropy.</p>
 <p>参考文献：</p>
 <p><a href="https://machinelearningmastery.com/how-to-choose-loss-functions-when-training-deep-learning-neural-networks/">How to Choose Loss Functions When Training Deep Learning Neural Networks</a></p>
-<p>** log 对数损失函数 **</p>
+<p>**log 对数损失函数 **</p>
 <p>在逻辑回归的推导中，它假设样本服从伯努利分布（0-1分布），然后求得满足该分布的似然函数，接着取对数求极值等等。</p>
-<p>** 指数损失函数 **</p>
+<p>**指数损失函数 **</p>
 <p>公式如下：
 $$
 loss = e ^ { - y s }
@@ -629,7 +638,7 @@ $$</p>
 <p><img src="https://i.bmp.ovh/imgs/2019/07/1f6fc8f2b951d570.png" alt=""></p>
 <p>显然，这时候 Exponential Loss 会远远大于其它 Loss。从训练的角度来看，模型会更加偏向于惩罚较大的点，赋予其更大的权重。如果样本中存在离群点，Exponential Loss 会给离群点赋予更高的权重，但却可能是以牺牲其他正常数据点的预测效果为代价，可能会降低模型的整体性能，使得模型不够健壮（robust）。</p>
 <p>相比 Exponential Loss，其它四个 Loss，包括 Softmax Loss，都对离群点有较好的“容忍性”，受异常点的干扰较小，模型较为健壮。</p>
-<p>** Softmax loss **</p>
+<p>**Softmax loss **</p>
 <p>对于多分类问题，可以使用 softmax loss。</p>
 <p>其中，C 为类别个数，小写字母 s 是正确类别对应的 Softmax 输入，大写字母 S 是正确类别对应的 Softmax 输出。</p>
 <p>由于 log 运算符不会影响函数的单调性，我们对 S 进行 log 操作。另外，我们希望 log(S) 越大越好，即正确类别对应的相对概率越大越好，那么就可以对 log(S) 前面加个负号，来表示损失函数：</p>
@@ -640,7 +649,7 @@ $$</p>
 <blockquote>
 <p>At its core, a loss function is incredibly simple: it’s a method of evaluating how well your algorithm models your dataset. If your predictions are totally off, your loss function will output a higher number. If they’re pretty good, it’ll output a lower number. As you change pieces of your algorithm to try and improve your model, your loss function will tell you if you’re getting anywhere.</p>
 </blockquote>
-<p>** Log Loss (Cross Entropy Loss)**</p>
+<p><strong>Log Loss (Cross Entropy Loss)</strong></p>
 <p>Cross-entropy loss, or log loss, measures the performance of a classification model whose output is a probability value between 0 and 1. Cross-entropy loss increases as the predicted probability diverges from the actual label. So predicting a probability of .012 when the actual observation label is 1 would be bad and result in a high loss value. A perfect model would have a log loss of 0.</p>
 <p><img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g452awgfddj20fg0b1t91.jpg" alt=""></p>
 <p>The graph above shows the range of possible loss values given a true observation (isDog = 1). As the predicted probability approaches 1, log loss slowly decreases. As the predicted probability decreases, however, the log loss increases rapidly. Log loss penalizes both types of errors, but especially those predictions that are confident and wrong!</p>
@@ -668,7 +677,7 @@ P(Y | X)  &amp;= P(X_1 | Y)  \times P(X_2 | Y)  \times  \dots \times P(X_n | Y) 
 $$
 交叉熵表达式：
 $$CE(\hat{y}, y) = - \sum_{i=1}^{n} y_i log(\hat{y}) + (1 - y_i) log(1 - \hat{y})$$</p>
-<p>** L2**</p>
+<p><strong>L2</strong></p>
 <p>这两个loss function 在<a href="https://jijeng.github.io/2018/07/21/differences-between-l1-and-l2-as-loss-function-and-regularization/">这里</a>介绍过，所以本博客中简单说一下。</p>
 <p>L2 loss function is the square of the L2 norm of the difference between actual value and predicted value. It is mathematically similar to MSE, only do not have division by
 n, it is computed by</p>
@@ -836,7 +845,103 @@ $$</p>
 -\int p ( x ) \log g ( x ) d x
 $$</p>
 <p>交叉熵是用来描述两个分布的距离的，神经网络训练的目的就是使 $g(x)$ 逼近$ p(x)$。</p>
-<h3 id="总结">总结</h3>
+<p>sigmoid 激活函数和 softmax 激活函数使用场景和区别？</p>
+<p><a href="https://medium.com/arteos-ai/the-differences-between-sigmoid-and-softmax-activation-function-12adee8cf322">https://medium.com/arteos-ai/the-differences-between-sigmoid-and-softmax-activation-function-12adee8cf322</a></p>
+<blockquote>
+<p>If we want to have a classifier to solve a problem with more than one right answer, the Sigmoid Function is the right choice. We should apply this function to each element of the raw output independently. The return value of Sigmoid Function is mostly in the range of values between 0 and 1 or -1 and 1.</p>
+<p>这点明显说的就是 multi-label 的特性</p>
+</blockquote>
+<blockquote>
+<p><em>The Softmax Activation Function</em>, also know as <em>SoftArgMax</em> or <em>Normalized Exponential Function</em> is a fascinating activation function that takes vectors of real numbers as inputs, and normalizes them into a probability distribution proportional to the exponentials of the input numbers. Before applying, some input data could be negative or greater than 1. Also, they might not sum up to 1. After applying Softmax, each element will be in the range of 0 to 1, and the elements will add up to 1. This way, they can be interpreted as a probability distribution.</p>
+<p>将原来可能存在负数的数字转换成 0-1 的数字，这个就是 softmax 数学上的功能。出来的数值可以被解读成概率分布。</p>
+<p>sigmoid is used when you want the output to be ranging from 0 to 1, but need not sum to 1.</p>
+</blockquote>
+<blockquote>
+<p>Softmax is used for *<strong>multi-classification in the Logistic Regression model*</strong>, whereas Sigmoid is used for *<strong>binary classification in the Logistic Regression model.*</strong></p>
+<p>这点是我调研的目的，是否 softmax 可以在二分类中取代 sigmoid 函数？</p>
+</blockquote>
+<p>softmax 和 sigmoid 区别</p>
+<blockquote>
+<p>This is similar to the Sigmoid function. The difference is that, in the denominator, we sum together all of the values. To explain this further, when calculating the value of Softmax on a single raw output, we can’t just look at one element alone, but instead, we have to take into account all the output data.</p>
+<p>从数学表达角度看，softmax 是考虑到了整体的信息，sigmoid 只是考虑当下的数值。</p>
+<p>sigmoid looks at each raw output value separately.</p>
+<p>In the case of softmax, if we want to increase the likehood of one class, the other has to decrease by an equal amount.</p>
+</blockquote>
+<p>softmax 和sigmoid 的联系</p>
+<blockquote>
+<p>Softmax is kind of multi-class sigmoid, but the sum of all softmax units are supposed to be 1. In sigmoid it&rsquo;s not really necessary.</p>
+<p>softmax (join distribution and a multinomial likelihood) 联合分布和多项分布（二项分布的扩展）</p>
+<p>sigmoid (marginal distribution and a Bernouli likehood)</p>
+<p>Digging deep, in the case of softmax, increasing the output of one class makes the others go down. So sigmoids can probably be preferred over softmax when you outputs are indepentent of one another. To put it more simple, if there are multiple classes and each input can belong to exactly one class, then it makes sense to use softmax, in the other cases, sigmoid seems better.</p>
+</blockquote>
+<blockquote>
+<p>one more thing is, people use ReLu activations these days (in the hidden layers) and using sigmoid blows up Relu apperently, might be one of the reason why people prefer softmax.</p>
+</blockquote>
+<blockquote>
+<p>We convert a classifier’s raw output values into probabilities using either a sigmoid function or a softmax function.</p>
+<p>simoid 和 softmax 都可以得到概率。</p>
+</blockquote>
+<p>summary</p>
+<blockquote>
+<p>If your model&rsquo;s output classes are NOT mutualy exclusive and you can choose many of them at the same time, use a sigmoid function on the network&rsquo;s raw outputs</p>
+<p>相反，使用 softmax。</p>
+</blockquote>
+<h3 id="例子">例子</h3>
+<p>多分类 和多 label 的区别【完成】</p>
+<blockquote>
+<p>The difference between classes and labels is that classes are mutually exclusive and labels are not.</p>
+<p>It basically means that an instance can belong to only <strong>one class</strong>, but can have <strong>multiple</strong> <strong>labels</strong>.</p>
+</blockquote>
+<p>查看代码：http://47.94.35.231:8090/tree/notebook/image_tagger</p>
+<blockquote>
+<p>对于本文开始提到的俗语：“CE用于多分类, BCE适用于二分类”其实大部分都是正确的，唯一有待商榷的部分在于多分类（单标签）其实也可以使用BCE，而对于multi-label的多分类，则不能使用CE。</p>
+<p>multi-label由于假设每个标签的输出是相互独立的，因此常用配置是sigmoid+BCE， 其中每个类别输出对应一个sigmoid。如果读者仔细看了前面两个小节，相信不用分析，也可以自行得出结果，即这种场景下使用CE将难以收敛，原因跟2.1中的分析类似&mdash;我们只计算了某个类别标签为1时的loss及梯度，而忽略了为0时的loss，而每个输出又相互独立，不像softmax函数那样有归一化的限制。所以multi-label是一定不能使用CE作为loss函数的。</p>
+</blockquote>
+<p><a href="https://zhuanlan.zhihu.com/p/48078990">https://zhuanlan.zhihu.com/p/48078990</a></p>
+<p>在 multi-label 中损失函数使用的是 <code>BCE</code> 。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">get_model</span><span class="p">():</span>
+    <span class="c1"># 包的概念</span>
+    <span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">backbone</span><span class="p">):</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">backbone</span><span class="p">)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">GlobalAveragePooling2D</span><span class="p">())</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dropout</span><span class="p">(</span><span class="n">DROPOUT</span><span class="p">))</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">BatchNormalization</span><span class="p">())</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">FULLY_CONNECTED</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">unique_labels</span><span class="p">),</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">))</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;binary_crossentropy&#39;</span><span class="p">,</span>
+                      <span class="n">optimizer</span><span class="o">=</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="n">LEARNING_RATE</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="n">LEARNING_RATE_DECAY</span><span class="p">),</span>
+                      <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;accuracy&#34;</span><span class="p">,</span> <span class="n">recall</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span> <span class="n">f1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">model</span>
+
+    <span class="n">backbone</span> <span class="o">=</span> <span class="n">MobileNetV2</span><span class="p">(</span><span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="n">IMAGE_SIZE</span><span class="p">,</span> <span class="n">IMAGE_SIZE</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">include_top</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="s1">&#39;imagenet&#39;</span><span class="p">)</span>
+    <span class="n">backbone</span><span class="o">.</span><span class="n">trainable</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">return</span> <span class="n">model</span><span class="p">(</span><span class="n">backbone</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="总结">总结</h3>
 <table>
 <thead>
 <tr>
@@ -902,7 +1007,7 @@ $$</p>
       <nav class="post-nav">
         <a class="prev" href="/post/lstm/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">lstm</span>
+            <span class="prev-text nav-default">lstm学习笔记</span>
             <span class="prev-text nav-mobile">上一篇</span>
           </a>
         <a class="next" href="/post/greedy_algorithm/">

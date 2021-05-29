@@ -50,7 +50,7 @@
 <meta itemprop="description" content="介绍容器（Docker）的原理和常见的命令。">
 <meta itemprop="datePublished" content="2019-09-04T13:09:19+08:00" />
 <meta itemprop="dateModified" content="2019-09-04T13:09:19+08:00" />
-<meta itemprop="wordCount" content="3189">
+<meta itemprop="wordCount" content="3276">
 
 
 
@@ -125,7 +125,7 @@
       <div class="post-meta">
         <span class="post-time"> 2019-09-04 </span>
         
-          <span class="more-meta"> 约 3189 字 </span>
+          <span class="more-meta"> 约 3276 字 </span>
           <span class="more-meta"> 预计阅读 7 分钟 </span>
         
       </div>
@@ -164,9 +164,15 @@
 <p>不同点：虚拟机是操作系统级别。虚拟机本身需要占用几百兆运行，并且启动慢。Docker 是对于进程的封装，不是模拟完整的操作系统。所以启动快，占用资源少。</p>
 <p>联系：Docker 相比于虚拟机有了更大程度的共享，更小级别的隔离。虚拟机虚拟出的是一套硬件，而Docker 虚拟出的是一个操作系统，不同容器之间是可以共享一个操作系统的。</p>
 <p>（2）Docker的核心概念</p>
-<p>1). 镜像（Image）： 是一个只读的模板，类似安装操作系统的iso 文件，通过镜像可以用来完成各种应用的部署
-2). 容器（Container）：镜像和容器的唯一区别是容器的最上一层是可读可写的。所以容器 =镜像+ 可读层。类似一个操作系统，可以create， start， run，stop，kill，pause和rm操作。
-3). 仓库：存放镜像的一个场合，仓库分为公开仓库和私有仓库</p>
+<p>1). 镜像（Image）： 是一个只读的模板，类似安装操作系统的iso 文件，通过镜像可以用来完成各种应用的部署。</p>
+<blockquote>
+<p>Image 是一个特殊的文件系统。包含了运行时所需要的程序、库、资源、配置等文件。镜像不包含任何动态的数据。dockerfile 中最开始的 from 表示的就是镜像</p>
+</blockquote>
+<p>2). 容器（Container）：镜像和容器的唯一区别是容器的最上一层是可读可写的。所以容器 =镜像+ 可读层。类似一个操作系统，可以create， start， run，stop，kill，pause和rm操作。</p>
+<blockquote>
+<p>最后打成某个程序，就是容器。</p>
+</blockquote>
+<p>3). 仓库：存放镜像的一个场合，仓库分为公开仓库和私有仓库</p>
 <p>如果说Docker 是面向对象的，那么容器与镜像的关系类似于面向对象编程中的对象与类。</p>
 <p>Docker 的优点</p>
 <p>Docker 是一个用于开发，交付和运行应用程序的开放平台。Docker 使您能够将应用程序与基础架构分开，从而可以快速交付软件。借助 Docker，您可以与管理应用程序相同的方式来管理基础架构。通过利用 Docker 的方法来快速交付，测试和部署代码，您可以大大减少编写代码和在生产环境中运行代码之间的延迟。</p>
@@ -391,7 +397,7 @@ NAMES:自动分配的容器名称
 <p>Docker-Compose 是 Docker 的一种编排服务，是一个用于在 Docker 上定义并运行复杂应用的工具，可以让用户在集群中部署分布式应用。</p>
 <p>通过 Docker-Compose 用户可以很容易地用一个配置文件定义一个多容器的应用，然后使用一条指令安装这个应用的所有依赖，完成构建。Docker-Compose 解决了容器与容器之间如何管理编排的问题。</p>
 <p>Docker Compose 工作原理图</p>
-<img src ="https://files.catbox.moe/hulyas.png" height ="60%" width="60%">
+<img src ="http://123.56.8.10:8899/images/2021/03/19/hulyas.png" height ="60%" width="60%">
 <p>Compose 中有两个重要的概念</p>
 <ul>
 <li>服务 (service) ：一个应用的容器，实际上可以包括若干运行相同镜像的容器实例。</li>

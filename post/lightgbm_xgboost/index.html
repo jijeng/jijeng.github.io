@@ -50,7 +50,7 @@
 <meta itemprop="description" content="先主要介绍树的基本知识，然后介绍LightGBM和XGBoost及其调参.">
 <meta itemprop="datePublished" content="2019-07-28T14:42:57+08:00" />
 <meta itemprop="dateModified" content="2019-07-28T14:42:57+08:00" />
-<meta itemprop="wordCount" content="5697">
+<meta itemprop="wordCount" content="6530">
 
 
 
@@ -127,8 +127,8 @@
         <div class="post-category">
             <a href="/categories/machine-learning/"> machine learning </a>
             </div>
-          <span class="more-meta"> 约 5697 字 </span>
-          <span class="more-meta"> 预计阅读 12 分钟 </span>
+          <span class="more-meta"> 约 6530 字 </span>
+          <span class="more-meta"> 预计阅读 14 分钟 </span>
         
       </div>
     </header>
@@ -146,15 +146,14 @@
             <li><a href="#advantages-of-lightgbm">Advantages of LightGBM</a></li>
             <li><a href="#lightgbm调参常用参数-1">lightGBM调参(常用参数)</a></li>
             <li><a href="#referrence">referrence</a></li>
-            <li><a href="#xgboost调参">XGBoost调参</a></li>
+            <li><a href="#xgboost">XGBoost</a></li>
             <li><a href="#advantage-of-xgboost">Advantage of XGBoost</a></li>
             <li><a href="#xgboost-parameters">XGBoost Parameters</a></li>
-            <li><a href="#referrence-1">Referrence</a></li>
+            <li><a href="#xgboost-和-gbdt-区别">XGBoost 和 GBDT 区别</a></li>
             <li><a href="#lightgbm-和-xgboost-的一些区别">LightGBM 和 XGBoost 的一些区别</a></li>
             <li><a href="#xgboost--lr">xgboost + lr</a></li>
           </ul>
         </li>
-        <li><a href="#复习笔记">复习笔记</a></li>
       </ul>
     </li>
   </ul>
@@ -216,24 +215,64 @@ default =1, used only for multi-class classification</li>
 <a href="https://blog.csdn.net/aliceyangxi1987/article/details/80711014">LightGBM 如何调参</a>
 <a href="http://lightgbm.readthedocs.io/en/latest/Parameters-Tuning.html">官方文档param_tuning</a>
 <a href="http://lightgbm.readthedocs.io/en/latest/Parameters.html">官方文档parameter</a></p>
-<h3 id="xgboost调参">XGBoost调参</h3>
-<h3 id="advantage-of-xgboost">Advantage of XGBoost</h3>
+<h3 id="xgboost">XGBoost</h3>
+<p>算法的核心思想</p>
 <ul>
-<li>regularization
-standard GBM implementation has no regularization, in fact, XGBoost is also known as &lsquo;regularized boosting&rsquo; technique.</li>
-<li>parallel processing
-we know that boosting is sequential process so how can it be parallelized? <a href="http://zhanpengfang.github.io/418home.html">this link</a> to explore further.</li>
-<li>high flexibility
-XGBoost allow users to define <strong>custom optimization objectives and evaluation criteria</strong></li>
-<li>handling missing values
-very useful property. XGBoost has an in-built routine to handle missing values. User is required to supply a different value than other observations and pass that as a parameter. XGBoost tries different things as it encounter a missing value on each node and learns which path to take for missing values in future.</li>
-<li>Tree pruning
-A GBM would stop splitting a node when it encounters a negative loss in the split. Thus it is more of a greedy algorithm. XGBoost on the other hand make splits upon the max_depth specified and then start pruning the tree backwards and remove splits beyond which there is no positive gain.</li>
-<li>built-in cross-validation
-This is unlike GBM where we have to run a grid-search and only a limited values can be tested.</li>
-<li>continue on existing model</li>
+<li>不断去增加树，不断进行特征分裂来生长一棵树，每次增加一个树，其实就是学习一个新函数 $f(x)$， 去拟合上次预测的残差</li>
+<li>当我们训练完成得到 $k$ 棵树，我们要预测一个样本的分数，其实就是根据这个样本的提特征，在每棵树中都会落到对应的一个叶子节点，每个叶子节点上对应一个分数</li>
+<li>最后只需要将每个树对应的分数加起来就是该样本的预测值</li>
+</ul>
+<p>树该如何生长？</p>
+<p>简单说：枚举所有不同树结构的贪心法。</p>
+<blockquote>
+<p>不断地枚举不同树的结构，然后通过打分函数寻找一个最优结构的树，接着加入模型中，不断重复这样的操作。选择一个 feature 分裂，计算 loss function 的最小值，然后再选择一个 feature 进行分裂，枚举完了，选择一个效果最好的。</p>
+</blockquote>
+<p>如果停止树的生长？</p>
+<p>有三种方式。</p>
+<ul>
+<li>当分裂带来的增益小于设定的阈值时候，我们可以忽略这次分裂，类似预剪枝。</li>
+<li>当树达到最大深度则停止建立决策树。可以设置超参数 <code>max_depth</code></li>
+<li>样本权重和小于设置阈值停止建树。min_child_weight，大概是当一个叶子上的样本比较少时候，停止建树，同样是为了防止过拟合。</li>
+</ul>
+<h3 id="advantage-of-xgboost">Advantage of XGBoost</h3>
+<p>数据层面</p>
+<ul>
+<li>
+<p>handling missing values
+very useful property. XGBoost has an in-built routine to handle missing values. User is required to supply a different value than other observations and pass that as a parameter. XGBoost tries different things as it encounter a missing value on each node and learns which path to take for missing values in future.</p>
+</li>
+<li>
+<p>parallel processing
+we know that boosting is sequential process so how can it be parallelized? <a href="http://zhanpengfang.github.io/418home.html">this link</a> to explore further.</p>
+</li>
+</ul>
+<p>模型层面</p>
+<ul>
+<li>
+<p>Tree pruning
+A GBM would stop splitting a node when it encounters a negative loss in the split. Thus it is more of a greedy algorithm. XGBoost on the other hand make splits upon the max_depth specified and then start pruning the tree backwards and remove splits beyond which there is no positive gain.</p>
+</li>
+<li>
+<p>high flexibility
+XGBoost allow users to define <strong>custom optimization objectives and evaluation criteria</strong></p>
+</li>
+</ul>
+<p>训练层面</p>
+<ul>
+<li>
+<p>built-in cross-validation
+This is unlike GBM where we have to run a grid-search and only a limited values can be tested.</p>
+</li>
+<li>
+<p>regularization
+standard GBM implementation has no regularization, in fact, XGBoost is also known as &lsquo;regularized boosting&rsquo; technique.</p>
+</li>
+<li>
+<p>continue on existing model</p>
+</li>
 </ul>
 <h3 id="xgboost-parameters">XGBoost Parameters</h3>
+<p>xgboost的参数可以分为三类，通用参数/general parameters, 集成(增强)参数/booster parameters 和 任务参数/task parameters。</p>
 <h4 id="general-parameters">general parameters</h4>
 <p>General Parameters: Guide the overall functioning</p>
 <ul>
@@ -253,13 +292,13 @@ default=0.3, typical final values to be used: 0.01-0.2, using CV to tune</li>
 minimum sum of instance weight (hessian) needed in a child. If the tree partition step results in a leaf node with the sum of instance weight less than min_child_weight, then the building process will give up further partitioning. In linear regression mode, this simply corresponds to minimum number of instances needed to be in each node. The larger, the more conservative the algorithm will be.
 default =1,too high values can lead to under-fitting, it should be tuned using CV. 数值越小越容易过拟合，越大越容易 under-fitting.</li>
 <li>max_depth:
-default =6, typical values: 3-10, should be tuned using CV.</li>
+default =6, typical values: 3-10, should be tuned using CV. 设置树的最大深度。默认是 6</li>
 <li>gamma:
 default =0, Gamma specifies the minimum loss reduction required to make a split.如果在分裂过程中小于该值，那么就不会继续分裂。</li>
 <li>subsample:
-default =1, typical values: 0.5-1. Denotes the fraction of observations to be randomly samples for each tree.</li>
+default =1, typical values: 0.5-1. Denotes the fraction of observations to be randomly samples for each tree. 观察子样本的比率，即对总体进行随机采样的比例，默认是 1.</li>
 <li>colsample_bytree:
-default =1, typical values: 0.5-1. colsample_bytree和subsample不同点：colsample_by是特征的随机fraction, subsample是rows的随机fraction。</li>
+default =1, typical values: 0.5-1. colsample_bytree和subsample不同点：colsample_by是特征的随机fraction, subsample是rows的随机fraction。用于构造每棵树时变量的子样本比例，即特征抽样。默认是 1.</li>
 <li>lambda:
 default =1, L2 regularization term on weights(analogous to Ridge regression). Though many data scientists don&rsquo;t use it often, it should be explored to reduce overfitting.</li>
 <li>alpha:
@@ -276,7 +315,7 @@ multi: softmax- returns predicated class(not probabilities)
 multi: softprob- returns predicated probability of each data point belonging to each class.</li>
 <li>eval_metirc
 default according to objective(rmse for regression and error for classification), used for validation data.
-typical values: rmse(root mean square error), mse(mean absolute error), logloss(negative log-likelihood), error(binary classification error rate, 0.5 threshold), auc(area under the curve)</li>
+typical values: rmse(root mean square error), mse(mean absolute error), logloss(negative log-likelihood), error(binary classification error rate, 0.5 threshold), auc(area under the curve) 评价指标，一般使用 auc</li>
 <li>seed
 default =0, used for reproducible results and also for <strong>parameter tuning</strong>.</li>
 </ul>
@@ -286,11 +325,16 @@ default =0, used for reproducible results and also for <strong>parameter tuning<
 <li>The first way is to directly control model complexity.</li>
 <li>The second way is to add regularization parameters</li>
 </ul>
-<h3 id="referrence-1">Referrence</h3>
-<p><a href="https://www.analyticsvidhya.com/blog/2016/03/complete-guide-parameter-tuning-xgboost-with-codes-python/">complete guide parameter tuning xgboost with codes python</a>
-<a href="http://xgboost.readthedocs.io/en/latest/how_to/param_tuning.html">官方文档 param_tuning</a>
-<a href="http://xgboost.readthedocs.io/en/latest/parameter.html">官方文档 parameter</a></p>
-<p>补充一些理论知识</p>
+<h3 id="xgboost-和-gbdt-区别">XGBoost 和 GBDT 区别</h3>
+<ol>
+<li>GBDT 是机器学习算法， XGBoost 是算法的工程上的实现</li>
+<li>在使用CART作为基分类器时，XGBoost显式地加入了正则项来控制模 型的复杂度，有利于防止过拟合，从而提高模型的泛化能力。</li>
+<li>GBDT在模型训练时只使用了代价函数的一阶导数信息，XGBoost对代 价函数进行二阶泰勒展开，可以同时使用一阶和二阶导数。</li>
+<li>传统的GBDT采用CART作为基分类器，XGBoost支持多种类型的基分类 器，比如线性分类器</li>
+<li>传统的GBDT在每轮迭代时使用全部的数据，XGBoost则采用了与随机 森林相似的策略，支持对数据进行采样。</li>
+<li>传统的GBDT没有设计对缺失值进行处理，XGBoost能够自动学习出缺 失值的处理策略。</li>
+</ol>
+<p>GBDT 是串行的，XGBoost 的并行不是 tree 的粒度上，而是特征粒度上的。XGBoost 在训练之前，预先对数据进行排序保存，后面重复使用这个结构，大大减少了计算量。在进行节点分裂的时候，需要计算每个特征的增益，最终选增益最大的特征进行分类，这个时候可以多线程并行去计算。</p>
 <h3 id="lightgbm-和-xgboost-的一些区别">LightGBM 和 XGBoost 的一些区别</h3>
 <ul>
 <li>树的增长方式</li>
@@ -404,11 +448,6 @@ lightGBM increases the weight of the samples with small gradients when computing
 xgboost也就是做了特征筛选和特征交叉。人工特征工程做的够好，LR是可以俯瞰众生，但是考虑到花费的人力物力，还是选模型级联吧！特征工程慢慢做= =</p>
 <p>LR是广义线性模型，能够并行化处理大量亿万级特征的训练样本。LR模型是只使用离散型特征的，连续型特征不是不能用，而是用了以后效果不好，对模型有负影响。LR快速高效，完全可以处理高纬度稀疏的离散化特征。</p>
 <p><a href="http://tva1.sinaimg.cn/large/007X8olVly1g85nwj63oaj30pa0ny75e.jpg"></a></p>
-<h2 id="复习笔记">复习笔记</h2>
-<ol>
-<li>xgboost 的优势 (1) 能够 handle missing values  (2) 数的增长方式，一种是基于level 增长，一种是基于叶子节点增长（如果是相同的结点数量，那么基于叶子增长的方式是更加的深）</li>
-<li>调参是能够调整的参数（max_depth,  随机样本的比例，随机特征的比例），不是常见的参数（比如说 ntthread 线程数量， silent 与否）。</li>
-</ol>
     </div>
 
     <div class="post-copyright">

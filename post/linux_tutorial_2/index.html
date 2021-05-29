@@ -50,7 +50,7 @@
 <meta itemprop="description" content="之前的linux 学习笔记内容比较，然后新开了一篇。">
 <meta itemprop="datePublished" content="2020-07-08T11:09:45+08:00" />
 <meta itemprop="dateModified" content="2020-07-08T11:09:45+08:00" />
-<meta itemprop="wordCount" content="352">
+<meta itemprop="wordCount" content="778">
 
 
 
@@ -127,8 +127,8 @@
         <div class="post-category">
             <a href="/categories/tutorial/"> tutorial </a>
             </div>
-          <span class="more-meta"> 约 352 字 </span>
-          <span class="more-meta"> 预计阅读 1 分钟 </span>
+          <span class="more-meta"> 约 778 字 </span>
+          <span class="more-meta"> 预计阅读 2 分钟 </span>
         
       </div>
     </header>
@@ -194,6 +194,68 @@
 <blockquote>
 <p>Iperf是美国伊利诺斯大学（University of Illinois）开发的一种开源的网络性能测试工具。可以用来测试网络节点间（也包括回环）TCP或UDP连接的性能，包括带宽、抖动以及丢包率，其中抖动和丢包率适应于UDP测试，而带宽测试适应于TCP和UDP。</p>
 </blockquote>
+<p>zsh 学习笔记</p>
+<blockquote>
+<p>在操作系统内核外有一层壳，而这层壳就是 shell，它是用户和操作系统交互的桥梁。</p>
+<p>这很好理解，shell 包住了系统，用户想要跟系统交互，就必须经过shell。</p>
+<p>后来，shell 还慢慢变成了内核与用户交互的脚本语言的总称。</p>
+<p>我们常见的 shell 有：bash、zsh、csh、ksh、ash 等等。</p>
+</blockquote>
+<p>bash 和 zsh 都是 mac 终端中自带的 shell 命令解释器。 zsh 原称 <code>Z Shell</code>，兼容最常用的 bash 操作和命令，并且有很多增强，超强的定制性，但配置很难， <code>oh-my-zsh</code> 开源工具简化了 zsh 的配置过程。</p>
+<p>bash 和 zsh 的区别：配置文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">bash读取的配置文件：~/.bash_profile文件
+zsh读取的配置文件：~/.zshrc文件
+</code></pre></td></tr></table>
+</div>
+</div><p>安装 zsh</p>
+<p>去官网上： oh-my-zsh 的官网地址：https://ohmyz.sh/</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">oh-my-zsh Github 地址：https://github.com/ohmyzsh/ohmyzsh/projects
+</code></pre></td></tr></table>
+</div>
+</div><p>zsh 的插件</p>
+<p>代码高亮插件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">git clone https://github.com/zsh-users/zsh-syntax-highlighting.git <span class="nv">$ZSH_CUSTOM</span>/plugins/zsh-syntax-highlighting
+</code></pre></td></tr></table>
+</div>
+</div><p>历史命令智能提示插件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">git clone https://github.com/zsh-users/zsh-autosuggestions.git <span class="nv">$ZSH_CUSTOM</span>/plugins/zsh-autosuggestions
+</code></pre></td></tr></table>
+</div>
+</div><p>在 shell 脚本下的 zsh 自动补全工具</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">	<span class="m">1</span>  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git <span class="si">${</span><span class="nv">ZSH_CUSTOM</span><span class="k">:-</span><span class="p">~/.oh-my-zsh</span><span class="si">}</span>/plugins/zsh-syntax-highlighting
+    <span class="m">2</span>  git clone https://github.com/zsh-users/zsh-autosuggestions <span class="si">${</span><span class="nv">ZSH_CUSTOM</span><span class="k">:-</span><span class="p">~/.oh-my-zsh</span><span class="si">}</span>/plugins/zsh-autosuggestions
+    <span class="m">3</span>  sudo gedit ~/.zshrc    
+</code></pre></td></tr></table>
+</div>
+</div>
     </div>
 
     <div class="post-copyright">

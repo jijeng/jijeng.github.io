@@ -52,7 +52,7 @@
 ">
 <meta itemprop="datePublished" content="2020-01-11T15:58:59+08:00" />
 <meta itemprop="dateModified" content="2020-01-11T15:58:59+08:00" />
-<meta itemprop="wordCount" content="5504">
+<meta itemprop="wordCount" content="6778">
 
 
 
@@ -130,8 +130,8 @@
         <div class="post-category">
             <a href="/categories/deep-learning/"> deep learning </a>
             </div>
-          <span class="more-meta"> 约 5504 字 </span>
-          <span class="more-meta"> 预计阅读 11 分钟 </span>
+          <span class="more-meta"> 约 6778 字 </span>
+          <span class="more-meta"> 预计阅读 14 分钟 </span>
         
       </div>
     </header>
@@ -147,8 +147,13 @@
           <ul>
             <li><a href="#gan-综述论文">GAN 综述论文</a></li>
             <li><a href="#progan">ProGAN</a></li>
+            <li><a href="#biggan">BigGAN</a></li>
             <li><a href="#从progan-到-stylegan">从ProGAN 到 StyleGAN</a></li>
             <li><a href="#从-stylegan-到-stylegan2">从 StyleGAN 到 StyleGAN2</a></li>
+            <li><a href="#stylegan-ade">StyleGAN-ade</a></li>
+            <li><a href="#cyclegan-学习讲解">CycleGAN 学习讲解</a></li>
+            <li><a href="#cut-contrastive-unpaired-translation">CUT (contrastive unpaired translation)</a></li>
+            <li><a href="#pix2pix-学习笔记">Pix2pix 学习笔记</a></li>
             <li><a href="#实验环境">实验环境</a></li>
             <li><a href="#kaggle-中gan生成图像的总结">kaggle 中GAN生成图像的总结</a></li>
             <li><a href="#比较好的代码">比较好的代码</a></li>
@@ -182,6 +187,17 @@
 <p>NVIDIA在2017年提出的ProGAN解决了生成高分辨率图像(如1024×1024)的问题。ProGAN的关键创新之处在于渐进式训练——从训练分辨率非常低的图像(如4×4)的生成器和判别器开始，每次都增加一个更高的分辨率层。</p>
 <p>存在的问题：</p>
 <p>ProGAN生成高质量的图像，但与大多数模型一样，它控制所生成图像的特定特征的能力非常有限。换句话说，这些特性是互相关联的，因此尝试调整一下输入，即使是一点儿，通常也会同时影响多个特性。一个很好的类比就是基因组，在其中改变一个基因可能影响多个特性。</p>
+<h3 id="biggan">BigGAN</h3>
+<p>paper:  <em><strong>Large Scale GAN Training for High Fidelity Natural Image Synthesis</strong></em></p>
+<p>丰富的背景和纹理图像的生成是各类生成模型追求的终极目标，<strong>ImageNet 的生成已然成为检验生成模型好坏的一个指标。</strong></p>
+<p>(1) batch size:  2048 (平时训练时候的 batch 是不是 64 居多)， 参数量接近 16 亿；通过 2-4 倍的增加参数量（增加channel ）</p>
+<p>(2) &ldquo;截断技巧&rdquo;：对于先验分布一般选择标准正太分布  $N(0, 1)$ 或者均匀分布 $U[-1, 1]$， 但是作者认为别的分布也是 ok的，所以对经典先验分布进行了截断。（选择的还是标准正太分布）</p>
+<ul>
+<li>所以为截断机器阿婆是通过对先验分布 z 采样，通过设置阈值的方式截断 z 的采样，其中超出值被重新采样。这个阈值可以根据生成质量指标 IS 和 FID 来决定。</li>
+<li>设置阈值之后，采样范围变窄，造成生成上取向单一，多样性不足。往往 IS 可以反应图像的生成质量， FID 则更加注重生成的多样性。（IS  inception score 越大越好， FID frechet inception distance 越小越好）</li>
+<li>其他一些稳定训练的 tricks</li>
+</ul>
+<p>作者自述： 使用 google 512 块 tpu 进行训练。</p>
 <h3 id="从progan-到-stylegan">从ProGAN 到 StyleGAN</h3>
 <p>StyleGAN 生成的图像非常逼真，它是一步一步地生成人工的图像，从非常低的分辨率开始，一直到高分辨率（1024×1024）。通过分别地修改网络中每个级别的输入，它可以控制在该级别中所表示的视觉特征，从粗糙的特征（姿势、面部形状）到精细的细节（头发颜色），而不会影响其它的级别。</p>
 <blockquote>
@@ -410,7 +426,100 @@ FID和P&amp;R都基于分类器网络，最近的研究表明，分类器网络�
     <span class="k">return</span> <span class="n">loss</span><span class="p">,</span> <span class="n">reg</span>
 </code></pre></td></tr></table>
 </div>
-</div><h3 id="实验环境">实验环境</h3>
+</div><h3 id="stylegan-ade">StyleGAN-ade</h3>
+<p><img src="http://123.56.8.10:8899/images/2021/05/29/image-20210529120755685.png" alt="image-20210529120755685"></p>
+<blockquote>
+<p>GAN 的训练也可以几k 的数据量上进行训练，那么这个将会便得很亲民。之前都是在百万数据集上进行实验。</p>
+<p>主要从数据增强角度来弥补数据量的缺失。</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/05/29/image-20210529121123306.png" alt="image-20210529121123306"></p>
+<blockquote>
+<p>数据增强方式可能会带来 data leak，但并不是所有的数据增强都会，这个论文就是枚举哪些数据增强会，哪些不会。</p>
+</blockquote>
+<p>实验结果</p>
+<p><img src="http://123.56.8.10:8899/images/2021/05/29/image-20210529121422236.png" alt="image-20210529121422236"></p>
+<blockquote>
+<p>这个原始的数据集只有 900 多张，然后随机 crop 出来一些，组成了 3-4 k 的数据集，左边是最后生成的效果，看起来已经非常不错了。</p>
+</blockquote>
+<h3 id="cyclegan-学习讲解">CycleGAN 学习讲解</h3>
+<p>主要点在于 : cycle consistency loss</p>
+<p>来自论文： Unpaired Image-to-Image Translation</p>
+<p>数据方面</p>
+<p><img src="/home/zhp-pc/notes/images/image-20210428112701704.png" alt="image-20210428112701704"></p>
+<p>loss function</p>
+<p><img src="/home/zhp-pc/notes/images/image-20210428113043003.png" alt="image-20210428113043003"></p>
+<p>Each generator model is optimized via the combination of four outputs with four loss functions:</p>
+<blockquote>
+<ul>
+<li>Adversarial loss (L2 or mean squared error).</li>
+<li>Identity loss (L1 or mean absolute error).</li>
+<li>Forward cycle loss (L1 or mean absolute error).</li>
+<li>Backward cycle loss (L1 or mean absolute error).</li>
+</ul>
+</blockquote>
+<p>（感觉图像生成中的 loss function 还是挺多的）</p>
+<p>效果图</p>
+<p><img src="/home/zhp-pc/notes/images/image-20210428113126556.png" alt="image-20210428113126556"></p>
+<p>优缺点</p>
+<p>在 color and texture 方面，是比较成功的；但是在 geometric  changes （几何）出现了比较多的 failure cases.</p>
+<p>如果有 pair 数据，那么可以参考这篇论文： Image-to-Image Translation with Conditional Adversarial Networks</p>
+<p>如果有時間可以看一下 pix2pix 的論文，這兩個是側重不同的點。一個是 pair image， 一個是 unpaired image。</p>
+<h3 id="cut-contrastive-unpaired-translation">CUT (contrastive unpaired translation)</h3>
+<blockquote>
+<p>We propose a straightforward method for doing so – maximizing mutual information between the two, using a framework based on contrastive learning. The method encourages two elements (corresponding patches) to map to a similar point in a learned feature space, relative to other elements (other patches) in the dataset, referred to as negatives.</p>
+<p>对比学习， image patch 训练方法（patch-wise fasion）</p>
+</blockquote>
+<p><img src="/home/zhp-pc/notes/images/image-20210529140349150.png" alt="image-20210529140349150"></p>
+<blockquote>
+<p>while content is preserved using cycle-consistency [89,81,37]. However, cycle-consistency assumes that the relationship between the two domains is a bijection, which is often too restrictive.</p>
+<p>对比 CycleGAN，cycleGAN 通过 cycle-consistency 确实得到很好的图像，但这种约束相对看来也是比较强的。</p>
+</blockquote>
+<blockquote>
+<p>Contrastive learning has been an effective tool in unsupervised visual representation learning [9,24,57,80].</p>
+<p>对比学习是一种重要的无监督学习方法</p>
+</blockquote>
+<blockquote>
+<p>MLP 网络结构是需要在代码中看的</p>
+<p>multi-layer perceptron 多层次感知</p>
+</blockquote>
+<blockquote>
+<p>For single image translation, we use a StyelGAN2-based generator [36].</p>
+<p>我感觉是可以多试试这种 single image translation 的，因为是很有前景，并且 styleGAN2 应该是不错的。通过跑出来的结果看，并没有跑成论文中的结果。</p>
+</blockquote>
+<p>损失函数</p>
+<p>Adversarial loss
+$$
+\begin{equation}
+\mathcal{L}<em>{\mathrm{GAN}}(G, D, X, Y)=\mathbb{E}</em>{\boldsymbol{y} \sim Y} \log D(\boldsymbol{y})+\mathbb{E}_{\boldsymbol{x} \sim X} \log (1-D(G(\boldsymbol{x})))
+\end{equation}
+$$</p>
+<p>Patchwise Contrastive Loss</p>
+<p><img src="/home/zhp-pc/notes/images/image-202105190719153095e7799315256c3c3.png" alt="image-20210519071915309" style="zoom:50%;" /></p>
+<p>$$
+\begin{equation}
+\mathcal{L}<em>{\mathrm{PatchNCE}}(G, H, X)=\mathbb{E}</em>{\boldsymbol{x} \sim X} \sum_{l=1}^{L} \sum_{s=1}^{S_{l}} \ell\left(\hat{\boldsymbol{z}}_{l}^{s}, \boldsymbol{z}_{l}^{s}, \boldsymbol{z}_{l}^{S \backslash s}\right)
+\end{equation}
+$$</p>
+<p>$$
+\begin{equation}
+\mathcal{L}<em>{\text {external }}(G, H, X)=\mathbb{E}</em>{\boldsymbol{x} \sim X, \tilde{\boldsymbol{z}} \sim Z^{-}} \sum_{l=1}^{L} \sum_{s=1}^{S_{l}} \ell\left(\hat{\boldsymbol{z}}_{l}^{s}, \boldsymbol{z}_{l}^{s}, \tilde{\boldsymbol{z}}_{l}\right)
+\end{equation}
+$$</p>
+<p>$$
+\begin{equation}
+\mathcal{L}<em>{\mathrm{GAN}}(G, D, X, Y)+\lambda</em>{X} \mathcal{L}<em>{\mathrm{PatchNCE}}(G, H, X)+\lambda</em>{Y} \mathcal{L}_{\mathrm{PatchNCE}}(G, H, Y)
+\end{equation}
+$$</p>
+<h3 id="pix2pix-学习笔记">Pix2pix 学习笔记</h3>
+<p>在最開始的 GAN 設計中，輸入是隨機噪聲，輸出是一副隨機圖像。目前有三個進展（很老）</p>
+<ul>
+<li>pix2pix:  使用成對的數據 (paired data)</li>
+<li>CycleGAN： 使用 unpaired data 進行訓練</li>
+<li>pix2pixHD: 生成高分辨率、高質量的圖像</li>
+</ul>
+<p>pix2pix 對傳統的 GAN 做了修改，不再輸入隨機噪聲，而是用戶輸入的图像。另外，为了学习 pair data 的关系，作者把 <strong>G的输入和输出一起作为 D 的输入</strong>（可以对比一下原始的 GAN 的损失函数）</p>
+<p><img src="/home/zhp-pc/notes/images/20180914044620941.png" alt="这里写图片描述"></p>
+<h3 id="实验环境">实验环境</h3>
 <p>运行环境</p>
 <ol>
 <li>显卡：官网要求有16GB内存的NVIDIA GPU（即：NVIDIA 特斯拉 Tesla V100），经实测，11GB内存的NVIDIA GeForce RTX 2080Ti也可以跑起来。如果只是简单的跑跑别人训练好的例子，那么使用配置比较低的也可以，但是训练的话，那么得使用比较高的配置。</li>

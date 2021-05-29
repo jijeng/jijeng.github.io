@@ -50,7 +50,7 @@
 <meta itemprop="description" content="介绍机器学习中分类模型常用的评价指标：AUC、Precision-Recall, ACC和KS值。">
 <meta itemprop="datePublished" content="2018-06-13T13:31:09+08:00" />
 <meta itemprop="dateModified" content="2018-06-13T13:31:09+08:00" />
-<meta itemprop="wordCount" content="7081">
+<meta itemprop="wordCount" content="7165">
 
 
 
@@ -127,7 +127,7 @@
         <div class="post-category">
             <a href="/categories/machine-learning/"> machine learning </a>
             </div>
-          <span class="more-meta"> 约 7081 字 </span>
+          <span class="more-meta"> 约 7165 字 </span>
           <span class="more-meta"> 预计阅读 15 分钟 </span>
         
       </div>
@@ -157,11 +157,14 @@
 <p>评估指标和代价函数的关系</p>
 <p>代价函数，又称Cost function，loss function objective function。一般用在训练过程中，用来定义预测值和真实值之间的距离（也就是衡量模型在训练集上的性能），作为模型调整参数的反馈。代价函数越小，模型性能越好。</p>
 <p>评判指标，一般用于训练和测试过程中，用于评估模型好坏。评判指标越大（或越小），模型越好。</p>
-<p>两者的相同点：本质上代价函数和评判指标都是一家人，只他们的应用场景不同，分工不同。代价函数是用来优化模型参数的，评价指标是用来评判模型好坏的。不同点：</p>
-<ul>
-<li>作为代价函数所具备的条件：函数光滑且可导：可用梯度下降求解极值；函数为凸函数：可用梯度下降求解最优解</li>
-<li>我们经常使用的分类器评判指标 AUC 就不能直接被优化，因此我们常采用交叉熵来代替 AUC 进行优化。 一般情况下，交叉熵越小，AUC 就会越大。</li>
-</ul>
+<p>相同点：</p>
+<blockquote>
+<p>本质上代价函数和评判指标都是一家人，只他们的应用场景不同，分工不同。代价函数是用来优化模型参数的，评价指标是用来评判模型好坏的。</p>
+</blockquote>
+<p>不同点：</p>
+<blockquote>
+<p>作为代价函数所具备的条件：函数光滑且可导：可用梯度下降求解极值；函数为凸函数：可用梯度下降求解最优解。我们经常使用的分类器评判指标 AUC 就不能直接被优化，因此我们常采用交叉熵来代替 AUC 进行优化。 一般情况下，交叉熵越小，AUC 就会越大。</p>
+</blockquote>
 <h2 id="roc曲线和auc值">ROC曲线和AUC值</h2>
 <p>ROC全称是“受试者工作特征”（Receiver Operating Characteristic）。ROC曲线的面积就是AUC（Area Under the Curve）。AUC用于衡量“二分类问题”机器学习算法性能（泛化能力）。说到这里不得不提及就是经常使用的符号，TP(True Positive), FP(False, Positive), TN(True Negative),FN(False Negative)。他们是根据真实数据类别和模型预测类别进行的排列组合。</p>
 <p>（1）定义</p>
@@ -174,13 +177,13 @@ $$
 F P R = \frac { F P } { F P + T N }
 $$</p>
 <p>TPR 是所有真实样本中被预测为真实样本的比例；FPR是所有虚假样本中被预测为真实样本的概率。可以使用混淆矩阵表示上述的关系：</p>
-<p><img src="/Users/jijeng/Notes/images/image-20201116173156765.png" alt="image-20201116173156765" style="zoom:70%;" /></p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/09/image-20201116173156765.png" alt="image-20201116173156765" style="zoom:70%;" /></p>
 <p>图中第一类错误和第二类措施是假设检验中的概念。第一类错误是原来假设是错误的，但是却被认为是正确的；第二类错误是原来的假设是正确的，但是被认为是错误的。</p>
 <p>（2）ROC 曲线是如何绘制的</p>
 <p>采用不同分类阈值时的 TPR 与 FPR。降低分类阈值会导致将更多样本归为正类别，从而增加假正例（FP）和真正例（TP）的个数，可以理解为降低了被认为正确的标准，数量自然就增多了。下图显示了一个典型的 ROC 曲线。注意观察图中TPR 和 FPR是呈正相关的，验证了上述的结论。</p>
-<p><img src="https://i.loli.net/2019/12/19/g9EeoXuZdsTjrwS.png" alt="1.png"></p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/09/g9EeoXuZdsTjrwS.png" alt="1.png"></p>
 <p>为了计算 ROC 曲线上的点，我们可以使用不同的分类阈值多次评估逻辑回归模型，但这样做效率非常低。幸运的是，有一种基于排序的高效算法可以为我们提供此类信息，这种算法称为曲线下面积。最理想的目标：tpr =1， fpr =0，即图中的 (0, 1) 点， 故 ROC 曲线越靠近(0, 1 ) 点，分类效果越好。关于该图像还有一点，如果你的曲线拟合对角线（图中虚线），那么相当于随机猜测。</p>
-<p>阈值设定的两种方法：</p>
+<p><em>阈值设定的两种方法</em>：</p>
 <p>1). 等距离阈值，range(0, 1, 100) 生成了100 个阈值，那么对应着p-r 中的100 个点
 2). 二分类结果是模型的概率值，对概率值进行排序，依次使用这些概率值作为阈值，也是可以得到不同的点的坐标。</p>
 <p>（3）基于sklearn 绘制ROC曲线</p>
@@ -217,7 +220,7 @@ $$</p>
 </code></pre></td></tr></table>
 </div>
 </div><p>一般来说，如果ROC曲线是光滑的，那么基本可以判断没有太大的overfitting（比如下图中0.2到0.4可能就有问题，但是样本太少了），这个时候调模型可以只看AUC，面积越大一般认为模型越好。</p>
-<p><img src="https://i.loli.net/2019/08/01/5d421f9678f9649303.jpg" alt="1.jpg"></p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/09/5d421f9678f9649303.jpg" alt="1.jpg"></p>
 <p>（4）AUC 数值</p>
 <blockquote>
 <p>Alternatively, it can be shown that ROC AUC score is equivalent to calculating the rank correlation between predictions and targets. From an interpretation standpoint, it is more useful because it tells us that this metric shows how good at ranking predictions your model is. It tells you what is the probability that a randomly chosen positive instance is ranked higher than a randomly chosen negative instance.</p>
@@ -255,7 +258,7 @@ $$
 F_{\beta}= \frac{ 2 \cdot \text{Precision}  \cdot \text{Recall}}{ \text{Precision} + \text{Recall}}
 $$</p>
 <p>同样使用不同的阀值，统计出精确率和召回率。如下图：</p>
-<p><img src="https://i.loli.net/2019/08/01/5d422029970c282991.png" alt="1.png"></p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/09/5d422029970c282991.png" alt="1.png"></p>
 <p>准确率应用场景：</p>
 <p>如果做疾病监测、反欺诈，这种情况下正负样本严重失衡，则是保准确率的条件下，提升召回。</p>
 <p>召回率应用场景：</p>
@@ -271,7 +274,46 @@ $$</p>
 <li>when your data is heavily imbalanced. As mentioned before, it was discussed extensively in this article by Takaya Saito and Marc Rehmsmeier. The intuition is the following: since PR AUC focuses mainly on the positive class (PPV and TPR) it cares less about the frequent negative class.</li>
 <li>when you care more about positive than negative class. If you care more about the positive class and hence PPV and TPR you should go with Precision-Recall curve and PR AUC (average precision).</li>
 </ul>
-<h2 id="pr和roc联系和区别">PR和ROC联系和区别</h2>
+<p>基于 keras 的算法实现。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">recall</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+    <span class="n">true_positives</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">y_true</span> <span class="o">*</span> <span class="n">y_pred</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+    <span class="n">possible_positives</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+    <span class="n">recall</span> <span class="o">=</span> <span class="n">true_positives</span> <span class="o">/</span> <span class="p">(</span><span class="n">possible_positives</span> <span class="o">+</span> <span class="n">K</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">recall</span>
+
+<span class="k">def</span> <span class="nf">precision</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+    <span class="n">true_positives</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">y_true</span> <span class="o">*</span> <span class="n">y_pred</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+    <span class="n">predicted_positives</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+    <span class="n">precision</span> <span class="o">=</span> <span class="n">true_positives</span> <span class="o">/</span> <span class="p">(</span><span class="n">predicted_positives</span> <span class="o">+</span> <span class="n">K</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">precision</span>
+
+<span class="k">def</span> <span class="nf">f1</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">precision</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">recall</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="p">((</span><span class="n">p</span><span class="o">*</span><span class="n">r</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">r</span><span class="o">+</span><span class="n">K</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()))</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="pr和roc联系和区别">PR和ROC联系和区别</h2>
 <p>（1）联系
 1). 对于一个给定的的数据集，ROC空间和PR空间存在一一对应的关系，因为二者包含完全一致的混淆矩阵。我们可以将ROC曲线转化为PR曲线，反之亦然。
 2). 都有一个曲线和一个数值进行衡量：F1对于PRC就好象AUC对于ROC一样。
@@ -597,7 +639,7 @@ On the other hand, in a Pearson&rsquo;s correlation test, there is assumed to be
 <p>$$
 MCC= \frac{ tp * tn - fp * fn}{( tp +fp)( tp + fn )( tn + fp)( tn + fn)}
 $$</p>
-<p><img src="https://i.loli.net/2019/12/23/DTOJRVtwd5x1MlU.png" alt="mcc_by_thres.png"></p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/09/DTOJRVtwd5x1MlU.png" alt="mcc_by_thres.png"></p>
 <p>如果接近+1 ，表示完美预测；如果接近0，那么相当于随机猜测；如果接近于-1，那么说明预测和观察之间的完全不一样。</p>
 <p>计算</p>
 <div class="highlight"><div class="chroma">

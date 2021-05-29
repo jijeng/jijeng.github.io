@@ -56,7 +56,7 @@
 图像去重算法分成两大类别：基于 hash 的算法去重；基于 CNN 的算法去重。">
 <meta itemprop="datePublished" content="2021-01-30T11:18:16+08:00" />
 <meta itemprop="dateModified" content="2021-01-30T11:18:16+08:00" />
-<meta itemprop="wordCount" content="1994">
+<meta itemprop="wordCount" content="2658">
 
 
 
@@ -133,8 +133,8 @@
       <div class="post-meta">
         <span class="post-time"> 2021-01-30 </span>
         
-          <span class="more-meta"> 约 1994 字 </span>
-          <span class="more-meta"> 预计阅读 4 分钟 </span>
+          <span class="more-meta"> 约 2658 字 </span>
+          <span class="more-meta"> 预计阅读 6 分钟 </span>
         
       </div>
     </header>
@@ -235,8 +235,131 @@
 </li>
 </ul>
 </blockquote>
+<p>项目地址：http://123.56.8.10:9988/jeng/imagededup</p>
+<p>这个是仿照同名 imagededup  进行搭建的。简单学习一下其中的算法。去重算法分为 基于hash 的去重 和基于 cnn 的去重。</p>
+<p>得到 hash 值有现成的算法，基于 hash 的检索是 BK-Tree</p>
+<blockquote>
+<p>BK Tree或Burkhard Keller Tree是一种数据结构，用于根据编辑距离（Levenshtein距离）概念执行拼写检查。 BK树也用于近似字符串匹配。基于该数据结构，可以实现许多软件中的各种自动校正特征。</p>
+</blockquote>
+<p><img src="/home/zhp-pc/notes/images/4186036-56e854bc5080e7d2.png" alt="img"></p>
+<p>正好 hash 数值也是 01 的字符串，其实是可以使用这种方法进行检索的。</p>
 <p>基于深度学习 CNN 的算法</p>
 <p>比如开源项目 <a href="https://github.com/idealo/imagededup">imagededup</a> 中也是先使用 CNN 网络提取特征向量，然后计算 cosine 距离。优化点：使用更好的网络结构去提取embedding、embedding 的压缩检索方面的优化。</p>
+<p>CNN 稠密向量的检索？</p>
+<p>通过模型求解 embedding 比较好的接口：提供 single image 和 batch image 的接口</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python">    <span class="k">def</span> <span class="nf">_get_cnn_features_single</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image_array</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        Generate CNN encodings for a single image.
+</span><span class="s2">        Args:
+</span><span class="s2">            image_array: Image typecast to numpy array.
+</span><span class="s2">        Returns:
+</span><span class="s2">            Encodings for the image in the form of numpy array.
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="n">image_pp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preprocess_input</span><span class="p">(</span><span class="n">image_array</span><span class="p">)</span>
+        <span class="n">image_pp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">image_pp</span><span class="p">)[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span> <span class="c1"># 这里设置 batch size =1</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">image_pp</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">_get_cnn_features_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image_dir</span><span class="p">:</span> <span class="n">PurePath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        Generate CNN encodings for all images in a given directory of images.
+</span><span class="s2">        Args:
+</span><span class="s2">            image_dir: Path to the image directory.
+</span><span class="s2">        Returns:
+</span><span class="s2">            A dictionary that contains a mapping of filenames and corresponding numpy array of CNN encodings.
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Start: Image encoding generation&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_generator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DataGenerator</span><span class="p">(</span>
+            <span class="n">image_dir</span><span class="o">=</span><span class="n">image_dir</span><span class="p">,</span>
+            <span class="n">batch_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span>
+            <span class="n">target_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">target_size</span><span class="p">,</span>
+            <span class="n">basenet_preprocess</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">preprocess_input</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">feat_vec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict_generator</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_generator</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_generator</span><span class="p">),</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">verbose</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;End: Image encoding generation&#39;</span><span class="p">)</span>
+
+        <span class="n">filenames</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_generator</span><span class="o">.</span><span class="n">valid_image_files</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">encoding_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">j</span><span class="p">:</span> <span class="n">feat_vec</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">filenames</span><span class="p">)}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoding_map</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>计算使用 sklearn 中的 cosine 距离，做的优化是使用多进程并行运算。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">parallelise</span><span class="p">(</span><span class="n">function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+    <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">cpu_count</span><span class="p">())</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+        <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="n">pool</span><span class="o">.</span><span class="n">imap</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">disable</span><span class="o">=</span><span class="ow">not</span> <span class="n">verbose</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">results</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>pool 中 map 和 imap 的區別</p>
+<p>map 會將可迭代對象轉換成列表（假設不是列表），並且將對象分解成不同的塊。所以佔內容，並且運行得快。</p>
+<p>imap 是不會轉換成可迭代的列表，也不會分解成塊。（默認情況下，可以設置大於1 的 chunksize 來緩解）。如果內存中放不下，那麼適合使用這種方式。</p>
+</blockquote>
+<blockquote>
+<p>结论：整体来说，这个 repo 的代码格式 和命名都是很好的，有时间的时候可以细看。</p>
+</blockquote>
 <p>参考资料</p>
 <p><a href="http://www.hackerfactor.com/blog/index.php?/archives/432-Looks-Like-It.html">http://www.hackerfactor.com/blog/index.php?/archives/432-Looks-Like-It.html</a></p>
 <p><a href="http://www.hackerfactor.com/blog/index.php?/archives/529-Kind-of-Like-That.html">http://www.hackerfactor.com/blog/index.php?/archives/529-Kind-of-Like-That.html</a></p>

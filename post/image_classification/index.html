@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="jijeng" /><meta name="description" content="记录图像分类过程中常见的优化点（code）。
+<meta name="author" content="jijeng" /><meta name="description" content="记录图像分类过程中常见的优化点（工程角度）。
 " /><meta name="keywords" content="Hugo, theme, even" />
 
 
@@ -41,23 +41,23 @@
 
 
 <meta property="og:title" content="Image classification" />
-<meta property="og:description" content="记录图像分类过程中常见的优化点（code）。" />
+<meta property="og:description" content="记录图像分类过程中常见的优化点（工程角度）。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://jijeng.github.io/post/image_classification/" />
 <meta property="article:published_time" content="2020-10-29T09:54:55+08:00" />
 <meta property="article:modified_time" content="2020-10-29T09:54:55+08:00" />
 <meta itemprop="name" content="Image classification">
-<meta itemprop="description" content="记录图像分类过程中常见的优化点（code）。">
+<meta itemprop="description" content="记录图像分类过程中常见的优化点（工程角度）。">
 <meta itemprop="datePublished" content="2020-10-29T09:54:55+08:00" />
 <meta itemprop="dateModified" content="2020-10-29T09:54:55+08:00" />
-<meta itemprop="wordCount" content="2924">
+<meta itemprop="wordCount" content="3252">
 
 
 
 <meta itemprop="keywords" content="image classification," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Image classification"/>
-<meta name="twitter:description" content="记录图像分类过程中常见的优化点（code）。"/>
+<meta name="twitter:description" content="记录图像分类过程中常见的优化点（工程角度）。"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -127,8 +127,8 @@
         <div class="post-category">
             <a href="/categories/deep-learning/"> deep-learning </a>
             </div>
-          <span class="more-meta"> 约 2924 字 </span>
-          <span class="more-meta"> 预计阅读 6 分钟 </span>
+          <span class="more-meta"> 约 3252 字 </span>
+          <span class="more-meta"> 预计阅读 7 分钟 </span>
         
       </div>
     </header>
@@ -150,7 +150,7 @@
   </div>
 </div>
     <div class="post-content">
-      <p>记录图像分类过程中常见的优化点（code）。</p>
+      <p>记录图像分类过程中常见的优化点（工程角度）。</p>
 <h2 id="数据相关">数据相关</h2>
 <ol>
 <li>data augmentation</li>
@@ -1086,7 +1086,17 @@
 </span><span class="s2">        
 </span></code></pre></td></tr></table>
 </div>
-</div><h2 id="其他">其他</h2>
+</div><ol start="5">
+<li>with logits 的区别</li>
+</ol>
+<p><code>binary_cross_entropy</code>和<code>binary_cross_entropy_with_logits</code>都是来自<code>torch.nn.functional</code>的函数</p>
+<blockquote>
+<p>有一个（类）损失函数名字中带了with_logits. 而这里的logits指的是,该损失函数已经内部自带了计算logit的操作，无需在传入给这个loss函数之前手动使用sigmoid/softmax将之前网络的输入映射到[0,1]之间</p>
+<p>function with logits:</p>
+<p>This loss combines a Sigmoid layer and the BCELoss in one single class. This version is more numerically stable than using a plain Sigmoid followed by a BCELoss as, by combining the operations into one layer, we take advantage of the log-sum-exp trick for numerical stability.</p>
+<p>意思是将sigmoid层和binaray_cross_entropy合在一起计算比分开依次计算有更好的数值稳定性，这主要是运用了log-sum-exp技巧。</p>
+</blockquote>
+<h2 id="其他">其他</h2>
 <ol>
 <li>随机数的设置</li>
 </ol>

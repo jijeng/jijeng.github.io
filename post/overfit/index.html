@@ -50,11 +50,11 @@
 <meta itemprop="description" content="分析机器学习 和深度学习中出现的过拟合现象，从不同的角度简述常用的处理手段。">
 <meta itemprop="datePublished" content="2020-07-11T15:55:36+08:00" />
 <meta itemprop="dateModified" content="2020-07-11T15:55:36+08:00" />
-<meta itemprop="wordCount" content="4498">
+<meta itemprop="wordCount" content="5928">
 
 
 
-<meta itemprop="keywords" content="overfit,dropout,normalization," />
+<meta itemprop="keywords" content="overfit,dropout,normalization,underfit," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Overfit"/>
 <meta name="twitter:description" content="分析机器学习 和深度学习中出现的过拟合现象，从不同的角度简述常用的处理手段。"/>
@@ -128,8 +128,8 @@
             <a href="/categories/deep-learning/"> deep learning </a>
             <a href="/categories/machine-learning/"> machine learning </a>
             </div>
-          <span class="more-meta"> 约 4498 字 </span>
-          <span class="more-meta"> 预计阅读 9 分钟 </span>
+          <span class="more-meta"> 约 5928 字 </span>
+          <span class="more-meta"> 预计阅读 12 分钟 </span>
         
       </div>
     </header>
@@ -142,6 +142,7 @@
     <li>
       <ul>
         <li><a href="#什么是过拟合">什么是过拟合?</a></li>
+        <li><a href="#如何判断过拟合">如何判断过拟合</a></li>
         <li><a href="#如何处理过拟合">如何处理过拟合</a>
           <ul>
             <li><a href="#模型角度">模型角度</a></li>
@@ -153,6 +154,7 @@
             <li><a href="#使用多种模型">使用多种模型</a></li>
           </ul>
         </li>
+        <li><a href="#如何处理欠拟合">如何处理欠拟合</a></li>
         <li><a href="#总结">总结</a></li>
       </ul>
     </li>
@@ -164,6 +166,22 @@
       <p>分析机器学习 和深度学习中出现的过拟合现象，从不同的角度简述常用的处理手段。</p>
 <h2 id="什么是过拟合">什么是过拟合?</h2>
 <p>训练数据集规模小是导致过拟合的原因，而网络足够的复杂（有能力）记住了所有的样本，然后在train sets 表现要远远好于 test sets。 还有一种说法是网络拟合了噪声数据。</p>
+<p>欠拟合的定义</p>
+<blockquote>
+<p>A model is said to be underfit if it is unable to learn the patterns in the data properly. An underfit model doesn’t fully learn each and every example in the dataset.</p>
+</blockquote>
+<h2 id="如何判断过拟合">如何判断过拟合</h2>
+<p>For a model that’s overfit, we have a perfect/close to perfect training set score while a poor test/validation score.</p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/19/image-20210311102733682.png" alt="image-20210311102733682" style="zoom:50%;" /></p>
+<p>通过 learning rate 判断过拟合的方式（从图像的角度）</p>
+<blockquote>
+<p>横向：同时跑多个模型，横向对比 train loss vs validation loss （或者 test loss） 之间的差距</p>
+<p>纵向：按照时间轴，validation loss 一开始就变得很小，随着时间增加，基本不动，就说明 model 没有学习到什么东西，只是在过拟合 train data。</p>
+</blockquote>
+<p>从实验数据的角度：从 acc 这种绝对数值上看</p>
+<blockquote>
+<p>If our model saw 99% accuracy on the training set but only 55% accuracy on the test set.</p>
+</blockquote>
 <h2 id="如何处理过拟合">如何处理过拟合</h2>
 <p>处理该问题可以从数据和模型两个方面去考虑。</p>
 <h3 id="模型角度">模型角度</h3>
@@ -223,7 +241,10 @@ BN针对一个minibatch的输入样本，计算均值和方差，基于计算的
 <p>实践证明， LN 更加适合 RNN ，BN 更加适合CNN</p>
 <p>至于各种 Normalization 的适用场景，可以简洁归纳如下：对于 RNN 的神经网络结构来说，目前只有 LayerNorm 是相对有效的；如果是 GAN 等图片生成或图片内容改写类型的任务，可以优先尝试 InstanceNorm；如果使用场景约束 BatchSize 必须设置很小，无疑此时考虑使用 GroupNorm；而其它任务情形应该优先考虑使用 BatchNorm。</p>
 <p>参考文献：<a href="https://www.jiqizhixin.com/articles/2018-08-29-7">深度学习中的Normalization模型</a></p>
+<p>BN 在train 和 test 阶段的不同</p>
+<p>在train 的时候，BN 使用的是batch 样本的均值和方差；在 test 的时候，因为是 one case，这个时候的均值和方差具有很大的偏差，所以使用的是 pretrained model 中的均值和方差。</p>
 <h3 id="四种不同的normalization">四种不同的normalization</h3>
+<p>归一化是对数据进行标准化，使数据服从均值为0， 标准差为1 的高斯分布。从数学的角度就是减去均值除以方差。</p>
 <blockquote>
 <p>Task-specific limitations. A key assumption in BN is the independence between samples appearing
 in each batch. While this assumption seems to hold for most convolutional networks used to classify
@@ -254,7 +275,7 @@ batch-renormalization [18], yet still requiring the original BN at the early ste
 <li>GN将channel分组，然后再做归一化。</li>
 </ol>
 <p><strong>BN</strong></p>
-<p>主要在 CNN中使用</p>
+<p>主要在 CNN中使用，适用于不变长的网络结构。</p>
 <p>BN 的缺点</p>
 <ol>
 <li>效果依赖于batch size，如果batch size 比较小，那么效果比较差</li>
@@ -263,11 +284,13 @@ batch-renormalization [18], yet still requiring the original BN at the early ste
 <p><strong>LN</strong></p>
 <p>不依赖于 batch size, 在 RNN 中效果更好。</p>
 <p><strong>IN</strong></p>
+<p>Batch normalization 不适图像生成，因为在一个 mini-batch 中图像有不同的风格，不能把这个 batch 里面的数据都同一类标准化。</p>
 <p>IN针对图像像素做normalization，最初用于图像的风格化迁移。</p>
 <blockquote>
 <p>Instance Normalization is similar to layer normalization but goes one step further: it computes the mean/standard deviation and normalize across each channel in each training example.
 Originally devised for style transfer, the problem instance normalization tries to address is that the network should be agnostic to the contrast of the original image. Therefore, it is specific to images and not trivially extendable to RNNs.
 IN是 layer normalization的扩展，在图像中有三个维度（RGB），在某个维度进行layer normalization，所以只是局限于 图像领域。</p>
+<p>Instance Normalization是在样本N和通道C两个维度上滑动，对Batch中的N个样本里的每个样本n，和C个通道里的每个样本c，其组合[n, c]求对应的所有值的均值和方差，所以得到的是N⋅C个均值和方差。</p>
 </blockquote>
 <p><strong>GN</strong></p>
 <p>GN是为了解决BN对较小的mini-batch size效果差的问题。</p>
@@ -299,13 +322,152 @@ Moreover, [6] have shown that well-conditioned generators are causally related t
 <li>从隐藏层神经元中随机选择一个一半大小的子集临时删除掉（备份被删除神经元的参数）。</li>
 <li>对一小批训练样本，先前向传播然后反向传播损失并根据随机梯度下降法更新参数（w，b） （没有被删除的那一部分参数得到更新，删除的神经元参数保持被删除前的结果）。</li>
 </ul>
-<p>Dropout vs Dropconnect：</p>
-<p><img src="https://i.loli.net/2019/07/23/5d370b5ee206022821.png" alt="1.png">
-它们的区别大体在于，在训练过程中dropout是随机drop掉一些节点，而dropconnect则是随机drop掉一些边。</p>
+<p>Dropout vs Dropconnect</p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/31/5d370b5ee206022821.png" alt="1.png"></p>
+<p>它们的区别大体在于，在训练过程中dropout是随机drop掉一些节点，而dropconnect则是随机drop掉一些边。</p>
+<p>dropout 有两种实现方法： <strong>Vanilla Dropout</strong> 和 <strong>Inverted Dropout</strong>。前者是 <a href="https://link.zhihu.com/?target=http%3A//www.cs.toronto.edu/~rsalakhu/papers/srivastava14a.pdf">原始论文</a> 中的朴素版，后者在 Andrew Ng 的 <a href="https://link.zhihu.com/?target=http%3A//cs231n.github.io/neural-networks-2/%23init">cs231</a> 课程中有介绍。</p>
+<p>如果是 vanilla 版本，随机丢掉一些 input vector，总期望相对变小，为了保持 train 和 test 时候的一致性，那么test 的时候也应该缩小一些。</p>
+<p>这样的问题在于，predict 的时候需要跟着 train 时候特定层的操作，这样很麻烦。</p>
+<blockquote>
+<p>训练是哟金只有占比 p 的隐藏层参与训练，在测试阶段所有隐藏层都参与训练，那么得到的结果相比训练时候要大 (1/p) ，为了避免这样的情况，在测试时候需要将输出结构乘以 p 使得下一层输入保持不变</p>
+</blockquote>
+<p>所以 inverted 版本就出来，将所有的修改都放在训练阶段，测试阶段保持不变。</p>
+<blockquote>
+<p>在训练的时候直接将 dropout 后的权重扩大 (1/p) 倍，这样结果的 scale 保持不变，那么在测试时候不用做额外的操作。</p>
+</blockquote>
+<p>目前主流的训练框架，实现的都是 inverted 版本，所以在预测的时候不需要费心调整，把dropout 当做透明处理就行。</p>
+<p>pytorch 中的实现</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><strong>p</strong> – probability of an element to be zeroed. Default: 0.5</li>
+<li><strong>inplace</strong> – If set to <code>True</code>, will do this operation in-place. Default: <code>False</code></li>
+</ul>
+<p>首先 $p$ 表示丢弃（drop out）的概率，当 $p$ 数值越大，那么程度越高，防止过拟合的效果越明显。</p>
 <h3 id="使用多种模型">使用多种模型</h3>
 <p>Bagging： 最典型的就是 随机森林( Random Forest)， 通过不相关的决策树在不同的数据集上进行训练，最后的每个模型使用相同的权重来“融合”。
-Boosting: 在简单的网络上不断提升。</p>
-<h2 id="总结">总结</h2>
+Boosting: 在简单的网络上不断提升，应该是更加容易 overfit。</p>
+<p>集成学习算法也可以有效的减轻过拟合。 Bagging 通过平均多个模型的结果，降低模型的方差。</p>
+<h2 id="如何处理欠拟合">如何处理欠拟合</h2>
+<p>增加网络的深度</p>
+<p>pytorch 官方实现:https://github.com/pytorch/vision/blob/master/torchvision/models/resnet.py</p>
+<p>主要的区别是 将</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">wide_resnet50_2</span><span class="p">(</span><span class="n">pretrained</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
+    <span class="sa">r</span><span class="s2">&#34;&#34;&#34;Wide ResNet-50-2 model from
+</span><span class="s2">    `&#34;Wide Residual Networks&#34; &lt;https://arxiv.org/pdf/1605.07146.pdf&gt;`_.
+</span><span class="s2">    The model is the same as ResNet except for the bottleneck number of channels
+</span><span class="s2">    which is twice larger in every block. The number of channels in outer 1x1
+</span><span class="s2">    convolutions is the same, e.g. last block in ResNet-50 has 2048-512-2048
+</span><span class="s2">    channels, and in Wide ResNet-50-2 has 2048-1024-2048.
+</span><span class="s2">    Args:
+</span><span class="s2">        pretrained (bool): If True, returns a model pre-trained on ImageNet
+</span><span class="s2">        progress (bool): If True, displays a progress bar of the download to stderr
+</span><span class="s2">    &#34;&#34;&#34;</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;width_per_group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">64</span> <span class="o">*</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="n">_resnet</span><span class="p">(</span><span class="s1">&#39;wide_resnet50_2&#39;</span><span class="p">,</span> <span class="n">Bottleneck</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+                   <span class="n">pretrained</span><span class="p">,</span> <span class="n">progress</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">resnet50</span><span class="p">(</span><span class="n">pretrained</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
+    <span class="sa">r</span><span class="s2">&#34;&#34;&#34;ResNet-50 model from
+</span><span class="s2">    `&#34;Deep Residual Learning for Image Recognition&#34; &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;`_.
+</span><span class="s2">    Args:
+</span><span class="s2">        pretrained (bool): If True, returns a model pre-trained on ImageNet
+</span><span class="s2">        progress (bool): If True, displays a progress bar of the download to stderr
+</span><span class="s2">    &#34;&#34;&#34;</span>
+    <span class="k">return</span> <span class="n">_resnet</span><span class="p">(</span><span class="s1">&#39;resnet50&#39;</span><span class="p">,</span> <span class="n">Bottleneck</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">pretrained</span><span class="p">,</span> <span class="n">progress</span><span class="p">,</span>
+                   <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这里的  <code>base_width</code> 是用来设置 wide resnet 的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python">    <span class="k">def</span> <span class="nf">_make_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">BasicBlock</span><span class="p">,</span> <span class="n">Bottleneck</span><span class="p">]],</span> <span class="n">planes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">blocks</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                    <span class="n">stride</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dilate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">:</span>
+        <span class="n">norm_layer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_norm_layer</span>
+        <span class="n">downsample</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">previous_dilation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dilation</span>
+        <span class="k">if</span> <span class="n">dilate</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dilation</span> <span class="o">*=</span> <span class="n">stride</span>
+            <span class="n">stride</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">stride</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">inplanes</span> <span class="o">!=</span> <span class="n">planes</span> <span class="o">*</span> <span class="n">block</span><span class="o">.</span><span class="n">expansion</span><span class="p">:</span>
+            <span class="n">downsample</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+                <span class="n">conv1x1</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inplanes</span><span class="p">,</span> <span class="n">planes</span> <span class="o">*</span> <span class="n">block</span><span class="o">.</span><span class="n">expansion</span><span class="p">,</span> <span class="n">stride</span><span class="p">),</span>
+                <span class="n">norm_layer</span><span class="p">(</span><span class="n">planes</span> <span class="o">*</span> <span class="n">block</span><span class="o">.</span><span class="n">expansion</span><span class="p">),</span>
+            <span class="p">)</span>
+
+        <span class="n">layers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">block</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inplanes</span><span class="p">,</span> <span class="n">planes</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">downsample</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="p">,</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">base_width</span><span class="p">,</span> <span class="n">previous_dilation</span><span class="p">,</span> <span class="n">norm_layer</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inplanes</span> <span class="o">=</span> <span class="n">planes</span> <span class="o">*</span> <span class="n">block</span><span class="o">.</span><span class="n">expansion</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">blocks</span><span class="p">):</span>
+            <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">block</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inplanes</span><span class="p">,</span> <span class="n">planes</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="p">,</span>
+                                <span class="n">base_width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">base_width</span><span class="p">,</span> <span class="n">dilation</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dilation</span><span class="p">,</span>
+                                <span class="n">norm_layer</span><span class="o">=</span><span class="n">norm_layer</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="总结">总结</h2>
 <p>降低“过拟合”的方法：
 （1）获得更多的训练数据
 （2）降低模型复杂度
@@ -351,6 +513,7 @@ Boosting: 在简单的网络上不断提升。</p>
           <a href="/tags/overfit/">overfit</a>
           <a href="/tags/dropout/">dropout</a>
           <a href="/tags/normalization/">normalization</a>
+          <a href="/tags/underfit/">underfit</a>
           </div>
       <nav class="post-nav">
         <a class="prev" href="/post/pandas_tutorial/">

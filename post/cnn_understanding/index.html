@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="jijeng" /><meta name="description" content="CNN 算法学习。
+<meta name="author" content="jijeng" /><meta name="description" content="CNN 网络中常见层的介绍和理解。
 " /><meta name="keywords" content="Hugo, theme, even" />
 
 
@@ -41,23 +41,23 @@
 
 
 <meta property="og:title" content="CNN Understanding" />
-<meta property="og:description" content="CNN 算法学习。" />
+<meta property="og:description" content="CNN 网络中常见层的介绍和理解。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://jijeng.github.io/post/cnn_understanding/" />
 <meta property="article:published_time" content="2020-04-07T10:41:47+08:00" />
 <meta property="article:modified_time" content="2020-04-07T10:41:47+08:00" />
 <meta itemprop="name" content="CNN Understanding">
-<meta itemprop="description" content="CNN 算法学习。">
+<meta itemprop="description" content="CNN 网络中常见层的介绍和理解。">
 <meta itemprop="datePublished" content="2020-04-07T10:41:47+08:00" />
 <meta itemprop="dateModified" content="2020-04-07T10:41:47+08:00" />
-<meta itemprop="wordCount" content="2346">
+<meta itemprop="wordCount" content="4663">
 
 
 
 <meta itemprop="keywords" content="cnn," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="CNN Understanding"/>
-<meta name="twitter:description" content="CNN 算法学习。"/>
+<meta name="twitter:description" content="CNN 网络中常见层的介绍和理解。"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -127,8 +127,8 @@
         <div class="post-category">
             <a href="/categories/deep-learning/"> deep learning </a>
             </div>
-          <span class="more-meta"> 约 2346 字 </span>
-          <span class="more-meta"> 预计阅读 5 分钟 </span>
+          <span class="more-meta"> 约 4663 字 </span>
+          <span class="more-meta"> 预计阅读 10 分钟 </span>
         
       </div>
     </header>
@@ -140,11 +140,15 @@
   </div>
 </div>
     <div class="post-content">
-      <p>CNN 算法学习。</p>
+      <p>CNN 网络中常见层的介绍和理解。</p>
 <p>一、边界检测（引子）</p>
-<img src="https://i.loli.net/2020/04/08/Ny7B2cJIHf8O6C5.png"  width="80%" height="80%">
 <p>通过设计某个滤波器（filter，也可以称为 kernel），去和图像做卷积操作，可以发现图像中的某些特征。CNN 就是通过一个个 filter， 不断提取特征，从局部的特征到整体的特征，从而完成了图像识别的功能。</p>
 <p>二、CNN 中的基本概念</p>
+<p>CNN网络中常见的结构是：卷积、池化和激活。卷积层是CNN 网络的核心，激活函数获得非线性特征，池化层主要体现在降采样：保留显著特征、降低特征的维度、扩大 kernel 的感受野。</p>
+<p>pooling 可以提供旋转不变性?</p>
+<blockquote>
+<p>更加准确的是说 max pooling 具有微小形变的鲁棒性。当我们正面拍一些图像，在某些地方得到 activation，然后旋转一定的角度，依然能够在这个点得到 activation。这个其实 maxpooling 的决定的。</p>
+</blockquote>
 <ol>
 <li>padding 填白</li>
 </ol>
@@ -161,6 +165,12 @@
 <p>前面我们所介绍的卷积，都是默认步长是1，但实际上，我们可以设置步长为其他的值。</p>
 <p>3.pooling 池化</p>
 <p>这个pooling，是为了提取一定区域的主要特征，并减少参数数量，防止模型过拟合。 除了MaxPooling,还有AveragePooling，顾名思义就是取那个区域的平均值。</p>
+<p>global average pooling or global max pooling</p>
+<p>GAP 可以实现任意图像大小的输入。</p>
+<p>global average pooling 和 average pooling （local）的差别在于 global，local 是取feature map 上的一个子区域求均值和最大值，然后滑动子区域；global 就是针对整个 feature map 求解均值和最大值。</p>
+<p>Global Pooling就是<strong>池化窗口的大小 = 整张特征图的大小</strong>。这样，每个 W×H×C 的特征图输入就会被转化为 1×1×C 的输出，也等同于每个位置权重都为 1/(W×H) 的全连接层操作。</p>
+<p>使用全局池化之后，特征图每个 channel 都被压缩成了一个点，实际上是对没给个channel 进行了信息压缩。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/25/1576078449-7190--700x298.jpg" alt="关于global average pooling理解和介绍"></p>
 <p>4.对多通道（channels）图片的卷积</p>
 <p>如果输入图片是三维的呢（即增多了一个channels），比如是(8,8,3)，这个时候，我们的filter的维度就要变成(3,3,3)了，它的 最后一维要跟输入的channel维度一致。 这个时候的卷积，是三个channel的所有元素对应相乘后求和，也就是之前是9个乘积的和，现在是27个乘积的和。因此，输出的维度并不会变化。还是(6,6)。</p>
 <p>但是，一般情况下，我们会 使用多了filters同时卷积，比如，如果我们同时使用4个filter的话，那么 输出的维度则会变为(6,6,4)。</p>
@@ -176,7 +186,7 @@
 <blockquote>
 <p>Pooling layers are generally used to reduce the size of the inputs and hence speed up the computation.</p>
 </blockquote>
-<img src="https://files.catbox.moe/6ngw4u.png" width="80%" height="80%">
+<img src="http://123.56.8.10:8899/images/2021/03/25/6ngw4u.png" width="80%" height="80%">
 <p>注意这里的 filter size 是2， 然后stride 是2.</p>
 <p>In summary, the hyperparameters for a pooling layer are:</p>
 <ul>
@@ -184,10 +194,19 @@
 <li>Stride</li>
 <li>Max or average pooling</li>
 </ul>
+<p>CNN 中 stride、kernel、padding 的计算</p>
+<p>定义以下参数定义 <img src="https://www.zhihu.com/equation?tex=stride++%3D+S" alt="[公式]">,  <img src="https://www.zhihu.com/equation?tex=kernelsize+%3D+F%28kernel++size+%3D+F+%2AF%29+" alt="[公式]">, <img src="https://www.zhihu.com/equation?tex=padding+%3D+P+" alt="[公式]"></p>
+<p>输入尺寸为 <img src="https://www.zhihu.com/equation?tex=W" alt="[公式]"></p>
+<p>输出尺寸为 <img src="https://www.zhihu.com/equation?tex=W_%7Bnew%7D" alt="[公式]"></p>
+<p>则有卷积尺寸变化为
+$$
+W_{n e w}=\frac{W-F+2 * P}{S}+1
+$$</p>
+<p>比如，输入是28，卷积核是$3*3$, 步长 stride为 1，padding 为1，通过上述的公式得到新的输出是 28。和原来的输入是一样的。</p>
 <ol start="3">
 <li>Fully Connected layer（全连接层&ndash;FC）</li>
 </ol>
-<img src="https://s1.ax1x.com/2020/04/08/GRcq81.png" width="80%" height="80%">
+<img src="http://123.56.8.10:8899/images/2021/03/25/GRcq81.png" width="80%" height="80%">
 <p>这里需要说明的是，在经过数次卷积和池化之后，我们 最后会先将多维的数据进行“扁平化”，也就是把 (height,width,channel)的数据压缩成长度为 height × width × channel 的一维数组，然后再与 FC层连接，这之后就跟普通的神经网络无异了。</p>
 <ol start="4">
 <li>Batch normalization &amp; ReLU</li>
@@ -196,6 +215,7 @@
 <p>After applying filters on the input, we apply a batch normalization followed by a ReLU for non-linearity. The batch normalization renormalizes data to make learning faster with the Gradient descent.
 使用batch normalization是为了 learn faster（gradient descent）； 使用 relu 是为了增加非线性</p>
 </blockquote>
+<p>全连接层过多的参数会导致过拟合，所以有一些专门的方法去解决过拟合，比如说 dropout。</p>
 <p>四、卷积网络 VS. 传统神经网络</p>
 <p>卷积网络相比于传统神经网络有两点好处：</p>
 <p>1.参数共享机制（parameters sharing）</p>
@@ -220,15 +240,15 @@
 <p><img src="http://47.94.35.231:9998/blog_imgs/image-20201119163445214.png" alt="image-20201119163445214" style="zoom:50%;" /></p>
 <p>卷积简单说是相乘然后累加求和。</p>
 <p>卷积填充中的mode： valid，same，full。valid：不进行填充；same：是以卷积核的中心和图像array的左上角进行对齐；full：以卷积核的右下角和图像array的左上角对齐。</p>
-<p><img src="http://47.94.35.231:9998/blog_imgs/image-20201119163722313.png" alt="image-20201119163722313" style="zoom:50%;" /></p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/25/image-20201119163722313.png" alt="image-20201119163722313" style="zoom:50%;" /></p>
 <p><strong>卷积核</strong></p>
 <p>水平卷积核识别横线</p>
 <p>垂直卷积核识别竖线</p>
 <p>Scharr边界更加锐利</p>
-<p><img src="http://47.94.35.231:9998/blog_imgs/image-20201119171813112.png" alt="image-20201119171813112" style="zoom:50%;" /></p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/25/image-20201119171813112.png" alt="image-20201119171813112" style="zoom:50%;" /></p>
 <p>所以卷积核是否能够识别，归结为“物以类聚”。如果卷积核形状和图像的物体形状相似，那么是容易识别；如果相反，那么不容易识别。</p>
 <p>传统的CNN 结构</p>
-<p><img src="http://47.94.35.231:9998/blog_imgs/image-20201119173233995.png" alt="image-20201119173233995" style="zoom:50%;" /></p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/25/image-20201119173233995.png" alt="image-20201119173233995" style="zoom:50%;" /></p>
 <p>同一图像输入，用不同的卷积核得到的是不同的结果，但其中也有一些类似的地方。</p>
 <p>为什么深层次的网络识别效果好？</p>
 <ul>
@@ -237,7 +257,7 @@
 </ul>
 <p>pooling: 降采样的操作，提高效率（特征数量减少）；使得某些特征更健壮。</p>
 <p>dropout 中的 <code>keep_prob=1</code> 表示保留全部的数据； <code>keep_prob=0</code> 表示全部丢弃数据。注意其余的数据还需要进行<code>1/keep_prob</code> ，以保证和不变。</p>
-<p><img src="http://47.94.35.231:9998/blog_imgs/image-20201127164513099.png" alt="image-20201127164513099" style="zoom:70%;" /></p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/25/image-20201127164513099.png" alt="image-20201127164513099" style="zoom:70%;" /></p>
 <p>在卷积网络中一般倾向于使用多个小的卷积核而不是一个大的卷积核。原因：参数量 $7<em>7 &gt; 3</em>3*3$；多层卷积核可以引入非线性。</p>
 <p>adam 对于不同的参数使用不同的学习率；BGD 对于不同的参数使用相同的学习率。所以建议使用 adam 作为optim。</p>
 <p>图像识别的实质仍然是分类，进一步的工作就是目标检测。（如果图像分类做好了，那么是可以去做目标检测）。object detection的演变流程：</p>
@@ -246,6 +266,68 @@
 <li>Fast R-CNN：首先图像过一个CNN得到feature map，然后提取region 中相应的feature，feature +svm 得到置信度。这样共享了 feature map，大大提高了时间效率。（解决的是多次计算CNN 的效率问题）</li>
 <li>Faster R-CNN：首先图像过CNN得到feature map，然后通过<code>region proposel network</code> 从CNN 中得到框，然后通过一个 classifer得到置信度。（解决的是计算 region的效率问题）</li>
 </ul>
+<p><strong>Separable Convolution卷积层（来自mobilenet）</strong></p>
+<p>Separable Convolution的卷积运算方式。它将传统卷积分解为Depthwise Convolution与Pointwise Convolution两部分，有效的减小了参数数量。主要是为了适应移动端设备的性能。</p>
+<p>下面给出一个例子说明。</p>
+<p>此时，卷积层共4个Filter，每个Filter包含了3个Kernel，每个Kernel的大小为3×3。因此卷积层的参数数量可以用如下公式来计算：</p>
+<p>核心思想是将一个完整的卷积运算分解为两步进行，Depthwise Convolution与Pointwise Convolution。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/31/image-20210331140611578.png" alt="image-20210331140611578" style="zoom:50%;" /></p>
+<p>Depthwise Convolution完成后的Feature map数量与输入层的depth相同，但是这种运算对输入层的每个channel独立进行卷积运算后就结束了，没有有效的利用不同map在相同空间位置上的信息。因此需要增加另外一步操作来将这些map进行组合生成新的Feature map，即接下来的Pointwise Convolution。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/31/image-20210331140531938.png" alt="image-20210331140531938" style="zoom:50%;" /></p>
+<p>Pointwise Convolution的运算与常规卷积运算非常相似，不同之处在于卷积核的尺寸为 1×1×M，M为上一层的depth。所以这里的卷积运算会将上一步的map在深度方向上进行加权组合，生成新的Feature map。</p>
+<p>对比一下两个的参数量：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 第一种
+N_std = 4 × 3 × 3 × 3 = 108
+# 第二种
+N_depthwise = 3 × 3 × 3 = 27
+N_pointwise = 1 × 1 × 3 × 4 = 12
+N_separable = N_depthwise + N_pointwise = 39
+</code></pre></td></tr></table>
+</div>
+</div><p>所以同样是 4 个feature map， separable convolution 的参数个数基本上是常规卷积的 $1/3$。</p>
+<p>但 Separable Convolution 也不是没有缺点，使用该卷积的网络结构在 train 的时候占用显存比较大。</p>
+<blockquote>
+<p>efficientnet 的模型很小，因为本地保存的模型 ckpt 容量代销和模型的参数量相关，模型参数和模型自身 layer 的设计有关，但是模型训练时占用的显存不是和模型参数量成一定的线性关系，更多的是和模型 inference 与 backward 过程中产生的 feature map 大小有关，另外和网络的深度也有一定的关系（这样中间变量可能更多了），在 backward 的时候更是直接翻倍，因为需要保存特征图的梯度，可能需要 2 倍的显存占用。</p>
+<p>同时网络中的多分支也是比较消耗内存的，参考凯明大佬的regnet</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/03/31/v2-7ff329bfba3195dcb094651605ecd5eb_1440w8c7f344b7be86c34.jpg" alt="img" style="zoom:50%;" /></p>
+<p>参考文献</p>
+<p><a href="https://zhuanlan.zhihu.com/p/80041030">Depthwise卷积与Pointwise卷积</a></p>
+<p><a href="https://yinguobing.com/separable-convolution/">卷积神经网络中的Separable Convolution</a></p>
+<p><a href="https://www.zhihu.com/question/388773309">EfficientDet和EfficientNet的模型很小，为什么占用的显存很高呢?</a></p>
+<p>空洞卷积</p>
+<p>Dilation卷积，通常译作空洞卷积或者卷积核膨胀操作，它是解决pixel-wise输出模型的一种常用的卷积方式。一种普遍的认识是，pooling下采样操作导致的信息丢失是不可逆的，通常的分类识别模型，只需要预测每一类的概率，所以我们不需要考虑pooling会导致损失图像细节信息的问题，但是做像素级的预测时（譬如语义分割），就要考虑到这个问题了。</p>
+<blockquote>
+<p>提出的主要是为了解决采用 pooling 操作导致的信息损失的问题。空洞卷积的好处是在不做 pooling损失函数的情况下，增加了感受野。在图像需要全局信息，都能很好的应用空洞卷积，比如图像分割。</p>
+</blockquote>
+<p>所以就要有一种卷积代替pooling的作用（成倍的增加感受野），而空洞卷积就是为了做这个的。通过卷积核插“0”的方式，它可以比普通的卷积获得更大的感受野，这个idea的motivation就介绍到这里。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/31/v2-4959201e816888c6648f2e78cccfd253_hd.gif" alt=""></p>
+<p>下面是常规的卷积操作</p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/31/v2-d552433faa8363df84c53b905443a556_hd.gif" alt="img"></p>
+<p><strong>反卷积和上采样的区别</strong></p>
+<p>转置卷积 (transposed convolution) 又称为反卷积（Deconvolution）。可以理解为卷积的逆过程，实现上采用转置卷积核的方式。</p>
+<p>普通的卷积和池化会缩小图像的尺寸，有时候为了得到和原图等大的分割图，需要进行上采样卷积。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/04/26/1EF52InXEbUhf12149452e9f1f39.gif" alt="img"></p>
+<p>从卷积到转置卷积的理解可以查看这里：https://www.malaoshi.top/show_1EF52HLXBmqf.html</p>
+<p>（对于反卷积，以下有不同的形态）</p>
+<p><img src="http://123.56.8.10:8899/images/2021/04/26/njW8CF.gif" alt="transposed convolution"></p>
+<p>反卷积的使用场景一般在语义分割和生成模型（比如说GAN ）中使用较多。</p>
+<p>upPooling： 当upPooling 的时候填充的是0。</p>
+<p>（这里针对MaxPooling）可以看到UnPooling操作相当于在进行MaxPooling操作时候对局部最大值的出现位置进行了记录，然后在反向过程补全的时候将最大值填充回原处，然后剩余的地方全部填充零。</p>
+<blockquote>
+<p>这个是需要记录位置的</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/04/26/image-20210426170024653.png" alt="UpPooling"></p>
     </div>
 
     <div class="post-copyright">

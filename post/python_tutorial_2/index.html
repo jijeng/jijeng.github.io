@@ -50,7 +50,7 @@
 <meta itemprop="description" content="介绍 python advanced skill。">
 <meta itemprop="datePublished" content="2019-07-27T16:07:02+08:00" />
 <meta itemprop="dateModified" content="2019-07-27T16:07:02+08:00" />
-<meta itemprop="wordCount" content="5902">
+<meta itemprop="wordCount" content="5996">
 
 
 
@@ -127,7 +127,7 @@
         <div class="post-category">
             <a href="/categories/programming-language/"> programming language </a>
             </div>
-          <span class="more-meta"> 约 5902 字 </span>
+          <span class="more-meta"> 约 5996 字 </span>
           <span class="more-meta"> 预计阅读 12 分钟 </span>
         
       </div>
@@ -1327,7 +1327,36 @@ fruites.extend(cars)
 
 </code></pre></td></tr></table>
 </div>
+</div><p>vars()</p>
+<blockquote>
+<p>vars() 函数返回对象 object 的属性和属性值的字典对象</p>
+</blockquote>
+<p>语法</p>
+<blockquote>
+<p>vars([object])</p>
+</blockquote>
+<p>使用</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Runoob</span><span class="p">:</span>
+    <span class="n">a</span> <span class="o">=</span><span class="mi">1</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="n">Runoob</span><span class="p">))</span>
+<span class="c1"># {&#39;a&#39;: 1, &#39;__module__&#39;: &#39;__main__&#39;, &#39;__doc__&#39;: None}</span>
+<span class="n">runoob</span> <span class="o">=</span> <span class="n">Runoob</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="n">runoob</span><span class="p">))</span>
+<span class="c1"># {}</span>
+</code></pre></td></tr></table>
 </div>
+</div><p>vars 一般用在解析命令行参数的时候，dictionary 貌似用在写函数上，不知道怎么回事。</p>
     </div>
 
     <div class="post-copyright">

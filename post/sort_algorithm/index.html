@@ -50,7 +50,7 @@
 <meta itemprop="description" content="常见的排序算法总结">
 <meta itemprop="datePublished" content="2018-06-29T22:16:18+08:00" />
 <meta itemprop="dateModified" content="2018-06-29T22:16:18+08:00" />
-<meta itemprop="wordCount" content="8966">
+<meta itemprop="wordCount" content="8726">
 
 
 
@@ -127,7 +127,7 @@
         <div class="post-category">
             <a href="/categories/algorithm/"> algorithm </a>
             </div>
-          <span class="more-meta"> 约 8966 字 </span>
+          <span class="more-meta"> 约 8726 字 </span>
           <span class="more-meta"> 预计阅读 18 分钟 </span>
         
       </div>
@@ -383,138 +383,68 @@
 </span><span class="lnt">35
 </span><span class="lnt">36
 </span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">merge_sort</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">tmp</span><span class="p">):</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">l</span> <span class="o">&gt;=</span> <span class="n">r</span><span class="p">):</span> <span class="k">return</span> 
-    <span class="n">mid</span> <span class="o">=</span><span class="n">l</span> <span class="o">+</span><span class="n">r</span> <span class="o">&gt;&gt;</span><span class="mi">1</span>
-    <span class="n">merge_sort</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">l</span> <span class="p">,</span> <span class="n">mid</span><span class="p">,</span><span class="n">tmp</span><span class="p">)</span>
-    <span class="n">merge_sort</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">tmp</span><span class="p">)</span>
-    <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span><span class="n">l</span><span class="p">,</span> <span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span>
-    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;=</span><span class="n">mid</span> <span class="ow">and</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">r</span> <span class="p">:</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]):</span> 
-            <span class="n">tmp</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-            <span class="n">i</span> <span class="o">+=</span><span class="mi">1</span>
-            <span class="n">k</span> <span class="o">+=</span><span class="mi">1</span>
-        <span class="k">else</span><span class="p">:</span> 
-            <span class="n">tmp</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span><span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-            <span class="n">j</span> <span class="o">+=</span><span class="mi">1</span>
-            <span class="n">k</span> <span class="o">+=</span><span class="mi">1</span>
-        
-    <span class="k">while</span> <span class="n">i</span><span class="o">&lt;=</span> <span class="n">mid</span><span class="p">:</span> 
-        <span class="n">tmp</span><span class="p">[</span><span class="n">k</span> <span class="p">]</span> <span class="o">=</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="n">k</span> <span class="o">+=</span><span class="mi">1</span>
-        <span class="n">i</span> <span class="o">+=</span><span class="mi">1</span>
-    <span class="k">while</span> <span class="n">j</span><span class="o">&lt;=</span><span class="n">r</span> <span class="p">:</span>
-        <span class="n">tmp</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span><span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-        <span class="n">k</span> <span class="o">+=</span><span class="mi">1</span>
-        <span class="n">j</span> <span class="o">+=</span><span class="mi">1</span>
-    <span class="n">i</span> <span class="o">=</span><span class="n">l</span>
-    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
-        <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-        <span class="n">i</span> <span class="o">+=</span><span class="mi">1</span>
-    
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span><span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
-    <span class="n">n</span> <span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">())</span>
-    <span class="n">nums</span> <span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">input</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span> 
-    <span class="n">tmp</span> <span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span><span class="n">n</span>
-    <span class="n">merge_sort</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">tmp</span><span class="p">)</span>
-    
-    <span class="n">nums</span> <span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">nums</span><span class="p">))</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&#34; &#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">nums</span><span class="p">))</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>c++ 的实现</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// 归并排序，分而治之，时间复杂度是 O(nlogn)
-</span><span class="c1"></span><span class="cp">#include</span><span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp">
-</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-<span class="k">const</span> <span class="kt">int</span> <span class="n">N</span> <span class="o">=</span><span class="mf">1e5</span><span class="o">+</span><span class="mi">11</span><span class="p">;</span>
-<span class="kt">int</span> <span class="n">nums</span><span class="p">[</span><span class="n">N</span><span class="p">],</span> <span class="n">tmp</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
-<span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
-<span class="kt">void</span> <span class="nf">merge_sort</span><span class="p">(</span><span class="kt">int</span> <span class="n">nums</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">)</span>
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1">#include&lt;iostream&gt;</span>
+<span class="c1">#include&lt;vector&gt;</span>
+
+<span class="n">using</span> <span class="n">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="n">vector</span><span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="n">t</span><span class="p">;</span>
+
+<span class="n">void</span> <span class="n">merge_sort</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">arr</span><span class="p">,</span> <span class="nb">int</span> <span class="n">l</span><span class="p">,</span> <span class="nb">int</span> <span class="n">r</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">l</span> <span class="o">&gt;=</span><span class="n">r</span> <span class="p">)</span> <span class="k">return</span> <span class="p">;</span>
-    <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span><span class="n">r</span> <span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
-    <span class="n">merge_sort</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">mid</span><span class="p">);</span>
-    <span class="n">merge_sort</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="p">);</span>
-    <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span><span class="n">l</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-    <span class="k">while</span><span class="p">(</span><span class="n">i</span> <span class="o">&lt;=</span><span class="n">mid</span> <span class="o">&amp;&amp;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">r</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&lt;=</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="n">tmp</span><span class="p">[</span><span class="n">k</span> <span class="o">++</span><span class="p">]</span> <span class="o">=</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="o">++</span><span class="p">];</span>
-        <span class="k">else</span> <span class="n">tmp</span><span class="p">[</span><span class="n">k</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span><span class="n">nums</span><span class="p">[</span><span class="n">j</span> <span class="o">++</span><span class="p">];</span>
-    <span class="p">}</span>
-    <span class="k">while</span><span class="p">(</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="n">mid</span><span class="p">)</span> <span class="n">tmp</span><span class="p">[</span><span class="n">k</span> <span class="o">++</span><span class="p">]</span> <span class="o">=</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span> <span class="o">++</span><span class="p">];</span>
-    <span class="k">while</span><span class="p">(</span><span class="n">j</span> <span class="o">&lt;=</span> <span class="n">r</span><span class="p">)</span> <span class="n">tmp</span><span class="p">[</span><span class="n">k</span><span class="o">++</span><span class="p">]</span><span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span> <span class="o">++</span><span class="p">];</span>
-    <span class="c1">// push back, 将临时数组中的元素放回原来数组中
-</span><span class="c1"></span>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="n">l</span><span class="p">,</span><span class="n">j</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span><span class="n">k</span><span class="p">;)</span>
-        <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="o">++</span><span class="p">]</span><span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="n">j</span><span class="o">++</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">l</span> <span class="o">&gt;=</span> <span class="n">r</span><span class="p">)</span> <span class="k">return</span> <span class="p">;</span>
+    
+    <span class="nb">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span><span class="n">r</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">l</span> <span class="p">,</span> <span class="n">mid</span><span class="p">);</span>
+    <span class="n">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="p">);</span>
+    
+    <span class="nb">int</span> <span class="n">i</span> <span class="o">=</span><span class="n">l</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+    
+    <span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="n">mid</span> <span class="o">&amp;&amp;</span> <span class="n">j</span> <span class="o">&lt;=</span><span class="n">r</span><span class="p">)</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+    <span class="n">t</span><span class="p">[</span><span class="n">k</span> <span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span> <span class="o">++</span><span class="p">];</span>
+    <span class="k">else</span>
+    <span class="n">t</span><span class="p">[</span><span class="n">k</span> <span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span> <span class="o">++</span><span class="p">];</span>
+    
+    <span class="k">while</span><span class="p">(</span><span class="n">i</span> <span class="o">&lt;=</span><span class="n">mid</span><span class="p">)</span>
+    <span class="n">t</span><span class="p">[</span><span class="n">k</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span> <span class="o">++</span><span class="p">];</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">j</span> <span class="o">&lt;=</span> <span class="n">r</span><span class="p">)</span>
+    <span class="n">t</span><span class="p">[</span><span class="n">k</span> <span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span> <span class="o">++</span><span class="p">];</span>
+    <span class="o">//</span> <span class="err">因为</span> <span class="n">t</span> <span class="err">中的元素是从</span> <span class="mi">0</span> <span class="err">到</span><span class="n">k</span> <span class="err">的，</span><span class="n">arr</span> <span class="err">是从</span> <span class="n">l</span> <span class="err">开始的</span>
+    <span class="k">for</span><span class="p">(</span><span class="nb">int</span> <span class="n">i</span><span class="o">=</span><span class="n">l</span><span class="p">,</span><span class="n">j</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">k</span><span class="p">;</span> <span class="p">)</span>
+    <span class="n">arr</span><span class="p">[</span><span class="n">i</span> <span class="o">++</span><span class="p">]</span> <span class="o">=</span><span class="n">t</span><span class="p">[</span><span class="n">j</span><span class="o">++</span><span class="p">];</span>
 <span class="p">}</span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+
+<span class="nb">int</span> <span class="n">main</span><span class="p">()</span>
 <span class="p">{</span>
-    <span class="c1">//注意c 语言中的读入和输出 都是有f 的
-</span><span class="c1"></span>    <span class="n">scanf</span><span class="p">(</span><span class="s">&#34;%d&#34;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
-    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">scanf</span><span class="p">(</span><span class="s">&#34;%d&#34;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
-    <span class="n">merge_sort</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+    <span class="o">//</span><span class="nb">int</span> <span class="n">n</span> <span class="p">;</span>
+    <span class="o">//</span><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">;</span>
+    <span class="o">//</span><span class="n">vector</span><span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="n">arr</span><span class="p">;</span>
+    <span class="o">//</span><span class="k">for</span><span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span> <span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="n">arr</span> <span class="o">=</span><span class="p">{</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">99</span><span class="p">};</span>
+    <span class="nb">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+    <span class="n">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
     
-    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%d &#34;</span><span class="p">,</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
-    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&lt;&lt;</span> <span class="s2">&#34; &#34;</span><span class="p">;</span>
+    
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><h3 id="快速排序quick-sort">快速排序(Quick Sort)</h3>
-<p>思想：任意选择一个key(通常选择a[0])，将比他小的数据放在它的前面，比他大的数字放在它的后面。递归进行。</p>
-<p>步骤：</p>
-<ol>
-<li>从数列中挑出一个基准值。</li>
-<li>将所有比基准值小的摆放在基准前面，所有比基准值大的摆在基准的后面(相同的数可以到任一边)；在这个分区退出之后，该基准就处于数列的中间位置。</li>
-<li>递归地把&quot;基准值前面的子数列&quot;和&quot;基准值后面的子数列&quot;进行排序。</li>
-</ol>
-<p>分析：
-快速排序的时间复杂度在最坏情况下是O($N^2$)，平均的时间复杂度是O(N*logN)，采用的是分治的思想，二叉树的结构。</p>
-<p>下面以数列 a={30,40,60,10,20,50} 为例，演示它的快速排序过程(如下图)。 这个是经过一个迭代的结果，每一个迭代，都排好了基准数字的位置。按照同样的方法，对子数列进行递归遍历。最后得到有序数组！
-<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g3ddef4gxcj20sw0xbmzx.jpg" alt=""></p>
-<p>在实现的过程中，key 值的选择 while 的遍历顺序是相关的。如果key =arr[left] 那么第一个while 循环是从right 开始的（从后往前）；如果key =arr[right] 那么是从left 进行遍历的。</p>
-<p>基于python3 的实现。</p>
+</div><p>python 实现</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -562,68 +492,70 @@
 </span><span class="lnt">43
 </span><span class="lnt">44
 </span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
-</span><span class="lnt">48
-</span><span class="lnt">49
-</span><span class="lnt">50
-</span><span class="lnt">51
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># 从小到大排</span>
-<span class="c1"># quickSort 和归并排序的流程是相反的；quickSort 是先选定锚点；归并是先分裂。</span>
-<span class="k">def</span> <span class="nf">quickSort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">l</span><span class="o">&gt;</span> <span class="n">r</span><span class="p">:</span> <span class="k">return</span>
-    <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span><span class="n">l</span> <span class="p">,</span> <span class="n">r</span>
-    <span class="n">key</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span>
-    <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">):</span>
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">l</span> <span class="o">&gt;=</span> <span class="n">r</span><span class="p">:</span> <span class="k">return</span> 
+    <span class="n">mid</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span><span class="n">r</span> <span class="o">&gt;&gt;</span><span class="mi">1</span>
 
-        <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span>  <span class="ow">and</span> <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">key</span><span class="p">):</span> <span class="n">r</span> <span class="o">-=</span><span class="mi">1</span>
-        <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span>
-
-        <span class="k">while</span> <span class="n">l</span><span class="o">&lt;</span><span class="n">r</span> <span class="ow">and</span> <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">key</span> <span class="p">:</span> <span class="n">l</span> <span class="o">+=</span><span class="mi">1</span>
-        <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span>
-    <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span><span class="n">key</span>
-    <span class="n">quickSort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">l</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">quickSort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">l</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">partition</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">l</span> <span class="p">,</span> <span class="n">r</span><span class="p">):</span>
-
-    <span class="n">key</span> <span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span>
-    <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">):</span>
-        <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span>  <span class="ow">and</span> <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">key</span><span class="p">):</span> <span class="n">r</span> <span class="o">-=</span><span class="mi">1</span>
-        <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span>
-        <span class="k">while</span> <span class="n">l</span><span class="o">&lt;</span> <span class="n">r</span> <span class="ow">and</span> <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">key</span> <span class="p">:</span> <span class="n">l</span> <span class="o">+=</span><span class="mi">1</span>
-        <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span>
-    <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span><span class="n">key</span>
-    <span class="k">return</span> <span class="n">l</span>
-
-
-<span class="k">def</span> <span class="nf">quickSort2</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
-
-    <span class="k">if</span><span class="p">(</span> <span class="n">l</span><span class="o">&gt;</span> <span class="n">r</span><span class="p">):</span> <span class="k">return</span>
-    <span class="n">pos</span> <span class="o">=</span><span class="n">partition</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
-
-    <span class="n">quickSort2</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">pos</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">quickSort2</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">pos</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
-
+    <span class="n">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">mid</span><span class="p">)</span>
+    <span class="n">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+    
+    <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">l</span><span class="p">,</span> <span class="n">mid</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span>
+    
+    <span class="n">t</span> <span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">mid</span> <span class="ow">and</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">r</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span> 
+            <span class="n">t</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">i</span> <span class="o">+=</span><span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">t</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">k</span> <span class="o">+=</span><span class="mi">1</span>
+            <span class="n">j</span> <span class="o">+=</span><span class="mi">1</span>
+    <span class="k">while</span> <span class="n">i</span><span class="o">&lt;=</span> <span class="n">mid</span><span class="p">:</span>
+        <span class="n">t</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">i</span> <span class="o">+=</span><span class="mi">1</span>
+        <span class="n">k</span> <span class="o">+=</span><span class="mi">1</span>
+    <span class="k">while</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">r</span><span class="p">:</span>
+        <span class="n">t</span><span class="p">[</span><span class="n">k</span> <span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">j</span> <span class="o">+=</span><span class="mi">1</span>
+        <span class="n">k</span> <span class="o">+=</span><span class="mi">1</span>
+    
+    <span class="c1">#print(t)</span>
+    <span class="n">m</span> <span class="o">=</span><span class="mi">0</span>
+    <span class="k">while</span> <span class="n">m</span> <span class="o">&lt;</span><span class="n">k</span><span class="p">:</span>
+        <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
+        <span class="n">l</span> <span class="o">+=</span><span class="mi">1</span>
+        <span class="n">m</span> <span class="o">+=</span><span class="mi">1</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span><span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+    
     <span class="n">n</span> <span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">())</span>
-    <span class="n">arr</span> <span class="o">=</span><span class="nb">input</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&#34; &#34;</span><span class="p">)</span>
-    <span class="n">arr</span> <span class="o">=</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">arr</span><span class="p">]</span>
-
+    
+    <span class="n">arr</span> <span class="o">=</span><span class="nb">list</span><span class="p">(</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">input</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span>
+    
+    <span class="n">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+    
     <span class="k">print</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
-
-    <span class="c1">#quickSort(arr, 0, len(arr)-1)</span>
-    <span class="n">quickSort2</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-
-    <span class="k">print</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
-
 </code></pre></td></tr></table>
 </div>
-</div><p>python 版本</p>
+</div><h3 id="快速排序quick-sort">快速排序(Quick Sort)</h3>
+<p>思想：分而治之的思想，关键是 <code>partition</code> 函数，经过一次 partition 函数之后，中轴值 pivot 放到了正确的位置，然后递归处理 pivot 左边和右边的元素。</p>
+<p>任意选择一个中轴值 pivot (通常选择a[0])，将比他小的数据放在它的前面，比他大的数字放在它的后面。递归进行。</p>
+<p>步骤：</p>
+<ol>
+<li>从数列中挑出一个基准值。</li>
+<li>将所有比基准值小的摆放在基准前面，所有比基准值大的摆在基准的后面(相同的数可以到任一边)；在这个分区退出之后，该基准就处于数列的中间位置。</li>
+<li>递归地把&quot;基准值前面的子数列&quot;和&quot;基准值后面的子数列&quot;进行排序。</li>
+</ol>
+<p>分析：
+快速排序的时间复杂度在最坏情况下是O($N^2$)，平均的时间复杂度是O(N*logN)，采用的是分治的思想，二叉树的结构。</p>
+<p>下面以数列 a={30,40,60,10,20,50} 为例，演示它的快速排序过程(如下图)。 这个是经过一个迭代的结果，每一个迭代，都排好了基准数字的位置。按照同样的方法，对子数列进行递归遍历。最后得到有序数组！
+<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g3ddef4gxcj20sw0xbmzx.jpg" alt=""></p>
+<p>在实现的过程中，key 值的选择 while 的遍历顺序是相关的。如果key =arr[left] 那么第一个while 循环是从right 开始的（从后往前）；如果key =arr[right] 那么是从left 进行遍历的。</p>
+<p>基于python3 的实现。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -644,26 +576,50 @@
 </span><span class="lnt">16
 </span><span class="lnt">17
 </span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">quick_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
-    
-    <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span><span class="n">l</span><span class="p">,</span> <span class="n">r</span>
+<pre class="chroma"><code class="language-python" data-lang="python">
+<span class="o">//</span> <span class="err">从小到大排序</span>
+<span class="k">def</span> <span class="nf">quick_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span> <span class="p">):</span>
+    <span class="k">if</span> <span class="n">l</span> <span class="o">&gt;</span><span class="n">r</span> <span class="p">:</span> <span class="k">return</span> 
     <span class="n">key</span> <span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span>
-    
-    <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">):</span>
-        <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span> <span class="ow">and</span> <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">&gt;=</span><span class="n">key</span><span class="p">):</span> <span class="n">r</span> <span class="o">--</span><span class="p">;</span>
-        <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span>
-        <span class="k">while</span><span class="p">(</span><span class="n">l</span><span class="o">&lt;</span> <span class="n">r</span> <span class="ow">and</span> <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">key</span><span class="p">):</span> <span class="n">l</span> <span class="o">++</span><span class="p">;</span>
-        <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span>
+    <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span><span class="n">l</span><span class="p">,</span> <span class="n">r</span>
+    <span class="k">while</span> <span class="n">l</span><span class="o">&lt;</span><span class="n">r</span><span class="p">:</span>
+        <span class="k">while</span> <span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span> <span class="ow">and</span> <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">key</span><span class="p">:</span> <span class="n">r</span> <span class="o">-=</span><span class="mi">1</span>
+        <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span>
+        
+        <span class="k">while</span> <span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span> <span class="ow">and</span> <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">key</span><span class="p">:</span> <span class="n">l</span> <span class="o">+=</span><span class="mi">1</span>
+        <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span>
     <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span><span class="n">key</span>
     
-    <span class="n">quick_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">quick_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">l</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">quick_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">l</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+    
 
-<span class="n">arr</span> <span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span> <span class="mi">34</span><span class="p">]</span>
-<span class="n">quick_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span><span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+    <span class="n">n</span> <span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">())</span>
+
+    <span class="n">arr</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">input</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span>
+    
+    <span class="n">quick_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="k">print</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+
+
+
 </code></pre></td></tr></table>
 </div>
 </div><p>给出两种 C ++ 的代码，发现有两点。</p>
@@ -732,94 +688,9 @@
 </span><span class="lnt">56
 </span><span class="lnt">57
 </span><span class="lnt">58
-</span><span class="lnt">59
-</span><span class="lnt">60
-</span><span class="lnt">61
-</span><span class="lnt">62
-</span><span class="lnt">63
-</span><span class="lnt">64
-</span><span class="lnt">65
-</span><span class="lnt">66
-</span><span class="lnt">67
-</span><span class="lnt">68
-</span><span class="lnt">69
-</span><span class="lnt">70
-</span><span class="lnt">71
-</span><span class="lnt">72
-</span><span class="lnt">73
-</span><span class="lnt">74
-</span><span class="lnt">75
-</span><span class="lnt">76
-</span><span class="lnt">77
-</span><span class="lnt">78
-</span><span class="lnt">79
-</span><span class="lnt">80
-</span><span class="lnt">81
-</span><span class="lnt">82
-</span><span class="lnt">83
-</span><span class="lnt">84
-</span><span class="lnt">85
-</span><span class="lnt">86
-</span><span class="lnt">87
-</span><span class="lnt">88
-</span><span class="lnt">89
-</span><span class="lnt">90
-</span><span class="lnt">91
-</span><span class="lnt">92
-</span><span class="lnt">93
-</span><span class="lnt">94
-</span><span class="lnt">95
-</span><span class="lnt">96
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span><span class="cp">#include</span><span class="cpf">&lt;vector&gt;</span><span class="cp">
-</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-
-<span class="c1">// 从大到小
-</span><span class="c1"></span><span class="kt">void</span> <span class="nf">quickSort</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">arr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">l</span> <span class="o">&gt;</span><span class="n">r</span><span class="p">)</span> <span class="k">return</span> <span class="p">;</span>
-    <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span><span class="n">l</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span><span class="n">r</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">key</span> <span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">];</span>
-    <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span> <span class="o">&amp;&amp;</span> <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">key</span><span class="p">)</span> <span class="n">l</span> <span class="o">++</span><span class="p">;</span>
-        <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">];</span>        
-        <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span> <span class="o">&amp;&amp;</span> <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">key</span><span class="p">)</span> <span class="n">r</span> <span class="o">--</span><span class="p">;</span>
-        <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">];</span>
-    <span class="p">}</span>
-    <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span><span class="n">key</span><span class="p">;</span>
-    <span class="n">quickSort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">l</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-    <span class="n">quickSort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">l</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">right</span><span class="p">);</span>   
-<span class="p">}</span>
-
-<span class="c1">// 从小到大
-</span><span class="c1"></span><span class="kt">void</span> <span class="nf">quickSort2</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">arr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">l</span> <span class="o">&gt;</span><span class="n">r</span><span class="p">)</span> <span class="k">return</span> <span class="p">;</span>
-    
-    <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span><span class="n">l</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span><span class="n">r</span><span class="p">;</span>
-    
-    <span class="kt">int</span> <span class="n">key</span> <span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">];</span>
-    
-    <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span> <span class="o">&amp;&amp;</span> <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">key</span><span class="p">)</span> <span class="n">r</span> <span class="o">--</span><span class="p">;</span>
-        <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">];</span>
-        
-        <span class="k">while</span><span class="p">(</span><span class="n">l</span><span class="o">&lt;</span><span class="n">r</span> <span class="o">&amp;&amp;</span> <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">key</span><span class="p">)</span> <span class="n">l</span> <span class="o">++</span><span class="p">;</span>
-        <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">];</span>
-    <span class="p">}</span>
-    <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span><span class="n">key</span><span class="p">;</span>
-
-    <span class="n">quickSort2</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-    <span class="n">quickSort2</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="n">l</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">right</span><span class="p">);</span>
-    
-<span class="p">}</span>
-
-
-<span class="c1">///  从小到大进行排序
+<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">///  从小到大进行排序
 </span><span class="c1"></span><span class="kt">int</span> <span class="nf">partition</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">arr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">)</span>
 <span class="p">{</span>
     
@@ -837,36 +708,45 @@
     <span class="k">return</span> <span class="n">l</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="kt">void</span> <span class="nf">quickSort3</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">arr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">)</span>
+<span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span><span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">quick_sort</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">arr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">)</span>
 <span class="p">{</span>
-    
     <span class="k">if</span><span class="p">(</span><span class="n">l</span> <span class="o">&gt;</span><span class="n">r</span><span class="p">)</span> <span class="k">return</span> <span class="p">;</span>
-    <span class="kt">int</span> <span class="n">pos</span> <span class="o">=</span><span class="n">partition</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">);</span>
-    <span class="n">quickSort3</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">pos</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-    <span class="n">quickSort3</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">pos</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">key</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">];</span>
+    
+    <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span><span class="n">l</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span><span class="n">r</span><span class="p">;</span>
+    
+    <span class="k">while</span> <span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">)</span>
+    <span class="p">{</span>
+        
+        <span class="k">while</span><span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span> <span class="o">&amp;&amp;</span> <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">key</span><span class="p">)</span> <span class="n">r</span> <span class="o">-=</span><span class="mi">1</span><span class="p">;</span>
+        <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">];</span>
+        
+        <span class="k">while</span> <span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span> <span class="o">&amp;&amp;</span> <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">key</span><span class="p">)</span> <span class="n">l</span> <span class="o">+=</span><span class="mi">1</span><span class="p">;</span>
+        <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span><span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span><span class="n">key</span><span class="p">;</span>
+    
+    <span class="n">quick_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">l</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+    <span class="n">quick_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">l</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">right</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
 <span class="p">{</span>
-    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">arr</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">n</span> <span class="p">;</span>
+    <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span><span class="n">n</span><span class="p">;</span>
     
-    <span class="n">cin</span><span class="o">&gt;&gt;</span><span class="n">n</span><span class="p">;</span>
-    <span class="n">arr</span> <span class="o">=</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
-
-    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">cin</span> <span class="o">&gt;&gt;</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">arr</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="n">quick_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
     
-    <span class="c1">//for(auto u :arr) cout&lt;&lt; u&lt;&lt;&#34; &#34;;
-</span><span class="c1"></span>    <span class="c1">//cout&lt;&lt;endl;
-</span><span class="c1"></span>    
-    <span class="n">quickSort3</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-    
-    <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">u</span> <span class="p">:</span><span class="n">arr</span><span class="p">)</span> <span class="n">cout</span><span class="o">&lt;&lt;</span> <span class="n">u</span><span class="o">&lt;&lt;</span><span class="s">&#34; &#34;</span><span class="p">;</span>
-    <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
-    
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; &#34;</span><span class="p">;</span>
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
-
 
 </code></pre></td></tr></table>
 </div>

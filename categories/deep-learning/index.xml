@@ -23,7 +23,7 @@
       <pubDate>Thu, 29 Oct 2020 09:54:55 +0800</pubDate>
       
       <guid>http://jijeng.github.io/post/image_classification/</guid>
-      <description>&lt;p&gt;记录图像分类过程中常见的优化点（code）。&lt;/p&gt;</description>
+      <description>&lt;p&gt;记录图像分类过程中常见的优化点（工程角度）。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -41,7 +41,7 @@
       <pubDate>Tue, 07 Apr 2020 10:41:47 +0800</pubDate>
       
       <guid>http://jijeng.github.io/post/cnn_understanding/</guid>
-      <description>&lt;p&gt;CNN 算法学习。&lt;/p&gt;</description>
+      <description>&lt;p&gt;CNN 网络中常见层的介绍和理解。&lt;/p&gt;</description>
     </item>
     
     <item>

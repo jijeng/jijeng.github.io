@@ -50,7 +50,7 @@
 <meta itemprop="description" content="python 学习笔记">
 <meta itemprop="datePublished" content="2019-01-09T10:15:33+08:00" />
 <meta itemprop="dateModified" content="2019-01-09T10:15:33+08:00" />
-<meta itemprop="wordCount" content="13338">
+<meta itemprop="wordCount" content="13586">
 
 
 
@@ -128,8 +128,8 @@
             <a href="/categories/tutorial/"> tutorial </a>
             <a href="/categories/programming-language/"> programming language </a>
             </div>
-          <span class="more-meta"> 约 13338 字 </span>
-          <span class="more-meta"> 预计阅读 27 分钟 </span>
+          <span class="more-meta"> 约 13586 字 </span>
+          <span class="more-meta"> 预计阅读 28 分钟 </span>
         
       </div>
     </header>
@@ -2159,22 +2159,29 @@ hash =collections.defaultdict(int);
 <p>使用 heapq 类实现堆，该类默认是小根堆，然后将每个值乘以 -1 从而实现了大根堆、</p>
 </blockquote>
 <p>（6）deque</p>
-<p>注意python中的deque是队列的实现，使用popleft() 表示队头弹出，当使用append() 和普通的list append() 是相同的。默认实现的是双向队列，两端都是可以编辑的。</p>
-<p>队列是一种基于先进先出（FIFO）策略的数据结构。在python 中常见的有三种队列：</p>
-<ul>
-<li>先进先出队列： 尾部进去，头部出来</li>
-<li>优先队列：实现大根堆和小根堆，在python 中默认的是大根堆（貌似），按照级别进行弹出</li>
-<li>双向队列： 头部和尾部都是可以弹出和弹入，可以在两段进行编辑，所以既可以用来实现stack 也可以用来实现队列
-上述三种队列都是有<code>maxlen</code> 属性，那么就可以设置队列的长度。</li>
-</ul>
-<p>队列中常常使用的方法：</p>
-<ul>
-<li>入队 <code>q.put(item)</code></li>
-<li>出队 <code>item =q.get()</code> ，从队头删除并且返回</li>
-<li>返回队列的大小 <code>q.qsize()</code></li>
-<li>判断是否为空 <code>q.empty()</code></li>
-</ul>
+<p>注意python中的deque是队列的实现。python 中默认实现的是双向队列，两端都是可以编辑的。</p>
+<p>队列是一种基于先进先出（FIFO）策略的数据结构.</p>
 <div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># 下面是常用操作</span>
+<span class="n">appendleft</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1"># 添加x 到左侧</span>
+<span class="n">pop</span><span class="p">()</span> <span class="c1"># 移除并返回一个元素，右侧</span>
+
+<span class="c1"># 以下体现的是双向编辑</span>
+<span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1"># 添加 x 到右侧</span>
+<span class="n">popleft</span><span class="p">()</span> <span class="c1"># 移除并返回一个元素，左侧</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -2568,6 +2575,7 @@ defaultdict(&lt;class &#39;set&#39;&gt;, {&#39;color&#39;: {&#39;blue&#39;, &#39
 </code></pre></td></tr></table>
 </div>
 </div><p>grouping unique items</p>
+<p>下面这种写法是可以实现 groupby 的方法，按照 key 进行 group</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -2623,7 +2631,87 @@ defaultdict(&lt;class &#39;set&#39;&gt;, {&#39;color&#39;: {&#39;blue&#39;, &#39
 <p><a href="https://stackoverflow.com/questions/39980323/are-dictionaries-ordered-in-python-3-6">Are dictionaries ordered in Python 3.6+?</a></p>
 <p>如果要 remember the order keys are added to a dictionary，建议使用 orderedDict；python3.6 是自带这种特效；为了提升兼容性，还是建议使用 orderedDict</p>
 </li>
+<li>
+<p>ways to remove a key from a dictionary</p>
+</li>
 </ol>
+<p>在字典中增加、修改和访问其中的 term 都不是很大的问题。时间效率主要差在删除操作。</p>
+<ul>
+<li>Python pop() function</li>
+<li>Python del keyword</li>
+<li>In-built Python popitem() method</li>
+<li>Dictionary Comprehension along with Python items() method</li>
+</ul>
+<p>python in-built <code>clear()</code> method to delete a dictionary in python</p>
+<blockquote>
+<p>The clear() method deletes all the key-value pairs present in the dict and returns an empty dict.</p>
+<p>这个是全部删除</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">dic</span> <span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s2">&#34;python&#34;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s2">&#34;c++&#34;</span><span class="p">}</span>
+<span class="n">dic</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>Python pop() method can be used to delete a key and a value associated with it i.e. a key-value pair from a dictionary.</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">dic</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<span class="n">dic</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="c1"># 这个应该是很规范的写法</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>python <code>del</code> 关键词</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">del</span> <span class="n">dic</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+<span class="c1"># 如果是一个 nested dictionary，那么 使用以下方式</span>
+<span class="k">del</span> <span class="n">dic</span><span class="p">[</span><span class="n">outer</span><span class="o">-</span><span class="n">key</span><span class="p">][</span><span class="n">key</span><span class="o">-</span><span class="n">name</span><span class="o">-</span><span class="n">associated</span><span class="o">-</span><span class="k">with</span><span class="o">-</span><span class="n">the</span><span class="o">-</span><span class="n">value</span><span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>返回一个键值对(key,value)形式，按照 LIFO（Last In First Out 后进先出法） 顺序规则，即最末尾的键值对。</p>
+<blockquote>
+<p>删除的是最后一个键值对</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">dic</span><span class="o">.</span><span class="n">popitem</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>dic.items()</code>  常用的写法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">{val: key for key, val in dic.items()}
+</code></pre></td></tr></table>
+</div>
+</div><p>从运行时间角度进行比较（实验过程可以参考:</p>
+<p>[Python: How to Remove a Key from a Dictionary](Using the  keyword has an edge over the rest of the methods. Although the time difference doesn&rsquo;t seem to be very dramatic on smaller dictionaries. Though, it will make a huge impact when the size of the dictionary is large.)）</p>
+<blockquote>
+<p>Using the <code>del</code> keyword has an edge over the rest of the methods. Although the time difference doesn&rsquo;t seem to be very dramatic on smaller dictionaries. Though, it will make a huge impact when the size of the dictionary is large.</p>
+<p>使用 del 时间效率是最高的。</p>
+</blockquote>
 <h3 id="set-总结">set 总结</h3>
 <ol>
 <li>定义</li>

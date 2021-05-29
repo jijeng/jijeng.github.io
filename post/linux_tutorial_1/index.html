@@ -50,7 +50,7 @@
 <meta itemprop="description" content="介绍linux 中常见的命令 和github 中常用的命令">
 <meta itemprop="datePublished" content="2019-02-18T10:06:48+08:00" />
 <meta itemprop="dateModified" content="2019-02-18T10:06:48+08:00" />
-<meta itemprop="wordCount" content="21471">
+<meta itemprop="wordCount" content="21708">
 
 
 
@@ -127,8 +127,8 @@
         <div class="post-category">
             <a href="/categories/tutorial/"> tutorial </a>
             </div>
-          <span class="more-meta"> 约 21471 字 </span>
-          <span class="more-meta"> 预计阅读 43 分钟 </span>
+          <span class="more-meta"> 约 21708 字 </span>
+          <span class="more-meta"> 预计阅读 44 分钟 </span>
         
       </div>
     </header>
@@ -1603,6 +1603,33 @@ scp -i  Selects the file from which the identity (private key) for public # 使�
 <td class="lntd">
 <pre class="chroma"><code class="language-fallback" data-lang="fallback">-c (continue )
 Continue getting a partially-downloaded file
+</code></pre></td></tr></table>
+</div>
+</div><p>比如说</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">wget -c http://www.test.com/xxxx/xxx.tar.gz
+<span class="c1"># 下载大文件时，加入不注意终止了，使用次命令还可以接着下载</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>当访问 https 网站时候， wget 将尝试验证证书，有时候会因为证书失效而导致下载不成功。</p>
+<blockquote>
+<p>当点击安全的网站（https）时，wget将尝试验证证书。为了信任证书，wget需要访问证书存储，证书存储本质上是一个存储可信证书的SSL目录（有关详细信息，请参阅此处：https://wiki.openwrt.org/doc/howto/wget-ssl-certs）</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">wget --no-check-certificate 
+# 添加这个参数可以认为，我无论如何都要下载图像
+
 </code></pre></td></tr></table>
 </div>
 </div><p>（2）使用 rsync 命令</p>

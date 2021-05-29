@@ -50,7 +50,7 @@
 <meta itemprop="description" content="介绍面试过程中的数据结构，树、Hash表和图。">
 <meta itemprop="datePublished" content="2019-04-05T11:04:54+08:00" />
 <meta itemprop="dateModified" content="2019-04-05T11:04:54+08:00" />
-<meta itemprop="wordCount" content="9818">
+<meta itemprop="wordCount" content="9817">
 
 
 
@@ -125,7 +125,7 @@
       <div class="post-meta">
         <span class="post-time"> 2019-04-05 </span>
         
-          <span class="more-meta"> 约 9818 字 </span>
+          <span class="more-meta"> 约 9817 字 </span>
           <span class="more-meta"> 预计阅读 20 分钟 </span>
         
       </div>
@@ -177,7 +177,7 @@ perfect binary tree 最后一层一定是满的。</p>
 <li>叶子结点全部都是在最底层</li>
 <li>最后一层是 2^{k-1}， 总的结点个数是 $2^{k+1} -1$</li>
 </ol>
-<p><img src="https://i.bmp.ovh/imgs/2019/09/34819be3e755ae7c.png" alt=""></p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/21/34819be3e755ae7c.png" style="zoom:80%;" /></p>
 <p>对满二叉树结点位置进行编号（编号的定义对于完全二叉树的理解有重要的意义）</p>
 <ol>
 <li>从根节点开始，自上而下，自左而右</li>
@@ -187,7 +187,6 @@ perfect binary tree 最后一层一定是满的。</p>
 <p>深度为 $k$ 的具有 $n$ 个结点的二叉树，当且仅当其每一个结点都与深度为 $k$ 的满二叉树中编号为 $1 \sim n$ 的结点一一对应，称之为完全二叉树。
 （满二叉树在实际中不是那么常见，但是完全二叉树就比较常见，因为没有约束最后一层必须是满的，但是存在的结点却保留这满二叉树的性质，存在的结点都是和满二叉树一一对应的）</p>
 <p><strong>大根堆和小根堆</strong></p>
-<p><img src="https://upload.cc/i1/2019/09/15/bTSD9e.png" alt="img"></p>
 <p>特点：</p>
 <ol>
 <li>堆是一个完全二叉树( 如果有 h 层，那么 1- h-1 层都是满的，在h 层缺失的若干个 右叶子)</li>
@@ -196,7 +195,6 @@ perfect binary tree 最后一层一定是满的。</p>
 </ol>
 <p>堆的存储结构
 一般都用数组来表示堆，$i $结点的父结点下标就为 $(i–1)/2 $。它的左右子结点下标分别为 $2 * i + 1 $和 $2 * i + 2$。如第0个结点左右子结点下标分别为1和2。在二叉排序树中，某结点的右孩子结点的值一定大于该结点的左孩子结点的值；在堆中却不一定，堆只是限定了某结点的值大于（或小于）其左右孩子结点的值，但没有限定左右孩子结点之间的大小关系。</p>
-<p><img src="https://upload.cc/i1/2019/09/15/067dri.gif" alt="img"></p>
 <p>堆的结构和完全二叉树的区别：
 堆是一个完全二叉树，并且每个结点的值都大于或等于其左右孩子结点的值（这里的讨论以大根堆为例），所以，堆是结点之间满足一定次序关系的完全二叉树。具有n个结点的堆，其深度即为堆所对应的完全二叉树的深度$logn $。</p>
 <p>接下来的树结构都是一种高效的查找结构。</p>
@@ -273,7 +271,7 @@ perfect binary tree 最后一层一定是满的。</p>
 <li>二叉查找树出现 $O(N)$ 的时间复杂度在于树形结构变成了单链表的形式。</li>
 <li>平衡树和红黑树的区别：平衡二叉树的插入/删除操作带来的旋转操作可能会达到logn次，而红黑树的插入/删除操作带来的旋转操作最多为2 or 3次。</li>
 </ol>
-<p><img src="https://i.loli.net/2019/09/05/9gECZRzJqrswSiM.png" alt="1.png"></p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/21/9gECZRzJqrswSiM.png" alt="1.png" style="zoom:100%;" /></p>
 <p><strong>平衡二叉树（AVL树，俄国两个人名的首写字母）</strong></p>
 <p>可以介绍一个概念：平衡因子。该节点左子树的高度- 该节点的右子树高度，即左右子树高度之差，被称为平衡因子。</p>
 <p>平衡二叉树的特点</p>
@@ -286,9 +284,9 @@ perfect binary tree 最后一层一定是满的。</p>
 </li>
 </ol>
 <p>使用左旋（left rotation）和右旋（right rotation）来调整树的平衡。</p>
-<p><img src="https://i.loli.net/2019/09/05/ogIAdEY7T4w6jZu.gif" alt="1.gif"></p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/21/ogIAdEY7T4w6jZu.gif" alt="1.gif"></p>
 <p>如果在AVL树中进行插入或删除节点，可能导致AVL树失去平衡，这种失去平衡的二叉树可以概括为四种姿态：LL（左左）、RR（右右）、LR（左右）、RL（右左）。它们的示意图如下：</p>
-<p><img src="http://tva1.sinaimg.cn/large/007X8olVly1g6pusahnhqj30za05rtbn.jpg" alt=""></p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/21/007X8olVly1g6pusahnhqj30za05rtbn.jpg" alt=""></p>
 <p><strong>红黑树</strong></p>
 <p>是平衡二叉树的一种，被称为自平衡二叉树。红黑树的每个节点上都存储着表示节点的颜色，可以是红色或者是黑色，所以称为红黑树。相对于 avl 来说，红黑树并不是完整符合平衡条件（任意两个子树的高度最大差为1），因此查找性能从理论上稍微不如 AVL 树。但是插入和删除的效率更高。</p>
 <p>红黑树的特性：</p>
@@ -299,7 +297,7 @@ perfect binary tree 最后一层一定是满的。</p>
 <li>每个红色节点的两个子节点都是黑色（从每个叶子到根的所有路径上不能有两个连续的红色节点）</li>
 <li>从任一节点到其每个叶子节点的所有路径都包含相同数目的黑色节点</li>
 </ol>
-<p><img src="http://tva1.sinaimg.cn/large/007X8olVly1g6oodoretgj30m80apdgb.jpg" alt=""></p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/21/007X8olVly1g6oodoretgj30m80apdgb.jpg" alt=""></p>
 <p>自平衡策略</p>
 <p>对于一棵红黑树的操作最基本的无外乎增删改查，其中查和改都不会改变树的结构，所以与普通平衡二叉树操作无异。剩下的就是增删操作，插入和删除都会破坏树的结构，不过借助一定的平衡策略能够让树重新满足定义。平衡策略可以简单概括为三种：<strong>左旋转</strong>、<strong>右旋转</strong>，以及** 变色**。在插入或删除结点之后，只要我们沿着结点到根的路径上执行这三种操作，就可以最终让树重新满足定义。</p>
 <p>三种基本操作：</p>
@@ -307,27 +305,27 @@ perfect binary tree 最后一层一定是满的。</p>
 <li>左旋转
 对于当前结点而言，如果右子结点为红色，左子结点为黑色，则执行左旋转，如下图：</li>
 </ul>
-<p><img src="https://s2.ax1x.com/2019/09/07/nQBIw4.png" alt="nQBIw4.png"></p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/21/nQBIw4.png" alt="nQBIw4.png"></p>
 <ul>
 <li>右旋转
 对于当前结点而言，如果左子、左孙子结点均为红色，则执行右旋转，如下图：</li>
 </ul>
-<p><img src="https://s2.ax1x.com/2019/09/07/nQBhOU.png" alt="nQBhOU.png"></p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/21/nQBhOU.png" alt="nQBhOU.png"></p>
 <ul>
 <li>变色</li>
 </ul>
-<p><img src="https://s2.ax1x.com/2019/09/07/nQB5mF.png" alt="nQB5mF.png">
+<p><img src="http://123.56.8.10:8899/images/2021/03/21/nQB5mF.png" alt="nQB5mF.png">
 场景：搜索</p>
 <p><strong>B 树</strong></p>
 <p>B 树概括来说是一个更加一般化的二叉搜索树，即一个节点可以拥有2 个以上的子节点。这种树结构又被称为平衡多路（即不止两个子树）查找树。</p>
 <p>首先介绍两个简单类似的树形结构。下面是 2-3 树。其中的2，3表示的可以有2个或者3 个子树。（这种就是一种多路平衡树）</p>
-<p><img src="https://i.loli.net/2019/09/05/DjHyrkJT3NFsenY.png" alt="1.png"></p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/21/DjHyrkJT3NFsenY.png" alt="1.png"></p>
 <p>然后是2-3-4 树。
-<img src="https://i.loli.net/2019/09/05/zfU9dKwN2ubYv4r.png" alt="2.png"></p>
+<img src="http://123.56.8.10:8899/images/2021/03/21/zfU9dKwN2ubYv4r.png" alt="2.png"></p>
 <p>上面的两种可以看做是B 树的特例。B 树中最重要的特性是下面图片中的第三点：除根节点外的非叶子结点都至少有 $\left \lceil  m/2 \right \rceil $棵子树。这个性质是控制着要不要进一步的分裂。第五个性质所有的叶子节点出现在同一层次上，不带信息。（参考上面的2-3树）</p>
-<p><img src="https://i.loli.net/2019/09/05/U6rEWxs3tpYqFOb.png" alt="3.png"></p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/21/U6rEWxs3tpYqFOb.png" alt="3.png"></p>
 <p>B 树最重要的是查找，相当于是二叉排序树的扩展。
-<img src="https://i.loli.net/2019/09/05/2PDd1qfHcIrbuzB.png" alt="4.png"></p>
+<img src="http://123.56.8.10:8899/images/2021/03/21/2PDd1qfHcIrbuzB.png" alt="4.png"></p>
 <p>使用场景：适合于读写相对大的数据块的存储系统，比如硬盘， 常常被用在数据块和文件系统中。</p>
 <p><strong>哈夫曼树（最优二叉树）</strong></p>
 <p>这个树和上面有点差别。如何根据节点不同的查找频率构造更加有效的搜索树？</p>
@@ -339,7 +337,7 @@ perfect binary tree 最后一层一定是满的。</p>
 <li>$n$ 个叶子节点的哈夫曼树总共有 $2n-1$ 个结点</li>
 <li>对同一组权值 ${w_1, w_2, w_3&hellip; , w_n}$， 存在着不同构的两棵哈夫曼树</li>
 </ol>
-<p><img src="https://i.loli.net/2019/09/05/Xcx16rfh9eLAjIS.png" alt="3.png"></p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/21/Xcx16rfh9eLAjIS.png" alt="3.png"></p>
 <p><strong>最小生成树算法</strong></p>
 <p>生成树的特点：</p>
 <ol>
@@ -357,7 +355,7 @@ perfect binary tree 最后一层一定是满的。</p>
 <li>按权值从小到大选择边，所选的边连接的两个顶点$u_i$, $v_i$应属于两颗不同的树（这个是防止生成环的条件），则成为最小生成树的一条边，并将这两颗树合并作为一颗树。</li>
 <li>重复(3) ，直到所有顶点都在一棵树内或者有 n-1 条边为止</li>
 </ol>
-<p><img src="https://i.loli.net/2019/09/05/8ybFoZ7qdjMhVlp.png" alt="1.png"></p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/21/8ybFoZ7qdjMhVlp.png" alt="1.png"></p>
 <p>（其中的判断条件 所选的边属于不同的树，也可以理解为选择的边不能构成环）</p>
 <p><strong>Prim 算法（普里姆算法）</strong></p>
 <p>此算法可以称为“加点法”，每次迭代选择代价最小的边对应的点，加入到最小生成树中。算法从某一个顶点s开始，逐渐长大覆盖整个连通网的所有顶点。</p>
@@ -366,10 +364,10 @@ perfect binary tree 最后一层一定是满的。</p>
 <li>在两个集合$u$, $v$能够组成的边中，选择一条代价最小的边$(u_0,v_0)$，并把$v_0$并入到集合 $u$中。</li>
 <li>重复上述步骤，直到最小生成树有 $n-1$条边或者 $n$个顶点为止。</li>
 </ol>
-<p><img src="https://i.loli.net/2019/09/05/WjuNKxF7J4psdyU.png" alt="1.png"></p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/21/WjuNKxF7J4psdyU.png" alt="1.png"></p>
 <p>在prim 算法中，没有判断是否为环的过程，跳出的条件是第一个列表全部已选，那么就形成了一个最小生成树。</p>
 <p>在实现的时候，需要维持三个列表：顶点是否选择列表，顶点之间的最小距离列表和顶点之间的信息列表。
-<img src="https://s2.ax1x.com/2019/09/06/nMmL5R.png" alt="nMmL5R.png"></p>
+<img src="http://123.56.8.10:8899/images/2021/03/21/nMmL5R.png" alt="nMmL5R.png"></p>
 <p>应用场景：</p>
 <p>考虑城市之间间隔的距离，建设通信线路的难度等各种因素，将这些因素综合成一个数值表示，然后可以计算最小的建设成本。</p>
 <p><a href="https://blog.csdn.net/luoshixian099/article/details/51908175">写作参考</a></p>
@@ -383,7 +381,7 @@ perfect binary tree 最后一层一定是满的。</p>
 当节点总数为偶数时候，n1 为1；当结点总数为奇数，n1 为0.所以连方程组，求解n2 和n0</p>
 <p><strong>Trie 树</strong></p>
 <p>Trie树，又叫字典树、前缀树（Prefix Tree）、单词查找树 或 键树，是一种多叉树结构。如下图：</p>
-<p><img src="https://i.loli.net/2019/09/30/jnMcvP7C4wzmxT1.png" alt="1.png"></p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/21/jnMcvP7C4wzmxT1.png" alt="1.png"></p>
 <p>a. 根节点不包含字符，除根节点外每一个节点都只包含一个字符
 b. 从根节点到某一节点，路径上经过的字符连接起来，为该节点对应的字符串
 c. 每个节点的所有子节点包含的字符都不相同</p>
@@ -411,7 +409,6 @@ c. 每个节点的所有子节点包含的字符都不相同</p>
 例如：找出一个字符串集合中所有以 &ldquo;五分钟&rdquo; 开头的字符串。我们只需要用所有字符串构造一个 trie树，然后输出以 五−&gt;分−&gt;钟 开头的路径上的关键字即可。trie树前缀匹配常用于搜索提示。如当输入一个网址，可以自动搜索出可能的选择。当没有完全匹配的搜索结果，可以返回前缀最相似的可能</p>
 <p>b. 字符串检索
 给出 N 个单词组成的熟词表，以及一篇全用小写英文书写的文章，按最早出现的顺序写出所有不在熟词表中的生词。检索/查询功能是Trie树最原始的功能。给定一组字符串，查找某个字符串是否出现过，思路就是从根节点开始一个一个字符进行比较：</p>
-<p><img src="https://upload.cc/i1/2019/09/30/85zCd2.png" alt="img"></p>
 <ol start="4">
 <li>实现</li>
 </ol>
@@ -785,7 +782,7 @@ kmp 算法是 214 ，可以看看</p>
 </span><span class="cm"> */</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>** Subarray Sum Equals K**</p>
+</div><p><strong>Subarray Sum Equals K</strong></p>
 <p>题解思路也是非常的惊奇。时间复杂度是 $O(1)$</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">

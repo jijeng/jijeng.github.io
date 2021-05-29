@@ -52,7 +52,7 @@
 ">
 <meta itemprop="datePublished" content="2020-02-18T14:29:39+08:00" />
 <meta itemprop="dateModified" content="2020-02-18T14:29:39+08:00" />
-<meta itemprop="wordCount" content="3770">
+<meta itemprop="wordCount" content="4113">
 
 
 
@@ -128,8 +128,8 @@
       <div class="post-meta">
         <span class="post-time"> 2020-02-18 </span>
         
-          <span class="more-meta"> 约 3770 字 </span>
-          <span class="more-meta"> 预计阅读 8 分钟 </span>
+          <span class="more-meta"> 约 4113 字 </span>
+          <span class="more-meta"> 预计阅读 9 分钟 </span>
         
       </div>
     </header>
@@ -144,6 +144,7 @@
         <li><a href="#图像插值">图像插值</a>
           <ul>
             <li><a href="#图像处理中常见的插值算法分类">图像处理中常见的插值算法分类</a></li>
+            <li><a href="#线性插值详解">线性插值详解</a></li>
           </ul>
         </li>
         <li><a href="#图像的resize">图像的resize</a></li>
@@ -157,13 +158,13 @@
 </div>
     <div class="post-content">
       <p>对于图像（image interpolation） 和图像resize 相关知识的整理学习。</p>
-<img src="https://s1.ax1x.com/2020/05/22/YOpwd0.png" width="80%" height="80%">
+<img src="http://123.56.8.10:8899/images/2021/03/22/YOpwd0.png" width="80%" height="80%">
 <p>插值算法主要可以分为两类，一类是线性图像插值方法，另一类是非线性图像插值方法。传统的插值方法如最近邻插值，双线性插值以及双三次插值等都属于线性插值方法。这类插值方法在图像插值过程中采用同一种插值内核，不用考虑待插像素点所处的位置，这种做法会使图像中的边缘变得模糊不清，达不到高清图像的视觉效果。</p>
 <p>非线性插值方法主要包括：基于小波系数的方法基于边缘信息的方法。其中，基于边缘信息的方法又可分为隐式方法和显式方法两种。隐式方法包含边缘导向插值(New edge directive interpolation，NEDI)，最小均方误差估计插值(Linear minimum mean square-error estimation，LMMSE)、软判决自适应插值(Soft-decision adaptive interpolation interpolation,SAI)，提出的边缘对比度引导的图像插值(Contrast-guideed image interpolation,CGI)等都是隐式的基于图像边缘的插值方法。</p>
 <p>最新发展的话有基于决策树，深度学习，字典学习的图像插值算法。</p>
 <p>线性插值算法常用有五种，在OpenCV中设置可以通过相关参数很方便地进行设置。</p>
 <h2 id="图像插值">图像插值</h2>
-<p>缩小图像（下采样或者降采样）的主要目的：使得图像符合显示区域的大小；生成图像的缩略图。当乳香像素数量减少时候，图像的质量不可避免受到影响。然而确实存在一些缩放方法能够增加图像的信息，从而使得缩放后的图像质量高于原图质量。</p>
+<p>缩小图像（下采样或者降采样）的主要目的：使得图像符合显示区域的大小；生成图像的缩略图。当图像像素数量减少时候，图像的质量不可避免受到影响。然而确实存在一些缩放方法能够增加图像的信息，从而使得缩放后的图像质量高于原图质量。</p>
 <p>放大图像（上采样或者插值-image interpolating）主要目的是放大原图像，从而显示在更高的分辨率上。向上采样，可以指定插值算法来实现。</p>
 <p>插值就是在不生成图像的情况下增加图像像素的一种方式，根据周围像素色彩使用数学方法计算丢失图像的色彩，插值并不能增加图像信息。</p>
 <h3 id="图像处理中常见的插值算法分类">图像处理中常见的插值算法分类</h3>
@@ -183,6 +184,44 @@
 <p>Adaptive algorithms include many proprietary algorithms in licensed software such as: Qimage, PhotoZoom Pro, Genuine Fractals and others. Many of these apply a different version of their algorithm (on a pixel-by-pixel basis) when they detect the presence of an edge — aiming to minimize unsightly interpolation artifacts in regions where they are most apparent. These algorithms are primarily designed to maximize artifact-free detail in enlarged photos, so some cannot be used to distort or rotate an image.
 能够检测边缘信息，然后根据这些信息选择不同的 interpolation 算法</p>
 </blockquote>
+<h3 id="线性插值详解">线性插值详解</h3>
+<p>最近邻插值 (Nearest Neighbor Interpolation)</p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/22/v2-b3f9836173febc81d01b6148ad7341ef_1440w.jpg" alt="img" style="zoom:67%;" /></p>
+<p>未知点和所有点中最近的一个。参考的是一个点的信息。</p>
+<p>(单)线性插值(Linear Interpolation)</p>
+<p>参考的是 两个点的信息。</p>
+<p>已知数据 ($x_0$, $y_0$) 和 ($x_1, y_1$) ，求解的是($x, y$)
+$$
+\frac{y-y_{0}}{x-x_{0}}=\frac{y_{1}-y_{0}}{x_{1}-x_{0}}
+$$</p>
+<p>$$
+y=\frac{x_{1}-x}{x_{1}-x_{0}} y_{0}+\frac{x-x_{0}}{x_{1}-x_{0}} y_{1}
+$$</p>
+<p>上面比较好理解吧，仔细看就是用x和x0，x1的距离作为一个权重，用于y0和y1的加权。</p>
+<p>双线性插值 (Bilinear Interpolation)</p>
+<p>参考的是 4 个点的信息。</p>
+<p>双线性插值本质上就是在两个方向上做线性插值。</p>
+<p>已知Q11(x1,y1)、Q12(x1,y2)、Q21(x2,y1)、Q22(x2,y2)，求其中点P(x,y)的值。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/22/image-20210322150739042.png" alt="image-20210322150739042" style="zoom:67%;" /></p>
+<p>(1) x方向单线性插值 直接带入前一步单线性插值最后的公式</p>
+<p>$$
+f\left(R_{1}\right)=\frac{x_{2}-x}{x_{2}-x_{1}} f\left(Q_{11}\right)+\frac{x-x_{1}}{x_{2}-x_{1}} f\left(Q_{21}\right)
+$$</p>
+<p>$$
+f\left(R_{2}\right)=\frac{x_{2}-x}{x_{2}-x_{1}} f\left(Q_{12}\right)+\frac{x-x_{1}}{x_{2}-x_{1}} f\left(Q_{22}\right)
+$$</p>
+<p>(2) y方向单线性插值</p>
+<p>$$
+f(P)=\frac{y_{2}-y}{y_{2}-y_{1}} f\left(R_{1}\right)+\frac{y-y_{1}}{y_{2}-y_{1}} f\left(R_{2}\right)
+$$</p>
+<p>最后整理可得
+$$
+f(x, y)=f\left(Q_{11}\right) w_{11}+f\left(Q_{21}\right) w_{21}+f\left(Q_{12}\right) w_{12}+f\left(Q_{22}\right) w_{22}
+$$
+每个点的权重：待求点和对角点的距离有关。</p>
+<p><a href="https://zhuanlan.zhihu.com/p/110754637">一篇文章为你讲透双线性插值</a></p>
+<p>双三次插值 (Bicubic Interpolation)</p>
+<p>参考的是 16 个点的信息。</p>
 <h2 id="图像的resize">图像的resize</h2>
 <p>经常说的像素，有时候却不注意其定义。</p>
 <p>resolution = width x height</p>
@@ -289,28 +328,28 @@
 </span><span class="lnt">23
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 查看图片属性的命令
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># 查看图片属性的命令</span>
 identify **.png 
 
-# 这个是convert resize 大小的命令
-convert input.jpg -resize 300 output.jpg
-convert input.jpg -resize 300 -quality 75 output.jpg
+<span class="c1"># 这个是convert resize 大小的命令</span>
+convert input.jpg -resize <span class="m">300</span> output.jpg
+convert input.jpg -resize <span class="m">300</span> -quality <span class="m">75</span> output.jpg
 
-# 按照比例缩放
+<span class="c1"># 按照比例缩放</span>
 convert -resize 600×600 src.jpg dst.jpg
 
-# 无序保持你原有的比例 （注意有一个 ! 号，并且是宽高 这样的顺序）
+<span class="c1"># 无序保持你原有的比例 （注意有一个 ! 号，并且是宽高 这样的顺序）</span>
 convert -resize 600×600! src.jpg dst.jpg
 
 4.使用^命令后缀可以使用宽高中较小的那个值作为尺寸
 
 convert -resize “300×300^” src.jpg dst.jpg
 
-#此命令执行后，dst.jpg图片大小为（400×300），图片保持原有比例，(300:300 &lt; 200:150，选择高作为最小尺寸）。
+<span class="c1">#此命令执行后，dst.jpg图片大小为（400×300），图片保持原有比例，(300:300 &lt; 200:150，选择高作为最小尺寸）。</span>
 
 convert -resize “300×200^” src.jpg dst.jpg
 
-#此命令执行后，dst.jpg图片大小为（300×225），图片保持原有比例，(300:200 &gt; 200:150，选择宽作为最小尺寸）。
+<span class="c1">#此命令执行后，dst.jpg图片大小为（300×225），图片保持原有比例，(300:200 &gt; 200:150，选择宽作为最小尺寸）。</span>
 
 </code></pre></td></tr></table>
 </div>
@@ -322,7 +361,7 @@ convert -resize “300×200^” src.jpg dst.jpg
 <p>因为自己不是很常用，那么简单给出了相关的参考资料。之后可以学习一下</p>
 <p><a href="https://zhuanlan.zhihu.com/p/67878761">给新手的 20 多个 FFmpeg 命令示例</a>
 <a href="http://www.ruanyifeng.com/blog/2020/01/ffmpeg.html">FFmpeg 视频处理入门教程</a> 阮一峰写的教程</p>
-<p>强大的图像处理库（可以使用命令行哦，接下来好好学习ImageMagic）</p>
+<p>强大的图像处理库（可以使用命令行哦）</p>
 <p><a href="https://www.smashingmagazine.com/2015/06/efficient-image-resizing-with-imagemagick/">Efficient Image Resizing With ImageMagick</a>
 <a href="https://www.cnblogs.com/2333333he-tui/p/10622495.html">图像插值笔记</a>
 <a href="https://medium.com/hd-pro/jpeg-image-scaling-algorithms-913987c9d588">JPEG Image Scaling Algorithms</a></p>
@@ -341,9 +380,9 @@ convert -resize “300×200^” src.jpg dst.jpg
 <li>分类</li>
 </ol>
 <p>Forward warping是在基于知道坐标的转换关系x(u,v)x(u,v)、y(u,v)y(u,v)后，直接把原图的每个坐标变换到新位置上，如果变换坐标(x,y)(x,y)不是整数，那么就按最近的取整。但问题是，新图中很多格子并没有对应到原图中的点上。</p>
-<img src="https://i.loli.net/2020/05/27/ezpalqUmCPBJgnT.png"  height ="80%" width ="80%">
+<img src="http://123.56.8.10:8899/images/2021/03/22/ezpalqUmCPBJgnT.png"  height ="80%" width ="80%">
 <p>Inverse warping是对于每个获得的新坐标(x,y)(x,y)，用逆向的映射函数u(x,y)u(x,y)、v(x,y)v(x,y)找到它在原图中对应的位置(u,v)(u,v)，然后让g(x,y)=f(u,v)g(x,y)=f(u,v)。如果算出来的点(u,v)(u,v)不在格子上，就用插值方法获得像素值。</p>
-<img src="https://i.loli.net/2020/05/27/XsYGipd73AJke8v.png"  height ="80%" width ="80%">
+<img src="http://123.56.8.10:8899/images/2021/03/22/XsYGipd73AJke8v.png"  height ="80%" width ="80%">
 <p><a href="https://blog.csdn.net/Cyiano/article/details/78658368">图像处理中的forward warping 和 inverse warping</a></p>
 <p><a href="https://www.seas.upenn.edu/~cse399b/Lectures/CSE399b-07-warping.pdf">Image Warping</a></p>
 <p><a href="https://www.cs.princeton.edu/courses/archive/spr11/cos426/notes/cos426_s11_lecture03_warping.pdf">Image Warping</a></p>
@@ -394,6 +433,15 @@ Image warping requires resampling of image</p>
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-fallback" data-lang="fallback">mogrify -format jpg *.png  
+</code></pre></td></tr></table>
+</div>
+</div><p>批量修改 batch 操作</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">mogrify -resize 320x240! *.jpg
 </code></pre></td></tr></table>
 </div>
 </div>

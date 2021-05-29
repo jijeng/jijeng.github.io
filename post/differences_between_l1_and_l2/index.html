@@ -49,7 +49,7 @@
 <meta itemprop="description" content="L1 和L2 既可以作为 loss function 也可以作为 reguarization，分别介绍了一下两者，最后介绍 overfitting 的概念。 As loss function loss function or error function 是用来衡量真实$y$ 和生成">
 <meta itemprop="datePublished" content="2018-07-21T13:22:06+08:00" />
 <meta itemprop="dateModified" content="2018-07-21T13:22:06+08:00" />
-<meta itemprop="wordCount" content="3324">
+<meta itemprop="wordCount" content="3877">
 
 
 
@@ -126,8 +126,8 @@
         <div class="post-category">
             <a href="/categories/machine-learning/"> machine learning </a>
             </div>
-          <span class="more-meta"> 约 3324 字 </span>
-          <span class="more-meta"> 预计阅读 7 分钟 </span>
+          <span class="more-meta"> 约 3877 字 </span>
+          <span class="more-meta"> 预计阅读 8 分钟 </span>
         
       </div>
     </header>
@@ -156,7 +156,6 @@
 <h2 id="as-loss-function">As loss function</h2>
 <p>loss function or error function 是用来衡量真实$y$ 和生成的$ f(x)$ 之间差距的函数。在模型训练中我们一般情况下不断训练模型使得loss function不断下降（如果task要求loss function是增大，这时候一般加上符号或者转换成 1- loss fucntion，最后实现的还是loss function下降）。好的回到L1 loss function和L2 loss function.</p>
 <p>概括：从鲁棒性（对待异常值）的角度看，L1 是比L2 具有更好的性质，因为L2 是把误差进行了平方处理，误差回放大；从稳定性角度（数据集的一个小的移动），L2 是比L1 具有更好的性质，这个是可以从实验的角度进行总结。</p>
-<p><img src="https://upload.cc/i1/2019/07/15/Tb2BI3.png" alt="img"></p>
 <p>L1-norm loss function is also known as least absolute deviations(LAD), least absolute errors. It is basically minimizing the sum of the absolute differences between the target value Y and the estimated values (f(x)).</p>
 <p>$$
 S = \sum _ { i = 1 } ^ { n } \left| y _ { i } - f \left( x _ { i } \right) \right|
@@ -166,10 +165,10 @@ $$</p>
 S = \sum _ { i = 1 } ^ { n } \left( y _ { i } - f \left( x _ { i } \right) \right) ^ { 2 }
 $$</p>
 <p>比较L1-norm 和L2-norm在前两个评价指标中的表现：</p>
-<p><img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g44de1ykfjj20aj039mwz.jpg" alt=""></p>
+<p><img src="http://123.56.8.10:8899/images/2021/04/04/e9a223b5ly1g44de1ykfjj20aj039mwz.jpg" alt=""></p>
 <p>对于是否具有唯一解，可以从这个角度分析：L1是可以有多种解，而L2只有一种解。
-(曼哈顿距离)
-<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g44dgr4ywvj206u06waaf.jpg" alt=""></p>
+(曼哈顿距离)</p>
+<p><img src="http://123.56.8.10:8899/images/2021/04/04/e9a223b5ly1g44dgr4ywvj206u06waaf.jpg" alt=""></p>
 <p>使用范围：</p>
 <p>L1 适合在稀疏数据上使用，具有特征选择功能，得到的稀疏解；L2 适合在稠密数据上使用，得到的是唯一解，没有特征选择的功能。</p>
 <h2 id="as-regularization">As regularization</h2>
@@ -212,8 +211,8 @@ $$</p>
 f ( x ) = \frac { 1 } { \sqrt { 2 \pi } \sigma } \exp \left( - \frac { ( x - \mu ) ^ { 2 } } { 2 \sigma ^ { 2 } } \right)
 $$
 如果把高斯密度函数取对数，那么就只会剩下一个平方项，这个就是L2正则项的来源，所以数据是比较稠密的。</p>
-<p>同样，如果是数据比较稀疏，不妨假设来自 laplace 分布，下面是
-<img src="https://i.loli.net/2019/07/15/5d2be624c660286724.jpg" alt="82ba0546d4713b242df43bfe2de96e22_hd.jpg">
+<p>同样，如果是数据比较稀疏，不妨假设来自 laplace 分布，下面是</p>
+<p><img src="http://123.56.8.10:8899/images/2021/04/04/5d2be624c660286724.jpg" alt="82ba0546d4713b242df43bfe2de96e22_hd.jpg">
 其中的 $u$ 表示位置参数， $ b $ 表示尺度参数, 当 $b$ 越大的时候，图像越低矮，数据越不集中，越类似均匀分布，所以有一种稀疏的感觉。这两个都是可以对标正太分布的。可以看到图像的尾部都是比较平滑，然后大多数是接近于0的。</p>
 <p>公式：
 $$
@@ -230,11 +229,11 @@ $$
 <p>L2 regularization on least squares:</p>
 <p><img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g44dbhp8f4j20ee02274b.jpg" alt=""></p>
 <p>The difference between their properties can be promptly summarized as follows:</p>
-<p><img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g44dc1qt7gj20at03va9x.jpg" alt=""></p>
+<p><img src="http://123.56.8.10:8899/images/2021/04/04/e9a223b5ly1g44dc1qt7gj20at03va9x.jpg" alt=""></p>
 <p>对于第一点computational efficient的理解：平方比绝对值更容易计算，平方可以求导直接求最值，但是绝对值就无法求导。并且L1 regularization在 non-sparse cases中是 computational inefficient，但是在 sparse(0比较多) cases中是有相应的稀疏算法来进行优化的，所以是computational efficient.
-对于第二点是否具有sparse solution可以从几何意义的角度解读：
-<img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g44dgr4ywvj206u06waaf.jpg" alt="">
-The green line(L2-norm) is the unique shortest path, while the red, blue yellow(L1-norm) are all same length for the same route.</p>
+对于第二点是否具有sparse solution可以从几何意义的角度解读：</p>
+<p><img src="http://123.56.8.10:8899/images/2021/04/04/e9a223b5ly1g44dgr4ywvj206u06waaf-20210404111127096.jpg" alt=""></p>
+<p>The green line(L2-norm) is the unique shortest path, while the red, blue yellow(L1-norm) are all same length for the same route.</p>
 <p>Built-in feature selection is frequently mentioned as a useful property of the L1-norm, which the L2-norm does not. This is actually a result of the L1-norm, which tends to produces sparse coefficients (explained below). Suppose the model have 100 coefficients but only 10 of them have non-zero coefficients, this is effectively saying that “the other 90 predictors are useless in predicting the target values”. L2-norm produces non-sparse coefficients, so does not have this property.</p>
 <p>所以表格中第三点也是顺理成章的了。
 至此，我们区分了L1-norm vs L2-norm loss function 和L1-regularization vs L2-regularization，下面说一下 overfitting的东西。</p>
@@ -242,6 +241,42 @@ The green line(L2-norm) is the unique shortest path, while the red, blue yellow(
 <p>现在，我们的训练优化算法是一个由两项内容组成的函数：一个是损失项，用于衡量模型与数据的拟合度，另一个是正则化项，用于衡量模型复杂度。</p>
 <p>对于过拟合有两种解读方式，一种是模型是复杂，然后是去拟合了所有的数据，没有了泛化性能； 一种是从数据角度，模型去拟合了noise ，这些random的数据。
 然后从loss function的角度去优化的话，就是降低模型的复杂度，正则项就是降低模型复杂度的一种手段。所以从这个角度，L2 是降低模型复杂度的一种手段，也是一种减轻overfit的手段，这两者是相辅相成的。</p>
+<p>We become &ldquo;biased towards simpler models, on the basis that they are capturing something more fundamental, rather than some artifact of the specific data set&rdquo;</p>
+<p>模型复杂程度可以从两个维度考虑：一个是参数（weights）比较多，一个是参数比较大。L1 是和L2 正好可以从上述两方面 handle 问题.</p>
+<blockquote>
+<p>With regularization: minimize (loss (model). + complexity (model))</p>
+<p>Two main reasons that cause a model to be complex are:</p>
+<ul>
+<li>total number of features (handled by L1 regularization)</li>
+<li>The weights of features (handled by L2 regularization)</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>Another way of thinking about this is in the context of using gradient descent to minimize the loss function. We can follow the gradient of the loss function to the point where loss is minimized. Regularization then adds a gradient to the gradient of the unregularized loss. L1 regularization adds a fixed gradient to the loss at every value other than 0, while the gradient added by L2 regularization decreases as we approach 0. Therefore, at values of <em>w</em> that are very close to 0, gradient descent with L1 regularization continues to push <em>w</em> towards 0, while gradient descent on L2 weakens the closer you are to 0.</p>
+<p>从 gradient descent 角度考虑 loss function。</p>
+</blockquote>
+<blockquote>
+<p>L1 encourages weights to 0.0 if possible, resulting in more sparse weights (weights with more 0.0 values). L2 offers more nuance, both penalizing larger weights more severely, but resulting in less sparse weights. The use of L2 in linear and logistic regression is often referred to as Ridge Regression. This is useful to know when trying to develop an intuition for the penalty or examples of its usage.</p>
+</blockquote>
+<p>Weight decay 其实就是我们常说的 L1/ L2  regularization，但为什么加入了 regularizer 就会造成 weight decay？</p>
+<p>以 L2 regularization 为例
+$$
+w_{i}^{t+1} \longleftarrow w_{i}^{t}-\eta \cdot \frac{\partial L^{\prime}}{\partial w_{i}}, \text { where } L^{\prime}(W)=L(W)+\lambda \cdot \sum_{n=1}^{N}\left(w_{n}^{t}\right)^{2}
+$$
+推导出：
+$$
+w_{i}^{t+1} \longleftarrow w_{i}^{t}-\eta \cdot\left(\frac{\partial L}{\partial w_{i}}+2 \lambda w_{i}^{t}\right)
+$$</p>
+<p>$$
+w_{i}^{t+1} \longleftarrow(1-2 \eta \lambda) w_{i}^{t}-\eta \cdot \frac{\partial L}{\partial w_{i}}
+$$</p>
+<p>对比第一个公式和最后一个公式，使用 L2 正则时候，每次必然会将参数先乘以 $(1-2 \eta \lambda)$这一项，这会导致参数向着 0 靠近，这就是 weight decay 的本意。</p>
+<p>L2 的缺点</p>
+<blockquote>
+<p>L2 is not robust to outliers as square terms blows up the error differences of the outliers and the regularization term tries to fix it by penalizing the weights.</p>
+</blockquote>
+<p>weight decay 的缺点</p>
+<p>weight decay 在实际中并不常用，原因是他的整体效果并没有办法和类似 early-stop 这样的 regularization 优秀。</p>
 <h2 id="l0-范数">L0 范数</h2>
 <p>对于 范数的一般定义, p-norrm 如下：</p>
 <p>$$

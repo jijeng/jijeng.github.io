@@ -50,7 +50,7 @@
 <meta itemprop="description" content="本文是介绍shell 语言的学习笔记。">
 <meta itemprop="datePublished" content="2020-02-18T16:43:01+08:00" />
 <meta itemprop="dateModified" content="2020-02-18T16:43:01+08:00" />
-<meta itemprop="wordCount" content="5435">
+<meta itemprop="wordCount" content="5796">
 
 
 
@@ -125,8 +125,8 @@
       <div class="post-meta">
         <span class="post-time"> 2020-02-18 </span>
         
-          <span class="more-meta"> 约 5435 字 </span>
-          <span class="more-meta"> 预计阅读 11 分钟 </span>
+          <span class="more-meta"> 约 5796 字 </span>
+          <span class="more-meta"> 预计阅读 12 分钟 </span>
         
       </div>
     </header>
@@ -145,7 +145,7 @@
             <li><a href="#shell字符串">shell字符串</a></li>
             <li><a href="#shell数组">shell数组</a></li>
             <li><a href="#运算符">运算符</a></li>
-            <li><a href="#shell输出ß">shell输出ß</a></li>
+            <li><a href="#shell输出">shell输出</a></li>
             <li><a href="#if-else条件语句">if else条件语句</a></li>
             <li><a href="#for循环">for循环</a></li>
             <li><a href="#while-循环">while 循环</a></li>
@@ -717,7 +717,7 @@ NAME<span class="o">[</span>4<span class="o">]=</span><span class="s2">&#34;Dais
 </code></pre></td></tr></table>
 </div>
 </div><p>{% endfold %}</p>
-<h3 id="shell输出ß">shell输出ß</h3>
+<h3 id="shell输出">shell输出</h3>
 <p>（1）使用echo</p>
 <p>该命令打印出指定的字符串</p>
 <p>输出重定向：Shell可以使用右尖括号（“&gt;”）和两个右尖括号（“&raquo;”）来表示输出的重定向</p>
@@ -1273,6 +1273,99 @@ ok
 
 mkdir -p <span class="si">${</span><span class="nv">DATA_DIR</span><span class="si">}</span>
 kaggle datasets download -d <span class="si">${</span><span class="nv">DATASET</span><span class="si">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>在shell 脚本中 exit 1 表示非正常退出程序（不为 0 就表示程序运行出错），那么 exit 0 表示正常退出</p>
+</blockquote>
+<p>wget download 文件时候可以使用 <code>-O</code> 文件的写入。 使用shell 脚本下载文件，注意shell 是从 <code>$1</code> 开始的</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nv">FILE</span><span class="o">=</span><span class="nv">$1</span>
+
+<span class="nb">echo</span> <span class="s2">&#34;Note: available models are apple2orange, orange2apple, summer2winter_yosemite, winter2summer_yosemite, horse2zebra, zebra2horse, monet2photo, style_monet, style_cezanne, style_ukiyoe, style_vangogh, sat2map, map2sat, cityscapes_photo2label, cityscapes_label2photo, facades_photo2label, facades_label2photo, iphone2dslr_flower&#34;</span>
+
+<span class="nb">echo</span> <span class="s2">&#34;Specified [</span><span class="nv">$FILE</span><span class="s2">]&#34;</span>
+
+mkdir -p ./checkpoints/<span class="si">${</span><span class="nv">FILE</span><span class="si">}</span>_pretrained
+<span class="nv">MODEL_FILE</span><span class="o">=</span>./checkpoints/<span class="si">${</span><span class="nv">FILE</span><span class="si">}</span>_pretrained/latest_net_G.pth
+<span class="nv">URL</span><span class="o">=</span>http://efrosgans.eecs.berkeley.edu/cyclegan/pretrained_models/<span class="nv">$FILE</span>.pth
+
+wget -N <span class="nv">$URL</span> -O <span class="nv">$MODEL_FILE</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>set -ex</code> 的使用</p>
+<p>写 shell 脚本时候，一般是一个串联的，要求命令是一起执行完。通常来说，习惯于使用 <code>&amp;&amp;</code> 来实现这样的功能。比如以下的例子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="cp">#!/bin/bash
+</span><span class="cp"></span><span class="nb">echo</span> <span class="m">1</span> <span class="o">&amp;&amp;</span> rm non-existent-file <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="m">2</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>写成一行，可读性不强。并且， <code>&amp;</code> 之间是无法增加注释的。</p>
+<p><code>set -e</code></p>
+<p>这个参数的含义是，当命令发生错误的时候，停止脚本的执行。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">set</span> -e
+<span class="nb">echo</span> <span class="m">1</span>
+rm non-existent-file
+<span class="nb">echo</span> <span class="m">2</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>进一步可以设置</p>
+<p><code>set -x</code></p>
+<p><code>-x</code> 参数的作用，是把将要运行的命令用一个 <code>+</code> 标记之后显示出来。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">set</span> -ex
+<span class="nb">echo</span> <span class="m">1</span>
+rm non-existent-file <span class="c1"># which will fail</span>
+<span class="nb">echo</span> <span class="m">2</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>所以最后的输出变成以下的样子</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">+ echo 1
+1
++ rm non-existent-file
+rm: non-existent-file: No such file or directory
 </code></pre></td></tr></table>
 </div>
 </div>

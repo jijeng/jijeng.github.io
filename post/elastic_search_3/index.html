@@ -50,7 +50,7 @@
 <meta itemprop="description" content="elastic search的使用优化">
 <meta itemprop="datePublished" content="2020-07-07T13:24:51+08:00" />
 <meta itemprop="dateModified" content="2020-07-07T13:24:51+08:00" />
-<meta itemprop="wordCount" content="867">
+<meta itemprop="wordCount" content="1159">
 
 
 
@@ -125,8 +125,8 @@
       <div class="post-meta">
         <span class="post-time"> 2020-07-07 </span>
         
-          <span class="more-meta"> 约 867 字 </span>
-          <span class="more-meta"> 预计阅读 2 分钟 </span>
+          <span class="more-meta"> 约 1159 字 </span>
+          <span class="more-meta"> 预计阅读 3 分钟 </span>
         
       </div>
     </header>
@@ -143,6 +143,7 @@
             <li><a href="#批量导入和导出工具">批量导入和导出工具</a></li>
             <li><a href="#es-中的组合查询">ES 中的组合查询</a></li>
             <li><a href="#autocompletion">autocompletion</a></li>
+            <li><a href="#analyzer-进行分词">analyzer 进行分词</a></li>
             <li><a href="#其他问题">其他问题</a></li>
             <li><a href="#参考资料">参考资料</a></li>
           </ul>
@@ -314,7 +315,28 @@ elasticdump \
 <span class="o">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><h3 id="其他问题">其他问题</h3>
+</div><h3 id="analyzer-进行分词">analyzer 进行分词</h3>
+<p>分词器是专门处理分词的组件，Analyzer 由三部分组成</p>
+<ul>
+<li>Character Filters （针对原始文本处理，例如去除 html）</li>
+<li>Tokenizer（按照规则切分为单词）</li>
+<li>Token Filter （将切分的单词进行加工，小写，删除 stopwords，增加同义语）</li>
+</ul>
+<p>内置的分词器</p>
+<p>不同的 analyzer 意味着不同的检索方式。</p>
+<ul>
+<li>Standard Analyzer - 默认分词器，按词切分，小写处理</li>
+<li>Simple Analyzer - 按照非字母切分（符号被过滤），小写处理</li>
+<li>Stop Analyzer - 小写处理，停用词过滤（the ，a，is）</li>
+<li>Whitespace Analyzer - 按照空格切分，不转小写</li>
+<li>Keyword Analyzer - 不分词，直接将输入当做输出</li>
+<li>Patter Analyzer - 正则表达式，默认 \W+</li>
+<li>Language - 提供了 30 多种常见语言的分词器</li>
+<li>Customer Analyzer 自定义分词器</li>
+</ul>
+<p>从下面的链接中可以查看不同 analyzer 的实际效果</p>
+<p><a href="https://www.cnblogs.com/xiaobaozi-95/p/9328948.html">es的分词器analyzer</a></p>
+<h3 id="其他问题">其他问题</h3>
 <ol>
 <li>
 <p>性能问题，使用filter 和使用 bool 实现相同的功能，两者在时间或者内存使用上的差别。</p>

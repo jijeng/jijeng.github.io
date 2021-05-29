@@ -53,7 +53,7 @@
 不理解的地方，一个是关于 nn包搭建网络的部分。">
 <meta itemprop="datePublished" content="2019-02-01T16:11:50+08:00" />
 <meta itemprop="dateModified" content="2019-02-01T16:11:50+08:00" />
-<meta itemprop="wordCount" content="6599">
+<meta itemprop="wordCount" content="6987">
 
 
 
@@ -131,7 +131,7 @@
         <div class="post-category">
             <a href="/categories/tutorial/"> tutorial </a>
             </div>
-          <span class="more-meta"> 约 6599 字 </span>
+          <span class="more-meta"> 约 6987 字 </span>
           <span class="more-meta"> 预计阅读 14 分钟 </span>
         
       </div>
@@ -583,7 +583,33 @@ Numpy是科学计算的通用框架;它对计算图形、深度学习或梯度�
 </code></pre></td></tr></table>
 </div>
 </div><p>然后输入 <code>http://localhost:8097</code></p>
-<p>‘model.eval()’ vs ‘with torch.no_grad()’</p>
+<p>model.eval() 和 model.no_grad()  的区别</p>
+<p>model.eval()</p>
+<blockquote>
+<ul>
+<li>在train模式，dropout层会按照设定的参数p设置保留激活单元的概率（保留概率=p，比如keep_prob=0.8），batchnorm层会继续计算数据的mean和var并进行更新</li>
+<li>在val模式下，dropout层会让所有的激活单元都通过，而batchnorm层会停止计算和更新mean和var，直接使用在训练阶段已经学出的mean和var值</li>
+<li>model.eval()不会影响各层的gradient计算行为，即gradient计算和存储与training模式一样，只是不进行反向传播(backprobagation)</li>
+</ul>
+</blockquote>
+<p>model.no_grad()</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span><span class="err">：</span>
+	<span class="c1"># 代码块</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<ul>
+<li>用于停止autograd模块的工作，起到加速和节省显存的作用（具体行为就是停止gradient计算，从而节省了GPU算力和显存）</li>
+<li>不会影响dropout和batchnorm层的行为</li>
+</ul>
+</blockquote>
+<p>所以在部署的时候，需要两者搭配起来进行使用，这样可以处理 dropout 和 BN 的情况，也可减少显存的使用。</p>
 <blockquote>
 <p>These two have different goals:
 model.eval() will notify all your layers that you are in eval mode, that way, batchnorm or dropout layers will work in eval mode instead of training mode.

@@ -50,7 +50,7 @@
 <meta itemprop="description" content="先介绍了动态规划的概念，使用的必要条件，和其他类似算法的区别和联系。然后是实战，coding部分。">
 <meta itemprop="datePublished" content="2019-08-29T16:18:47+08:00" />
 <meta itemprop="dateModified" content="2019-08-29T16:18:47+08:00" />
-<meta itemprop="wordCount" content="9204">
+<meta itemprop="wordCount" content="9177">
 
 
 
@@ -125,7 +125,7 @@
       <div class="post-meta">
         <span class="post-time"> 2019-08-29 </span>
         
-          <span class="more-meta"> 约 9204 字 </span>
+          <span class="more-meta"> 约 9177 字 </span>
           <span class="more-meta"> 预计阅读 19 分钟 </span>
         
       </div>
@@ -164,24 +164,14 @@
 <h2 id="概念">概念</h2>
 <blockquote>
 <p>Dynamic programming (DP) is as hard as it is counterintuitive.</p>
-</blockquote>
 <p>dp 不太好想出来，所以是 counterintuitive，但如果想出来，那么程序时间效率上会很高。</p>
+</blockquote>
 <p>定义：</p>
 <p>Dynamic programming amounts to breaking down an optimization problem into simpler sub-problems, and storing the solution to each sub-problem so that each sub-problem is only solved once.</p>
 <p>使用dp 的两个必要条件：</p>
-<blockquote>
 <ol>
-<li>has an optimal substructure.</li>
-</ol>
-</blockquote>
-<ol start="2">
-<li>
-<p>has overlapping subproblems.</p>
-</li>
-<li>
-<p>最优子结构
-最优子结构，如果简单理解，那么可以等同于递归。如果一个问题能够使用递归解决，那么就具有最优子结构。</p>
-</li>
+<li>最优子结构
+最优子结构，如果简单理解，那么可以等同于递归。如果一个问题能够使用递归解决，那么就具有最优子结构。</li>
 </ol>
 <blockquote>
 <p>Optimal substructure simply means that you can find the optimal solution to a problem by considering the optimal solution to its subproblems.</p>
@@ -195,7 +185,7 @@
 <li>重复的子问题</li>
 </ol>
 <p>正因为有了 overlapping subproblems，那么才是需要 memory，才是需要cache。使用 Fibonacci problem 举例说明：</p>
-<p><img src="https://ftp.bmp.ovh/imgs/2019/11/9c9a9100834666a3.png" alt="">
+<p><img src="http://123.56.8.10:8899/images/2021/04/03/9c9a9100834666a3.png" style="zoom:50%;" />
 如上图所示，计算 <code>fib(4)</code> 和计算 <code>fib(3)</code> 都是需要计算<code>fib(1)</code> 和<code>fib(2)</code>。 那么这个时候就是有重复的子问题。</p>
 <p>时间复杂度分析</p>
 <blockquote>
@@ -208,13 +198,13 @@ Tabulation is an approach where you solve a dynamic programming problem by first
 </blockquote>
 <p>表格实现了memory机制，优化了时间效率。memory 就等同于 cache，这个基本假设是有多次相同的问题需要被解决，如果没有重复的问题，那么也是没有必要使用memory 进行时间上的优化的。</p>
 <p>两种不同的思考方式：</p>
-<blockquote>
 <ol>
-<li>Top-Down : Start solving the given problem by breaking it down. If you see that the problem has been solved already, then just return the saved answer. If it has not been solved, solve it and save the answer. This is usually easy to think of and very intuitive. This is referred to as Memoization.</li>
-</ol>
-</blockquote>
-<ol start="2">
-<li>Bottom-Up : Analyze the problem and see the order in which the sub-problems are solved and start solving from the trivial subproblem, up towards the given problem. In this process, it is guaranteed that the subproblems are solved before solving the problem. This is referred to as Dynamic Programming.</li>
+<li>
+<p>Top-Down : Start solving the given problem by breaking it down. If you see that the problem has been solved already, then just return the saved answer. If it has not been solved, solve it and save the answer. This is usually easy to think of and very intuitive. This is referred to as Memoization.</p>
+</li>
+<li>
+<p>Bottom-Up : Analyze the problem and see the order in which the sub-problems are solved and start solving from the trivial subproblem, up towards the given problem. In this process, it is guaranteed that the subproblems are solved before solving the problem. This is referred to as Dynamic Programming.</p>
+</li>
 </ol>
 <p>第一种类似带有memory机制的递归。memory机制就是一种典型的空间换取时间的方式。</p>
 <p>dp 和其他算法的不同</p>
@@ -222,30 +212,24 @@ Tabulation is an approach where you solve a dynamic programming problem by first
 <ol>
 <li>Divide and conquer is slightly a different technique. In that, we divide the problem in to non-overlapping subproblems and solve them independently, like in merge sort and quick sort.</li>
 <li>Greedy Algorithms which make a decision once and for all every time they need to make a choice, in such a way that it leads to a near-optimal solution.</li>
-</ol>
-</blockquote>
-<ol start="3">
 <li>Dynamic programming is basically, recursion plus using memory. The intuition behind dynamic programming is that we trade space for time.</li>
 </ol>
+</blockquote>
 <p>大多数dp 问题都可以归结为这两类：</p>
 <blockquote>
 <ol>
 <li>Optimization problems.</li>
-</ol>
-</blockquote>
-<ol start="2">
 <li>Combinatorial problems.
 The optimization problems expect you to select a feasible solution, so that the value of the required function is minimized or maximized. Combinatorial problems expect you to figure out the number of ways to do something, or the probability of some event happening.</li>
 </ol>
+</blockquote>
 <p>最优解得到是最大值或者最小值；组合问题得到是解的个数。</p>
 <h2 id="实例">实例</h2>
 <p>解题步骤</p>
-<blockquote>
 <ol>
-<li>Define subproblems</li>
-</ol>
-</blockquote>
-<ol start="2">
+<li>
+<p>Define subproblems</p>
+</li>
 <li>
 <p>Write down the recurrence that relates subproblems</p>
 </li>
@@ -456,8 +440,8 @@ $$</p>
 <p>动态转移方程（这个相对上一个考虑的情况少一些）
 $$
 \begin{split}
-A_n  &amp;=n if n ==1 || n ==2 \\<br>
-A_n &amp; = A_{n-1} +A_{n -2}   else\\<br>
+A_n &amp;= n if n ==1 || n ==2 \\<br>
+A_n &amp;= A_{n-1} + A_{n -2}   else\\<br>
 \end{split}
 $$</p>
 <div class="highlight"><div class="chroma">
@@ -515,16 +499,7 @@ $D_{ij}$ 表示 $x_{1, &hellip;, i}$ 和$y_{1, &hellip;, j}$ 的LCS 的长度</l
 <li>初始化(就是解决最小的问题，就是当 $i-1 ==0$ 的时候， 或者bad case 是如何进行处理)
 $D_{i0} =D_{0j} =0$</li>
 </ol>
-<p>python代码实现</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python">
-</code></pre></td></tr></table>
-</div>
-</div><p>c++ 代码实现</p>
+<p>c++ 代码实现</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -911,8 +886,6 @@ The entries of D must be filled in increasing order of  $j − i$</p>
 </span><span class="lnt">31
 </span><span class="lnt">32
 </span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
@@ -921,7 +894,6 @@ The entries of D must be filled in increasing order of  $j − i$</p>
 </span><span class="c1"></span>    <span class="c1">// 转移 f[i][j] =f[i-1][j] or f[i][j-1] 这样的方式
 </span><span class="c1"></span>    <span class="c1">// 初始化, 0 if nums[i][j] ==1 , else 1
 </span><span class="c1"></span>    <span class="kt">int</span> <span class="n">uniquePathsWithObstacles</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;&amp;</span> <span class="n">nums</span><span class="p">)</span> <span class="p">{</span>
-        
         <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">||</span> <span class="o">!</span><span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">size</span><span class="p">())</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
         
         <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span><span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">m</span> <span class="o">=</span><span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">size</span><span class="p">();</span>
@@ -946,13 +918,12 @@ The entries of D must be filled in increasing order of  $j − i$</p>
             <span class="p">}</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">f</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
-        
     <span class="p">}</span>
 <span class="p">};</span>
 
 </code></pre></td></tr></table>
 </div>
-</div><p>** triangle**</p>
+</div><p><strong>triangle</strong></p>
 <p>LeetCode 版本</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1034,9 +1005,6 @@ The entries of D must be filled in increasing order of  $j − i$</p>
 </span><span class="lnt">25
 </span><span class="lnt">26
 </span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
@@ -1061,11 +1029,8 @@ The entries of D must be filled in increasing order of  $j − i$</p>
 </span><span class="c1"></span>            
         <span class="p">}</span>
         <span class="n">f</span> <span class="o">=</span><span class="n">g</span><span class="p">;</span>
-        
-        
     <span class="p">}</span>
     <span class="n">cout</span><span class="o">&lt;&lt;</span> <span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
-
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 
@@ -1467,21 +1432,15 @@ python 中sort() 函数中的自定义sort 是非常nice 的一定写法。</p>
 </span><span class="lnt">21
 </span><span class="lnt">22
 </span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
 </span><span class="cp">#include</span><span class="cpf">&lt;vector&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-
+</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
 <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
     <span class="n">cin</span><span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">;</span>
-    
     <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">f</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
     <span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
     <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>

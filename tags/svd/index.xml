@@ -13,7 +13,8 @@
       <pubDate>Fri, 29 Jun 2018 13:06:49 +0800</pubDate>
       
       <guid>http://jijeng.github.io/post/dimensionality_reduction/</guid>
-      <description>&lt;p&gt;降维分为以PCA为代表的线性降维和T-SNE为代表非线性降维。本文主要介绍这两种降维方式和代码实现，当然也会提及其他的降维算法比如LDA。&lt;/p&gt;</description>
+      <description>&lt;p&gt;数无形时少直觉。&lt;/p&gt;
+&lt;p&gt;降维分为以PCA为代表的线性降维和T-SNE为代表非线性降维。本文主要介绍这两种降维方式和代码实现，当然也会提及其他的降维算法比如LDA。&lt;/p&gt;</description>
     </item>
     
   </channel>

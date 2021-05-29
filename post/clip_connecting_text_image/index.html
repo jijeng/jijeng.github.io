@@ -50,7 +50,7 @@
 <meta itemprop="description" content="CLIP 调研学习">
 <meta itemprop="datePublished" content="2021-02-11T10:44:57+08:00" />
 <meta itemprop="dateModified" content="2021-02-11T10:44:57+08:00" />
-<meta itemprop="wordCount" content="1933">
+<meta itemprop="wordCount" content="2945">
 
 
 
@@ -127,8 +127,8 @@
         <div class="post-category">
             <a href="/categories/nlp/"> nlp </a>
             </div>
-          <span class="more-meta"> 约 1933 字 </span>
-          <span class="more-meta"> 预计阅读 4 分钟 </span>
+          <span class="more-meta"> 约 2945 字 </span>
+          <span class="more-meta"> 预计阅读 6 分钟 </span>
         
       </div>
     </header>
@@ -151,7 +151,7 @@
 <p>传统上说， 图像分类中的文字被映射成数字，但 CLIP 不是这样的。数据量是 4 亿 (image- text) pair.</p>
 </blockquote>
 <blockquote>
-<p>n this post, we will walk through a demonstration of how to test out CLIP&rsquo;s performance on your own images so you can get some hard numbers and an intuition for how well CLIP actually does on various use case. <strong>We found that CLIP does better than <a href="https://blog.roboflow.com/custom-resnet34-classification-model/">our custom trained ResNet classification models</a> on a <a href="https://public.roboflow.com/classification/flowers_classification">flower classification</a> task.</strong> It also does surprisingly well over a range of more obscure and challenging tasks (including identifying mushroom species in pictures from our camera roll and <a href="https://public.roboflow.com/object-detection/oxford-pets/2">identifying breeds of dogs and cats</a>).</p>
+<p>In this post, we will walk through a demonstration of how to test out CLIP&rsquo;s performance on your own images so you can get some hard numbers and an intuition for how well CLIP actually does on various use case. <strong>We found that CLIP does better than <a href="https://blog.roboflow.com/custom-resnet34-classification-model/">our custom trained ResNet classification models</a> on a <a href="https://public.roboflow.com/classification/flowers_classification">flower classification</a> task.</strong> It also does surprisingly well over a range of more obscure and challenging tasks (including identifying mushroom species in pictures from our camera roll and <a href="https://public.roboflow.com/object-detection/oxford-pets/2">identifying breeds of dogs and cats</a>).</p>
 <p>有实践说明效果好，大概看一下 link 上的数据集，貌似数据有点少呀。</p>
 </blockquote>
 <ol start="2">
@@ -207,7 +207,7 @@ As a result of this methodology, CLIP can easily be applied to nearly any visual
 <p>这个还是在说 zero-shot</p>
 </blockquote>
 <p><strong>Contrastive learning</strong></p>
-<p>定义：</p>
+<p>定义</p>
 <blockquote>
 <p><em>Contrastive learning is an approach to formulate the task of finding similar and dissimilar things for an ML model. Using this approach, one can train a machine learning model to classify between similar and dissimilar images.</em></p>
 </blockquote>
@@ -264,6 +264,50 @@ As a result of this methodology, CLIP can easily be applied to nearly any visual
 <blockquote>
 <p><strong>Semantic search</strong> refers to the ability of search engines to consider the intent and contextual meaning of search phrases. Instead of trying to find exact matches for the word in the input phrase, semantic search captures broader context and relationships between words and retrieves results that are more closely related to the context of the search query.</p>
 <p>对于 semantic search 的定义很好，consider the intent and contextual meaning of search phrases. 不是 find exact matches for the word in the input phrase.  实现前者的功能可以考虑的是 <strong>sentence-bert</strong></p>
+</blockquote>
+<p>如何在自己的数据集上进行 train？</p>
+<p>contrastive learning</p>
+<blockquote>
+<p>Contrastive learning is an approach to formulate the task of finding similar and dissimilar things for an ML model. Using this approach, one can train a machine learning model to classify between similar and dissimilar images.</p>
+<p>具体这个是怎么 train 的，可以参考这个论文</p>
+<p><a href="https://arxiv.org/pdf/2006.06666.pdf">https://arxiv.org/pdf/2006.06666.pdf</a></p>
+</blockquote>
+<p>CLIP 的一些缺陷：</p>
+<blockquote>
+<p>The first one is that it doesn&rsquo;t perform too well on systematic tasks such as counting the number of objects in images</p>
+<p>Week generalization ability on images not covered in its pre-training dataset.</p>
+<p>Sensitive to wording and phrasing</p>
+<p>对于一些有条理的任务，比如物体的数量是无法 handle 的</p>
+<p>在原来数据集上没有的数据表现不好</p>
+<p>对于语言的表达比较敏感</p>
+</blockquote>
+<p>clip 的训练方式主要参考 virtex</p>
+<p>VirTex：从文本标注中学习视觉表示</p>
+<p>目的：从较少的图像中学习高质量的视觉表示，并寻求数据效率高的替代方法来替代基于分类的预训练。</p>
+<p>方案：提出VirTex，一种使用语义密集的字幕来学习视觉表示的预训练方法。在COCO Captions上从头开始训练卷积网络，并将其迁移到下游识别任务（downstream recognition tasks）中，包括图像分类、目标检测和实例分割。</p>
+<p>结果：在所有任务中，不管是监督还是无监督学习，即使仅用原来图像数量的1/10，VirTex匹配或优于使用ImageNet进行预训练的模型。</p>
+<p>这种是 unsupervised pretraining methods（因为图像是 unlabeled）</p>
+<p>VirTex: Learning Visual Representations from Textual Annotations</p>
+<p>train 的时候依赖于 image caption 的思路</p>
+<blockquote>
+<p>Given a dataset of image-caption pairs, our goal is to learn visual representations that can be transferred to down- stream visual recognition tasks. As shown in Figure 2, cap- tions carry rich semantic information about images, includ- ing the presence of objects (<em>cat</em>, <em>plate</em>, <em>cake</em>); attributes of objects (<em>orange and white cat</em>); spatial arrangement of ob- jects (<em>cat near a plate</em>); and their actions (<em>looking at apples</em>). Learned visual representations that capture such rich se- mantics should be useful for many downstream vision tasks.</p>
+<p>文本中的这些 feature 其实有助于提取更好的 image embedding， 比如attributes：color 和材质</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/03/24/image-20210324151658312.png" alt="image-20210324151658312"></p>
+<blockquote>
+<p>To this end, we train <em>image captioning</em> models to predict captions from images. As shown in Figure 3, our model has two components: a <em>visual backbone</em> and a <em>textual head</em>. The visual backbone extracts visual features from an input image I.</p>
+<p>The textual head accepts these features and pre- dicts a caption C = (c0,c1,&hellip;,cT ,cT+1) token by token, where c0 = [SOS] and cT +1 = [EOS] are fixed special to- kens indicating the start and end of sentence. The textual head performs bidirectional captioning (<em>bicaptioning</em>): it comprises a <em>forward model</em> that predicts tokens left-to-right, and a <em>backward model</em> that predicts right-to-left.</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/03/24/image-20210324152956817.png" alt="image-20210324152956817" style="zoom:50%;" /></p>
+<p>图像方面的处理</p>
+<blockquote>
+<p>Visual Backbone: The visual backbone is a convolutional network which computes visual features of images. It in- puts raw image pixels, and outputs a spatial grid of image features. During pretraining, these features are used to pre- dict captions. In downstream tasks, we either train linear models on features extracted from the visual backbone, or fine-tune the visual backbone end-to-end.</p>
+<p>In principle we could use any convolutional network ar- chitecture for the visual backbone. In our experiments we use a standard ResNet-50 [2] as the visual backbone to fa- cilitate comparison with our baseline methods (Section 4). It accepts a 224 × 224 image and produces a 7 × 7 grid of 2048-dimensional features after the final convolutional layer. During pretraining, we apply a linear projection layer to the visual features before passing them to the textual head to facilitate decoder attention over visual features. This pro- jection layer is not used in downstream tasks.</p>
+</blockquote>
+<p>文本方面的处理</p>
+<blockquote>
+<p>Textual Head: The textual head receives features from the visual backbone and predicts captions for images. It pro- vides a learning signal to the visual backbone during pre- training. Our overall goal is not to predict high-quality cap- tions, but instead to learn transferable visual features.</p>
+<p>The textual head comprises two identical language mod- els which predict captions in forward and backward di- rections respectively. Following recent advances in lan- guage modeling, we use Transformers [29], which use mul- tiheaded self-attention both to propagate information along the sequence of caption tokens, as well as to fuse visual and textual features. We closely follow the transformer de- coder architecture from [29], but use GELU [85] rather than ReLU, following [64, 79]. We briefly review the architec- ture here; refer to [29] for a more complete description.</p>
 </blockquote>
     </div>
 

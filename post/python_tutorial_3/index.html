@@ -50,7 +50,7 @@
 <meta itemprop="description" content="python 学习笔记，之前有两篇笔记，因为太多了，所以新开一篇。">
 <meta itemprop="datePublished" content="2019-11-04T16:08:25+08:00" />
 <meta itemprop="dateModified" content="2019-11-04T16:08:25+08:00" />
-<meta itemprop="wordCount" content="10197">
+<meta itemprop="wordCount" content="10259">
 
 
 
@@ -127,7 +127,7 @@
         <div class="post-category">
             <a href="/categories/programming-language/"> programming language </a>
             </div>
-          <span class="more-meta"> 约 10197 字 </span>
+          <span class="more-meta"> 约 10259 字 </span>
           <span class="more-meta"> 预计阅读 21 分钟 </span>
         
       </div>
@@ -1335,7 +1335,6 @@ print(easy.bar.x) # 我们也是可以很方便的使用字典中字典的元素
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span><span class="lnt">6
-</span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">os</span>
@@ -1344,10 +1343,11 @@ print(easy.bar.x) # 我们也是可以很方便的使用字典中字典的元素
         <span class="k">print</span><span class="p">(</span><span class="s2">&#34;root&#34;</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span>      <span class="c1"># 当前目录路径</span>
         <span class="k">print</span><span class="p">(</span><span class="s2">&#34;dirs&#34;</span><span class="p">,</span> <span class="n">dirs</span><span class="p">)</span>      <span class="c1"># 当前路径下所有子文件夹</span>
         <span class="k">print</span><span class="p">(</span><span class="s2">&#34;files&#34;</span><span class="p">,</span> <span class="n">files</span><span class="p">)</span>    <span class="c1"># 当前路径下所有非子文件夹的文件</span>
-
 </code></pre></td></tr></table>
 </div>
-</div><h3 id="switch-在python-中的实现">switch 在python 中的实现</h3>
+</div><p>这个是递归查找文件很好的函数。</p>
+<p>glob 是python 中支持正则查询的方式，需要提取一定的规则之后使用才比较方便，比如说目录只有两层。</p>
+<h3 id="switch-在python-中的实现">switch 在python 中的实现</h3>
 <p>c、c++ 中都有 switch (case )语句的实现，但是python 中就没有相关的实现，只能通过其他的方式去完成该功能。基本的思路是通过 dictionary</p>
 <p>实现方式一</p>
 <div class="highlight"><div class="chroma">

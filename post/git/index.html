@@ -50,7 +50,7 @@
 <meta itemprop="description" content="学习笔记- Git 相关的命令。">
 <meta itemprop="datePublished" content="2020-01-11T13:53:30+08:00" />
 <meta itemprop="dateModified" content="2020-01-11T13:53:30+08:00" />
-<meta itemprop="wordCount" content="2949">
+<meta itemprop="wordCount" content="3293">
 
 
 
@@ -127,8 +127,8 @@
         <div class="post-category">
             <a href="/categories/tutorial/"> tutorial </a>
             </div>
-          <span class="more-meta"> 约 2949 字 </span>
-          <span class="more-meta"> 预计阅读 6 分钟 </span>
+          <span class="more-meta"> 约 3293 字 </span>
+          <span class="more-meta"> 预计阅读 7 分钟 </span>
         
       </div>
     </header>
@@ -272,6 +272,39 @@ git push origin --delete [branch_name]
 git branch -dr [remote/branch] 
 </code></pre></td></tr></table>
 </div>
+</div><p><code>[remote rejected] master -&gt; master (pre-receive hook declined)</code> 解决方案</p>
+<p>方法一： 将所在的项目分支 的protected 权限关闭</p>
+<p>方法二： 新建其它分支，将项目push 上去，后期再进行merge</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># (1) 新建分支</span>
+git branch 分支名
+
+<span class="c1"># (2) 切换分支</span>
+git checkout 分支名
+
+<span class="c1"># (3) 上传项目</span>
+git add .
+git commit -m <span class="s2">&#34;message&#34;</span>
+git remote add origin 仓库地址
+git push -u origin 分支名
+
+</code></pre></td></tr></table>
+</div>
 </div><h2 id="六标签版本tag操作">六、标签版本（tag）操作</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -334,17 +367,41 @@ git push [remote] --all # 推送所有分支到远程仓库
 <p>git pull (or git fetch + git merge) is how you update that local copy with new commits from the remote repository. If you are collaborating with others, it is a command that you will run frequently.</p>
 <p>git pull 在团队协作的时候用得很多，相当于是增量的修改本机的 repository；git clone 是将 repository 完全拷贝到本地。</p>
 </blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">git clone repo_url --depth <span class="m">1</span>
+<span class="c1"># depth用于指定克隆深度，为1即表示只克隆最近一次commit.</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>add all files to a commit except a single file</p>
+</blockquote>
+<p>方法一：先加入到 暂存区，然后从暂存区删除（工作区是没有删除的）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">git add -u
+git reset -- main/dontcheckmein.txt
+</code></pre></td></tr></table>
+</div>
+</div><p>方法二：使用正则匹配，加入相应的文件到暂存区。</p>
+<p>需要对正则比较熟悉，并且文件名有规则。</p>
 <h2 id="八撤销">八、撤销</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
-</span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-fallback" data-lang="fallback">git checkout [file] # 恢复暂存区的指定文件到工作区
 git checkout . # 恢复暂存区的所有文件到工作区
-
 </code></pre></td></tr></table>
 </div>
 </div><p>通常git将（每个branch中的）文件分成了4个区域。</p>
@@ -404,10 +461,26 @@ git checkout . # 恢复暂存区的所有文件到工作区
 <p>下载某个分支的代码（默认是 master）</p>
 <p>git clone -b cla <a href="https://github.com/jina-ai/jina.git">https://github.com/jina-ai/jina.git</a> # 分支的名字叫做 cla</p>
 </blockquote>
+<p>Git 使用</p>
+<blockquote>
+<p>add all files to a commit except a single file</p>
+</blockquote>
+<p>方法一：先加入到 暂存区，然后从暂存区删除（工作区是没有删除的）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">git add -u
+git reset -- main/dontcheckmein.txt
+</code></pre></td></tr></table>
+</div>
+</div><p>方法二：使用正则匹配，加入相应的文件到暂存区。</p>
+<p>需要对正则比较熟悉，并且文件名有规则。</p>
 <p>参考文献</p>
 <p>更多命令的详解，参考以下链接：</p>
 <p><a href="https://git-scm.com/book/zh/v2">Git Book</a></p>
-<p>[常用Git命令使用教程](</p>
     </div>
 
     <div class="post-copyright">
