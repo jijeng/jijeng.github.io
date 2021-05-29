@@ -6,7 +6,43 @@
     <description>Recent content in Posts on Jijeng&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 07 Mar 2021 17:18:39 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 29 May 2021 21:11:06 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Metric Learning</title>
+      <link>http://jijeng.github.io/post/metric-learning/</link>
+      <pubDate>Sat, 29 May 2021 21:11:06 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/metric-learning/</guid>
+      <description>&lt;p&gt;介绍 metric learning （度量学习）的概念，并重点分析一篇论文。（仅作为学习笔记）&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Unbalanced Datasets</title>
+      <link>http://jijeng.github.io/post/unbalanced-datasets/</link>
+      <pubDate>Wed, 19 May 2021 21:13:10 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/unbalanced-datasets/</guid>
+      <description>机器学习中出现的不平衡类别问题的分析、常用的解决方案。 定义 不同类别训练数据样本的数量相差很大，导致传统意义上的衡量指标“准确率” 失去了意义。</description>
+    </item>
+    
+    <item>
+      <title>Weights Initialization</title>
+      <link>http://jijeng.github.io/post/weights-initialization/</link>
+      <pubDate>Sat, 10 Apr 2021 21:15:49 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/weights-initialization/</guid>
+      <description>&lt;p&gt;介绍 &lt;strong&gt;weights initialization&lt;/strong&gt;（权重初始化），重点介绍 xaiver 和 he initialization 方式。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Yolo</title>
+      <link>http://jijeng.github.io/post/yolo/</link>
+      <pubDate>Mon, 29 Mar 2021 21:17:23 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/yolo/</guid>
+      <description>&lt;p&gt;yolo  系列的学习笔记。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Albumentations：图像数据增强</title>
       <link>http://jijeng.github.io/post/albumentations_explain_with_example/</link>

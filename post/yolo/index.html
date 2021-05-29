@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Yolo - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="yolo 系列的学习笔记。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/yolo/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Yolo" />
+<meta property="og:description" content="yolo  系列的学习笔记。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/yolo/" />
+<meta property="article:published_time" content="2021-03-29T21:17:23+08:00" />
+<meta property="article:modified_time" content="2021-03-29T21:17:23+08:00" />
+<meta itemprop="name" content="Yolo">
+<meta itemprop="description" content="yolo  系列的学习笔记。">
+<meta itemprop="datePublished" content="2021-03-29T21:17:23+08:00" />
+<meta itemprop="dateModified" content="2021-03-29T21:17:23+08:00" />
+<meta itemprop="wordCount" content="4609">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Yolo"/>
+<meta name="twitter:description" content="yolo  系列的学习笔记。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Yolo</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-03-29 </span>
+        
+          <span class="more-meta"> 约 4609 字 </span>
+          <span class="more-meta"> 预计阅读 10 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#yolo-v1">YOLO v1</a></li>
+        <li><a href="#yolov2yolo9000">YOLOv2（YOLO9000）</a></li>
+        <li><a href="#yolov3">YOLOv3</a></li>
+        <li><a href="#yolov4">YOLOv4</a></li>
+        <li><a href="#yolov5">YOLOv5</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>yolo  系列的学习笔记。</p>
+<h2 id="yolo-v1">YOLO v1</h2>
+<p>YOLO的核心思想就是利用整张图作为网络的输入，直接在输出层回归bounding box的位置和bounding box所属的类别。</p>
+<p>简单概括为</p>
+<ul>
+<li>给个一个输入图像，首先将图像划分成7*7的网格</li>
+<li>对于每个网格，我们都预测2个边框（包括每个边框是目标的置信度以及每个边框区域在多个类别上的概率）</li>
+<li>根据上一步可以预测出$7<em>7</em>2$个目标窗口，然后根据阈值去除可能性比较低的目标窗口，最后NMS去除冗余窗口即可</li>
+</ul>
+<p>每个bounding box要预测(x, y, w, h)和confidence共5个值，每个网格还要预测一个类别信息，记为C类。</p>
+<p>在PASCAL VOC中，图像输入为448x448，取S=7，B=2，一共有20个类别(C=20)。则输出就是7x7x30的一个tensor。</p>
+<p>在test的时候，每个网格预测的class信息和bounding box预测的confidence信息相乘，就得到每个bounding box的class-specific confidence score:</p>
+<p><img src="/Users/jijeng/Notes/images/image-20210325140226481.png" alt="image-20210325140226481"></p>
+<p>等式左边第一项就是每个网格预测的类别信息，第二三项就是每个bounding box预测的confidence。这个乘积即encode了预测的box属于某一类的概率，也有该box准确度的信息。</p>
+<p>得到每个box的class-specific confidence score以后，设置阈值，滤掉得分低的boxes，对保留的boxes进行NMS处理，就得到最终的检测结果。</p>
+<p>缺点</p>
+<ul>
+<li>由于输出层是全连接层，因此在检测时候，YOLO训练模型只能支持和训练数据相同的输入分辨率。</li>
+<li>虽然每个格子可以预测B个bounding box，但是最终只选择只选择IOU最高的bounding box作为物体检测输出，即每个格子最多只预测出一个物体。当物体占画面比例较小，如图像中包含畜群或鸟群时，每个格子包含多个物体，但却只能检测出其中一个。</li>
+<li>YOLO loss函数中，大物体IOU误差和小物体IOU误差对网络训练中loss贡献值接近（虽然采用求平方根方式，但没有根本解决问题）。因此，对于小物体，小的IOU误差也会对网络优化过程造成很大的影响，从而降低了物体检测的定位准确性。</li>
+</ul>
+<h2 id="yolov2yolo9000">YOLOv2（YOLO9000）</h2>
+<p>文章提出了一种新的<strong>训练方法–联合训练算法</strong>。YOLO9000就是使用联合训练算法训练出来的，他拥有9000类的分类信息，这些分类信息学习自ImageNet分类数据集，而物体位置检测则学习自COCO检测数据集</p>
+<p>ImageNet对应分类有9000种，而COCO则只提供80种目标检测，作者使用multi-label模型，即假定一张图片可以有多个label，并且不要求label间独立。通过作者Paper里的图来说明，由于ImageNet的类别是从WordNet选取的，作者采用以下策略重建了一个树形结构（称为分层树）：</p>
+<ol>
+<li>
+<p>遍历Imagenet的label，然后在WordNet中寻找该label到根节点(指向一个物理对象)的路径；</p>
+</li>
+<li>
+<p>如果路径直有一条，那么就将该路径直接加入到分层树结构中；</p>
+</li>
+<li>
+<p>否则，从剩余的路径中选择一条最短路径，加入到分层树。</p>
+</li>
+</ol>
+<p>得到对应9418个分类，通过重采样保证Imagenet和COCO的样本数据比例为4:1。</p>
+<p>改进</p>
+<p><strong>Batch Normalization（批量归一化）</strong></p>
+<p>mAP提升2.4%。</p>
+<p><strong>High resolution classifier（高分辨率图像分类器）</strong></p>
+<p>mAP提升了3.7%。</p>
+<p><strong>Convolution with anchor boxes（使用先验框）</strong></p>
+<p>召回率大幅提升到88%</p>
+<p><strong>Multi-ScaleTraining（多尺度图像训练）</strong></p>
+<blockquote>
+<p>每10个Batch，网络会随机地选择一个新的图片尺寸，由于使用了下采样参数是32，所以不同的尺寸大小也选择为32的倍数{320，352…..608}，最小320<em>320，最大608</em>608，网络会自动改变尺寸，并继续训练的过程。</p>
+</blockquote>
+<p>这一政策让网络在不同的输入尺寸上都能达到一个很好的预测效果，同一网络能在不同分辨率上进行检测。当输入图片尺寸比较小的时候跑的比较快，输入图片尺寸比较大的时候精度高，所以你可以在YOLO v2的速度和精度上进行权衡。</p>
+<h2 id="yolov3">YOLOv3</h2>
+<p>改进之处</p>
+<ul>
+<li>多尺度预测 （引入FPN）。</li>
+<li>更好的基础分类网络（darknet-53, 类似于ResNet引入残差结构）。</li>
+<li>分类器不在使用Softmax，分类损失采用binary cross-entropy loss（二分类交叉损失熵）</li>
+</ul>
+<p>YOLOv3不使用Softmax对每个框进行分类，主要考虑因素有两个：</p>
+<ol>
+<li>Softmax使得每个框分配一个类别（score最大的一个），而对于<code>Open Images</code>这种数据集，目标可能有重叠的类别标签，因此Softmax不适用于多标签分类。</li>
+<li>Softmax可被独立的多个logistic分类器替代，且准确率不会下降。</li>
+</ol>
+<p>分类损失采用binary cross-entropy loss。</p>
+<h2 id="yolov4">YOLOv4</h2>
+<p>Optimal Speed and Accuracy of Object Detection</p>
+<p>YOLOv4的特点是集大成者，俗称堆料。但最终达到这么高的性能，一定是不断尝试、不断堆料、不断调参的结果，给作者点赞。</p>
+<p>主要贡献</p>
+<ul>
+<li>提出了一种高效而强大的目标检测模型。它使每个人都可以使用1080 Ti或2080 Ti</li>
+<li>验证了检测器训练过程中，最先进的 bag-of-freebies 和 bag-of-specials 的训练方法</li>
+<li>文章将目前主流的目标检测器框架进行拆分：input、backbone、neck 和 heads 部分。</li>
+</ul>
+<p>数据上</p>
+<p>cutmix 具体的方法【补充】</p>
+<p>mosaic</p>
+<p>yolov4 的mosaic 数据增强是参考 cutmix 数据增强，区别在于 mosaic 是一种将 4 张图合并成一张（cutmix 是2 张图），丰富了检测物体的背景；同时每小批包含一个大的变化图像（4倍），减少了估计均值和方差时候需要大 batch 的要求，降低了训练成本。</p>
+<p>dropout</p>
+<p>本论文认为 dropout 的主要缺陷在于它随机丢弃特征。尽管这对全连接层有效，但对特征具备空间关联的卷积层而言没那么有效。当特征互相关联时，即使使用 dropout，输入信息仍然能传输到下一层，导致网络过拟合。这表明我们需要 dropout 的更结构化形式来更好地正则化卷积网络。</p>
+<p>dropout 被证明是全连接网络的有效策略，但是在特征相关的卷积网络效果不佳。dropblock 是在块相邻区域中丢弃特征，这样可以实现生成更简单模型的目的。</p>
+<p>本论文介绍了一种 dropout 的结构化形式 DropBlock，对于正则化卷积网络格外有效。在 DropBlock 中，同一模块中的特征会被一起丢弃，即特征图的相邻区域也被丢弃了。由于 DropBlock 丢弃了相关区域中的特征，该网络必须从其他地方寻找证据来拟合数据</p>
+<p>dropblock 使用在卷积网络中的正则化方法。</p>
+<p><img src="/Users/jijeng/Notes/images/image-20210402093155515.png" alt="image-20210402093155515"></p>
+<p>DropBlock有两个主要参数，block_size和γ。block_size是要删除的块的大小，γ控制要删除多少个激活单元。</p>
+<p>这个参数描述了要删除的激活单元的数量，这取决于keep_prob和block_size。</p>
+<p>$$
+\gamma=\frac{1-\text { keep }_{-} p r o b}{\text { block_size }^{2}} \frac{\text { feat_size }^{2}}{(\text { feat_size }-\text { block_size }+1)^{2}}
+$$</p>
+<p>可以推断出，keep_prob越大，被删除的激活就越少。</p>
+<p><code>DropBlock</code>论文： <a href="https://arxiv.org/pdf/1810.12890.pdf">https://arxiv.org/pdf/1810.12890.pdf</a></p>
+<p>label smooth</p>
+<blockquote>
+<p>When using deep learning models for classification tasks, we usually encounter the following problems: overfitting, and overconfidence. Overfitting is well studied and can be tackled with early stopping, dropout, weight regularization etc. On the other hand, we have less tools to tackle overconfidence. <em>Label smoothing</em> is a regularization technique that addresses both problems.</p>
+<p>label smooth 是用于处理网络的 over-confidence 问题的</p>
+</blockquote>
+<p>$$
+\operatorname{Loss}=-\sum_{i=1}^{K} p_{i} \log q_{i}
+$$</p>
+<p>转换成
+$$
+\operatorname{Loss}_{i}=\left{\begin{array}{l}(1-\varepsilon) * \operatorname{Loss}, \text { if }(i=y) \ \varepsilon^{*} \operatorname{Loss}, \text { if }(i \neq y)\end{array}\right.
+$$
+a technique to make your model less overconfident.</p>
+<blockquote>
+<p>Label smoothing is used when the loss function is cross entropy, and the model applies the softmax function to the penultimate layer’s logit vectors <em>z</em> to compute its output probabilities <em>p</em>.  In this setting, the gradient of the cross entropy loss function with respect to the logits is simply</p>
+</blockquote>
+<p>$$
+∇CE = p - y = softmax(z) - y
+$$</p>
+<blockquote>
+<p>在分类问题中，我们的最后一层一般是全连接层，然后对应标签的one-hot编码，即把对应类别的值编码为1，其他为0。这种编码方式和通过降低交叉熵损失来调整参数的方式结合起来，会有一些问题。这种方式会<strong>鼓励模型对不同类别的输出分数差异非常大</strong>，或者说，模型过分相信它的判断。但是，<strong>对于一个由多人标注的数据集，不同人标注的准则可能不同，每个人的标注也可能会有一些错误</strong>。模型对标签的过分相信会导致过拟合。</p>
+<p>标签平滑(Label-smoothing regularization,LSR)是应对该问题的有效方法之一，它的具体思想是降低我们对于标签的信任，例如我们可以将损失的目标值从1稍微降到0.9，或者将从0稍微升到0.1。标签平滑最早在inception-v2中被提出，它将真实的概率改造.</p>
+<p>Label smoothing replaces one-hot encoded label vector <em>y_hot</em> with a mixture of <em>y_hot</em> and the uniform distribution:</p>
+<p>使用 y_hot 和均匀分布 代替了原来的 y_hot</p>
+</blockquote>
+<p>$$
+y_{ls} = (1 - α) * y_{hot} + α / K
+$$</p>
+<blockquote>
+<p>where <em>K</em> is the number of label classes, and <em>α</em> is a hyperparameter that determines the amount of smoothing.If <em>α</em> = 0, we obtain the original one-hot encoded <em>y_hot</em>. If <em>α</em> = 1, we get the uniform distribution.</p>
+<p>一般来说 <em>α</em> =0.1是一个 good place to start</p>
+</blockquote>
+<p>总的来说，<strong>LSR是一种通过在标签y中加入噪声，实现对模型约束，降低模型过拟合程度的一种正则化方法。</strong></p>
+<p>查看学习：https://towardsdatascience.com/what-is-label-smoothing-108debd7ef06</p>
+<p>使用</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="n">inputs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">targets</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span><span class="o">.</span><span class="n">random_</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">label_smothing_cross_entropy_loss</span> <span class="kn">import</span> <span class="n">LabelSmoothCrossEntropyLoss</span>
+<span class="n">loss_function</span> <span class="o">=</span> <span class="n">LabelSmoothCrossEntropyLoss</span><span class="p">(</span><span class="n">smoothing</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">loss_function</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>实现的类来自：http://123.56.8.10:9988/jeng/image_classification</p>
+<p>spatical attention  (SAM)</p>
+<p>这个是需要重点看的</p>
+<p>Mosaic 混合了 4 张训练图像，而 CutMix 只混合了两张输入图像，具体见下图：</p>
+<p><img src="/Users/jijeng/Notes/images/v2-641bd9a5f9fc0517a7f315d1e4734d19_r-7199851.jpg" alt="preview"></p>
+<p><strong>BoF (bag of freebies)</strong></p>
+<blockquote>
+<p>指的是能够提高精度而不增加推理时间的技术</p>
+</blockquote>
+<p>比如图像增强的方式：图像几何变换、cutout、grid mask</p>
+<p>图像正则化的技术</p>
+<p>类别不均衡的处理方式</p>
+<p>损失函数的设计</p>
+<p><strong>BoS (bag of specials)</strong></p>
+<p>增加稍许推理代价，但可以提高模型精度的方法</p>
+<ul>
+<li>引入注意力机制 Squeeze-and-Excitation (SE) 、Spatial Attention Module (SAM)</li>
+<li>或者是后处理方法如soft NMS、DIoU NMS等</li>
+<li>改进的激活函数 Swish、Mish （比如之前使用 Relu 或者 leaky relu 这样的方式）</li>
+</ul>
+<p>总结一下YOLOv4框架：</p>
+<ul>
+<li><strong>Backbone：CSPDarknet53</strong></li>
+<li><strong>Neck：SPP，PAN</strong></li>
+<li><strong>Head：YOLOv3</strong></li>
+</ul>
+<p><strong>YOLOv4 =</strong> <strong>CSPDarknet53+SPP+PAN+YOLOv3</strong></p>
+<p>其中YOLOv4用到相当多的技巧：</p>
+<ul>
+<li><strong>用于backbone的BoF：CutMix和Mosaic数据增强，DropBlock正则化，Class label smoothing</strong></li>
+<li><strong>用于backbone的BoS：Mish激活函数，CSP，MiWRC</strong></li>
+<li><strong>用于检测器的BoF：CIoU-loss，CmBN，DropBlock正则化，Mosaic数据增强，Self-Adversarial 训练，消除网格敏感性，对单个ground-truth使用多个anchor，Cosine annealing scheduler，最佳超参数，Random training shapes</strong></li>
+<li><strong>用于检测器的Bos：Mish激活函数，SPP，SAM，PAN，DIoU-NMS</strong></li>
+</ul>
+<p>参考文献</p>
+<p>这个可以接着细看：</p>
+<p><a href="https://my.oschina.net/u/4584682/blog/4721355">目标检测算法YOLOv4详解</a></p>
+<h2 id="yolov5">YOLOv5</h2>
+<p>YOLOv5 的表现要优于谷歌开源的目标检测框架 EfficientDet</p>
+<p>这次发布的 YOLOv5 包括五种不同尺寸的模型：YOLOv5s（最小）、YOLOv5m、YOLOv5l、YOLOv5x（最大）。这些模型的推理速度和平均精度均值（mean average precision，mAP）</p>
+<p>改进点</p>
+<ul>
+<li>在Yolo算法中，针对不同的数据集，都会有<strong>初始设定长宽的锚框</strong>。</li>
+</ul>
+<p>在Yolov3、Yolov4中，训练不同的数据集时，计算初始锚框的值是通过单独的程序运行的。但Yolov5中将此功能嵌入到代码中，每次训练时，自适应的计算不同训练集中的最佳锚框值。</p>
+<p>为什么yolov5可以达到这么快的速度，这边整理几个原因：</p>
+<ul>
+<li>
+<p>PyTorch支持<strong>半精度运算</strong>（32位到16位精度），可以优化显着的存储大小，可以加快推论，训练速度。</p>
+</li>
+<li>
+<p><strong>自适应图片缩放</strong></p>
+</li>
+</ul>
+<p>在COCO上比EfficientDet更好转换，不过没有直接引用与yolov4的比较：</p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/25/3f97dcc2b0d58d7837eb2c5df3b73340.png" alt="img" style="zoom:50%;" /></p>
+<p>最小的yolov5s仅27MB，跟yolov4 245MB差了9倍</p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/25/0wZ7fXQxllY1jYvEy.png" alt="img" style="zoom:50%;" /></p>
+<p>yolov5s 网络最小，才7.5 M，速度最快，ap 精度也最低，但是如果以大目标为主，追求速度，也是挺好的，可以在嵌入式设备中使用。</p>
+<p>yolov3、yolov4与yolov5对比</p>
+<p><img src="http://123.56.8.10:8899/images/2021/03/31/watermarktype_ZmFuZ3poZW5naGVpdGkshadow_10text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2R1emhvbmdxaWFuZwsize_16color_FFFFFFt_70.png" alt="在这里插入图片描述"></p>
+<p>整体上来看 yolov4 最优，YOLOv5 灵活性，比较强。</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2021-03-29
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/wechatpay.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/alipay.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/weights-initialization/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Weights Initialization</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/albumentations_explain_with_example/">
+            <span class="next-text nav-default">Albumentations：图像数据增强</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

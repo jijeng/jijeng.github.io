@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Metric Learning - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="介绍 metric learning （度量学习）的概念，并重点分析一篇论文。（仅作为学习笔记）
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/metric-learning/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Metric Learning" />
+<meta property="og:description" content="介绍 metric learning （度量学习）的概念，并重点分析一篇论文。（仅作为学习笔记）" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/metric-learning/" />
+<meta property="article:published_time" content="2021-05-29T21:11:06+08:00" />
+<meta property="article:modified_time" content="2021-05-29T21:11:06+08:00" />
+<meta itemprop="name" content="Metric Learning">
+<meta itemprop="description" content="介绍 metric learning （度量学习）的概念，并重点分析一篇论文。（仅作为学习笔记）">
+<meta itemprop="datePublished" content="2021-05-29T21:11:06+08:00" />
+<meta itemprop="dateModified" content="2021-05-29T21:11:06+08:00" />
+<meta itemprop="wordCount" content="2793">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Metric Learning"/>
+<meta name="twitter:description" content="介绍 metric learning （度量学习）的概念，并重点分析一篇论文。（仅作为学习笔记）"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Metric Learning</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-05-29 </span>
+        
+          <span class="more-meta"> 约 2793 字 </span>
+          <span class="more-meta"> 预计阅读 6 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#metric-learning">metric learning</a></li>
+        <li><a href="#softtriple-loss-deep-metric-learning-without-triplet-sampling"><a href="">SoftTriple Loss: Deep Metric Learning Without Triplet Sampling</a></a>
+          <ul>
+            <li><a href="#论文解读">论文解读</a></li>
+            <li><a href="#代码解读">代码解读</a></li>
+            <li><a href="#其他">其他</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>介绍 metric learning （度量学习）的概念，并重点分析一篇论文。（仅作为学习笔记）</p>
+<h2 id="metric-learning">metric learning</h2>
+<p>度量学习（metric  learning） 是机器学习中常用的一种方法，通过借助一系列观测，构造出对应的度量函数，从而学习数据间的距离或差异，<strong>有效描述样本之间的相似度</strong>。</p>
+<p>深度度量学习在 CV 领域中的一些极端任务（类别众多、样本量不足）中表现优异，应用遍及人脸识别、行人重识别、图像检索、目标跟踪等场景。</p>
+<p>当样本量不大时，metric learning 在处理分类任务的准确率和高效率上，展现出显著优势。并且经典的分类网络有一个前提：必须提前设定好类别数。</p>
+<blockquote>
+<p>这意味着每增加新的种类，就需要重新定义网络模型，从头开始训练一遍。</p>
+</blockquote>
+<p>metric learning 可以分为两种</p>
+<p>一种是 supervised learning， 监督学习单元是单个数据，每个数据都有对应的标签。 metric learning 是学习一种度量可以让相同标签数据距离更近，不同标签数据距离更远。</p>
+<blockquote>
+<p>一般使用 centerloss，amsoftmax。 center loss 是为每个类设定一个 center feature，让类内数据 feature 向着 center 靠拢，拉近类内距；因为 center loss 只负责类内距离，所以通常需要结合 softmax cross entropy loss ，在实现类别可分的情况下拉近类内距。</p>
+<p>amsoftmax 是基于 softmax 改进，不同于 softmax， 不仅可以实现类别可分，还能拉近类内距的同时，拉远类间距。</p>
+</blockquote>
+<p>一种是 weakly supervised learning，学习单元是元祖（二元组、三元组），元组一般有正例对和负例对两种。</p>
+<blockquote>
+<p>可以使用 contrastive loss （二元组） 和triplet loss （三元组）</p>
+<p>triplet 输入三元组包括 anchor、negative 和 positive</p>
+</blockquote>
+<p>triplet loss</p>
+<p><img src="http://123.56.8.10:8899/images/2021/05/07/clip1523109242.png" alt="img"></p>
+<blockquote>
+<p>如上图所示，triplet是一个三元组，这个三元组是这样构成的：从训练数据集中随机选一个样本，该样本称为Anchor，然后再随机选取一个和Anchor (记为 $x_a$)属于同一类的样本和不同类的样本,这两个样本对应的称为Positive (记为 $x_p$)和Negative (记为$x_n$)，由此构成一个（Anchor，Positive，Negative）三元组。</p>
+</blockquote>
+<p>选择合适的三元组对于模型的收敛至关重要。对于给定的 anchor，我们希望得到不那么相似的相似图像（hard positive） 和差异不那么大的非相似图像（hard negative）。</p>
+<p>metric learning 又可以称为 distance learning</p>
+<h2 id="softtriple-loss-deep-metric-learning-without-triplet-sampling"><a href="">SoftTriple Loss: Deep Metric Learning Without Triplet Sampling</a></h2>
+<h3 id="论文解读">论文解读</h3>
+<p>这篇论文属于“魔改softmax”。</p>
+<blockquote>
+<p>It inspires us to investigate the formu-
+lation of SoftMax. Our analysis shows that SoftMax loss is
+equivalent to a smoothed triplet loss where each class has
+a single center. In real-world data, one class can contain
+several local clusters rather than a single one, e.g., birds
+of different poses. Therefore, we propose the SoftTriple loss
+to extend the SoftMax loss with multiple centers for each
+class.</p>
+<p>一般来说 triplet loss 一般搭配着使用 sample mining （hard sample mining）。这篇论文直接去掉了 sampling 机制，增加了 softmax 的输出，进行 metric learning。</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/04/28/image-20210428155007615.png" alt="image-20210428155007615"></p>
+<blockquote>
+<p>使用 softmax 将原来一个类别一个簇修改成一个类别两个簇。（簇的个数是可调的）</p>
+</blockquote>
+<p>带有 sampling 机制 triplet 的现状</p>
+<blockquote>
+<p>mini-batch may not be able to capture the overall neighborhood well</p>
+<p>mini-batch contains $m^2$ 或者 $m^3$  triplets, m is the size of mini-batch</p>
+<p>some work  also tried to reduce the total number of triplets with proxies</p>
+</blockquote>
+<p>compared with existing deep DML methods, the number of triplet in SoftTriple is linear in the number of original examples</p>
+<p><img src="http://123.56.8.10:8899/images/2021/04/28/image-20210428164230375.png" alt="image-20210428164230375"></p>
+<blockquote>
+<p>这个是 softmax 和 softtriplet 的区别，这点比较核心。</p>
+</blockquote>
+<h3 id="代码解读">代码解读</h3>
+<p><strong>多卡并行</strong></p>
+<p>DataParallel 是用来可以用来单卡多GPU 训练</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python">   <span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">DataParallel</span><span class="p">(</span><span class="n">Resnet50</span><span class="p">(</span>
+        <span class="n">embedding_size</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s2">&#34;embedding_size&#34;</span><span class="p">],</span>
+        <span class="n">pretrained</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s2">&#34;pretrained&#34;</span><span class="p">]</span>
+    <span class="p">))</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>优化器方面 ( Rectified Adam, RAdam)</strong></p>
+<ul>
+<li>目前初级 sgd ( Gradient Descent, 随机梯度下降) 收敛较好，但是慢。</li>
+<li>adam收敛快，但是容易收敛到局部解， 常用解决 adam收敛的方法是：自适应启动方法</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">optimizer = RAdam(model.parameters(), lr=config[&#34;lr&#34;])
+</code></pre></td></tr></table>
+</div>
+</div><p>结论：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">(1) 鲁棒性强，这个优势很强，而且适合任何模型的初期的实验，也对新手比较友好；不用调试学习率，这个优势也很强；自适应启动的方式会增加超参数，不适合初期的实验。
+(2) 论文也提出，他的收敛效果不一定是所有里面最好的。所以在实验的后期，对于老手，可以采用更加精细的学习率控制策略试试会不会拿到另一个好的结果。
+</code></pre></td></tr></table>
+</div>
+</div><p>论文： <a href="">Radam：ON THE VARIANCE OF THE ADAPTIVE LEARNING RATE AND BEYOND</a></p>
+<p>使用</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">torch_optimizer</span> <span class="kn">import</span> <span class="n">RAdam</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">RAdam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s2">&#34;lr&#34;</span><span class="p">])</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://blog.csdn.net/u014248127/article/details/99696029">RAdam论文解读</a></p>
+<p><strong>Transforms</strong></p>
+<p>ColorJitter 类比较常用，主要修改输入图像的 4 大参数： brightness, contrast, saturation and hue. 亮度、对比度、饱和度和色度。</p>
+<p>当为a时，从[max(0, 1 - a), 1 + a]中随机选择。
+当为（a，b）时，从[a, b]中选择。</p>
+<p>RandomAffine</p>
+<blockquote>
+<p>对图像进行仿射变换，仿射变换是二维的线性变换，由五种基本原子变换构成，分别是旋转**、**平移**、**缩放**、**错切**和**翻转。</p>
+</blockquote>
+<ul>
+<li>degree 旋转角度</li>
+<li>translate 平移区间设置，如 (a, b), ａ设置宽(width)，ｂ设置高(height)。
+图像在宽维度平移的区间为　-img_width * a &lt; dx &lt; img_width * a　。</li>
+<li>scale 缩放设置（图像整个尺寸不变，原图缩放，其余默认用 0 填充）</li>
+<li>shear 错切</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python">    <span class="c1"># Initialize train transforms</span>
+    <span class="n">transform_train</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span>
+        <span class="n">T</span><span class="o">.</span><span class="n">Resize</span><span class="p">((</span><span class="n">config</span><span class="p">[</span><span class="s2">&#34;image_size&#34;</span><span class="p">],</span> <span class="n">config</span><span class="p">[</span><span class="s2">&#34;image_size&#34;</span><span class="p">])),</span>
+        <span class="n">T</span><span class="o">.</span><span class="n">RandomHorizontalFlip</span><span class="p">(),</span>
+        <span class="n">T</span><span class="o">.</span><span class="n">ColorJitter</span><span class="p">(</span><span class="n">brightness</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">contrast</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">saturation</span><span class="o">=</span><span class="mf">0.2</span><span class="p">),</span>
+        <span class="n">T</span><span class="o">.</span><span class="n">RandomAffine</span><span class="p">(</span><span class="n">degrees</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">),</span> <span class="n">translate</span><span class="o">=</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)),</span>
+        <span class="n">T</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+        <span class="n">T</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span>
+            <span class="n">mean</span><span class="o">=</span><span class="p">[</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">],</span>
+            <span class="n">std</span><span class="o">=</span><span class="p">[</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">]</span>
+        <span class="p">),</span>
+    <span class="p">])</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>使用 (hard) triplet loss 训练，这里使用简单的 PKSampler</p>
+<blockquote>
+<p>Ramdomly sample from a dataset while ensuring that each batch of size (p*k) includes samples form exactly p  classes, with k samples for each class</p>
+</blockquote>
+<p>完全看懂 softTripleLoss 还是有点难度的。</p>
+<h3 id="其他">其他</h3>
+<p>多 GPU进行训练包含两种情况：单机多 GPU训练；多机多 GPU训练。从实际上操作来看，一般推荐单机多 GPU进行训练 而非多机多 GPU训练。</p>
+<p><strong>使用</strong></p>
+<p>如果是模型，那么需要执行下面几句代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">DataParallel</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果是数据，那么执行以下的代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">inputs</span> <span class="o">=</span><span class="n">inputs</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+<span class="n">labels</span> <span class="o">=</span><span class="n">labels</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>显存使用不平衡问题</strong></p>
+<p>细心点会发现其实第一块卡的显存会占用更多一些</p>
+<p>因为 input数据是并行的，但是output loss 却不是这样的，每次都会在第一块 GPU相加计算，这就造成了第一块 GPU负载大于其他剩余的显卡。</p>
+<p>官方推荐使用 <code>parallel.DistribtedDataParallel</code> 去代替<code>DataParallel</code> ，据说因为前者比后者更快一些。</p>
+<p>numpy 中的 <code>identify</code></p>
+<blockquote>
+<p>The identify array is a square array with ones on the main diagonal. 创建的是方阵，即 rows =cols，主对角线是1，其他的地方都是 0.</p>
+</blockquote>
+<p>numpy 中的<code>eye()</code></p>
+<blockquote>
+<p>返回的是二位数组（n, m），对较线是 1 其余的地方是0</p>
+</blockquote>
+<p>在 torch 中 <code>Identify</code> 使用</p>
+<blockquote>
+<p>f(x) =x ，这个值得是一个网络结构，直接return 相同的 module。</p>
+</blockquote>
+<p>trunk 行李箱</p>
+<p>disjoint set 并查集</p>
+<p>disjoint 互斥集</p>
+<p>cascade chain model: 就是指联结网络，</p>
+<p>网络结构：</p>
+<p>（1） 三个 sub-model 是同一层，然后 list_of_model 的输入是三个 sub-model 的输出。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">trunk1</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">shufflenet_v2_x0_5</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">trunk2</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">shufflenet_v2_x1_0</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">trunk3</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">all_trunks</span> <span class="o">=</span> <span class="p">[</span><span class="n">trunk1</span><span class="p">,</span> <span class="n">trunk2</span><span class="p">,</span> <span class="n">trunk3</span><span class="p">]</span>
+<span class="n">trunk_output_sizes</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># output size: 1024, 1034, 512</span>
+<span class="k">for</span> <span class="n">T</span> <span class="ow">in</span> <span class="n">all_trunks</span><span class="p">:</span>
+    <span class="n">trunk_output_sizes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">fc</span><span class="o">.</span><span class="n">in_features</span><span class="p">)</span>
+    <span class="n">T</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">common_functions</span><span class="o">.</span><span class="n">Identity</span><span class="p">()</span>
+
+<span class="n">trunk</span> <span class="o">=</span> <span class="n">ListOfModels</span><span class="p">(</span><span class="n">all_trunks</span><span class="p">)</span>
+<span class="n">trunk</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">DataParallel</span><span class="p">(</span><span class="n">trunk</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（2）使用两个 optimizer： 一个用于子网络，一个用于list_of_model 网络</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Set optimizers</span>
+<span class="n">trunk_optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">trunk</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.00001</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
+<span class="n">embedder_optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">embedder</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（3）这里出现了三个 loss，loss、optimizer 和 model 对应关系感觉是混乱的。</p>
+<p>轻量级网络总结，可以参考以下的 blog：</p>
+<p><a href="https://cloud.tencent.com/developer/article/1120709">https://cloud.tencent.com/developer/article/1120709</a></p>
+<p><a href="https://www.jiqizhixin.com/articles/2018-01-08-6">https://www.jiqizhixin.com/articles/2018-01-08-6</a></p>
+<p><a href="http://www.ngcourse.com/article/detail?id=421">http://www.ngcourse.com/article/detail?id=421</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/142911918">https://zhuanlan.zhihu.com/p/142911918</a></p>
+<p><a href="https://zhuogege1943.com/2019/06/16/Going-with-small-and-fast-networks-1/">https://zhuogege1943.com/2019/06/16/Going-with-small-and-fast-networks-1/</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/33037573">https://zhuanlan.zhihu.com/p/33037573</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/51566209">https://zhuanlan.zhihu.com/p/51566209</a></p>
+<blockquote>
+<p>这个好奇怪，因为 posneg 是一个图像，真的好奇怪。</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># 这里 anchor 占总的 80%, posneg 占总的 20%；是随便写的吗，还是有根据的？</span>
+<span class="k">class</span> <span class="nc">CIFAR100TwoStreamDataset</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">anchor_transform</span><span class="p">,</span> <span class="n">posneg_transform</span><span class="p">):</span>
+        <span class="c1"># split by some thresholds here 80% anchors, 20% for posnegs</span>
+        <span class="n">lengths</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span><span class="o">*</span><span class="mf">0.8</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span><span class="o">*</span><span class="mf">0.2</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">anchors</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">posnegs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">random_split</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">lengths</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">anchor_transform</span> <span class="o">=</span> <span class="n">anchor_transform</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">posneg_transform</span> <span class="o">=</span> <span class="n">posneg_transform</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">anchors</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="n">anchor</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">anchors</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">anchor_transform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">anchor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">anchor_transform</span><span class="p">(</span><span class="n">anchor</span><span class="p">)</span>
+        <span class="c1"># now pair this up with an image from the same class in the second stream</span>
+        <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">posnegs</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">targets</span><span class="p">)</span><span class="o">==</span><span class="n">target</span> <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">posneg_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">posnegs</span><span class="o">.</span><span class="n">indices</span><span class="p">)])</span>
+        <span class="n">posneg</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">posnegs</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">posnegs</span><span class="o">.</span><span class="n">indices</span><span class="o">==</span><span class="n">posneg_idx</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">posneg_transform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">posneg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">posneg_transform</span><span class="p">(</span><span class="n">posneg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">anchor</span><span class="p">,</span> <span class="n">posneg</span><span class="p">,</span> <span class="n">target</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p><code>__getitem__</code> 函数没有完全看懂。在同一类中得到 <code>pos_ind</code> ，但在获取 <code>neg_index</code> 时候发现是比较难理解的。</p>
+<p>貌似也没有办法 debug</p>
+<p>我的理解：pos 和 neg 应该是两个不同的图像，为什么这里写成了一个呢？</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># in1d() # 查找数组元素是否在另一数组</span>
+<span class="n">values</span> <span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span> <span class="c1">#  [True, False, True]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>example 7：</p>
+<p>http://47.94.35.231:8090/notebooks/notebook/pytorch-metric-learning/examples/notebooks/Inference.ipynb</p>
+<blockquote>
+<p>use the inference module after you&rsquo;re done training.</p>
+<p>当 train 完之后，可以参考这个 example code 进行预测。主要有以下功能：</p>
+<ol>
+<li>get neares t neighbors of a query</li>
+<li>compare two images of the same class</li>
+<li>compare two images of the different classes</li>
+<li>compare  multiple pairs of images</li>
+<li>compare all pairs within a batch</li>
+<li>compare all pairs bew</li>
+</ol>
+</blockquote>
+<p>结论： 这个可以稍后看看。</p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2021-05-29
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/wechatpay.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/alipay.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/unbalanced-datasets/">
+            <span class="next-text nav-default">Unbalanced Datasets</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

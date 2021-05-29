@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Unbalanced Datasets - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="机器学习中出现的不平衡类别问题的分析、常用的解决方案。 定义 不同类别训练数据样本的数量相差很大，导致传统意义上的衡量指标“准确率” 失去了意义。" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/unbalanced-datasets/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Unbalanced Datasets" />
+<meta property="og:description" content="机器学习中出现的不平衡类别问题的分析、常用的解决方案。 定义 不同类别训练数据样本的数量相差很大，导致传统意义上的衡量指标“准确率” 失去了意义。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/unbalanced-datasets/" />
+<meta property="article:published_time" content="2021-05-19T21:13:10+08:00" />
+<meta property="article:modified_time" content="2021-05-19T21:13:10+08:00" />
+<meta itemprop="name" content="Unbalanced Datasets">
+<meta itemprop="description" content="机器学习中出现的不平衡类别问题的分析、常用的解决方案。 定义 不同类别训练数据样本的数量相差很大，导致传统意义上的衡量指标“准确率” 失去了意义。">
+<meta itemprop="datePublished" content="2021-05-19T21:13:10+08:00" />
+<meta itemprop="dateModified" content="2021-05-19T21:13:10+08:00" />
+<meta itemprop="wordCount" content="3540">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Unbalanced Datasets"/>
+<meta name="twitter:description" content="机器学习中出现的不平衡类别问题的分析、常用的解决方案。 定义 不同类别训练数据样本的数量相差很大，导致传统意义上的衡量指标“准确率” 失去了意义。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Unbalanced Datasets</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-05-19 </span>
+        
+          <span class="more-meta"> 约 3540 字 </span>
+          <span class="more-meta"> 预计阅读 8 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#定义">定义</a></li>
+        <li><a href="#处理方法">处理方法</a>
+          <ul>
+            <li><a href="#数据层面">数据层面</a></li>
+            <li><a href="#改变评价指标">改变评价指标</a></li>
+            <li><a href="#改变模型">改变模型</a></li>
+          </ul>
+        </li>
+        <li><a href="#how-to-handle-unbalanced-data">how to handle unbalanced data</a>
+          <ul>
+            <li><a href="#常见的例子">常见的例子</a></li>
+          </ul>
+        </li>
+        <li><a href="#参考文献">参考文献</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>机器学习中出现的不平衡类别问题的分析、常用的解决方案。</p>
+<!-- more -->
+<h2 id="定义">定义</h2>
+<p>不同类别训练数据样本的数量相差很大，导致传统意义上的衡量指标“准确率” 失去了意义。 该问题出现在多个领域中，包括：</p>
+<ul>
+<li>信用欺诈</li>
+<li>垃圾邮件过滤</li>
+<li>疾病筛查</li>
+</ul>
+<h2 id="处理方法">处理方法</h2>
+<h3 id="数据层面">数据层面</h3>
+<p>主要有以下三种方式：Undersample majority class, Oversample minority class, Try generating synthetic samples.</p>
+<p>（1）欠（下）采样（undersampling）：Undersample majority class</p>
+<p>对训练集中多数类随机进行下采样，取多数类中的样本使得正例、反例数目接近，然后进行学习。从$S_{majority}$ 中样本数量为 $N_1$, 使得$N_1 =N_{minority}$</p>
+<p>直接这种随机下采样方法是有不足的，比如采样导致原有信息的缺失。所以常常使用EasyEnsemble 算法进行优化。算法步骤：</p>
+<ul>
+<li>从多数类中有放回的随机采样$n$ 次，每次选取和少数类别样本相同数目的样本个数，得到 $n$ 个模型</li>
+<li>然后每个上述的子集和少数样本合并训练兵训练，可以得到 $n$ 个模型</li>
+<li>最终这些模型组合形成一个集成学习系统，模型的结果是这$n$ 个模型的平均值</li>
+</ul>
+<p><img src="http://123.56.8.10:8899/images/2021/02/23/491005a55dcad9f0.jpg" alt=""></p>
+<p>（2）过（上）采样（oversampling）：Oversample minority class</p>
+<p>最简单的方法是（如果没有更多的数据，只需要复制现有的数据，并轻微的变化即可）</p>
+<ol>
+<li>图像数据增强
+镜像翻转、旋转、平移、缩放、颜色随机扰动、非线性几何变形等；
+GAN生成新样本；</li>
+<li>文本数据增强</li>
+</ol>
+<ul>
+<li>
+<p>随机过采样
+在少数类 $S_{minority}$ 中随机选择一些样本，然后通过复制这些选择的样本得到新的结合，这些集合作为训练中的少数样本数据集。其缺点：容易造成模型的过拟合，因为这些样本都是通过对初始样本复制采样得来，不利于提高模型的泛化性能。</p>
+</li>
+<li>
+<p>SMOTE（Synthetic Minority Oversampling）算法
+即，合成少数类过采样技术是对随机过采样的一种改进算法。而SOMT算法的基本思想是对每个少数类样本$x_i$ ，从它的最近邻中随机选择一个样本 $\hat{x_i}$ （ $\hat{x_i}$ 是少数类中的一个样本），然后在$x_i$ 和 $\hat{x_i}$  之间的连线上随机选择一点作为新合成的少数类样本。算法描述如下：
+1).对于少数类中的每一个样本 $x_i$，以欧氏距离为标准计算它到少数类样本集 $S_{minority}$中所有样本的距离，得到其k近邻。
+2).根据样本不平衡比例设置一个采样比例以确定采样倍率 $N$，对于每一个少数类样本 $x_i$ ，从其 $k$近邻中随机选择若干个样本，假设选择的是 $\hat{x_i}$ 。
+3).对于每一个随机选出来的近邻  $\hat{x_i}$ ，分别与 $x_i$ 按照如下公式构建新的样本。</p>
+</li>
+</ul>
+<p>$$
+x_{new} =x_i +rand(0,1) \times (\hat{x_i} -x_i)
+$$</p>
+<p><a href="https://zhuanlan.zhihu.com/p/36381828">参考</a>， 有一种代码<a href="https://github.com/kaushalshetty/SMOTE">实现</a>
+不足之处
+1). 观察到的数目是及其罕见的类别的时候，就不知所措。
+2). 每个少数样本都生成新样本，容易发生样本重叠的问题
+3). 生成机制存在一定的盲目性，可能有些少数的样本并不具有少数样本的代表性</p>
+<ul>
+<li>K近邻单词替换
+这里用到了word embedding工具，在序列模型中，每个单词都能映射成一个词向量。所以一个单词可以看做高维空间中一个样本点，这也就可以用K近邻来得到和它语义相近的单词了。这里放一个<a href="https://www.kaggle.com/theoviel/using-word-embeddings-for-data-augmentation">代码链接</a>。可以被看做是处理OOV问题的一种手段。</li>
+</ul>
+<p>（3）Try generating synthetic samples</p>
+<blockquote>
+<p>SMOTE is an oversampling method which creates “synthetic” example rather than oversampling by replacements. The minority class is over-sampled by taking each minority class sample and introducing synthetic examples along the line segments joining any/all of the k minority class nearest neighbors. Depending upon the amount of over-sampling required, neighbors from the k nearest neighbors are randomly chosen.</p>
+<p>The heart of SMOTE is the construction of the minority classes. The intuition behind the construction algorithm is simple. You have already studied that oversampling causes overfitting, and because of repeated instances, the decision boundary gets tightened. What if you could generate <strong>similar</strong> samples instead of repeating them? In the original SMOTE paper (linked above) it has been shown that to a machine learning algorithm, these newly constructed instances are not exact copies, and thus it softens the decision boundary and thereby helping the algorithm to approximate the hypothesis more accurately.</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/03/09/image-20210309180256637.png" alt="image-20210309180256637" style="zoom:80%;" /></p>
+<p>（4）数据增强</p>
+<p>常用的数据数据增强手段有以下几点：</p>
+<ul>
+<li>水平、垂直翻转</li>
+<li>90。，180。，270。90。，180。，270。翻转</li>
+<li>翻转+旋转</li>
+<li>亮度、饱和度、对比度的随机变换</li>
+<li>随机裁剪</li>
+<li>随机缩放</li>
+<li>加模糊（blurring）</li>
+<li>加高斯噪声（Gaussian Noise）</li>
+</ul>
+<p>注意可能不同的操作会影响原有数据集的分布。</p>
+<h3 id="改变评价指标">改变评价指标</h3>
+<p>不要使用 ACC。可以使用 AUC， ROC-Curve，f1-score。</p>
+<p>for a general-purpose metric for classification, we recommand area under roc curve (auc )</p>
+<h3 id="改变模型">改变模型</h3>
+<ol>
+<li>基于SVM惩罚算法
+使用惩罚学习算法增加对少数类别分类错误的代价，一个流行的算法是惩罚性-SVM</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
+<span class="n">clf_3</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span>
+            <span class="n">class_weight</span><span class="o">=</span><span class="s1">&#39;balanced&#39;</span><span class="p">,</span> <span class="c1"># penalize</span>
+            <span class="n">probability</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>基于树的算法
+决策树通常在不平衡的数据集上表现良好，因为这种层序结构允许其从两个类别去学习。而在目前看来，树集合（随机森林、梯度提升树）总是优于单个决策树，所以可以考虑xgboost 之类的框架。</li>
+</ol>
+<p>The final tactic we&rsquo;ll consider is using tree-based algorithms. Decision trees often perform well on imbalanced datasets becase their hirearchical structure allows them to learn signals from both classes.</p>
+<p>In mordern applied machine learning, tree ensembles (Random Forests, &hellip;) almost always outperform singular decision trees.</p>
+<ol start="3">
+<li>修改损失函数</li>
+</ol>
+<ul>
+<li>如果你用的是keras，模型训练函数中是可以调整class_weight的，可以在class_weight中适当增大正样本的权重。比较忌讳把正样本权重增大到两者损失总量一样，这么设置从来没有一次效果是好的。笔者一般把正样本权重调到负样本权重的1.1~1.5倍，可以取得比之前要好的F1 score。</li>
+<li>Focal Loss是个值得考虑的目标函数，论文：Focal Loss for Dense Object Detection。该损失函数在目标检测领域取得了良好的处理类别不平衡效果和改善误分类的效果，笔者在文本分类的任务中用了该目标函数，也能取得较大提升。</li>
+</ul>
+<h2 id="how-to-handle-unbalanced-data">how to handle unbalanced data</h2>
+<p>对于这类问题是可以从数据和模型来进行考虑的。</p>
+<p>Imbalanced data typically refers to a problem with classification problems where the classes are not represented equally. The accuracy paradox is the name for the exact situation in the introduction to this post.</p>
+<p><strong>Data approach</strong>
+Oversample minority class  and Undersample majority class</p>
+<ul>
+<li>Over-sampling increases the number of minority class members in the training set. The advantage of over-sampling is that no information from the original training set is lost, as all observations from the minority and majority classes are kept. On the other hand, it is prone to overfitting. (You can add copies of instances from the under-represented class called over-sampling or more formally sampling with replacement)</li>
+</ul>
+<p><strong>SMOTE (Synthetic minority oversampling technique)</strong></p>
+<p>由少量的数据生成比较多的数据</p>
+<blockquote>
+<p>How does SMOTE work? SMOTE generates new samples in between existing data points based on their local density and their borders with the other class. Not only does it perform oversampling, but can subsequently use cleaning techniques (undersampling, more on this shortly) to remove redundancy in the end. Below is an illustration for how SMOTE works when studying class data.</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/03/11/1ZEy1CA0fsBaeJacidZxRBw-20210311175847040.png" alt="Image for post" style="zoom:57%;" /></p>
+<ul>
+<li>Under-sampling, on contrary to over-sampling, aims to reduce the number of majority samples to balance the class distribution. Since it is removing observations from the original data set, it might discard useful information. (You can delete instances from the over-represented class, called under-sampling.)</li>
+</ul>
+<p>Some Rules of Thumb</p>
+<ul>
+<li>Consider testing under-sampling when you have an a lot data (tens- or hundreds of thousands of instances or more)</li>
+<li>Consider testing over-sampling when you don’t have a lot of data (tens of thousands of records or less)</li>
+<li>Consider testing random and non-random (e.g. stratified) sampling schemes.</li>
+<li>Consider testing different resampled ratios (e.g. you don’t have to target a 1:1 ratio in a binary classification problem, try other ratios)</li>
+</ul>
+<p><strong>Try Different Algorithms</strong>
+基于树的这种结构的模型还是表现比较给力的。
+That being said, decision trees often perform well on imbalanced datasets. The splitting rules that look at the class variable used in the creation of the trees, can force both classes to be addressed.</p>
+<p><strong>Try Penalized Models</strong>
+Penalized classification imposes an additional cost on the model for making classification mistakes on the minority class during training. These penalties can bias the model to pay more attention to the minority class.</p>
+<p><strong>Try Changing Your Performance Metric</strong></p>
+<p>使用 precision and recall  curves or F1 去评价你的网络效果</p>
+<ul>
+<li>
+<p>Precision: A measure of a classifiers exactness.</p>
+</li>
+<li>
+<p>Recall: A measure of a classifiers completeness</p>
+</li>
+<li>
+<p>F1 Score (or F-score): A weighted average of precision and recall.</p>
+</li>
+<li>
+<p>GBC参数
+这些参数中，类似于Adaboost，我们把重要参数分为两类，第一类是Boosting框架的重要参数，第二类是弱学习器即CART回归树的重要参数。
+n_estimators: 也就是弱学习器的最大迭代次数，或者说最大的弱学习器的个数。
+learning_rate: 即每个弱学习器的权重缩减系数ν，也称作步长
+对于分类模型，有对数似然损失函数&quot;deviance&quot;和指数损失函数&quot;exponential&quot;两者输入选择。默认是对数似然损失函数&quot;deviance&quot;。一般来说，推荐使用默认的&quot;deviance&quot;。它对二元分离和多元分类各自都有比较好的优化。而指数损失函数等于把我们带到了Adaboost算法。
+对于回归模型，有均方差&quot;ls&quot;, 绝对损失&quot;lad&quot;, Huber损失&quot;huber&quot;和分位数损失“quantile”。默认是均方差&quot;ls&quot;。一般来说，如果数据的噪音点不多，用默认的均方差&quot;ls&quot;比较好。如果是噪音点较多，则推荐用抗噪音的损失函数&quot;huber&quot;。而如果我们需要对训练集进行分段预测的时候，则采用“quantile”。
+max_features:可以使用很多种类型的值，默认是&quot;None&quot;,意味着划分时考虑所有的特征数.
+subsample: 选择小于1的比例可以减少方差，即防止过拟合，但是会增加样本拟合的偏差，因此取值不能太低。推荐在[0.5, 0.8]之间，默认是1.0，即不使用子采样。</p>
+</li>
+</ul>
+<p><strong>从 loss 角度出发</strong></p>
+<p>加权惩罚，在分类模型中， 使用了 weighted loss。（这个是更加照顾数量少的类别，还是更加照顾数量大的类别？）</p>
+<p>weight 如何作用于 loss的原理，可以查看这里：https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">nSamples</span> <span class="o">=</span> <span class="p">[</span><span class="mi">887</span><span class="p">,</span> <span class="mi">6130</span><span class="p">,</span> <span class="mi">480</span><span class="p">,</span> <span class="mi">317</span><span class="p">,</span> <span class="mi">972</span><span class="p">,</span> <span class="mi">101</span><span class="p">,</span> <span class="mi">128</span><span class="p">]</span>
+<span class="n">normedWeights</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">nSamples</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nSamples</span><span class="p">]</span>
+<span class="n">normedWeights</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">FloatTensor</span><span class="p">(</span><span class="n">normedWeights</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在实际应用中，weight 应该是 数量的导数。数量越少，那么模型对于该类别的重视程度越高，在总体的损失中占比相对大一些。</p>
+<blockquote>
+<p>the more instance the less weight of a class</p>
+</blockquote>
+<h3 id="常见的例子">常见的例子</h3>
+<p>Many classification problems may have a severe imbalance in the class distribution; nevertheless, looking at common problem domains that are inherently imbalanced will make the ideas and challenges of class imbalance concrete.</p>
+<ul>
+<li>Fraud Detection.</li>
+<li>Claim Prediction</li>
+<li>Default Prediction.</li>
+<li>Churn Prediction.</li>
+<li>Spam Detection.</li>
+<li>Anomaly Detection.</li>
+<li>Outlier Detection.</li>
+<li>Intrusion Detection</li>
+<li>Conversion Prediction.</li>
+</ul>
+<h2 id="参考文献">参考文献</h2>
+<p><a href="https://wqw547243068.github.io/2019/04/25/Imbalance-Data/">如何处理机器学习中的不平衡类别</a>
+<a href="https://zhuanlan.zhihu.com/p/36381828">分类中解决类别不平衡问题</a></p>
+<p><a href="https://www.cnblogs.com/pinard/p/6143927.html">GBC参数设置</a>
+<a href="https://www.cnblogs.com/gatherstars/p/6084696.html">ROC曲线和AUC值</a>
+<a href="https://www.dataquest.io/blog/introduction-to-ensembles/">Introduction to Python Ensembles</a></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2021-05-19
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/wechatpay.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/alipay.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/metric-learning/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Metric Learning</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/weights-initialization/">
+            <span class="next-text nav-default">Weights Initialization</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
