@@ -256,15 +256,6 @@
     </item>
     
     <item>
-      <title>Pandas Tutorial</title>
-      <link>http://jijeng.github.io/post/pandas_tutorial/</link>
-      <pubDate>Tue, 28 Jul 2020 10:13:57 +0800</pubDate>
-      
-      <guid>http://jijeng.github.io/post/pandas_tutorial/</guid>
-      <description>&lt;p&gt;pandas 学习笔记&lt;/p&gt;</description>
-    </item>
-    
-    <item>
       <title>Overfit</title>
       <link>http://jijeng.github.io/post/overfit/</link>
       <pubDate>Sat, 11 Jul 2020 15:55:36 +0800</pubDate>
@@ -280,6 +271,15 @@
       
       <guid>http://jijeng.github.io/post/image_caption/</guid>
       <description>&lt;p&gt;看图说话（Image Caption）任务是结合CV和NLP两个领域的一种比较综合的任务，Image Caption模型的输入是一幅图像，输出是对该幅图像进行描述的一段文字。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://jijeng.github.io/post/linux_learning2/</link>
+      <pubDate>Wed, 08 Jul 2020 11:22:17 +0000</pubDate>
+      
+      <guid>http://jijeng.github.io/post/linux_learning2/</guid>
+      <description>之前的linux 学习笔记内容比较，然后新开了一篇。 linux 使用sz rz命令下载上传文件 rz 是received，上传文件到服务器；sz 是send，从服</description>
     </item>
     
     <item>
@@ -361,6 +361,15 @@
       
       <guid>http://jijeng.github.io/post/python_json/</guid>
       <description>&lt;p&gt;JSON格式在python 中的使用。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Mac OS 使用tutorial</title>
+      <link>http://jijeng.github.io/post/mac_tutorial/</link>
+      <pubDate>Fri, 15 May 2020 11:22:17 +0000</pubDate>
+      
+      <guid>http://jijeng.github.io/post/mac_tutorial/</guid>
+      <description>Mac OS 使用tutorial brew an 1 2 3 4 brew search aircrack-ng brew install aircrack-ng brew upgrade aircrack-ng brew info aircrack-ng # 查看版本信息 brew install without updating 1 HOMEBREW_NO_AUTO_UPDATE=1 brew install … 在mac 下使用wifi 破解器 安装指南： macOS 安装 aircrack-ng 使</description>
     </item>
     
     <item>
@@ -1061,6 +1070,15 @@
     </item>
     
     <item>
+      <title>linux learning notes 1</title>
+      <link>http://jijeng.github.io/post/linux_learning/</link>
+      <pubDate>Mon, 18 Feb 2019 11:18:35 +0000</pubDate>
+      
+      <guid>http://jijeng.github.io/post/linux_learning/</guid>
+      <description>介绍linux 中常见的命令 和github 中常用的命令 Linux 常见命令 awk、grep、sed是linux操作文本的三大利器，也是必须掌握的linu</description>
+    </item>
+    
+    <item>
       <title>Linux Tutorial (1)</title>
       <link>http://jijeng.github.io/post/linux_tutorial_1/</link>
       <pubDate>Mon, 18 Feb 2019 10:06:48 +0800</pubDate>
@@ -1234,6 +1252,15 @@
       
       <guid>http://jijeng.github.io/post/binary_search/</guid>
       <description>&lt;p&gt;介绍二分查找中的三个模板，以 LeetCode 中的习题为例。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://jijeng.github.io/post/pandas_tutorial/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://jijeng.github.io/post/pandas_tutorial/</guid>
+      <description>pandas 教程 小技巧 reset_index() 会将数据重构成一个表 1 data.groupby( column_1 )[ column_2 ].apply(sum).reset_index() 打印出第8行 1 data.loc[8] 高级功能 分组实现：按一个列分组，选择另一个列来执行一个函数。.reset_in</description>
     </item>
     
   </channel>

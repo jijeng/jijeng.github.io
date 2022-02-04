@@ -366,27 +366,6 @@
   </url>
   
   <url>
-    <loc>http://jijeng.github.io/tags/pandas/</loc>
-    <lastmod>2020-07-28T10:13:57+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://jijeng.github.io/post/pandas_tutorial/</loc>
-    <lastmod>2020-07-28T10:13:57+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://jijeng.github.io/categories/tutorial/</loc>
-    <lastmod>2020-07-28T10:13:57+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>http://jijeng.github.io/tags/dropout/</loc>
     <lastmod>2020-07-11T15:55:36+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -429,6 +408,13 @@
   </url>
   
   <url>
+    <loc>http://jijeng.github.io/post/linux_learning2/</loc>
+    <lastmod>2020-07-08T11:22:17+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://jijeng.github.io/categories/reading/</loc>
     <lastmod>2020-07-08T15:38:57+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -451,6 +437,13 @@
   
   <url>
     <loc>http://jijeng.github.io/post/linux_tutorial_2/</loc>
+    <lastmod>2020-07-08T11:09:45+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://jijeng.github.io/categories/tutorial/</loc>
     <lastmod>2020-07-08T11:09:45+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -543,6 +536,13 @@
   <url>
     <loc>http://jijeng.github.io/post/python_json/</loc>
     <lastmod>2020-05-24T11:38:31+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://jijeng.github.io/post/mac_tutorial/</loc>
+    <lastmod>2020-05-15T11:22:17+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -1528,6 +1528,13 @@
   </url>
   
   <url>
+    <loc>http://jijeng.github.io/post/linux_learning/</loc>
+    <lastmod>2019-02-18T11:18:35+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://jijeng.github.io/tags/github/</loc>
     <lastmod>2019-02-18T10:06:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -1740,6 +1747,12 @@
   <url>
     <loc>http://jijeng.github.io/post/binary_search/</loc>
     <lastmod>2018-01-23T16:13:21+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://jijeng.github.io/post/pandas_tutorial/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

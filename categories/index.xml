@@ -71,20 +71,20 @@
     </item>
     
     <item>
-      <title>tutorial</title>
-      <link>http://jijeng.github.io/categories/tutorial/</link>
-      <pubDate>Tue, 28 Jul 2020 10:13:57 +0800</pubDate>
-      
-      <guid>http://jijeng.github.io/categories/tutorial/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>reading</title>
       <link>http://jijeng.github.io/categories/reading/</link>
       <pubDate>Wed, 08 Jul 2020 15:38:57 +0800</pubDate>
       
       <guid>http://jijeng.github.io/categories/reading/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tutorial</title>
+      <link>http://jijeng.github.io/categories/tutorial/</link>
+      <pubDate>Wed, 08 Jul 2020 11:09:45 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/categories/tutorial/</guid>
       <description></description>
     </item>
     
