@@ -50,7 +50,7 @@
 <meta itemprop="description" content="介绍 python advanced skill。">
 <meta itemprop="datePublished" content="2019-07-27T16:07:02+08:00" />
 <meta itemprop="dateModified" content="2019-07-27T16:07:02+08:00" />
-<meta itemprop="wordCount" content="5996">
+<meta itemprop="wordCount" content="6634">
 
 
 
@@ -127,8 +127,8 @@
         <div class="post-category">
             <a href="/categories/programming-language/"> programming language </a>
             </div>
-          <span class="more-meta"> 约 5996 字 </span>
-          <span class="more-meta"> 预计阅读 12 分钟 </span>
+          <span class="more-meta"> 约 6634 字 </span>
+          <span class="more-meta"> 预计阅读 14 分钟 </span>
         
       </div>
     </header>
@@ -163,6 +163,7 @@
         <li><a href="#在终端执行python">在终端执行python</a></li>
         <li><a href="#python中的逆序遍历">python中的逆序遍历</a></li>
         <li><a href="#python-中小的知识点">python 中小的知识点</a></li>
+        <li><a href="#总结常见的命令行工具">总结常见的命令行工具</a></li>
       </ul>
     </li>
   </ul>
@@ -1357,6 +1358,96 @@ fruites.extend(cars)
 </code></pre></td></tr></table>
 </div>
 </div><p>vars 一般用在解析命令行参数的时候，dictionary 貌似用在写函数上，不知道怎么回事。</p>
+<h2 id="总结常见的命令行工具">总结常见的命令行工具</h2>
+<p>常见的包 python 内置的 <code>args</code>， <code>click</code> 和 <code>fire</code></p>
+<blockquote>
+<p>fire是python中用于生成命令行界面(Command Line Interfaces, CLIs)的工具，不需要做任何额外的工作，只需要从主模块中调用fire.Fire()，它会自动将你的代码转化为CLI，Fire()的参数可以说任何的python对象</p>
+</blockquote>
+<p>当不接参数时，执行python test_fire.py会显示帮助信息</p>
+<blockquote>
+<p>单个函数：python 模块名 参数1 参数2</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">fire</span>
+<span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+    <span class="k">return</span> <span class="n">count</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">fire</span><span class="o">.</span><span class="n">Fire</span><span class="p">(</span><span class="n">add</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>多个函数：python 模块名 函数名 参数</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">fire</span>
+<span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+    <span class="k">return</span> <span class="n">count</span>
+<span class="k">def</span> <span class="nf">sub</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span>
+    <span class="k">return</span> <span class="n">result</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">fire</span><span class="o">.</span><span class="n">Fire</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>类(对象) 多个函数：python 模块名 函数名 参数</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">fire</span>
+<span class="k">class</span> <span class="nc">Calculator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+        <span class="k">return</span> <span class="n">count</span>
+
+    <span class="k">def</span> <span class="nf">sub</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span>
+        <span class="k">return</span> <span class="n">result</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">fire</span><span class="o">.</span><span class="n">Fire</span><span class="p">(</span><span class="n">Calculator</span><span class="p">)</span>    <span class="c1">#注意这里使用的是类名 或者类的实例化对象</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>注意事项</p>
+<ol>
+<li>fire 默认使用 - 作为参数分隔符，所以如果你要在命令行传入类似 2017-04-22 的参数时，那么程序接收到的参数就肯定不是 2017-04-22 了，需要使用 –separator 来改变分隔符</li>
+<li>fire 会自动区分你在命令行传入的参数的类型，例如 20170422 会自动识别成 int，hello 会自动识别成 str，’(1,2)’ 会自动识别成 tuple，’{“name”: “Alan Lee”}’ 会自动识别成 dict。但是你如果想要传入一个字符串类型的 20170422 怎么办？那就需要这样写：’“20170422”’ 或者 “‘20170422’” 或者 &ldquo;20170422&rdquo;，总之呢，就是加一个转义，因为命令行默认会吃掉你的引号</li>
+</ol>
     </div>
 
     <div class="post-copyright">
@@ -1440,7 +1531,7 @@ fruites.extend(cars)
   <span class="copyright-year">
     &copy; 
     2018 - 
-    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
   </span>
 </div>
 

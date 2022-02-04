@@ -50,7 +50,7 @@
 <meta itemprop="description" content="Setting the hyper-parameters seems like a black art that requires years of experience to acquire. Currently, there are no simple and easy ways to set hyper-parameters, especifically, batch size, learning rate, momentum, and weight decay. A grid search or random search maybe sounds like a good idea. In this blog, I&rsquo;d like to share you my idea from reading papers and my projects.">
 <meta itemprop="datePublished" content="2019-04-17T14:34:00+08:00" />
 <meta itemprop="dateModified" content="2019-04-17T14:34:00+08:00" />
-<meta itemprop="wordCount" content="1538">
+<meta itemprop="wordCount" content="1549">
 
 
 
@@ -125,7 +125,7 @@
       <div class="post-meta">
         <span class="post-time"> 2019-04-17 </span>
         
-          <span class="more-meta"> 约 1538 字 </span>
+          <span class="more-meta"> 约 1549 字 </span>
           <span class="more-meta"> 预计阅读 4 分钟 </span>
         
       </div>
@@ -159,7 +159,7 @@
 <h2 id="hyper-parameters">Hyper-parameters</h2>
 <h3 id="batch-size">Batch Size</h3>
 <p>Learning rate is maybe the most important hyper-parameters, but we choose batch size firstly because large batch size needs a large learning rate in most circumstances.</p>
-<p>** A general principle is: use as a large batch size as possible to fit your CPU memory or/both GPU memory.  **There are several reasons:</p>
+<p>**A general principle is: use as a large batch size as possible to fit your CPU memory or/both GPU memory.  **There are several reasons:</p>
 <ul>
 <li>larger batch sizes permit the use of larger learning rates</li>
 <li>A constant number of iterations favors larger batch sizes</li>
@@ -173,7 +173,6 @@
 <blockquote>
 <p>所以说如果最后的loss 比较抖动，那么可能是 learing rate 过大，然后出现的抖动现象。</p>
 </blockquote>
-<p>多项式衰减</p>
 <p>多项式衰减</p>
 <p>余弦衰减</p>
 <p>We will introduce the idea from [Cyclical Learning Rates for Training Neural Networks][1]: Cyclical Learning Rates.</p>
@@ -193,9 +192,9 @@
 <img src="http://ww1.sinaimg.cn/large/e9a223b5ly1g25x29cb1dj20y00iogs2.jpg" alt="">
 In mathematics, a saddle point or minimax point is a point on the surface of the graph of a function <strong>where the slopes (derivatives) in orthogonal directions are all zero</strong> (a critical point), but which is not a local extremum of the function.</p>
 <p>Your first step from the very top would likely take you down, but then you’d be on a flat rice terrace. The gradient would be zero, and you’d have nowhere to go. To remedy this, we employ momentum - the algorithm remembers its last step and adds some psroportion of it to the current step. This way, even if the algorithm is stuck in a flat region, or a small local minimum, it can get out and continue towards the true minimum.</p>
-<p>In summary: when performing gradient descent, learning rate measures how much the current situation affects the next step, while momentum measures how much past steps affect the next step.</p>
+<p><strong>In summary: when performing gradient descent, learning rate measures how much the current situation affects the next step, while momentum measures how much past steps affect the next step.</strong></p>
 <h3 id="weights-decay">Weights Decay</h3>
-<p>When training neural networks, it is common to use &ldquo;weight decay,&rdquo; where after each update, the weights are multiplied by a factor slightly less than 1. This prevents the weights from growing too large and can be seen as gradient descent on a quadratic regularization term.</p>
+<p>When training neural networks, it is common to use &ldquo;weight decay,&rdquo; where after each update, the weights are multiplied by a factor slightly less than 1. This prevents the weights from growing too large and can be seen as gradient descent on a quadratic (平方)regularization term.</p>
 <p>But why?</p>
 <p>Large weights might correlate with certain patterns in the input data (x), this means that the model almost hard codes certain values. This then makes our training data fit well but our test data fit less well.</p>
 <p>The idea of weight decay is simple: to prevent overfitting, every time we update a weight $w$ with the gradient $∇J$ in respect to $w$, we also subtract from it $λ∙w$. This gives the weights a tendency to decay towards zero, hence the name. L2 is a type of weights decay.
@@ -308,7 +307,7 @@ A shallow architecture requires more regularization so test larger weight decay 
   <span class="copyright-year">
     &copy; 
     2018 - 
-    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
   </span>
 </div>
 

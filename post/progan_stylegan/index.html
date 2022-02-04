@@ -52,7 +52,7 @@
 ">
 <meta itemprop="datePublished" content="2020-01-11T15:58:59+08:00" />
 <meta itemprop="dateModified" content="2020-01-11T15:58:59+08:00" />
-<meta itemprop="wordCount" content="6778">
+<meta itemprop="wordCount" content="7071">
 
 
 
@@ -130,8 +130,8 @@
         <div class="post-category">
             <a href="/categories/deep-learning/"> deep learning </a>
             </div>
-          <span class="more-meta"> 约 6778 字 </span>
-          <span class="more-meta"> 预计阅读 14 分钟 </span>
+          <span class="more-meta"> 约 7071 字 </span>
+          <span class="more-meta"> 预计阅读 15 分钟 </span>
         
       </div>
     </header>
@@ -154,6 +154,7 @@
             <li><a href="#cyclegan-学习讲解">CycleGAN 学习讲解</a></li>
             <li><a href="#cut-contrastive-unpaired-translation">CUT (contrastive unpaired translation)</a></li>
             <li><a href="#pix2pix-学习笔记">Pix2pix 学习笔记</a></li>
+            <li><a href="#training-generative-adversarial-networks-in-one-stagehttpsarxivorgpdf210300430pdf"><a href="https://arxiv.org/pdf/2103.00430.pdf">Training Generative Adversarial Networks in One Stage</a></a></li>
             <li><a href="#实验环境">实验环境</a></li>
             <li><a href="#kaggle-中gan生成图像的总结">kaggle 中GAN生成图像的总结</a></li>
             <li><a href="#比较好的代码">比较好的代码</a></li>
@@ -441,6 +442,44 @@ FID和P&amp;R都基于分类器网络，最近的研究表明，分类器网络�
 <blockquote>
 <p>这个原始的数据集只有 900 多张，然后随机 crop 出来一些，组成了 3-4 k 的数据集，左边是最后生成的效果，看起来已经非常不错了。</p>
 </blockquote>
+<p>pixel blitting （像素块传输）</p>
+<ul>
+<li>x-flip</li>
+<li>90 rotation</li>
+<li>integer translation （这个不是很懂）</li>
+</ul>
+<p>general geometric translations</p>
+<ul>
+<li>isotropic scaling</li>
+<li>arbitrary rotation</li>
+<li>anisotropic scaling</li>
+<li>fractional translation</li>
+</ul>
+<p>color transformations</p>
+<ul>
+<li>brightness</li>
+<li>contrast</li>
+<li>luma flip (Householder transformation ) 灰阶值</li>
+<li>hue rotation （渐变色）</li>
+<li>saturation (饱和度)</li>
+</ul>
+<p><img src="http://123.56.8.10:8899/images/2021/06/15/image-20210615110205361.png" alt="image-20210615110205361"></p>
+<p>image-space filtering （尺度空间滤波）</p>
+<ul>
+<li>frequency</li>
+</ul>
+<p>image-space corruptions</p>
+<ul>
+<li>additive RGB noise</li>
+<li>Cutout</li>
+</ul>
+<p><img src="/home/zhp-pc/notes/images/image-20210615110415258.png" alt="image-20210615110415258"></p>
+<p>non-leaking augmentations</p>
+<blockquote>
+<p>The goal of GAN training is to find a generator function G whose output probability distribution  x (under suitable stochastic input) matches a given target distribution y.</p>
+<p>When augmenting both the dataset and the generator output, the key safety priciple is that if x and y do not match, then their augmented versions must not match either.</p>
+<p>这个是是否选择该 augmentation 的原则。如果 x 和G网络的输出 经过同样的 augmentation，那么处于同样的分布，那么就被定义为 leaking augmentation，所以就不能被选用。</p>
+</blockquote>
 <h3 id="cyclegan-学习讲解">CycleGAN 学习讲解</h3>
 <p>主要点在于 : cycle consistency loss</p>
 <p>来自论文： Unpaired Image-to-Image Translation</p>
@@ -519,6 +558,23 @@ $$</p>
 </ul>
 <p>pix2pix 對傳統的 GAN 做了修改，不再輸入隨機噪聲，而是用戶輸入的图像。另外，为了学习 pair data 的关系，作者把 <strong>G的输入和输出一起作为 D 的输入</strong>（可以对比一下原始的 GAN 的损失函数）</p>
 <p><img src="/home/zhp-pc/notes/images/20180914044620941.png" alt="这里写图片描述"></p>
+<h3 id="training-generative-adversarial-networks-in-one-stagehttpsarxivorgpdf210300430pdf"><a href="https://arxiv.org/pdf/2103.00430.pdf">Training Generative Adversarial Networks in One Stage</a></h3>
+<p>GitHub：https://github.com/zju-vipa/OSGAN</p>
+<p>intuition</p>
+<p><img src="http://123.56.8.10:8899/images/2021/06/26/image-20210626133548943.png" alt="image-20210626133548943" style="zoom:67%;" /></p>
+<blockquote>
+<p>intuition</p>
+</blockquote>
+<p>方法</p>
+<p><img src="http://123.56.8.10:8899/images/2021/06/26/image-20210626133504358.png" alt="image-20210626133504358" style="zoom:80%;" /></p>
+<blockquote>
+<p>这个是网络结构</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/06/26/image-20210626133719378.png" alt="image-20210626133719378" style="zoom:67%;" /></p>
+<blockquote>
+<p>最后生成的效果</p>
+</blockquote>
+<p>评价：效果很一般。pass</p>
 <h3 id="实验环境">实验环境</h3>
 <p>运行环境</p>
 <ol>
@@ -1257,7 +1313,7 @@ Uniform input noise on real images</p>
   <span class="copyright-year">
     &copy; 
     2018 - 
-    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
   </span>
 </div>
 

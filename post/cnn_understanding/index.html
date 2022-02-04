@@ -50,7 +50,7 @@
 <meta itemprop="description" content="CNN 网络中常见层的介绍和理解。">
 <meta itemprop="datePublished" content="2020-04-07T10:41:47+08:00" />
 <meta itemprop="dateModified" content="2020-04-07T10:41:47+08:00" />
-<meta itemprop="wordCount" content="4663">
+<meta itemprop="wordCount" content="6279">
 
 
 
@@ -127,8 +127,8 @@
         <div class="post-category">
             <a href="/categories/deep-learning/"> deep learning </a>
             </div>
-          <span class="more-meta"> 约 4663 字 </span>
-          <span class="more-meta"> 预计阅读 10 分钟 </span>
+          <span class="more-meta"> 约 6279 字 </span>
+          <span class="more-meta"> 预计阅读 13 分钟 </span>
         
       </div>
     </header>
@@ -136,7 +136,25 @@
     <div class="post-toc" id="post-toc">
   <h2 class="post-toc-title">文章目录</h2>
   <div class="post-toc-content always-active">
-    <nav id="TableOfContents"></nav>
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#五种卷积">五种卷积</a>
+          <ul>
+            <li><a href="#separable-convolution">Separable Convolution</a></li>
+            <li><a href="#group-convolution">Group Convolution</a></li>
+            <li><a href="#heading"></a></li>
+            <li><a href="#dilation-convolution">Dilation Convolution</a></li>
+            <li><a href="#transposed-convolutions">Transposed Convolutions</a></li>
+            <li><a href="#deformable-convolutional-networks">Deformable convolutional networks</a></li>
+            <li><a href="#sparse-convolution">sparse convolution</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
   </div>
 </div>
     <div class="post-content">
@@ -266,11 +284,18 @@ $$</p>
 <li>Fast R-CNN：首先图像过一个CNN得到feature map，然后提取region 中相应的feature，feature +svm 得到置信度。这样共享了 feature map，大大提高了时间效率。（解决的是多次计算CNN 的效率问题）</li>
 <li>Faster R-CNN：首先图像过CNN得到feature map，然后通过<code>region proposel network</code> 从CNN 中得到框，然后通过一个 classifer得到置信度。（解决的是计算 region的效率问题）</li>
 </ul>
-<p><strong>Separable Convolution卷积层（来自mobilenet）</strong></p>
-<p>Separable Convolution的卷积运算方式。它将传统卷积分解为Depthwise Convolution与Pointwise Convolution两部分，有效的减小了参数数量。主要是为了适应移动端设备的性能。</p>
+<h2 id="五种卷积">五种卷积</h2>
+<p>训练更加高效的神经网络逐渐成为人们关注的焦点，设计轻量级模型主要通过以下三种方式：</p>
+<p>（1）减少网络参数量和计算量</p>
+<p>（2）量化参数，减少每个参数占用内存</p>
+<p>（3）神经网络架构搜索（NAS）</p>
+<p>以下四种网络是通过第一种方式来设计轻量级模型。</p>
+<h3 id="separable-convolution">Separable Convolution</h3>
+<p>Separable Convolution 或者 Depthwise Separable Convolution 来自Google设计的移动端轻量化网络 mobilenet。</p>
+<p>Separable Convolution 将传统卷积分解为Depthwise Convolution与Pointwise Convolution两部分，有效的减小了参数数量。</p>
 <p>下面给出一个例子说明。</p>
 <p>此时，卷积层共4个Filter，每个Filter包含了3个Kernel，每个Kernel的大小为3×3。因此卷积层的参数数量可以用如下公式来计算：</p>
-<p>核心思想是将一个完整的卷积运算分解为两步进行，Depthwise Convolution与Pointwise Convolution。</p>
+<p>核心思想是将一个完整的卷积运算分解为两步进行，Depthwise Convolution（逐通道卷积，卷积核的shape $ 卷积核w * 卷积核 h * 输入通道数$）与Pointwise Convolution（逐点卷积，卷积核的shape $1*1 * 输入通道数 * 输出通道数$）。</p>
 <p><img src="http://123.56.8.10:8899/images/2021/03/31/image-20210331140611578.png" alt="image-20210331140611578" style="zoom:50%;" /></p>
 <p>Depthwise Convolution完成后的Feature map数量与输入层的depth相同，但是这种运算对输入层的每个channel独立进行卷积运算后就结束了，没有有效的利用不同map在相同空间位置上的信息。因此需要增加另外一步操作来将这些map进行组合生成新的Feature map，即接下来的Pointwise Convolution。</p>
 <p><img src="http://123.56.8.10:8899/images/2021/03/31/image-20210331140531938.png" alt="image-20210331140531938" style="zoom:50%;" /></p>
@@ -286,15 +311,16 @@ $$</p>
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 第一种
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 传统常规的卷积方式
 N_std = 4 × 3 × 3 × 3 = 108
-# 第二种
+# 深度可分离卷积
 N_depthwise = 3 × 3 × 3 = 27
 N_pointwise = 1 × 1 × 3 × 4 = 12
 N_separable = N_depthwise + N_pointwise = 39
 </code></pre></td></tr></table>
 </div>
-</div><p>所以同样是 4 个feature map， separable convolution 的参数个数基本上是常规卷积的 $1/3$。</p>
+</div><p>所以同样是 4 个feature map， separable convolution 的参数个数基本上是常规卷积的 $1/3$。所以在参数量相同的情况下，采用 Separable Convolution 的神经网络可以做到更深。</p>
+<p>普通卷积同时考虑区域和通道，而可分离卷积先考虑区域然后再考虑通道，实现了区域和通道的分离。</p>
 <p>但 Separable Convolution 也不是没有缺点，使用该卷积的网络结构在 train 的时候占用显存比较大。</p>
 <blockquote>
 <p>efficientnet 的模型很小，因为本地保存的模型 ckpt 容量代销和模型的参数量相关，模型参数和模型自身 layer 的设计有关，但是模型训练时占用的显存不是和模型参数量成一定的线性关系，更多的是和模型 inference 与 backward 过程中产生的 feature map 大小有关，另外和网络的深度也有一定的关系（这样中间变量可能更多了），在 backward 的时候更是直接翻倍，因为需要保存特征图的梯度，可能需要 2 倍的显存占用。</p>
@@ -302,20 +328,33 @@ N_separable = N_depthwise + N_pointwise = 39
 </blockquote>
 <p><img src="http://123.56.8.10:8899/images/2021/03/31/v2-7ff329bfba3195dcb094651605ecd5eb_1440w8c7f344b7be86c34.jpg" alt="img" style="zoom:50%;" /></p>
 <p>参考文献</p>
+<p>MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications</p>
 <p><a href="https://zhuanlan.zhihu.com/p/80041030">Depthwise卷积与Pointwise卷积</a></p>
 <p><a href="https://yinguobing.com/separable-convolution/">卷积神经网络中的Separable Convolution</a></p>
 <p><a href="https://www.zhihu.com/question/388773309">EfficientDet和EfficientNet的模型很小，为什么占用的显存很高呢?</a></p>
-<p>空洞卷积</p>
-<p>Dilation卷积，通常译作空洞卷积或者卷积核膨胀操作，它是解决pixel-wise输出模型的一种常用的卷积方式。一种普遍的认识是，pooling下采样操作导致的信息丢失是不可逆的，通常的分类识别模型，只需要预测每一类的概率，所以我们不需要考虑pooling会导致损失图像细节信息的问题，但是做像素级的预测时（譬如语义分割），就要考虑到这个问题了。</p>
-<blockquote>
-<p>提出的主要是为了解决采用 pooling 操作导致的信息损失的问题。空洞卷积的好处是在不做 pooling损失函数的情况下，增加了感受野。在图像需要全局信息，都能很好的应用空洞卷积，比如图像分割。</p>
-</blockquote>
+<h3 id="group-convolution">Group Convolution</h3>
+<p>分组卷积最早出现在 AlexNet 中，当时的硬件资源有限，训练 AlexNet 时卷积操作不能全部放在同一个 GPU 处理，所以作者把 feature maps 分给多个 GPU 分别进行处理，最后把多个 GPU 的结果进行融合。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/11/22/image-20211122105541483.png" alt="image-20211122105541483"></p>
+<p>图中将输入数据分成 2 组（组数为 g），注意这个只是在深度上进行划分，即几个通道编成一组，具体的数量由 $C_1 /g$ 决定。因为输出数据的改变，相应的，卷积核也需要做出同样的改变。即每组中卷积核的深度也就变成了（C1/g），而卷积核的大小是不需要改变的，此时每组的卷积核的个数就变成了（C2/g）个，而不是原来的C2了。</p>
+<p>然后用每组的卷积核同它们对应组内的输入数据卷积，得到了输出数据以后，再用concatenate的方式组合起来，最终的输出数据的通道仍旧是C2。也就是说，分组数g决定以后，那么我们将并行的运算g个相同的卷积过程，每个过程里（每组），输入数据为H1×W1×C1/g，卷积核大小为h1×w1×C1/g，一共有C2/g个，输出数据为H2×W2×C2/g。</p>
+<h3 id="heading"></h3>
+<h3 id="dilation-convolution">Dilation Convolution</h3>
+<p>dilation convolution （空洞卷积）最早应用于语义分割任务。语义分割是一个密集型预测任务，需要针对图像进行像素级别（pixel-wise）分类。</p>
+<ul>
+<li>pooling下采样操作导致的信息丢失是不可逆的，通常的分类识别模型，只需要预测每一类的概率，所以我们不需要考虑pooling会导致损失图像细节信息的问题，但是做像素级的预测时（譬如语义分割），就要考虑到这个问题了。</li>
+<li>增加感受野，适应不同物体尺寸的变化。</li>
+</ul>
+<p>因此，空洞卷积能够在不降低空间分辨率的情况下，有效地提取不同尺度的上下文信息。</p>
 <p>所以就要有一种卷积代替pooling的作用（成倍的增加感受野），而空洞卷积就是为了做这个的。通过卷积核插“0”的方式，它可以比普通的卷积获得更大的感受野，这个idea的motivation就介绍到这里。</p>
 <p><img src="http://123.56.8.10:8899/images/2021/03/31/v2-4959201e816888c6648f2e78cccfd253_hd.gif" alt=""></p>
 <p>下面是常规的卷积操作</p>
 <p><img src="http://123.56.8.10:8899/images/2021/03/31/v2-d552433faa8363df84c53b905443a556_hd.gif" alt="img"></p>
+<p>卷积核有个参数 diated rate （扩张率）</p>
+<p>参考文献</p>
+<p><a href="https://arxiv.org/pdf/1511.07122.pdf">MULTI-SCALE CONTEXT AGGREGATION BY DILATED CONVOLUTIONS</a></p>
+<h3 id="transposed-convolutions">Transposed Convolutions</h3>
 <p><strong>反卷积和上采样的区别</strong></p>
-<p>转置卷积 (transposed convolution) 又称为反卷积（Deconvolution）。可以理解为卷积的逆过程，实现上采用转置卷积核的方式。</p>
+<p>转置卷积 (transposed convolution) 一般又称为反卷积（Deconvolution）。可以理解为卷积的逆过程，实现上采用转置卷积核的方式。但是这种反卷积的叫法不合适，转置卷积不能实现卷积操作的逆过程，只能还原 shape 打下，不能还原 value 的大小。</p>
 <p>普通的卷积和池化会缩小图像的尺寸，有时候为了得到和原图等大的分割图，需要进行上采样卷积。</p>
 <p><img src="http://123.56.8.10:8899/images/2021/04/26/1EF52InXEbUhf12149452e9f1f39.gif" alt="img"></p>
 <p>从卷积到转置卷积的理解可以查看这里：https://www.malaoshi.top/show_1EF52HLXBmqf.html</p>
@@ -328,6 +367,68 @@ N_separable = N_depthwise + N_pointwise = 39
 <p>这个是需要记录位置的</p>
 </blockquote>
 <p><img src="http://123.56.8.10:8899/images/2021/04/26/image-20210426170024653.png" alt="UpPooling"></p>
+<h3 id="deformable-convolutional-networks">Deformable convolutional networks</h3>
+<p>deformable convolutional networks (DCN)</p>
+<p>Paper: <a href="https://arxiv.org/abs/1703.06211">Deformable Convolutional Networks</a></p>
+<p>github: <a href="https://github.com/CharlesShang/DCNv2">https://github.com/CharlesShang/DCNv2</a></p>
+<p>这个论文也是非常的简单直白，关键是从结果上也是非常有效的。</p>
+<blockquote>
+<p><em>Convolutional neural networks (CNNs) are inherently limited to model geometric transformations due to the fixed geometric structures in their building modules. In this work, we introduce two new modules to enhance the transformation modeling capability of CNNs, namely, de- formable convolution and deformable RoI pooling.</em></p>
+<p>这个是 DCN (deformable convolutional networks) 的初衷：大多使用 fixed filter，作者提出可以使用可变的 filter。</p>
+</blockquote>
+<blockquote>
+<p>The first is to build the training datasets with sufficient desired variations. This is usually realized by augmenting the existing data samples, <em>e.g</em>., by affine transformation.  (extensive data augmentation)</p>
+<p>The second is to use transformation-invariant features and algorithms.</p>
+<p>提高模型的效果的两种方法：（1）大数据去覆盖所有的 case（2）提高算法模型本身的泛化性能</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/11/17/image-20211117193417167.png" alt="image-20211117193417167" style="zoom:90%;" /></p>
+<blockquote>
+<p>左图是 standard 3*3 conv 和 DCN conv 直观的对比；右图是具体实现时候的细节：</p>
+</blockquote>
+<blockquote>
+<p>As illustrated in Figure 2, the offsets are obtained by applying a convolutional layer over the same input feature map. The convolution kernel is of the same spatial resolu- tion and dilation as those of the current convolutional layer (<em>e.g</em>., also 3 × 3 with dilation 1 in Figure 2). The output offset fields have the same spatial resolution with the input feature map. The channel dimension 2N corresponds to N 2D offsets. During training, both the convolutional kernels for generating the output features and the offsets are learned simultaneously. To learn the offsets, the gradients are back- propagated through the bilinear operations in Eq. (3) and Eq. (4). It is detailed in appendix A.</p>
+<p>实现的细节还不是很懂</p>
+<p>特征图，再额外经过一个卷积层，生成 offset 的结果，然后把这个 offset 和特征图融合。</p>
+</blockquote>
+<p>可解释性</p>
+<p><img src="http://123.56.8.10:8899/images/2021/11/17/image-20211117194844652.png" alt="image-20211117194844652"></p>
+<blockquote>
+<p>从效果图上看，这个还是有提升的。并且不会增加 train 和 test 的成本。</p>
+<p>可以看出在几乎不增加参数量与运行时间的情况下，论文的方法带来了较大的性能提升。</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/11/17/image-20211117194920364.png" alt="image-20211117194920364"></p>
+<blockquote>
+<p>deformable Convolution可变卷积针对的对象是卷积本身，因此膨胀卷积，3D卷积都可以用可变卷积的形式</p>
+</blockquote>
+<p>参考文献（TODO）</p>
+<p><a href="">卷积神经网络中十大拍案叫绝的操作！</a></p>
+<h3 id="sparse-convolution">sparse convolution</h3>
+<p><a href="">SECOND- Sparsely Embedded Convolutional Detection</a></p>
+<blockquote>
+<p>point cloud data contain accurate depth information and can be generated by LiDAR or RGB-D camers.</p>
+<p>VoxelNet 效果比较好，但很慢，所以需要使用 SPConv 而不是传统的 Conv</p>
+</blockquote>
+<blockquote>
+<p>our sparse-convolution-based detector achieves a factor-of-4 speed enhancement during training on the KITTI dataset and a factor-of-3 improvement in the speed of inference.</p>
+</blockquote>
+<p>投影到 BEV （Bird&rsquo;s-Eye-View-Based） 或者前视（front-view）</p>
+<p><a href="">3D Semantic Segmentation with Submanifold Sparse Convolutional Networks</a></p>
+<p>这个提出了其中的一种 sparse convolutional network</p>
+<p><img src="http://123.56.8.10:8899/images/2021/10/28/image-20211028134727033.png" alt="image-20211028134727033" style="zoom:50%;" /></p>
+<blockquote>
+<p>First, we pad the input with (f − 1)/2 zeros on each side, so that the output will have the same size as the input. Next, we restrict an output site to be active if and only if the site at the corresponding site in the input is active (<em>i.e.</em>, if the central site in the receptive field is ac- tive). Whenever an output site is determined to be active, its output feature vector is computed by the SSC convo- lution</p>
+</blockquote>
+<p>参考资料</p>
+<p><a href="https://pdfs.semanticscholar.org/5125/a16039cabc6320c908a4764f32596e018ad3.pdf">SECOND: Sparsely Embedded Convolutional Detection</a></p>
+<blockquote>
+<p>这个已经读过了，但不懂稀疏conv 的操作和细节</p>
+</blockquote>
+<p><a href="https://arxiv.org/pdf/1711.10275.pdf">3D Semantic Segmentation with Submanifold Sparse Convolutional Networks</a></p>
+<p>英文版：https://towardsdatascience.com/how-does-sparse-convolution-work-3257a0a8fd1</p>
+<p>中文版：<a href="https://mp.weixin.qq.com/s?src=11&amp;timestamp=1635304842&amp;ver=3399&amp;signature=sh4gXCJAzgzWMrBG09QfCHXCxn2zkqDdnIufwbdJS9smJPOnxNzYvOzjGbMIrV*bg0NCFBCbQ-iDGdNE-q0KqPMRC0dMV1BfZ6m99ddQaXAjRLO*kuDfLNSNHad2tpgn&amp;new=1">通俗易懂的解释Sparse Convolution过程</a></p>
+<blockquote>
+<p>虽然中文版也没有看懂</p>
+</blockquote>
     </div>
 
     <div class="post-copyright">
@@ -411,7 +512,7 @@ N_separable = N_depthwise + N_pointwise = 39
   <span class="copyright-year">
     &copy; 
     2018 - 
-    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
   </span>
 </div>
 

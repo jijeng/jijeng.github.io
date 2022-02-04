@@ -50,7 +50,7 @@
 <meta itemprop="description" content="LeetCode 刷题总结（一）， 使用Python 实现。该篇题目类型主要是： array 和string 的相关处理。">
 <meta itemprop="datePublished" content="2019-02-16T16:26:58+08:00" />
 <meta itemprop="dateModified" content="2019-02-16T16:26:58+08:00" />
-<meta itemprop="wordCount" content="13831">
+<meta itemprop="wordCount" content="13564">
 
 
 
@@ -125,7 +125,7 @@
       <div class="post-meta">
         <span class="post-time"> 2019-02-16 </span>
         
-          <span class="more-meta"> 约 13831 字 </span>
+          <span class="more-meta"> 约 13564 字 </span>
           <span class="more-meta"> 预计阅读 28 分钟 </span>
         
       </div>
@@ -748,7 +748,7 @@ Y   I   R</p>
 <p>Given n non-negative integers a1, a2, &hellip;, an , where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines, which together with x-axis forms a container, such that the container contains the most water.</p>
 </blockquote>
 <p>The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.</p>
-<p>Tips:  左右双指针问题。首先移动高度较小的点，因为两者的距离是肯定变小，如果移动高度大的，那么最后的面积肯定变小；但是如果移动高度较小的点，那么最后的面积是有可能变大的。所以这个是一个可能性的东西。</p>
+<p>Tips:  左储水量取决于小的板，所以直接双指针进行遍历就行。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -772,19 +772,19 @@ Y   I   R</p>
 </span><span class="lnt">19
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">maxArea</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
-        <span class="s2">&#34;&#34;&#34;
-</span><span class="s2">        :type height: List[int]
-</span><span class="s2">        :rtype: int
-</span><span class="s2">        &#34;&#34;&#34;</span>
-        <span class="n">n</span> <span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">height</span><span class="p">)</span>
-        <span class="n">l</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span><span class="mi">1</span>
-        <span class="n">res</span> <span class="o">=</span><span class="mi">0</span>
-        <span class="k">while</span> <span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">:</span>
-            
+<pre class="chroma"><code class="language-python" data-lang="python">
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">    储水量取决于小的板，所以直接双指针进行遍历就行。
+</span><span class="s2">    &#34;&#34;&#34;</span>
+    <span class="k">def</span> <span class="nf">maxArea</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">height</span><span class="p">)</span> <span class="o">==</span><span class="mi">2</span><span class="p">:</span> <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">height</span><span class="p">)</span>
+
+        <span class="n">l</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">height</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span> 
+        <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span> 
+        <span class="k">while</span> <span class="n">l</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">height</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">height</span><span class="p">[</span><span class="n">r</span><span class="p">]:</span>
-                <span class="n">t</span> <span class="o">=</span><span class="n">height</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">r</span> <span class="o">-</span><span class="n">l</span><span class="p">)</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="n">height</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">r</span> <span class="o">-</span><span class="n">l</span><span class="p">)</span>
                 <span class="n">l</span> <span class="o">+=</span><span class="mi">1</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">t</span> <span class="o">=</span> <span class="n">height</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">r</span> <span class="o">-</span><span class="n">l</span><span class="p">)</span>
@@ -1373,69 +1373,6 @@ Output: [1,2,3,6,9,8,7,4,5]</p>
                 <span class="n">cur</span> <span class="o">+=</span><span class="mi">1</span>
             <span class="n">left</span> <span class="o">+=</span><span class="mi">1</span>
         <span class="k">return</span> <span class="n">ans</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>** Merge Intervals**</p>
-<blockquote>
-<p>Given a collection of intervals, merge all overlapping intervals.</p>
-</blockquote>
-<p>Tips:  需要区分区间的start 和end 点，分别使用 (0 1) 进行区分，然后 sort() ，那么那么start 就出现了最前面，end 就出现了最后面。默认的sort 是先按照 第一个元素排序，然后按照第二个元素排序，所以标识 (0, 1) 这个是没有收到影响的。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
-    <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">intervals</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">intervals</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">[]</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">interval</span> <span class="ow">in</span> <span class="n">intervals</span><span class="p">:</span>
-            <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">interval</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">))</span>
-            <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">interval</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="n">data</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
-
-        <span class="n">merged</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">stack</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
-            <span class="n">d</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="c1"># this is a lower bound, push this onto the stack</span>
-                <span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">stack</span><span class="p">:</span>
-                    <span class="n">start</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">stack</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="c1"># we have found our merged interval</span>
-                    <span class="n">merged</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="n">start</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-        <span class="k">return</span> <span class="n">merged</span>
-
 </code></pre></td></tr></table>
 </div>
 </div><p>** Length of Last Word**</p>
@@ -4059,7 +3996,7 @@ Do not allocate extra space for another array, you must do this by modifying the
   <span class="copyright-year">
     &copy; 
     2018 - 
-    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
   </span>
 </div>
 

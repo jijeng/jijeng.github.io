@@ -50,7 +50,7 @@
 <meta itemprop="description" content="介绍二分查找中的三个模板，以 LeetCode 中的习题为例。">
 <meta itemprop="datePublished" content="2018-01-23T16:13:21+08:00" />
 <meta itemprop="dateModified" content="2018-01-23T16:13:21+08:00" />
-<meta itemprop="wordCount" content="6081">
+<meta itemprop="wordCount" content="6240">
 
 
 
@@ -127,7 +127,7 @@
         <div class="post-category">
             <a href="/categories/algorithm/"> algorithm </a>
             </div>
-          <span class="more-meta"> 约 6081 字 </span>
+          <span class="more-meta"> 约 6240 字 </span>
           <span class="more-meta"> 预计阅读 13 分钟 </span>
         
       </div>
@@ -716,6 +716,7 @@ LeetCode159 寻找旋转排序数组中的最小值</p>
 <li><a href="https://leetcode.com/problems/search-in-rotated-sorted-array-ii/submissions/">Search in Rotated Sorted Array II</a></li>
 </ol>
 <p>这种做法是比较好的， LeetCode平台上 两个 90%，可以近似的看成 $logn$</p>
+<p>深刻理解 <code>if ... else ...</code> 是分类的思想。假设真值位于 <code>if</code> 中，假设位于 <code>else</code></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -865,7 +866,70 @@ LeetCode159 寻找旋转排序数组中的最小值</p>
 <span class="p">};</span>
 </code></pre></td></tr></table>
 </div>
-</div><ol start="5">
+</div><p>python 求解。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">    二分要保证严格的单调性
+</span><span class="s2">    if ... else ... 是分类讨论
+</span><span class="s2">    &#34;&#34;&#34;</span>
+    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">target</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+
+        <span class="n">n</span> <span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">nums</span><span class="p">:</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+        
+        <span class="n">l</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">while</span> <span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span> <span class="ow">and</span> <span class="n">nums</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">==</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="n">r</span> <span class="o">-=</span><span class="mi">1</span>
+        
+        <span class="k">while</span> <span class="n">l</span> <span class="o">&lt;</span><span class="n">r</span><span class="p">:</span>
+            <span class="n">mid</span> <span class="o">=</span><span class="n">l</span> <span class="o">+</span><span class="n">r</span> <span class="o">&gt;&gt;</span><span class="mi">1</span>
+            <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">target</span> <span class="o">&gt;=</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">target</span> <span class="o">&lt;=</span> <span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="p">:</span>
+                    <span class="n">r</span> <span class="o">=</span><span class="n">mid</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">l</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">target</span> <span class="o">&gt;</span> <span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="ow">and</span> <span class="n">target</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                    <span class="n">l</span> <span class="o">=</span><span class="n">mid</span> <span class="o">+</span><span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">r</span> <span class="o">=</span><span class="n">mid</span>
+
+        <span class="k">return</span> <span class="n">nums</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol>
 <li><a href="https://leetcode.com/problems/find-peak-element/">Find Peak Element</a></li>
 </ol>
 <div class="highlight"><div class="chroma">
@@ -1824,7 +1888,7 @@ change &ldquo;mid = (low + high) / 2 &quot; -&gt; &ldquo;mid = low + (high - low
   <span class="copyright-year">
     &copy; 
     2018 - 
-    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
   </span>
 </div>
 

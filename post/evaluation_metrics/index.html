@@ -50,7 +50,7 @@
 <meta itemprop="description" content="介绍机器学习中分类模型常用的评价指标：AUC、Precision-Recall, ACC和KS值。">
 <meta itemprop="datePublished" content="2018-06-13T13:31:09+08:00" />
 <meta itemprop="dateModified" content="2018-06-13T13:31:09+08:00" />
-<meta itemprop="wordCount" content="7165">
+<meta itemprop="wordCount" content="8036">
 
 
 
@@ -127,8 +127,8 @@
         <div class="post-category">
             <a href="/categories/machine-learning/"> machine learning </a>
             </div>
-          <span class="more-meta"> 约 7165 字 </span>
-          <span class="more-meta"> 预计阅读 15 分钟 </span>
+          <span class="more-meta"> 约 8036 字 </span>
+          <span class="more-meta"> 预计阅读 17 分钟 </span>
         
       </div>
     </header>
@@ -145,6 +145,7 @@
         <li><a href="#pr和roc联系和区别">PR和ROC联系和区别</a></li>
         <li><a href="#三大相关系数">三大相关系数</a></li>
         <li><a href="#其他指标">其他指标</a></li>
+        <li><a href="#检测和跟踪评价指标">检测和跟踪评价指标</a></li>
         <li><a href="#结论">结论</a></li>
       </ul>
     </li>
@@ -661,6 +662,69 @@ $$</p>
 </ul>
 <p>（4）macro vs weighted</p>
 <p>macro 和weighted 是求解方式不同，表示有没有weight权重的形式。前者是平均求解，后者是有权重的计算。可以任意搭配precision，recall 和F1。主要涉及原始数据是否 balance，如果原始数据是balanced，那么两者相差不大，否则 weighted 是更加合理的计算方法.</p>
+<h2 id="检测和跟踪评价指标">检测和跟踪评价指标</h2>
+<p>在这里，检测包括 2D检测和 3D 检测。跟踪表示多目标跟踪（MOT）。</p>
+<p>检测中最常用的检测指标 - 平均精度 mAP, Mean Average Precision</p>
+<blockquote>
+<p>每张图像中包含多个不同类别的不同物体，所以分类问题中的精度指标是不能直接适用的。map 是所有类别的平均精度值的均值。</p>
+</blockquote>
+<p><a href="https://github.com/facebookresearch/Detectron/blob/05d04d3a024f0991339de45872d02f2f50669b3d/lib/datasets/voc_eval.py">map 具体实现</a></p>
+<p>kitti 数据集中的检测指标含义</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">bbox: 2D 检测框的准确率
+bev：bev 视角下检测框的准确率
+3d： 3D检测框的准确率
+aos：检测目标旋转角度的准确率
+
+</code></pre></td></tr></table>
+</div>
+</div><p>easy, medium, hard</p>
+<blockquote>
+<p>基本上是根据 pixs 的大小进行的划分</p>
+</blockquote>
+<p>easy：2D 框高度大于 40 pixs, 遮挡等级最低的 objects；</p>
+<p>medium：2D框高于 25pixs，遮挡等级 0、1 的物体</p>
+<p>hard：包含 2D 高于 25pixs，遮挡等级 0-2 的物体。</p>
+<p>MOT 的输出需要满足的条件</p>
+<ul>
+<li>detection 发现物体</li>
+<li>localization 定位物体</li>
+<li>association 在视频序列中辨别关联出同一物体</li>
+</ul>
+<p>MOT 测量，包括两个评价标准：</p>
+<p>(1) MOTA ( multi-object tracking accuracy ) 多目标跟踪准确率</p>
+<p>衡量所有帧中目标的误检、漏检和错误匹配，非常直观的衡量跟踪识别目标和保持一致性的能力。该指标偏向检测
+$$
+\operatorname{MOTA}=1-\frac{|\mathrm{FN}|+|\mathrm{FP}|+|\mathrm{IDSW}|}{|\mathrm{gtDet}|}
+$$
+其中 <code>IDSW</code> 是 ID switch，<code>FN</code> 和 <code>FP</code> 都表示检测误差， <code>gt</code> 表示 groud truth 物体的数量。MOTA 取值小于 100， 但当跟踪器产生的错误超过了场景中的物体，MOTA 可以变成负数。</p>
+<p>(2) MOTP (Multi-object tracking precision) 多目标跟踪精度</p>
+<p>衡量跟踪估计目标位置精确度的能力（定位误差），几乎不包含跟踪器实际性能相关的信息。
+$$
+\operatorname{MOTP}=\frac{1}{|\mathrm{TP}|} \sum_{\mathrm{TP}} S
+$$</p>
+<p>MOTA 和 MOTP 是计算所有帧相关指标之后取平均，不是计算每帧的 rate 然后 rate 平均。</p>
+<p>（3）IDF1</p>
+<p>IDF1是一种以Identity视作基本单位的metric。它将要配对的是gtTrajs和prTrajs。IDTP代表trajectory匹配结果中重叠部分（相似度满足阈值要求）中identity的数量；IDFN代表没有被匹配到的gtDet数量，包括匹配trajectory对中不满足重叠要求的部分；IDFP代表没有被匹配到的prDet数量，包括匹配trajectory对中不满足重叠要求的部分。</p>
+<p>涉及到了三个指标的计算：
+$$
+I D P=\frac{I D T P}{I D T P+I D F P}
+$$</p>
+<p>$$
+I D R=\frac{I D T P}{I D T P+I D F N}
+$$
+正确识别的检测与真实数和计算检测的平均数之比
+$$
+I D F 1=\frac{2 I D T P}{2 I D T P+I D F P+I D F N}
+$$</p>
 <h2 id="结论">结论</h2>
 <p>If you have an imbalanced dataset accuracy can give you false assumptions regarding the classifier’s performance, it’s better to rely on precision and recall, in the same way a Precision-Recall curve is better to calibrate the probability threshold in an imbalanced class scenario as a ROC curve.</p>
 <ul>
@@ -764,7 +828,7 @@ $$</p>
   <span class="copyright-year">
     &copy; 
     2018 - 
-    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
   </span>
 </div>
 

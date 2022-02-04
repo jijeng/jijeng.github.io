@@ -6,13 +6,31 @@
     <description>Recent content in Categories on Jijeng&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 07 Mar 2021 17:18:39 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 22 Jan 2022 11:37:56 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>deep-learning</title>
       <link>http://jijeng.github.io/categories/deep-learning/</link>
-      <pubDate>Sun, 07 Mar 2021 17:18:39 +0800</pubDate>
+      <pubDate>Sat, 22 Jan 2022 11:37:56 +0800</pubDate>
       
       <guid>http://jijeng.github.io/categories/deep-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>autonomous-driving</title>
+      <link>http://jijeng.github.io/categories/autonomous-driving/</link>
+      <pubDate>Wed, 12 Jan 2022 12:33:58 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/categories/autonomous-driving/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>algorithm</title>
+      <link>http://jijeng.github.io/categories/algorithm/</link>
+      <pubDate>Fri, 11 Jun 2021 10:44:57 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/categories/algorithm/</guid>
       <description></description>
     </item>
     
@@ -67,15 +85,6 @@
       <pubDate>Wed, 08 Jul 2020 15:38:57 +0800</pubDate>
       
       <guid>http://jijeng.github.io/categories/reading/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>algorithm</title>
-      <link>http://jijeng.github.io/categories/algorithm/</link>
-      <pubDate>Sat, 22 Feb 2020 16:54:49 +0800</pubDate>
-      
-      <guid>http://jijeng.github.io/categories/algorithm/</guid>
       <description></description>
     </item>
     

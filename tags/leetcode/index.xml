@@ -6,7 +6,16 @@
     <description>Recent content in leetcode on Jijeng&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 22 Feb 2020 16:54:49 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/leetcode/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 23 Mar 2021 16:13:21 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/tags/leetcode/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode 刷题（2021年）</title>
+      <link>http://jijeng.github.io/post/leetcode_2021/</link>
+      <pubDate>Tue, 23 Mar 2021 16:13:21 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/leetcode_2021/</guid>
+      <description>&lt;p&gt;2021年 LeetCode 刷题笔记。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Union find</title>
       <link>http://jijeng.github.io/post/union_find/</link>

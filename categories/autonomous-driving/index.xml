@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>autonomous-driving on Jijeng&#39;s Blog</title>
+    <link>http://jijeng.github.io/categories/autonomous-driving/</link>
+    <description>Recent content in autonomous-driving on Jijeng&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 12 Jan 2022 12:33:58 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/categories/autonomous-driving/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sensors</title>
+      <link>http://jijeng.github.io/post/sensors/</link>
+      <pubDate>Wed, 12 Jan 2022 12:33:58 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/sensors/</guid>
+      <description>&lt;p&gt;自动驾驶中的传感器。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Autonomous Driving Datasets</title>
+      <link>http://jijeng.github.io/post/autonomous-driving-datasets/</link>
+      <pubDate>Mon, 03 Jan 2022 12:27:53 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/autonomous-driving-datasets/</guid>
+      <description>无人驾驶方面的数据集 kitti 数据集 KITTI数据集是由德国卡尔斯鲁厄理工学院和丰田美国技术研究院联合创办，利用组装的设备齐全的采集车辆对实际交通场</description>
+    </item>
+    
+  </channel>
+</rss>

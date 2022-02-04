@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Mobilenet - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="MobileNet 系列讲解
+MobileNet 作为轻量级网络的代表，使得 CNN 轻量化和移动端的部署成为可能。MobileNet 目前有三个版本，分别是 MobileNet v1, MobileNet v2 和 MobileNet v3.
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/mobilenet/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Mobilenet" />
+<meta property="og:description" content="MobileNet 系列讲解
+MobileNet 作为轻量级网络的代表，使得 CNN 轻量化和移动端的部署成为可能。MobileNet 目前有三个版本，分别是 MobileNet v1, MobileNet v2 和 MobileNet v3." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/mobilenet/" />
+<meta property="article:published_time" content="2021-11-12T13:25:13+08:00" />
+<meta property="article:modified_time" content="2021-11-12T13:25:13+08:00" />
+<meta itemprop="name" content="Mobilenet">
+<meta itemprop="description" content="MobileNet 系列讲解
+MobileNet 作为轻量级网络的代表，使得 CNN 轻量化和移动端的部署成为可能。MobileNet 目前有三个版本，分别是 MobileNet v1, MobileNet v2 和 MobileNet v3.">
+<meta itemprop="datePublished" content="2021-11-12T13:25:13+08:00" />
+<meta itemprop="dateModified" content="2021-11-12T13:25:13+08:00" />
+<meta itemprop="wordCount" content="8413">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Mobilenet"/>
+<meta name="twitter:description" content="MobileNet 系列讲解
+MobileNet 作为轻量级网络的代表，使得 CNN 轻量化和移动端的部署成为可能。MobileNet 目前有三个版本，分别是 MobileNet v1, MobileNet v2 和 MobileNet v3."/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Mobilenet</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-11-12 </span>
+        <div class="post-category">
+            <a href="/categories/deep-learning/"> deep-learning </a>
+            </div>
+          <span class="more-meta"> 约 8413 字 </span>
+          <span class="more-meta"> 预计阅读 17 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#mobilenet-v1">MobileNet-v1</a></li>
+        <li><a href="#mobilenet-v2">MobileNet-v2</a></li>
+        <li><a href="#mobilenet-v3">MobileNet-v3</a></li>
+        <li><a href="#实践">实践</a></li>
+        <li><a href="#regnet">RegNet</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>MobileNet 系列讲解</p>
+<p>MobileNet 作为轻量级网络的代表，使得 CNN 轻量化和移动端的部署成为可能。MobileNet 目前有三个版本，分别是 MobileNet v1, MobileNet v2 和 MobileNet v3.</p>
+<h2 id="mobilenet-v1">MobileNet-v1</h2>
+<p><img src="http://123.56.8.10:8899/images/2021/07/24/18a53ce6ebbd4036b35ff9d6814d5a6d.jpg" alt="卷积神经网络CNN总结（五）" style="zoom:50%;" /></p>
+<p>简单来说 MobileNet v1 就是将常规卷积替换成深度可分离卷积 (depthwise separable convolution) 的 VGG 网络。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/07/24/b3d8f3c97e4240feae65edf0c1289794.jpg" alt="卷积神经网络CNN总结（五）"></p>
+<blockquote>
+<p>可以看到，VGG的卷积块就是一个常规3<em>3卷积和一个BN、一个ReLU激活层。MobileNet v1则是一个3</em>3深度可分离卷积和一个1*1卷积，后面分别跟着一个BN和ReLU层。MobileNet v1的ReLU指的是ReLU6，区别于ReLU的是对激活输出做了一个clip，使得最大最输出值不超过6，这么做的目的是为了防止过大的激活输出值带来较大的精度损失。</p>
+</blockquote>
+<p>那么为什么是深度可分离卷积呢？</p>
+<blockquote>
+<p>从维度的角度看，卷积核可以看成是一个空间维(宽和高)和通道维的组合，而卷积操作则可以视为空间相关性和通道相关性的联合映射。从inception的1*1卷积来看，卷积中的空间相关性和通道相关性是可以解耦的，将它们分开进行映射，可能会达到更好的效果。</p>
+<p>深度可分离卷积是在1<em>1卷积基础上的一种创新。主要包括两个部分：深度卷积和1</em>1卷积。深度卷积的目的在于对输入的每一个通道都单独使用一个卷积核对其进行卷积，也就是通道分离后再组合。1*1卷积的目的则在于加强深度。下面以一个例子来看一下深度可分离卷积。</p>
+</blockquote>
+<p>假设我们用128个$3<em>3</em>3$的滤波器对一个$7<em>7</em>3$的输入进行卷积，可得到$5<em>5</em>128$的输出。如下图所示：</p>
+<p><img src="http://123.56.8.10:8899/images/2021/07/24/768d2ae2ad434492bb485b6295913f0e.jpg" alt="卷积神经网络CNN总结（五）"></p>
+<p>其计算量为 5<em>5</em>128<em>3</em>3*3=8640</p>
+<p>现在看如何使用深度可分离卷积来实现同样的结果。深度可分离卷积的第一步是深度卷积（Depth-Wise）。这里的深度卷积，就是分别用3个3<em>3</em>1的滤波器对输入的3个通道分别做卷积，也就是说要做3次卷积，每次卷积都有一个5<em>5</em>1的输出，组合在一起便是5<em>5</em>3的输出。</p>
+<p>现在为了拓展深度达到128，我们需要执行深度可分离卷积的第二步：1x1卷积（Point-Wise）。现在我们用128个1<em>1</em>3的滤波器对5<em>5</em>3进行卷积，就可以得到5<em>5</em>128的输出。完整过程如下图所示：</p>
+<p><img src="http://123.56.8.10:8899/images/2021/07/24/768d2ae2ad434492bb485b6295913f0e-16271183581694.jpg" alt="卷积神经网络CNN总结（五）"></p>
+<p>那么我们来看一下深度可分离卷积的计算量如何。第一步深度卷积的计算量：5<em>5</em>1<em>3</em>3<em>1</em>3=675。第二步1x1卷积的计算量：5<em>5</em>128<em>1</em>1*3=9600，合计计算量为10275次。可见，相同的卷积计算输出，深度可分离卷积要比常规卷积节省12倍的计算成本。所以深度可分离卷积是MobileNet v1能够轻量化的关键原因。</p>
+<p>MobileNet v1完整网络结构如下图所示。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/07/24/fa4f4de0357b4163a7454e9542d51870.jpg" alt="卷积神经网络CNN总结（五）" style="zoom:50%;" /></p>
+<p>MobileNet v1与GoogleNet和VGG 16在ImageNet上的效果对比，如下表所示：</p>
+<p><img src="http://123.56.8.10:8899/images/2021/07/24/36e701e4f35f476197da42dcbddbf831.jpg" alt="卷积神经网络CNN总结（五）" style="zoom:50%;" /></p>
+<p>可以看到，MobileNet v1相比与VGG 16精度损失不超过一个点的情况下，参数量小了32倍之多！MobileNet v1在速度和大小上的优势是显而易见的。</p>
+<h2 id="mobilenet-v2">MobileNet-v2</h2>
+<p>MobileNet v2是在v1基础上的改进与优化版本。MobileNet v2论文题目为MobileNetV2: Inverted Residuals and Linear Bottlenecks，由谷歌发表于2018年CVPR上。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/06/03/4lN1XOZshfecz2cdHfkDkeFtian6P2RkDNibtqtRd9S0ibGaic0dcs8jZGI2z2w7TzX8xo5q71aM3cnkeS8LCb1zQQ.png" alt="img"></p>
+<p>MobileNet v1的特色就是深度可分离卷积，但研究人员发现深度可分离卷积中有大量卷积核为0，即有很多卷积核没有参与实际计算。是什么原因造成的呢？v2的作者发现是ReLU激活函数的问题，认为ReLU这个激活函数，</p>
+<p>既然如此，v2的解决方案也很简单，就是直接将ReLU6激活换成线性激活函数，当然也不是全都换，只是将最后一层的ReLU换成线性函数。具体到v2网络中就是将最后的Point-Wise卷积的ReLU6都换成线性函数。v2给这个操作命名为linear bottleneck，这也是v2网络的<strong>第一个关键点</strong>。</p>
+<p>深度卷积（Depth-Wise）本身没有改变通道的作用，比如本文前例中的深度可分离卷积的例子，在前一半的深度卷积操作中，输入是3个通道，输出还是3个通道。所以为了能让深度卷积能在高维上工作，v2提出在深度卷积之前加一个扩充通道的卷积操作，什么操作能给通道升维呢？当然是1*1卷积了。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/06/03/4lN1XOZshfecz2cdHfkDkeFtian6P2RkDaVxKxWpmIlxVsZSdjIqx4YibEJ9wE159v4Ric5EUH6TI4cqNxCNC9gNw.png" alt="img"></p>
+<p>这种在深度卷积之前扩充通道的操作在v2中被称作Expansion layer。这也是v2网络的<strong>第二个关键点</strong>。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/06/03/4lN1XOZshfecz2cdHfkDkeFtian6P2RkDcMghZnDicQboVdoErKAm4AAws5kwZLZNxt5SHiaWhEk5eIXUPSicTeB5w.png" alt="img"></p>
+<p>从图中可以看到，ResNet是先0.25倍降维，然后标准3*3卷积，再升维，而MobileNet v2则是先6倍升维，然后深度可分离卷积，最后再降维。更形象一点我们可以这么画：</p>
+<p><img src="http://123.56.8.10:8899/images/2021/06/03/4lN1XOZshfecz2cdHfkDkeFtian6P2RkDMicMz53RhtmMrTfzZahNFcTBgUGn7E0ZYJRJJNjyhPs6FC1ibiaheYDvg.png" alt="img"></p>
+<p>倒残差。</p>
+<p>Inverted resdiual之后就组成了MobileNet v2的block，如下图所示。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/06/03/4lN1XOZshfecz2cdHfkDkeFtian6P2RkDNr6VjzZ2xBPmEU3HGc4xeYVMGBLWYlIaT3EcUntW2y2Kict0ySxMZNA.png" alt="img"></p>
+<p><img src="http://123.56.8.10:8899/images/2021/06/03/4lN1XOZshfecz2cdHfkDkeFtian6P2RkDfrfEyz56DdTFFfInw8hY8y3vkLpbJYQK5zNWL9IS4j3doR0uDf7g3A.png" alt="img"></p>
+<p>可以看到，输入经过一个常规卷积之后，v2网络紧接着加了7个bottleneck block层，然后再两个1<em>1卷积和一个7</em>7的平均池化的组合操作。</p>
+<h2 id="mobilenet-v3">MobileNet-v3</h2>
+<p>特点可以归结为</p>
+<ul>
+<li>
+<p>使用NAS神经架构搜索确定网络结构</p>
+</li>
+<li>
+<p>在v2的block基础上引入Squeeze and Excitation结构</p>
+</li>
+<li>
+<p>使用h-swish激活函数</p>
+</li>
+<li>
+<p>对v2网络尾部结构进行改进</p>
+</li>
+</ul>
+<p><strong>NAS</strong> (neural architecture search)相关介绍</p>
+<p>CNN 有很多经典架构，可以分为认为设计和网络搜索两部分。早期的 Alexnet、VGG、Inception 到 resnet、Mobilnet，都包含这作者对于网络架构的见解。网络搜索比如说 EfficientNet。</p>
+<blockquote>
+<p>随着时代的改变，虽然pooling layer时常被较大stride的convolution取代，global average pooling与1x1 convolution也时不时代替了FC layer，这个大方向依然是大致正确的。</p>
+<p>(这个是需要积累的）</p>
+</blockquote>
+<p><strong>builing block</strong></p>
+<p>这个是常常被使用的术语，指的是不断重复使用的小网络组合。比如 resnet 中的 residual block， residual bottleneck block 或者是 mobileNet 中的depthwise separable convolution block</p>
+<p>在主框架的情况下，一般常调整的项目就是以下三种：</p>
+<ul>
+<li>深度 depth：堆叠的 building block 或者 convolution layer 的数量</li>
+<li>宽度 width：表示 building block或者 convolution layer 输出 feature map 的宽度（channels 或者 filters 数量）</li>
+<li>解析度 resolution：表示改 building block 或者convolution layer 输出 feature map的解析度（feature map 的长和宽）</li>
+</ul>
+<p>EfficentNet论文提供单独增加深度、宽度与解析度上的实验。从实验上可以看出，<strong>单独增强其中一项对效能的提升都是有效的，但是很快这个效果就会饱和。</strong></p>
+<p><img src="http://123.56.8.10:8899/images/2021/06/03/1mJy6Ugg5Y9Rlzn4D2nM7Wg.png" alt="img"></p>
+<p>Compound Scaling</p>
+<blockquote>
+<p>基于单一强化的实验，EfficientNet的作者认为应该要<strong>一起考虑强化深度、宽度与解析度三项</strong>。然而，在一定的运算量设定下，如何决定调整这三项之间的调整比例则是一个开放的问题。</p>
+</blockquote>
+<p>以上是基本的概念，现在来说主角 NAS</p>
+<p>虽然号称神经网路的自动搜寻，但NAS也不是无敌的万事通，NAS的实作一般需要定义三个元素：</p>
+<ol>
+<li>Search Space: 定义可以选择的网路基本元素(如convolution、batch normalization)、与可以调整的内容(如kernel size、filter number)。</li>
+<li>Search strategy: 定义搜寻的方法，如reinforcement learning是其中一个常见的方法。</li>
+<li>Performance estimation: 定义如何评估一个架构的好坏，如准确度、运算量等等。</li>
+</ol>
+<p>EfficientNet [7]是可以说是目前(2020年) mobile (使用CPU计算)最强的网路架构。EfficientNet沿用MnasNet [8]的search space，但<strong>将运算资源的估测从latency改成FLOPs</strong>，即对于某个网路<code>m</code>、目标运算量<code>T</code>，使用一个hyperparameter<code>w</code>控制accuracy与FLOPs的trade-of，最佳化<code>Accuracy(m)*[FLOPs(m)/T]^w</code>。</p>
+<p>EfficientNet论文找出了一个base架构EfficentNet-B0后，依照compound scaling的原则，假设运算资源为两倍，找出了最佳的scaling parameters ( <code>α=1.2</code>, <code>β=1.1</code>, <code>γ=1.15</code>)，依照这个scaling方法*[补充3]*，依序推理更大的架构EfficentNet-B1到EfficentNet-B7。是现在(2020年)最强也最高效的网路架构之一。</p>
+<p><strong>Handcraft Design with Insights</strong></p>
+<p>在一般的情况下，人为设计网路的流程大概是这样：先从一个大略的网路概念假设一个网路可调整范围(design space，以NAS的术语是search space)，我们会在<strong>这个空间进行大量的实验后，找到一些容易带来正效益的方向</strong>。这时候我们会依照这个方向继续进行实验，也就等同于收敛到一个更小的design space。而这样递回地进行，就像下图从A走到B再走到C的过程。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/06/03/18yD5dGoQTTW2Aw7Y-ZSZkQ.png" alt="img"></p>
+<blockquote>
+<p>回想一下NAS的三大元素：search space、search strategy、performance evaluation。<strong>其实人为设计与NAS根本没什么两样，只是search strategy是依照着我们自己本身的知识在进行</strong>。但这就是导致结果最不一样的地方，<strong>NAS以performance为最佳依据，擅长找到那一个最强的模型</strong>。而人为设计的过程则是观察performance，却也同时依照自己过往知识与经验的累积、每个参数代表的意义、每个增加的模块效果等等推测方向，因此<strong>找出来的通常一种方向并且带有某些insight</strong>。</p>
+</blockquote>
+<p>我认为<strong>现阶段的NAS的许多设定(比如说search space)还是靠着人的智慧在设定</strong>，这代表NAS还是必须先借镜许多handcraft的insight。另一方面，<strong>人类也会试图从NAS找出来的架构中得到一些insight</strong>。因此，NAS与handcraft目前可以说是相辅相成的。</p>
+<p>NAS的优势在于找出对于任务最优势的架构，然而<strong>极强的目的性也带来了泛化性的不确定</strong>(会不会找出over-fitting的架构) 。这也是为什么EfficientNet论文除了证明其架构在ImageNet上的强大，还额外花了一些篇幅展示他的transfer到其他classification dataset的能力。不过，即使transfer到其他同dataset可行，transfer到其他任务或许又是另一个问题。</p>
+<blockquote>
+<p>事实上，<strong>EfficientNet在其他视觉任务中，不论是object detection或是semantic segmentation中已经展现了强大的能力</strong>[10]，泛化能力乍看无懈可击，不过这个评比是建立在&quot;同量级的FLOPs&quot;最优先的基准下。</p>
+</blockquote>
+<p><strong>NAS的另一个问题就是可解释性比较差</strong>。比如说RegNet在sample并演化架构的过程中发现了渐渐增加的网路宽度是好的设计，然而EfficientNet一开始就来了一个宽度从32到16的压缩。虽然EfficentNet结果就是如此优秀，这样的一个难解释的设计却也增加了理解与修改的困扰。</p>
+<blockquote>
+<p>至于EfficientNet与RegNet孰优孰劣，大概也没有个绝对。从论文数据来看，低运算量的模型还是EfficientNet有优势，但由于EfficientNet的depthwise seperable convolution与activation数量对GPU运算较不友善，在有GPU的情况RegNet的运算速度可以比同样FLOPs数的EfficientNet快上数倍。</p>
+</blockquote>
+<p><strong>第二个改进措施</strong>就是在v2基础上引入squeeze and excitation结构，熟悉SENet的读者应该知道，这是一个对通道之间相互依赖关系进行建模的操作。在v2基础上，v3网络的block如下图所示。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/06/03/4lN1XOZshfecz2cdHfkDkeFtian6P2RkDFwiaPiaOLXp5OKgOey3wKBxaNSA6HZwSibfXR9Vbu8FMqhkupKQdViawCA.png" alt="img"></p>
+<p>第三个改进点是使用了h-swish激活函数。h-swish激活函数是基于swish的改进，swish激活函数表达式如下：</p>
+<p>$$
+swish(x) = x * sigmoid(\beta x)
+$$</p>
+<p>swish激活函数图像在β取0.1、1.0和10.0时如下图所示：</p>
+<p><img src="http://123.56.8.10:8899/images/2021/06/03/4lN1XOZshfecz2cdHfkDkeFtian6P2RkDYoZGyIicK1ZeiaicWNjMucLYcRu844267XZ34HviaDDXPtQknc2HoCKlMw.png" alt="img"></p>
+<p><strong>swish激活函数在一系列深度卷积网络上都对效果有显著提升，MobileNet也不例外</strong>，但是v3认为，作为一个轻量化的网络，swish激活虽然能带来精度提升，但在移动设备上会有速度损失。所以在swish函数的基础上，v3对其进行了改进，提出了h-swish激活函数。</p>
+<p>h-swish的基本想法是用一个近似函数来逼近swish函数，让swish函数变得不那么光滑(hard)，基于MobileNet v1和v2的经验，v3还是选择了ReLU6。变换逻辑如下图所示。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/06/03/4lN1XOZshfecz2cdHfkDkeFtian6P2RkDl3jVBoPKS4lMib847KEMWPqbtO4icJRv50v2nUjo4LVP4nia3bKzNstXg.png" alt="img"></p>
+<p>swish和h-swish函数对比图像：</p>
+<p><img src="http://123.56.8.10:8899/images/2021/06/03/4lN1XOZshfecz2cdHfkDkeFtian6P2RkDia6pLCINxnQEFqPEia1ahPAF7j5GiasN7n3n7apISbtQqPNowpH9p7JuQ.png" alt="img"></p>
+<p>可以将h-swish视为swish的低精度化模式，相较于swish，h-swish能够保持相同精度的条件下减少时间和计算量的开销。</p>
+<p>总结</p>
+<p>最后一句话对MobileNet系列做个简单的总结，MobileNet v1就是加了深度可分离卷积的VGG；MobileNet v2则是在v1基础上加了Linear激活、Expansion layer和Inverted residual三大关键操作；而v3则是在v2基础上引入NAS，并且加入Squeeze and Excitation结构、h-swish激活和网络尾部优化等改进措施。</p>
+<h2 id="实践">实践</h2>
+<blockquote>
+<p>实际程序运行中，MobileNet往往起不到论文所述“加速”的作用，相反，使用了MobileNet后，模型的计算速度反而变慢了。</p>
+</blockquote>
+<p>而在速度方面，经过大量实验，我发现在算力足够的GPU平台上，MobileNet不会带来任何速度上的提升（有时甚至是下降的），然而在计算能力有限的平台上，MobileNet能让速度提升三倍以上。</p>
+<p><em>注：这个速度的计算方法是随机生成一个224x224x3的tensor，送入网络进行前向计算，多次计算计时并取平均值。</em></p>
+<p><img src="http://123.56.8.10:8899/images/2021/06/03/v2-1c5ab4df3cbc2b648a921c8d0412b3fb_720w.jpg" alt="img"></p>
+<p>解释：</p>
+<p>深度可分离卷积将一个标准卷积分割成两个卷积（逐深度、逐点），因此减少了参数量，对应减少了计算量。但是可以发现一个有趣的事实：<strong>深度可分离卷积总计算量变小了，但深度可分离卷积的层数变多了</strong>。</p>
+<p>GPU是并行处理大规模数据（矩阵内积）的运算平台，而CPU倾向于对数据串行计算。所以当GPU 的显存足够大的时候（能够放下整个网络），因为每一层都可以并行一次处理，所有总运算时间的<strong>主导因素是网络的层数</strong>。而对于缺乏并行能力的CPU，总的运算时间的主导因素是<strong>总计算量</strong>。</p>
+<p>参考文献</p>
+<p><a href="https://matpool.com/blog/604433e1505b8f0011af399e/">轻量化 CNN 网络 MobileNet 系列详解</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/80177088">MobileNet 详解深度可分离卷积，它真的又好又快吗？</a></p>
+<p><a href="https://medium.com/%E8%BB%9F%E9%AB%94%E4%B9%8B%E5%BF%83/convolutional-neural-network%E7%9A%84%E8%A8%AD%E8%A8%88%E8%AB%96-nas-efficientnet-v-s-handcraft-regnet-3429b3bbde22">Convolutional Neural Network的设计论：NAS (EfficientNet) vs Handcraft (RegNet)</a></p>
+<h2 id="regnet">RegNet</h2>
+<p>论文中衡量模型的常用指标：</p>
+<p>FLOPS：（注意全部是大写）是floating point operations per second的缩写，意指每秒浮点运算次数，理解为计算速度。是一个<strong>衡量硬件性能的指标</strong>。</p>
+<p>FLOPs：（注意 s 是小写）是 floating point operations 的缩写（s表示复数），意指浮点运算数，理解为计算量。可以用来衡量算法/ 模型的复杂度。</p>
+<p>parameters：（参数量）</p>
+<p>但是 RegNet 中并不这样认为：</p>
+<p>Complexity analysis</p>
+<p>除了FLOPs和参数，作者分析了所有卷积层的<strong>输出feature map的尺寸，将其定义为activations</strong>，用于度量网络的复杂度，在图12的左上角列出了常见卷积算子的复杂性度量。虽然activations不是衡量网络复杂性的通用标准，但<strong>activations可能会严重影响内存受限硬件加速器(例如GPU、TPU)上的运行时间</strong>，在图12(上)可以看到，<strong>activations与推理时间的正相关性比FLOPs更强</strong>。在图12(下)中，观察到对于总体中最好的模型，activations随FLOPs的平方根增加，参数量随FLOPs线性增加，并且<strong>推理时间最好使用FLOPs的线性和平方根项联合建模（即图12(下右)中的式子24f+6.0⋅f），因为它同时依赖于FLOPs和activations</strong>。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/11/19/image-20200823202441320.png" alt="image-20200823202441320"></p>
+<p>efficientnet 被“吐槽”的点</p>
+<ul>
+<li>transfer learning 困难，efficientnet 中古怪的超参数</li>
+<li>efficientnet 很低的 FLOPs 却伴随着较高的推理时间。比如B2 版本的 FLOPs 不到 ResNet50 的一半，推理速度却是 ResNet50 的两倍</li>
+</ul>
+<p>大部分时候，GPU的算力瓶颈在于访存带宽。同样计算量，访存带宽差异巨大。EfficientNet 中使用了depthwise Conv（低 FlOPs 但高数据读写量），所以大量的时间被浪费在从显存中读写数据上，GPU 的算力没有得到“充分利用”</p>
+<p>以下是一个例子（不要求会算，但需要记住结论）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">然后为了达到同样的FLOPs，我们假设另一个大小为56*56*10000的feature，经过一个kernel size为3x3的depthwise卷积layer，卷积layer的输出channel是10000。其FLOPs计算过程如下：
+
+一个卷积kernel的大小为：3*3*1，与feature上一个同等大小的blob进行卷积，总共有3*3次乘法。然后10000个channel通道，每个通道互相独立，对应着10000个不同的卷积kernel，所以重复这一卷积过程10000次。同时在feature的空间位置上逐元素重复，总的FLOPs为：3*3*10000*56*56。卷积核参数总量为：3*3*1*10000。
+可以看到，两个layer的FLOPs和参数量完全相同。但是推理速度方面，depthwise卷积要远远慢于普通卷积。其原因就是访存数据量的不同：
+
+由于卷积计算本身已经是flatten的，不需要考虑重复读取问题，那么总共读取的数据量就是feature的大小加上卷积核weight的大小，对于普通卷积来说，总读取数据量为：100*56*56 + 3*3*100*100 = 4.0e+05。类似的，depthwise卷积读取的数据总量为：56*56*10000 + 3*3*10000 = 3.1e+07。
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>可以看到，在同等FLOPs的情况下，depthwise卷积对应的feature size比普通卷积大的多，受制于GPU访存带宽，过高的数据读取与写入量就成为了限制推理速度的瓶颈。</p>
+</blockquote>
+<p>Paper: <a href="https://arxiv.org/abs/2003.13678">Designing Network Design Spaces</a></p>
+<p>GitHub：</p>
+<ul>
+<li><a href="https://github.com/facebookresearch/pycls">https://github.com/facebookresearch/pycls</a></li>
+<li><a href="https://github.com/signatrix/regnet">https://github.com/signatrix/regnet</a></li>
+</ul>
+<p>良好的RegNet模型还适用于广泛的计算环境，包括ResNet和ResNeXT都不太适应的低计算环境。</p>
+<p>当 flops 较低时，efficientNet 还有优势，但是随着 flops 的增大，RegNetX 和 RegNetY 逐渐发力。</p>
+<p>在何凯明团队中，研究人员提出，设计一个不受限制的初始设计空间的逐步简化版本。这一过程，被称为设计空间设计（design space design）</p>
+<p>在设计过程的每个步骤中，输入都是初始设计空间，输出则是更简单、或性能更好的模型的精简模型。</p>
+<p>通过对模型进行采样，并检查其误差分布，即可表征设计空间的质量。</p>
+<p>研究人员设计的初始设计空间是 AnyNet</p>
+<p>解耦：接触耦合，降低耦合度即可以理解为解耦。</p>
+<p>前言</p>
+<p>类似efficientnet 这样的 NAS 是 focus 在“个体估计” 层面。即在一个搜索空间里，每次采样和评估都是以个体为单位，最终目的是找到一个或几个最好的结构。这样做的问题</p>
+<ul>
+<li>搜索空间先验性太强</li>
+<li>搜索算法与搜索空间的耦合</li>
+<li>可解释性不足，可迁移性 / 泛化能力不足</li>
+</ul>
+<p>本文的创新点 focus 在“群体估计”， design space design。做法如下：为了得到一个空间内模型的性能分布，我们在该空间中抽样并训练n个模型，为了提高效率，我们只抽样大小为400MF（即400M FLOPs）的模型样本，每个样本在ImageNet数据集上训练10个epochs。</p>
+<blockquote>
+<p>作者这里假设，由于抽样大量的样本，每个样本<strong>训练10个epoch的后的群体性能</strong>足以刻画该空间的质量。</p>
+</blockquote>
+<p>网络深度的讨论</p>
+<p>使用上述这些发现，我们可以对RegNetX设计空间进一步微调，首先基于图11(上)，<strong>设置b=1,d≤40,𝑤𝑚wm≥2</strong> 。然后基于图12(下)，<strong>对参数量和activations进行约束。这样就能产生快速的、低参数量的、low-memory且不影响精度的模型</strong>。在图13中，我们对比了 𝑅𝑒𝑔𝑁𝑒𝑡𝑋RegNetX<strong>有这些约束-C</strong>和<strong>没有这些约束-U</strong>下的表现，可以发现在所有FLOPs下，<strong>有约束的性能比没有约束的更好</strong>。因此在下面的实验结果小节都使用有约束的版本，然后<strong>更进一步的限制网络深度12≤d≤28</strong>（在附录D中有解释）。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/11/19/image-20200823202511224.png" alt="image-20200823202511224"></p>
+<p>AnyNetX 设计空间</p>
+<blockquote>
+<p>将初始的 AnyNetX 称作 AnyNetXA，开始进行“A→B→C→D→E”的优化过程。</p>
+</blockquote>
+<p>AnyNetXA</p>
+<blockquote>
+<p>为了清晰起见，我们将最初的、不受约束的AnyNetX设计空间称为AnyNetXA。</p>
+</blockquote>
+<p>AnyNetXB</p>
+<p>AnyNetXC</p>
+<p>AnyNetXD</p>
+<p>AnyNetXE</p>
+<blockquote>
+<p>从上往下，限制是逐步增加的</p>
+</blockquote>
+<p>最后，作者将<strong>block X和Squeeze-and-Excitation (SE)模块</strong>进行结合，得到了新的设计空间 𝑅𝑒𝑔𝑁𝑒𝑡𝑌RegNetY 。在图14(右)，发现 𝑅𝑒𝑔𝑁𝑒𝑡𝑌RegNetY 性能提升比较明显。</p>
+<blockquote>
+<p>Squeeze-and-Excitation Networks（SENet）是由自动驾驶公司Momenta在2017年公布的一种全新的图像识别结构，它通过对特征通道间的相关性进行建模，把重要的特征进行强化来提升准确率。这个结构是2017 ILSVR竞赛的冠军，top5的错误率达到了2.251%，比2016年的第一名还要低25%，可谓提升巨大。</p>
+</blockquote>
+<p>评论</p>
+<p><a href="https://www.zdaiot.com/DeepLearningApplications/%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB/Designing%20Network%20Design%20Spaces/">Designing Network Design Spaces</a></p>
+<blockquote>
+<p>经过我自己的实验。同样的epoch和batch size下，<code>RegNetX-8.0GF</code>只占用9G显存，9个半小时单卡就训练完了。但是<code>efficientnet-b4</code>占用双卡，显存占满，需要训练21个小时。最终两者的精度基本一致，但是推理时间<code>RegNetX-8.0GF</code>（15.65）只有<code>efficientnet-b4</code>（29.17）的一半。下面对该论文进行详细介绍。</p>
+</blockquote>
+<p>论文中的一些操作还是有争议的</p>
+<blockquote>
+<p>10 epoch 争议比较大，模型的表现跟 epoch 还是有很大的关系，数字 10 出现得不是那么有依据</p>
+</blockquote>
+<p><strong>其他</strong></p>
+<p>facebook 中 nas 的其他作品，FBNet：https://aijishu.com/a/1060000000137736</p>
+<p>对应的github： <a href="https://github.com/facebookresearch/mobile-vision">https://github.com/facebookresearch/mobile-vision</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2021-11-12
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/wechatpay.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/alipay.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/backbones/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Backbones</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/deep-sort/">
+            <span class="next-text nav-default">Deep Sort</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

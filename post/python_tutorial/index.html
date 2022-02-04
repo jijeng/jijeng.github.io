@@ -50,7 +50,7 @@
 <meta itemprop="description" content="python 学习笔记">
 <meta itemprop="datePublished" content="2019-01-09T10:15:33+08:00" />
 <meta itemprop="dateModified" content="2019-01-09T10:15:33+08:00" />
-<meta itemprop="wordCount" content="13586">
+<meta itemprop="wordCount" content="13710">
 
 
 
@@ -128,7 +128,7 @@
             <a href="/categories/tutorial/"> tutorial </a>
             <a href="/categories/programming-language/"> programming language </a>
             </div>
-          <span class="more-meta"> 约 13586 字 </span>
+          <span class="more-meta"> 约 13710 字 </span>
           <span class="more-meta"> 预计阅读 28 分钟 </span>
         
       </div>
@@ -1593,6 +1593,10 @@ __foo: 双下划线的表示的是私有类型(private)的变量, 只能是允�
 </code></pre></td></tr></table>
 </div>
 </div><p>继承可以把父类的所有功能都直接拿过来，这样就不必重零做起，子类只需要新增自己特有的方法，也可以把父类不适合的方法覆盖重写。</p>
+<p><a href="https://cloud.tencent.com/developer/article/1442642">Python super().__init__和Base.__init__的区别</a></p>
+<blockquote>
+<p>通过上面的分析，我们知道在类继承中，一定要使用super的方式才能正确调用类继承关系，在python3中推荐使用super().<strong>init</strong>，pytho2中使用super(Base, self).<strong>init</strong></p>
+</blockquote>
 <p><strong>多态</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1779,17 +1783,17 @@ Python 提供了 classmethod 装饰器让我们实现上述功能，看下面的
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">class A(object):
-    bar = 1
+<pre class="chroma"><code class="language-shell" data-lang="shell">class A<span class="o">(</span>object<span class="o">)</span>:
+    <span class="nv">bar</span> <span class="o">=</span> <span class="m">1</span>
     @staticmethod
-    def static_foo():
-        print &#39;Hello, &#39;, A.bar
+    def static_foo<span class="o">()</span>:
+        print <span class="s1">&#39;Hello, &#39;</span>, A.bar
 
-&gt;&gt;&gt; a = A()
-&gt;&gt;&gt; a.static_foo()
-Hello, 1
-&gt;&gt;&gt; A.static_foo()
-Hello, 1
+&gt;&gt;&gt; <span class="nv">a</span> <span class="o">=</span> A<span class="o">()</span>
+&gt;&gt;&gt; a.static_foo<span class="o">()</span>
+Hello, <span class="m">1</span>
+&gt;&gt;&gt; A.static_foo<span class="o">()</span>
+Hello, <span class="m">1</span>
 </code></pre></td></tr></table>
 </div>
 </div><p>可以看到，静态方法没有 self 和 cls 参数，可以把它看成是一个普通的函数，我们当然可以把它写到类外面，但这是不推荐的，因为这不利于代码的组织和命名空间的整洁。</p>
@@ -2934,7 +2938,7 @@ defaultdict(&lt;class &#39;set&#39;&gt;, {&#39;color&#39;: {&#39;blue&#39;, &#39
   <span class="copyright-year">
     &copy; 
     2018 - 
-    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
   </span>
 </div>
 

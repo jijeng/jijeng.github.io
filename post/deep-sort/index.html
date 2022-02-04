@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Deep Sort - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="传统追踪算法：SORT 和 DeepSORT
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/deep-sort/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Deep Sort" />
+<meta property="og:description" content="传统追踪算法：SORT 和 DeepSORT" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/deep-sort/" />
+<meta property="article:published_time" content="2021-11-10T13:58:58+08:00" />
+<meta property="article:modified_time" content="2021-11-10T13:58:58+08:00" />
+<meta itemprop="name" content="Deep Sort">
+<meta itemprop="description" content="传统追踪算法：SORT 和 DeepSORT">
+<meta itemprop="datePublished" content="2021-11-10T13:58:58+08:00" />
+<meta itemprop="dateModified" content="2021-11-10T13:58:58+08:00" />
+<meta itemprop="wordCount" content="6294">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Deep Sort"/>
+<meta name="twitter:description" content="传统追踪算法：SORT 和 DeepSORT"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Deep Sort</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-11-10 </span>
+        
+          <span class="more-meta"> 约 6294 字 </span>
+          <span class="more-meta"> 预计阅读 13 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#sort">SORT</a></li>
+            <li><a href="#deepsort">DeepSORT</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>传统追踪算法：SORT 和 DeepSORT</p>
+<h3 id="sort">SORT</h3>
+<p>simple online and realtime tracking 核心是卡尔曼滤波和匈牙利算法</p>
+<ul>
+<li>
+<p>卡尔曼滤波作用：用当前的一系列运动变量去预测下一时刻的运动变量</p>
+</li>
+<li>
+<p>匈牙利算法：解决分配的问题，将检测框和卡尔曼滤波的框做分配，让卡尔曼预测的框找到和自己最匹配的检测框，达到追踪的效果。</p>
+</li>
+<li>
+<p>IOU 作为前后帧间目标关系度量指标。</p>
+</li>
+</ul>
+<p>工作流程</p>
+<p><img src="http://123.56.8.10:8899/images/2021/12/15/image-20211215144135190.png" alt="image-20211215144135190"></p>
+<p>匈牙利算法分配之后有三个结果，第一种是 track失配（前一帧 18 ，当前帧 16，变少）；第二种detection 失配（目标变多）；刚好能被match 上。</p>
+<p>结果：快速却不是那么准。</p>
+<blockquote>
+<p>This paper explores a pragmatic approach to multiple object tracking where main focus is to associate objects effeciently for online and realtime applications.</p>
+<p>Despite only using a rudimentary combination of familiar techniques such as the Kalman Filter and Hungarian algorithm for the tracking componets, this approach achieves an accuracy comparable to state-of-the-art onlein trackers. Furthermore, due to the simplicity of our tracking method, the tracker updates at a rate of 260 Hz which is over 20x faster than other state-of-the-art trackers.</p>
+<p>使用的主要技术：Kalman Filter 和 Hungarian algorithm （匈牙利算法）</p>
+</blockquote>
+<p>跟踪算法主要是处理 frontal-view camera 算法。</p>
+<p>SORT (Simple Online and Realtime Tracking) 最大的特点就是就有 Faster R-CNN 的目标检测方法，利用卡尔曼滤波算法 + 匈牙利算法，极大提高了多目标跟踪的速度，同时达到了 SOTA 的准确率。</p>
+<p>你可以在任何含有不确定信息的动态系统中使用卡尔曼滤波，对系统下一步去的走向做出有根据的预测，即使伴随着各种干扰，卡尔曼滤波总是能指出真实。</p>
+<blockquote>
+<p>卡尔曼滤波，简单来说就是基于传感器的测量值来更新预测值，以达到更精确的估计。</p>
+</blockquote>
+<p>在目标跟踪中，需要估计 track 的两种状态：</p>
+<ul>
+<li>均值（Mean）：表示目标的位置信息，由bbox的中心坐标 (cx, cy)，宽高比r，高h，以及各自的速度变化值组成，由8维向量表示为 x = [cx, cy, r, h, vx, vy, vr, vh]，各个速度值初始化为0。</li>
+<li>协方差（Covariance）：表示目标位置信息的不确定性，由8x8的对角矩阵表示，矩阵中数字越大则表明不确定性越大，可以以任意值初始化。</li>
+</ul>
+<p>初始化的时候，假设卡尔曼滤波是一个均速模型。（参考代码中的状态转移矩阵 F， dt是当前帧和前一帧之间的差）</p>
+<blockquote>
+<p>在数据关联的阶段，SORT使用的依旧是匈牙利算法逐帧关联，不过作者还引入了IOU（Intersection-Over-Union）距离。不过SORT用的是带权重的匈牙利算法，其实就是KM算法，用IOU距离作为权重（也叫cost矩阵）。作者代码里是直接用sklearn的linear_assignment实现，有兴趣的话也可以去看看这个函数的实现细节。并且当IOU小于一定数值时，不认为是同一个目标，理论基础是视频中两帧之间物体移动不会过多。作者在代码中选取的阈值是0.3。</p>
+</blockquote>
+<p>缺陷：</p>
+<p>受遮挡情况影响较大，会有大量的的 ID 切换</p>
+<blockquote>
+<p>一旦物体收到遮挡或者其他原因没有检测到，卡尔曼滤波预测的状态信息将无法和检测结果匹配，那么该追踪片段将会提前结束。遮挡结束后，车辆检测可能有被继续执行，那么 SORT 只能分配给物体一个新的 ID 变好，表示一个新的追踪片段的开始。</p>
+</blockquote>
+<p>DeepSORT 的解决方案</p>
+<blockquote>
+<p>需要利用到<strong>前面已经检测到</strong>的物体的<strong>外观特征</strong>（假设之前被检测的物体的外观特征都被<strong>保存</strong>下来了），那么当物体收到遮挡后到遮挡结束，我们能够利用之前保存的外观特征<strong>分配该物体受遮挡前的ID编号</strong>，降低ID切换。</p>
+<p>We overcome this issue by replacing the <strong>association metric</strong> with a <strong>more informed metric</strong> that combines <strong>motion and appearance information</strong>.In particular,we apply a <strong>convolutional neural network</strong> (CNN) that has been trained to <strong>discriminate pedestrians</strong> on a large-scale person re-identification dataset.</p>
+</blockquote>
+<h3 id="deepsort">DeepSORT</h3>
+<p>simple online and realtime tracking with a deep association metric</p>
+<p>多目标追踪的主要步骤</p>
+<ul>
+<li>获取原始视频帧</li>
+<li>利用目标检测器对视频帧中的目标进行检测</li>
+<li>将检测到的目标中框中的特征提取出来，该特征包括表观特征（方便特征对比，避免 ID switch）和运动特征（方便卡尔曼滤波对其进行预测）</li>
+<li>计算前后两帧目标之间的匹配程度（利用匈牙利算法和级联匹配），为每个追踪到的目标分配 ID</li>
+</ul>
+<p>deepsort 算法的贡献</p>
+<ul>
+<li>引入了在行人重识别数据集上离线训练的深度学习模型（reid）</li>
+<li>在实时目标追踪过程中，提取的目标特征进行最近邻匹配</li>
+</ul>
+<p><img src="http://123.56.8.10:8899/images/2021/12/15/image-20211215145028744.png" alt="image-20211215145028744" style="zoom:50%;" /></p>
+<blockquote>
+<p>DeepSort 的流程图：新增了级联匹配（matching cascade）和新轨迹确认。tracks 分为确认太（confirmed）和不确认态（unconfirmed），新产生的 tracks 是不确认态。不确认态的 tracks 必须要和 detections 连续匹配一定的次数（默认是 3）才能转换成确认态。确认态的 tracks 必须要 detections 连续失配一定次数（默认是 30）才会被删除。</p>
+<p>细节：将第一帧检测的结果创建 tracks；一开始 tracks 只有 unconfirmed 的状态。</p>
+</blockquote>
+<blockquote>
+<p>Due to this extension we are able to track objects through longer peri- ods of occlusions, effectively reducing the number of identity switches. Experi- mental evaluation shows that our extensions reduce the number of identity switches by 45%, achieving overall competitive performance at high frame rates.</p>
+<p>DeepSORT 主要是处理 occlusion 方面的问题，减少了 identity switch 的情况。</p>
+</blockquote>
+<p>Deep SORT 算法是在 SORT 算法的基础上增加了级联匹配（Matching Cascade）+ 新轨迹的确认（confirmed）。总体流程：</p>
+<ul>
+<li>卡尔曼滤波器预测轨迹 Tracks</li>
+<li>使用匈牙利算法将预测得到的轨迹 Tracks 和当前帧的 detections 进行匹配（级联匹配和 IOU 匹配）</li>
+<li>卡尔曼滤波更新</li>
+</ul>
+<p>惯例中（类似SORT），解决分配问题使用的是<strong>匈牙利算法</strong>（仅使用<strong>运动特征</strong>计算<strong>代价矩阵</strong>），该算法解决了由滤波算法预测的位置与检测出来的位置间的匹配。DeepSORT中，作者结合了<strong>外观特征</strong>（由小型CNN提取的128维向量）和<strong>运动特征</strong>（卡尔曼滤波预测的结果）来计算<strong>代价矩阵</strong>，从而根据该代价矩阵使用匈牙利算法进行目标的匹配。</p>
+<p>DeepSORT 通过以下的方式处理遮挡问题</p>
+<blockquote>
+<p>To this end, we employ a CNN that has been trained on a large-scale person re-identification dataset that contains over 1100000 images of 1261 pedestrians, making it well suited for deep metric learning in a people tracking context.</p>
+<p>通过一个 CNN 网络提取的特征去区分不同的人（identity）</p>
+</blockquote>
+<blockquote>
+<p>DeepSORT中采用了一个简单（运算量不大）的CNN来提取被检测物体（检测框物体中）的外观特征（低维向量表示），在每次（每帧）检测+追踪后，进行一次物体外观特征的提取并保存。</p>
+<p>后面每执行一步时，都要执行一次当前帧被检测物体外观特征<strong>与</strong>之前存储的外观特征<strong>的</strong>相似度计算，这个相似度将作为一个重要的判别依据（不是唯一的，因为作者说是将运动特征<strong>与</strong>外观特征结合作为判别依据，这个运动特征就是SORT中卡尔曼滤波做的事）。</p>
+</blockquote>
+<p>DeepSORT 增强了长宽比的变化率。在 SORT 中使用的卡尔曼滤波是一个 7 维的向量
+$$
+\mathbf{x}=[u, v, s, r, \dot{u}, \dot{v}, \dot{s}]^{T}
+$$
+在 DeepSORT 中使用的是一个 8 维的向量
+$$
+\mathbf{x}=[u, v, s, r, \dot{u}, \dot{v}, \dot{s},\dot{r}]^{T}
+$$
+这个是合情合理的，毕竟随着镜头运动或者物体和相机的相对运动，物体的长宽比是会发生变化的。
+$$
+d^{(1)}(i, j)=\left(\boldsymbol{d}<em>{j}-\boldsymbol{y}</em>{i}\right)^{\mathrm{T}} \boldsymbol{S}<em>{i}{ }^{-1}\left(\boldsymbol{d}</em>{j}-\boldsymbol{y}_{i}\right)
+$$
+马氏距离通过测量科尔曼滤波器的追踪位置均值（mean track location）之间的标准差和检测框来计算状态估计间的不确定性。即 $d^{(1)}(i, j)$ 为第 $i$ 个追踪分别和第 $j$ 个检测框之间的马氏距离（不确定度）。$i$ 表示追踪的序号，$j$ 检测框的序号。对马氏距离设定一定的阈值，可以排除那些没有关联的目标。</p>
+<blockquote>
+<p>Mahalanobis distance at a 95% confidence interval computed from the inverse  χ2 distribution</p>
+</blockquote>
+<p>马氏距离是用来衡量 motion 特征的，但是实际情况中还需要 appearance 来弥补不足。（比如遮挡情况）</p>
+<p>外观特征</p>
+<p>外观特征提取网络接受reshape的检测框（大小为128x64，针对行人的）内物体作为输入，返回1<strong>28维度的向量</strong>表示。</p>
+<p>motion特征和appearance特征是<strong>相辅相成</strong>的。在DeepSORT中，motion特征（由马氏距离计算获得）<strong>提供了物体定位的可能信息</strong>，这在短期预测中非常有效。appearance特征（由余弦距离计算获得）可以在目标被<strong>长期遮挡</strong>后，<strong>恢复目标的ID编号</strong>，减少ID切换次数。为了结合这两个特征，作者还进行了一个简单的加权运算。</p>
+<p>马氏距离</p>
+<p>马氏距离（Mahalanobis Distance）是一种距离的度量，可以看做是欧氏距离的一种修正，修正了欧氏距离汇总各个维度尺度不一致且相关的问题。单个数据点的马氏距离
+$$
+D_{M}(x)=\sqrt{(x-\mu)^{T} \Sigma^{-1}(x-\mu)}
+$$
+数据点 $x, y$ 之间的马氏距离
+$$
+D_{M}(x, y)=\sqrt{(x-y)^{T} \Sigma^{-1}(x-y)}
+$$
+其中 $\Sigma$ 是多维随机变量的协方差矩阵，如果协方差矩阵是单位向量，也就是各个维度独立同分布，马氏距离就变成了欧氏距离。马氏距离可以衡量不同 scale 数据之间的距离，而欧氏距离不行。</p>
+<p>级联匹配（cascade：串联，小瀑布）让“more frequently seen objects” 分配的优先级更高。</p>
+<blockquote>
+<p>当一个目标长时间被遮挡之后，kalman滤波预测的不确定性就会大大增加，状态空间内的可观察性就会大大降低。假如此时两个追踪器竞争同一个检测结果的匹配权，往往遮挡时间较长的那条轨迹的马氏距离更小，但是从直观上，检测结果应该分配给时间上最近的轨迹。这么理解吧，假设本来协方差矩阵是一个正态分布，那么连续的预测不更新就会导致这个正态分布的方差越来越大，那么离均值欧氏距离远的点可能和之前分布中离得较近的点获得同样的马氏距离值。所以，作者使用了级联匹配来对更加频繁出现的目标赋予优先权。当然同样也有弊端：可能导致一些新产生的轨迹被连接到了一些旧的轨迹上。但这种情况较少。</p>
+</blockquote>
+<p>将 Detection 和 Track 进行匹配，可能出现以下几种情况：</p>
+<ul>
+<li>Detection和Track匹配，也就是 Matched Tracks。普通连续跟踪的目标都属于这种情况，前后两帧都有目标，能够匹配上。</li>
+<li>Detection 没有找到匹配的Track，也就是Unmatched Detections。图像中突然出现新的目标的时候，Detection无法在之前的Track找到匹配的目标。</li>
+<li>Track 没有找到匹配的Detection，也就是Unmatched Tracks。连续追踪的目标超出图像区域，Track无法与当前任意一个 Detection 匹配。</li>
+<li>以上没有涉及一种特殊的情况，就是两个目标遮挡的情况。刚刚被遮挡的目标的Track也无法匹配Detection，目标暂时从图像中消失。之后被遮挡目标再次出现的时候，应该尽量让被遮挡目标分配的ID不发生变动，减少IDSwitch 出现的次数，这就需要用到级联匹配了。</li>
+</ul>
+<p>下面这种算法思想是 匈牙利算法的改进版：KM 算法</p>
+<blockquote>
+<p>这个方法是在SORT中被提出的。又是比较陌生的名词。实际上匈牙利算法可以理解成“尽量多”的一种思路，比如说A检测器可以和a，c跟踪器完成匹配（与a匹配置信度更高），但是B检测器只能和a跟踪器完成匹配。那在算法中，就会让A与c完成匹配，B 与a完成匹配，而降低对于置信度的考虑。所以算法的根本目的并不是在于匹配的准不准，而是在于尽量多的匹配上，这也就是在deepsort中作者添加级联匹配与马氏距离与余弦距离的根本目的，因为仅仅使用匈牙利算法进行匹配特别容易造成 ID switch，就是一个检测框id不停地进行更换，缺乏准确性与鲁棒性。那什么是匹配的置信度高呢，其实在这里，作者使用的是 IOU 进行衡量，计算检测器与跟踪器的IOU，将这个作为置信度的高低（比较粗糙）。</p>
+</blockquote>
+<p>DeepSORT 涉及到以下算法：</p>
+<ul>
+<li>
+<p>卡尔曼滤波</p>
+</li>
+<li>
+<p>马氏距离</p>
+</li>
+<li>
+<p>PCA 主成分分析</p>
+</li>
+<li>
+<p>匈牙利算法</p>
+</li>
+<li>
+<p>行人重识别（ReID，用于提取表观特征，原论文中生成了 128 维的 embedding）</p>
+</li>
+<li>
+<p>MOT 评价指标</p>
+</li>
+</ul>
+<p>ReID 是独立于目标检测和耿总器的模块，功能是提取对应 bounding box 中的 feature，得到一个固定维度的 embedding 作为该 bbox 的代表，供计算相似度时使用。</p>
+<blockquote>
+<p>从实践上仍然是通过抠图实现的，而不是通过抠 feature map 实现的。</p>
+</blockquote>
+<p>DeepSORT 是如此通用的一个追踪器，可以被接在任意一个检测器上，比如 <a href="https://github.com/mikel-brostrom/Yolov3_DeepSort_Pytorch">YOLO V3+DeepSORT</a>、<a href="https://github.com/theAIGuysCode/yolov4-deepsort">YOLO V4+DeepSORT</a>、<a href="https://github.com/kimyoon-young/centerNet-deep-sort">CenterNet +DeepSORT</a></p>
+<p>DeepSORT 算法</p>
+<blockquote>
+<p>整体框架没有大改，还是延续了卡尔曼滤波加匈牙利算法的思路，在这个基础上增加了Deep Association Metric。Deep Association Metric其实就是在大型行人重识别网络上学习的一个行人鉴别网络。目的是区分出不同的行人。个人感觉很类似于典型的行人重识别网络。输出行人图片，输出一组向量，通过比对两个向量之间的距离，来判断两副输入图片是否是同一个行人。</p>
+<p>此外还加入了外观信息（Appearance Information）以实现较长时间遮挡的目标跟踪。</p>
+<p>跟踪流程延续上作（SORT 和 DeepSORT 是同一个团队的产出），在卡尔曼滤波的预测结果的基础上，继续使用了匈牙利算法进行目标分配，但在这个过程中加入了运动信息和外观信息。实现起来比较复杂，具体可以看看代码。</p>
+<p>最终实现了较好的跟踪效果（MOTA61.4@MOT16），并且能够实时运行（40FPS）。</p>
+</blockquote>
+<blockquote>
+<p>在DeepSORT中，匈牙利算法用来将前一帧中的跟踪框tracks与当前帧中的检测框detections进行关联，通过外观信息（appearance information）和马氏距离（Mahalanobis distance），或者IOU来计算代价矩阵。</p>
+</blockquote>
+<p>这里的 代价矩阵是如何进行计算？需要对应一下代码。</p>
+<p>DeepSORT 工作流程：</p>
+<blockquote>
+<p>检测器得到bbox → 生成detections → 卡尔曼滤波预测→ 使用匈牙利算法将预测后的tracks和当前帧中的detecions进行匹配（级联匹配和IOU匹配） → 卡尔曼滤波更新</p>
+<p>Frame 0：检测器检测到了3个detections，当前没有任何tracks，将这3个detections初始化为tracks
+Frame 1：检测器又检测到了3个detections，对于Frame 0中的tracks，先进行预测得到新的tracks，然后使用匈牙利算法将新的tracks与detections进行匹配，得到(track, detection)匹配对，最后用每对中的detection更新对应的track</p>
+</blockquote>
+<blockquote>
+<p>下面是 DeepSORT 的流程图</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/10/28/v2-0f56257247d037e7115184b4e356af7f_r.jpg" alt="preview"></p>
+<p><a href="https://mp.weixin.qq.com/s?src=11&amp;timestamp=1635413945&amp;ver=3402&amp;signature=EN7VKu6FvLMPvocVc1xSZ8VhGQiKvJjtQO4vxpKPXCrehwRMUZGYZvyIzLRd4dc*c-0l42*ssBrK875TYCADQjTWf*Yhw*9MPDDUvCjNMCs3A6uQRQ6F-waZQJ4d2Tpr&amp;new=1">目标跟踪初探（DeepSORT）</a></p>
+<blockquote>
+<p>这个后面有一些代码的注释，需要看看</p>
+</blockquote>
+<p><a href="https://mp.weixin.qq.com/s?src=11&amp;timestamp=1635413945&amp;ver=3402&amp;signature=duMcG5m9e48rov1KSBoBpMtkoRq-gNPruM6xRBnJb9prJUMgXcT3LONMG*hWnIzvSJxmd3D*33sppoMjM5TN2DXboOEYt0nJJg4MX*pFMXiEHsRWfzOkShksdb11SiOO&amp;new=1">DeepSORT，让你的检测器实现简单的多目标追踪！</a></p>
+<blockquote>
+<p>DeepSORT 和 SORT 论文，进行了很详细的对比，改进点是配有代码解释的。</p>
+</blockquote>
+<p><a href="https://mp.weixin.qq.com/s?src=11&amp;timestamp=1635410335&amp;ver=3401&amp;signature=KkXoi8chBm2mR39lqy-YsVJwXIbEBomKgCuSww5MdkbqcbCqeit92NR63kz5bQPrwEequb*1Be03WTopbI3KPcP91z8Nc82m2B6u15Ud*XMLyjIFQ3z61Ys68gQc2Gnb&amp;new=1">（附代码）实战 | 从零开始学习Deep SORT+YOLO V3进行多目标跟踪</a></p>
+<blockquote>
+<p>非常不错的讲解</p>
+</blockquote>
+<p><a href="https://github.com/kimyoon-young/centerNet-deep-sort">centerNet-deep-sort</a></p>
+<blockquote>
+<p>这个算是很不错的项目了， centerNet + deepSORT</p>
+</blockquote>
+<p>整理一下 DeepSORT 流程，然后硬啃代码了</p>
+<blockquote>
+<p>可以先过一遍，加上一些基本函数的注释</p>
+</blockquote>
+<p>tracking 主要是用来辅助 od 的，以下情况：当前帧没有检测出来（遮挡或者其他因素），根据上一帧补全。</p>
+<p>红绿灯 tracking，如果发现当前是黑的（对应实际情况中的闪烁），那么根据 tracking 的结果进行修复。</p>
+<p>一步走的方案目前的进展：</p>
+<ul>
+<li>
+<p>目前缺少 tracking 数据，缺少帧之间 offset (matrix) 等信息</p>
+</li>
+<li>
+<p>od+ tracking 中使用公开数据集 train， 然后在 own data 上 test 效果不是很好。</p>
+</li>
+</ul>
+<p>目前正在尝试的事情：</p>
+<ul>
+<li>将雷达信息投影到图像上，将摄像头投影到图像上。maybe 这个图像是一个虚拟的摄像头。这是一种融合的方案。</li>
+</ul>
+<p><strong>代码解析</strong></p>
+<p>代码来源：https://github.com/mikel-brostrom/Yolov5_DeepSort_Pytorch/tree/master/deep_sort_pytorch</p>
+<p>deep_sort/deep_sort/sort目录下</p>
+<blockquote>
+<p>detection.py：保存通过目标检测的一个检测框框，以及该框的置信度和获取的特征；同时还提供了框框的各种格式的转化方法。</p>
+<p>iou_matching.py：计算两个框框之间的IOU。</p>
+<p>kalman_filter.py：卡尔曼滤波器的相关代码，主要是利用卡尔曼滤波来预测检测框的轨迹信息。</p>
+<p>linear_assignment.py：利用匈牙利算法匹配预测的轨迹框和检测框最佳匹配效果。</p>
+<p>nn_matching.py：通过计算欧氏距离、余弦距离等距离来计算最近领距离。</p>
+<p>preprocessing.py：非极大抑制代码，利用非极大抑制算法将最优的检测框输出。</p>
+<p>track.py：主要储存的是轨迹信息，其中包括轨迹框的位置和速度信息，轨迹框的ID和状态，其中状态包括三种，一种是确定态、不确定态、删除态三种状态。</p>
+<p>tracker.py：保存了所有的轨迹信息，负责初始化第一帧，卡尔曼滤波的预测和更新，负责级联匹配,IOU匹配。</p>
+<p>deep_sort/deep_sort/deep_sort.py：deepsort的整体封装，实现一个deepsort追踪的一个整体效果。</p>
+<p>deep_sort/utils：这里最主要有一些各种各样的工具python代码，例如画框工具，日志保存工具等等。</p>
+<p>demo.py：针对读取的视频进行目标追踪</p>
+<p>objdetector.py：封装的一个目标检测器，对视频中的物体进行检测</p>
+<p>objtracker.py：封装了一个目标追踪器，对检测的物体进行追踪</p>
+</blockquote>
+<p>总结与思考</p>
+<p>评价多个模型的性能，从精度、速度、稳定性、功耗等方面综合评价，选择一个合适的模型进行部署。</p>
+<p>视频讲解：</p>
+<p>(1) <a href="https://www.bilibili.com/video/BV1YU4y1A7vb?from=search&amp;seid=7296163169805661079&amp;spm_id_from=333.337.0.0">https://www.bilibili.com/video/BV1YU4y1A7vb?from=search&amp;seid=7296163169805661079&amp;spm_id_from=333.337.0.0</a></p>
+<p>(2) <a href="https://github.com/emasterclassacademy/Single-Multiple-Custom-Object-Detection-and-Tracking/blob/master/object_tracker.py">https://github.com/emasterclassacademy/Single-Multiple-Custom-Object-Detection-and-Tracking/blob/master/object_tracker.py</a></p>
+<blockquote>
+<p>这个是基于 tf 的 tracker 的实现，有相应的视频</p>
+</blockquote>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2021-11-10
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/wechatpay.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/alipay.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/mobilenet/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Mobilenet</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/anchor-free-object-detection/">
+            <span class="next-text nav-default">Anchor Free Object Detection</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

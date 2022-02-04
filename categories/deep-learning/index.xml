@@ -6,7 +6,62 @@
     <description>Recent content in deep-learning on Jijeng&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 07 Mar 2021 17:18:39 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/categories/deep-learning/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 22 Jan 2022 11:37:56 +0800</lastBuildDate><atom:link href="http://jijeng.github.io/categories/deep-learning/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Nas</title>
+      <link>http://jijeng.github.io/post/nas/</link>
+      <pubDate>Sat, 22 Jan 2022 11:37:56 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/nas/</guid>
+      <description>&lt;p&gt;从剪枝到 nas。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Backbones</title>
+      <link>http://jijeng.github.io/post/backbones/</link>
+      <pubDate>Sat, 01 Jan 2022 13:19:17 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/backbones/</guid>
+      <description>&lt;p&gt;首先对比一下 CNN, transformer 和 MLP，然后介绍 DLA 论文 和NAS 系列中的 RepVGG。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Mobilenet</title>
+      <link>http://jijeng.github.io/post/mobilenet/</link>
+      <pubDate>Fri, 12 Nov 2021 13:25:13 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/mobilenet/</guid>
+      <description>&lt;p&gt;MobileNet 系列讲解&lt;/p&gt;
+&lt;p&gt;MobileNet 作为轻量级网络的代表，使得 CNN 轻量化和移动端的部署成为可能。MobileNet 目前有三个版本，分别是 MobileNet v1, MobileNet v2 和 MobileNet v3.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Anchor Free Object Detection</title>
+      <link>http://jijeng.github.io/post/anchor-free-object-detection/</link>
+      <pubDate>Wed, 20 Oct 2021 12:23:40 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/anchor-free-object-detection/</guid>
+      <description>anchor-free 目标检测学习整理。 anchor free 和 anchor based 的区别 如果物体用 4D（两组2D坐标）表示，则是 anchor-based，如果把物体用 2D 来表示，则属于 ancho</description>
+    </item>
+    
+    <item>
+      <title>3d Pointnet</title>
+      <link>http://jijeng.github.io/post/3d-pointnet/</link>
+      <pubDate>Sun, 03 Oct 2021 13:31:13 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/3d-pointnet/</guid>
+      <description>&lt;p&gt;点云- Pointnet  学习笔记。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Yolo</title>
+      <link>http://jijeng.github.io/post/yolo/</link>
+      <pubDate>Mon, 29 Mar 2021 21:17:23 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/yolo/</guid>
+      <description>&lt;p&gt;yolo  系列的学习笔记。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Albumentations：图像数据增强</title>
       <link>http://jijeng.github.io/post/albumentations_explain_with_example/</link>
@@ -15,6 +70,15 @@
       <guid>http://jijeng.github.io/post/albumentations_explain_with_example/</guid>
       <description>&lt;p&gt;针对图像领域，对比总结几种常见的数据增强方式。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;http://123.56.8.10:8899/images/2021/02/23/68747470733a2f2f686162726173746f726167652e6f72672f776562742f62642f6e652f72762f62646e6572763563746b75646d73617a6e687734637273646669772e6a706567.jpg&#34; alt=&#34;parrot&#34; style=&#34;zoom:80%;&#34;  /&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Detr</title>
+      <link>http://jijeng.github.io/post/detr/</link>
+      <pubDate>Sat, 13 Feb 2021 18:06:58 +0800</pubDate>
+      
+      <guid>http://jijeng.github.io/post/detr/</guid>
+      <description>&lt;p&gt;简单梳理一下目标检测的发展，并重点介绍最近的工作：detr。&lt;/p&gt;</description>
     </item>
     
     <item>

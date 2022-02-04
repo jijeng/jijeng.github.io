@@ -50,7 +50,7 @@
 <meta itemprop="description" content="python 学习笔记，之前有两篇笔记，因为太多了，所以新开一篇。">
 <meta itemprop="datePublished" content="2019-11-04T16:08:25+08:00" />
 <meta itemprop="dateModified" content="2019-11-04T16:08:25+08:00" />
-<meta itemprop="wordCount" content="10259">
+<meta itemprop="wordCount" content="11578">
 
 
 
@@ -127,8 +127,8 @@
         <div class="post-category">
             <a href="/categories/programming-language/"> programming language </a>
             </div>
-          <span class="more-meta"> 约 10259 字 </span>
-          <span class="more-meta"> 预计阅读 21 分钟 </span>
+          <span class="more-meta"> 约 11578 字 </span>
+          <span class="more-meta"> 预计阅读 24 分钟 </span>
         
       </div>
     </header>
@@ -162,6 +162,7 @@
           </ul>
         </li>
         <li><a href="#python操作数据库">python操作数据库</a></li>
+        <li><a href="#其他">其他</a></li>
       </ul>
     </li>
   </ul>
@@ -1208,10 +1209,80 @@ __main__
 <p>（8）<code>__name__ ==&quot;__main__&quot; </code>的作用</p>
 <p>很多编程语言都有一个入口，比如C++、C 和Java中都需要一个 <code>main</code> 函数作为程序的入口。但是和上述的编译语言不同，Python属于脚本语言，不需要编译成二进制执行，而是动态逐行解释运行，可以没有统一的入口。所以可以没有 <code>main</code>函数入口。</p>
 <p>但是除了作为脚本语言直接被运行外，还是可以作为模块（库）被其他 <code>.py</code> 文件导入。所有的模块中都有一个内置的属性 <code>__name__</code>，表示当前模块的名字。如果被当做脚本运行，<code>__name__</code>值为<code>__main__</code>。而被别的模块引用的时候， <code>__name__</code>值为模块的名字。</p>
+<p>(9) python 中的 module 模块</p>
+<p>Python 中引入 module 的写法</p>
+<p>python 中建立一个 folder，那么就加上一个 <code>__init__.py</code> 文件，即使文件内是没有内容的，也需要保持格式上的一致。</p>
+<p>If you want to import anything from top level directory. Then,</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">...module_name</span> <span class="kn">import</span> <span class="o">*</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Also, if you want to import any module from the parent directory. Then,</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">..module_name</span> <span class="kn">import</span> <span class="o">*</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Also, if you want to import any module from the parent directory. Then,</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">...module_name.another_module</span> <span class="kn">import</span> <span class="o">*</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>This way you can import any particular method if you want to.</p>
+<blockquote>
+<p>我的理解，如果是 2 个 dots，那么就父节点，3 个dots，那么就是父节点的父节点</p>
+</blockquote>
 <p>总结：</p>
 <p><code>__name__</code> 可以用于调试代码：当脚本执行，在 <code>if __name__ == '__main__</code> 中的代码会被执行；而被别的模块所引用的时候，因为这个时候的 <code>__name__</code> 不是 main ，所以该函数不会被执行。</p>
 <p>在Python中，使用单引号(')和双引号(&quot;)定义的字符串没有区别。</p>
-<h3 id="python中-pickle-模块">python中 pickle 模块</h3>
+<p><code>__call__</code> 函数讲解</p>
+<p><code>__init__</code> 的作用是初始化某个类的一个实例</p>
+<p><code>__call__</code> 的作用是使实例能够像函数一样被调用，可以用来改变实例的内部成员的值。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python">　　<span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+　　　　<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">gender</span><span class="p">):</span>
+　　　　　　<span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+　　　　　　<span class="bp">self</span><span class="o">.</span><span class="n">gender</span> <span class="o">=</span> <span class="n">gender</span>
+
+　　　　<span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">friend</span><span class="p">):</span>
+　　　　　　<span class="k">print</span> <span class="s1">&#39;My name is </span><span class="si">%s</span><span class="s1">...&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+　　　　　　<span class="k">print</span> <span class="s1">&#39;My friend is </span><span class="si">%s</span><span class="s1">...&#39;</span> <span class="o">%</span> <span class="n">friend</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>比如以下的例子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">p = Person(&#39;Bob&#39;, &#39;male&#39;)
+p(&#39;Tim&#39;)
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="python中-pickle-模块">python中 pickle 模块</h3>
 <p>pickle模块是python中用来持久化对象的一个模块。所谓对对象进行持久化，即将对象的数据类型、存储结构、存储内容等所有信息作为文件保存下来以便下次使用。在神经网络中训练的模型也是可以经过序列化处理的，需要注意的是以二进制保存和读取的内容，所以在读写的时候需要加上 <code>b</code> 超参数。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1687,10 +1758,7 @@ math.modf(3.25)
 #(0.25, 3.0)
 </code></pre></td></tr></table>
 </div>
-</div><ol>
-<li></li>
-</ol>
-<div class="highlight"><div class="chroma">
+</div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">  1
 </span><span class="lnt">  2
@@ -2277,7 +2345,7 @@ help(calendar.month) # 在python 或者 jupyter 中使用 help 帮助文档
 <td class="lntd">
 <pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">pymysql</span>
 <span class="kn">import</span> <span class="nn">pandas</span>  <span class="kn">as</span> <span class="nn">pd</span>
-<span class="n">conn</span> <span class="o">=</span><span class="n">pymysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;172.31.31.76&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s2">&#34;admin&#34;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s2">&#34;Goflair2019&#34;</span><span class="p">,</span> <span class="n">port</span> <span class="o">=</span><span class="mi">3303</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s2">&#34;flair&#34;</span><span class="p">)</span>
+<span class="n">conn</span> <span class="o">=</span><span class="n">pymysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;172.31.31.76&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s2">&#34;admin&#34;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s2">&#34;pass&#34;</span><span class="p">,</span> <span class="n">port</span> <span class="o">=</span><span class="mi">3303</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s2">&#34;db&#34;</span><span class="p">)</span>
 
 <span class="n">cursor</span> <span class="o">=</span><span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&#34;select id, name, description, category, link, visual_type_one, visual_type_two, materials,saved_pics,bg_removed_pics from t_flair_goods&#34;</span><span class="p">)</span>
@@ -2303,6 +2371,255 @@ help(calendar.month) # 在python 或者 jupyter 中使用 help 帮助文档
 <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&#34;test.csv&#34;</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">)</span>
 
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="其他">其他</h2>
+<p><code>print()</code> 和 <code>sys.stdout.write()</code> 的区别</p>
+<blockquote>
+<p>sys.stdout.write() 只能输出一个字符串str，而 print() 可以输出多个值，数据类型多样。 print(obj) 实际上是调用 sys.stdout.write(obj+'\n') ，因此print在打印时会自动加个换行符。</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># 变量的多重赋值</span>
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">60</span>
+<span class="c1"># 一个值分配给多个变量</span>
+<span class="n">a</span> <span class="o">=</span><span class="n">b</span> <span class="o">=</span><span class="n">c</span> <span class="o">=</span><span class="mi">50</span> 
+
+<span class="c1"># 字符串反转</span>
+<span class="n">my_string</span> <span class="o">=</span> <span class="s2">&#34;MY STRING&#34;</span>
+<span class="n">rev_string</span> <span class="o">=</span> <span class="n">my_string</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">my_string</span> <span class="o">=</span> <span class="s2">&#34;This is a string in Python&#34;</span>
+<span class="n">my_list</span> <span class="o">=</span> <span class="n">my_string</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="n">my_string</span> <span class="o">=</span> <span class="s2">&#34; &#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">my_list</span><span class="p">)</span>
+
+<span class="c1"># 多次打印字符串</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&#34;How many times you need to repeat:&#34;</span><span class="p">))</span>
+<span class="n">my_string</span> <span class="o">=</span><span class="s2">&#34;Python</span><span class="se">\n</span><span class="s2">&#34;</span>
+<span class="k">print</span><span class="p">(</span><span class="n">my_string</span> <span class="o">*</span><span class="n">n</span><span class="p">)</span> 
+
+<span class="c1"># 多个条件运算符（如果能写到一起，那么尽量写到一起，增加可读性）</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">&gt;</span><span class="mi">10</span>  <span class="ow">and</span> <span class="n">a</span> <span class="o">&lt;</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Hi&#34;</span><span class="p">)</span>
+<span class="c1"># 取而代之，可以将条件运算符组合成单个表达式</span>
+<span class="n">a</span> <span class="o">=</span><span class="mi">15</span>
+<span class="k">if</span> <span class="p">(</span><span class="mi">10</span> <span class="o">&lt;</span><span class="n">a</span> <span class="o">&lt;</span> <span class="mi">20</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Hi&#34;</span><span class="p">)</span>
+
+<span class="c1"># 在列表中查找最频繁的元素</span>
+<span class="c1"># list.count() 是 python 内置的函数 </span>
+<span class="n">my_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="c1"># 下面这两种写法都可以得到结果的</span>
+<span class="n">most_frequent</span> <span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">my_list</span><span class="p">),</span> <span class="n">key</span> <span class="o">=</span> <span class="n">my_list</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
+<span class="n">most_frequent</span> <span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">my_list</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span> <span class="n">my_list</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
+
+<span class="c1"># 查找列表中所有元素出现的次数</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="n">my_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">my_list</span><span class="p">))</span>
+
+
+<span class="c1"># 检查两个字符串的易位构词</span>
+<span class="c1"># 如果一个字符串由另一个字符串中的字符组成，那么这两个字符串就是易位构词（Anagram）。</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="n">my_string_1</span> <span class="o">=</span> <span class="s2">&#34;RACECAR&#34;</span>
+<span class="n">my_string_2</span> <span class="o">=</span> <span class="s2">&#34;CARRACE&#34;</span>
+<span class="k">if</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">my_string_1</span><span class="p">)</span> <span class="o">==</span> <span class="n">Counter</span><span class="p">(</span><span class="n">my_string_2</span><span class="p">)):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Anagram&#34;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Not Anagram&#34;</span><span class="p">)</span>
+
+
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="n">my_number</span> <span class="o">=</span> <span class="mf">18.7</span>
+<span class="k">print</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">my_number</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">my_number</span><span class="p">))</span>
+
+
+<span class="c1"># 返回布尔值</span>
+<span class="c1"># 下面这种写法很笨</span>
+<span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span><span class="mi">10</span><span class="p">:</span> 
+        <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">False</span>
+<span class="n">n</span> <span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">())</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="n">n</span><span class="p">)):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Eligible&#34;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Not Eligible&#34;</span><span class="p">)</span>
+<span class="c1"># 不使用 if else, 这样是比较简洁的</span>
+<span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">n</span> <span class="o">&gt;</span><span class="mi">10</span>
+<span class="n">n</span> <span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&#34;Eligible &#34;</span><span class="p">)</span> <span class="k">if</span> <span class="n">function</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">else</span> <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Not Eligible&#34;</span><span class="p">)</span>
+
+<span class="c1"># lambda 匿名函数, 可以实现在一行中创建函数</span>
+<span class="c1"># 对于小函数，可以使用这种方式</span>
+<span class="n">x</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="n">a</span> <span class="o">+</span><span class="n">b</span> <span class="o">+</span><span class="n">c</span>
+<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+
+<span class="c1"># map 是一个高阶函数，为列表中所有元素应用特定的函数</span>
+<span class="n">my_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;felix&#34;</span><span class="p">,</span> <span class="s2">&#34;antony&#34;</span><span class="p">]</span>
+<span class="n">new_list</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">capitalize</span><span class="p">,</span> <span class="n">my_list</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">new_list</span><span class="p">))</span>
+<span class="c1"># map 和 lambda 一块使用</span>
+<span class="n">my_list</span> <span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="n">new_list</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">my_list</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">new_list</span><span class="p">))</span>
+
+<span class="c1"># 使用 filter 函数过滤值, filter(function, iterable)</span>
+<span class="k">def</span> <span class="nf">eligibility</span><span class="p">(</span><span class="n">age</span><span class="p">):</span>
+    <span class="k">return</span>  <span class="n">age</span> <span class="o">&gt;=</span> <span class="mi">24</span>
+<span class="n">list_of_age</span> <span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span><span class="mi">33</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">17</span><span class="p">]</span>
+<span class="n">age</span> <span class="o">=</span><span class="nb">filter</span><span class="p">(</span><span class="n">eligibility</span><span class="p">,</span> <span class="n">list_of_age</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">age</span><span class="p">))</span>
+
+<span class="c1"># 合并两个字典， 这个很常用哈</span>
+<span class="c1"># 下面这种方法并不会进行 对应值相加</span>
+<span class="n">dict_1</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;One&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Two&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">}</span>
+<span class="n">dict_2</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Two&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Three&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">}</span>
+<span class="n">dictionary</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">dict_1</span><span class="p">,</span> <span class="o">**</span><span class="n">dict_2</span><span class="p">}</span>
+<span class="k">print</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)</span>
+
+<span class="c1"># 将两个列表合并成一个词典</span>
+<span class="n">list_1</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;One&#34;</span><span class="p">,</span><span class="s2">&#34;Two&#34;</span><span class="p">,</span><span class="s2">&#34;Three&#34;</span><span class="p">]</span>
+<span class="n">list_2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">dictionary</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">list_1</span><span class="p">,</span> <span class="n">list_2</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>python 中的注册器（register）</p>
+<p>在 python 项目中，常常有 register 的出现，这个并不是注册账号的模块，而是项目中注册模块的模块。比如，一个深度学习项目中可能支持多种模型，具体使用哪种模型需要根据用户在配置文件中指定。最简单的方法是维护一个<code>模型名称 -&gt; 模型类</code>的字典，缺点是每次增加一个模型，都需要手动维护这个字典，比较繁琐。</p>
+<p>这里介绍的注册器，你仅仅需要注册的模块的代码路径（相对简单些）。</p>
+<p>所以注册器完全可以理解为一个字典，里面存储同系列的类。</p>
+<p>注册器在使用的时候，可以参考装饰器。注册器类似一个 <code>dict</code> （实际上有一个 <code>_dict</code> 属性），可以<code>set_item</code> 和<code>get_item</code>。关键是 <code>register</code> 函数，可以作为装饰器，注册一个函数或者一个类。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="nd">@register_obj.register</span>
+<span class="k">class</span> <span class="nc">Modle1</span><span class="p">:</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>等效于</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">register_obj</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Model1</span><span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
 </div>
@@ -2389,7 +2706,7 @@ help(calendar.month) # 在python 或者 jupyter 中使用 help 帮助文档
   <span class="copyright-year">
     &copy; 
     2018 - 
-    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
   </span>
 </div>
 

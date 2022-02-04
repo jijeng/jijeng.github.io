@@ -50,7 +50,7 @@
 <meta itemprop="description" content="介绍linux 中常见的命令 和github 中常用的命令">
 <meta itemprop="datePublished" content="2019-02-18T10:06:48+08:00" />
 <meta itemprop="dateModified" content="2019-02-18T10:06:48+08:00" />
-<meta itemprop="wordCount" content="21708">
+<meta itemprop="wordCount" content="21280">
 
 
 
@@ -127,8 +127,8 @@
         <div class="post-category">
             <a href="/categories/tutorial/"> tutorial </a>
             </div>
-          <span class="more-meta"> 约 21708 字 </span>
-          <span class="more-meta"> 预计阅读 44 分钟 </span>
+          <span class="more-meta"> 约 21280 字 </span>
+          <span class="more-meta"> 预计阅读 43 分钟 </span>
         
       </div>
     </header>
@@ -153,7 +153,6 @@
             <li><a href="#xargs">xargs</a></li>
             <li><a href="#linux-中脚本执行的四种方式">Linux 中脚本执行的四种方式</a></li>
             <li><a href="#解压缩命令">解压缩命令</a></li>
-            <li><a href="#云端主机之间传输文件">云端主机之间传输文件</a></li>
             <li><a href="#前台执行和后台执行命令">前台执行和后台执行命令</a></li>
             <li><a href="#apt-和apt-get-的区别">apt 和apt-get 的区别</a></li>
             <li><a href="#未归类">未归类</a></li>
@@ -1556,136 +1555,7 @@ sh hello.sh
 <pre class="chroma"><code class="language-fallback" data-lang="fallback">tar -zxf XXX.tar.gz -C 解压位置
 </code></pre></td></tr></table>
 </div>
-</div><h3 id="云端主机之间传输文件">云端主机之间传输文件</h3>
-<p>（1） 使用scp 命令</p>
-<p>scp -i 表示使用秘钥 进行传输文件（不用输入密码）</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">scp -r -i ~/.ssh/qiso_id_rsa qiso@10.39.22.30:/home/qiso/jarvis* ~/
-scp -r -i ~/.ssh/qiso_id_rsa qiso@10.39.22.30:/home/qiso/data/production//search/nlp/default_query/data/*traditi* /home/qiso/data/production/search/nlp/query_quality/data/
-scp -i  Selects the file from which the identity (private key) for public # 使用 private key 进行测试
-</code></pre></td></tr></table>
-</div>
-</div><p>设置特定端口（ssh 默认是 22 端口，scp 是基于ssh ，所以也是 22端口）</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">scp -P 2222 root@www.xxorg.com:/root/test.tar.gz /home/test.tar.gz
-</code></pre></td></tr></table>
-</div>
-</div><p>传输文件夹</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">scp -r root@www.xxorg.com:/root/test_dir /home/jeng
-</code></pre></td></tr></table>
-</div>
-</div><p>scp传输速度较慢,但使用ssh通道保证了传输的安全性。提高scp 的速度：</p>
-<ul>
-<li>通常压缩会降低scp 速度，所以是很多文件夹，那么建议先压缩，然后再scp 传输</li>
-</ul>
-<p>（1）wget -c</p>
-<p>使用 wget 也是可以实现断点传输的</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">-c (continue )
-Continue getting a partially-downloaded file
-</code></pre></td></tr></table>
-</div>
-</div><p>比如说</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">wget -c http://www.test.com/xxxx/xxx.tar.gz
-<span class="c1"># 下载大文件时，加入不注意终止了，使用次命令还可以接着下载</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>当访问 https 网站时候， wget 将尝试验证证书，有时候会因为证书失效而导致下载不成功。</p>
-<blockquote>
-<p>当点击安全的网站（https）时，wget将尝试验证证书。为了信任证书，wget需要访问证书存储，证书存储本质上是一个存储可信证书的SSL目录（有关详细信息，请参阅此处：https://wiki.openwrt.org/doc/howto/wget-ssl-certs）</p>
-</blockquote>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">wget --no-check-certificate 
-# 添加这个参数可以认为，我无论如何都要下载图像
-
-</code></pre></td></tr></table>
-</div>
-</div><p>（2）使用 rsync 命令</p>
-<p>rsync (remote sync)是Linux系统下的文件同步和数据传输工具，它采用“rsync”算法，可以将一个客户机和远程文件服务器之间的文件同步，也可以在本地系统中将数据从一个分区备份到另一个分区上。相比于 scp 传输文件， 可以增量同步文件，如果数据传输出现中断，恢复后可以从传输不一致的部分重新开始。可以使用rcp、ssh等方式来传输文件，当然也可以通过直接的socket连接。</p>
-<p>rsync默认使用ssh的22端口，那么如果我们的服务器为了安全已经修改成其他的端口，比如端口是1234那怎么办呢？可以加上 -e &lsquo;ssh -p 1234&rsquo;参数来指定端口号：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">rsync -P -e &#39;ssh -p 1234&#39; daweibro@linode-server:/home/daweibro/database-backup.sql /home/daweibro ./
-rsync -avL --progress -e &#34;ssh -i gitlab_filerun.pem&#34; -r up_test.gz root@39.98.115.246:/home/upload
-rsync -avL  -r up_test.gz root@39.98.115.246:/home/upload # 常用的几个命令和参数
-
-</code></pre></td></tr></table>
-</div>
-</div><p>rsync 适合大量小文件，压缩之后就不太好用了。</p>
-<p>（3）使用国外的vps</p>
-<p>方案一：vps+ php 端口</p>
-<p>搞个 VPS，先在 VPS wget 下来。然后 <code>php -S 0.0.0.0:4000</code>。下载 http://vpsip:4000/xxx.zip</p>
-<p>方案二：换 scp 的端口（使用webfs）</p>
-<p>scp 走的是 22 端口，严重受到监 kong。
-我都是安装一个 webfs，它是 mini-server，执行 webfsd -p 80 -F，这样就可以 80 端口下载了（可以用 wget 下载）。
-80 端口速度会比 22 速度快。下载完之后 Ctrl-C 关掉 webfsd 即可。</p>
-<p>原因：
-http 是80 端口（https 是443 端口），所以当使用http 协议传输的时候，更加快，以牺牲安全性？为代价</p>
-<p>scp 用于加密网管会话，该加密基于RSA，基于TCP 端口22.</p>
-<p>方案三：</p>
-<p>Download a large file from Google Drive. 使用 <a href="https://github.com/wkentaro/gdown"></a>，主要解决的问题 <code>security warning from Google Drive</code></p>
-<blockquote>
-<p>If you use curl/wget, it fails with a large file because of the security warning from Google Drive.</p>
-</blockquote>
-<p>关于 curl 命令</p>
-<p>在Linux中curl是一个利用URL规则在命令行下工作的文件传输工具，可以说是一款很强大的http命令行工具。它支持文件的上传和下载，是综合传输工具，但按传统，习惯称url为下载工具。
-curl 是常用的命令行工具，用来请求 Web 服务器。它的名字就是客户端（client）的 URL 工具的意思。</p>
-<p>（4）单个文件太大的问题</p>
-<p>第一种方式：大文件还是用 7z 分一下卷吧，一个文件 512M ，不管用啥方法下载，保险系数都大得多。将大文件分卷成中等或者小文件，是非常实用的技巧，可以缓解scp 数据传输中断的问题。</p>
-<p>第二种方式： 使用 SFTP，支持断点续传</p>
-<p>（5） ftp  和sftp</p>
-<p>文件传输协议（File Transfer Protocol，FTP）是用于在网络上进行文件传输的一套标准协议，工作在应用层，使用TCP 传输而不是UDP 传输，在客户和服务器端建立连接需要经过”三次握手“，保证连接的可靠性，为数据传输提供可靠保证。ftp默认的连接端口是 21， 传输端口是20.</p>
-<p>sftp（Secure File Transfer Protocol）协议是在ftp 的基础上对数据进行加密，使得传输的数据相对更安全。但是这种安全是以牺牲效率为代价的（需要实际验证一下这种效率下降的程度）。sftp默认的端口是 22.</p>
-<p>ftp 是基于ssh 等加密实现的传输通道，而ssl 是为http/ smtp 设计的加密算法。</p>
-<p><a href="https://www.jianshu.com/p/19319228ece0">基于python 实现的sftp 断点续传</a></p>
-<p>（6）基于 udp</p>
-<p>思路很简单，使用TCP进行传输控制、用UDP进行数据传输。<a href="https://github.com/cheetahmobile/tsunami-udp/wiki">tsunami-udp </a> 这样可以无状态的进行数据传输，然后中间加一些文件校验和重传机制，达到加速传输的目的。传统的tcp传统，基于长连接，很容易受网络波动的影响。特别是网络拥塞的情况下，只能通过多进程/线程来进行有序传输。</p>
-<p>这方面是一个很好的思路，但是没有找到相应比较好的开源工具。</p>
-<p>（7） 一些网盘服务</p>
-<p><a href="https://www.julydate.com/post/2661332705/">好用的大文件分享服务</a></p>
-<p>使用 kaggle 作为中介进行下载，<a href="https://www.v2ex.com/t/613439">教程</a>，不建议经常这么做。</p>
-<p>（8）安装 bbr 加速</p>
-<p>如果是从服务器上下载资源，那么在服务器上安装bbr；如果是从本地上传文件到服务器上，那么在本地安装bbr 的支持。这个逻辑需要搞清楚，发出流量的主机是需要安装bbr的。</p>
-<p>国内测速文件： <a href="http://bhs.proof.ovh.net/files/10Gb.dat">http://bhs.proof.ovh.net/files/10Gb.dat</a></p>
-<h3 id="前台执行和后台执行命令">前台执行和后台执行命令</h3>
+</div><h3 id="前台执行和后台执行命令">前台执行和后台执行命令</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -2613,6 +2483,115 @@ w    保存
 </div><p>子程序就可以开辟约200M的内存。</p>
 <p>另外，主程序中开辟内存则不受这一限制，但是ifort编译的主程序在32位系统中最多不可以超过2G内存。</p>
 <p>另注：ulimit是bash的内部命令，一个终端只能运行一次，如果需要再改变堆栈大小，重新开一个终端</p>
+<p><strong>linux (ubuntu) 如何加快反应速度</strong></p>
+<p>（1）</p>
+<p><code>autoremove</code> 选项也可以自动删除那些系统升级过程中被取代的老旧无用 Linux 内核。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo apt autoremove 
+</code></pre></td></tr></table>
+</div>
+</div><p>（2）</p>
+<p>清理Ubuntu 中的 APT 缓存</p>
+<p>Ubuntu 使用 APT（高级软件包工具）在系统上安装、删除和管理软件，并且在软件卸载之后它还会保留先前下载和安装软件包的缓存。</p>
+<p>你可以使用以下命令查看此缓存的大小：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">sudo du -sh /var/cache/apt
+</code></pre></td></tr></table>
+</div>
+</div><p>对于 APT 缓存可以有两种方式进行处理</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">sudo apt autoclean <span class="c1"># 清理过时的软件包</span>
+sudo apt clean <span class="c1"># 清理整个缓存（释放更多的空间）</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（3）清理缩略图缓存</p>
+<p>参看缩略图大小</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">du -sh ~/.cache/thumbnails
+rm -rf ~/.cache/thumbnails/*
+</code></pre></td></tr></table>
+</div>
+</div><p>(4）设置 linux swap 空间的 swappiness，降低对硬盘的缓存</p>
+<blockquote>
+<p>linux 会使用硬盘的一部分做为SWAP分区，用来进行进程调度&ndash;进程是正在运行的程序&ndash;把当前不用的进程调成‘等待（standby）‘，甚至‘睡眠（sleep）’，一旦要用，再调成‘活动（active）’，睡眠的进程就躺到SWAP分区睡大觉，把内存空出来让给‘活动’的进程。</p>
+<p>如果内存够大，应当告诉 linux 不必太多的使用 SWAP 分区， 可以通过修改 swappiness 的数值。swappiness=0的时候表示最大限度使用物理内存，然后才是 swap空间，swappiness＝100的时候表示积极的使用swap分区，并且把内存上的数据及时的搬运到swap空间里面。</p>
+<p>在ubuntu 里面，默认设置swappiness这个值等于60。</p>
+</blockquote>
+<p>如何设置</p>
+<p>临时调整</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">sysctl vm.swappiness<span class="o">=</span><span class="m">10</span>
+<span class="c1">#vm.swappiness=10</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>永久调整</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo vim /etc/sysctl.conf
+
+# 然后在文件的最后加上
+
+kernel.shmall = 4294967296 #这一个可以不用设置
+vm.swappiness = 10
+
+# 生效
+sudo sysctl -p
+</code></pre></td></tr></table>
+</div>
+</div><p>linux 查看内存大小</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">free -h
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>total 总计内存大小（系统角度）</p>
+<p>used 已经使用的大小</p>
+<p>free 可用大小</p>
+<p>shared 多个进程共享的内存总额</p>
+<p>buff/cache 磁盘缓存大小, swap 缓存</p>
+<p>available 可用大小（从应用程度角度）</p>
+</blockquote>
+<p>available =  free + buff/cache</p>
+<p>total = used + avaiable</p>
+<p>参考文献：https://www.cnblogs.com/EasonJim/p/7777904.html</p>
 <h2 id="linux中文件夹">linux中文件夹</h2>
 <p>linux 中的“一切皆文件”</p>
 <ol>
@@ -2892,7 +2871,204 @@ egrep -i -r <span class="s1">&#39;killed process&#39;</span> /var/log
 journalctl -xb <span class="p">|</span> egrep -i <span class="s1">&#39;killed process&#39;</span>
 </code></pre></td></tr></table>
 </div>
+</div><p>ffmpeg 学习整理</p>
+<blockquote>
+<p>FFmpeg is the leading multimedia framework, able to <strong>decode</strong>, <strong>encode</strong>, <strong>transcode</strong>, <strong>mux</strong>, <strong>demux</strong>, <strong>stream</strong>, <strong>filter</strong> and <strong>play</strong> pretty much anything that humans and machines have created. It supports the most obscure ancient formats up to the cutting edge. No matter if they were designed by some standards committee, the community or a corporation. It is also highly portable: FFmpeg compiles, runs, and passes our testing infrastructure <a href="http://fate.ffmpeg.org/">FATE</a> across Linux, Mac OS X, Microsoft Windows, the BSDs, Solaris, etc. under a wide variety of build environments, machine architectures, and configurations.</p>
+<p>处理音频 视频等多媒体的框架</p>
+</blockquote>
+<p>概念</p>
+<p>视频文件本身是一个容器（container），里面包含了视频、音频，也可能有字母等内容。</p>
+<p>编码格式</p>
+<p>视频和音频都需要经过编码才能保存成文件，不同的编码格式，有不同的压缩率，会导致文件大小和清晰度的差异。常用的视频编码格式如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">H.262
+H.264
+H.265
+VP8
+VP9
+AV1
+</code></pre></td></tr></table>
 </div>
+</div><p>常用的音频编码格式</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">MP3
+AAC
+</code></pre></td></tr></table>
+</div>
+</div><p>可以查看 ffmpeg 已经安装的编码器</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">ffmpeg --encoders
+</code></pre></td></tr></table>
+</div>
+</div><p>ffmpeg 可以命令行参数可以分为五个部分</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">ffmpeg <span class="o">{</span>1<span class="o">}</span> <span class="o">{</span>2<span class="o">}</span> -i <span class="o">{</span>3<span class="o">}</span> <span class="o">{</span>4<span class="o">}</span> <span class="o">{</span>5<span class="o">}</span>
+
+1. 全局参数
+2. 输入文件参数
+3. 输入文件
+4. 输出文件参数
+5. 输出文件
+</code></pre></td></tr></table>
+</div>
+</div><p>常用的命令</p>
+<p>查看视频基本信息</p>
+<p>Get File Information From a Video File</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">ffmpeg -i test.mp4
+</code></pre></td></tr></table>
+</div>
+</div><p>查看 ffmpeg 支持的格式</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ffmpeg -formats
+</code></pre></td></tr></table>
+</div>
+</div><p>从视频中提取图像</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">mkdir output
+ffmpeg -i input.mp4 -r <span class="m">1</span> -f image2 output/image-%2d.png
+</code></pre></td></tr></table>
+</div>
+</div><p>其中 <code>-r</code> 表示帧速度，每秒提取帧的数字（fps），默认是 25. <code>-f</code> 表示输出格式，这里我们得到的是图像。 <code>image-%2d.png</code> 表明我们如何命名提取的图像。 这个例子中得到的结果是 image-01.png、image-02.png、image-03.png；如果是 <code>%3d</code>，那么得到的命名是 image-001.png、image-002.png 。</p>
+<p>convert images to a video sequence</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">ffmpeg -f image2 -i image%d.jpg video.mpg
+</code></pre></td></tr></table>
+</div>
+</div><p>视频到视频</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">ffmpeg -i input.mp4 -aspect 16:9 output.mp4
+</code></pre></td></tr></table>
+</div>
+</div><p>使用 <code>-aspect</code> 标志设置一个视频文件的屏幕高宽比，通常使用的高宽比是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">16:9
+4:3
+16:10
+5:4
+</code></pre></td></tr></table>
+</div>
+</div><p>将多个视频文件合并成一个</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ffmpeg -f concat -i join.txt -c copy output.mp4
+</code></pre></td></tr></table>
+</div>
+</div><p>其中 <code>join.txt</code> 中所有文件都应该是相同的格式（相同的编码格式）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">file /home/sk/myvideos/part1.mp4
+file /home/sk/myvideos/part2.mp4
+file /home/sk/myvideos/part3.mp4
+file /home/sk/myvideos/part4.mp4
+</code></pre></td></tr></table>
+</div>
+</div><p>添加字幕到一个视频文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">fmpeg -i input.mp4 -i subtitle.srt -map <span class="m">0</span> -map <span class="m">1</span> -c copy -c:v libx264 -crf <span class="m">23</span> -preset veryfast output.mp4
+</code></pre></td></tr></table>
+</div>
+</div><p>（这个是非常实用，但使用命令不是很好调试）</p>
+<p>添加音轨（muxing）表示将外部音频加入到视频，比如天啊及背景音乐或者旁白</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">ffmpeg -i input.acc -i input.mp4 output.mp4
+</code></pre></td></tr></table>
+</div>
+</div><p>终端测试或者预览视频或者音频文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">ffplay video.mp4
+ffplay audio.mp3
+</code></pre></td></tr></table>
+</div>
+</div><p>获取帮助</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">man ffmpeg
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://zhuanlan.zhihu.com/p/67878761">给新手的 20 多个 FFmpeg 命令示例</a>
+<a href="http://www.ruanyifeng.com/blog/2020/01/ffmpeg.html">FFmpeg 视频处理入门教程</a> 阮一峰写的教程</p>
     </div>
 
     <div class="post-copyright">
@@ -2977,7 +3153,7 @@ journalctl -xb <span class="p">|</span> egrep -i <span class="s1">&#39;killed pr
   <span class="copyright-year">
     &copy; 
     2018 - 
-    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
   </span>
 </div>
 

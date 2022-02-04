@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Nas - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="从剪枝到 nas。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/nas/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Nas" />
+<meta property="og:description" content="从剪枝到 nas。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/nas/" />
+<meta property="article:published_time" content="2022-01-22T11:37:56+08:00" />
+<meta property="article:modified_time" content="2022-01-22T11:37:56+08:00" />
+<meta itemprop="name" content="Nas">
+<meta itemprop="description" content="从剪枝到 nas。">
+<meta itemprop="datePublished" content="2022-01-22T11:37:56+08:00" />
+<meta itemprop="dateModified" content="2022-01-22T11:37:56+08:00" />
+<meta itemprop="wordCount" content="4580">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Nas"/>
+<meta name="twitter:description" content="从剪枝到 nas。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Nas</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2022-01-22 </span>
+        <div class="post-category">
+            <a href="/categories/deep-learning/"> deep-learning </a>
+            </div>
+          <span class="more-meta"> 约 4580 字 </span>
+          <span class="more-meta"> 预计阅读 10 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#剪枝">剪枝</a></li>
+        <li><a href="#ofa">ofa</a></li>
+        <li><a href="#rethinking-pre-training-and-self-training"><a href="">Rethinking Pre-training and Self-training</a></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>从剪枝到 nas。</p>
+<h2 id="剪枝">剪枝</h2>
+<p>其他的表达方式：network pruning, network sliming</p>
+<p>剪枝所收到的生物学启发</p>
+<blockquote>
+<p>人工神经网络中的减枝来自人脑中的突触修剪（synaptic pruning）。突触修剪即轴突和树突完全衰退和死亡，是许多哺乳动物幼年期和青春期间发生的突触消失过程。突触修剪从公出生时就开始了，一直持续到 20 多岁。</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/12/23/0c4d3905a07244ebabb59873e96f542f.jpg" alt="img"></p>
+<p>对于神经网络而言，其实很多的连接并不是一定要存在的，也就说去掉一些连接，可能和压缩之前并没有很大的变化。基于这样的理念，很多剪枝方案也被提出来，从压缩的角度确实带来了很大的效果提升。</p>
+<p>深度学习网络包括卷积层和全连接层两部分，剪枝对全连接层的压缩效率是最大的。实验表明，剪枝对全连接层的压缩是最大的，而对卷积层的压缩效果相比全连接层差了很多。所以这也是为什么，在语音的加速上很容易使用到一些剪枝的方案，但是在视觉等需要大量卷积层的应用中剪枝的效果并不理想。</p>
+<p>剪枝的基本假设是深度网络的过参数化（over-parameterization）。</p>
+<p>在实际应用中，效果很好的深度学习模型，对硬件的存储空间和算力往往有较高的要求。但大多数嵌入式设备的算力相对而言都十分有限，所以模型压缩是十分必要的。</p>
+<p>模型压缩（model compression）有很多方法，比如剪枝（Pruning）、量化（Quantization）、低秩分解（Low-rank factorization）、知识蒸馏（Knowledge distillation）。剪枝属于算法层面实现的加速手段，模型量化和 GPU 更加偏向工程的技术。</p>
+<p>这里主要展开的是剪枝。剪枝可以从几个角度进行分类：</p>
+<ul>
+<li>
+<p>结构化剪枝 vs 非结构化剪枝</p>
+<blockquote>
+<p>两者的区别在于剪枝权重的粒度。结构化剪枝的粒度较大，主要是在卷积核的 channel 和 filter 维度进行裁剪，而非结构化剪枝主要是针对单个权重进行裁剪。非结构化剪枝存在一个主要、致命的缺点：大多数框架和硬件都无法加速稀疏矩阵运算，这意味着无论使用多少个零填充向量参数，都不会影响网络的实际成本。</p>
+<p>两者各有优势。其中非结构化剪枝能够实现较高的压缩率，同时保持较高的模型性能，但对于硬件不太友好。结构化剪枝恰恰相反。</p>
+</blockquote>
+</li>
+</ul>
+<p><img src="http://123.56.8.10:8899/images/2021/12/23/image-20211223104357346.png" alt="image-20211223104357346"></p>
+<ul>
+<li>
+<p>静态剪枝 vs 动态剪枝</p>
+<blockquote>
+<p>静态剪枝方法是根据整个训练集训练后的结果，评估权重的重要程度，<strong>永久性</strong>裁剪掉重要程度小的权重参数。然而，动态剪枝方法则是<strong>保留</strong>所有的权重参数，根据每次输入的数据不同衡量权重参数的重要程度，将不重要权重参数忽略计算，从而实现动态剪枝。动态剪枝方法能使CNN网络具备更多的表示形式，因此其通常能够有更好性能表现。</p>
+</blockquote>
+</li>
+</ul>
+<p>基于剪枝的中常见的套路：训练（training）- 剪枝（pruning）- 微调（fine-tuning） 三部曲。</p>
+<p>彩票假说是 ICLR 2019 会议的 best paper， 其假说是 随机初始化的密集神经网络包含 一个初始化的子网，当经过隔离训练时，它可以匹配训练后最多相同迭代次数的原始网络的测试精度。</p>
+<p>缺点</p>
+<p><a href="https://arxiv.org/pdf/1810.05270.pdf">rethinking the value of network pruning</a> form Tsinghua University and University of California</p>
+<blockquote>
+<p>对剪枝后的模型进行 fine-tuning，只比使用随机初始化权重训练的网络的性能好一点点，甚至性能更差。</p>
+</blockquote>
+<p>作者总结：</p>
+<ul>
+<li>训练一个大型、over-parameterized 的模型对于最终得到一个 efficient 的小模型不是必须的</li>
+<li>为了得到剪枝后的小模型，取大模型的 ”important“ weights 不一定有用</li>
+<li>剪枝得到的结构本身，而不是”important“ weights 是导致最终模型效果提升的原因。表明一些剪枝算法可以被认为执行了 network architecture search。</li>
+</ul>
+<p>todo</p>
+<p><a href="https://github.com/SCUT-AILab/DCP/blob/master/dcp/models/pruned_resnet.py">https://github.com/SCUT-AILab/DCP/blob/master/dcp/models/pruned_resnet.py</a></p>
+<p>http://123.56.8.10:9988/jeng/front/src/master/libs/nets/pruned_resnet.py</p>
+<blockquote>
+<p>这两个 基于 resnet 进行剪枝还是可以看看的。</p>
+</blockquote>
+<p><a href="https://github.com/VainF/Torch-Pruning">https://github.com/VainF/Torch-Pruning</a></p>
+<p><a href="https://github.com/SCUT-AILab/DCP/blob/master/dcp/models/pruned_resnet.py">https://github.com/SCUT-AILab/DCP/blob/master/dcp/models/pruned_resnet.py</a></p>
+<blockquote>
+<p>这个是在 channel 维度进行的 pruning</p>
+</blockquote>
+<p><a href="https://github.com/Roll920/ThiNet">https://github.com/Roll920/ThiNet</a></p>
+<blockquote>
+<p>channel 维度上的 pruning</p>
+</blockquote>
+<p><a href="https://github.com/Eric-mingjie/network-slimming">https://github.com/Eric-mingjie/network-slimming</a></p>
+<blockquote>
+<p>channel 维度上的 pruning</p>
+</blockquote>
+<p>**NAS (Neural Architecture Search)  v.s. AutoML **</p>
+<p>神经网络架构搜索，简称NAS。开发一个神经网络模型往往需要大量的工程架构方面的设计。有时候可以通过迁移学习完成一个任务，但是如果想要有更好的性能，最好设计自己的网络。</p>
+<blockquote>
+<p>更好的性能，意味着和硬件更加 match，和网络的结构更加 match</p>
+</blockquote>
+<p>AutoML 被称为深度学习的新方法，无需设计复杂的深度网络，字需要运行预设的 NAS 算法。Google 通过提供  Gloud AutoML 将这点发挥到了极致。只需要上传数据，Google 的 NAS 算法即可为你体用简便的网络架构。但是 Google 不能导出模型，只能调用 API 使用，价格高达 2000 美元。</p>
+<p>AutoML 基本分为以下方向：</p>
+<ul>
+<li>自动数据清理（Auto Clean）</li>
+<li>自动特征工程（AutoFE）</li>
+<li>超参数优化（HPO）</li>
+<li>元学习（meta learning）</li>
+<li>神经网络架构搜索（NAS）</li>
+</ul>
+<p>从范围上划分，NAS 可以认为是 AutoML 的一个子集。</p>
+<p><strong>李沐讲解 NAS</strong></p>
+<p><img src="http://123.56.8.10:8899/images/2021/12/23/image-20211223173623419.png" alt="image-20211223173623419"></p>
+<blockquote>
+<p>nas 是将网路架构中的超参数转换成可学习的参数，定义搜索空间，然后根据某种机制搜索选择。</p>
+<p>比较早的工作使用强化学习作为监督的功能，缺点是贵。对于工业界来说，不那么实用。</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/12/23/image-20211223174056610.png" alt="image-20211223174056610"></p>
+<blockquote>
+<p>one-shot 的思路是一次 train 一个大的模型（包含非常多的自网络，训练这个过程也是非常昂贵的），然后选择子网络重新 train，这样能够复用。</p>
+</blockquote>
+<blockquote>
+<p>efficientnet 是工业界可以用的思路，因为其相对简单。（局限性是只是对于 CNN 网络进行搜索）</p>
+<p>将网络深度、网络宽度和输入图像的resolution 统一到一起，一块调整，只需要调整一个超参，就可以得到不错的结果。φ 也是有实际含义的，表示相对于之前的 FLOP计算量提高的倍数。如果 φ =1，那么将计算量翻了一倍。</p>
+</blockquote>
+<p>计算复杂度= 深度 * 宽度的平方（因为是输入通道 * 输出通道） * 分辨率的平方（数据数据的高宽）</p>
+<p><img src="http://123.56.8.10:8899/images/2021/12/23/image-20211223175235639.png" alt="image-20211223175235639" style="zoom:50%;" /></p>
+<blockquote>
+<p>在边缘计算（比如手机，Xavier）上比较有用。</p>
+</blockquote>
+<h2 id="ofa">ofa</h2>
+<p>Once for All: Train One Network and Specialize it for Efficient Deployment</p>
+<blockquote>
+<p>一种新的 NAS 方法，将训练模型和搜索模型解耦。</p>
+</blockquote>
+<p>即使是现在的 AutoML 方法, 也需要不断的重新搜索不断的重新训练, 因此在这样的情况下, 搜索的时间会随着场景的数量线性增长, 使得过去的NAS 并没有办法应付大量而多元的硬件环境.</p>
+<p>本论文提出 once-for-all network, 可以在不同的硬件限制下,直接部署,不用重新训练不用重新搜索,只徐哟呵查询表格的方式便可以决定网络的框架,且可以弹性的应对不同的 depths, widths, kernel size 和 resolutions.</p>
+<blockquote>
+<p>Different hardware platforms have different resource constraints. We need to customize our models for each platform to achieve the best accuracy-efficiency trade-off, especially on resouce-constrained edge devices.</p>
+<p>这个是用在边缘计算上的.</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/07/27/image-20210727114755636.png" alt="image-20210727114755636"></p>
+<blockquote>
+<p>不同设备的计算能力</p>
+</blockquote>
+<p>challenge: efficient inference on diverse hardware platforms</p>
+<p>思路：</p>
+<p>decouple model training and architecture design</p>
+<blockquote>
+<p>将 model train 和 architecture 设计分离</p>
+</blockquote>
+<p>训练方法: progressive shrinking</p>
+<p><img src="http://123.56.8.10:8899/images/2021/07/13/image-20210713192853910.png" alt="image-20210713192853910"></p>
+<blockquote>
+<ul>
+<li>train 一个完整的网络（注意这里有四个维度： resolution、kernel size， depth 和 width）</li>
+<li>将 model 缩小 和大的网络一块进行 fine-tune</li>
+<li>下游任务</li>
+</ul>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/07/13/image-20210713193212721.png" alt="image-20210713193212721"></p>
+<blockquote>
+<p>和 network pruning 的关系 （写得很清楚了）</p>
+</blockquote>
+<p>progressive shrinking 是如何做的呢？</p>
+<p>希望训练 once-for-all network 可以同时支持所有的子网络,并使得所有的子网络达到相同程度的收敛(如同独立训练所有的子网络)</p>
+<p>训练 elastic 的OFA 要求: 训练的时间不能太长; 不同的子网络不能相互干扰.</p>
+<p>在一开始训练 elastic search 的情况下训练最大的(width, depth, kernel size) ,并且 finetune 可以同时支持最大的网络和部分的 (width, depth, kernel size) , 就是 progressive 的方式 (从最大的网络到最小的子网络)</p>
+<p>progressive shrinking scheme 有三个优点:</p>
+<ul>
+<li>由于子网络比整个网络更加容易收敛,所以 ofa 可以更加容易达到收敛</li>
+<li>先训练大的模型然后再训练小的模型, 小的模型更加容易训练, 通过大模型的参数,可以使得小模型有很好的初始值.</li>
+<li>先训练大模型然后再训练小模型可以避免子网络使得大网络表现变差.</li>
+</ul>
+<p>OFA 训练过程中的几个维度:</p>
+<ul>
+<li>
+<p>elastic resolutioin : randomly sample input image size for each batch. 从128 到224, stride=4 的分辨率均可以</p>
+</li>
+<li>
+<p>elastice kernel size: start with full kernel size, smaller kernel takes centered weights via a transformation matrix. 从 3 5 7 中任选</p>
+<p>理想的情况下, $7<em>7$ 的 convolutional kernel 中间区域可以当作 $5</em>5$  的 convolutional kernel, 同理 $5<em>5$ 的中间区域可以当作 $3</em>3$ 的 convolutional kernel.  但是对于不同的角色, 中间的共享参数必然有不同的分布或者不同的特征, 强制使用相同的参数会使得网络的准确性变差. 因此作者在原先 kernel 参数上乘上 kernel transform matrics ,这样就转换成了不同 kernel 的分布.</p>
+</li>
+<li>
+<p>elastic depth: gradully allow later layers in each unit to be skipped to reduce the depth 从 2 3 4 中任选</p>
+<p>在一连串相同 output resolution 的blocks 中, 任意子网络可以从这 N 个block中取来用,剩下的 N-D 个block 就会被跳过, 因此前D 个block 同时被较大的网络和较小的子网络公用.</p>
+</li>
+<li>
+<p>elastic width: gradually shrink the width, keep the most important channels when shrinking via channel sorting 从 3 4 6 中任选</p>
+<p>一开始会训练最大 width 的网络, 使用每一层 weight 的L1 norm 来表示重要的程度. 比如说要从 4-channel-layer 切割成 3-channel-layer ,那么会选择最重要的 3 个 channel-layer (也就是 L1 Norm最大的前 3个). 通过这种方式 ,子网络就被初始化成最重要的 channel.</p>
+</li>
+</ul>
+<p>上述四个点可以参见：https://file.lzhu.me/projects/OnceForAll/OFA%20Slides.pdf</p>
+<p><strong>Knowledge Distillation</strong></p>
+<p>在训练	OFA 的时候, 会使用 soft label 和 hard label 一起进行训练</p>
+<p><strong>Sepcialized Model Deployment with Once-for-all Network</strong></p>
+<p>当我们训练好 OFA 之后, 就可以根据不同的需求来选择最好的子网络了, 目标酒水在符合资源要求下 (e.g.  latency energy) 的同时, 可以最优化准确率. 而OFA 将训练网络和搜索网络拆分开来, 这个间断是不需要任何的训练成本的.</p>
+<p>正常来说, once-for-all 可以和任意的search algorithm 结合,像是 evolutioinary algorithm, gradient descent. 但是这些搜索方法会随着搜索的数量线性增长, 因此族这提出了一种简单的法嗯法来解决搜索时间线性成长的问题. 通过随机从 once-for-all 中取样许多子网络并将其准确率和其他硬件指标弄成一个表格, 因此在给定资源需求的情况下, 便可以从表格中得的最符合需求的子网络, 由于搜索表格时间非常小,所以可以节省搜索的时间成本.</p>
+<p>作者从 once-for-all 中sample 了16k 个子网结构建立了准确度表格, 由于 OFA 支持 elastic resoution, 因此相同的子网络会策划四不同尺寸的输入. 而作者发现子网络的准确度会随着输入尺寸的变大而变得平缓. 所以并没有使用所有的尺寸, 而是以 stride= 16 进行预测( e.g. 160, 176 )</p>
+<p>虽然建立表格需要 200GPU hours, 但是这只需要付出一次.</p>
+<p>由于网络包括5个单元，所以候选的子网大概有
+$$
+((3×3)^2+(3×3)^3+(3×3)^4)^5=2×10^{19}
+$$
+个不同的子网，并且是在25个不同输入分辨率下进行训练。所有的子网都共享权重，只需要7.7M的参数量。</p>
+<p>然而,要训练 once-for-all 并不是一件容易的是事情, 因为训练这样一个网络其实等同训来年非常多的自网络</p>
+<p>once-for-all 的目标是同时优化所有的子网. 在不考虑计算代价的情况下,每次梯度的更新可以由全体子网计算得到.虽然这样是准确的,但是计算代价过高,并不实际. 需要有更好的训练策略才能训练超网络. 本文提出了 progressive shrinking 策略来解决上述问题.</p>
+<ul>
+<li>先训练最大的 kernel size, depth , width 的网络</li>
+<li>微调网络来支持子网, 即将小型子网加入到采样空寂那.比如说,当微调 kernel size 时候,其他的几个选项保持最大值</li>
+<li>采用了知识蒸馏的方法, 让最大的超网来指导子网的学习.</li>
+</ul>
+<p>先;训练最大的,然后训练小的.</p>
+<p>下面就是扎实的实验结果</p>
+<p>Once-for-all is 2.6x faster than EfficientNet and 1.5x faster than MobileNetV3 on Google Pixel1 without loss of accuracy.</p>
+<p>summary</p>
+<ul>
+<li>we introduce once-for-all network for efficient inference on diverse hardware platforms</li>
+<li>we present an effective progressive shrinking approach for training once-for-all networks</li>
+<li>once-for-all network supasses MobileNetV3 and efficientNet by a large margin under all scenarios.</li>
+<li>released 50 different pre-trained OFA models on diverse hardware platforms (cpu /gpu )</li>
+<li>released the training code &amp; pretrained OFA network that provides diverse sub-networks without training.</li>
+</ul>
+<p>（如果有官方作者的 ppt，那么作者的ppt 一定比其他的讲解更加 focus 在论文的 selling point）</p>
+<p>特定化网络部署主要受以下条件约束</p>
+<ul>
+<li>部署的硬件设备不同</li>
+<li>相同射比上不同的部署要求,比如期望的延迟</li>
+</ul>
+<p>扎实的实验结果。</p>
+<p>参考文献</p>
+<p><a href="http://123.56.8.10:9988/jeng/model_zoo_dm.git">model zoo</a></p>
+<p>官网：https://ofa.mit.edu/</p>
+<p><a href="https://www.cnblogs.com/pprp/p/14821967.html">https://www.cnblogs.com/pprp/p/14821967.html</a></p>
+<p><a href="https://medium.com/ai-academy-taiwan/nas%E8%AB%96%E6%96%87%E5%B0%8E%E8%AE%80-once-for-all-train-one-network-and-specialize-it-for-efficient-deployment-1aee927d8dd5">https://medium.com/ai-academy-taiwan/nas%E8%AB%96%E6%96%87%E5%B0%8E%E8%AE%80-once-for-all-train-one-network-and-specialize-it-for-efficient-deployment-1aee927d8dd5</a></p>
+<h2 id="rethinking-pre-training-and-self-training"><a href="">Rethinking Pre-training and Self-training</a></h2>
+<p>Our study reveals the generality and flexibility of the self-training with three additiional insights:</p>
+<ul>
+<li>
+<p>Stronger data augmentation adn more labeled data further diminish the value of pre-training</p>
+</li>
+<li>
+<p>unlike pre-training, self-training is always helpful when using stronger data augmentation, in both low-data and high-data regimes.</p>
+</li>
+<li>
+<p>in the case that pre-training is helpful, self-training improves  upon pre-training.</p>
+</li>
+</ul>
+<p>中文版</p>
+<ul>
+<li>
+<p>对于 Pre-training</p>
+</li>
+<li>
+<ul>
+<li>当使用更强大的数据增强方案时，预训练反而会损害模型的性能</li>
+<li>可用标注数据越多，预训练的作用越小，价值越低</li>
+</ul>
+</li>
+<li>
+<p>对于 Self-training</p>
+</li>
+<li>
+<ul>
+<li>Self-training 在使用高强度数据增强策略时仍能够提升性能，即使当预训练已经会损害性能时</li>
+<li>Self-training 在各种标注数据规模下都具能提升性能，并可以与预训练共同起作用</li>
+</ul>
+</li>
+<li>
+<p>对于 Self-supervised pre-training 同样在高强度数据增强策略时会损害性能</p>
+</li>
+</ul>
+<p>A stark contrast to pre-training is self-training. An increasingly popular pre-training method is self-supervised learning.</p>
+<p>Our results suggest that both supervised and self-supervised pre-training methods fail to scale as the labeled dataset size grows, while self-training is still useful.</p>
+<p>Supervised ImageNet pre-training is the most widely-used initialization method for machine vision</p>
+<p>aggressive data augmentation</p>
+<p><img src="http://123.56.8.10:8899/images/2021/08/04/image-20210804115452040.png" alt="image-20210804115452040"></p>
+<blockquote>
+<p>对于不同程度的 data augmentation 这里都是有定义的, 所以自己在进行 augmentation 的时候,可以参考一下.</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/08/04/image-20210804115621761.png" alt="image-20210804115621761"></p>
+<blockquote>
+<p>Pre-training hurts performance when stronger data augmentation is used.</p>
+<p>这个结论还是好好理解的.</p>
+<p>More labeled data diminishes the value of pre-training</p>
+</blockquote>
+<p>参考资料</p>
+<p><a href="https://medium.com/%E5%B7%A5%E4%BA%BA%E6%99%BA%E6%85%A7/review-rethinking-pre-training-and-self-training-series-2-of-3-737afae25317">https://medium.com/%E5%B7%A5%E4%BA%BA%E6%99%BA%E6%85%A7/review-rethinking-pre-training-and-self-training-series-2-of-3-737afae25317</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2022-01-22
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/wechatpay.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/alipay.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/sensors/">
+            <span class="next-text nav-default">Sensors</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

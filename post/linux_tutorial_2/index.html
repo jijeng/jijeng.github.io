@@ -50,11 +50,11 @@
 <meta itemprop="description" content="之前的linux 学习笔记内容比较，然后新开了一篇。">
 <meta itemprop="datePublished" content="2020-07-08T11:09:45+08:00" />
 <meta itemprop="dateModified" content="2020-07-08T11:09:45+08:00" />
-<meta itemprop="wordCount" content="778">
+<meta itemprop="wordCount" content="2720">
 
 
 
-<meta itemprop="keywords" content="" />
+<meta itemprop="keywords" content="‘linux’," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Linux tutorial(2)"/>
 <meta name="twitter:description" content="之前的linux 学习笔记内容比较，然后新开了一篇。"/>
@@ -127,8 +127,8 @@
         <div class="post-category">
             <a href="/categories/tutorial/"> tutorial </a>
             </div>
-          <span class="more-meta"> 约 778 字 </span>
-          <span class="more-meta"> 预计阅读 2 分钟 </span>
+          <span class="more-meta"> 约 2720 字 </span>
+          <span class="more-meta"> 预计阅读 6 分钟 </span>
         
       </div>
     </header>
@@ -136,7 +136,19 @@
     <div class="post-toc" id="post-toc">
   <h2 class="post-toc-title">文章目录</h2>
   <div class="post-toc-content always-active">
-    <nav id="TableOfContents"></nav>
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#heading"></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
   </div>
 </div>
     <div class="post-content">
@@ -255,6 +267,250 @@ zsh读取的配置文件：~/.zshrc文件
     <span class="m">3</span>  sudo gedit ~/.zshrc    
 </code></pre></td></tr></table>
 </div>
+</div><h3 id="heading"></h3>
+<p><strong>基于 ssh 的端口转发</strong></p>
+<p>（1） 修改端口号</p>
+<p>SSH的默认端口是22，也就是说，你的登录请求会送进<strong>远程主机</strong>的22端口。使用p参数，可以修改这个端口。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ssh -p 2222 user@host # 等同于 ssh -oPort=2222 user@host
+</code></pre></td></tr></table>
+</div>
+</div><p>（2） 远程操作</p>
+<p>这里不使用上面的ssh-copy-id命令，改用下面的命令，解释公钥的保存过程：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">$ ssh user@host &#39;mkdir -p .ssh &amp;&amp; cat &gt;&gt; .ssh/authorized_keys&#39; &lt; ~/.ssh/id_rsa.pub
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>这条命令由多个语句组成，依次分解开来看：（1）&quot; ssh user@host&quot;，表示登录远程主机；（2）单引号中的mkdir .ssh &amp;&amp; cat &raquo; .ssh/authorized_keys，表示登录后在远程shell上执行的命令：（3）&quot;$ mkdir -p .ssh&quot;的作用是，如果用户主目录中的.ssh目录不存在，就创建一个；（4）&lsquo;cat &raquo; .ssh/authorized_keys&rsquo; &lt; ~/.ssh/id_rsa.pub的作用是，将本地的公钥文件~/.ssh/id_rsa.pub，重定向追加到远程文件authorized_keys的末尾。</p>
+<p>写入authorized_keys文件后，公钥登录的设置就完成了。</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"> # 将$HOME/src/目录下面的所有文件，复制到远程主机的$HOME/src/目录。
+ cd &amp;&amp; tar czv src | ssh user@host &#39;tar xz&#39;
+ # 将远程主机$HOME/src/目录下面的所有文件，复制到用户的当前目录。
+ $ ssh user@host &#39;tar cz src&#39; | tar xzv
+</code></pre></td></tr></table>
+</div>
+</div><p>（3）本地端口转发</p>
+<p>”本地端口转发“ 使得 host1 和host3 形成 SSH隧道。</p>
+<p>host1 是本地主机，host2 是远程主机，但是host1 和host2 无法直接连通，通过 host3 进行跳转。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ssh -L 2121:host2:21 host3
+# 这样 我们只需要连接上 host1 的2121 端口，就等于连接上了 host2 的21 端口
+ftp localhost:2121
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>命令中的L参数一共接受三个值，分别是&quot;本地端口:目标主机:目标主机端口&quot;，它们之间用冒号分隔。这条命令的意思，就是指定SSH绑定本地端口2121，然后指定host3将所有的数据，转发到目标主机host2的21端口（假定host2运行FTP，默认端口为21）。</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 将本机的 5900 端口绑定 host3 的5900 端口
+ssh -L 5900:localhost:5900 host3
+</code></pre></td></tr></table>
+</div>
+</div><p>这里例子想说的是：这里的localhost指的是host3，因为目标主机是相对host3而言的</p>
+<p>（注意这两个端口的前后顺序，第一个端口是第一个 ip；第二个端口是第二个 ip）</p>
+<p>端口转发</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 将本地的 9001 端口转发到 host2 的22端口
+ssh -L 9001:host2:22 host3
+# p 指得是localhost 的端口，进一步就相当于登录了 host2
+ssh -p 9001 localhost
+</code></pre></td></tr></table>
+</div>
+</div><p>将本地端口5000 映射到远程 host2 上的80 端口。前提是远程主机 host1 能够正常连接 host2 的80 端口</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"> ssh -L 0.0.0.0:50000:host2:80 user@host1
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="http://123.56.8.10:8899/images/2021/03/05/tunnel-1.png" alt="img"></p>
+<p><strong>应用示例</strong></p>
+<p>访问服务器端的 visdom(facebook 出品)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">（1）在服务器端启动 visdom
+python -m visdom.server
+（2）在客户端输输入以下命令，将服务器端口的 <span class="m">8097</span> 端口映射到客户端
+ssh -L 8097:localhost:8097 username@server_ip
+（3）在客户端浏览器上查看输入结果
+http://localhost:8097
+
+</code></pre></td></tr></table>
+</div>
+</div><p>同理 tensorboard 也可以使用相同的方式进行访问。</p>
+<p>（4） 远程端口转发 remote forwarding</p>
+<p>host1与host2之间无法连通，必须借助host3转发。但是，特殊情况出现了，host3是一台内网机器，它可以连接外网的host1，但是反过来就不行，外网的host1连不上内网的host3。</p>
+<p>我们在 <strong>host3</strong> 上执行</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 远程服务器 host1 上的端口 2121 转发到host2 上的21 端口
+ssh -R 2121:host2:21 host1
+# 绑定之后 在host1 上就可以直接连接 host2
+ftp localhost:2121
+
+</code></pre></td></tr></table>
+</div>
+</div><p>需要注意的是 ”远程端口转发“的前提条件， host1 和host3 上都有 sshD 和 ssh客户端。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ssh -R 0.0.0.0:8080:host2:80 user@host1
+</code></pre></td></tr></table>
+</div>
+</div><p>将远程 host2 的 80端口映射到 host1 的8080 端口。前提是本机主机可以正常连接到 host2 的80 端口。</p>
+<p>（这点是可以作为翻墙的应用的，好好研究一下，有一台机器是能够上外网，其他的能连接上这个机器的也是能够上网的）</p>
+<p>（5）动态端口转发（socks 代理）</p>
+<blockquote>
+<p>假设你在局域网A，HostB在局域网B，JumpHost有双网卡可以同时连接到局域网A和B。此时的你想要访问HostB上的web服务，便可以通过如下命令建立代理：</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ssh -D &#39;[::]:1080&#39; JumpHost
+</code></pre></td></tr></table>
+</div>
+</div><p>（6）安全性</p>
+<blockquote>
+<p>建议为端口转发建立专门的账户，使用随机密码（当然使用私钥登录更好），并且禁掉其执行命令的权限。最简单的方式为</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># add user tunnel-user for ssh port forwarding
+sudo useradd -m tunnel-user
+# generate 10 random passwords with 16 length
+pwgen -sy1 16 10
+# pick one password and set it to tunnel-user
+sudo passwd tunnel-user
+# disable shell for tunnel-user
+sudo chsh -s /bin/false tunnel-user
+</code></pre></td></tr></table>
+</div>
+</div><p>参考文献</p>
+<p><a href="https://www.ruanyifeng.com/blog/2011/12/ssh_port_forwarding.html">SSH原理与运用（二）：远程操作与端口转发</a></p>
+<p><a href="https://github.com/st286/SSH-port-forwarding">SSH端口转发</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">fuser -v /dev/nvidia*
+</code></pre></td></tr></table>
+</div>
+</div><p>这个命令可以显示出当前用户使用<code>nvidia</code> 的所有进程号</p>
+<blockquote>
+<p>fuser 命令用于报告进程使用的文件和网络套接字。fuser  命令列出的是本地进程的进程号。</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"> sshfs -o allow_other -p <span class="m">60002</span> test@43.254.11.51:/data1/jobs/io /io
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>allow_other选项很重要，必须添加，否则任何文件都是Permission Deny</p>
+<p>如果搭建大家都是用的文件夹，那么一定得注意这个细节</p>
+</blockquote>
+<p>挂载远程服务器文件到本地/ 挂载本地文件到远程服务器的方法</p>
+<p>（1）mount remote file in local machine</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">sshfs -p <span class="m">60002</span> kun@43.254.11.51:/ssd ssd/
+sshfs -p <span class="m">60002</span> kun@43.254.11.51:/data5 data5/
+sshfs -p <span class="m">60002</span> kun@43.254.11.51:/data2 data_2
+</code></pre></td></tr></table>
+</div>
+</div><p>（2）mount local file to remote machine</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># run in local machine. ssh forwarding by using port 10000 </span>
+ssh jizheng@10.236.249.11 -R 10000:127.0.0.1:22
+<span class="c1"># run in remote machine. use sshfs to mount in on the other side</span>
+mkdir smoke
+sshfs -p <span class="m">10000</span> -o <span class="nv">idmap</span><span class="o">=</span>user,nonempty root@127.0.0.1:/root/smoke smoke
+</code></pre></td></tr></table>
+</div>
 </div>
     </div>
 
@@ -288,7 +544,9 @@ zsh读取的配置文件：~/.zshrc文件
       </label>
   </div>
 </div><footer class="post-footer">
-      
+      <div class="post-tags">
+          <a href="/tags/linux/">‘linux’</a>
+          </div>
       <nav class="post-nav">
         <a class="prev" href="/post/reading_notes_1/">
             <i class="iconfont icon-left"></i>
@@ -337,7 +595,7 @@ zsh读取的配置文件：~/.zshrc文件
   <span class="copyright-year">
     &copy; 
     2018 - 
-    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
   </span>
 </div>
 

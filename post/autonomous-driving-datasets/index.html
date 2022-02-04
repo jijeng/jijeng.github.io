@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Autonomous Driving Datasets - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="无人驾驶方面的数据集 kitti 数据集 KITTI数据集是由德国卡尔斯鲁厄理工学院和丰田美国技术研究院联合创办，利用组装的设备齐全的采集车辆对实际交通场" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/autonomous-driving-datasets/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Autonomous Driving Datasets" />
+<meta property="og:description" content="无人驾驶方面的数据集 kitti 数据集 KITTI数据集是由德国卡尔斯鲁厄理工学院和丰田美国技术研究院联合创办，利用组装的设备齐全的采集车辆对实际交通场" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/autonomous-driving-datasets/" />
+<meta property="article:published_time" content="2022-01-03T12:27:53+08:00" />
+<meta property="article:modified_time" content="2022-01-03T12:27:53+08:00" />
+<meta itemprop="name" content="Autonomous Driving Datasets">
+<meta itemprop="description" content="无人驾驶方面的数据集 kitti 数据集 KITTI数据集是由德国卡尔斯鲁厄理工学院和丰田美国技术研究院联合创办，利用组装的设备齐全的采集车辆对实际交通场">
+<meta itemprop="datePublished" content="2022-01-03T12:27:53+08:00" />
+<meta itemprop="dateModified" content="2022-01-03T12:27:53+08:00" />
+<meta itemprop="wordCount" content="4707">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Autonomous Driving Datasets"/>
+<meta name="twitter:description" content="无人驾驶方面的数据集 kitti 数据集 KITTI数据集是由德国卡尔斯鲁厄理工学院和丰田美国技术研究院联合创办，利用组装的设备齐全的采集车辆对实际交通场"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Autonomous Driving Datasets</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2022-01-03 </span>
+        <div class="post-category">
+            <a href="/categories/autonomous-driving/"> autonomous-driving </a>
+            </div>
+          <span class="more-meta"> 约 4707 字 </span>
+          <span class="more-meta"> 预计阅读 10 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#kitti-数据集">kitti 数据集</a></li>
+            <li><a href="#nuscenes-数据集">nuScenes 数据集</a></li>
+            <li><a href="#waymo">waymo</a></li>
+            <li><a href="#lyft">lyft</a></li>
+            <li><a href="#waymo-open-dataset">waymo open dataset</a></li>
+            <li><a href="#argoverse">argoverse</a></li>
+            <li><a href="#soda10m">SODA10M</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>无人驾驶方面的数据集</p>
+<!-- more -->
+<p><img src="http://123.56.8.10:8899/images/2021/07/08/v2-b7dbd0d49a9c124099a28c47890f5bb9_1440w.jpg" alt="img"></p>
+<h3 id="kitti-数据集">kitti 数据集</h3>
+<blockquote>
+<p>KITTI数据集是由德国卡尔斯鲁厄理工学院和丰田美国技术研究院联合创办，利用组装的设备齐全的采集车辆对实际交通场景进行数据采集获得的公开数据集。该数据集包含丰富多样的传感器数据（有双目相机、64线激光雷达、GPS/IMU组合导航定位系统，基本满足对图像、点云和定位数据的需求）、大量的标定真值（包括检测2D和3D包围框、跟踪轨迹tracklet）和官方提供的一些开发工具等。</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/11/25/image-20211125150611059.png" alt="image-20211125150611059"></p>
+<p>Kitti 数据采集平台装配 2 个灰度摄像头，2 个彩色摄像头，1个 velodyne 64线 3D 激光雷达，4 个光学镜头和 1个 GPS 导航系统。为了方便传感器数据标定，固定坐标系放下如下：</p>
+<ul>
+<li>Camera： x = right, y = down, z = forward</li>
+<li>Velodyne： x = forward, y = left, z = up</li>
+<li>GPS/IMU： x = forward, y = left, z = up</li>
+</ul>
+<p>学术界比较喜欢的数据集, 但对于 工业届来说, 数据量比较小.</p>
+<p>raw data数据集按照类别被分为Road、City、Residential、Campus和Person。（道路、城市、住宅、校园、行人）</p>
+<p><img src="http://123.56.8.10:8899/images/2021/06/02/20170414161125191.png" alt="img"></p>
+<p>原始数据采集于2011年的5天，共有180GB数据。</p>
+<p>数据集组成：</p>
+<ul>
+<li>立体图像和光流图: 389对</li>
+<li>视觉测距序列: 39.2 km</li>
+<li>3D标注物体的图像组成: 超过200k</li>
+<li>采样频率: 10Hz</li>
+</ul>
+<p>3D物体检测类别: car, van, truck, pedestrian, pedestrian(sitting), cyclist, tram, misc</p>
+<p><strong>calib 标定数据</strong></p>
+<p>calib 文件是相机、雷达和惯导等传感器的标定数据。以 <code>000001.txt</code> 文件为例，内容如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">P0: 7.215377000000e+02 0.000000000000e+00 6.095593000000e+02 0.000000000000e+00 0.000000000000e+00 7.215377000000e+02 1.728540000000e+02 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00
+P1: 7.215377000000e+02 0.000000000000e+00 6.095593000000e+02 -3.875744000000e+02 0.000000000000e+00 7.215377000000e+02 1.728540000000e+02 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00
+P2: 7.215377000000e+02 0.000000000000e+00 6.095593000000e+02 4.485728000000e+01 0.000000000000e+00 7.215377000000e+02 1.728540000000e+02 2.163791000000e-01 0.000000000000e+00 0.000000000000e+00 1.000000000000e+00 2.745884000000e-03
+P3: 7.215377000000e+02 0.000000000000e+00 6.095593000000e+02 -3.395242000000e+02 0.000000000000e+00 7.215377000000e+02 1.728540000000e+02 2.199936000000e+00 0.000000000000e+00 0.000000000000e+00 1.000000000000e+00 2.729905000000e-03
+R0_rect: 9.999239000000e-01 9.837760000000e-03 -7.445048000000e-03 -9.869795000000e-03 9.999421000000e-01 -4.278459000000e-03 7.402527000000e-03 4.351614000000e-03 9.999631000000e-01
+Tr_velo_to_cam: 7.533745000000e-03 -9.999714000000e-01 -6.166020000000e-04 -4.069766000000e-03 1.480249000000e-02 7.280733000000e-04 -9.998902000000e-01 -7.631618000000e-02 9.998621000000e-01 7.523790000000e-03 1.480755000000e-02 -2.717806000000e-01
+Tr_imu_to_velo: 9.999976000000e-01 7.553071000000e-04 -2.035826000000e-03 -8.086759000000e-01 -7.854027000000e-04 9.998898000000e-01 -1.482298000000e-02 3.195559000000e-01 2.024406000000e-03 1.482454000000e-02 9.998881000000e-01 -7.997231000000e-01
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>P0, p1, p2, p3 表示相机的编号， 0 和1 分别表示左边和右边的灰度相机；2，3 分别表示左边和右边的彩色相机。冒号之后分别表示相机内存矩阵，大小是 $3*4$</li>
+<li><code>R0_rect</code> 表示 0号相机的修正矩阵，在实际计算中，需要将 $3<em>3$ 矩阵扩展成 $4</em>4$ 矩阵，方法为在第四行和第四列添加全为 0 的向量，并将 (4,4) 的索引值设为 1</li>
+<li><code>Tr_velo_to_cam</code> 是从雷达到相机的旋转平移矩阵， 大小是 $3*4$，包含了旋转矩阵 R和平移向量 t</li>
+<li><code>Tr_imu_to_velo</code> 是惯导或 GPS 装置到相机的旋转平移矩阵</li>
+</ul>
+<p><strong>label 文件</strong></p>
+<p>label文件是KITTI中object的标签和评估数据，以“000001.txt”文件为例，包含样式如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">Truck 0.00 <span class="m">0</span> -1.57 599.41 156.40 629.75 189.25 2.85 2.63 12.34 0.47 1.49 69.44 -1.56
+Car 0.00 <span class="m">0</span> 1.85 387.63 181.54 423.81 203.12 1.67 1.87 3.69 -16.53 2.39 58.49 1.57
+Cyclist 0.00 <span class="m">3</span> -1.65 676.60 163.95 688.98 193.93 1.86 0.60 2.02 4.59 1.32 45.84 -1.55
+DontCare -1 -1 -10 503.89 169.71 590.61 190.13 -1 -1 -1 -1000 -1000 -1000 -10
+DontCare -1 -1 -10 511.35 174.96 527.81 187.45 -1 -1 -1 -1000 -1000 -1000 -10
+DontCare -1 -1 -10 532.37 176.35 542.68 185.27 -1 -1 -1 -1000 -1000 -1000 -10
+DontCare -1 -1 -10 559.62 175.83 575.40 183.15 -1 -1 -1 -1000 -1000 -1000 -10
+</code></pre></td></tr></table>
+</div>
+</div><p>总共有 16 列</p>
+<ul>
+<li>
+<p>第1列（字符串）：代表物体类别（type）
+总共有9类，分别是：Car、Van、Truck、Pedestrian、Person_sitting、Cyclist、Tram、Misc、DontCare。其中DontCare标签表示该区域没有被标注，比如由于目标物体距离激光雷达太远。为了防止在评估过程中（主要是计算precision），将本来是目标物体但是因为某些原因而没有标注的区域统计为假阳性(false positives)，评估脚本会自动忽略DontCare区域的预测结果。</p>
+</li>
+<li>
+<p><strong>第2列（浮点数）</strong>：代表物体是否被截断（truncated）
+数值在0（非截断）到1（截断）之间浮动，truncated表示指离开图像边界对象的程度。</p>
+</li>
+<li>
+<p><strong>第3列（整数）</strong>：代表物体是否被遮挡（occluded）
+整数0、1、2、3分别表示被遮挡的程度。0：完全可见 1：小部分遮挡 2：大部分遮挡 3：完全遮挡（unknown）</p>
+</li>
+<li>
+<p><strong>第4列（弧度数）</strong>：物体的观察角度（alpha）
+取值范围为：-pi ~ pi（单位：rad），它表示在【相机坐标系】下，以相机原点为中心，相机原点到物体中心的连线为半径，将物体绕相机 $y$ 轴旋转至相机 $z$ 轴，此时物体方向与相机 $x$ 轴的夹角，如下图所示：3D物体的观察角和方位角 。</p>
+</li>
+</ul>
+<p><img src="http://123.56.8.10:8899/images/2021/11/25/image-20211125153119512.png" alt="image-20211125153119512" style="zoom:87%;" /></p>
+<p><strong>$r_y + pi/2 -\theta = \alpha +pi/2$</strong>（即图中紫色的角是相等的）
+所以**$\alpha = r_y - \theta$**</p>
+<ul>
+<li><strong>第5~8列（浮点数）</strong>：物体的2D边界框大小（bbox）
+四个数分别是xmin、ymin、xmax、ymax（单位：pixel），表示2维边界框的左上角和右下角的坐标。</li>
+<li><strong>第9~11列（浮点数）</strong>：3D物体的尺寸（dimensions）
+分别是高、宽、长（单位：米）</li>
+<li><strong>第12-14列（浮点数）</strong>：3D物体的位置（location）
+分别是x、y、z（单位：米），特别注意的是，这里的xyz是在【相机坐标系】下3D物体的中心点位置。</li>
+<li><strong>第15列（弧度数）</strong>：3D物体的空间方向（rotation_y）
+取值范围为：-pi ~ pi（单位：rad），它表示，在【照相机坐标系】下，物体的全局方向角（物体前进方向与相机坐标系x轴的夹角），即上图所示的 $r_y$ 角。</li>
+<li><strong>第16列（浮点数）</strong>：检测的置信度（score）
+检测的置信度 ， 仅用于结果：浮点，p / r曲线所需，越高越好。要特别注意的是，这个数据只在测试集的数据中有。</li>
+</ul>
+<p><img src="http://123.56.8.10:8899/images/2021/11/25/image-20211125152655070.png" alt="image-20211125152655070"></p>
+<p><a href="http://www.cvlibs.net/datasets/kitti/eval_stereo.php">kitti stereo camera （双目摄像头) </a></p>
+<p><a href="http://www.cvlibs.net/datasets/kitti/eval_depth_all.php">kitti depth 数据集</a></p>
+<blockquote>
+<p>This benchmark is related to our work published in <a href="http://www.cvlibs.net/publications/Uhrig2017THREEDV.pdf">Sparsity Invariant CNNs (THREEDV 2017)</a>. It contains over 93 thousand depth maps with corresponding raw LiDaR scans and RGB images, aligned with the <a href="http://www.cvlibs.net/datasets/kitti/raw_data.php">&ldquo;raw data&rdquo;</a> of the KITTI dataset. Given the large amount of training data, this dataset shall allow a training of complex deep learning models for the tasks of depth completion and single image depth prediction. Also, we provide manually selected images with unpublished depth maps to serve as a benchmark for those two challenging tasks.</p>
+<p>这个数据集是和整个数据集在一块，位于 <code>raw data</code> 目录下</p>
+</blockquote>
+<blockquote>
+<p>This is our single image depth prediction evaluation, where dense depth maps have to be predicted from a single RGB image input. It consists of 93k training and 1k eval as well as 500 test images.</p>
+<p>train, val 和 test 数据量是这样的。</p>
+</blockquote>
+<p><a href="http://www.cvlibs.net/datasets/kitti/eval_odometry.php"> Odometry 视觉测距仪</a></p>
+<p>这个是另一个任务，需要看看车载有没有相应的设备。</p>
+<h3 id="nuscenes-数据集">nuScenes 数据集</h3>
+<p><img src="http://123.56.8.10:8899/images/2021/07/08/201811032255336904c99e31b4425b6f8.jpg" alt="在这里插入图片描述"></p>
+<p>nuScenes 发布方&ndash; motional</p>
+<p>motional 是由现代汽车集团和 aptiv 合资成立的一家无人驾驶公司，致力于使无人驾驶汽车安全、可靠和可达。</p>
+<p>nuScenes数据集是由<a href="https://www.motional.com/">Motional</a>团队开发的用于无人驾驶的公共大型数据集。为了支持公众在计算机视觉和自动驾驶的研究，Motional公开了nuScenes的部分数据。该数据集不仅包含 camera 和 lidar，还记录了雷达数据。（这 maybe 是唯一一个有雷达数据的数据集）</p>
+<p>nuScenes数据集在波士顿和新加坡这两个城市收集了1000个驾驶场景，这两个城市交通繁忙而且驾驶状况极具挑战性。这个数据集有 1000 个场景（scenes）组成，每个 scene 长度为 20 秒，包含各种各样的情景。在每个 scenes 中，有 40 个关键帧，也就是每秒钟有 2 个关键帧，其他的都是 sweeps。关键帧经过手工标注，每一帧都有若干 annotation，标注的形式是 bounding box。</p>
+<p><code>v1.0-mini</code> 有以下文件夹</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">maps
+sweeps
+v1.0-mini
+samples
+</code></pre></td></tr></table>
+</div>
+</div><p>http://47.94.35.231:8090/notebooks/notebook/nuscenes-devkit/python-sdk/tutorials/nuscenes_tutorial.ipynb#</p>
+<blockquote>
+<p>这个是不错的 nuscenes 数据集的 tool 工具</p>
+</blockquote>
+<p>A gentle introduction to nuScenes</p>
+<blockquote>
+<ol>
+<li><code>log</code> - Log information from which the data was extracted.</li>
+<li><code>scene</code> - 20 second snippet of a car&rsquo;s journey.</li>
+<li><code>sample</code> - An annotated snapshot of a scene at a particular timestamp.</li>
+<li><code>sample_data</code> - Data collected from a particular sensor.</li>
+<li><code>ego_pose</code> - Ego vehicle poses at a particular timestamp.</li>
+<li><code>sensor</code> - A specific sensor type.</li>
+<li><code>calibrated sensor</code> - Definition of a particular sensor as calibrated on a particular vehicle.</li>
+<li><code>instance</code> - Enumeration of all object instance we observed.</li>
+<li><code>category</code> - Taxonomy of object categories (e.g. vehicle, human).</li>
+<li><code>attribute</code> - Property of an instance that can change while the category remains the same.</li>
+<li><code>visibility</code> - Fraction of pixels visible in all the images collected from 6 different cameras.</li>
+<li><code>sample_annotation</code> - An annotated instance of an object within our interest.</li>
+<li><code>map</code> - Map data that is stored as binary semantic masks from a top-down view.</li>
+</ol>
+</blockquote>
+<p>nuscenes 提供了一个数据集的 mini 版本（ <a href="https://www.nuscenes.org/data/v1.0-mini.tgz">https://www.nuscenes.org/data/v1.0-mini.tgz</a>），可以用来进行测试和学习</p>
+<p>http://47.94.35.231:8090/notebooks/notebook/nuscenes-devkit/python-sdk/tutorials/nuscenes_tutorial.ipynb</p>
+<blockquote>
+<p>使用这个脚本进行学习（TODO）</p>
+</blockquote>
+<p><a href="https://github.com/nutonomy/nuscenes-devkit">https://github.com/nutonomy/nuscenes-devkit</a> 学习笔记</p>
+<p><a href="https://github.com/nutonomy/nuscenes-devkit/tree/master/python-sdk/nuscenes/can_bus">https://github.com/nutonomy/nuscenes-devkit/tree/master/python-sdk/nuscenes/can_bus</a></p>
+<blockquote>
+<p>This page describes the Controller Area Network (CAN) bus expansion for the nuScenes dataset.  这个不懂但也不重要</p>
+</blockquote>
+<p>http://47.94.35.231:8090/notebooks/notebook/nuscenes-devkit/python-sdk/tutorials/map_expansion_tutorial.ipynb</p>
+<p>In database terms, layers are basically tables of the map database in which we assign arbitrary parts of the maps with informative labels such as <code>traffic_light</code>, <code>stop_line</code>, <code>walkway</code>, etc. Refer to the discussion on layers for more details.</p>
+<blockquote>
+<p>这里说的是 traffic light，那么貌似是有用的的。可以在 jupyter 上尝试一下</p>
+</blockquote>
+<p>http://47.94.35.231:8090/notebooks/notebook/nuscenes-devkit/python-sdk/tutorials/nuscenes_lidarseg_panoptic_tutorial.ipynb</p>
+<blockquote>
+<p>这个是 lidar 相关的任务，做 seg 和 panopitic 任务</p>
+</blockquote>
+<p>http://47.94.35.231:8090/notebooks/notebook/nuscenes-devkit/python-sdk/tutorials/prediction_tutorial.ipynb</p>
+<blockquote>
+<p>这个脚本感觉用处不大</p>
+</blockquote>
+<p>How can I participate in the nuScenes challenges?</p>
+<ul>
+<li>See the overview site for the <a href="https://www.nuscenes.org/object-detection">object detection challenge</a>.</li>
+<li>See the overview site for the <a href="https://www.nuscenes.org/tracking">tracking challenge</a>.</li>
+<li>See the overview site for the <a href="https://www.nuscenes.org/prediction">prediction challenge</a>.</li>
+</ul>
+<blockquote>
+<p>从这里可以找到 sota 的方法</p>
+</blockquote>
+<p>Can I use nuScenes for 2d object detection?</p>
+<ul>
+<li>Objects in nuScenes are annotated in 3d.</li>
+<li>You can use <a href="https://github.com/nutonomy/nuscenes-devkit/blob/master/python-sdk/nuscenes/scripts/export_2d_annotations_as_json.py">this script</a> to project them to 2d, but note that such 2d boxes are not generally tight.</li>
+</ul>
+<p>注意 nuScenes 是做 3D 的</p>
+<p>标注中所有的 labels</p>
+<blockquote>
+<ol>
+<li>
+<p><strong><a href="#car-or-van-or-suv">Car or Van or SUV</a></strong>: Vehicle designed primarily for personal use, e.g. sedans, hatch-backs, wagons, vans, mini-vans, SUVs and jeeps.</p>
+</li>
+<li>
+<p><strong><a href="#truck">Truck</a></strong>: Vehicles primarily designed to haul cargo including pick-ups, lorrys, trucks and semi-tractors. Trailers hauled after a semi-tractor should be labeled as &ldquo;Trailer&rdquo;.</p>
+<ul>
+<li>
+<p><strong><a href="#pickup-truck">Pickup Truck</a></strong>: A pickup truck is a light duty truck with an enclosed cab and an open or closed cargo area. A pickup truck can be intended primarily for hauling cargo or for personal use.</p>
+</li>
+<li>
+<p><strong><a href="#front-of-semi-truck">Front Of Semi Truck</a></strong>: Tractor part of a semi trailer truck. Trailers hauled after a semi-tractor should be labeled as a trailer.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><a href="#bendy-bus">Bendy Bus</a></strong>: Buses and shuttles designed to carry more than 10 people and comprises two or more rigid sections linked by a pivoting joint. Annotate each section of the bendy bus individually.</p>
+</li>
+<li>
+<p><strong><a href="#rigid-bus">Rigid Bus</a></strong>: Rigid buses and shuttles designed to carry more than 10 people.</p>
+</li>
+<li>
+<p><strong><a href="#construction-vehicle">Construction Vehicle</a></strong>: Vehicles primarily designed for construction. Typically very slow moving or stationary. Cranes and extremities of construction vehicles are only included in annotations if they interfere with traffic. Trucks used to hauling rocks or building materials are considered trucks rather than construction vehicles.</p>
+</li>
+<li>
+<p><strong><a href="#motorcycle">Motorcycle</a></strong>: Gasoline or electric powered 2-wheeled vehicle designed to move rapidly (at the speed of standard cars) on the road surface. This category includes all motorcycles, vespas and scooters. It also includes light 3-wheel vehicles, often with a light plastic roof and open on the sides, that tend to be common in Asia. If there is a rider and/or passenger, include them in the box.</p>
+</li>
+<li>
+<p><strong><a href="#bicycle">Bicycle</a></strong>: Human or electric powered 2-wheeled vehicle designed to travel at lower speeds either on road surface, sidewalks or bicycle paths. If there is a rider and/or passenger, include them in the box.</p>
+</li>
+<li>
+<p><strong><a href="#bicycle-rack">Bicycle Rack</a></strong>: Area or device intended to park or secure the bicycles in a row. It includes all the bicycles parked in it and any empty slots that are intended for parking bicycles. Bicycles that are not part of the rack should not be included. Instead they should be annotated as bicycles separately.</p>
+</li>
+<li>
+<p><strong><a href="#trailer">Trailer</a></strong>: Any vehicle trailer, both for trucks, cars and motorcycles (regardless of whether currently being towed or not). For semi-trailers (containers) label the truck itself as &ldquo;Truck&rdquo;.</p>
+</li>
+<li>
+<p><strong><a href="#police-vehicle">Police Vehicle</a></strong>: All types of police vehicles including police bicycles and motorcycles.</p>
+</li>
+<li>
+<p><strong><a href="#ambulance">Ambulance</a></strong>: All types of ambulances.</p>
+</li>
+<li>
+<p><strong><a href="#adult-pedestrian">Adult Pedestrian</a></strong>: An adult pedestrian moving around the cityscape. Mannequins should also be annotated as Adult Pedestrian.</p>
+</li>
+<li>
+<p><strong><a href="#child-pedestrian">Child Pedestrian</a></strong>: A child pedestrian moving around the cityscape.</p>
+</li>
+<li>
+<p><strong><a href="#construction-worker">Construction Worker</a></strong>: A human in the scene whose main purpose is construction work.</p>
+</li>
+<li>
+<p><strong><a href="#stroller">Stroller</a></strong>: Any stroller. If a person is in the stroller, include in the annotation. If a pedestrian pushing the stroller, then they should be labeled separately.</p>
+</li>
+<li>
+<p><strong><a href="#wheelchair">Wheelchair</a></strong>: Any type of wheelchair. If a pedestrian is pushing the wheelchair then they should be labeled separately.</p>
+</li>
+<li>
+<p><strong><a href="#portable-personal-mobility-vehicle">Portable Personal Mobility Vehicle</a></strong>: A small electric or self-propelled vehicle, e.g. skateboard, segway, or scooters, on which the person typically travels in a upright position. Driver and (if applicable) rider should be included in the bounding box along with the vehicle.</p>
+</li>
+<li>
+<p><strong><a href="#police-officer">Police Officer</a></strong>: Any type of police officer, regardless whether directing the traffic or not.</p>
+</li>
+<li>
+<p><strong><a href="#animal">Animal</a></strong>: All animals, e.g. cats, rats, dogs, deer, birds.</p>
+</li>
+<li>
+<p><strong><a href="#traffic-cone">Traffic Cone</a></strong>: All types of traffic cones.</p>
+</li>
+<li>
+<p><strong><a href="#temporary-traffic-barrier">Temporary Traffic Barrier</a></strong>: Any metal, concrete or water barrier temporarily placed in the scene in order to re-direct vehicle or pedestrian traffic. In particular, includes barriers used at construction zones. If there are multiple barriers either connected or just placed next to each other, they should be annotated separately.</p>
+</li>
+<li>
+<p><strong><a href="#pushable-pullable-object">Pushable Pullable Object</a></strong>: Objects that a pedestrian may push or pull. For example dolleys, wheel barrows, garbage-bins with wheels, or shopping carts. Typically not designed to carry humans.</p>
+</li>
+<li>
+<p><strong><a href="#debris">Debris</a></strong>: Debris or movable object that is too large to be driven over safely. Includes misc. things like trash bags, temporary road-signs, objects around construction zones, and trash cans.</p>
+</li>
+</ol>
+</blockquote>
+<p>标注中的 attributes</p>
+<blockquote>
+<p>visibility</p>
+<p>Vehicle:</p>
+<p>bicycle</p>
+<p>&hellip;</p>
+</blockquote>
+<p>这里有非常详细的 标注注意事项。</p>
+<p>The nuScenes dataset consists of data collected from our full sensor suite which consists of:</p>
+<ul>
+<li>1 x LIDAR,</li>
+<li>5 x RADAR,</li>
+<li>6 x cameras,</li>
+</ul>
+<p>参考文献</p>
+<p><a href="https://blog.csdn.net/qq_29679623/article/details/103698313">nuScenes数据集标注格式</a></p>
+<blockquote>
+<p>数据集标注，这个 link 中讲解的比较细</p>
+</blockquote>
+<p><a href="https://www.graviti.cn/article/wu-ren-jia-shi-shu-ju-ji-nuscenesshu-ju-ji">无人驾驶数据集 | nuScenes数据集介绍及下载</a></p>
+<blockquote>
+<p>nuScenes 介绍和下载</p>
+</blockquote>
+<h3 id="waymo">waymo</h3>
+<p>waymo 数据集包含 3000 段驾驶记录，时长共计 16.78 小时。平均每段长度约为 20 秒。改数据集涵盖不同的天气条件，白天，夜晚不同的时间段，市中心，郊区不同地点，行人，自行车等不同的道路对象。</p>
+<p>最关键的 3D 目标监测和追踪任务中，最重磅的数据集是 Waymo，适合具有充足计算资源的自动驾驶部门进行研究，相比之下 nuScunes 的大小更加适合学界进行研究。</p>
+<h3 id="lyft">lyft</h3>
+<p>超过 55000 个 3D 人工注释框架</p>
+<p>来自 7 个摄像头和 3 个激光雷达收集到的数据</p>
+<h3 id="waymo-open-dataset">waymo open dataset</h3>
+<p>内含 3000 个、长达 16.7 小时的架势场景，场景数量是 nuScenes 数据的三倍，总共包括了 2500 万个 3D边界框，2200 万个 2D 边界框。</p>
+<h3 id="argoverse">argoverse</h3>
+<p>Argoverse数据集是由Argo AI、卡内基梅隆大学、佐治亚理工学院发布的用于支持自动驾驶汽车3D Tracking和Motion Forecasting研究的数据集。数据集包括两个部分：Argoverse 3D Tracking与Argoverse Motion Forecasting。</p>
+<p>Argoverse数据集包含LiDAR数据、 RGB视频数据、前向双目数据、6 DOF的定位数据以及高精地图的数据，所有的数据都跟高精地图数据进行过配准。</p>
+<p><strong>Argoverse是第一个包含高精地图的数据集</strong>，它包含了290KM的带有几何形状和语义信息的高精地图数据。</p>
+<h3 id="soda10m">SODA10M</h3>
+<p>此前，Waymo拥有最大的2D自动驾驶数据集。不过现在，华为诺亚方舟实验室联合中山大学发布了新一代2D自动驾驶数据集SODA10M。比Waymo现有的大10倍。包括了1000万张无标注图片以及2万张带标注图片。</p>
+<p>SODA10M数据集收集了不同城市在不同天气条件、时间段以及位置的场景。1000万张无标注图片来自32个城市，囊括了国内大部分地区。</p>
+<p><img src="http://123.56.8.10:8899/images/2022/01/11/image-20220111132416197.png" alt="image-20220111132416197"></p>
+<p>2万张带标注的图片，直接标出了6种主要的人车场景类别，分别是：Pedestrian、Cyclist、Car、Truck、Tram、Tricycle。</p>
+<p>针对涉及隐私的信息，例如人脸和车牌等都会进行模糊处理。</p>
+<p>以下是使用该数据集搞的一个竞赛。</p>
+<p>仅仅通过全监督训练出俩的模型取得的效果并不好，全监督训练的结果夜晚和白天的精度差别很大。在Moco系列（城市景观语义分割），以及基于像素和中间层特征的自监督方法DetCo, DenseCL上，SODA10M自监督训练的效果与ImageNet相仿。</p>
+<p>（这个数据集很重点，可以好好学习一下）</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2022-01-03
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/wechatpay.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/alipay.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/sensors/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Sensors</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/backbones/">
+            <span class="next-text nav-default">Backbones</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

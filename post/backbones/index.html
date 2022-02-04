@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Backbones - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="首先对比一下 CNN, transformer 和 MLP，然后介绍 DLA 论文 和NAS 系列中的 RepVGG。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/backbones/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Backbones" />
+<meta property="og:description" content="首先对比一下 CNN, transformer 和 MLP，然后介绍 DLA 论文 和NAS 系列中的 RepVGG。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/backbones/" />
+<meta property="article:published_time" content="2022-01-01T13:19:17+08:00" />
+<meta property="article:modified_time" content="2022-01-01T13:19:17+08:00" />
+<meta itemprop="name" content="Backbones">
+<meta itemprop="description" content="首先对比一下 CNN, transformer 和 MLP，然后介绍 DLA 论文 和NAS 系列中的 RepVGG。">
+<meta itemprop="datePublished" content="2022-01-01T13:19:17+08:00" />
+<meta itemprop="dateModified" content="2022-01-01T13:19:17+08:00" />
+<meta itemprop="wordCount" content="2948">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Backbones"/>
+<meta name="twitter:description" content="首先对比一下 CNN, transformer 和 MLP，然后介绍 DLA 论文 和NAS 系列中的 RepVGG。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Backbones</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2022-01-01 </span>
+        <div class="post-category">
+            <a href="/categories/deep-learning/"> deep-learning </a>
+            </div>
+          <span class="more-meta"> 约 2948 字 </span>
+          <span class="more-meta"> 预计阅读 6 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#cnn-transformer--mlp">CNN/ Transformer / MLP</a></li>
+        <li><a href="#dla">DLA</a></li>
+        <li><a href="#repvgg">RepVGG</a></li>
+        <li><a href="#其他">其他</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>首先对比一下 CNN, transformer 和 MLP，然后介绍 DLA 论文 和NAS 系列中的 RepVGG。</p>
+<h2 id="cnn-transformer--mlp">CNN/ Transformer / MLP</h2>
+<p>MLP -&gt; CNN -&gt; Transformer -&gt; MLP</p>
+<p><strong>CNN</strong></p>
+<p>不管是直接用下游数据监督训练，还是先预训练然后微调，基于膨胀卷积（也叫作空洞卷积，dilated convolution）或动态卷积的CNN模型都略优于Transformer模型，并且在速度上CNN模型还更加快。</p>
+<p>缺点</p>
+<p>CNN 无法捕捉足够长的依赖，这是根本缺陷。虽然能够通过空洞卷积等方式扩大 CNN 的感受野，但不是类似 Transformer 理论上的一步到位</p>
+<p><strong>Transformer</strong></p>
+<p>有两种 attention： self-attention 和 cross-attention</p>
+<p><img src="http://123.56.8.10:8899/images/2021/11/04/1zRVY7ia0ZgXBwKY5ww3c2g.png" alt="img"></p>
+<blockquote>
+<p>The self-attention mechanism is the highlight of the original Transformers paper for feature extraction. However, self-attention keeps the original input shape, as the output query is also the input X in a self-attention module. In order to reshape the input tensor, an output query with a different shape (the desired output shape) has to be used.</p>
+</blockquote>
+<p><strong>MLP</strong></p>
+<p>多层感知机 MLP (Multilayer Perceptron)，也叫作前馈神经网络（feed forward neural network） 是最早发明的人工神经网络之一，其结构设计简单，仅由输入层、隐藏层（中间层）和输出层组成。</p>
+<p>最大的特点是信息只进行前向传输，没有循环或回路。如果信息从输出层反馈到输入层，那么就称为循环神经网络（recurrent neural network, RNN）</p>
+<p><a href="https://arxiv.org/abs/2105.08050">Pay Attention to MLPs</a></p>
+<blockquote>
+<p>谷歌原 ViT 团队提出了一种不使用卷积或自注意力的 MLP-Mixer 架构，并且在设计上非常简单，在 ImageNet 数据集上也实现了媲美 CNN 和 ViT 的性能。</p>
+<p>MLP-Mixer模型的核心思路是把图片分成很多的patch，每个patch就相当于Transformers的一个token，然后用MLP结合矩阵转置去处理数据。它的每层都包含token-mixing MLP block 和channel-mixing MLP block两个部分。前者是把不同的channel当成不同的计算单元，后者是把不同的token当成不同的计算单元。</p>
+<p>从理论角度看，MLP与Transformer、卷积在数学概念上几乎完全等价，二者架构类似，只是在优化和实现细节上有差而已</p>
+<p>尽管如此简单，Mixer取得极具竞争力的结果，当在大数据(如100M数据量)上预训练时，它可以取得接近SOTA的性能：<strong>87.94%top1精度</strong>。当在适当尺度数据+先进正则技术进行训练时，所提方法同样取得极强性能。</p>
+<p>总的来说，该研究的实验结果表明，自注意力并不是扩展 ML 模型的必要因素。随着数据和算力的增加，gMLP 等具有简单空间交互机制的模型具备媲美 Transformer 的强大性能，并且可以移除自注意力或大幅减弱它的作用。</p>
+</blockquote>
+<p>评价</p>
+<p>MLP-Mixer 的性能随着数据量的增加而增长，MLP-Mixer主要依靠大数据来维持其性能，其在结构设计上没有带来理论上的创新，甚至会牺牲模型可解释性和鲁棒性。</p>
+<p>MLP 的性能只是接近注意力机制的性能，但它的计算成本很低，所以性价比很高</p>
+<p><strong>MLP vs. Transformers</strong></p>
+<blockquote>
+<p>MLP and Transformers have similar input and output interfaces, if we ignore the detailed mechanism of the internal processing (by hidden layers in MLP and by cross attention modules in Transformers), as illustrated below.</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/11/04/1RSJbxvlMaR_EkXzsOzKxzQ.png" alt="img"></p>
+<p>三者对比</p>
+<ul>
+<li>卷积结构仅包含局部连接，因此计算高效</li>
+<li>自注意力采用动态权值（动态权重），因此模型容量更大，同时还具有全局感受野</li>
+<li>MLP 同样具有全局感受野，但没有使用动态权值</li>
+</ul>
+<p>注意力机制模型上限更大，但是比较难 train</p>
+<h2 id="dla">DLA</h2>
+<p>DLA (Deep Layer Aggregation)</p>
+<p>论文：<a href="https://arxiv.org/pdf/1707.06484.pdf">Deep Layer Aggregation</a> （这个是 17年的论文，依然有生命力）</p>
+<p>代码：https://github.com/ucbdrive/dla</p>
+<blockquote>
+<p><em>Even with the depth of fea- tures in a convolutional network, a layer in isolation is not enough: compounding and aggregating these representa- tions improves inference of what and where</em></p>
+<p>resnet backbone 中使用的 skip-connection 是 not enough 的，可以于进一步的提高。resnet 中 skip-connect 是求和，还可以考虑 concatenate 的方式. what and where 一般指的是 object detection 的任务。</p>
+</blockquote>
+<p>（一般认为使用 pooling 进行下采样会造成空间信息的损失）</p>
+<p><img src="http://123.56.8.10:8899/images/2021/11/24/image-20211124112953441.png" alt="image-20211124112953441"></p>
+<blockquote>
+<p>论文的 intuition</p>
+<p>Dense Connections来自DenseNet，可以聚合语义信息。Feature Pyramids空间特征金字塔可以聚合空间信息。DLA则是将两者更好地结合起来从而可以更好的获取what和where的信息。</p>
+</blockquote>
+<p>为了方便叙述，将 CNN 架构进行模块化拆分，一个 CNN 由多个 stage 组成，一个 stage 有多个 block 组成，一个 block 包含了多个 layer</p>
+<blockquote>
+<p>In this work, we investigate how to aggregate layers to better fuse semantic and spatial information for recognition and localization.</p>
+<p>IDA ：迭代深度聚合 iterative deep aggregation</p>
+<p>HDA：层次深度聚合 hierarchical deep aggregation</p>
+<p>ida 和 hda 只是两种不同的扩展方式，前者是横向，后者是纵向的。layer 之间信息的 aggregation。</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/11/24/image-20211124113213109.png" alt="image-20211124113213109"></p>
+<blockquote>
+<p>We introduce two structures for deep layer aggregation (DLA): iterative deep aggrega- tion (IDA) and hierarchical deep aggregation (HDA).</p>
+<p>IDA focuses on fusing resolutions and scales while HDA focuses on merging features from all modules and channels. HDA assembles its own hierarchy of tree-structured connections that cross and merge stages to aggregate differ- ent levels of representation. Our schemes can be combined to compound improvements.</p>
+<p>IDA能够更好的融合不同尺度和分辨率的特征图，更深的部分具有更多的语义信息，空间分辨率上更加的粗糙。IDA聚合起始于最浅的、最小的尺度，然后迭代合并更深、更大的尺度。通过这种方式，浅层特征在不同阶段的聚合时得到了细化。</p>
+<p>HDA的结构类似于一颗树，将不同stage和block块结合在一起，结合了浅层和深层的特征，有更丰富的特征组合。</p>
+<p>上图给出了论文中提出的两种结构</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/11/24/image-20211124113409992.png" alt="image-20211124113409992"></p>
+<blockquote>
+<p>DLA网络结合了IDA和HDA，是本文的核心部分。红框为HDA的类树形结构，黄线为IDA的迭代方法。通过通过HDA将数据（图片）的浅层与深层表达进行更好地融合，然后通过IDA不断进行迭代完善得到最终输出。</p>
+</blockquote>
+<p>DLA 是一个通用的架构，可以很方便的融合到现有的 CNN 结构中完成多种计算机视觉任务。</p>
+<p>实验结果</p>
+<ul>
+<li>提出了IDA和HDA，用来融合不同block和不同stage的特征，并将IDA和HDA融合为DLA模块，以DLA为基础构造CNN；</li>
+<li>通过实验证明了在分类和语义分割任务中，相比于同等规模的网络，使用DLA结构有明显的性能提升。</li>
+</ul>
+<h2 id="repvgg">RepVGG</h2>
+<blockquote>
+<p>We present a simple but powerful architecture of convo- lutional neural network, which has a VGG-like inference- time body composed of nothing but a stack of <em>3 × 3</em> con- volution and ReLU, while the training-time model has a multi-branch topology. Such decoupling of the training- time and inference-time architecture is realized by a struc- tural re-parameterization technique so that the model is named RepVGG.</p>
+</blockquote>
+<p>方案：</p>
+<p><img src="http://123.56.8.10:8899/images/2021/12/03/image-20211203110738534.png" alt="image-20211203110738534"></p>
+<blockquote>
+<p>想要使网络具有高性能，又要有高效推理速度，怎么才能解决这个问题？repVGG给了我们答案：结构重参数化思想，也即训练时尽量用多分支结构来提升网络性能，而推理时，采用利用结构重参数化思想，将其变为单路结构，这样，显存占用少，推理速度又快。</p>
+<p>这种是既要又要的情况，是有可能的，乐观点。</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/12/03/image-20211203111204577752b03fe0aa0333c.png" alt="image-20211203111204577"></p>
+<blockquote>
+<p>为什么可以这样做，这个是原理。目前不懂，作为 todolist</p>
+</blockquote>
+<p>评价</p>
+<blockquote>
+<p>RepVGG models are fast, simple and practical ConvNets designed for the maximum speed on GPU and specialized hardware, less concerning the number of parameters. They are more parameter-efficient than ResNets but may be less favored than the mobile-regime models like MobileNets [16, 30, 15] and ShuffleNets [41, 24] for low-power devices.</p>
+<p>作者给出的 limitations</p>
+</blockquote>
+<blockquote>
+<p>工业界非常solid的一个工作，利用重参化技巧，可以将多分支的卷积操作合并成一次卷积操作，且真正做到计算结果完全一致。在我实际的项目中，通过调整各阶段模块数和width得到的小模型，在推理速度一样的情况下精度能甩shufflenet和mobilenet很多。</p>
+</blockquote>
+<p>paper：https://arxiv.org/abs/2101.03697</p>
+<p>github：https://github.com/DingXiaoH/RepVGG</p>
+<p>视频教程：https://www.bilibili.com/s/video/BV1k54y1V7Sx</p>
+<h2 id="其他">其他</h2>
+<p>解决的是 what and where 的问题</p>
+<p>DenseNets是语义融合网络的最具代表性的网络，设计思路为，采用将不同层级之间的特征通过<strong>skip connection</strong>级联在一起，来达到更好地传播特征与损失的目的。</p>
+<p>FPN网络是空间融合网络中最具有代表性的网络，设计思路为，通过自上而下和横向的连接，来获取更均一化的分辨率和标准化的语义信息。</p>
+<p><em>思考：语义融合与空间融合的区别：</em></p>
+<p><em>语义融合：</em></p>
+<ol>
+<li><em>融合的是不同层级间的通道内信息；</em></li>
+<li><em>通道大多在通道数上不同，空间尺度上相同，不需要尺度对齐；</em></li>
+<li><em>主要保留微观信息；</em></li>
+</ol>
+<p><em>空间融合：</em></p>
+<ol>
+<li><em>融合的是不同层级间的特征图信息；</em></li>
+<li><em>通道数是相同的，空间尺度上等比缩放，需要尺度对齐。也就是文中所说的均一化和标准化；</em></li>
+<li><em>主要保留宏观信息；</em></li>
+</ol>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2022-01-01
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/wechatpay.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/alipay.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/autonomous-driving-datasets/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Autonomous Driving Datasets</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/mobilenet/">
+            <span class="next-text nav-default">Mobilenet</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

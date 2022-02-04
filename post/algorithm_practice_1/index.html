@@ -50,7 +50,7 @@
 <meta itemprop="description" content="介绍基础性算法">
 <meta itemprop="datePublished" content="2019-02-06T14:49:01+08:00" />
 <meta itemprop="dateModified" content="2019-02-06T14:49:01+08:00" />
-<meta itemprop="wordCount" content="6680">
+<meta itemprop="wordCount" content="6171">
 
 
 
@@ -127,8 +127,8 @@
         <div class="post-category">
             <a href="/categories/algorithm/"> algorithm </a>
             </div>
-          <span class="more-meta"> 约 6680 字 </span>
-          <span class="more-meta"> 预计阅读 14 分钟 </span>
+          <span class="more-meta"> 约 6171 字 </span>
+          <span class="more-meta"> 预计阅读 13 分钟 </span>
         
       </div>
     </header>
@@ -1572,134 +1572,7 @@
 </div>
 </div><h3 id="区间专题">区间专题</h3>
 <p>解题思路：绝大部分涉及到区间的题目第一步要做的都是按照左端点或者右端点进行排序，排好序后找到其中的递推关系。具体到这一题，我们可以先把问题转化成最多能找到多少个互不重叠的区间。</p>
-<p><a href="https://leetcode.com/problems/merge-intervals/">56. Merge Intervals</a></p>
-<p>Given a collection of intervals, merge all overlapping intervals. 合并所有的重合的区间。
-思路：
-双关键字排序，先按照 begin 排序，然后按照 end 排序。
-然后在添加的时候，如果当前遍历的区间的begin 是大于cur 的end，那么把 cur 的区间放到结果中，更新cur 为当前遍历的区间。否则如果遍历的区间的 end 是大于cur 的end，那么更新cur 的end。时间复杂度是$nlogn$， 排序算法是瓶颈。</p>
-<p>具体实现有两种写法，一种是重写 cmp 方法，一种使用pair 数据结构，两者都是为了进行排序。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
-<span class="k">public</span><span class="o">:</span>
-    <span class="k">typedef</span> <span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span> <span class="o">&gt;</span> <span class="n">PAIR</span><span class="p">;</span>
-    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">merge</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;&amp;</span> <span class="n">intervals</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span><span class="n">intervals</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
-        <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">res</span><span class="p">;</span>
-        <span class="n">vector</span><span class="o">&lt;</span><span class="n">PAIR</span><span class="o">&gt;</span> <span class="n">pre</span> <span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
-        <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">item</span><span class="p">:</span> <span class="n">intervals</span><span class="p">)</span>
-        <span class="p">{</span>
-            <span class="n">PAIR</span> <span class="n">t</span> <span class="o">=</span><span class="p">{</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]};</span>
-            <span class="n">pre</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
-        <span class="p">}</span>
-        <span class="n">sort</span><span class="p">(</span><span class="n">pre</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">pre</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
-        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">cur</span> <span class="o">=</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">{</span><span class="n">pre</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">first</span><span class="p">,</span> <span class="n">pre</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">second</span><span class="p">};</span>
-        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-            <span class="k">if</span><span class="p">(</span><span class="n">pre</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">first</span> <span class="o">&gt;</span> <span class="n">cur</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-            <span class="p">{</span>
-                <span class="n">res</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">cur</span><span class="p">);</span>
-                <span class="n">cur</span> <span class="o">=</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">{</span><span class="n">pre</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">first</span><span class="p">,</span> <span class="n">pre</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">second</span><span class="p">};</span>
-            <span class="p">}</span>
-        <span class="k">else</span> <span class="nf">if</span><span class="p">(</span><span class="n">pre</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">second</span> <span class="o">&gt;</span> <span class="n">cur</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-                <span class="n">cur</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span><span class="n">pre</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">second</span><span class="p">;</span>
-        <span class="n">res</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">cur</span><span class="p">);</span>
-        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">};</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>（C++ 中STL 规定比较函数必须是静态或者全局，即在无需声明对象的情况下也是能够使用的）</p>
-<p>···c++
-class Solution {
-public:
-static bool cmp(vector<int> &amp; a, vector<int> &amp; b){
-if(a[0] != b[0])
-return a[0] &lt; b[0];
-else
-return a[1] &lt; b[1];
-}
-vector&lt;vector<int>&gt; merge(vector&lt;vector<int>&gt;&amp; intervals) {
-vector&lt;vector<int>&gt; res;
-int n =intervals.size();
-if (n ==0) return res;
-sort(intervals.begin(), intervals.end(), cmp);
-vector<int> cur =intervals[0];
-for(int i =1; i&lt; n; i++)
-if( intervals[i][0] &gt; cur[1]  ) // 应该产生一个新的区间了
-{
-res.push_back(cur);
-cur = intervals[i];
-}
-else if(intervals[i][1] &gt; cur[1])
-cur[1] =intervals[i][1];
-res.push_back(cur);</p>
-<pre><code>    return res;
-}
-</code></pre>
-<p>};
-···</p>
-<p>python 实现，从代码量上看起来比较简洁。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">intervals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">intervals</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">[]</span>
-        <span class="n">intervals</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span><span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="p">[</span><span class="n">intervals</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-        <span class="k">for</span> <span class="n">interval</span> <span class="ow">in</span> <span class="n">intervals</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
-            <span class="k">if</span> <span class="n">interval</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&gt;</span> <span class="n">res</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span>
-                <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">interval</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">interval</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">res</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span>
-                <span class="n">res</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span><span class="n">interval</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">res</span>
-</code></pre></td></tr></table>
-</div>
-</div><p><a href="https://leetcode.com/problems/insert-interval/">57. Insert Interval</a></p>
+<p><a href="https://leetcode.com/problems/insert-interval/">57. Insert Interval</a></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -2349,7 +2222,7 @@ res.push_back(cur);</p>
   <span class="copyright-year">
     &copy; 
     2018 - 
-    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
   </span>
 </div>
 

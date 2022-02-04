@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Detr - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="简单梳理一下目标检测的发展，并重点介绍最近的工作：detr。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/detr/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Detr" />
+<meta property="og:description" content="简单梳理一下目标检测的发展，并重点介绍最近的工作：detr。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/detr/" />
+<meta property="article:published_time" content="2021-02-13T18:06:58+08:00" />
+<meta property="article:modified_time" content="2021-02-13T18:06:58+08:00" />
+<meta itemprop="name" content="Detr">
+<meta itemprop="description" content="简单梳理一下目标检测的发展，并重点介绍最近的工作：detr。">
+<meta itemprop="datePublished" content="2021-02-13T18:06:58+08:00" />
+<meta itemprop="dateModified" content="2021-02-13T18:06:58+08:00" />
+<meta itemprop="wordCount" content="4012">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Detr"/>
+<meta name="twitter:description" content="简单梳理一下目标检测的发展，并重点介绍最近的工作：detr。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Detr</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-02-13 </span>
+        <div class="post-category">
+            <a href="/categories/deep-learning/"> deep-learning </a>
+            </div>
+          <span class="more-meta"> 约 4012 字 </span>
+          <span class="more-meta"> 预计阅读 9 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#早期的方法">早期的方法</a></li>
+        <li><a href="#最近的方法">最近的方法</a></li>
+        <li><a href="#detr">DETR</a></li>
+        <li><a href="#detr-变体">DETR 变体</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>简单梳理一下目标检测的发展，并重点介绍最近的工作：detr。</p>
+<h2 id="早期的方法">早期的方法</h2>
+<p>（2015- 2019）</p>
+<p>自2015年以来，人们提出了各种深度学习中的目标检测方法，给该领域带来了巨大的影响。这些方法主要分为一阶段方法和两阶段方法两类。其一般处理过程包括：</p>
+<p>1.使用CNN主干提取深度特征图</p>
+<p>2.为特征映射的每个像素生成各种锚点</p>
+<p>3.计算锚点和ground truth之间的IoU，选择其中的一部分进行训练</p>
+<p>4.使用回归（IoU和L1）和分类（框内的对象类）的loss对模型进行训练</p>
+<p>5.使用非极大值抑制(NMS)对推理结果进行过程后处理，以删除重复的预测框</p>
+<blockquote>
+<p>在上述一般过程中，<strong>one-stage和two-stages方法的唯一区别是在训练过程中</strong>是否为region proposal动态标记anchors。例如，在Faster-RCNN中，根据锚和ground truth之间的IoU给anchors作正或负的标记。如果IoU足够大，比如0.7，锚给正标签，否则如果IoU足够小，比如0.3，给出负标签。因此，在推理期间，只将正锚定用于目标检测处理。这种技术在原论文中被称为区域建议网络(RPN)。</p>
+</blockquote>
+<p>在像SSD、YOLO和RetinaNet这样的one-stage方法中，不存在RPN，以便在推理过程中处理所有的锚点。分类置信度的阈值用于过滤大多数锚，而只有具有高分类可能性的锚被保留用于最终的后处理。</p>
+<p>在训练过程中，锚的数量非常巨大。在two-stages的方法中，RPN帮助集中关注正锚点，这节省了计算时间和资源。然而，RPN是复杂的，训练它也需要时间和资源。在one-stage的方法中，尽管必须处理所有的锚点，但总的计算时间仍然更小。</p>
+<p>nms 就是删除重复的 anchor</p>
+<h2 id="最近的方法">最近的方法</h2>
+<p>（2019-2020）</p>
+<blockquote>
+<p>两个网络结构的差别。和其他检测方法不同，没有 proposal（faster r-cnn）， 没有anchor， 没有繁琐的 NMS，直接预测检测框和类别，利用二分图匹配（匈牙利算法），将 CNN 和 transformer 巧妙结合，实现目标检测的任务。</p>
+<p>用二分图匹配（匈牙利）计算 prediction 与ground truth 之间的最佳匹配，从而实现 label assignment。</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/10/09/821593-20200528093553471-1072533956.png" alt="img" style="zoom:67%;" /></p>
+<p>最近人们一直在开发 one-stage 的方法，使得目标检测比之前更容易。主要思想有两方面：</p>
+<ul>
+<li>
+<p>不要使用 anchor，而使用每像素预测</p>
+</li>
+<li>
+<p>不要使用 NMS 后处理，修改为使用一对一的训练</p>
+</li>
+</ul>
+<p>第一种方法使用语义分割得到每个像素的预测，遮掩更久不用根据空间比例和对象大小设置变化的 anchor。这种思路典型就是 FCOS，并且还可以将其与语义分割，关键点检测等任务结合起来，用于多任务的应用。虽然 FCOS 简化了目标检测并性能良好，但训练是多对一，不能端到端的，仍然是需要NMS 做后处理。OneNet将 FCOS 扩展为端到端的 FCN。</p>
+<h2 id="detr">DETR</h2>
+<p><a href="https://arxiv.org/abs/2005.12872">End-to-end object detection with transformers</a></p>
+<p>Github: <a href="https://github.com/facebookresearch/detr">https://github.com/facebookresearch/detr</a></p>
+<p>创新点</p>
+<blockquote>
+<p>常见的目标检测方法如Faster-RCNN，RetinaNet等都是通过预设anchor的方式进行预测，这种方式本质上就是类似滑动窗口的一种模式。而使用这种滑动窗口的方式其实是通过先验知识人为地给检测任务降低难度。</p>
+<p>这些模型的最终效果依赖于初始猜测的集合的精度。</p>
+</blockquote>
+<p>基于滑窗的方式就像人为地给了一个梯子，帮助网络去越过障碍，而集合预测就更需要网络真正懂得图像的语义而直接越过障碍。</p>
+<p>直接预测候选框和类别意味着直接输出(类别概率分布，框)的集合，而一张图中的ground truth其实是一个(类别，框)的集合，因此将问题从单目标检测问题变成了集合预测问题。</p>
+<p>匈牙利算法：简单概括为先到先让</p>
+<p>DETR 会直接推理出一组固定大小的 N 个预测结果，这里的 N 会明显的比常规物体个数要多。定长的输出有利于显存的对齐，训练的时候会更加方便。</p>
+<p>transformer：简单来说就是一个能够代替RNN的东西，RNN能做的它基本都能做，而且是通过矩阵计算的方式，可以用GPU高速并行计算。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/10/09/image-20211009114344530.png" alt="image-20211009114344530"></p>
+<p>detr 总览</p>
+<blockquote>
+<p>输入一张图片，先进过CNN网络得到一系列图片特征，然后使用transformer对图片特征进行编、解码，得到指定数量的预测框集合，对每个预测框使用分类头分类和box头输出物体的中心点和宽高（相对于输入图片）。</p>
+<p>如果是训练阶段就是将得到的检测结果和 groundtruth 进行二部图匹配计算 loss。</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/10/09/image-20211009114553854.png" alt="image-20211009114553854" style="zoom:50%;" /></p>
+<p>backbone</p>
+<blockquote>
+<p>backbone 采用传统的CNN网络，记输入图像大小为 3 * H * W, 经过backbone后得到特征图大小为 C * h * w, 代码中为 C= 2048, h = H /32, w = W / 32. 在backbone 提取特征后会经过 1 x 1 卷积对通道降维，代码中将 C 降维到256. 特征为 256 x h x w, 由于transformer的输入为一维数据，将特征展开为 256 x (h x w), 可以理解为 h x w 个像素点，每个像素点特征为向量为 (1, 256)</p>
+</blockquote>
+<p>和NLP transformer一样，训练时以batch输入, 需要将图片填充到最大的输入图片大小，所以每张图片有个二维mask, 标记该像素点是否是填充的, 该mask 在backbone 得到图片特征图后会插值成特征图宽和高. 即假如特征图大小为 8 x 8 , mask 会resize为 8 x 8, 计算attention的时候避免填充位置影响 attention</p>
+<p>Positional encoding</p>
+<p>由于 transformer 本身不能表达位置信息，需要增加位置编码（positional encoding），同时对于目标检测而言，位置编码应该是二维的，包含 $x$ 和 $y$ 方向，这里准确叫做 Spatial Positional Encoding。</p>
+<p>两种位置编码（1）可以使用固定算法生成（二维位置上的 sin 和cos 函数）（2）通过学习的方式</p>
+<p>Decoder</p>
+<p>decoder 结构整体和 transformer 中结构一样，区别是 detr 中 decoder 的输入是并行输入且固定大小（大小取决于希望的最大检测数）。对于 seq2seq 模型而言，它的输入是一个特征预测下一个，decoder 的query 可以理解为待查询的值，即我再decoder 输入一个特征向量，要在 encoder 中查询最相关的特征。目标检测中不存在这样的机制，detr 中设计了固定大小的可学习的 positional encodings，也就是 object queries，通俗讲就是希望通过学习使得每个object query 关注图像不同的区域，告诉各自负责的区域有没有物体以及物体的坐标。</p>
+<ul>
+<li>需要注意的是decoder中的这N个对象检测是并行的，不是像以往的transformer用法那样一个一个输出序列。因为本质上每个对象检测都是独立的。</li>
+</ul>
+<p>每个query都对应一个检测框，论文里把这些框的中心点都画出来了，可以发现<strong>不同的query有不同的倾向位置</strong>。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/10/09/image-20211009114708600.png" alt="image-20211009114708600" style="zoom:50%;" /></p>
+<p>（prediction head）预测层</p>
+<ul>
+<li>边框预测是用ReLU激活的3层感知机，类别预测是一个线性层+softmax预测层。</li>
+</ul>
+<p>损失函数</p>
+<p>由三部分组成：匹配损失，边框损失和被别判定损失，实验发现当三个损失加权时候效果最好。</p>
+<p>实验</p>
+<p>评价指标</p>
+<ul>
+<li>AP50，AP75：IoU的threshold为0.5和0.75时的AP</li>
+<li>APS：小对象(&lt;32*32)的AP</li>
+<li>APM：中等大小(32<em>32 - 96</em>96)的AP</li>
+<li>APL：大对象(&gt;96*96)的AP</li>
+</ul>
+<p>实验结果分析</p>
+<p>将输出特征的分辨率增加两倍，提升了小目标的检测，但 encoder 中的自注意力机制的计算代价增加了 16 倍，最终导致计算资源消耗增加 2倍以上。</p>
+<p>transformer 需要更长的训练周期，因此 detr 比 fasterrcnn 训练慢很多</p>
+<p>detr 在大目标上（APL）有很好的效果，但是在小目标 （APS）效果不佳</p>
+<p>实验分析：</p>
+<ul>
+<li>论文认为，利用encoder 的全局信息推理，encoder 能够更好的理解目标，有一定的目标抽取和定位能力。</li>
+<li>随着层数增加相互关系更全面，也就不会产生重复预测，性能越来越好，NMS 的作用越来越小。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>训练时间长</li>
+<li>难以准确检测小目标</li>
+</ul>
+<p><strong>多层感知机（MLP）</strong></p>
+<blockquote>
+<p>多层感知器（Multilayer Perceptron,缩写MLP）是一种前向结构的人工神经网络，映射一组输入向量到一组输出向量。MLP可以被看作是一个有向图，由多个的节点层所组成，每一层都全连接到下一层。除了输入节点，每个节点都是一个带有非线性激活函数的神经元（或称处理单元）。一种被称为反向传播算法的监督学习方法常被用来训练MLP。MLP是感知器的推广，克服了感知器不能对线性不可分数据进行识别的弱点。</p>
+<p>from wikipedia</p>
+</blockquote>
+<p>MLP 是最简单的神经网络。卷积神经网络（CNN）,时间递归神经网络（LSTM） 是一些现代的变种。</p>
+<p>给定一系列特征 X 和目标 Y，一个多层感知器可以完成分类和回归，学习到特征和目标之间的关系。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/10/13/image-20211013071601872.png" alt="image-20211013071601872" style="zoom:50%;" /></p>
+<p>MLP 的网络结构：输入层，至少有一个隐藏层和输出层，MLP 网络之间都是全连接（全连接：上一层的任何一个神经元和下一层的所有神经元都有连接）。如果没有隐藏层，并且激活函数选择 sigmoid，那么就变成了逻辑回归。神经网络的三个基本要素：权重，偏置和激活函数。</p>
+<ul>
+<li>
+<p>权重：神经元之间的连接强度，强度大小表示可能性大小</p>
+</li>
+<li>
+<p>偏置</p>
+<blockquote>
+<p>A simpler way to understand what the bias is: it is somehow similar to the constant <em>b</em> of a linear function</p>
+<p><em>y = ax + b</em></p>
+<p>It allows you to move the line up and down to fit the prediction with the data better.</p>
+</blockquote>
+</li>
+<li>
+<p>激活函数并不是为了激活什么的，而是为了引入非线性。</p>
+</li>
+</ul>
+<p><strong>匈牙利算法</strong>（Hungarian Algorithm）</p>
+<p>匈牙利算法是解决二分图的最小匹配问题。有 $n$ 个工人，有 $n$ 个工作，完成对于工人和工作之间的分配。上述问题总的方案数有 $n!$ 个，但是可以在多项式（$n^3$）时间内解决。</p>
+<p>二分图（bipartitle graph）是一种特殊的图，元素可以划分为两个部分，每个部分内的点都互不相连。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/10/10/image-202110101634178619ee08b15fa19dc48.png" alt="image-20211010163417861" style="zoom:30%;" /></p>
+<p>二分图需要满足以下要求：</p>
+<ul>
+<li>无向图</li>
+<li>交集为空（$x$ 属于一个集合， $y$ 属于一个集合）</li>
+<li>任意边的两个端口分属于两个集合。</li>
+</ul>
+<p>交替路和增广路</p>
+<p>（匹配边和非匹配边）</p>
+<p>交替路和增广路是用来解决新配对的时候发生冲突的问题。</p>
+<blockquote>
+<p>**交替路径：**从一个未匹配点出发，依次经过非匹配边、匹配边、非匹配边…形成的路径称为交替路径。</p>
+<p>**增广路径：**从一个未匹配点出发，走交替路，如果途径另一个未匹配点（出发的点不算），则这条交替路称为增广路（agumenting path）。</p>
+</blockquote>
+<p>具体可以参考以下文献：<a href="https://zhuanlan.zhihu.com/p/208596378">简单理解增广路与匈牙利算法</a></p>
+<p>匈牙利算法的核心是寻找增广路径，利用增广路径求解二分图最大匹配的算法。</p>
+<p>完美匹配 vs 最大匹配</p>
+<p>如果边是有权重的，那么可以参考：KM算法（Kuhn-Munkres Algorithm）</p>
+<p>todo :</p>
+<p>detr 的代码</p>
+<p>http://123.56.8.10:9988/jeng/detr</p>
+<h2 id="detr-变体">DETR 变体</h2>
+<p>Deformable DETR</p>
+<p>UP-DETR</p>
+<p><a href="https://mp.weixin.qq.com/s?src=11&amp;timestamp=1632986049&amp;ver=3345&amp;signature=ZEn9rUXWzlB29iXD1oaZLjyFfqEF2LVdxxBTz1S1*l3Hx9l4ZAZsuqF*m6cIKaULUgF6xzqFLBc1QudUGzkSqmYh76Ge21XHcqosB2AyQAHWD4-O6YOrRM8xhw-rEIsR&amp;new=1">DETR目标检测新范式带来的思考</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2021-02-13
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/wechatpay.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/alipay.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/albumentations_explain_with_example/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Albumentations：图像数据增强</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/clip_connecting_text_image/">
+            <span class="next-text nav-default">OpenAI CLIP(Connecting Text and Images) 调研学习</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

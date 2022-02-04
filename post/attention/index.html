@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>搞懂 attention？ - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="从 attention is all you need -&amp;gt; Bidirectional Encoder Representation from Transformers -&amp;gt; vision transformer -&amp;gt; swin transformer系列学习笔记。 沐神讲解 attention attention is all you need (1) multi-head 机制类似 CNN 中的多个卷积核的输出（多个输出通道的" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/attention/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="搞懂 attention？" />
+<meta property="og:description" content="从 attention is all you need -&gt; Bidirectional Encoder Representation from Transformers -&gt; vision transformer -&gt; swin transformer系列学习笔记。 沐神讲解 attention attention is all you need (1) multi-head 机制类似 CNN 中的多个卷积核的输出（多个输出通道的" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/attention/" />
+<meta property="article:published_time" content="2021-01-29T20:55:54+08:00" />
+<meta property="article:modified_time" content="2021-01-29T20:55:54+08:00" />
+<meta itemprop="name" content="搞懂 attention？">
+<meta itemprop="description" content="从 attention is all you need -&gt; Bidirectional Encoder Representation from Transformers -&gt; vision transformer -&gt; swin transformer系列学习笔记。 沐神讲解 attention attention is all you need (1) multi-head 机制类似 CNN 中的多个卷积核的输出（多个输出通道的">
+<meta itemprop="datePublished" content="2021-01-29T20:55:54+08:00" />
+<meta itemprop="dateModified" content="2021-01-29T20:55:54+08:00" />
+<meta itemprop="wordCount" content="6087">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="搞懂 attention？"/>
+<meta name="twitter:description" content="从 attention is all you need -&gt; Bidirectional Encoder Representation from Transformers -&gt; vision transformer -&gt; swin transformer系列学习笔记。 沐神讲解 attention attention is all you need (1) multi-head 机制类似 CNN 中的多个卷积核的输出（多个输出通道的"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">搞懂 attention？</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-01-29 </span>
+        
+          <span class="more-meta"> 约 6087 字 </span>
+          <span class="more-meta"> 预计阅读 13 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#沐神讲解-attention">沐神讲解 attention</a></li>
+        <li><a href="#attention-机制">Attention 机制</a></li>
+        <li><a href="#transformer-模型">Transformer 模型</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>从 <code>attention is all you need</code>  -&gt; <code>Bidirectional Encoder Representation from Transformers</code>  -&gt; <code>vision transformer</code> -&gt; <code>swin transformer</code>系列学习笔记。</p>
+<!-- more -->
+<h2 id="沐神讲解-attention">沐神讲解 attention</h2>
+<p><strong>attention is  all you need</strong></p>
+<p>(1) multi-head 机制类似 CNN 中的多个卷积核的输出（多个输出通道的感觉）</p>
+<p>(2) attention 机制可以一次性建模句子（图像）中的关系，CNN 则需要多层才能可能得到相邻像素的关系</p>
+<p>自回归：上一时刻的输出作为当前时刻的输入，比如机器翻译过程中。</p>
+<p>输入的单词会经过向量化，加上 position encoding，然后才会作为输入放到 multi-head attention 中。</p>
+<p>如果特征是二维：</p>
+<p>batch norm： 针对特征维度（列）</p>
+<p>layer norm： 针对样本进行 norm （行）</p>
+<p>如果特征是三维，见下图。一种理解方式，是因为 sequence2sequence 模型中，句子是不等长的，所以这样计算均值、方差更加合理。但正规的论文中，更多是从梯度角度去分析的。</p>
+<p><img src="http://123.56.8.10:8899/images/2022/01/07/image-20220107195812479.png" alt="image-20220107195812479" style="zoom:40%;" /></p>
+<p>transformer 是 encoder 和 decoder 的结构，encoder 中 2 个 sublayer，decoder 中有 3 个sublayer。</p>
+<blockquote>
+<p>你看完之后，如果懂，那么就懂了；如果不懂，那么还是不懂。hhh</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2022/01/07/image-20220107202313436.png" alt="image-20220107202313436" style="zoom:40%;" /></p>
+<p>multi-head 的机制</p>
+<blockquote>
+<p>multi-head 机制类似 CNN 中的多个卷积核的输出（多个输出通道的感觉）</p>
+<p>现将 query key value 通过 linear 投影到低位维度，然后进入 attention 计算。上述过程重复 h 次，然后concat 起来，最后 linear 投影成原来 512 维度。</p>
+<p>这里的 h=8， 那么经过投影之后的维度是 64。</p>
+</blockquote>
+<p>自注意力机制：表示输入的 query key value 是相同的东西。一共有三种 attention 机制。</p>
+<p>position-wise feed-forward networks</p>
+<p>MLP： 对每个词作用一次 MLP，每个词作用的是同一个 MLP 。
+$$
+\operatorname{FFN}(x)=\max \left(0, x W_{1}+b_{1}\right) W_{2}+b_{2}
+$$
+$x$  (512 维度)通过 $W_1$ 映射到了 2048 维度，然后结果  $W_2$ 映射回 512 维度。</p>
+<blockquote>
+<p>单隐藏层的 MLP</p>
+</blockquote>
+<p>总结</p>
+<blockquote>
+<p>attention 使用了一个更加简单的假设，意味着需要更大的时间成本和数据量去训练，</p>
+<p>模型本身可以调节的参数很少，所以对于后来者也是一个优势。</p>
+</blockquote>
+<p><strong>BERT: Bidirectional Encoder Representations from Transformers</strong></p>
+<blockquote>
+<p>bidirectional 双向，之前的工作：GPT（单项信息，trasformer）, EMOL（双向信息，rnn 架构）</p>
+</blockquote>
+<p>两种方式：</p>
+<p>feature-based：使用 backbone 提取特征，然后和输入一块</p>
+<p>Fine-tuning：稍微修改网络，原始的权重进行微调</p>
+<p>实验结果：绝对精度（相对精度 相对于其他的工作）</p>
+<p>masked language model：双向（从左往右，从右往左）</p>
+<p>大量没有标注的数据上训练得到的模型，可能比你有标注的数据集上训练的模型更好（imagenet 1百万数据量）</p>
+<blockquote>
+<p>nlp 和 cv 领域都可以好好思考一下。</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2022/01/12/image-20220112202002568.png" alt="image-20220112202002568" style="zoom:50%;" /></p>
+<blockquote>
+<p>计算 transformer 的可训练参数</p>
+</blockquote>
+<p>transformer 的输入是一个序列（两个句子），bert 只有一个 encoder ，输入是一个句子（所以如果是两个句子，那么需要拼接成一个句子）</p>
+<p>wordpiece：为了解决词典比较大的情况，对长且不经常出现的次，进行切词成常见的 subword，这样使得词典比较小。3w。</p>
+<p><img src="http://123.56.8.10:8899/images/2022/01/12/image-2022011220331426840aadc923a38d5c9.png" alt="image-20220112203314268"></p>
+<blockquote>
+<p>一对句子经过 bert 模型之后得到的结果。</p>
+</blockquote>
+<p>两个任务：（1）完形填空，使用 mask 随机替换某个词 ， 80%, 10% 10%  分情况讨论的（2）next sentence prediction (NSP)，句子层面的信息。</p>
+<p>self-attention 是能够看到完整句子的，如果是 transformer（encoder-decoder ）中 encoder 是看不到 decoder 的信息。所以 bert 在这点上会更好一些，缺点在于不能像 transformer 那样做机器翻译了。</p>
+<p>bert 应用于下游任务</p>
+<p>QA 数据集：bert fine-tune 的时候需要使用 adam 正常版本，并且 epoch 要长一些。（因为开源中给出的 adam 是阉割版，epoch 只有3）</p>
+<p>bert base 是 1个亿的可学习参数量</p>
+<p>bert large 是 3 个亿的可学习参数量</p>
+<p>分类问题在 NLP 领域更加常见一下，bert 在文本摘要（文本生成），文本翻译中是一个劣势，但在分类中效果很好。</p>
+<p><strong>vision transformer</strong></p>
+<p>Swin transformer: 在检测上效果最好。多尺度的 vit</p>
+<p>Mae 采用自监督的方式 训练 transformer</p>
+<p>cnn 不一样的特性，参考论文：intriguing properties of vision transformers</p>
+<p>transformer 中最重要的操作是 self-attention，是对输入的元素进行两两求解相似度，目前的设备能够承载的长度：小几千（比如 bert 中是 512 ）。</p>
+<p>直接在像素层面使用 transformer 是不显示的。</p>
+<p>分类任务： 224 224</p>
+<p>检测 or 分割：600 600 or 800 800</p>
+<blockquote>
+<p>用特征图（resnet 14 *14 ）当做 transformer 的输入。cnn 和 transformer 结合起来进行做的，有很多这样的工作。</p>
+</blockquote>
+<p>使用patch 的思路， 一个 patch 是 16*16 ，所以 <code>An Image is Worth 16*16 Words: Transformers for Image</code> 。</p>
+<blockquote>
+<p>transformers lack some of the inductive biases （归纳偏置）</p>
+</blockquote>
+<p>归纳偏置：一些先验知识，归纳假设。</p>
+<p>cnn 的归纳偏置</p>
+<ul>
+<li>locality，局部性，相近的像素点，内容相近，所以滑动窗口；</li>
+<li>translation equivariance 平移等变性</li>
+</ul>
+<p>$f(g(x)) = g(f(x))$， $f(x)$ 表示卷积， $g(x)$ 表示平移。</p>
+<p>一般来说：判别式网络要比生成式网络 效果好。</p>
+<p><img src="http://123.56.8.10:8899/images/2022/01/14/image-20220114103311069.png" alt="image-20220114103311069" style="zoom:50%;" /></p>
+<blockquote>
+<p>这篇论文的重点是如何将图像当做 nlp 中的 words 进行处理。借助的是 patch 的思路，将图像打成 $16*16$ patch，给定顺序（为了之后的 position），然后就可以当做是 nlp 中的文本进行处理了。</p>
+<p>patch 的图像经过一个线性的映射得到 embedded patches，然后进入 transformer encoder（右图中，可以认为是一个 block，只不过是重叠了 L 次，如果是 base 网络，那么是 12），transformer encoder 的输入和输出都是相同维度，更加方便进行堆叠。</p>
+<p>进入一个 block 之前需要加上 embedded patches 需要加上 position embedding（不是图像中 0，1，2 等自然数，也是和 embedding patches 相同维度的向量，比较方便相加）。</p>
+<p>$index =0$ 相当于 transformer 中的 cls token，使用这个位置的向量用于下游的任务，如分类中的MLP head。当做图像的特征。</p>
+<p>MLP head 就是一个线性层，完成的功能是空间转换，一般是 $*4$ 维度，然后 $/4$ ，这样进入 MLP 前后维度是保持不变的。</p>
+<p>D =768 ，向量的维度</p>
+</blockquote>
+<p>消融实验</p>
+<p>2d 的位置编码，$d/2$ 用于编码横坐标， $d/2$ 用于编码纵坐标，两者 concat 起来就生成长度为 $d$ 的1D 位置编码。</p>
+<p>transformers lack some of the inductive biases</p>
+<blockquote>
+<p>缺少一些先验的假设</p>
+</blockquote>
+<p>结论：一个标注的 transformer 也是可以做 CV 的任务</p>
+<p><img src="http://123.56.8.10:8899/images/2022/01/14/image-20220114110808137.png" alt="image-20220114110808137"></p>
+<p>vision transformer 需要多少数据集才能训练得比较好？</p>
+<blockquote>
+<p>Imagenet1k, 1.2M, imagenet-21k, 14M，JFT-300M, 3亿 数据集</p>
+<p>vision transformer 在中小型数据集上训练（imagenet-1k），不如 resnet； 当 14 百万，两者差不多；当达到亿数量级，那么 vision transformer 表现比较好。</p>
+</blockquote>
+<p>transformer：又大又贵，难训练。</p>
+<blockquote>
+<p>这是大多数的人概念。</p>
+</blockquote>
+<p><strong>Swin transformer: hierarchical vision transformer using shifted windows</strong></p>
+<p>shifted windows： 移动窗口。多尺度的 vit。（vit 只是做了 分类任务）</p>
+<p>transformer 如何处理图像？</p>
+<blockquote>
+<p>使用特征图 or 使用 patch</p>
+</blockquote>
+<p>主要是用于下游任务，比如od，主要看 coco（od） 和 ade20k（segmentation）。</p>
+<p>Swinv2：1536 *1536 尺寸上进行预训练，coco 刷到 63.1</p>
+<p>对于下游任务（比如 od or segmentation），能够很好的处理多尺度图像是很重要的，比如之前的 FPN（feature pyramid network），能够有不同的感受野。</p>
+<p>u-net（分割） 中的 skip-connection 用来处理多尺寸信息。</p>
+<p>od 和 segmentation 一般都是 $800<em>800$ or $1000</em> 1000$ 的输入 resolution</p>
+<p>全局自注意力 or local 自注意力</p>
+<h2 id="attention-机制">Attention 机制</h2>
+<p>Attention 机制的本质是人眼的视觉观察，当观察一个物体的时候是有重点的观察某个位置，对信息重点关注并学习的技术。在数学中中的表现形式就是加权平均和。attention机制在机器翻译、语音识别、图像标注（Image Caption）和文本摘要等领域十分流行，在序列模型是非常有效的手段。</p>
+<p>（1）来源</p>
+<p>很多介绍Attention机制的时候都要从，Sequence to Sequence 模型说起，这个不是没有原因的。Attention 机制的提出（不是提出，而是受到广泛的关注）就是为了解决Sequence to Sequence中的问题，准确是是为了解决机器翻译中Sequence to Sequence的问题。</p>
+<p>经典的机器翻译的模型是使用一个Encoder + Decoder的结构，将一种语言比如说函数压缩成一个固定长度的向量，称为隐藏层，然后使用一个Decoder将隐藏层的信息映射到另外一种语言，比如英语。其中的Encoder 和Decoder 一般是基于LSTM 或者GRE等RNN的网络结构，在进行机器翻译的时候有两处缺陷：
+1). 源句子信息必须能够压缩到一个固定长度的向量中；
+2). 翻译成目标句子时候，源句子中的每个token 的权重是相同的。</p>
+<p>对于短文本来说，上述模型是没有问题的，但是对于长文本来说，很有可能固定长度的向量表示无法有效得得到句子的特征表示。所以这个时候提出了（借用）了Attention机制。</p>
+<blockquote>
+<p>So Lets talk about the intuition first. In the past conventional methods like TFIDF/CountVectorizer etc. we used to find features from text by doing a keyword extraction. Some word are more helpful in determining the category of a text than others. But in this method we sort of lost the sequential structure of text. With LSTM and deep learning methods while we are able to take case of the sequence structure we lose the ability to give higher weightage to more important words. <strong>Can we have the best of both worlds?</strong></p>
+<p>从文本分类角度说明了 attention 机制的好处：既可以保证时序关系，又可以保证关键信息</p>
+</blockquote>
+<blockquote>
+<p>Without attention, The input in <strong>decoder</strong> based on 2 component: the initial decoder input (often we set it to EOS token first (start word)) and the last hidden encoder. This way has the drawback in case some informations of very first encoder cell would be loss during the process. To handle this problem, the attention weight is added to all encoder outputs.</p>
+<p>原先 RNN 的结构，没有 attention 机制</p>
+</blockquote>
+<blockquote>
+<p>After attention weight was caculated, now we have three components: decoder input, decoder hidden, (attention weights * encoder outputs), we feed them to decoder to return decoder output</p>
+</blockquote>
+<p>（2）Attention 机制</p>
+<p>在机器翻译中，Attention用于关联输出序列中每个单词与输入序列中某个特定单词的关联程度。使用attention机制还有一个好处：对齐（将原文的片段和对应的译文片段进行匹配）。当然也并不是盲目的将输出的第一个单词和输入的第一个词对齐，权重关系是学习到的。</p>
+<p>Seq2Seq直接把最后一个时序$i$的输出 $h_i$作为上下文，作为Decoder的全部的输入。而使用了Attention机制的模型中，上下文向量（隐藏层向量）包含了各个时序输出的权重信息，也就是对于当前生成的文字，在源句子中哪部分是重要的，哪些部分是不重要的。</p>
+<blockquote>
+<p>To do this we start with a weight matrix(W), a bias vector(b) and a context vector u. All of them will be learned by the optimization algorithm. On this note I would like to highlight something I like a lot about neural networks - If you don&rsquo;t know some params, let the network learn them. We just have to worry about creating architectures and params to tune.</p>
+<p>这种 weights 的学习是通过网络的反向传播完成的。</p>
+</blockquote>
+<blockquote>
+<p>Attention is an interface connecting the encoder and decoder that provides the decoder with information from every encoder hidden state. With this framework, the model is able to selectively focus on valuable parts of the input sequence and hence, learn the association between them. This helps the model to cope efficiently with long input sentences.</p>
+<p>对于 attention 机制和 encoder、decoder 的关系介绍很清楚了。</p>
+</blockquote>
+<p>Attention的计算流程：</p>
+<p>1). 准备隐藏状态
+2). 得到每个隐藏状态和解码器之间的score 分数（点积只是其中一种）
+3). 将所有的分数经过softmax 归一化
+4). 每一个编码器隐藏状态和上面的分数相乘
+5). 将对齐之后的向量相加，产生上下文向量
+6). 将上下文向量送到解码器中</p>
+<p>使用动画的形式完整展示上述描述的过程：</p>
+<p>上述过程还可以用query，key 和value进行表示：</p>
+<p><img src="https://ftp.bmp.ovh/imgs/2019/12/47abe123eea911b1.jpg" alt=""></p>
+<p>用数学表示为：
+$$
+\begin{equation}
+a_{i}=\operatorname{soft} \max \left(f\left(Q, K_{i}\right)\right)=\frac{\exp \left(f\left(Q, K_{i}\right)\right)}{\sum_{j} \exp \left(f\left(Q, K_{j}\right)\right)}
+\end{equation}
+$$</p>
+<p>其中函数 $f$可以有以下几种选择</p>
+<p>$$f(Q, K_i) = \begin{cases}
+Q^T K_i &amp; dot\\<br>
+Q^T WK_i&amp; general \\<br>
+W[Q; K_i] &amp; concat
+\end{cases}$$</p>
+<p>最后得到Attention如下所示：
+$$
+\begin{equation}
+\text { Attention }(Q, K, V)=\sum_{i} a_{i} V_{i}
+\end{equation}
+$$</p>
+<p>优点：1). 当前词和全局联系 2). 并行，Attention计算不依赖上一步的结果</p>
+<p>缺点：不能捕捉语序，是一个词和周围词关系的模型，当然是可以通过位置向量（position embedding）处理</p>
+<p>（3）常见的Attention机制的分类</p>
+<p>1). Soft Attention  &amp; Hard Attention：
+上述的经典模型也被称为soft Attention，因为每个输入词的隐藏层$h_i$都参与了最后权重的计算，这样方便梯度的反向传播。对应的是 hard Attention，该类型是说在输入中中澳大某个特定的词，其权重为1，其他都是0，这种方法比较粗暴，同时因为输入和输出的一一对应关系难度很大，所以在训练的时候非常困难，需要许多技巧，所以在NLP 中不是很常见，但在图像处理中，hard attention是比较有用的。</p>
+<p>2). Global Attention &amp; Local Attention：
+这两者的区别在于是否所有的Encoder 的隐状态（$h_i$）都参与了计算，如果是，那么就是Global Attention，否则就是Local Attention。</p>
+<p>3). Self-Attention：
+传统的attention是基于源句的隐变量和目标句子之间计算attention，得到的结果是源句子的每个词和目标句子中每个词之间的依赖关系。但是self attention是指在一端（源句子或者目标句子）进行，得到的是自身相关的attention，捕捉的是源句子或者目标句子自身词与词之间的依赖关系，然后该依赖关系和源句子或者目标句子进行相乘，得到一端句子的依赖关系。</p>
+<blockquote>
+<p>In broad terms, Attention is one <strong>component</strong> of a network’s architecture, and is in charge of managing and quantifying the <strong>interdependence</strong>:</p>
+<ol>
+<li>Between the input and output elements (General Attention)</li>
+<li>Within the input elements (Self-Attention)</li>
+</ol>
+</blockquote>
+<ol start="3">
+<li>代码时间部分</li>
+</ol>
+<p>pytorch 实现一个具有self attention 翻译模型，机器翻译的模型
+或者序列标注的模型</p>
+<ol start="4">
+<li>参考文献</li>
+</ol>
+<p>Sequence to Sequence Learning with Neural Networks
+Learning Phrase Representations using RNN Encoder–Decoder for Statistical Machine Translation
+<a href="https://mp.weixin.qq.com/s?__biz=Mzg5ODAzMTkyMg==&amp;mid=2247485860&amp;idx=1&amp;sn=e926a739784090b3779711164217b968&amp;chksm=c06981f9f71e08efb5f57441444f71a09f1d27fc667af656a5ad1173e32ad394201d02195a3a&amp;mpshare=1&amp;scene=1&amp;srcid=0618HMAYi4gzzwWfedLoOuSD&amp;key=cb6098335ab487a8ec84c95399379f16f975d33ce91588d73ecf857c54b543666b5927e231ad3a9b17bff0c20fff20fc49c262912dca050dee9465801de8a4cdc79e3d8f4fbc058345331fb691bcbacb&amp;ascene=1&amp;uin=MTE3NTM4MTY0NA%3D%3D&amp;devicetype=Windows+10&amp;version=62060833&amp;lang=zh_CN&amp;pass_ticket=ikhBXxX7PL%2Fal9hbIGXbRFA96ei74EF%2BcP8KdbP6UcV6mIpOfPWzVuju%2Bqw86q5r">动图逐步讲解</a></p>
+<h2 id="transformer-模型">Transformer 模型</h2>
+<p><img src="http://123.56.8.10:8899/images/2021/03/17/v2-0c259fb2d439b98de27d877dcd3d1fcb_r.jpg" alt="preview" style="zoom:50%;" /></p>
+<p>The transformer adopts the <a href="https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html#summary">scaled dot-product attention</a>: the output is a weighted sum of the values, where the weight assigned to each value is determined by the dot-product of the query with all the keys:
+$$
+\operatorname{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V})=\operatorname{softmax}\left(\frac{\mathbf{Q K}^{\top}}{\sqrt{n}}\right) \mathbf{V}
+$$</p>
+<p>这里面Multi-head Attention其实就是多个Self-Attention结构的结合，每个head学习到在不同表示空间中的特征，如下图所示，两个head学习到的Attention侧重点可能略有不同，这样给了模型更大的容量</p>
+<p>对于 encoder 的介绍</p>
+<blockquote>
+<p>The encoder generates an attention-based representation with capability to locate a specific piece of information from a potentially infinitely-large context.</p>
+<ul>
+<li>A stack of N=6 identical layers.</li>
+<li>Each layer has a <strong>multi-head self-attention layer</strong> and a simple position-wise <strong>fully connected feed-forward network</strong>.</li>
+<li>Each sub-layer adopts a <a href="https://arxiv.org/pdf/1512.03385.pdf"><strong>residual</strong></a> connection and a layer <strong>normalization</strong>. All the sub-layers output data of the same dimension dmodel=512dmodel=512.</li>
+</ul>
+</blockquote>
+<p>对于 decoder 的介绍</p>
+<blockquote>
+<p>The decoder is able to retrieval from the encoded representation.</p>
+<ul>
+<li>A stack of N = 6 identical layers</li>
+<li>Each layer has two sub-layers of multi-head attention mechanisms and one sub-layer of fully-connected feed-forward network. （注意是两个 encoder 得到的输入放到了 decoder 中的 self-attention）</li>
+<li>Similar to the encoder, each sub-layer adopts a residual connection and a layer normalization.</li>
+<li>The first multi-head attention sub-layer is <strong>modified</strong> to prevent positions from attending to subsequent positions, as we don’t want to look into the future of the target sequence when predicting the current position. （注意这个 mask 是为了防止看到之后的信息）</li>
+</ul>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/03/30/transformer.png" alt="Transformer model"></p>
+<blockquote>
+<p>In a nutshell, attention in deep learning can be broadly interpreted as a vector of importance weights: in order to predict or infer one element, such as a pixel in an image or a word in a sentence, we estimate using the attention vector how strongly it is correlated with (or “<em>attends to</em>” as you may have read in many papers) other elements and take the sum of their values weighted by the attention vector as the approximation of the target.</p>
+<p>注意力机制是使用周围的信息权重之后用来表示当前的目标词汇。</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>An <strong>encoder</strong> processes the input sequence and compresses the information into a context vector (also known as sentence embedding or “thought” vector) of a <em>fixed length</em>. This representation is expected to be a good summary of the meaning of the <em>whole</em> source sequence.</li>
+<li>A <strong>decoder</strong> is initialized with the context vector to emit the transformed output. The early work only used the last state of the encoder network as the decoder initial state.</li>
+</ul>
+</blockquote>
+<p>关于 encoder 和decoder 的理解： encoder 是 summary of input sequence，decoder 使用上面的输出作为 initial state。</p>
+<p>While the context vector has access to the entire input sequence, we don’t need to worry about forgetting. The alignment between the source and target is learned and controlled by the context vector. The weights of these shortcut connections are customizable for each output element.</p>
+<p>分类汇总</p>
+<p>Below is a summary table of several popular attention mechanisms and corresponding alignment score functions:</p>
+<p>Here are a summary of broader categories of attention mechanisms:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Name</th>
+<th style="text-align:center">Definition</th>
+<th style="text-align:center">Citation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Self-Attention(&amp;)</td>
+<td style="text-align:center">Relating different positions of the same input sequence. Theoretically the self-attention can adopt any score functions above, but just replace the target sequence with the same input sequence.</td>
+<td style="text-align:center"><a href="https://arxiv.org/pdf/1601.06733.pdf">Cheng2016</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Global/Soft</td>
+<td style="text-align:center">Attending to the entire input state space.</td>
+<td style="text-align:center"><a href="http://proceedings.mlr.press/v37/xuc15.pdf">Xu2015</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Local/Hard</td>
+<td style="text-align:center">Attending to the part of input state space; i.e. a patch of the input image.</td>
+<td style="text-align:center"><a href="http://proceedings.mlr.press/v37/xuc15.pdf">Xu2015</a>; <a href="https://arxiv.org/pdf/1508.04025.pdf">Luong2015</a></td>
+</tr>
+</tbody>
+</table>
+<p>Below is a summary table of several popular attention mechanisms and corresponding alignment score functions:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Name</th>
+<th style="text-align:center">Alignment score function</th>
+<th style="text-align:center">Citation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Content-base attention</td>
+<td style="text-align:center">score(<strong>s</strong>t,<strong>h</strong>i)=cosine[<strong>s</strong>t,<strong>h</strong>i]score(st,hi)=cosine[st,hi]</td>
+<td style="text-align:center"><a href="https://arxiv.org/abs/1410.5401">Graves2014</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Additive(*)</td>
+<td style="text-align:center">score(<strong>s</strong>t,<strong>h</strong>i)=<strong>v</strong>⊤atanh(<strong>W</strong>a[<strong>s</strong>t;<strong>h</strong>i])score(st,hi)=va⊤tanh⁡(Wa[st;hi])</td>
+<td style="text-align:center"><a href="https://arxiv.org/pdf/1409.0473.pdf">Bahdanau2015</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Location-Base</td>
+<td style="text-align:center">αt,i=softmax(<strong>W</strong>a<strong>s</strong>t)αt,i=softmax(Wast) Note: This simplifies the softmax alignment to only depend on the target position.</td>
+<td style="text-align:center"><a href="https://arxiv.org/pdf/1508.04025.pdf">Luong2015</a></td>
+</tr>
+<tr>
+<td style="text-align:center">General</td>
+<td style="text-align:center">score(<strong>s</strong>t,<strong>h</strong>i)=<strong>s</strong>⊤t<strong>W</strong>a<strong>h</strong>iscore(st,hi)=st⊤Wahi where <strong>W</strong>aWa is a trainable weight matrix in the attention layer.</td>
+<td style="text-align:center"><a href="https://arxiv.org/pdf/1508.04025.pdf">Luong2015</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Dot-Product</td>
+<td style="text-align:center">score(<strong>s</strong>t,<strong>h</strong>i)=<strong>s</strong>⊤t<strong>h</strong>iscore(st,hi)=st⊤hi</td>
+<td style="text-align:center"><a href="https://arxiv.org/pdf/1508.4025.pdf">Luong2015</a></td>
+</tr>
+<tr>
+<td style="text-align:center">Scaled Dot-Product(^)</td>
+<td style="text-align:center">score(<strong>s</strong>t,<strong>h</strong>i)=<strong>s</strong>⊤t<strong>h</strong>in√score(st,hi)=st⊤hin Note: very similar to the dot-product attention except for a scaling factor; where n is the dimension of the source hidden state.</td>
+<td style="text-align:center"><a href="http://papers.nips.cc/paper/7181-attention-is-all-you-need.pdf">Vaswani2017</a></td>
+</tr>
+</tbody>
+</table>
+<p>Self-Attention</p>
+<p><strong>Self-attention</strong>, also known as <strong>intra-attention</strong>, is an attention mechanism relating different positions of a single sequence in order to compute a representation of the same sequence. It has been shown to be very useful in machine reading, abstractive summarization, or image description generation.</p>
+<p>Soft vs Hard Attention</p>
+<p>In the <a href="http://proceedings.mlr.press/v37/xuc15.pdf">show, attend and tell</a> paper, attention mechanism is applied to images to generate captions. The image is first encoded by a CNN to extract features. Then a LSTM decoder consumes the convolution features to produce descriptive words one by one, where the weights are learned through attention. The visualization of the attention weights clearly demonstrates which regions of the image the model is paying attention to so as to output a certain word.</p>
+<p>This paper first proposed the distinction between “soft” vs “hard” attention, based on whether the attention has access to the entire image or only a patch:</p>
+<ul>
+<li>Soft Attention: the alignment weights are learned and placed “softly” over all patches in the source image; essentially the same type of attention as in
+<ul>
+<li><em>Pro</em>: the model is smooth and differentiable.</li>
+<li><em>Con</em>: expensive when the source input is large.</li>
+</ul>
+</li>
+<li>Hard Attention: only selects one patch of the image to attend to at a time.
+<ul>
+<li><em>Pro</em>: less calculation at the inference time.</li>
+<li><em>Con</em>: the model is non-differentiable and requires more complicated techniques such as variance reduction or reinforcement learning to train. (<a href="https://arxiv.org/abs/1508.04025">Luong, et al., 2015</a>)</li>
+</ul>
+</li>
+</ul>
+<p>目前需要 code 级别的关于 attention 的应用。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2021-01-29
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/wechatpay.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/alipay.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/image_deduplication/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Image Deduplication</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/multiprocess_in_python/">
+            <span class="next-text nav-default">Multiprocess in Python</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

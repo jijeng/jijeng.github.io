@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Anchor Free Object Detection - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="anchor-free 目标检测学习整理。 anchor free 和 anchor based 的区别 如果物体用 4D（两组2D坐标）表示，则是 anchor-based，如果把物体用 2D 来表示，则属于 ancho" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/anchor-free-object-detection/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Anchor Free Object Detection" />
+<meta property="og:description" content="anchor-free 目标检测学习整理。 anchor free 和 anchor based 的区别 如果物体用 4D（两组2D坐标）表示，则是 anchor-based，如果把物体用 2D 来表示，则属于 ancho" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/anchor-free-object-detection/" />
+<meta property="article:published_time" content="2021-10-20T12:23:40+08:00" />
+<meta property="article:modified_time" content="2021-10-20T12:23:40+08:00" />
+<meta itemprop="name" content="Anchor Free Object Detection">
+<meta itemprop="description" content="anchor-free 目标检测学习整理。 anchor free 和 anchor based 的区别 如果物体用 4D（两组2D坐标）表示，则是 anchor-based，如果把物体用 2D 来表示，则属于 ancho">
+<meta itemprop="datePublished" content="2021-10-20T12:23:40+08:00" />
+<meta itemprop="dateModified" content="2021-10-20T12:23:40+08:00" />
+<meta itemprop="wordCount" content="12765">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Anchor Free Object Detection"/>
+<meta name="twitter:description" content="anchor-free 目标检测学习整理。 anchor free 和 anchor based 的区别 如果物体用 4D（两组2D坐标）表示，则是 anchor-based，如果把物体用 2D 来表示，则属于 ancho"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Anchor Free Object Detection</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-10-20 </span>
+        <div class="post-category">
+            <a href="/categories/deep-learning/"> deep-learning </a>
+            </div>
+          <span class="more-meta"> 约 12765 字 </span>
+          <span class="more-meta"> 预计阅读 26 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#cornernet">cornernet</a></li>
+        <li><a href="#cornernet-lite">cornerNet-Lite</a></li>
+        <li><a href="#centernet">centernet</a>
+          <ul>
+            <li><a href="#理论学习">理论学习</a></li>
+            <li><a href="#代码解析">代码解析</a></li>
+            <li><a href="#代码进一步详解">代码进一步详解</a></li>
+          </ul>
+        </li>
+        <li><a href="#centertrack">centertrack</a></li>
+        <li><a href="#achor-free-的论文">achor-free 的论文</a>
+          <ul>
+            <li><a href="#其他">其他</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>anchor-free 目标检测学习整理。</p>
+<!-- more -->
+<p><strong>anchor free 和 anchor based 的区别</strong></p>
+<blockquote>
+<p>如果物体用 4D（两组2D坐标）表示，则是 anchor-based，如果把物体用 2D 来表示，则属于 anchor-free。anchor-free 比起一个方框范围，更着眼于点的分析。</p>
+</blockquote>
+<p>为什么要有 anchor？</p>
+<p>在深度学习时代，物体检测问题通常被建模成一些候选区域进行分类和回归的问题。在 one-stage 中，这些候选区域是通过滑窗方式产生的 anchor；在two-stage 阶段，候选区域是通过 RPN 生成的 proposal，依然是针对 anchor 进行分类和回归。</p>
+<p>在 anchor-based 的方法中，索然每个位置可能只有一个 anchor，但预测的对象是基于这个 anchor 来匹配的，而在 anchor-free 的方法中，通常是基于这个点来匹配的。</p>
+<p>为什么 anchor-free 能够卷土重来？</p>
+<blockquote>
+<p>不需要在图像上先验 anchor 框</p>
+</blockquote>
+<p>多尺度和样本数问题是 anchor-free 需要面对的问题，而FPN 和 focal losss 只是一种广为推荐的方法，并不是唯一的，在未来也可能不再适用。</p>
+<blockquote>
+<p>应该归功于 FPN和 focal loss。</p>
+</blockquote>
+<p>Anchor-free 的第一问题就是不同尺度的物件辨识困难，过去一半会通过多尺度的 image pyramid 改善。但是这种代价是额外的训练和部署时候的计算量。这个问题问题直到 16年 FPN（feature pyramid network）出来之后，才让多尺度问题有了精简的解决方案。</p>
+<p>anchor-free 的第二个问题是训练时候过多的负样本数会导致网络训练变得困难，这部分也是以往 anchor-base 方法通过计算 IOU 以平衡样本数。 17 年时候，提出 focal loss（retinaNet, reh-tuh-nuh）在一定程度上解决了 anchor-free 样本不均衡的问题。</p>
+<blockquote>
+<p>Focal loss的核心观念在于压低简单的样本的loss weight。以物件侦测来说，落在背景的点是大量且容易分类。Focal Loss的目标即是避免过度关注这些easy example并聚焦Hard example。上图中，蓝线是一般的cross entropy，而其他的线是不同hyper-parameter的focal loss，可以看出整个曲度更加陡峭。当然，同时期存在其他处理类似问题的方法，如hard negative mining。</p>
+</blockquote>
+<p>anchor-free 同样分为两个子问题，即确定物体中心和对四条边框的预测。对于边框的预测都是预测该像素点到 ground truth 框的四条边距离。</p>
+<p>anchor free 的方法一般有两种</p>
+<ul>
+<li>keypoint-based: follow 了特征点检测的方法</li>
+<li>center-based：把点看做是样本，和 anchor-based 方法是相似的</li>
+</ul>
+<p>使用 anchor 的优势</p>
+<ul>
+<li>通过不同尺寸的anchor，可以减少面对物体 scale 和 ratio 变化范围</li>
+<li>控制anchor 的数量，可以降低 image pyramid 层数并依情况调整运算量</li>
+</ul>
+<p>使用 anchor 的弊端</p>
+<ul>
+<li>设计 anchor 的hyper parameter 不易调整</li>
+<li>训练 anchor 的IOU 需要消耗大量的时间和memory</li>
+</ul>
+<p>anchor-free算法归纳</p>
+<p>cornernet/ cornerNet-lite: 左上角 +右下角</p>
+<p>extremenet：上下左右4 个极值点+ 中心点</p>
+<p>centerNet： 左上角点 + 右下角点 + 中心点</p>
+<p>YOLO v1 可以看做是 anchor-free 类别； YOLO-v2 开始引入anchor</p>
+<p>anchor-based 类的代表： fasterRCNN， SSD， YOLO-v2/ v3</p>
+<p>Anchor-free 类的代表： cornerNet， ExtremeNet, centerNet</p>
+<p>anchor-free 方法主要分为基于密集预测和基于关键点估计两种。</p>
+<p>densebox</p>
+<p>Densebox的主要贡献有两个：证明了单FCN（全卷积网络）可以实现检测遮挡和不同尺度的目标；在FCN结构中添加少量层引入landmark localization，将landmark heatmap和score map融合能够进一步提高检测性能。</p>
+<p>基于关键点（keypoint） 的解决方案</p>
+<p>cornerNet</p>
+<p>CornerNet提出了一个比较有意思的思路，就是将Box转化为关键点描述，即用box左上角和右下角两个点去确定一个box，将问题转化为对top-left和bottom-right两个点的检测与匹配问题。</p>
+<p>centerNet（这个是有两篇不同的论文，所以需要简单区分一下）</p>
+<p>CenterNet的Motivation其实很简单：CornerNet只能提供边缘信息，实际上对于obj来说，最有辨识度的信息应该是它们内部的区域。过于关注边缘很容易引入大量的误检和错检。CenterNet增加了对中心点的检测，来帮助筛选候选框。</p>
+<p>extremeNet</p>
+<p>采用了另一种点描述方式（top-most，bottom-most，left-most，right-most，center），补充的 center 点可以帮助判断 box 的真实性。</p>
+<p>参考文献</p>
+<p><a href="https://zhuanlan.zhihu.com/p/86270414">目标检测中的Anchor Free方法(一)</a></p>
+<h2 id="cornernet">cornernet</h2>
+<blockquote>
+<p>By detecting objects as paired keypoints, we eliminate the need for designing a set of anchor boxes commonly used in prior single-stage detectors.</p>
+<p>Experiments show that Corner- Net achieves a 42.2% AP on MS COCO, outperforming all existing one-stage detectors.</p>
+<p>cornernet 主要是开创性的，使用关键点的思路去做 od。效果是一般的。</p>
+</blockquote>
+<p>Anchor-based 的缺点</p>
+<blockquote>
+<p>First, we typically need a very large set of anchor boxes</p>
+<p>Second, the use of anchor boxes introduces many hyperparameters and design choices</p>
+</blockquote>
+<blockquote>
+<p>上图是比较易懂的方式展示 cornernet 的过程。</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/12/08/image-20211208143250607.png" alt="image-20211208143250607"></p>
+<blockquote>
+<p>包含了更多框架方面的知识。</p>
+</blockquote>
+<p>hourglass 这个backbone 网络结构可以总结一下。</p>
+<p><strong>corner pooling</strong></p>
+<blockquote>
+<p>新型的池化层，帮助网络更好的寻找角点</p>
+</blockquote>
+<p>如果我们能在某行和某列检测到同一个object的边界特征，那么这行和这列的交点就是corner，这是一种间接且有效的找corner的方法。以下是具体做法：</p>
+<blockquote>
+<p>对于第1组feature maps，对每行feature scores按从右向左的顺序选择已滑动过范围的最大值，对于第2组feature maps，对每列feature scores按从下向上的顺序选择已滑动过范围的最大值。 为了更好地适应corner的检测。在目标检测的任务中，object的corner往往在object之外，所以corner的检测不能根据局部的特征，而是应该对该点所在行的所有特征与列的所有特征进行扫描。</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/11/02/image-20211102114935630.png" alt="image-20211102114935630"></p>
+<blockquote>
+<p>它输入两个特征图； 在每个像素位置，它最大池化第一个特征图右侧的所有特征向量，最大池化第二个特征图正下方的所有特征向量，然后将两个合并的结果加在一起。</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/12/08/image-20211208131508958.png" alt="image-20211208131508958"></p>
+<blockquote>
+<p>分别在水平与垂直放心求最大值，然后再叠加，得到输出的结果，需要特别方向是自底向上，从右到左。以上是更加详细的图解。</p>
+</blockquote>
+<p>为了实现模型的训练和测试，仅仅定义网络结构是远远不够的。我们还需要</p>
+<ul>
+<li>将真实标签（物体的类别和所在的位置） 映射为监督信息（类似网络的输出格式）</li>
+<li>根据网络前向过程的输出和上一步的监督信息构建相应的损失函数</li>
+<li>根据损失函数进行梯度下降，更新网络参数</li>
+</ul>
+<p>概括地说，CornerNet使用单个卷积网络来检测物体的左上角和右下角：</p>
+<blockquote>
+<p>通过预测得到的**热图(heatmaps)**来判别各位置是否属于角点；</p>
+<p>基于预测的角点**嵌入向量(embeddings)**来对角点进行配对(属于同一物体的一对角点的embeddings之间的距离会比较小，属于不同物体的则比较大)，从而判断哪些左上角点和右下角点是属于同一物体的；</p>
+<p>使用预测的**偏移量(offsets)**对角点位置进行调整；</p>
+</blockquote>
+<p><strong>embedding vector</strong></p>
+<blockquote>
+<p>The network also predicts an embedding vector for each detected corner such that the distance between the embeddings of two corners from the same object is small.</p>
+<p>也就是cornerNet在进行预测的时候，会为每个点分配一个<strong>embedding vector</strong>，属于同一物体的点的vector的距离较小。</p>
+</blockquote>
+<p><strong>heapmaps</strong></p>
+<blockquote>
+<p>只是将 bouding box 的一个角点映射到 heatmap 中对应的一个角点是不合理的，或者说映射关系太苛刻。</p>
+<p>所以将物体bounding box的<strong>一个角点</strong>映射到heatmap中对应的<strong>一个小型的圆形区域</strong>，这才是合理的。论文中这个临近区域叫做 positive location。</p>
+</blockquote>
+<p>每组 heatmap 的shape 是 $C<em>H</em>W$， 其中 $H*W$ 是特征图的尺寸。理想状态，它是一个二值 mask，值为 1 表示该位置属于角点，而通常模型预测出来每个位置上的值是 (0, 1)，表示该位置属于角点的置信度。</p>
+<p>半径的大小根据目标大小来设定，保证产生的预测框能至少满足 $IoU &gt; t$ 。对每个角点，都有个正确标注位置信息，其他都是负样本，为了平衡正负样本的比例，作者只对正样本指定半径周围负样本考虑在训练环节。</p>
+<p><strong>radius computation</strong></p>
+<blockquote>
+<p>半径是基于这样一个条件计算出来的：在圆内的角点对形成的 bbox （pred bbox）和 gt box 的 IoU 不小于（作者在实验中设置为 0.3）。可以分为以下三种情况考虑：</p>
+<p>（1）pred bbox 包围这 gt box，同时两边和圆相切</p>
+<p>（2）gt box 包围这 pred bbox，同时两边是和圆相切</p>
+<p>（3）pred bbox 和 gt box 部分重叠，两者分别有两边和圆相切</p>
+<p>这部分可以参考 <a href="https://mp.weixin.qq.com/s?src=11&amp;timestamp=1638880799&amp;ver=3482&amp;signature=S84PnfNjsJ5aSzVOLgVK2r82gh7HFCCcrukVJnXM4tGilYBhJErFXIKEu0PYmPpkjTslJhed6S3F1vS9DeyhNqEQm4FG2TWQKz9kQF*ILTdnB3xp8WX6osABxSh8mn5p&amp;new=1">CornerNet: 将目标检测问题视作关键点检测与配对</a></p>
+</blockquote>
+<p><strong>offset</strong></p>
+<blockquote>
+<p>对角点进行小幅度的调整</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 用来表示最多可能出现的物体数量
+max_tag_len =128
+</code></pre></td></tr></table>
+</div>
+</div><p>损失函数</p>
+<p>（1）focal loss</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 这里以输出的 heatmapps 和监督的 heatmaps 作为输入，计算 focal loss
+</code></pre></td></tr></table>
+</div>
+</div><p>（2） embedding 损失</p>
+<p>这部分 loss 有两部分，$l_{pull}$ 和 $l_{push}$ 分别表示 push and separate the corners.
+$$
+L_{\text {pull }}=\frac{1}{N} \sum_{k=1}^{N}\left[\left(e_{t_{k}}-e_{k}\right)^{2}+\left(e_{b_{k}}-e_{k}\right)^{2}\right]
+$$</p>
+<p>$$
+L_{p u s h}=\frac{1}{N(N-1)} \sum_{k=1}^{N} \sum_{j=1 \atop j \neq k}^{N} \max \left(0, \Delta-\left|e_{k}-e_{j}\right|\right)
+$$</p>
+<blockquote>
+<p>论文中利用该损失函数来<strong>减小同一物体bounding box左上角和右下角embedding的距离</strong>，<strong>增大不同物体bounding box左上角和右下角embedding的距离</strong>。</p>
+</blockquote>
+<p>（3）修正损失</p>
+<p>在原来预测的基础上，加上 offset，使得预测更加精确。表示的时候使用 <code>smoothL1Loss</code> 表示</p>
+<p>ablation study</p>
+<ul>
+<li>corner pooling：角点池化是 cornernet 的关键组成部分</li>
+</ul>
+<p><img src="http://123.56.8.10:8899/images/2021/12/08/image-20211208132505029.png" alt="image-20211208132505029"></p>
+<blockquote>
+<p>从这个角度分析，确实是非常有效</p>
+</blockquote>
+<p>作者假设了检测角落比检测中心更好的两个原因。</p>
+<ul>
+<li>anchor 的中心可能更难定位，因为它取决于目标的 4 个边，而定位角点仅仅取决于 2个边，corner pooling 为定义角点引入了合理的先验</li>
+<li>角点提供了一种密集离散化 box空间的方法：我们只需要 $O(wh)$ 的角点，便可以表示出 $O(w^2h^2)$ 可能的 anchor</li>
+</ul>
+<p>参考文献</p>
+<p><a href="https://mp.weixin.qq.com/s?src=11&amp;timestamp=1638880799&amp;ver=3482&amp;signature=Ae5YKenadbbEIisWLUG3FXUYjCDB5QJ1lFsI-HCTQN73hHviCBDmn7L*z4Rx-f1OAwA*0IJOeAMcffT4wyui741NgkVqu*17SNiyZqAuf*-A4SdrJlORTxunPamZPXft&amp;new=1">深度解析 CornerNet 网络结构</a></p>
+<h2 id="cornernet-lite">cornerNet-Lite</h2>
+<p>CornerNet 作为 keypoint-based 目标检测算法中经典方法，虽然有着不错的准确率，但其推理很慢，大约是 1.1s/ 张。虽然可以简单地缩小输入图片的尺寸来加速推理，但这会极大地降低其准确率，性能比YOLOv3要差很多。论文中提出了两种轻量级的 CornerNet 变种：</p>
+<p>（Saccade 扫视）</p>
+<ul>
+<li>CornerNet-Saccade：该变种主要通过<strong>降低需要处理的像素数量</strong>来达到加速的目的，首先通过缩小的图片来获取初步的目标位置，然后根据目标位置截取附近小范围的图片区域来进行目标的检测，准确率和速度分别可达到43.2%AP以及190ms/张。</li>
+<li>CornerNet-Squeeze：该变种主要通过<strong>降低每个像素的处理次数</strong>来达到加速的目的，将SqueezeNet和MobileNets的思想融入hourglass提出新的主干网络，准确率和速度分别可达到34.4%AP以及30ms/张。</li>
+</ul>
+<p>CornerNet-Saccade</p>
+<p>Estimating Object Locations 获取可能出现目标的初步位置及其尺寸：</p>
+<ul>
+<li>将输入的图片缩小至长边为255像素和192像素两种尺寸，小图进行零填充，使其能同时输入到网络中进行计算。</li>
+<li>对于缩小的图片，预测3个attention特征图，分别用于小目标(长边&lt;32像素)、中目标(32像素&lt;=长边&lt;=96像素)和大目标(长边&gt;96像素)的位置预测，这样的区分能够帮助判断是否需要对其位置区域进行放大，对于小目标需要放大更大，下一部分会提到。</li>
+<li>Attention特征图来源于hourglass上采样部分的不同模块，尺寸较大的模块特征图输出用于更小的目标检测(主干网络结构后面会介绍)，对每个模块输出的特征图使用Conv-ReLU模块接Conv-Sigmoid模块生成Attention特征图。</li>
+</ul>
+<p>CornerNet-Squeeze</p>
+<p>在CornerNet中，大多数的计算时间花在主干网络Hourglass-104的推理。为此，CornerNet-Squeeze结合SqueezeNet和MobileNet来减少Hourglass-104的复杂度，设计了一个新的轻量级hourglass网络。</p>
+<h2 id="centernet">centernet</h2>
+<h3 id="理论学习">理论学习</h3>
+<p>centernet 通过预测每个目标的中心点，以中心点为基准回归宽，高以及下采样带来的点的偏置，这三个属性都是中心点的附加属性。将目标检测基于关键点检测的思路，抛弃了由anchor生成的大量需要被抑制的样本，故而不需要NMS做后处理，而且整个网络只有一个检测Head，不基于FPN为BackBone需要多个检测Head，整体速度就快了很多。</p>
+<p>在 COCO 数据集上达到了 speed-accuracy 最好的 trade-off</p>
+<p><img src="http://123.56.8.10:8899/images/2021/10/18/640.png" alt="Image" style="zoom:67%;" /></p>
+<p>centernet： objects as points, 是 one-stage 目标监测</p>
+<blockquote>
+<p>There are two types of methods to regress and classify bounding box around an object in Anchor Free Object Detection approaches. i) Keypoint based approach ii) Center-based approach.</p>
+<p>对于 anchor-free 的监测也是有两种方式： keypoint-based 和 center-based</p>
+</blockquote>
+<blockquote>
+<p>Keypoint based approach: 使用关键点然后去生成 bounding box（作为属性），然后用于分类</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">The former predicts predefined key points from the network which are then used to generation of the bounding box around an object and classification of the same. CornerNet², CenterNet: Keypoint Triplets³ and Grid- RCNN⁴ are some networks using keypoint based approaches.
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>center-based: 需要去了解一个具体的网络</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">The latter uses center-point or any part-point of an object to define positive and negative samples(instead of IoU..!) and from these positives, it predicts the distance to four coordinates for the generation of a bounding box. Some of the networks using this approach are FCOS⁵, DenseBox⁶, FSAF⁷, etc. They have their peculiar methods to generate positive samples and use that for regression of boxes, objectness, and class probabilities.
+</code></pre></td></tr></table>
+</div>
+</div><p>peculiar 奇特的、独特的</p>
+<p>feature extractor/ backbone used</p>
+<blockquote>
+<p>Four different feature extractors were used for the experiments. <strong>ResNet18</strong>, <strong>ResNet1⁰¹⁸, Deep Layer Aggregation Networks(DLA)⁹, and Stacked Hourglass Networks¹⁰.</strong> ResNets and DLA were modified by adding Deconvolutional and Deformable Convolutional Layers.</p>
+<p>还是需要把  deconvolutional and deformable convolutional layers 好好学习一下。下面几个网络都是需要好好学习一下的</p>
+</blockquote>
+<p>Hourglass Module</p>
+<p>Modified DLA -34</p>
+<blockquote>
+<p>CenterNet: Object as Points follows the former viz. <em>keypoint based approach</em> for object detection. It considers the center of a box as an object as well as a key point and then uses this predicted center to find the coordinates/offsets of the bounding box.</p>
+</blockquote>
+<blockquote>
+<p>CenterNet将输入的图片转换成热图，热图中的高峰点对应目标的中心，将高峰点的特征向量用于预测目标的高和宽，如图2所示。在推理时，只需要简单的前向计算即可，不需要NMS等后处理操作。</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/10/18/image-20211018164947712.png" alt="image-20211018164947712"></p>
+<blockquote>
+<p>上图中每个峰值对应的位置表示一个目标的中心。其实这并不是严格的热力图，而是网络训练的 label。因为上图中每个山峰的峰值都是 1，背景点几乎都是 0，每个山峰的峰值并不介于 0-1。 centernet 的做法是找到所有小山丘的峰值，再从小山丘当中选择峰值大于一定阈值的作为正样本。</p>
+</blockquote>
+<blockquote>
+<p>In this paper, a center prediction is considered as a standard keypoint estimation problem. After passing an image through Fully Convolutional Network, the final feature map outputs heatmaps for different key points. Peaks of these output feature maps are considered as predicted centers.</p>
+<p>这个是 centerNet 中的整个流程：使用 CNN 得到 heatmap 之后，然后生成多个 key points，使用 multi-head 处理不同的子问题。</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/07/07/1y82flEmdWr20NjuevgQ8-Q.png" alt="img"></p>
+<p>Heatmap Head</p>
+<blockquote>
+<p>This head is used for the estimation of the key points given an input image. In the case of object detection, keypoints are the box center.</p>
+</blockquote>
+<p>（分析代码和结构一个很重要的维度是 看向量的 size 的变化）</p>
+<blockquote>
+<p>To form ground truth heatmaps for loss propagation, these centers are splat using Gaussian Kernels after converting them to low-resolution equivalent(In our case division by stride <strong>R.</strong> Denoted as <strong>p~</strong>). For example, If we have three classes (<strong>C=3</strong>) and input image dimensions are <strong>400X400</strong>, then with a given stride (<strong>R=4</strong>), we have to generate 3 heatmaps (Each heatmap corresponding to a given class) of dimensions .</p>
+<p>注意这里的类别数是 3，所以 C 等于 3.</p>
+</blockquote>
+<p>Dimension Head</p>
+<blockquote>
+<p>This head is used for the prediction of the dimensions of the boxes: width and height.</p>
+</blockquote>
+<p>This head is used for the prediction of the dimensions of the boxes viz. width and height.  This is achieved by solving a standard L1 distance norm.To reduce the computational burden, they use single sized heatmaps for all object categories.</p>
+<blockquote>
+<p>这里的 loss 是L1 loss， regression 任务。这里的 single heatmap for  all object categories，不是那么明晰。</p>
+</blockquote>
+<p>Offset Head</p>
+<blockquote>
+<p>This head is used to recover from the discretization error caused due to the downsampling of the input.</p>
+<p>After the prediction of the center points, we have to map these coordinates to a higher dimensional input image.</p>
+</blockquote>
+<p>**Nms vs soft nms **</p>
+<p><img src="http://123.56.8.10:8899/images/2021/12/09/image-20211209133018728.png" alt="image-20211209133018728"></p>
+<blockquote>
+<p>当图像中检测的物体有较大的 overlap，soft-nms 能够得到比较好的效果。</p>
+</blockquote>
+<p>具体方法</p>
+<p>NMS 的方法
+$$
+s_{i}= \begin{cases}s_{i}, &amp; \operatorname{iou}\left(\mathcal{M}, b_{i}\right)&lt;N_{t} \ 0, &amp; \operatorname{iou}\left(\mathcal{M}, b_{i}\right) \geq N_{t}\end{cases}
+$$</p>
+<blockquote>
+<p>NMS 设置了一个 hard threshold，当两个 box iou 重合度很大的时候，直接 remove from the neighborhood。</p>
+</blockquote>
+<p>soft-NMS 的方法
+$$
+s_{i}= \begin{cases}s_{i}, &amp; \operatorname{iou}\left(\mathcal{M}, b_{i}\right)&lt;N_{t} \ s_{i}\left(1-\operatorname{iou}\left(\mathcal{M}, b_{i}\right)\right), &amp; \operatorname{iou}\left(\mathcal{M}, b_{i}\right) \geq N_{t}\end{cases}
+$$</p>
+<blockquote>
+<p>公式中的 s 为置信度。soft-NMS 不再删除所有于 highest-score 的bbox 大于 IoU 阈值的框，而是改为降低它们的置信度。</p>
+</blockquote>
+<p>对于 soft-nms 的总结</p>
+<ul>
+<li>Soft-nms 加强了对 highly-overlap objects 的正常区分，同时却也削弱了对 light-overlap objects 的区分能力</li>
+<li>本质上是针对 overlap 情景的一种 overfit</li>
+<li>只有在highly-overlap objects 的场景下才能发挥真正作用，普通场景下并没有 highly-overlap，所以可能有反效果</li>
+</ul>
+<p>涉及到的 backbone</p>
+<ul>
+<li>Hourglass：最开始是被用于关键点检测的，作者改为 stacked 的方式，类似渐进式或者说是级联。</li>
+<li>resnet 魔改了一下，在每个上采样前添加一个 DCN （变形卷积）</li>
+<li>DLA：一个做分类的网络</li>
+</ul>
+<blockquote>
+<p>Additionally, the network predicts the width and height of the box for these centers and each center will have its unique box width and height. This tightly coupled property helps them to remove the Non-Maximal Suppression step in post-processing.</p>
+</blockquote>
+<p>Pose estimation is considered a simple keypoint estimation problem.</p>
+<blockquote>
+<p>Here instead of 80 as a value of C, <em>k = 34</em> is used(In Case of COCO Dataset: 17 key points). These offsets are predicted for each keypoint directly regressing from the centers.</p>
+</blockquote>
+<p><strong>Inference</strong></p>
+<p>object detection</p>
+<blockquote>
+<p>At inference time, peaks of the heatmaps are calculated by seeing the maximum value near the 8-pixel neighborhood in a heatmap and keeping the first 100 peaks of all the different classes independently. This operation is achieved by 3X3 MaxPool Operation on the obtained feature map.</p>
+<p>通过 3*3 的maxpool 可以从 heatmap 中得到相应的 maximum value</p>
+<p>The obtained peak coordinates are used to get the dimensions and offset predictions. You can get to know this part better by going through <a href="https://github.com/see--/keras-centernet/blob/master/keras_centernet/models/decode.py">this</a> piece of code.</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/12/20/image-20211220162755371.png" alt="image-20211220162755371"></p>
+<p>关于 pose estimation 就不说了。</p>
+<p>centernet 的特点：</p>
+<ul>
+<li>不必基于 anchor 超参数的调整</li>
+<li>每个目标仅仅有一个正的锚点，整个 pipeline 不会使用的 NMS。</li>
+<li>centerNet 相比传统目标检测（缩放 16 倍尺寸），使用更大分辨率输出特征图（缩放了 4 倍），因此无需多重特征图，所以即使使用了更大的分辨率，速度仍然是很快的。</li>
+</ul>
+<p>并且沿着这个思路可以扩展到其他任务，比如 3D目标检测和姿态估计。其方法就是每个预测点要回归到目标的其他属性，比如 3D 目标检测就需要回归更多的参数，比如目标深度，3D边框维度和目标方向，这个进度可以参考 centerTrack。</p>
+<p><a href="https://mp.weixin.qq.com/s?src=11&amp;timestamp=1634294430&amp;ver=3376&amp;signature=8JEYElZxSL4HnLPgial8R1QP6fQyQlYttwhd1Af2z7-kPbxnMBvWdOZEBVdTv26x7aJjRusGuJ2RE0icTjGdLlCO6yG-XqOcpFXWRKly3HKffOFTirsZmZ6q-hiyAJ6b&amp;new=1">Objects as Points：预测目标中心，无需NMS等后处理操作 | CVPR 2019</a></p>
+<blockquote>
+<p>关于 centernet 中涉及到的 backbone 是需要好好看看的。</p>
+</blockquote>
+<p>参考文献：</p>
+<p><a href="https://medium.com/visionwizard/centernet-objects-as-points-a-comprehensive-guide-2ed9993c48bc">https://medium.com/visionwizard/centernet-objects-as-points-a-comprehensive-guide-2ed9993c48bc</a></p>
+<h3 id="代码解析">代码解析</h3>
+<p>（1）readme 文件夹</p>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/readme/DATA.md">https://github.com/xingyizhou/CenterNet/blob/master/readme/DATA.md</a></p>
+<blockquote>
+<p>在多个数据集上进行了实验， pascal voc, kitti, coco。数据集方面的准备可以参考该 readme</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/readme/DEVELOP.md">https://github.com/xingyizhou/CenterNet/blob/master/readme/DEVELOP.md</a></p>
+<blockquote>
+<p>如果想要使用其他的 architecture，可以参考 <code>New architecture</code></p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/readme/GETTING_STARTED.md">https://github.com/xingyizhou/CenterNet/blob/master/readme/GETTING_STARTED.md</a></p>
+<blockquote>
+<p>主要是做 train 和 evaluation 的处理脚本。不同的任务和不同的数据集。如果能安装好环境，那么这个是很容易实现的。</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/readme/INSTALL.md">https://github.com/xingyizhou/CenterNet/blob/master/readme/INSTALL.md</a></p>
+<blockquote>
+<p>主要是这个环境非常的老了，torch 都是 0.4，比较难和之后的 cuda 版本适配。难点在于 pytorch 和 DCNv2 的编译。</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/readme/MODEL_ZOO.md">https://github.com/xingyizhou/CenterNet/blob/master/readme/MODEL_ZOO.md</a></p>
+<blockquote>
+<p>不同任务下的 pretrained model，比如 pascal voc，human pose estimation， coco</p>
+</blockquote>
+<p>（2）models, data, exp, images 下面都没有代码，可以直接 pass 掉。</p>
+<p>（3）experiments 中是各种任务的脚本</p>
+<blockquote>
+<p>不同数据集、不同 backbone、不同测量的训练和测试脚本</p>
+</blockquote>
+<p>（4）src</p>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/demo.py">https://github.com/xingyizhou/CenterNet/blob/master/src/demo.py</a></p>
+<blockquote>
+<p>脚本就是一个展示功能</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/test.py">https://github.com/xingyizhou/CenterNet/blob/master/src/test.py</a></p>
+<blockquote>
+<p>这个是 test 的脚本，可以学习的点是：对于数据处理是 dataset_factory, 对于模型（detector）的处理是一个 factory，这样构造的是非常有逻辑和清晰的。</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/main.py">https://github.com/xingyizhou/CenterNet/blob/master/src/main.py</a></p>
+<blockquote>
+<p>main 是入口脚本，train 脚本。</p>
+</blockquote>
+<p>（4.1）lib</p>
+<blockquote>
+<p>该 sub-repo 是最重要的。</p>
+</blockquote>
+<p><em>datasets</em></p>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/lib/datasets/dataset_factory.py">https://github.com/xingyizhou/CenterNet/blob/master/src/lib/datasets/dataset_factory.py</a></p>
+<blockquote>
+<p>这个是 dataset_factory，是关于数据集的 factory</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/lib/datasets/dataset_factory.py#L23">https://github.com/xingyizhou/CenterNet/blob/master/src/lib/datasets/dataset_factory.py#L23</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">dataset_factory</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">&#39;coco&#39;</span><span class="p">:</span> <span class="n">COCO</span><span class="p">,</span>
+  <span class="s1">&#39;pascal&#39;</span><span class="p">:</span> <span class="n">PascalVOC</span><span class="p">,</span>
+  <span class="s1">&#39;kitti&#39;</span><span class="p">:</span> <span class="n">KITTI</span><span class="p">,</span>
+  <span class="s1">&#39;coco_hp&#39;</span><span class="p">:</span> <span class="n">COCOHP</span>
+<span class="p">}</span>
+
+<span class="n">_sample_factory</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">&#39;exdet&#39;</span><span class="p">:</span> <span class="n">EXDetDataset</span><span class="p">,</span>
+  <span class="s1">&#39;ctdet&#39;</span><span class="p">:</span> <span class="n">CTDetDataset</span><span class="p">,</span>
+  <span class="s1">&#39;ddd&#39;</span><span class="p">:</span> <span class="n">DddDataset</span><span class="p">,</span>
+  <span class="s1">&#39;multi_pose&#39;</span><span class="p">:</span> <span class="n">MultiPoseDataset</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>Dataset_factory 对应的是不同的数据集， sample_factory 对应的是不同的任务</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/tree/master/src/lib/datasets/dataset">https://github.com/xingyizhou/CenterNet/tree/master/src/lib/datasets/dataset</a></p>
+<blockquote>
+<p>dataset 是 coco, kitti, pascal 三个数据集的处理。</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/lib/datasets/dataset/coco.py">https://github.com/xingyizhou/CenterNet/blob/master/src/lib/datasets/dataset/coco.py</a></p>
+<blockquote>
+<p>其中的 mean 和 std 虽然有定义，但是没有使用，不同的数据集中的 mean 和 std 是不一样的；这里为什么特征值和特征向量都是定义好的呢？</p>
+<p>这个并不完全是在处理数据，还有一些 evaluation 结果的工具函数。</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/tree/master/src/lib/datasets/sample">https://github.com/xingyizhou/CenterNet/tree/master/src/lib/datasets/sample</a></p>
+<blockquote>
+<p>这下面也是有 4 个 python 文件，但目前没有搞清楚这个怎么用</p>
+</blockquote>
+<p><em>detectors</em></p>
+<p>基本上和 <code>dataset</code> 的代码结构是一样的，首先是 <code>base_detector</code> 然后是针对不同任务实现的 <code>det</code>，比如说 <code>ctdet</code> <code>ddd</code> 文件</p>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/lib/detectors/base_detector.py">https://github.com/xingyizhou/CenterNet/blob/master/src/lib/detectors/base_detector.py</a></p>
+<blockquote>
+<p>base 的类别。其中的 run 函数不是多线程或者多进程的中 run函数。这个基本的 类中定义了 子类中需要实现的函数：process, post_process, merge_outputs, debug, show_results 等</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/lib/detectors/ddd.py">https://github.com/xingyizhou/CenterNet/blob/master/src/lib/detectors/ddd.py</a></p>
+<blockquote>
+<p>单独以 ddd 文件为例，包含了 <code>pre_process</code>, <code>process</code> , <code>pose_process</code> 几个函数，还是十分准确的。</p>
+</blockquote>
+<p><em>external</em></p>
+<p><a href="https://github.com/xingyizhou/CenterNet/tree/master/src/lib/external">https://github.com/xingyizhou/CenterNet/tree/master/src/lib/external</a></p>
+<blockquote>
+<p>这个就是 高效实现了 nms 算法，基于 c 语言</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">python 的几种扩展文件格式
+开发种常见的情况是，用 python 快速生成程序原型，然后对其中有特别要求的部分，用合适的语言改写。比如对性能要求高，那么就使用 c/ c++ 重写，而后封装为 python 可以调用的扩展类库。
+.py, 这个是 python 源码的后缀
+.pxd, 使用 Cython 编程语言 编写而成的 Pythn 扩展模块头文件; 由其它编程语言 &#34;编写-编译&#34; 生成的 Python 扩展模块。
+.pyx, 由 Cython 编程语言 &#34;编写&#34; 而成的 Python 扩展模块源代码文件。类似 C语言中的 .c 源码，必须先被编译成 .pyd （windows 平台）或者 .so （linux）文件，才能作为模块 import 导入使用
+
+</code></pre></td></tr></table>
+</div>
+</div><p>models</p>
+<p><a href="https://github.com/xingyizhou/CenterNet/tree/master/src/lib/models">https://github.com/xingyizhou/CenterNet/tree/master/src/lib/models</a></p>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/lib/models/utils.py">https://github.com/xingyizhou/CenterNet/blob/master/src/lib/models/utils.py</a></p>
+<blockquote>
+<p>这个就是简单的 utils，没啥</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/lib/models/data_parallel.py">https://github.com/xingyizhou/CenterNet/blob/master/src/lib/models/data_parallel.py</a></p>
+<blockquote>
+<p>这个实现的是 data parallel</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/lib/models/decode.py">https://github.com/xingyizhou/CenterNet/blob/master/src/lib/models/decode.py</a></p>
+<blockquote>
+<p>根据不同的任务（模型），有不同的 decode 函数。这里有的 使用 nms ，有的没有。</p>
+<p>需要打印一下网络结构（没有跑通，那么就无法打印）</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/lib/models/losses.py">https://github.com/xingyizhou/CenterNet/blob/master/src/lib/models/losses.py</a></p>
+<blockquote>
+<p>可以参考这个代码格式，首先将 loss function 写成一个函数，然后新建一个类来封装该 loss function，在类中只需要实现 <code>__init__</code> 和 <code>forward</code> 函数即可。</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/lib/models/model.py">https://github.com/xingyizhou/CenterNet/blob/master/src/lib/models/model.py</a></p>
+<blockquote>
+<p>这个更像是 models 的调用脚本，不是真正的 arch</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/lib/models/model.py#L10">https://github.com/xingyizhou/CenterNet/blob/master/src/lib/models/model.py#L10</a></p>
+<blockquote>
+<p>引用当前目录，那么使用 . 符号</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/lib/models/scatter_gather.py">https://github.com/xingyizhou/CenterNet/blob/master/src/lib/models/scatter_gather.py</a></p>
+<blockquote>
+<p>主要将 variables distributes 到给定的 GPU。这个是不是做了 torch多GPU训练的一些工作量？</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/tree/master/src/lib/models/networks">https://github.com/xingyizhou/CenterNet/tree/master/src/lib/models/networks</a></p>
+<blockquote>
+<p>这个才是真正的 arch 网络</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/lib/models/networks/resnet_dcn.py#L130">https://github.com/xingyizhou/CenterNet/blob/master/src/lib/models/networks/resnet_dcn.py#L130</a></p>
+<blockquote>
+<p>这个版本的 resnet 称为 PoseResNet，主要是为了处理 pose 任务吗？</p>
+<p>dcn 主要是应用在 deconv 时候，所以 conv 时候仍然使用的普通卷积</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/lib/models/networks/pose_dla_dcn.py#L224">https://github.com/xingyizhou/CenterNet/blob/master/src/lib/models/networks/pose_dla_dcn.py#L224</a></p>
+<blockquote>
+<p>Tree class 和 DLA class 都是用来构建 dla 网络的。<strong>至于要不要深入学习这个网络架构，需要看 state-of-art 是否使用这种网络结构。</strong></p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/lib/models/networks/msra_resnet.py">https://github.com/xingyizhou/CenterNet/blob/master/src/lib/models/networks/msra_resnet.py</a></p>
+<blockquote>
+<p>这个网络结构是没有使用 dcn 机型 deconv，所以当 dcn 编译不通过的时候，按照理论上说，可以只是使用这个 backbone</p>
+</blockquote>
+<p>空洞卷积（dilated convolution） and 可变性卷积（deformable convolutional networks）</p>
+<p><strong>对于可变形卷积，依然是看 state-of-art 模型中是否包含</strong></p>
+<p><a href="https://github.com/xingyizhou/CenterNet/tree/master/src/lib/models/networks/DCNv2">https://github.com/xingyizhou/CenterNet/tree/master/src/lib/models/networks/DCNv2</a></p>
+<p><em>trains</em></p>
+<p><a href="https://github.com/xingyizhou/CenterNet/tree/master/src/lib/trains">https://github.com/xingyizhou/CenterNet/tree/master/src/lib/trains</a></p>
+<blockquote>
+<p>同样是对应这多个任务</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/lib/trains/base_trainer.py">https://github.com/xingyizhou/CenterNet/blob/master/src/lib/trains/base_trainer.py</a></p>
+<blockquote>
+<p>这个是一个 base_trainer,</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/lib/trains/ddd.py#L24">https://github.com/xingyizhou/CenterNet/blob/master/src/lib/trains/ddd.py#L24</a></p>
+<blockquote>
+<p>单独以 ddd 任务作为一个 base，肯定会有多个 loss，那么就是一个加权平均和的问题。这个是需要具体拿一个任务去 debug 学习，需要考虑每个 loss 对应的意义。</p>
+</blockquote>
+<p><em>utils</em></p>
+<p><a href="https://github.com/xingyizhou/CenterNet/tree/master/src/lib/utils">https://github.com/xingyizhou/CenterNet/tree/master/src/lib/utils</a></p>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/lib/utils/ddd_utils.py">https://github.com/xingyizhou/CenterNet/blob/master/src/lib/utils/ddd_utils.py</a></p>
+<blockquote>
+<p>这个是训练 ddd 任务的 util</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/lib/utils/debugger.py">https://github.com/xingyizhou/CenterNet/blob/master/src/lib/utils/debugger.py</a></p>
+<blockquote>
+<p>没有发现 debugger 类中有什么特别之处</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/lib/utils/image.py">https://github.com/xingyizhou/CenterNet/blob/master/src/lib/utils/image.py</a></p>
+<blockquote>
+<p>实现了 image 相关的操作，比如封装affine_transform, crop, gaussian radius, gaussian2D 等。</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/lib/utils/oracle_utils.py">https://github.com/xingyizhou/CenterNet/blob/master/src/lib/utils/oracle_utils.py</a></p>
+<blockquote>
+<p>这个 oracle 确实没有看懂</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/lib/utils/post_process.py">https://github.com/xingyizhou/CenterNet/blob/master/src/lib/utils/post_process.py</a></p>
+<blockquote>
+<p>是 ddd, ctdet, multi_pose 各种任务的 post process 函数</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/lib/utils/utils.py">https://github.com/xingyizhou/CenterNet/blob/master/src/lib/utils/utils.py</a></p>
+<blockquote>
+<p>只有一个 averagemeter 的 class</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/lib/logger.py">https://github.com/xingyizhou/CenterNet/blob/master/src/lib/logger.py</a></p>
+<blockquote>
+<p>自己改进（抄袭）了一个 logger 类</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/lib/opts.py">https://github.com/xingyizhou/CenterNet/blob/master/src/lib/opts.py</a></p>
+<blockquote>
+<p>封装了所有的 arguments 参数</p>
+</blockquote>
+<p>（4.2） tools</p>
+<p>（从功能的角度看，更像是 evaluation tools）</p>
+<p><a href="https://github.com/xingyizhou/CenterNet/tree/master/src/tools/kitti_eval">https://github.com/xingyizhou/CenterNet/tree/master/src/tools/kitti_eval</a></p>
+<blockquote>
+<p>这个是 cpp 的函数用于 eval kitti</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/tree/master/src/tools/voc_eval_lib">https://github.com/xingyizhou/CenterNet/tree/master/src/tools/voc_eval_lib</a></p>
+<blockquote>
+<p>这个是 evaluation voc dataset 的包，等用到的时候再看进行</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/tools/_init_paths.py">https://github.com/xingyizhou/CenterNet/blob/master/src/tools/_init_paths.py</a></p>
+<blockquote>
+<p>coco overlap  metric 的计算</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/tools/convert_hourglass_weight.py">https://github.com/xingyizhou/CenterNet/blob/master/src/tools/convert_hourglass_weight.py</a></p>
+<blockquote>
+<p>hourglass 相关，对于 hourglass 的backbone，依然是采用 如果 state-of-art 中使用，那么就优先好好研究，否则，可以稍微推后</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/tools/convert_kitti_to_coco.py">https://github.com/xingyizhou/CenterNet/blob/master/src/tools/convert_kitti_to_coco.py</a></p>
+<blockquote>
+<p>转换脚本</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/tools/eval_coco.py">https://github.com/xingyizhou/CenterNet/blob/master/src/tools/eval_coco.py</a></p>
+<blockquote>
+<p>对于 pycocotools 的封装</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/tools/get_kitti.sh">https://github.com/xingyizhou/CenterNet/blob/master/src/tools/get_kitti.sh</a></p>
+<blockquote>
+<p>数据下载工具，用来 download kitti 数据集。如果网速没有问题的话，自己可以下载数据集 kitti 中 data_object_image_2 的数据集</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/tools/get_pascal_voc.sh">https://github.com/xingyizhou/CenterNet/blob/master/src/tools/get_pascal_voc.sh</a></p>
+<blockquote>
+<p>数据下载工具，用于 download voc2007 数据集</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/tools/reval.py">https://github.com/xingyizhou/CenterNet/blob/master/src/tools/reval.py</a></p>
+<blockquote>
+<p>没有看懂</p>
+</blockquote>
+<p><a href="https://github.com/xingyizhou/CenterNet/blob/master/src/tools/vis_pred.py">https://github.com/xingyizhou/CenterNet/blob/master/src/tools/vis_pred.py</a></p>
+<blockquote>
+<p>这个是用来可视化 pred 结果的文件</p>
+</blockquote>
+<h3 id="代码进一步详解">代码进一步详解</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python">  <span class="k">def</span> <span class="nf">_get_border</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">border</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+    <span class="c1">#border 128  pic_len w or h</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="n">size</span> <span class="o">-</span> <span class="n">border</span> <span class="o">//</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">border</span> <span class="o">//</span> <span class="n">i</span><span class="p">:</span>
+      <span class="c1"># 如果图像宽高小于 boder*2，i增大，返回128 // i</span>
+      <span class="c1"># 正常返回128，图像小于256，则返回64</span>
+        <span class="n">i</span> <span class="o">*=</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="n">border</span> <span class="o">//</span> <span class="n">i</span>
+
+
+  <span class="n">num_objs</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">anns</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_objs</span><span class="p">)</span>      <span class="c1"># 目标个数,这里为100</span>
+  
+  
+  
+    <span class="n">hm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_classes</span><span class="p">,</span> <span class="n">output_h</span><span class="p">,</span> <span class="n">output_w</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="c1"># heatmap(80,128,128) </span>
+    <span class="c1"># 注意这个热力图的 shape，每个class 都有一个 (output_h, output_w) 这样的结果</span>
+    <span class="n">wh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">max_objs</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="c1"># 中心点宽高(100*2)</span>
+    <span class="n">dense_wh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="n">output_h</span><span class="p">,</span> <span class="n">output_w</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="c1"># 返回2*128*128</span>
+    <span class="n">reg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">max_objs</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="c1"># 记录下采样带来的误差,返回100*2的小数</span>
+    <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">max_objs</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span> <span class="c1"># 返回100个ind</span>
+    <span class="n">reg_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">max_objs</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span><span class="c1"># 返回8个 回归mask</span>
+    <span class="c1"># 这里记录前 max_objs 个点，相当于基于一张图片存在哪些目标，有的话对应索引设置为 1，其余设置为 0</span>
+    <span class="n">cat_spec_wh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">max_objs</span><span class="p">,</span> <span class="n">num_classes</span> <span class="o">*</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="c1"># 100*80*2</span>
+    <span class="n">cat_spec_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">max_objs</span><span class="p">,</span> <span class="n">num_classes</span> <span class="o">*</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span> <span class="c1"># 100*80*2</span>
+    
+    
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>inp：input，就是网络的输入图像了，也是做过数据增加的图像</p>
+<p>c：center，图像的中心坐标</p>
+<p>s：scale，随机缩放比例</p>
+<p>作者使用了很多缩写，其实如果写成全拼 更好理解</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">_nms</span><span class="p">(</span><span class="n">heat</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">pad</span> <span class="o">=</span> <span class="p">(</span><span class="n">kernel</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+ 
+    <span class="n">hmax</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">max_pool2d</span><span class="p">(</span>
+        <span class="n">heat</span><span class="p">,</span> <span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">kernel</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">pad</span><span class="p">)</span>
+    <span class="n">keep</span> <span class="o">=</span> <span class="p">(</span><span class="n">hmax</span> <span class="o">==</span> <span class="n">heat</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">heat</span> <span class="o">*</span> <span class="n">keep</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>hmax用来寻找8-近邻极大值点，keep为h极大值点的位置，返回heat*keep，筛选出极大值点，为原值，其余为0。</p>
+</blockquote>
+<h2 id="centertrack">centertrack</h2>
+<p>paper: <a href="http://arxiv.org/abs/2004.01177">Tracking Objects as Points</a></p>
+<p>Github: <a href="https://github.com/xingyizhou/CenterTrack">https://github.com/xingyizhou/CenterTrack</a></p>
+<p>目前多数 MOT 都是 tracking-by-detection，MOT 系统的整体检测速度约等于检测器速度+ 追踪器速度。本文将检测和 embedding 用同一个网络输出，确实加速了整个 MOT 的速度。本文介绍一个真正意义上的将目标检测和数据关联统一的 MOT 框架：centertrack。</p>
+<p>centernet 的输出三个分支</p>
+<ul>
+<li>
+<p><strong>HeatMap</strong>，大小为（W/4,H/4,80），输出不同类别（80个类别）物体中心点的位置</p>
+</li>
+<li>
+<p><strong>Offset</strong>，大小为（W/4,H/4,2），对HeatMap的输出进行精炼，提高定位准确度</p>
+</li>
+<li>
+<p><strong>Height&amp;Width</strong>,大小为（W/4,H/4,2），预测以关键点为中心的检测框的宽高</p>
+</li>
+</ul>
+<p>相比于 centernet，centertrack 多出来 4个额外的输入通道：<strong>两个RGB图片</strong>（当前帧和前一帧）+<strong>一张heatmap图</strong>（前一帧中物体中心分布的热力图）。目标追踪实际上是一个物体在时间上的关联匹配问题，仅仅知道一帧，而不知道之前帧的信息，是不能实现目标追踪的。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/12/10/image-20211210142148973.png" alt="image-20211210142148973" style="zoom:50%;" /></p>
+<p>这三个不同的输入是如何进行信息融合？</p>
+<blockquote>
+<p>作者在这里用了非常简单的方法：先是通过简单的卷积层、批归一化层和激活函数，然后<strong>按位相加</strong>即可。</p>
+</blockquote>
+<p>centertrack 的四个输出特征</p>
+<ul>
+<li>HeatMap，大小为（W/4,H/4,80）,检测框中心点<strong>位置分布热力图</strong></li>
+<li>Confidence，大小为（W/4,H/4,1），相关点为前景中心的<strong>置信度图</strong></li>
+<li>Height&amp;Width,大小为（W/4,H/4,1），点对应的检测框的**宽高</li>
+<li>Displacement prediction**, 大小为（W/4,H/4,2），检测框中心点在前后帧的**位移**（有点类似于光流）</li>
+</ul>
+<p>displacement prediction 作为两帧之间的位移差。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">_network_factory</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;resdcn&#39;</span><span class="p">:</span> <span class="n">PoseResDCN</span><span class="p">,</span>
+    <span class="s1">&#39;dla&#39;</span><span class="p">:</span> <span class="n">DLASeg</span><span class="p">,</span>
+    <span class="s1">&#39;res&#39;</span><span class="p">:</span> <span class="n">PoseResNet</span><span class="p">,</span>
+    <span class="s1">&#39;dlav0&#39;</span><span class="p">:</span> <span class="n">DLASegv0</span><span class="p">,</span>
+    <span class="s1">&#39;generic&#39;</span><span class="p">:</span> <span class="n">GenericNetwork</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>这么多函数我不一一解释了，这些网络有个共同的特点，这些网络都会经历<strong>一系列下采样</strong>与<strong>一定比例的上采样</strong>，输入特征图宽高为（W,H）,输出特征图宽高为（W/4,H/4）。</p>
+</blockquote>
+<p>在测试环节的数据关联部分，作者直接通过中心点的距离来判断是否匹配，是一种贪婪的方法，并非基于匈牙利算法的那种全局的数据关联优化。在训练过程中，作者并非只用相邻帧进行训练，允许使用 3帧信息。</p>
+<p>效果</p>
+<p>centertrack 在 MOT, KITTI 和 nuScenes 等数据集上的 2D/ 3D 多行人/ 车辆跟踪任务上都取得了 SOTA 的成绩。</p>
+<p>centertrack 只关联连续两帧之间的检测框</p>
+<p>总结：</p>
+<p>centertrack 在 loss、backbone，necks 方面和之前看过的项目“3d-od” 基本上是相同的。主要是 dataloader 不同，centertrack 中支持了 tracking 的算法，所以有 3 个输入，而正常的 od 只是有 1个输入。</p>
+<h2 id="achor-free-的论文">achor-free 的论文</h2>
+<p>(1) <a href="">anchor-ree methods: cornetNet and CenterNet </a></p>
+<blockquote>
+<p>YOLO divides the feature map into 7*7 squares. object detection is carried in each square. Because teh scale of the object varies too much, the network is difficult to learn.</p>
+<p>CornerNet transforms the position detection of an object into the detection of the key points of the top-left corner and bottom-right corner of the boundary box.</p>
+<p>Because CornerNet is based on hourglass network, the hourglass network is redundantly calculated, which makes it difficult to train in the absence of computing resources.</p>
+<p>CenterNet uses the midpoint of the object as the detection center. It can detect the object by adding the boundary and size information of the object.</p>
+<p>ExtremeNet uses standard key points to estimate four poles (top, left, bottom, right) and a center point of the network detection object.</p>
+</blockquote>
+<p>anchor-based 常用的改进方法(网络层面)</p>
+<blockquote>
+<p>optimizing the shape and size of the convolution kernel, for example, atrous convolution, depthwise separable convolutions, and deformable convolutional</p>
+<p>This method simplifies the learning task of convolutional networks, but make the detection method less flexible.</p>
+<p>anchor-based 的主要缺点, IOU 的计算和 anchor 中超参调整.</p>
+</blockquote>
+<p>Bridging the Gap Between Anchor-based and Anchor-free Detection via Adaptive Training Sample Selection</p>
+<p>这个论文中有很多 知识点的讲解，可以总结一下。</p>
+<p>(2) <a href="">CenterNet: Keypoint Triplets for Object detection</a></p>
+<blockquote>
+<p>Our approach, named CenterNet, detects each object as a triplet, rather than a pair, of keypoints, which improves both precision and recall.</p>
+<p>In this paper, we present a low-cost yet effective solution named CenterNet, which explores the central part of a proposal, i.e., the region that is close to the geometric center, with one extra keypoint. Our intuition is that, if a predicted bounding box has a high IoU with the ground-truth box, then the probability that the center keypoint in ist central regionis predicted as the same calss is high, and vice versa.</p>
+</blockquote>
+<blockquote>
+<p>Two-stage approaches divide the object detection task into two stages: extract RoIs, then classify and regress the RoIs.</p>
+<p>(Faster-RCNN is allowed to be trained end to end by introducing RPN. rpn CAN generate RoIs by regressing the anchor boxes. )</p>
+<p>One stage approaches remove the RoIs extraction process and directly classify and candidate anchor boxes.</p>
+</blockquote>
+<p>(3) Bridging the Gap Between Anchor-based and Anchor-free Detection via Adaptive Training Sample Selection</p>
+<blockquote>
+<p>anchor-free detecotrs have become popular due to hte proposal of FPN and Focal Loss. In this paper, we first point out that the essential difference  between anchor-based and anchor-free detection is actually how to define positive and negative traning samples.</p>
+</blockquote>
+<p>achor-based detector</p>
+<blockquote>
+<p>keypoint-based method, cornerNet detects an object bounding box as a paire of keypoiints (top-left corner and  bottom-down corner)</p>
+<p>centerNet extends CornerNet as a triplet rather than a pair of keypoints to improve both precision and recall</p>
+</blockquote>
+<p>Center-based method</p>
+<blockquote>
+<p>YOLO divides the image into an S* S grid, and the grid cell that contains the center of an object is responsible for detecting this object. FCOS regards all the locations inside the object bounding box as positives with rour fistances and a ovel centerness score to detect objects.</p>
+</blockquote>
+<p><a href="">Objects as Points</a></p>
+<blockquote>
+<p>We model an object as a single point - the center point of its bounding box. Our detector uses keypoint  estimation to find center points and regresses to all other object properties, sush as size, 3D location, orientation, and even pose.</p>
+</blockquote>
+<blockquote>
+<p>In this paper, we provide a much simpler and more efficient alternative. We represent objects by a single point at their bounding box center. Other properties, suach as object size, dimension, 3D extent, orientation, and pose are then regressed directly from image features at teh center location. We simply feed the input image to a fully convolutional network that generates a heatmap. Peaks in this heatmap correspond to object centers. Image features at each peak predict the objects bounding box height and weight.</p>
+</blockquote>
+<p>这个是相关的 repo:</p>
+<p>paper:  <a href="https://arxiv.org/abs/1904.08189">CenterNet: Keypoint Triplets for Object Detection</a></p>
+<p>github: <a href="https://github.com/Duankaiwen/CenterNet">https://github.com/Duankaiwen/CenterNet</a></p>
+<blockquote>
+<p>Anchor-free object detection with mask attention</p>
+</blockquote>
+<blockquote>
+<p>non-maximum suppression method is used to filter to most of the overlap bounding boxes.</p>
+</blockquote>
+<p>(4) retinanet</p>
+<p><a href="https://arxiv.org/abs/1708.02002">Focal Loss for Dense Object Detection</a></p>
+<p>首先这个是 one-stage 的检测，作者认为 one-stage 存在的问题是正负样本差距大，及类别严重不均衡。优点在于速度很快。</p>
+<blockquote>
+<p>In this paper, we investigate why this is the case. We discover that the extreme foreground-background class imbalance encountered during training of dense detectors is the center cause. We propose to address this class imbalance by reshaping the standard cross entropy loss such that it down-weights the loss assigned to well-classified examples.</p>
+<p>把这个 detector 叫做 retinaNet</p>
+</blockquote>
+<p>这个是总的流程，其中涉及到的关键点：FPN, multi-task (classification subnet &amp; regression subnet),</p>
+<blockquote>
+<p>Let’s take a sample image and feed it to the network. First stop, FPN. Here, the image will be processed at different scales (4 levels), and at each level, it will output a feature map. The feature map from each level will be fed to the next bundle of components, i.e. Classification Subnet and Regression Subnet. Each feature map that the FPN outputs are then processed by the classification subnet and it outputs a tensor with shape (W, H, K×A). Similarly, the regression subnet will process the feature map and will output a (W, H, 4×A). Both these outputs are processed simultaneously and are sent to the loss function. The multi-task loss function in RetinaNet is made up of the modified focal loss for classification and a smooth L1 loss calculated upon 4×A channelled vector yielded by the Regression Subnet. Then the loss is backpropagated. So, this was the overall flow of the model. Next, let’s see how the model performed when compared to other Object Detection models.</p>
+</blockquote>
+<blockquote>
+<p>下面是针对 centernet 的一些理解</p>
+</blockquote>
+<ul>
+<li>In this paper, a center prediction is considered as a standard keypoint estimation problem. After passing an image through Fully Convolutional Network, the final feature map outputs heatmaps for different key points. Peaks of these output feature maps are considered as predicted centers.</li>
+<li>Additionally, the network predicts the width and height of the box for these centers and each center will have its unique box width and height. This tightly coupled property helps them to remove the Non-Maximal Suppression step in post-processing.</li>
+<li>For classification, these heatmap peaks are also linked to a particular class to which it belongs to. So using these centers, dimensions, and class probabilities, object detection task is achieved.</li>
+</ul>
+<p><img src="http://123.56.8.10:8899/images/2021/08/23/image-20210823092214893.png" alt="image-20210823092214893"></p>
+<blockquote>
+<p>这个是 总的architecture</p>
+<p>(1) FPN (feature pyramid network backbone) 的特点：FPN augments a standard convolutional network with a top-down pathway and lateral connections so the network efficiently constructs a rich, multi-scale feature pyramid from a single resolution input image,</p>
+<p>(2) classification subnet  (这部分只有对照代码才能大概知道其在干什么)： cnn+ FCN (fully connectedly network)+ sigmoid 函数。 这个是 each pyramid level 的</p>
+<p>(3) box regression subnet：In parallel with the object classification subnet, we attach another small FCN to each pyramid level for the purpose of regressing the offset from each anchor box to a nearby group-truth object.</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/08/23/image-20210823100941244.png" alt="image-20210823100941244"></p>
+<p>论文中 focal loss 的定义如下
+$$
+FL(p_t)=−α_t(1−p_t)^γlog(p_t)
+$$
+$α_t$与类别$t$ 的样本数量成反比，即数量越少的类别，其loss权重越大. $γ$  can be said a relaxtion parameter in laymen&rsquo;s( 教徒) terms.</p>
+<blockquote>
+<p>More the value of $γ$, more importance will be given to misclassified examples and very less loss will be propagated from easy examples. $γ=2$ 效果最好。当 $γ=0$ 的时候，和传统的 cross entropy 损失函数是相同的。</p>
+</blockquote>
+<blockquote>
+<p>Focal loss was designed to be a remedy to class imbalance observed during dense detector training with cross-entropy loss. By class imbalance, I mean (or the authors meant) the difference in the foreground and background classes, usually on the scale of 1:1000.</p>
+<p>(所以类别之间的不均衡的比例是 1:1000， 和之前认为的 scale 还是有点差别的)</p>
+</blockquote>
+<p>参考论文：<a href="https://openaccess.thecvf.com/content_ICCV_2017/papers/Lin_Focal_Loss_for_ICCV_2017_paper.pdf">Focal Loss for Dense Object Detection</a></p>
+<blockquote>
+<p>提出了 focal loss 来替换 CE，能够缓解正负样本的问题。</p>
+<p>在 resnet +fpn 提出了 retinanet， one-stage 架构，主干网络和两个 task-specific 子网组成。主干网络用来提取特征，第一个子网用于类别分类，第二个子网用于 bbox 回归。</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">#Formula for Cross-Entropy Loss Function
+1. -log(x) # For positives
+2. -log(1-x) # For negatives
+#Formula for Focal Loss (Alpha Form)
+alpha = 0.25
+gamma = 2
+1. -alpha * (1 - x)^gamma * log(x) #For positives
+2. -(1-alpha) * x^gamma * log(1-x) #For negatives
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>loss 在正负样本中起的作用，可以详细参考：https://medium.com/visionwizard/centernet-objects-as-points-a-comprehensive-guide-2ed9993c48bc 中关于 loss 的分析，非常的 detail，虽然还没有很懂哦。</p>
+</blockquote>
+<p>focal loss implications on solving the class imbalance problem</p>
+<blockquote>
+<p>来自 kaiming 大神</p>
+</blockquote>
+<p>对比一下 focal loss 和 CE loss （其中 $α_t$ 为 0.25,  $γ$ 是 4），输入是在 [0, 1] 之间。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/10/22/image-20211022113609824.png" alt="image-20211022113609824"></p>
+<p>这个网络中也是有 anchor 的概念。</p>
+<p>超参数调整</p>
+<p>（1）In general, α should be decreased slightly as γ is increased. The configuration that worked the best for the authors was with γ = 2, α = 0.25.</p>
+<p>在当时的效果对比上，精度和速度达到了最好的平衡。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/08/23/image-20210823094455020.png" alt="image-20210823094455020" style="zoom:50%;" /></p>
+<p>object detection had started off as a two-phase implementation where is detects the object in the image in the first phrase (localization) and classifies it in the second (classification)</p>
+<p><a href="https://towardsdatascience.com/retinanet-the-beauty-of-focal-loss-e9ab132f2981">RetinaNet: The beauty of Focal Loss</a></p>
+<h3 id="其他">其他</h3>
+<p>如果 centertrack 实在是跑不通，因为安装的环境，那么可以尝试一下以下的方法（不要在一棵树上吊死）</p>
+<p>github：<a href="https://github.com/xinshuoweng/AB3DMOT">AB3DMOT</a></p>
+<p>教程：<a href="https://blog.techbridge.cc/2021/03/14/%E4%B8%80%E8%B5%B7%E4%BE%86%E7%8E%A9-ab3dmot/">AB3DMOT</a>： 这个是 step by step，建议尝试一下。</p>
+<blockquote>
+<p>已经下载 paper，阅读最后的性能指标和 centertrack 进行对比，效果决定这是否值得尝试</p>
+</blockquote>
+<p><a href="https://blog.techbridge.cc/2021/06/07/deep-learning-on-3d-object-detection-paper-%E9%96%B1%E8%AE%80%E8%B7%AF%E5%BE%91/">Deep Learning on 3D object detection paper 閱讀路徑</a></p>
+<blockquote>
+<p>3D od 的学习路径，经典论文，可以作为一个专题好好看看。论文都已经下载到本地了。</p>
+<p>我推薦大家利用 <a href="https://www.connectedpapers.com/">connectedpapers.com</a>，只要輸入一篇 paper，就能看到相關重要 paper 的視覺化呈現</p>
+<p>这个</p>
+</blockquote>
+<p>路线：</p>
+<ul>
+<li>
+<p><input checked="" disabled="" type="checkbox"> <a href="https://arxiv.org/pdf/1612.00593.pdf">（2017/04）PointNet</a> &amp; <a href="https://arxiv.org/pdf/1706.02413.pdf">（2017/06）PointNet++</a></p>
+</li>
+<li>
+<p><input checked="" disabled="" type="checkbox"> <a href="https://arxiv.org/pdf/1711.06396.pdf">（2017/11） VoxelNet: End-to-End Learning for Point Cloud Based 3D Object Detection</a></p>
+</li>
+<li>
+<p><input checked="" disabled="" type="checkbox"> <a href="https://pdfs.semanticscholar.org/5125/a16039cabc6320c908a4764f32596e018ad3.pdf">（2018/10）SECOND: Sparsely Embedded Convolutional Detection</a></p>
+</li>
+<li>
+<p><input checked="" disabled="" type="checkbox"> <a href="https://arxiv.org/pdf/1812.05784.pdf">（2019/05）PointPillars: Fast Encoders for Object Detection from Point Clouds</a></p>
+</li>
+</ul>
+<p><a href="https://arxiv.org/pdf/1812.05784.pdf">（2019/07）STD: Sparse-to-Dense 3D Object Detector for Point Cloud</a></p>
+<blockquote>
+<p>STD 和上面的 PointPillar 是相同的论文</p>
+</blockquote>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> <a href="https://arxiv.org/pdf/2002.10187.pdf">（2020/02）3DSSD: Point-based 3D Single Stage Object Detector</a></li>
+</ul>
+<blockquote>
+<p>一刷完成，还需要深入。主要是网络结构方面的优化不是很理解。</p>
+<p>github：3DSSD: <a href="https://github.com/dvlab-research/3DSSD">https://github.com/dvlab-research/3DSSD</a></p>
+</blockquote>
+<p><a href="https://arxiv.org/pdf/2003.01251.pdf">（2020/03）Point-GNN: Graph Neural Network for 3D Object Detection in a Point Cloud</a></p>
+<blockquote>
+<p>这个看完之后，更多是学术界的作品，因为没有和其他网络结构进行对比。</p>
+<p>github：Point-GNN: <a href="https://github.com/WeijingShi/Point-GNN">https://github.com/WeijingShi/Point-GNN</a></p>
+</blockquote>
+<p><a href="https://arxiv.org/pdf/2006.12671.pdf">（2020/06）AFDet: Anchor Free One Stage 3D Object Detection</a></p>
+<blockquote>
+<p>这个是基于 pointpillar encoder 进行改进的，使用的 anchor-free 的思路。</p>
+</blockquote>
+<p><a href="https://arxiv.org/pdf/2006.15505.pdf">（2020/06）1st Place Solution for Waymo Open Dataset Challenge &ndash; 3D Detection and Domain Adaptation</a></p>
+<blockquote>
+<p>这个和上面的  AFDet 是同一篇论文： AFDet。是实践性比较强的论文，优先尝试一下。</p>
+</blockquote>
+<p>这几个都是比较好的一些 3D detection 的项目：</p>
+<p>OpenPCDet: <a href="https://github.com/open-mmlab/OpenPCDet">https://github.com/open-mmlab/OpenPCDet</a></p>
+<p>SA-SSD: <a href="https://github.com/skyhehe123/SA-SSD">https://github.com/skyhehe123/SA-SSD</a></p>
+<p>3D_adapt_auto_driving: <a href="https://github.com/cxy1997/3D_adapt_auto_driving">https://github.com/cxy1997/3D_adapt_auto_driving</a></p>
+<p>pseudo-LiDAR_e2e: <a href="https://github.com/mileyan/pseudo-LiDAR_e2e">https://github.com/mileyan/pseudo-LiDAR_e2e</a></p>
+<p>3D point cloud data augmentation</p>
+<blockquote>
+<p>做 3D 数据增强 的论文，这个还可以看看</p>
+</blockquote>
+<p>教程： <a href="https://blog.techbridge.cc/2021/07/05/part-aware-3d-data-augmentation/">Part-Aware Data Augmentation for 3D Object Detection in Point Cloud</a></p>
+<p><a href="https://www.coderbridge.com/series/6c11455870b74d9f973aa73445e90dbf/posts/dbe7a5e994f5462ba741f582b22e8d17">https://www.coderbridge.com/series/6c11455870b74d9f973aa73445e90dbf/posts/dbe7a5e994f5462ba741f582b22e8d17</a></p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> 这个是视频教程，优先看</li>
+</ul>
+<p>(1) batch normalization</p>
+<p>At testing stage</p>
+<p>we do not have <strong>batch</strong> at testing stage</p>
+<p>Benefit</p>
+<ul>
+<li>
+<p>BN reduces training times, and make very deep net trainable</p>
+<ul>
+<li>Because of less Covariate Shift, we can use larger learning rates</li>
+<li>Less exploding /vanishing gradients (especially effective for sigmoid, tanh, etc)</li>
+</ul>
+</li>
+<li>
+<p>learning is less affected by iniitalization</p>
+</li>
+</ul>
+<p>BN 在 training 和 testing 时候都有用，但主要是在 training 时候帮助比较大。</p>
+<p>(2) cross-entropy loss</p>
+<p>讲解 cross-entropy 为什么适合做分类</p>
+<p><img src="http://123.56.8.10:8899/images/2021/10/22/image-20211022164521205.png" alt="image-20211022164521205"></p>
+<p><img src="http://123.56.8.10:8899/images/2021/10/22/image-20211022183431495.png" alt="image-20211022183431495" style="zoom:50%;" /></p>
+<blockquote>
+<p>intermedidate layer: extract feature map for proposal generation</p>
+<p>regression layer: predicts the box parameters of all proposals</p>
+<p>classification layer: predicts the object/ background probabilities fo all proposals</p>
+</blockquote>
+<p>image pyraimd: 将原始图像 resize 成不同 size，然后得到不同尺寸的 feature map，然后在不同尺寸上进行 detection 操作。</p>
+<p>filter pyramid： 这个就是卷积核</p>
+<p>但是 faster-rcnn 中使用的是 multi-scale anchor</p>
+<blockquote>
+<p>multi-scale anchors centered at the same point share the same feature, addresses scaling variance without extra cost.</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/10/22/image-20211022184520041.png" alt="image-20211022184520041" style="zoom:50%;" /></p>
+<blockquote>
+<p>loss 是由两部分组成，一个是 regression term 一个是 classification term</p>
+</blockquote>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2021-10-20
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/wechatpay.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/alipay.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/deep-sort/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Deep Sort</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/3d-pointnet/">
+            <span class="next-text nav-default">3d Pointnet</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

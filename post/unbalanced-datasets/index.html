@@ -49,7 +49,7 @@
 <meta itemprop="description" content="机器学习中出现的不平衡类别问题的分析、常用的解决方案。 定义 不同类别训练数据样本的数量相差很大，导致传统意义上的衡量指标“准确率” 失去了意义。">
 <meta itemprop="datePublished" content="2021-05-19T21:13:10+08:00" />
 <meta itemprop="dateModified" content="2021-05-19T21:13:10+08:00" />
-<meta itemprop="wordCount" content="3540">
+<meta itemprop="wordCount" content="4116">
 
 
 
@@ -124,8 +124,8 @@
       <div class="post-meta">
         <span class="post-time"> 2021-05-19 </span>
         
-          <span class="more-meta"> 约 3540 字 </span>
-          <span class="more-meta"> 预计阅读 8 分钟 </span>
+          <span class="more-meta"> 约 4116 字 </span>
+          <span class="more-meta"> 预计阅读 9 分钟 </span>
         
       </div>
     </header>
@@ -231,6 +231,49 @@ $$</p>
 <li>加高斯噪声（Gaussian Noise）</li>
 </ul>
 <p>注意可能不同的操作会影响原有数据集的分布。</p>
+<p>（5）视觉中的数据增强</p>
+<p>(1) cutout</p>
+<blockquote>
+<p>cutout being inefficient due to unused pixels. Mixup, on the other hand, makes full use of pixels, but introduces unnatural artifacts</p>
+</blockquote>
+<p>(2) mixup</p>
+<p>(3) cutmix</p>
+<p>方法</p>
+<blockquote>
+<p>CutMix augmentation strategy: patches are cut and pasted among traing images where ground truth labels are alsose mixed proportionally to the area of the patches.</p>
+</blockquote>
+<p>效果</p>
+<p><img src="http://123.56.8.10:8899/images/2021/07/14/image-20210714103554646.png" alt="image-20210714103554646"></p>
+<p>Synthesizing training data</p>
+<blockquote>
+<p>Some works have explored synthesizing training data for further generalizability. Generating new training samples by Stylizing ImageNet has guided the model to focus more on shape than texture, leading to better classification and object detection performances.</p>
+<p>生成的图大概只能生成 shape 相同的，但 texture 相对来说差点。相应的在下游的泛化能力也就体现在这里。</p>
+</blockquote>
+<p>(4) mosaic</p>
+<p>(5) autoaugment</p>
+<p>操作</p>
+<p>从 <code>cutout</code>, <code>mixup</code>, <code>cutmix</code>, <code>autoaugment</code> 在 cifar-10 和 cifar-100 上的效果看，<code>mixup</code> 和 <code>autoaugment</code> 是比较好的。</p>
+<ul>
+<li>mixup 将随机的两张样本按比例混合，分类的结果按照比例分配</li>
+<li>cutout 随机将样本中的部分区域 cut 掉，并且使用 0 填充，分类的结果不变</li>
+<li>cutmix 将一部分区域 cut 掉，使用随机填充训练集中的其他数据的区域像素值，分类结果按一定的比例分配</li>
+</ul>
+<p>（貌似上传 webp 格式的图像会失败）</p>
+<p>上述的区别：</p>
+<p>mixup 是将两张图按比例进行插值混合样本，会有不自然的情形。</p>
+<p>yolov4 的 mosaic 参考的是 cutmix 数据增强，只不过 mosaic 利用的是四张图，cutmix  使用的是两张图。</p>
+<p>特点</p>
+<ul>
+<li>cutmix improves the model robustness against input corruptions and its out-of-distribution （分布之外的）detection performances.</li>
+<li>mixup reduces the memorization of corrupt labels, increase the robustness to adversarial examples, and stablizes the training of generative adversarial networks （mixup 是有利于 gan 的训练，这个点倒是有点意外。说明不同的 data augmentation 确实是有不同的场景的应用）</li>
+<li>cutout is a smple regularization technique for convolutional neural networks that involves removing contiguous sections of input images, effectively augmenting the dataset with partially occluded versions of existing samples. （cutout 可以使用在 occluded 比较严重的情况下）</li>
+</ul>
+<p>重点：</p>
+<p>intuition，如何做的，效果？为什么 work（原理）</p>
+<blockquote>
+<p>原理方面，需要看 cutmix 的论文分析。</p>
+</blockquote>
+<p>然后总结到 <code>albumentations</code> 的work 上</p>
 <h3 id="改变评价指标">改变评价指标</h3>
 <p>不要使用 ACC。可以使用 AUC， ROC-Curve，f1-score。</p>
 <p>for a general-purpose metric for classification, we recommand area under roc curve (auc )</p>
@@ -438,7 +481,7 @@ subsample: 选择小于1的比例可以减少方差，即防止过拟合，但�
   <span class="copyright-year">
     &copy; 
     2018 - 
-    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
   </span>
 </div>
 

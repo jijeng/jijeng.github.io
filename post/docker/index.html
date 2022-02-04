@@ -50,7 +50,7 @@
 <meta itemprop="description" content="介绍容器（Docker）的原理和常见的命令。">
 <meta itemprop="datePublished" content="2019-09-04T13:09:19+08:00" />
 <meta itemprop="dateModified" content="2019-09-04T13:09:19+08:00" />
-<meta itemprop="wordCount" content="3276">
+<meta itemprop="wordCount" content="3871">
 
 
 
@@ -125,8 +125,8 @@
       <div class="post-meta">
         <span class="post-time"> 2019-09-04 </span>
         
-          <span class="more-meta"> 约 3276 字 </span>
-          <span class="more-meta"> 预计阅读 7 分钟 </span>
+          <span class="more-meta"> 约 3871 字 </span>
+          <span class="more-meta"> 预计阅读 8 分钟 </span>
         
       </div>
     </header>
@@ -139,14 +139,15 @@
     <li>
       <ul>
         <li><a href="#概念">概念</a></li>
-        <li><a href="#docker-常用命令">Docker 常用命令</a></li>
-        <li><a href="#docker-compose">docker-compose</a>
+        <li><a href="#docker-常用命令">Docker 常用命令</a>
           <ul>
             <li><a href="#dockerfile-书写相关">Dockerfile 书写相关</a></li>
             <li><a href="#dockerfile常见的一些写法">dockerfile常见的一些写法</a></li>
             <li><a href="#部署">部署</a></li>
+            <li><a href="#docker-替换国内镜像">docker 替换国内镜像</a></li>
           </ul>
         </li>
+        <li><a href="#docker-compose">docker-compose</a></li>
         <li><a href="#参考文献">参考文献</a></li>
       </ul>
     </li>
@@ -265,7 +266,11 @@ docker run docker_name
 <pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo docker run hello-world
 </code></pre></td></tr></table>
 </div>
-</div><p>设置用户组</p>
+</div><p>设置用户组（这样用户就不用使用 <code>sudo</code> 查看docker 的信息）</p>
+<p><a href="https://blog.csdn.net/boling_cavalry/article/details/106590784">设置非root账号不用sudo直接执行docker命令</a></p>
+<blockquote>
+<p>参考这里进行设置</p>
+</blockquote>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -393,16 +398,6 @@ NAMES:自动分配的容器名称
 </div><p>在容器内使用docker logs命令，查看容器内的标准输出</p>
 <p>可以使用 docker logs ID来查看log，也可以通过后面名称来查docker logs silly_poitras</p>
 <p>停止容器 docker stop id or   docker_name 这样的形式。</p>
-<h2 id="docker-compose">docker-compose</h2>
-<p>Docker-Compose 是 Docker 的一种编排服务，是一个用于在 Docker 上定义并运行复杂应用的工具，可以让用户在集群中部署分布式应用。</p>
-<p>通过 Docker-Compose 用户可以很容易地用一个配置文件定义一个多容器的应用，然后使用一条指令安装这个应用的所有依赖，完成构建。Docker-Compose 解决了容器与容器之间如何管理编排的问题。</p>
-<p>Docker Compose 工作原理图</p>
-<img src ="http://123.56.8.10:8899/images/2021/03/19/hulyas.png" height ="60%" width="60%">
-<p>Compose 中有两个重要的概念</p>
-<ul>
-<li>服务 (service) ：一个应用的容器，实际上可以包括若干运行相同镜像的容器实例。</li>
-<li>项目 (project) ：由一组关联的应用容器组成的一个完整业务单元，在 docker-compose.yml 文件中定义。</li>
-</ul>
 <p>查看预装情况</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -413,11 +408,11 @@ NAMES:自动分配的容器名称
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">docker -v
+<pre class="chroma"><code class="language-shell" data-lang="shell">docker -v
 docker-compose -v
 
-docker ps # 查看目前的容器名
-docker-compose ps #查看当前项目的容器状态
+docker ps <span class="c1"># 查看目前的容器名</span>
+docker-compose ps <span class="c1">#查看当前项目的容器状态</span>
 </code></pre></td></tr></table>
 </div>
 </div><p><a href="https://github.com/ashokc/Serving-Flask-on-Docker/blob/master/quoteserver/docker-compose.yml">https://github.com/ashokc/Serving-Flask-on-Docker/blob/master/quoteserver/docker-compose.yml</a></p>
@@ -523,73 +518,69 @@ docker-compose ps #查看当前项目的容器状态
 </span><span class="lnt">59
 </span><span class="lnt">60
 </span><span class="lnt">61
-</span><span class="lnt">62
-</span><span class="lnt">63
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">FROM nginx  # 这个是基础镜像，之后都是基于该镜像
+<pre class="chroma"><code class="language-shell" data-lang="shell">FROM nginx  <span class="c1"># 这个是基础镜像，之后都是基于该镜像</span>
 
-# 镜像的作者信息，包含所有者和联系人
+<span class="c1"># 镜像的作者信息，包含所有者和联系人</span>
 MAINTAINER
 
-# shell格式 （所以是可以根据本地的shell命令构建dockerfile）
+<span class="c1"># shell格式 （所以是可以根据本地的shell命令构建dockerfile）</span>
 RUN &lt;命令行命令&gt;
-# &lt;命令行命令&gt; 等同于，在终端操作的 shell 命令。 
+<span class="c1"># &lt;命令行命令&gt; 等同于，在终端操作的 shell 命令。 </span>
 
-# exec格式
-RUN [&#34;可执行文件&#34;, &#34;参数1&#34;, &#34;参数2&#34;]
-# 例如：
-# RUN [&#34;./test.php&#34;, &#34;dev&#34;, &#34;offline&#34;] 等价于 RUN ./test.php dev offline
+<span class="c1"># exec格式</span>
+RUN <span class="o">[</span><span class="s2">&#34;可执行文件&#34;</span>, <span class="s2">&#34;参数1&#34;</span>, <span class="s2">&#34;参数2&#34;</span><span class="o">]</span>
+<span class="c1"># 例如：</span>
+<span class="c1"># RUN [&#34;./test.php&#34;, &#34;dev&#34;, &#34;offline&#34;] 等价于 RUN ./test.php dev offline</span>
 
-RUN &lt;command&gt; (shell模式)
-RUN [ &#34;executable&#34;, &#34;param1&#34;, &#34;param2&#34; ] (exec模式)
+RUN &lt;command&gt; <span class="o">(</span>shell模式<span class="o">)</span>
+RUN <span class="o">[</span> <span class="s2">&#34;executable&#34;</span>, <span class="s2">&#34;param1&#34;</span>, <span class="s2">&#34;param2&#34;</span> <span class="o">]</span> <span class="o">(</span>exec模式<span class="o">)</span>
 
 
-# 多行执行run
+<span class="c1"># 多行执行run</span>
 RUN yum install wget
-RUN wget -O redis.tar.gz &#34;http://download.redis.io/releases/redis-5.0.3.tar.gz&#34;
+RUN wget -O redis.tar.gz <span class="s2">&#34;http://download.redis.io/releases/redis-5.0.3.tar.gz&#34;</span>
 RUN tar -xvf redis.tar.gz
-# 更加建议这种书写，只创建一层镜像
+<span class="c1"># 更加建议这种书写，只创建一层镜像</span>
 
-RUN yum install wget \
-    &amp;&amp; wget -O redis.tar.gz &#34;http://download.redis.io/releases/redis-5.0.3.tar.gz&#34; \
-    &amp;&amp; tar -xvf redis.tar.gz
+RUN yum install wget <span class="se">\
+</span><span class="se"></span>    <span class="o">&amp;&amp;</span> wget -O redis.tar.gz <span class="s2">&#34;http://download.redis.io/releases/redis-5.0.3.tar.gz&#34;</span> <span class="se">\
+</span><span class="se"></span>    <span class="o">&amp;&amp;</span> tar -xvf redis.tar.gz
 
-# 是从上下文目录复制文件或者目录到指定路径
+<span class="c1"># 是从上下文目录复制文件或者目录到指定路径</span>
 COPY home* /mydir/
 
 ENV
-# 设置环境变量，在后序的指令中，可以使用这个变量
+<span class="c1"># 设置环境变量，在后序的指令中，可以使用这个变量</span>
 
 VOLUME
-# 定义数据卷，用于挂载数据，避免因重启而丢失重要数据
+<span class="c1"># 定义数据卷，用于挂载数据，避免因重启而丢失重要数据</span>
 
 EXPOST &lt;PORT&gt;
-# 声明端口，告诉应用程序容器内的程序会使用的端口，在运行时使用 -p 参数映射
-# docker处于安全的目的，不会自动打开端口。
-
+<span class="c1"># 声明端口，告诉应用程序容器内的程序会使用的端口，在运行时使用 -p 参数映射</span>
+<span class="c1"># docker处于安全的目的，不会自动打开端口。</span>
 
 USER 
-# 指定镜像使用什么用户去运行
+<span class="c1"># 指定镜像使用什么用户去运行</span>
 USER nginx
 
 WORKDIR &lt;dirpath&gt;
-# 在 Dockerfile 文件中，WORKDIR一般是绝对路径，也可是相对路径，不过，是相对于上一个WORKDIR的路径。 
+<span class="c1"># 在 Dockerfile 文件中，WORKDIR一般是绝对路径，也可是相对路径，不过，是相对于上一个WORKDIR的路径。 </span>
 
-# docker 很多情况下是用来打包一个程序，如果docker 打包了这个python 程序(你可以把所有依赖工具打包进docker镜像， 然后用 ENTRYPOINT 指向python脚本本身，当然也可以使用 cmd 指向脚本。但是通常用 ENTRYPOINT 表明docker 镜像只是用来执行这个python 脚本的，不希望用于其他的操作)
+<span class="c1"># docker 很多情况下是用来打包一个程序，如果docker 打包了这个python 程序(你可以把所有依赖工具打包进docker镜像， 然后用 ENTRYPOINT 指向python脚本本身，当然也可以使用 cmd 指向脚本。但是通常用 ENTRYPOINT 表明docker 镜像只是用来执行这个python 脚本的，不希望用于其他的操作)</span>
 ENTRYPOINT 和CMD 的组合使用： ENTRYPOINT 指定默认的运行命令，CMD指定默认的运行参数。比如
 
-# 例子一
+<span class="c1"># 例子一</span>
 FROM ubuntu:trusty
-ENTRYPOINT [&#34;/bin/ping&#34;,&#34;-c&#34;,&#34;3&#34;]
-CMD [&#34;localhost&#34;] 
+ENTRYPOINT <span class="o">[</span><span class="s2">&#34;/bin/ping&#34;</span>,<span class="s2">&#34;-c&#34;</span>,<span class="s2">&#34;3&#34;</span><span class="o">]</span>
+CMD <span class="o">[</span><span class="s2">&#34;localhost&#34;</span><span class="o">]</span> 
 
-# 例子二
+<span class="c1"># 例子二</span>
 
-ENTRYPOINT [ &#34;python&#34; ] # 这个是命令
-# Run app.py when the container launches
-CMD [ &#34;app.py&#34;,&#34;run&#34;,&#34;--host&#34;,&#34;0.0.0.0&#34;] # 这个是参数
-
+ENTRYPOINT <span class="o">[</span> <span class="s2">&#34;python&#34;</span> <span class="o">]</span> <span class="c1"># 这个是命令</span>
+<span class="c1"># Run app.py when the container launches</span>
+CMD <span class="o">[</span> <span class="s2">&#34;app.py&#34;</span>,<span class="s2">&#34;run&#34;</span>,<span class="s2">&#34;--host&#34;</span>,<span class="s2">&#34;0.0.0.0&#34;</span><span class="o">]</span> <span class="c1"># 这个是参数</span>
 </code></pre></td></tr></table>
 </div>
 </div><h3 id="dockerfile常见的一些写法">dockerfile常见的一些写法</h3>
@@ -662,6 +653,220 @@ docker <span class="nb">exec</span> -it container_name  <span class="c1"># docke
 
 docker stop my_container
 </code></pre></td></tr></table>
+</div>
+</div><h3 id="docker-替换国内镜像">docker 替换国内镜像</h3>
+<p>请首先执行以下命令，查看是否在 <code>docker.service</code> 文件中配置过镜像地址。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">$ systemctl cat docker | grep &#39;\-\-registry\-mirror&#39;
+</code></pre></td></tr></table>
+</div>
+</div><p>如果该命令有输出，那么请执行 <code>$ systemctl cat docker</code> 查看 <code>ExecStart=</code> 出现的位置，修改对应的文件内容去掉 <code>--registry-mirror</code> 参数及其值，并按接下来的步骤进行配置。</p>
+<p>（1）直接修改 <code>/etc/docker/daemon.json</code> (docker 版本 &gt;= 1.10 时) 内容为:</p>
+<p>阿里云的docker 镜像需要注册，这里使用的是腾讯、百度和网易的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">{</span>
+    <span class="s2">&#34;runtimes&#34;</span>: <span class="o">{</span>
+        <span class="s2">&#34;nvidia&#34;</span>: <span class="o">{</span>
+            <span class="s2">&#34;path&#34;</span>: <span class="s2">&#34;nvidia-container-runtime&#34;</span>,
+            <span class="s2">&#34;runtimeArgs&#34;</span>: <span class="o">[]</span>
+        <span class="o">}</span>
+    <span class="o">}</span>,
+    <span class="s2">&#34;registry-mirrors&#34;</span>: <span class="o">[</span>
+    <span class="s2">&#34;https://mirror.ccs.tencentyun.com&#34;</span>,
+    <span class="s2">&#34;https://mirror.baidubce.com&#34;</span>,
+    <span class="s2">&#34;https://hub-mirror.c.163.com&#34;</span>
+  <span class="o">]</span>
+<span class="o">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>修改之后重启服务</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">systemctl daemon-reload
+systemctl restart docker
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="docker-compose">docker-compose</h2>
+<p>Docker-Compose 是 Docker 的一种编排服务，是一个用于在 Docker 上定义并运行复杂应用的工具，可以让用户在集群中部署分布式应用。</p>
+<p>通过 Docker-Compose 用户可以很容易地用一个配置文件定义一个多容器的应用，然后使用一条指令安装这个应用的所有依赖，完成构建。Docker-Compose 解决了容器与容器之间如何管理编排的问题。</p>
+<p>Docker Compose 工作原理图</p>
+<p>Compose 中有两个重要的概念</p>
+<ul>
+<li>服务 (service) ：一个应用的容器，实际上可以包括若干运行相同镜像的容器实例。</li>
+<li>项目 (project) ：由一组关联的应用容器组成的一个完整业务单元，在 docker-compose.yml 文件中定义。</li>
+</ul>
+<img src ="http://123.56.8.10:8899/images/2021/03/19/hulyas.png" height ="30%" width="60%">
+<p>(1) stop all the runing containers</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"> docker-compose stop
+</code></pre></td></tr></table>
+</div>
+</div><p>(2) restart the containders ( after using the stop command)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"> docker-compose restart
+</code></pre></td></tr></table>
+</div>
+</div><p>(3)  Starts the containers that were started with <code>docker-compose up</code>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"> docker-compose start
+</code></pre></td></tr></table>
+</div>
+</div><p>(4)  Stop all running containers, and remove them and the network:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"> docker-compose down <span class="o">[</span>--rmi all<span class="o">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>使用以下的命令理解更强</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">docker-compose -f docker-compose.yml up -d hello-world
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>-d 表示在后台启动容器</p>
+<p>hello-world 是这个名字</p>
+</blockquote>
+<p>docker-comose  中一些术语</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">version: <span class="s1">&#39;2.0&#39;</span>
+services:
+    notebook:
+        build:
+            context: ./notebook
+        ports:
+            - <span class="s1">&#39;8888:8888&#39;</span>
+        volumes:
+            - ./notebook:/home/jovyan
+        links:
+            - milvus
+    milvus:
+        image: milvusdb/milvus:0.9.1-cpu-d052920-e04ed5
+        ports:
+            - <span class="s1">&#39;19530:19530&#39;</span>
+            - <span class="s1">&#39;19121:19121&#39;</span>
+        volumes:
+            - ./milvus/db:/var/lib/milvus/db
+            - ./milvus/conf:/var/lib/milvus/conf
+            - ./milvus/logs:/var/lib/milvus/logs
+            - ./milvus/wal:/var/lib/milvus/wal
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>services ：多个容器的集合</p>
+<p>build： 配置构建时，Compose 会利用它自动构建镜像，该值可以是一个路径，也可以是一个对象，用于指定 Dockerfile 参数</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">build: ./dir
+---------------
+build:
+    context: ./dir
+    dockerfile: Dockerfile
+    args:
+        buildno: <span class="m">1</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>ports: 对外暴露的端口定义 和 exose 对应， “宿主机端口：容器暴露端口”</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">ports:   <span class="c1"># 暴露端口信息  - &#34;宿主机端口:容器暴露端口&#34;</span>
+- <span class="s2">&#34;8763:8763&#34;</span>
+- <span class="s2">&#34;8763:8763&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>links: 服务之间可以使用服务名称相互访问，links 允许定义一个别名，从而使用该别名访问其它服务</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"></code></pre></td></tr></table>
 </div>
 </div><h2 id="参考文献">参考文献</h2>
 <p><a href="https://mp.weixin.qq.com/s/zkStRgGaNwUr86YmpVWInw">阿里云的docker 的使用</a></p>
@@ -753,7 +958,7 @@ docker stop my_container
   <span class="copyright-year">
     &copy; 
     2018 - 
-    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
   </span>
 </div>
 

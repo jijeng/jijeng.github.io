@@ -50,7 +50,7 @@
 <meta itemprop="description" content="深度学习中优化器 （optimizer）讲解。根据学习率的情况分成三个阶段，基础版本Gradient Descent，然后是人工设置学习率阶段和自适应学习率阶段。最后对应pytorch，说明常用的几种学习率优化策略。">
 <meta itemprop="datePublished" content="2019-11-17T15:53:57+08:00" />
 <meta itemprop="dateModified" content="2019-11-17T15:53:57+08:00" />
-<meta itemprop="wordCount" content="5286">
+<meta itemprop="wordCount" content="5317">
 
 
 
@@ -128,7 +128,7 @@
             <a href="/categories/deep-learning/"> deep learning </a>
             <a href="/categories/machine-learning/"> machine learning </a>
             </div>
-          <span class="more-meta"> 约 5286 字 </span>
+          <span class="more-meta"> 约 5317 字 </span>
           <span class="more-meta"> 预计阅读 11 分钟 </span>
         
       </div>
@@ -521,6 +521,13 @@ last_epoch 符合设定的间隔时，就会对学习率进行调整。当为-1 
 <p>其包含的参数和余弦知识一致，参数T_max表示余弦函数周期；eta_min表示学习率的最小值，默认它是0表示学习率至少为正值。确定一个余弦函数需要知道最值和周期，其中周期就是T_max，最值是初试学习率。下图展示了不同周期下的余弦学习率更新曲线：</p>
 </blockquote>
 <p><img src="http://123.56.8.10:8899/images/2021/05/13/v2-bb255df05eb665cc6530845bde637bc9_720w.jpg" alt="img"></p>
+<ol start="5">
+<li>LambdaLR</li>
+</ol>
+<blockquote>
+<p>Sets the learning rate of each parameter group to the initial lr times a given function.</p>
+</blockquote>
+<p>learning rate 是根据某个 lambda 函数去变化。</p>
 <p><strong>自适应调整</strong></p>
 <p>1). 按照指标调整学习率（ ReduceLROnPlateau）</p>
 <blockquote>
@@ -666,7 +673,7 @@ last_epoch 符合设定的间隔时，就会对学习率进行调整。当为-1 
   <span class="copyright-year">
     &copy; 
     2018 - 
-    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
   </span>
 </div>
 

@@ -50,7 +50,7 @@
 <meta itemprop="description" content="介绍激活函数（activation function）、损失函数（loss function）和在pytorch框架下的使用。">
 <meta itemprop="datePublished" content="2019-11-28T14:58:04+08:00" />
 <meta itemprop="dateModified" content="2019-11-28T14:58:04+08:00" />
-<meta itemprop="wordCount" content="9595">
+<meta itemprop="wordCount" content="10502">
 
 
 
@@ -128,8 +128,8 @@
             <a href="/categories/deep-learning/"> deep learning </a>
             <a href="/categories/machine-learning/"> machine learning </a>
             </div>
-          <span class="more-meta"> 约 9595 字 </span>
-          <span class="more-meta"> 预计阅读 20 分钟 </span>
+          <span class="more-meta"> 约 10502 字 </span>
+          <span class="more-meta"> 预计阅读 21 分钟 </span>
         
       </div>
     </header>
@@ -149,8 +149,8 @@
         </li>
         <li><a href="#loss-functionerror-function">Loss Function(Error Function)</a>
           <ul>
-            <li><a href="#regression--loss-function-回归">Regression  Loss Function (回归)</a></li>
-            <li><a href="#binary-classification-loss-function-二分">Binary Classification Loss Function (二分)</a></li>
+            <li><a href="#regression--loss-function">Regression  Loss Function</a></li>
+            <li><a href="#binary-classification-loss-function-二分类">Binary Classification Loss Function (二分类)</a></li>
             <li><a href="#multi-class-classification-loss-functions">Multi-Class Classification Loss Functions</a></li>
             <li><a href="#交叉熵函数是怎么来的">交叉熵函数是怎么来的？</a></li>
             <li><a href="#自定义损失函数">自定义损失函数</a></li>
@@ -191,7 +191,10 @@ $$</p>
 <blockquote>
 <p>Think of the activation function as a mathematical operation that normalises the input and produces an output. The output is then passed forward onto the neurons on the subsequent layer.</p>
 </blockquote>
-<p>激活函数的本质是增加网络的非线性。</p>
+<blockquote>
+<p>The major purpose of activation function in neural networks is to introduce non-linearity between output and the input. They basically decide when to fire a neuron and when to not. If we do not use activation fucntion, there will be a linear relationship between input and output variables and it would not be able to solve much complex problems as a linear relationship has some limitations. The main objective of introducing a activation function is to introduce non-linearity which should be able to solve complex problems such as Natural Language Processing, Classification, Recognition, Segmentation etc.</p>
+<p>激活函数的主要目的是增加网络的非线性。</p>
+</blockquote>
 <p>The thresholds are pre-defined numerical values in the function. This very nature of the activation functions can add non-linearity to the output.</p>
 <h3 id="activation-function-types">Activation Function Types</h3>
 <p>sigmoid 和 tanh 都是饱和激活函数；relu 及其变体都是非饱和函数。</p>
@@ -244,6 +247,14 @@ If you are unsure of which activation function you want to use then use RELU.</p
 </code></pre></td></tr></table>
 </div>
 </div><p>但是问题在于负值容易引起神经死亡，每次遇到负值部分，激活函数都是为0.</p>
+<p>斜坡函数，引入了非线性，可以对抗梯度消失/爆炸问题，相对而言计算效率也更高。</p>
+<p><strong>Relu6</strong></p>
+<p>Given an input <em>x,</em> ReLU6 will take the maximal value between 0 and x, then the minimal value between the initial output and 6.</p>
+<p>这个是比较简单，数学表达式：</p>
+<p>$$
+Output  =\min( \max ( 0 , x ), 6)
+$$</p>
+<p>主要用在 mobilnet 网络中，因为该网络是为了移动端设备 float16 /int8 低精度时候也可以有较好的数值分辨率，所以对每层的网络输出值进行限制，因为低精度是无法精确表示之前如此大范围的数值，会带来精度损失。</p>
 <p><strong>Leaky Relu</strong></p>
 <p>为了处理负值问题，Relu 有了变种，表达式为
 $$
@@ -276,7 +287,41 @@ $$</p>
 <span class="n">relu</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">PRelu</span><span class="p">()</span>
 </code></pre></td></tr></table>
 </div>
-</div><p><strong>Elu Exponential Line Unit</strong></p>
+</div><p><strong>Swish</strong></p>
+<p><img src="http://123.56.8.10:8899/images/2021/07/19/1rBfSD7_bNCmmhGnyksNEPg.png" alt="img"></p>
+<p>Swish is simple - it&rsquo;s $x$ times the sigmoid funciton.
+$$
+Output  = x * \frac { 1 } { 1 + e ^ { - \beta x } }
+$$</p>
+<p>其中 $\beta$ 在网络中被设置成可学习参数，在上图中 $\beta =1$</p>
+<p><img src="http://123.56.8.10:8899/images/2021/11/22/image-20211122112932643.png" alt="image-20211122112932643" style="zoom:50%;" /></p>
+<p>因此，Swish激活函数可以看作是介于线性函数与ReLU函数之间的平滑函数。当β被设置为可训练参数时，内插程度可以由模型控制。原论文中称之为Swish-β。</p>
+<blockquote>
+<p>Like ReLU, Swish is bounded below and unbounded above. However, unlike ReLU, Swish is smooth (it does not have sudden changes of motion or a vertex) . Additionally, Swish is non-monotonic, meaning that there is not always a singularly and continually positive (or negative) derivative throughout the entire function. ( Restated, the Swish function has a negative derivative at certain points and a positive derivative at certain points and a positive derivative at other points, instead of only a positive derivative at all points, like Softplus or Sigmoid.)</p>
+<p>目前研究，许多优秀的激活函数都是 unbounded above，比如说 relu 系列.  Swish 具有非单调性 和光滑性。</p>
+</blockquote>
+<p>相比于 relu，Swish 是平滑且非单调的函数，这点就能和很多激活函数分离开来。</p>
+<blockquote>
+<p>Unboundedness is desirable for activation funcions becauseis avoids a slow training time during near-zero gradients - functions lke sigmoid or tanh are bounded above and below, so the network needs to be carefully initialized to stay within the limitations of these functions.</p>
+<p>Being bounded below may be advantages becase of strong regularization - functions that approach zero in a limit to negative infinity are great at regularization because large negative inputs are discarded. This is important at the begining of training when large negative activation inputs are common.</p>
+<p>分析值域上限和下限对网络学习的影响</p>
+</blockquote>
+<p>实验结果</p>
+<p><img src="http://123.56.8.10:8899/images/2021/07/19/image-20210719110415148.png" alt="image-20210719110415148"></p>
+<blockquote>
+<p>从上面分析，当 layer 数量大于42 Swish 效果比较好；在batch size 128 到 2048 这样的维度，Swish 都是比较好的。</p>
+</blockquote>
+<p>Google 在多个难度较高的数据集上进行实验，证明 Swish 激活函数在深层模型上的效果优于 Relu。仅仅替换 Relu 就有提升，相对而言性价比还是很高的。</p>
+<blockquote>
+<p>Research by the authors of the papers shows that simply be substituting ReLU units with Swish units improves the best classification accuracy on ImageNet by 0.9% for Mobile NASNet-A and 0.6% for Inception-ResNet-v2.</p>
+</blockquote>
+<p>参考论文：</p>
+<p><a href="https://arxiv.org/pdf/1710.05941v1.pdf?source=post_page">SWISH：A SELF-GATED ACTIVATION FUNCTION</a></p>
+<p>更加新的论文介绍激活函数 Mish：https://arxiv.org/pdf/1908.08681.pdf （19年）</p>
+<blockquote>
+<p>是基于 swish 进行改进的 loss function</p>
+</blockquote>
+<p><strong>Elu Exponential Line Unit</strong></p>
 <p>$$
 \text{ELU}(x) = \max(0,x) + \min(0, \alpha * (\exp(x) - 1))`.
 $$
@@ -316,7 +361,7 @@ b. Sparse Multiclass Cross-Entropy Loss
 c. Kullback Leibler Divergence Loss</p>
 </li>
 </ol>
-<h3 id="regression--loss-function-回归">Regression  Loss Function (回归)</h3>
+<h3 id="regression--loss-function">Regression  Loss Function</h3>
 <p>如何进行选择？</p>
 <p>对于回归问题，一个baseline 的loss function 是可以选择平方损失函数。从数据的角度进行分析，如果数据服从正太分布，那么平方损失函数没有问题，如果数据有一些 outlier，可以使用 mean squared logarithmic error loss， 先进行   $\hat { y } $然后再计算平方和。如果 outlier 比较多的话，那么使用 mean absolute error loss，计算差值的时候换成绝对值函数。</p>
 <p><strong>平方损失函数</strong></p>
@@ -344,7 +389,7 @@ $$</p>
 <p>Mathematically, it is the preferred loss function under the inference framework of maximum likelihood if the distribution of the target variable is Gaussian. It is the loss function to be evaluated first and only changed if you have a good reason.</p>
 </blockquote>
 <p><strong>Mean Squared Logarithmic Error Loss</strong></p>
-<p>和上面的的mse 有一点差别。这个是先记性log 求结果，然后再计算 mse.</p>
+<p>和上面的的 mse 有一点差别。这个是先记性 log 求结果，然后再计算 mse.</p>
 <blockquote>
 <p>you can first calculate the natural logarithm of each of the predicted values, then calculate the mean squared error. This is called the Mean Squared Logarithmic Error loss, or MSLE for short.</p>
 </blockquote>
@@ -408,8 +453,8 @@ $$</p>
 </div>
 </div><p><strong>Mean Absolute Error Loss</strong></p>
 <p>定义：
-Mean Absolute Error (MAE) is a quantity used to measure how close forecasts or predictions are to the eventual outcomes, which is computed by</p>
-<p>$$
+Mean Absolute Error (MAE) is a quantity used to measure how close forecasts or predictions are to the eventual outcomes, which is computed by
+$$
 Loss = \frac { 1 } { n } \sum _ { i = 1 } ^ { n } \left| y ^ { ( i ) } - \hat { y } ^ { ( i ) } \right|
 $$</p>
 <p>where $| .|$ denotes the absolute value. Albeit, both MSE and MAE are used in predictive modeling, there are several differences between them. MSE has nice mathematical properties which makes it easier to compute the gradient. However, MAE requires more complicated tools such as linear programming to compute the gradient. Because of the square, large errors have relatively greater influence on MSE than do the smaller error. Therefore, MAE is more robust to outliers since it does not make use of square. On the other hand, MSE is more useful if concerning about large errors whose consequences are much bigger than equivalent smaller ones. MSE also corresponds to maximizing the likelihood of Gaussian random variables.</p>
@@ -444,7 +489,7 @@ $$</p>
 <span class="k">print</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
-</div><h3 id="binary-classification-loss-function-二分">Binary Classification Loss Function (二分)</h3>
+</div><h3 id="binary-classification-loss-function-二分类">Binary Classification Loss Function (二分类)</h3>
 <p><strong>Binary Cross-Entropy Loss</strong></p>
 <p>Cross-entropy loss is often simply referred to as “cross-entropy,” “logarithmic loss,” “logistic loss,” or “log loss” for short.</p>
 <p>Cross-entropy is the default loss function to use for binary classification problems. 如果没有更好的二分类的选择（理由），那么这个就是首选。</p>
@@ -655,13 +700,17 @@ $$</p>
 <p>The graph above shows the range of possible loss values given a true observation (isDog = 1). As the predicted probability approaches 1, log loss slowly decreases. As the predicted probability decreases, however, the log loss increases rapidly. Log loss penalizes both types of errors, but especially those predictions that are confident and wrong!</p>
 <p>Cross-entropy and log loss are slightly different depending on context, but in machine learning when calculating error rates between 0 and 1 they resolve to the same thing.</p>
 <p>In binary classification, where the number of classes M equals 2, cross-entropy can be calculated as:</p>
-<p>$$
-- ( y \log ( y ) + ( 1 - y ) \log ( 1 - y ) )
-$$</p>
+<p>$$</p>
+<ul>
+<li>( y \log ( y ) + ( 1 - y ) \log ( 1 - y ) )
+$$</li>
+</ul>
 <p>If $ M&gt;$2 (i.e. multiclass classification), we calculate a separate loss for each class label per observation and sum the result.</p>
-<p>$$
-- \sum _ { c = 1 } ^ { M } y _ { o , c } \log \left( y _ { o , c } \right)
-$$</p>
+<p>$$</p>
+<ul>
+<li>\sum _ { c = 1 } ^ { M } y _ { o , c } \log \left( y _ { o , c } \right)
+$$</li>
+</ul>
 <blockquote>
 <p>M - number of classes (dog, cat, fish)
 log - the natural log
@@ -1052,7 +1101,7 @@ $$</p>
   <span class="copyright-year">
     &copy; 
     2018 - 
-    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
   </span>
 </div>
 

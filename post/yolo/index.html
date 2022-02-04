@@ -124,7 +124,9 @@
 
       <div class="post-meta">
         <span class="post-time"> 2021-03-29 </span>
-        
+        <div class="post-category">
+            <a href="/categories/deep-learning/"> deep-learning </a>
+            </div>
           <span class="more-meta"> 约 4609 字 </span>
           <span class="more-meta"> 预计阅读 10 分钟 </span>
         
@@ -229,7 +231,6 @@
 <p>dropout 被证明是全连接网络的有效策略，但是在特征相关的卷积网络效果不佳。dropblock 是在块相邻区域中丢弃特征，这样可以实现生成更简单模型的目的。</p>
 <p>本论文介绍了一种 dropout 的结构化形式 DropBlock，对于正则化卷积网络格外有效。在 DropBlock 中，同一模块中的特征会被一起丢弃，即特征图的相邻区域也被丢弃了。由于 DropBlock 丢弃了相关区域中的特征，该网络必须从其他地方寻找证据来拟合数据</p>
 <p>dropblock 使用在卷积网络中的正则化方法。</p>
-<p><img src="/Users/jijeng/Notes/images/image-20210402093155515.png" alt="image-20210402093155515"></p>
 <p>DropBlock有两个主要参数，block_size和γ。block_size是要删除的块的大小，γ控制要删除多少个激活单元。</p>
 <p>这个参数描述了要删除的激活单元的数量，这取决于keep_prob和block_size。</p>
 <p>$$
@@ -395,8 +396,8 @@ $$</p>
             <span class="prev-text nav-default">Weights Initialization</span>
             <span class="prev-text nav-mobile">上一篇</span>
           </a>
-        <a class="next" href="/post/albumentations_explain_with_example/">
-            <span class="next-text nav-default">Albumentations：图像数据增强</span>
+        <a class="next" href="/post/leetcode_2021/">
+            <span class="next-text nav-default">LeetCode 刷题（2021年）</span>
             <span class="next-text nav-mobile">下一篇</span>
             <i class="iconfont icon-right"></i>
           </a>
@@ -437,7 +438,7 @@ $$</p>
   <span class="copyright-year">
     &copy; 
     2018 - 
-    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
   </span>
 </div>
 

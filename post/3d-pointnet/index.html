@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>3d Pointnet - Jijeng&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="jijeng" /><meta name="description" content="点云- Pointnet 学习笔记。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://jijeng.github.io/post/3d-pointnet/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="3d Pointnet" />
+<meta property="og:description" content="点云- Pointnet  学习笔记。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://jijeng.github.io/post/3d-pointnet/" />
+<meta property="article:published_time" content="2021-10-03T13:31:13+08:00" />
+<meta property="article:modified_time" content="2021-10-03T13:31:13+08:00" />
+<meta itemprop="name" content="3d Pointnet">
+<meta itemprop="description" content="点云- Pointnet  学习笔记。">
+<meta itemprop="datePublished" content="2021-10-03T13:31:13+08:00" />
+<meta itemprop="dateModified" content="2021-10-03T13:31:13+08:00" />
+<meta itemprop="wordCount" content="3499">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="3d Pointnet"/>
+<meta name="twitter:description" content="点云- Pointnet  学习笔记。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Jijeng&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Jijeng&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">3d Pointnet</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-10-03 </span>
+        <div class="post-category">
+            <a href="/categories/deep-learning/"> deep-learning </a>
+            </div>
+          <span class="more-meta"> 约 3499 字 </span>
+          <span class="more-meta"> 预计阅读 7 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>点云- Pointnet  学习笔记。</p>
+<p><a href="http://ai.ucsd.edu/~haosu/slides/3ddl_tutorial_version_20200403.pdf">Tutorial on 3D Deep Learning</a></p>
+<blockquote>
+<p>Broad Applications of 3D data</p>
+</blockquote>
+<p>Robotics,  Augmented Reality, Autonomous driving, Medical Image Processing</p>
+<p>Traditional 3D Vision: Multi-view Geometry: Physics based</p>
+<p>3D Learning: Knowledge Based: Acquire Knowledge of 3D World by Learning</p>
+<p>The Representation Challenge of 3D Deep Learning</p>
+<p><img src="http://123.56.8.10:8899/images/2021/08/09/image-20210809170851701.png" alt="image-20210809170851701" style="zoom:80%;" /></p>
+<p>Datasets for Outdoor 3D Scenes</p>
+<p>KITTI: LiDAR data, labeled by 3D b.boxes</p>
+<p>Semantic KITTI: LiDAR data, labeled per point</p>
+<p>Waymo Open Dataset: LiDAR data, labeled by 3D b.boxes</p>
+<blockquote>
+<p>3D model 进行分类常用的方法</p>
+</blockquote>
+<p>常用的方法</p>
+<p>The Rendered Images are passed through CNN for Image Features</p>
+<p>All Image Features are combined by View Pooling</p>
+<p>and then passed through CNN2 and to generate final predictions</p>
+<p><img src="http://123.56.8.10:8899/images/2021/08/09/image-20210809171206995.png" alt="image-20210809171206995" style="zoom:67%;" /></p>
+<p>Multi-view Convoluional Neural Networks for 3D Shape Recognition</p>
+<p>一些模型效果的对比</p>
+<p><img src="http://123.56.8.10:8899/images/2021/08/09/image-20210809171643844.png" alt="image-20210809171643844" style="zoom:60%;" /></p>
+<p>结论</p>
+<p>indeed gives good performance</p>
+<p>can leverage (杠杆)vast literature  of image classification</p>
+<p>can use pretrained features</p>
+<p>need projection</p>
+<p>what if the input is  noisy and/or incomplete? e.g., point cloud</p>
+<p>Voxelizaiton</p>
+<blockquote>
+<p>represent the occupancy of regular 3D grids</p>
+<p>下图很直观的表示了什么是 voxelization</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/08/09/image-20210809172140570.png" alt="image-20210809172140570" style="zoom:50%;" /></p>
+<p>Directly Process Point Cloud Data</p>
+<blockquote>
+<p>End-to-end learning for unstructured, unordered point data</p>
+</blockquote>
+<p>Permutation invariance</p>
+<p>Point cloud: N orderless points, each represented by a D dim coordinate</p>
+<p><img src="http://123.56.8.10:8899/images/2021/08/09/image-20210809172631509.png" alt="image-20210809172631509" style="zoom:70%;" /></p>
+<blockquote>
+<p>这里想说的点: PointNet 网络就是一个 symmetric function, 可以保证 permutation invariance</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/08/09/image-20210809172848033.png" alt="image-20210809172848033" style="zoom:67%;" /></p>
+<blockquote>
+<p>通过 visualize 可以发现, salient points 是可以被找到的</p>
+</blockquote>
+<p>limitations of PointNet</p>
+<p><img src="http://123.56.8.10:8899/images/2021/08/09/image-20210809173054187.png" alt="image-20210809173054187" style="zoom:80%;" /></p>
+<p>BEV (bird-eye view)</p>
+<p>If one image is more than a thousand words, then one shape is more than one thousand pictures</p>
+<blockquote>
+<p>说明这个 shape 是非常具有信息量的. 下图表明的是 shape</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/08/09/image-20210809173931606.png" alt="image-20210809173931606" style="zoom:67%;" /></p>
+<p><strong>PointCNN</strong></p>
+<p>点云中有六维信息</p>
+<p>（1）中心点，长宽高，运动方向</p>
+<p>（2）高精地图</p>
+<p>3%，稀疏性；无序性</p>
+<p>related work</p>
+<p>（1）multiview cnns</p>
+<ul>
+<li>render to 2D images</li>
+</ul>
+<p><img src="http://123.56.8.10:8899/images/2021/08/26/image-20210826163101511.png" alt="image-20210826163101511"></p>
+<p>缺点：</p>
+<ul>
+<li>丢失了3D 的一些结构信息</li>
+<li>室内或者室外大场景的分割，这类方法不是很work（因为有对齐的操作）</li>
+</ul>
+<p>（2）voxelization 体素化</p>
+<p>先弄个包围核，设置一个分辨率（0.2m），如果这个小的网格中有点云，那么就是1 否则就是0. 最后使用 3维的卷积操作进行分类等任务。主要缺点如下：浪费空间（1的比例很小），计算量大，只能在 low resolution 上进行。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/08/26/image-20210826163722309.png" alt="image-20210826163722309"></p>
+<p>当体素到极致时候，有效的数据只有 2.41%</p>
+<p><img src="http://123.56.8.10:8899/images/2021/08/26/image-20210826163956256.png" alt="image-20210826163956256"></p>
+<p>（3）设置新的数据结构</p>
+<p>比如当前点和其他的关系，那么就是一个八叉树。</p>
+<p>节省大量的空间和计算量</p>
+<p>点云中的一个点就是 (x, y,z) 坐标</p>
+<p><img src="http://123.56.8.10:8899/images/2021/08/26/image-20210826165501217.png" alt="image-20210826165501217"></p>
+<blockquote>
+<p>对称函数的概念</p>
+<p>使用 t-net 来处理旋转不变性（里面主要有一个 transform matrix）</p>
+<p>mlp 主要是用来升维，造成冗余，这样在后续的 max pooling 中才可能保留更多的信息</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/08/09/image-20210809141046380.png" alt="image-20210809141046380"></p>
+<p>缺点</p>
+<ul>
+<li>no local information</li>
+<li>limited translation invariance （每个点都进行平移，那么变化比较大，这个时候比较难处理）</li>
+</ul>
+<p><strong>pointnet++</strong></p>
+<p>改进点</p>
+<ul>
+<li>
+<p>最近邻查找</p>
+</li>
+<li>
+<p>查找到最近邻之后，每个点减去中心点，得到的是相对的信息（减去了平移的影响）</p>
+</li>
+</ul>
+<p><img src="http://123.56.8.10:8899/images/2021/08/26/20190702230651.png" alt="img"></p>
+<p>是基于 pointnet 进行改进，每一层都是在上一层找到最近邻的几个点，然后执行pointnet，这个结果作为改层的结果。分类就是这样，分割需要得到upsampling 和之前对应的层的一个融合，然后再进行处理。</p>
+<p>想要达到的目的</p>
+<p>具有相同结构但不同顺序的电云，conv 之后是相同的；相同顺序但是不同结构 conv 之后是不同的。</p>
+<p>x-conv： 学出一个网络（对应关系矩阵），来处理点云中的无序性。</p>
+<p>大场景的 point 进行切割，比如说 5*5， 加上 overlap</p>
+<p>pointcnn 的缺点：pointcnn 学习能力强，过拟合比较严重。</p>
+<p>有多少个点就有多少个卷积核，所以 pointcnn 不存在类似 图像中padding 的操作。</p>
+<p>远处的点比较稀疏，如果只是使用点云，那么效果不太好</p>
+<p>如果场景中的大物体比较多，那么 k 近邻中的k 适当大一些，dialation 中的 d 也可以适当调大一些。；反之也成立。</p>
+<p><a href="">Deep learning for LiDAR Point Clouds in Autonomous Driving: A Review</a></p>
+<p>这是一个不错的综述</p>
+<p>3D CAD</p>
+<p>3D LiDAR</p>
+<p>3D 可以分为以下的任务</p>
+<ul>
+<li>
+<p>3D point cloud semantic segmentation</p>
+</li>
+<li>
+<p>3D object detection /localization</p>
+</li>
+<li>
+<p>3D object classification/ recognition</p>
+</li>
+</ul>
+<blockquote>
+<p>LiDAR point clouds 的挑战</p>
+</blockquote>
+<p>Challenges on LiDAR point clouds:</p>
+<ul>
+<li>
+<p>Diversified point density and reflective intensity</p>
+</li>
+<li>
+<p>Noisy. All sensors are noisy. There are a few types of noise that include point perturbations and outliers</p>
+</li>
+<li>
+<p>Incompleteness. This mainly results from the occlusion between objects, cluttered background in urban scenes.</p>
+</li>
+<li>
+<p>Confusion categories. For example, some manmade objects such as commercial billboards have similar shapes adn reflectance with traffic signs.</p>
+</li>
+</ul>
+<blockquote>
+<p>同样数据可以根据任务划分成三类</p>
+</blockquote>
+<ul>
+<li>
+<p>Segmentation-based datasets</p>
+</li>
+<li>
+<p>Detection-based datasets  比如 KITTI</p>
+</li>
+<li>
+<p>classsification-based datasets</p>
+</li>
+</ul>
+<blockquote>
+<p>Evaluation Metrics</p>
+</blockquote>
+<ul>
+<li>
+<p>segmentation: IOU, overall accuracy (OA)</p>
+</li>
+<li>
+<p>detection and classification: precision, recall F1, Mattthews correlation coefficient (MCC)</p>
+</li>
+<li>
+<p>3D object localization and detection, Average Precision (AP), AOS</p>
+</li>
+</ul>
+<blockquote>
+<p>3D Deep learning frameworks</p>
+</blockquote>
+<p>(1) Voxel-based models</p>
+<p>In order to apply CNNs to unordered 3D point cloud data, such as the 2D pixel array. Thus, in order to apply CNNs to unordered 3D point clould data, sucha data are divided into regular grids with a certain size to describe the distribution of data in 3D space.</p>
+<p>In conclusion, there are some limitations of this general volumetric 3D data representation:</p>
+<ul>
+<li>Firstly, not all voxel representations are useful because they contain occupied and non-occupied parts of the sccanning environment.</li>
+<li>Secondly, the size of the grid is har to set, which affects the scale of the input data and my disrupt the spatial relationship of between points.</li>
+<li>Thirdly, computationsla and memory requirements grow cubically with the resolution.</li>
+</ul>
+<p>(2) Point clouds based models</p>
+<p>Different from volumetric 3D data representation, point cloud data can preserve the 3D geospatial information and internal local structure.</p>
+<ul>
+<li>pointNet: learn the spatial feature of each point independently via MLP layers and then accumulates their features by max-pooling. The point cloud data are input directly to the PointNet, which predicts per-point label or per-object label. (这个可以采纳具体论文)</li>
+<li>pointNet ++, This network, which outperforms the PointNet network in classificatoin and segmentation tasks, extracts the local feature for points in an isolated fashion.</li>
+</ul>
+<p>(3) Graph-based models</p>
+<p>这个不常见, 忽略.</p>
+<p>(4) View-based models</p>
+<p>The last type of MLS data representation is 2D views obtained from 3D point clouds from different directions.  Compared with the above three different 3D data representations, view-based models can achieve near-optimal results.</p>
+<ul>
+<li>Efficiency</li>
+<li>Exploiting established 2D deep architecuturs and datasets</li>
+</ul>
+<p>常用的 model</p>
+<ul>
+<li>Multi- View CNN</li>
+<li>MVCNN- MultiRes</li>
+<li>RotationNet</li>
+</ul>
+<p><a href="">A Survey on 3D Object Detection Methods for Autonomous Driving Applications</a></p>
+<p><img src="http://123.56.8.10:8899/images/2021/08/09/image-20210809152313815.png" alt="image-20210809152313815"></p>
+<blockquote>
+<p>分别对应单目摄像头, 立体摄像机(双目摄像头), Lidar (机械激光雷达) 和 Solid-state lidar (固态激光雷达)</p>
+<p>各种设备的优缺点</p>
+</blockquote>
+<p><img src="http://123.56.8.10:8899/images/2021/08/09/image-20210809152932629.png" alt="image-20210809152932629"></p>
+<blockquote>
+<p>对于 3D 模型常见的处理方法. 对于 point-cloud, 效果比较好的 projection 和 pointnet(或者说 我基本上能看懂的)</p>
+<p>最后的 fusion 是工程角度常用的手段.</p>
+</blockquote>
+<p><a href="">PointNet: Deep Learning on Point Sets for 3D Classification and Segmentation</a></p>
+<p>Our PointNet is a unified architecture that directly takes point clouds as input and outputs either class labels for the entire input or per point segment / part labels for each point of the input.</p>
+<p>In the base setting each point is represented by just its three coordinates (x, y, z)</p>
+<p><img src="http://123.56.8.10:8899/images/2021/08/09/image-20210809141046380.png" alt="image-20210809141046380"></p>
+<blockquote>
+<p>PointNet 按照任务划分 classification 和segmentation两种，如上图所示，途中上半部分为classification network（下文以C网络代替），下半部分为 segmentation network（下文以S网络代替）。两个任务的网络输入都是 $n * 3$ ，代表 $n$ 个三维坐标点，C网络输出为经过 softmax 之后的 $k$ 个值，而S网络为 $n$ 个点的逐点的score。</p>
+</blockquote>
+<p>其中一个值得注意的区别是，两个网络中对max pooling层出来之后<em>global feature</em>不同。我的理解为是：C网络由于是简单的输入点云的分类任务，所以只需要得到一个最明显的feature来代表这个点云就可胜任分类任务；而S网络由于是逐点的语义分割，所以将<em>global feature</em> concatenate到每一点后面，作用是使每一个点都同时具有自身点的feature和global feature，更有利于进行逐点的分类。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/08/26/20190702230651.png" alt="img"></p>
+<p>PointNet++按照任务也分为 classification （C网络）和 segmentation （S网络）两种，输入和输出分别与PointNet中的两个网络一致。首先，比较PointNet++两个任务网络的区别：在得到最高层的 feature 之后，C网络使用了一个小型的 PointNet + FCN 网络提取得到最后的分类 score；S网络通过 skip link connection 操作不断与底层 low-level 信息融合，最终得到逐点分分类语义分割结果。</p>
+<p>PointNet++ 的思路与U-Net很相似：利用encoder-decoder结构，逐层提高feature level，在到达最高层之后通过 skip link connection 操作恢复局部信息，从而达到既能获取 high-level context feature 也能获取 low-level context feature。</p>
+<p>应用场景</p>
+<p>pointNet 从应用的角度主要有以下两种:</p>
+<ul>
+<li>放在网络前部, 作为局部点云特征提取器( feature extractor)</li>
+<li>放在网络后部, 作为具体任务的 refine 或者语意分割</li>
+</ul>
+<p>总结一下PointNet 和 PointNet++ 的区别</p>
+<ol>
+<li>point-wise MLP, 仅仅是对每个点表征, 对局部结构信息整合能力太弱. pointNet++ 的改进: sampling 和 grouping 整合局部领域</li>
+<li>global feature直接由max pooling获得，无论是对分类还是对分割任务，都会造成巨大的信息损失 &ndash;&gt; PointNet++的改进：hierarchical feature learning framework，通过多个set abstraction逐级降采样，获得不同规模不同层次的local-global feature</li>
+<li>分割任务的全局特征global feature是直接复制与local feature拼接，生成discriminative feature能力有限 &ndash;&gt; PointNet++的改进：分割任务设计了encoder-decoder结构，先降采样再上采样，使用skip connection将对应层的local-global feature拼接</li>
+</ol>
+<p>参考资料</p>
+<p><a href="http://zengzeyu.com/2019/07/14/PointNet%20and%20PointNet++/">浅谈PointNet和PointNet++网络及其应用</a></p>
+<p>SLAM (Simulataneous Location and Mapping) 是同时定位和地图构建。 它是指特定传感器的主体，在没有环境先验信息的情况下， 于运动过程中建立环境的模型，同时估计自己的运动。如果这里的传感器主要为相机，那么就称为”视觉 slam“。</p>
+<blockquote>
+<p>高翔的视觉slam十四讲 就是针对视觉摄像头的。</p>
+</blockquote>
+<p>按照工作方式的不同，相机可以分为单目（monocular）相机，双目（stereo）相机和深度（RGB-D）相机三大类。</p>
+<p>在视觉slam中，前端和计算机视觉研究领域更为相关，比如图像特征的提取和匹配，后端主要和滤波和非线性优化算法。</p>
+<p>任务分类</p>
+<ol>
+<li>3D shape classification</li>
+<li>3D object detection</li>
+<li>3D point cloud semantic segmenation （语义分割）</li>
+<li>3D point cloud instance segmentaion （实例分割）</li>
+</ol>
+<p>方法思路分类：</p>
+<p>（1）基于多视图的方法（multi-view projection methods）: 讲3D 对象投影到多个视图中，如俯视图，正视图，从不同的方位的视图中提取相应的特征，然后特征融合这些特征进行目标识别。关键点在于如何融合多视图特征，聚合成一个可区分的全局表示。MVCNN 是这类方法的开创性工作，坐着将多个视图的特征最大池化作为一个全局描述符，用于分类。</p>
+<p>特点：</p>
+<ul>
+<li>讲点云投影到不同的view，利用已有的网络结构（CNN）进行特征提取</li>
+<li>视角越多，处理速度越慢，越耗时</li>
+</ul>
+<p>（２）基于体积占用的方法（Volumetric-based methods）</p>
+<p>也是投影方法的一种，相当于把电投影到规则网格中，每个网格可能粗那组不止一个空间点。</p>
+<p><img src="http://123.56.8.10:8899/images/2021/08/12/watermarktype_ZmFuZ3poZW5naGVpdGkshadow_10text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI0NTA1NDE3size_16color_FFFFFFt_70.png" alt="img"></p>
+<p>代表：</p>
+<p>VoxNet 网络：就是二维卷积在三维的扩展</p>
+<p>3D shapenet: 用体素网格上二进制变量的概率分布表示3D形状。</p>
+<p>（3）基于点的方法（point-based methods）</p>
+<p>无需投影和体素化，直接对点操作。又可以分为：</p>
+<ul>
+<li>单点独立处理式</li>
+<li>考虑邻域空间关系的卷积式</li>
+<li>考虑邻域空间关系的图卷积式</li>
+<li>树结构式</li>
+</ul>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">jijeng</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2021-10-03
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/wechatpay.png">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="http://47.94.35.231:9998/blog_imgs/alipay.png">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/anchor-free-object-detection/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Anchor Free Object Detection</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/leetcode_weekly_contest/">
+            <span class="next-text nav-default">leetcode weekly contest</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://jijeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>jijeng</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
